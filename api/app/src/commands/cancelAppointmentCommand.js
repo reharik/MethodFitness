@@ -1,13 +1,19 @@
 module.exports = function(invariant) {
-  return function ({
+  return function(
+    {
       appointmentId,
-      entityName}) {
-    
+      entityName
+    }
+  ) {
     invariant(appointmentId, `Cancel appointment requires that you pass the AppointmentId`);
-    invariant(entityName, `Cancel appointment requires that you pass the 
-      enitityName since it's a date but the date prop is utc` );
+    invariant(
+      entityName,
+      `Cancel appointment requires that you pass the 
+      enitityName since it's a date but the date prop is utc`
+    );
     return {
       appointmentId,
-      entityName};
-  }
+      entityName
+    };
+  };
 };

@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import SubmissionFor from '../../containers/forms/SubmissionForContainer';
-import {Notifs} from 'redux-notifications';
-import {Form} from 'freakin-react-forms';
+import { Notifs } from 'redux-notifications';
+import { Form } from 'freakin-react-forms';
 import AjaxState from './../../containers/AjaxStateContainer';
-import {LOGIN} from '../../modules/authModule';
+import { LOGIN } from '../../modules/authModule';
 
 class SignInForm extends Component {
   containerName = 'signIn';
 
   componentWillMount() {
-    const fields = Form.buildModel(this.containerName, this.props.fields, {onChange: this.changeHandler});
-    this.setState({fields, formIsValid: false})
+    const fields = Form.buildModel(this.containerName, this.props.fields, { onChange: this.changeHandler });
+    this.setState({ fields, formIsValid: false });
   }
 
   componentDidMount() {
@@ -23,17 +23,17 @@ class SignInForm extends Component {
   //   }
   // }
 
-  onSubmitHandler = (e) => {
+  onSubmitHandler = e => {
     e.preventDefault();
     const result = Form.prepareSubmission(this.state.fields);
-    if(result.formIsValid){
+    if (result.formIsValid) {
       this.props.loginUser(result.fieldValues);
     }
     this.props.notifications(result.errors, this.containerName);
     this.setState(result);
   };
 
-  changeHandler = (e) => {
+  changeHandler = e => {
     e.preventDefault();
     const result = Form.onChangeHandler(this.state.fields)(e);
     this.props.notifications(result.errors, this.containerName, e.target.name);
@@ -49,9 +49,9 @@ class SignInForm extends Component {
       <div className="signIn">
         <AjaxState prefix={LOGIN.PREFIX} />
         <div className="signIn__outer">
-          <div className="signIn__header"></div>
+          <div className="signIn__header" />
           <div className="signIn__content">
-            <Notifs containerName="signIn"/>
+            <Notifs containerName="signIn" />
             <form onSubmit={this.onSubmitHandler}>
               <div className="signIn__form__header">
                 <label className="signIn__form__header__label">Sign In</label>

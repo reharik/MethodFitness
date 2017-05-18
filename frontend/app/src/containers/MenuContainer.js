@@ -1,11 +1,14 @@
-import {connect} from 'react-redux';
-import {menuItemClicked, navBreadCrumbClicked} from './../modules/index.js';
+import { connect } from 'react-redux';
+import { menuItemClicked, navBreadCrumbClicked } from './../modules/index.js';
 import MenuItemList from '../components/layout/Menu/MenuItemList';
 
 function getCurrentItems(items, path) {
-  return path.reduce(function(i, key) {
-    return i[key].children;
-  }, items);
+  return path.reduce(
+    function(i, key) {
+      return i[key].children;
+    },
+    items
+  );
 }
 
 function mapStateToProps(state, props) {
@@ -17,4 +20,4 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps, {menuItemClicked, navBreadCrumbClicked})(MenuItemList);
+export default connect(mapStateToProps, { menuItemClicked, navBreadCrumbClicked })(MenuItemList);

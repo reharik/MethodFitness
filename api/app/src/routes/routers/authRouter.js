@@ -1,6 +1,5 @@
 module.exports = function clientRouter(koarouter, controllers) {
-  return function (appRouter) {
-
+  return function(appRouter) {
     const router = koarouter();
 
     /**
@@ -23,7 +22,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *             $ref: "#/definitions/auth"
      */
     // router.get("/auth", controllers.authController.checkAuth);
-    router.post("/auth", controllers.authController.signIn);
+    router.post('/auth', controllers.authController.signIn);
     /**
      * @swagger
      * /signout:
@@ -35,7 +34,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *       204:
      *         description: Success
      */
-    router.all("/signout", controllers.authController.signOut);
+    router.all('/signout', controllers.authController.signOut);
     /**
      * @swagger
      * /swagger:
@@ -49,7 +48,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *           additionalProperties: {}
      */
-    router.get("/swagger", controllers.swaggerController.swagger);
+    router.get('/swagger', controllers.swaggerController.swagger);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

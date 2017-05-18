@@ -1,4 +1,3 @@
-
 export function denormalizeTrainer(flat) {
   return {
     color: flat.color,
@@ -9,7 +8,7 @@ export function denormalizeTrainer(flat) {
       password: flat.password,
       role: flat.role
     }
-  }
+  };
 }
 
 export function denormalizeClient(flat) {
@@ -19,7 +18,7 @@ export function denormalizeClient(flat) {
     startDate: flat.startDate,
     birthDate: flat.birthDate,
     contact: denormalizeContact(flat)
-  }
+  };
 }
 
 export function denormalizeContact(flat) {
@@ -36,5 +35,5 @@ export function denormalizeContact(flat) {
       state: flat.state,
       zipCode: flat.zipCode
     }
-  }
+  };
 }

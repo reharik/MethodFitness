@@ -5,14 +5,14 @@ const singleReducer = (map = new Map(), item = {}) => {
 };
 
 export default (currentItems = [], newItems) => {
-  if(!newItems || newItems.length<=0){
+  if (!newItems || newItems.length <= 0) {
     return currentItems;
   }
 
   // if you are passing a single make it an array
   newItems = Array.isArray(newItems) ? newItems : [newItems];
 
-  if(currentItems.length <= 0){
+  if (currentItems.length <= 0) {
     return newItems;
   }
 

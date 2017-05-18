@@ -3,14 +3,14 @@ import { requestStates } from '../sagas/requestSaga';
 
 export const SCHEMA = requestStates('schema');
 
-export default (state = {definitions: {}}, action = {}) => {
+export default (state = { definitions: {} }, action = {}) => {
   switch (action.type) {
     case SCHEMA.SUCCESS:
       return action.response;
     default:
       return state;
   }
-}
+};
 
 export function getJsonSchema() {
   return {
@@ -19,8 +19,7 @@ export function getJsonSchema() {
     url: config.apiBase + 'swagger',
     params: {
       method: 'GET',
-      headers: {'Content-Type': 'application/json'}
+      headers: { 'Content-Type': 'application/json' }
     }
   };
 }
-

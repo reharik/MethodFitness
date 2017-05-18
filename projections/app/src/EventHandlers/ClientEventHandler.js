@@ -1,7 +1,7 @@
 /**
  * Created by parallels on 7/16/15.
  */
-"use strict";
+'use strict';
 
 module.exports = function(rsRepository, moment, logger) {
   return function ClientEventHandler() {
@@ -87,6 +87,6 @@ module.exports = function(rsRepository, moment, logger) {
       clientInfoUpdated,
       clientSourceUpdated,
       sessionsPurchased
-    }
+    };
   };
 };

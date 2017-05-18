@@ -1,18 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import UpdateClientForm from '../../components/forms/UpdateClientForm';
 import formJsonSchema from '../../utilities/formJsonSchema';
-import states from './../../constants/states'
-import sources from './../../constants/sources'
-import { updateClientInfo,
+import states from './../../constants/states';
+import sources from './../../constants/sources';
+import {
+  updateClientInfo,
   updateClientAddress,
   updateClientContact,
   updateClientSource,
-  fetchClientAction } from './../../modules/clientModule';
-import {notifications} from './../../modules/notificationModule';
+  fetchClientAction
+} from './../../modules/clientModule';
+import { notifications } from './../../modules/notificationModule';
 
-import {actions as notifActions} from 'redux-notifications';
-const {notifClear} = notifActions;
+import { actions as notifActions } from 'redux-notifications';
+const { notifClear } = notifActions;
 
 class UpdateClientFormContainer extends Component {
   componentWillMount() {
@@ -27,18 +29,18 @@ class UpdateClientFormContainer extends Component {
 
   render() {
     if (this.props.isFetching) {
-      return (<p style={{ 'padding-top': '100px' }}> Loading... </p>);
+      return <p style={{ 'padding-top': '100px' }}> Loading... </p>;
     }
     if (this.props.errorMessage) {
-      return (<p style={{ 'padding-top': '100px' }}>ERROR! -> {this.props.errorMessage}</p>);
+      return <p style={{ 'padding-top': '100px' }}>ERROR! -&gt; {this.props.errorMessage}</p>;
     }
 
-    return (<UpdateClientForm {...this.props} />);
+    return <UpdateClientForm {...this.props} />;
   }
 }
 
 const mapStateToProps = (state, props) => {
-  const client = state.clients.find(x=>x.id === props.params.clientId);
+  const client = state.clients.find(x => x.id === props.params.clientId);
   const model = formJsonSchema(state.schema.definitions.client, client);
 
   return {
@@ -46,13 +48,15 @@ const mapStateToProps = (state, props) => {
     states,
     sources,
     inventory: client ? client.inventory : null
-  }
+  };
 };
 
-export default connect(mapStateToProps, { updateClientInfo,
+export default connect(mapStateToProps, {
+  updateClientInfo,
   updateClientAddress,
   updateClientContact,
   updateClientSource,
   fetchClientAction,
   notifications,
-  notifClear})(UpdateClientFormContainer);
+  notifClear
+})(UpdateClientFormContainer);

@@ -1,0 +1,52 @@
+
+.header {
+    height:28px;
+    margin-top:10px
+}
+
+.header__display__date {
+    font-weight:bold;
+    font-size: 18px;
+    text-align: center;
+}
+
+.header__date__nav {
+    width: 150px;
+}
+
+.header__date__nav__button {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background: $gradient;
+    border-radius:3px;
+    border:1px solid #dadada;
+    cursor:pointer;
+    color: #555555;
+    height: 28px;
+    font-size:13px;
+    font-weight:bold;
+}
+.header__date__nav__button:hover {
+    background: $gradient__darker;
+}
+
+.header__date__nav__today {
+    font-size: 13px;
+    cursor:pointer;
+    color:blue;
+}
+
+.header__view__nav_button {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background:$gradient;
+    border-radius:3px;
+    border:1px solid #b2b8ad;
+    cursor:pointer;
+    color: #555555;
+    height: 28px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.header__view__nav_button:hover {
+    background: $gradient__darker;
+}

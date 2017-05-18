@@ -1,6 +1,6 @@
-module.exports = function (logger) {
-  return function () {
-    return async(ctx, next) => {
+module.exports = function(logger) {
+  return function() {
+    return async (ctx, next) => {
       try {
         await next();
         if (ctx.response.status === 404 && !ctx.response.body) ctx.throw(404);
@@ -14,7 +14,7 @@ module.exports = function (logger) {
         ctx.body = {
           status: ctx.status,
           success: false,
-          errors: [{message: err.message}]
+          errors: [{ message: err.message }]
         };
       }
     };

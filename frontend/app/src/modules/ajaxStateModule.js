@@ -4,14 +4,14 @@ export const SUCCESS_AJAX_STATE = 'methodFit/ajaxState/SUCCESS_AJAX_STATE';
 export const FAILURE_AJAX_STATE = 'methodFit/ajaxState/FAILURE_AJAX_STATE';
 
 export default (state = {}, action = {}) => {
-  let newState = {...state};
+  let newState = { ...state };
 
   switch (action.type) {
     case CLEAR_AJAX_STATE: {
       return state;
     }
     case REQ_AJAX_STATE: {
-      newState[action.actionPrefix] = {type: 'REQUEST'};
+      newState[action.actionPrefix] = { type: 'REQUEST' };
       return newState;
     }
     case SUCCESS_AJAX_STATE: {
@@ -19,7 +19,7 @@ export default (state = {}, action = {}) => {
         delete newState[action.actionPrefix];
         return newState;
       }
-      newState[action.actionPrefix] = {type: 'SUCCESS'};
+      newState[action.actionPrefix] = { type: 'SUCCESS' };
       return newState;
     }
     case FAILURE_AJAX_STATE: {
@@ -36,11 +36,11 @@ export default (state = {}, action = {}) => {
   }
 
   return state;
-}
+};
 
-export const clearAjaxState = (ajaxType) => {
+export const clearAjaxState = ajaxType => {
   return {
     type: CLEAR_AJAX_STATE,
     ajaxType
-  }
+  };
 };

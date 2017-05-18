@@ -32,7 +32,7 @@ export default (state = [], action = {}) => {
     }
     case HIRE_TRAINER.SUCCESS: {
       var insertedItem = selectn('action.insertedItem', action);
-      insertedItem.id = selectn('payload.result.handlerResult.trainerId',action);
+      insertedItem.id = selectn('payload.result.handlerResult.trainerId', action);
 
       return insertedItem.id ? [...state, insertedItem] : state;
     }
@@ -45,11 +45,13 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x,
+        if (x.id === update.id) {
+          return {
+            ...x,
             color: update.color,
             birthDate: update.birthDate,
-            contact: {...x.contact, firstName: update.firstName, lastName: update.lastName}}
+            contact: { ...x.contact, firstName: update.firstName, lastName: update.lastName }
+          };
         }
         return x;
       });
@@ -64,15 +66,16 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x,
+        if (x.id === update.id) {
+          return {
+            ...x,
             contact: {
               ...x.contact,
               secondaryPhone: update.secondaryPhone,
               mobilePhone: update.mobilePhone,
               email: update.email
             }
-          }
+          };
         }
         return x;
       });
@@ -82,8 +85,9 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x,
+        if (x.id === update.id) {
+          return {
+            ...x,
             contact: {
               ...x.contact,
               address: {
@@ -92,9 +96,10 @@ export default (state = [], action = {}) => {
                 street2: update.street2,
                 city: update.city,
                 state: update.state,
-                zipCode: update.zipCode}
+                zipCode: update.zipCode
+              }
             }
-          }
+          };
         }
         return x;
       });
@@ -104,8 +109,8 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x, clients: update.clients }
+        if (x.id === update.id) {
+          return { ...x, clients: update.clients };
         }
         return x;
       });
@@ -115,12 +120,12 @@ export default (state = [], action = {}) => {
       return state;
     }
   }
-}
+};
 
 export function updateTrainerInfo(data) {
   const item = {
     id: data.id,
-    birthDate:data.birthDate,
+    birthDate: data.birthDate,
     color: data.color,
     firstName: data.firstName,
     lastName: data.lastName
@@ -130,11 +135,11 @@ export function updateTrainerInfo(data) {
     type: UPDATE_TRAINER_INFO.REQUEST,
     states: UPDATE_TRAINER_INFO,
     url: config.apiBase + 'trainer/updateTrainerInfo',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -143,7 +148,7 @@ export function updateTrainerInfo(data) {
 export function updateTrainerPassword(data) {
   const item = {
     id: data.id,
-    password:data.password
+    password: data.password
   };
   return {
     type: UPDATE_TRAINER_PASSWORD.REQUEST,
@@ -152,7 +157,7 @@ export function updateTrainerPassword(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -169,11 +174,11 @@ export function updateTrainerContact(data) {
     type: UPDATE_TRAINER_CONTACT.REQUEST,
     states: UPDATE_TRAINER_CONTACT,
     url: config.apiBase + 'trainer/updateTrainerContact',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -192,11 +197,11 @@ export function updateTrainerAddress(data) {
     type: UPDATE_TRAINER_ADDRESS.REQUEST,
     states: UPDATE_TRAINER_ADDRESS,
     url: config.apiBase + 'trainer/updateTrainerAddress',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -212,11 +217,11 @@ export function updateTrainersClients(data) {
     type: UPDATE_TRAINER_CLIENTS.REQUEST,
     states: UPDATE_TRAINER_CLIENTS,
     url: config.apiBase + 'trainer/updateTrainersClients',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -224,12 +229,12 @@ export function updateTrainersClients(data) {
 
 const successFunction = (action, payload) => {
   browserHistory.push('/trainers');
-  return {type: action.states.SUCCESS, action, payload};
+  return { type: action.states.SUCCESS, action, payload };
 };
 
 export function hireTrainer(data) {
   data.state = data.state ? data.state.value : undefined;
-  data.clients = data.clients ? data.clients.map(x=> x.value) : [];
+  data.clients = data.clients ? data.clients.map(x => x.value) : [];
   const trainer = denormalizeTrainer(data);
   return {
     type: HIRE_TRAINER.REQUEST,
@@ -237,11 +242,11 @@ export function hireTrainer(data) {
     url: config.apiBase + 'trainer/hireTrainer',
     insertedItem: trainer,
     successFunction,
-    startAjaxState:true,
+    startAjaxState: true,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(trainer)
     }
   };
@@ -256,13 +261,13 @@ export function archiveTrainer(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }
   };
 }
 
-export function fetchTrainerAction(id){
+export function fetchTrainerAction(id) {
   let apiUrl = config.apiBase + 'trainer/getTrainer/' + id;
   return {
     type: TRAINER.REQUEST,

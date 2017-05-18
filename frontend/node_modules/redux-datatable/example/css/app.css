@@ -1,0 +1,40 @@
+
+.app {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.taskForm__container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  width:65%;
+  margin-top:30px;
+}
+
+.taskForm {
+  display: flex;
+  flex-flow: column nowrap;
+  width:400px;
+}
+
+.taskForm__input {
+  display: flex;
+  flex-flow:row nowrap;
+}
+
+.taskForm__input__label {
+  align-self: flex-start;
+  width: 30%;
+}
+
+.taskForm__input__text {
+  align-self: flex-end;
+  width: 70%;
+}
+
+.taskForm__input__button {
+  align-self: flex-start;
+  width: 100px;
+}

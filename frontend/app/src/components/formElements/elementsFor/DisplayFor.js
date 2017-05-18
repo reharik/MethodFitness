@@ -2,43 +2,43 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-const DisplayFor = ({data, displayStyle, selectOptions}) => {
-  const span = function () {
+const DisplayFor = ({ data, displayStyle, selectOptions }) => {
+  const span = function() {
     switch (data['x-input'] || data.type) {
-      case 'color-picker':
-      {
-        return (<span
-          className="display__container__value display__container__value__color"
-          style={{backgroundColor: data.value}} />)
+      case 'color-picker': {
+        return (
+          <span
+            className="display__container__value display__container__value__color"
+            style={{ backgroundColor: data.value }}
+          />
+        );
       }
-      case 'date-time':
-      {
-        return (<span className="display__container__value">{moment(data.value).format('MM/DD/YYYY')}</span>)
+      case 'date-time': {
+        return <span className="display__container__value">{moment(data.value).format('MM/DD/YYYY')}</span>;
       }
       case 'select': {
-        if(!data.value) {
+        if (!data.value) {
           return;
         }
 
-        const find = selectOptions.find(y=> y.value === data.value);
+        const find = selectOptions.find(y => y.value === data.value);
         const textValue = find.display;
-        return (<span className="display__container__value">{textValue}</span>)
+        return <span className="display__container__value">{textValue}</span>;
       }
       case 'multi-select': {
-        if(!data.value || selectOptions.length <=0) {
+        if (!data.value || selectOptions.length <= 0) {
           return;
         }
         // thought about being defensive here but decided if it's not in the values then fuck it throw.
-        const textValues = data.value.map(x => selectOptions.find(y =>  y.value === x).display);
+        const textValues = data.value.map(x => selectOptions.find(y => y.value === x).display);
         return (
           <ul className="display__container__value">
-            {textValues.map((x,i) => (<li key={i}>{x}</li>))}
+            {textValues.map((x, i) => <li key={i}>{x}</li>)}
           </ul>
-        )
+        );
       }
-      default:
-      {
-        return (<span className="display__container__value">{data.value.display || data.value.id || data.value}</span>)
+      default: {
+        return <span className="display__container__value">{data.value.display || data.value.id || data.value}</span>;
       }
     }
   };

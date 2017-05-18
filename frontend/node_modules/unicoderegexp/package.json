@@ -1,0 +1,28 @@
+{
+  "name": "unicoderegexp",
+  "description": "Regular expressions for various Unicode character classes extracted from XRegExp",
+  "keywords": [
+    "unicode",
+    "regular expression",
+    "regexp",
+    "regex",
+    "characters",
+    "printable"
+  ],
+  "scripts": {
+    "prepublish": "make test",
+    "test": "make test"
+  },
+  "version": "0.4.1",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "2.2.5",
+    "unexpected": "9.6.0",
+    "xregexp": "=2.0.0"
+  },
+  "main": "lib/unicodeRegExp.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/One-com/unicoderegexp.git"
+  }
+}

@@ -7,12 +7,14 @@ import purchase from './purchaseModule';
 import ajaxState from './ajaxStateModule';
 import toggleTrainerListForCalendar from './toggleTrainerListForCalendarModule';
 
-export {loginUser, logoutUser} from './authModule';
-export {menuItemClicked, navBreadCrumbClicked } from './menuModule';
-export {scheduleAppointment,
-        fetchAppointmentAction,
-        fetchAppointmentsAction,
-  updateTaskViaDND} from './appointmentModule';
+export { loginUser, logoutUser } from './authModule';
+export { menuItemClicked, navBreadCrumbClicked } from './menuModule';
+export {
+  scheduleAppointment,
+  fetchAppointmentAction,
+  fetchAppointmentsAction,
+  updateTaskViaDND
+} from './appointmentModule';
 
 export default {
   auth,
@@ -24,4 +26,3 @@ export default {
   ajaxState,
   purchase
 };
-

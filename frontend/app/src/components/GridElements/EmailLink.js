@@ -4,10 +4,11 @@
 import React from 'react';
 import selectn from 'selectn';
 
-export default ({column, row}) => {
-  const value = selectn(column.propertyName,row);
+export default ({ column, row }) => {
+  const value = selectn(column.propertyName, row);
   return (
     <div>
       <a href={'mailto:' + value}>{value}</a>
-    </div>);
-}
+    </div>
+  );
+};

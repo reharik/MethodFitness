@@ -8,7 +8,9 @@
   "scripts": {
     "start": "nodemon app/index.js",
     "test": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
-    "intTest": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/integrationTests/*.js"
+    "intTest": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/integrationTests/*.js",
+    "lint": "eslint -c ./../.eslintrc.json .",
+    "validate": "npm ls"
   },
   "bugs": {
     "url": "https://github.com/reharik/mf_projections/issues"
@@ -26,8 +28,8 @@
     "jasmine-core": "^2.3.4",
     "mocha": "^2.2.5",
     "mocha-junit-reporter": "^1.6.1",
-    "requirejs": "^2.1.20",
-    "sinon": "^1.15.4"
+    "eslint": "^3.6.0",
+    "precommit-hook-eslint": "^3.0.0"
   },
   "dependencies": {
     "JSON": "^1.0.0",
@@ -43,5 +45,9 @@
     "ramda-fantasy": "^0.4.1",
     "uuid": "^2.0.1",
     "nodemon": "^1.11.0"
-  }
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ]
 }

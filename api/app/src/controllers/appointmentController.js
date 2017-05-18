@@ -1,22 +1,22 @@
-module.exports = function(rsRepository,
-                          eventstore,
-                          notificationListener,
-                          notificationParser,
-                          commands,
-                          moment,
-                          logger,
-                          uuid) {
-
-
-  var fetchAppointment = async function (ctx) {
-    logger.debug("arrived at appointment.fetchAppointment");
+module.exports = function(
+  rsRepository,
+  eventstore,
+  notificationListener,
+  notificationParser,
+  commands,
+  moment,
+  logger,
+  uuid
+) {
+  var fetchAppointment = async function(ctx) {
+    logger.debug('arrived at appointment.fetchAppointment');
     const appointments = await rsRepository.getById(ctx.params.id, 'appointment');
     ctx.status = 200;
     ctx.body = appointments;
   };
 
-  var fetchAppointments = async function (ctx) {
-    logger.debug("arrived at appointment.fetchAppointments");
+  var fetchAppointments = async function(ctx) {
+    logger.debug('arrived at appointment.fetchAppointments');
     const sql = `SELECT * from "appointment" 
       where  "date" >= '${ctx.params.startDate}' 
         AND "date" <= '${ctx.params.endDate}'
@@ -26,20 +26,20 @@ module.exports = function(rsRepository,
     ctx.body = appointments;
   };
 
-  var scheduleAppointment = async function (ctx) {
-    logger.debug("arrived at appointment.scheduleAppointment");
+  var scheduleAppointment = async function(ctx) {
+    logger.debug('arrived at appointment.scheduleAppointment');
     var payload = ctx.request.body;
     payload.commandName = 'scheduleAppointment';
-    const notification =await processMessage(payload, 'scheduleAppointmentFactory', 'scheduleAppointment');
+    const notification = await processMessage(payload, 'scheduleAppointmentFactory', 'scheduleAppointment');
     const result = notificationParser(notification);
 
     ctx.body = result.body;
     ctx.status = result.status;
   };
 
-  var updateAppointment = async function (ctx) {
+  var updateAppointment = async function(ctx) {
     try {
-      logger.debug("arrived at appointment.updateAppointment");
+      logger.debug('arrived at appointment.updateAppointment');
       var body = ctx.request.body;
       let notification;
       let commandName = '';
@@ -50,16 +50,19 @@ module.exports = function(rsRepository,
           clientsSame = false;
         }
       }
-      if (moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD')
-              || !moment(appointment.startTime).isSame(moment(body.startTime))) {
+      if (
+        moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD') ||
+        !moment(appointment.startTime).isSame(moment(body.startTime))
+      ) {
         commandName += 'rescheduleAppointment';
         body.originalEntityName = appointment.entityName;
-      } else if (appointment.appointmentType !== body.appointmentType
-          || !clientsSame
-          || appointment.trainer !== body.trainer
-          || appointment.notes !== body.notes) {
-
-        commandName += 'updateAppointment'
+      } else if (
+        appointment.appointmentType !== body.appointmentType ||
+        !clientsSame ||
+        appointment.trainer !== body.trainer ||
+        appointment.notes !== body.notes
+      ) {
+        commandName += 'updateAppointment';
       } else {
         throw new Error('UpdateAppointment called but no change in appointment');
       }
@@ -73,15 +76,15 @@ module.exports = function(rsRepository,
       ctx.body = result.body;
       ctx.status = result.status;
     } catch (ex) {
-      ctx.body = {success: false, error: ex};
+      ctx.body = { success: false, error: ex };
       ctx.status = 500;
     }
   };
-  
-  var cancelAppointment = async function (ctx) {
-    logger.debug("arrived at appointment.cancelAppointment");
+
+  var cancelAppointment = async function(ctx) {
+    logger.debug('arrived at appointment.cancelAppointment');
     var body = ctx.request.body;
-    
+
     const notification = await processCommandMessage(body, 'cancelAppointment');
     const result = notificationParser(notification);
 
@@ -92,16 +95,13 @@ module.exports = function(rsRepository,
   var processCommandMessage = async function(payload, commandName) {
     return await processMessage(payload, commandName + 'Command', commandName);
   };
-  
+
   var processMessage = async function(payload, commandFactory, commandName) {
     logger.debug(`api: processing ${commandName}`);
     const continuationId = uuid.v4();
     let notificationPromise = notificationListener(continuationId);
     const command = commands[commandFactory](payload);
-    await eventstore.commandPoster(
-        command,
-        commandName,
-        continuationId);
+    await eventstore.commandPoster(command, commandName, continuationId);
 
     return await notificationPromise;
   };
@@ -114,4 +114,3 @@ module.exports = function(rsRepository,
     fetchAppointments
   };
 };
-

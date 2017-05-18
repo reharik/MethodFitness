@@ -1,55 +1,44 @@
-"use strict";
+'use strict';
 
-module.exports = function(rsRepository,
-                          notificationListener,
-                          notificationParser,
-                          eventstore,
-                          commands,
-                          logger,
-                          uuid) {
-
-  var addClient = async function (ctx) {
-    logger.debug("arrived at client.addClient");
+module.exports = function(rsRepository, notificationListener, notificationParser, eventstore, commands, logger, uuid) {
+  var addClient = async function(ctx) {
+    logger.debug('arrived at client.addClient');
     await processMessage(ctx, 'addClient');
   };
 
-  var updateClientInfo = async function (ctx) {
-    logger.debug("arrived at client.updateClientInfo");
+  var updateClientInfo = async function(ctx) {
+    logger.debug('arrived at client.updateClientInfo');
     await processMessage(ctx, 'updateClientInfo');
   };
 
-  var updateClientSource = async function (ctx) {
-    logger.debug("arrived at client.updateClientSource");
+  var updateClientSource = async function(ctx) {
+    logger.debug('arrived at client.updateClientSource');
     await processMessage(ctx, 'updateClientSource');
   };
 
-  var updateClientContact = async function (ctx) {
-    logger.debug("arrived at client.updateClientContact");
+  var updateClientContact = async function(ctx) {
+    logger.debug('arrived at client.updateClientContact');
     await processMessage(ctx, 'updateClientContact');
   };
 
-  var updateClientAddress = async function (ctx) {
-    logger.debug("arrived at client.updateClientAddress");
+  var updateClientAddress = async function(ctx) {
+    logger.debug('arrived at client.updateClientAddress');
     await processMessage(ctx, 'updateClientAddress');
   };
 
-  var archiveClient = async function (ctx) {
-    logger.debug("arrived at client.archiveClient");
+  var archiveClient = async function(ctx) {
+    logger.debug('arrived at client.archiveClient');
     var query = await rsRepository.query('SELECT * from "trainer";');
     const id = ctx.request.body.id;
 
-    var trainerClients = query.filter(x => x.clients && x.clients.some(c => c === id))
-      .map(x=> {
-        x.clients.splice(x.clients.indexOf(id), 1);
-        return {id:x.id, clients:x.clients}
-      });
+    var trainerClients = query.filter(x => x.clients && x.clients.some(c => c === id)).map(x => {
+      x.clients.splice(x.clients.indexOf(id), 1);
+      return { id: x.id, clients: x.clients };
+    });
 
-    for(let payload of trainerClients) {
+    for (let payload of trainerClients) {
       const command = commands['updateTrainersClientsCommand'](payload);
-      await eventstore.commandPoster(
-        command,
-        'updateTrainersClients',
-        uuid.v4());
+      await eventstore.commandPoster(command, 'updateTrainersClients', uuid.v4());
     }
 
     await processMessage(ctx, ctx.request.body.archived ? 'unArchiveClient' : 'archiveClient');
@@ -63,10 +52,7 @@ module.exports = function(rsRepository,
 
     const command = commands[commandName + 'Command'](payload);
 
-    await eventstore.commandPoster(
-      command,
-      commandName,
-      continuationId);
+    await eventstore.commandPoster(command, commandName, continuationId);
 
     var notification = await notificationPromise;
 
@@ -77,11 +63,11 @@ module.exports = function(rsRepository,
     return ctx;
   };
 
-  var getClient = async function (ctx) {
+  var getClient = async function(ctx) {
     let client;
     if (ctx.state.user.role !== 'admin') {
       const trainer = await rsRepository.getById(ctx.state.user.id, 'trainer');
-      if (trainer.clients && !trainer.clients.some(x=> x === ctx.params.id)) {
+      if (trainer.clients && !trainer.clients.some(x => x === ctx.params.id)) {
         throw new Error('Attempt to access client not associated with current trainer');
       }
     }
@@ -101,4 +87,3 @@ module.exports = function(rsRepository,
     getClient
   };
 };
-

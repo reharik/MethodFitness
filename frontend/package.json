@@ -18,7 +18,7 @@
     "start": "webpack-dev-server --progress --config ./app/webpack.config.js",
     "test": "NODE_ENV=test mocha -w --recursive --compilers js:babel-core/register ./app/tests/**",
     "testOnce": "NODE_ENV=test mocha --recursive --compilers js:babel-core/register ./app/tests/**",
-    "lint": "eslint . ",
+    "lint": "eslint -c ./../.eslintrc-react.json .",
     "validate": "npm ls",
     "esw": "esw -w --color"
   },
@@ -55,6 +55,7 @@
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-loader": "^6.2.4",
+    "babel-eslint": "^7.0.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-2": "^6.22.0",
@@ -80,5 +81,8 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-validator": "^2.2.7"
   },
-  "pre-commit": []
+  "pre-commit": [
+    "lint",
+    "test"
+  ]
 }

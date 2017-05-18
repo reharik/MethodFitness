@@ -1,0 +1,34 @@
+
+.week__day:last-child .week__day__items__name__value{
+    border-top-right-radius:3px;
+}
+
+.week__day:last-child  .week__day__items__slot:last-child {
+    border-bottom-right-radius:3px;
+}
+
+.week__day__items__name__value {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background:$gradient;
+    @mixin border;
+    color: #555555;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.week__day__items__slot {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    border-bottom: $border;
+    border-right: $border;
+    color: #555555;
+    height:20px;
+}
+
+.week__hour__breaks {
+    border-top: $border;
+}
+
+.week__day__isToday {
+    background-color: #fcefa1;
+}

@@ -1,0 +1,42 @@
+.tasks {
+  display: flex;
+}
+
+.task {
+  display: flex;
+  width:100%
+}
+
+.task__item {
+    margin: 1px;
+    border-radius: 3px;
+}
+
+.month__task__item {
+    margin: 1px;
+    border-radius: 3px;
+}
+
+.month__task__item__title {
+    font-size: 10px;
+    color: white;
+    padding:3px;
+    border-radius: 3px;
+}
+
+.task__item__display {
+    font-size: 10px;
+    color: white;
+    padding:3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    height: 100%;
+}
+
+.task__item__title {
+    font-size: 10px;
+    color: white;
+    padding:3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}

@@ -1,130 +1,126 @@
 /**
  * Created by parallels on 7/16/15.
  */
-"use strict";
+'use strict';
 
-module.exports = function(eventRepository,
-                          logger,
-                          Trainer) {
+module.exports = function(eventRepository, logger, Trainer) {
+  return function TrainerWorkflow() {
+    // async function loginTrainer(cmd, continuationId ) {
+    //     var trainer = await eventRepository.getById(Trainer, cmd.id, 5);
+    //     trainer.loginTrainer(cmd);
+    //     return await eventRepository.save(trainer, { continuationId });
+    // }
 
-    return function TrainerWorkflow(){
+    async function hireTrainer(cmd, continuationId) {
+      logger.info('calling hiretrainer');
+      var trainer = new Trainer();
+      trainer.hireTrainer(cmd);
 
-        // async function loginTrainer(cmd, continuationId ) {
-        //     var trainer = await eventRepository.getById(Trainer, cmd.id, 5);
-        //     trainer.loginTrainer(cmd);
-        //     return await eventRepository.save(trainer, { continuationId });
-        // }
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-        async function hireTrainer(cmd, continuationId) {
-            logger.info('calling hiretrainer');
-            var trainer = new Trainer();
-            trainer.hireTrainer(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
+    async function updateTrainerAddress(cmd, continuationId) {
+      logger.info('calling updateTrainerAddress');
+      var trainer = await eventRepository.getById(Trainer, cmd.id);
+      trainer.updateTrainerAddress(cmd);
 
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id}
-        }
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-        async function updateTrainerAddress(cmd, continuationId) {
-            logger.info('calling updateTrainerAddress');
-            var trainer = await eventRepository.getById(Trainer, cmd.id);
-            trainer.updateTrainerAddress(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
+    async function updateTrainerContact(cmd, continuationId) {
+      logger.info('calling updateTrainerContact');
+      var trainer = await eventRepository.getById(Trainer, cmd.id);
+      trainer.updateTrainerContact(cmd);
 
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id};
-        }
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-        async function updateTrainerContact(cmd, continuationId) {
-            logger.info('calling updateTrainerContact');
-            var trainer = await eventRepository.getById(Trainer, cmd.id);
-            trainer.updateTrainerContact(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
+    async function updateTrainerPassword(cmd, continuationId) {
+      logger.info('calling updateTrainerPassword');
+      var trainer = await eventRepository.getById(Trainer, cmd.id);
+      trainer.updateTrainerPassword(cmd);
 
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id};
-        }
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-        async function updateTrainerPassword(cmd, continuationId) {
-            logger.info('calling updateTrainerPassword');
-            var trainer = await eventRepository.getById(Trainer, cmd.id);
-            trainer.updateTrainerPassword(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
+    async function updateTrainerInfo(cmd, continuationId) {
+      logger.info('calling updateTrainerInfo');
 
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id};
-        }
+      var trainer = await eventRepository.getById(Trainer, cmd.id);
+      trainer.updateTrainerInfo(cmd);
 
-        async function updateTrainerInfo(cmd, continuationId) {
-            logger.info('calling updateTrainerInfo');
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-            var trainer = await eventRepository.getById(Trainer, cmd.id);
-            trainer.updateTrainerInfo(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
+    async function updateTrainersClients(cmd, continuationId) {
+      logger.info('calling updateTrainersClients');
 
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id};
-        }
+      var trainer = await eventRepository.getById(Trainer, cmd.id);
+      trainer.updateTrainersClients(cmd);
 
-        async function updateTrainersClients(cmd, continuationId) {
-            logger.info('calling updateTrainersClients');
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-            var trainer = await eventRepository.getById(Trainer, cmd.id);
-            trainer.updateTrainersClients(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
+    async function archiveTrainer(cmd, continuationId) {
+      logger.info('calling archiveTrainer');
 
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id};
-        }
+      var trainer = await eventRepository.getById(Trainer, cmd.id);
+      trainer.archiveTrainer(cmd);
 
-        async function archiveTrainer(cmd, continuationId) {
-            logger.info('calling archiveTrainer');
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-            var trainer = await eventRepository.getById(Trainer, cmd.id);
-            trainer.archiveTrainer(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
+    async function unArchiveTrainer(cmd, continuationId) {
+      logger.info('calling unArchiveTrainer');
 
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id};
-        }
+      var trainer = await eventRepository.getById(Trainer, cmd.id);
+      trainer.unArchiveTrainer(cmd);
 
-        async function unArchiveTrainer(cmd, continuationId) {
-            logger.info('calling unArchiveTrainer');
+      logger.info('saving trainer');
+      logger.trace(trainer);
 
-            var trainer = await eventRepository.getById(Trainer, cmd.id);
-            trainer.unArchiveTrainer(cmd);
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
 
-            logger.info('saving trainer');
-            logger.trace(trainer);
-
-            await eventRepository.save(trainer, { continuationId });
-            return {trainerId: trainer._id};
-        }
-
-        return {
-            handlerName: 'TrainerWorkflow',
-            hireTrainer,
-            updateTrainerInfo,
-            updateTrainerAddress,
-            updateTrainerPassword,
-            updateTrainerContact,
-            updateTrainersClients,
-            archiveTrainer,
-            unArchiveTrainer
-        }
+    return {
+      handlerName: 'TrainerWorkflow',
+      hireTrainer,
+      updateTrainerInfo,
+      updateTrainerAddress,
+      updateTrainerPassword,
+      updateTrainerContact,
+      updateTrainersClients,
+      archiveTrainer,
+      unArchiveTrainer
     };
+  };
 };

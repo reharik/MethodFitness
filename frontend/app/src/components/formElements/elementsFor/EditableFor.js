@@ -1,19 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import SubmissionFor from '../../../containers/forms/SubmissionForContainer';
-import DisplayFor from './DisplayFor'
+import DisplayFor from './DisplayFor';
 
-const EditableFor = (props) => {
+const EditableFor = props => {
   if (props.editing) {
-    return <SubmissionFor {...props} />
+    return <SubmissionFor {...props} />;
   }
-  if(props.noDisplay){
+  if (props.noDisplay) {
     return null;
   }
-  return <DisplayFor {...props}/>
+  return <DisplayFor {...props} />;
 };
 
 export default EditableFor;
-
-
-
-

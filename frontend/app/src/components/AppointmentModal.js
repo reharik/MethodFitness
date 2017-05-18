@@ -1,8 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import MFModal from './../components/mfModal/MFModal';
 
-const AppointmentModal = ({form, onClose, isOpen, title}) => {
-
+const AppointmentModal = ({ form, onClose, isOpen, title }) => {
   const titleBar = {
     className: 'heading',
     text: title,

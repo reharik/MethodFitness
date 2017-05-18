@@ -1,0 +1,29 @@
+{
+  "name": "corelogger",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "license": "MIT",
+  "node": ">=0.12.0",
+  "dependencies": {
+    "aws-sdk": "^2.1.23",
+    "moment": "^2.10.6",
+    "joi": "^6.0.8",
+    "lodash": "^3.6.0",
+    "winston": "^1.0.0",
+    "winston-logstash": "^0.1.11"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reharik/yowlwrapper.git"
+  },
+  "author": "Raif Harik",
+  "bugs": {
+    "url": "https://github.com/reharik/yowlwrapper/issues"
+  },
+  "homepage": "https://github.com/reharik/yowlwrapper#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "description": ""
+}

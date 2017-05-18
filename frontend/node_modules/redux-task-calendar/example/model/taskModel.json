@@ -1,0 +1,33 @@
+{
+  "title": "Example Schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "invalidMessage": "Start Time must be a valid time"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time",
+      "requiredMessage"      :"this shit is srequired"
+    },
+    "display": {
+      "type": "string"
+    },
+    "color": {
+      "description": "color to display tasks",
+      "type": "string"
+    }
+  },
+  "required": [
+    "startTime",
+    "endTime",
+    "display",
+    "color"
+  ]
+}

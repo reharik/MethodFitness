@@ -1,8 +1,3 @@
-/**
- * Created by rharik on 7/13/15.
- */
-"use strict";
-
 module.exports = function(AggregateRootBase, invariant, uuid) {
   return class Trainer extends AggregateRootBase {
     constructor() {
@@ -18,27 +13,27 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
 
     commandHandlers() {
       return {
-        'hireTrainer': function (cmd) {
+        hireTrainer: function(cmd) {
           cmd.id = uuid.v4();
           cmd.eventName = 'trainerHired';
           this.raiseEvent(cmd);
         },
-        'updateTrainerInfo': function (cmd) {
+        updateTrainerInfo: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerInfoUpdated';
           this.raiseEvent(cmd);
         },
-        'updateTrainerContact': function (cmd) {
+        updateTrainerContact: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerContactUpdated';
           this.raiseEvent(cmd);
         },
-        'updateTrainerAddress': function (cmd) {
+        updateTrainerAddress: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerAddressUpdated';
           this.raiseEvent(cmd);
         },
-        'updateTrainerPassword': function (cmd) {
+        updateTrainerPassword: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerPasswordUpdated';
           this.raiseEvent(cmd);
@@ -58,7 +53,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
         //         }
         //     });
         // },
-        'archiveTrainer': function (cmd) {
+        archiveTrainer: function(cmd) {
           this.expectNotArchived();
           this.raiseEvent({
             eventName: 'trainerArchived',
@@ -66,7 +61,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
             archivedDate: new Date()
           });
         },
-        'unArchiveUser': function (cmd) {
+        unArchiveUser: function(cmd) {
           this.expectArchived();
           this.raiseEvent({
             eventName: 'trainerUnArchived',
@@ -74,33 +69,33 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
             unArchivedDate: new Date()
           });
         },
-        'updateTrainersClients': function (cmd) {
+        updateTrainersClients: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainersClientsUpdated';
           this.raiseEvent(cmd);
         }
-      }
+      };
     }
 
     applyEventHandlers() {
       return {
-        'trainerHired': function (event) {
+        trainerHired: function(event) {
           this._password = event.credentials.password;
           this._id = event.id;
         }.bind(this),
 
-        'trainerPasswordUpdated': function (event) {
+        trainerPasswordUpdated: function(event) {
           this._password = event.credentials.password;
         }.bind(this),
 
-        'trainerArchived': function (event) {
+        trainerArchived: function(event) {
           this._isArchived = true;
         }.bind(this),
 
-        'trainerUnArchived': function (event) {
+        trainerUnArchived: function(event) {
           this._isArchived = false;
         }.bind(this)
-      }
+      };
     }
 
     createToken() {
@@ -122,5 +117,5 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
     expectArchived() {
       invariant(this._isArchived, 'Trainer is not archived archived');
     }
-  }
+  };
 };

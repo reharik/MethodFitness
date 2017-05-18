@@ -1,8 +1,3 @@
-/**
- * Created by rharik on 7/13/15.
- */
-'use strict';
-
 module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
   return class Client extends AggregateRootBase {
     constructor() {
@@ -18,33 +13,32 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
 
     commandHandlers() {
       return {
-        'addClient': function (cmd) {
+        addClient: function(cmd) {
           cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'clientAdded';
           this.raiseEvent(cmd);
-
         },
-        'updateClientInfo': function (cmd) {
+        updateClientInfo: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientInfoUpdated';
           this.raiseEvent(cmd);
         },
-        'updateClientSource': function (cmd) {
+        updateClientSource: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientSourceUpdated';
           this.raiseEvent(cmd);
         },
-        'updateClientContact': function (cmd) {
+        updateClientContact: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientContactUpdated';
           this.raiseEvent(cmd);
         },
-        'updateClientAddress': function (cmd) {
+        updateClientAddress: function(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientAddressUpdated';
           this.raiseEvent(cmd);
         },
-        'archiveClient': function (cmd) {
+        archiveClient: function(cmd) {
           this.expectNotArchived();
           this.raiseEvent({
             eventName: 'clientArchived',
@@ -52,7 +46,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
             archivedDate: new Date()
           });
         },
-        'unArchiveClient': function (cmd) {
+        unArchiveClient: function(cmd) {
           this.expectArchived();
           this.raiseEvent({
             eventName: 'clientUnArchived',
@@ -60,46 +54,42 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
             unArchivedDate: new Date()
           });
         },
-        'purchase': function(cmd) {
+        purchase: function(cmd) {
           cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'sessionsPurchased';
           this.generateSessions(cmd).forEach(e => this.raiseEvent(e));
           this.raiseEvent(cmd);
         }
-      }
+      };
     }
 
     applyEventHandlers() {
       return {
-        'clientAdded': function (event) {
+        clientAdded: function(event) {
           this._id = event.id;
         }.bind(this),
 
-        'clientArchived': function (event) {
+        clientArchived: function(event) {
           this._isArchived = true;
         }.bind(this),
-        'clientUnArchived': function (event) {
+        clientUnArchived: function(event) {
           this._isArchived = false;
         }.bind(this),
-        'fullHourSessionPurchased': function () {
+        fullHourSessionPurchased: function() {
           this.clientInventory.addFullHourSession();
         }.bind(this),
-        'halfHourSessionPurchased': function () {
+        halfHourSessionPurchased: function() {
           this.clientInventory.addHalfHourSession();
         }.bind(this),
-        'pairSessionPurchased': function () {
+        pairSessionPurchased: function() {
           this.clientInventory.addPairSession();
         }.bind(this)
-
-      }
+      };
     }
 
     generateSessions(cmd) {
-      return [].concat(
-        this.addFullHourSessions(cmd),
-        this.addHalfHourSessions(cmd),
-        this.addPairSessions(cmd));
-    };
+      return [].concat(this.addFullHourSessions(cmd), this.addHalfHourSessions(cmd), this.addPairSessions(cmd));
+    }
 
     createNewSessionEvent(type, purchasePrice, purchaseId) {
       event.eventName = `${type}SessionPurchased`;
@@ -109,37 +99,34 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
       event.purchasePrice = purchasePrice;
       event.sessionType = type;
       return event;
-    };
+    }
 
     addFullHourSessions(cmd) {
       const individualHourPrice = cmd.fullHour ? cmd.fullHourTotal / cmd.fullHour : 0;
       const tenPackHourPrice = cmd.fullHourTenPack ? cmd.fullHourTenPackTotal / (cmd.fullHourTenPack * 10) : 0;
       let sessions = Array(cmd.fullHour).fill(this.createNewSessionEvent('fullHour', individualHourPrice, cmd.id));
       return sessions.concat(
-        Array(cmd.fullHourTenPack * 10)
-          .fill(this.createNewSessionEvent('fullHour', tenPackHourPrice, cmd.id))
+        Array(cmd.fullHourTenPack * 10).fill(this.createNewSessionEvent('fullHour', tenPackHourPrice, cmd.id))
       );
-    };
+    }
 
     addHalfHourSessions(cmd) {
       const individualHalfHourPrice = cmd.halfHour ? cmd.halfHourTotal / cmd.halfHour : 0;
       const tenPackHalfHourPrice = cmd.halfHourTenPack ? cmd.halfHourTenPackTotal / (cmd.halfHourTenPack * 10) : 0;
       let sessions = Array(cmd.halfHour).fill(this.createNewSessionEvent('halfHour', individualHalfHourPrice, cmd.id));
       return sessions.concat(
-        Array(cmd.halfHourTenPack * 10)
-          .fill(this.createNewSessionEvent('halfHour', tenPackHalfHourPrice, cmd.id))
+        Array(cmd.halfHourTenPack * 10).fill(this.createNewSessionEvent('halfHour', tenPackHalfHourPrice, cmd.id))
       );
-    };
+    }
 
     addPairSessions(cmd) {
       const individualPairPrice = cmd.pair ? cmd.pairTotal / cmd.pair : 0;
       const tenPackPairPrice = cmd.pairTenPack ? cmd.pairTenPackTotal / (cmd.pairTenPack * 10) : 0;
       let sessions = Array(cmd.pair).fill(this.createNewSessionEvent('pair', individualPairPrice, cmd.id));
       return sessions.concat(
-        Array(cmd.pairTenPack * 10)
-          .fill(this.createNewSessionEvent('pair', tenPackPairPrice, cmd.id))
+        Array(cmd.pairTenPack * 10).fill(this.createNewSessionEvent('pair', tenPackPairPrice, cmd.id))
       );
-    };
+    }
 
     expectNotArchived() {
       invariant(!this._isArchived, 'Client already archived');
@@ -148,5 +135,5 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
     expectArchived() {
       invariant(this._isArchived, 'Client is not archived archived');
     }
-  }
+  };
 };
