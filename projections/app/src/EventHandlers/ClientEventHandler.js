@@ -66,13 +66,13 @@ module.exports = function(rsRepository, moment, logger) {
       return await rsRepository.saveQuery(sql);
     }
 
-    async function clientInventoryUpdated(event) {
+    async function sessionsPurchased(event) {
       logger.info('handling clientInventoryUpdated event');
       var client = await rsRepository.getById(event.clientId, 'client');
       client.inventory = {
-        fullHours: event.fullHours,
-        halfHours: event.halfHours,
-        pairs: event.pairs,
+        fullHours: client.inventory.fullHours + event.totalFullHours,
+        halfHours: client.inventory.halfHours + event.totalHalfHours,
+        pairs: client.inventory.pairs + event.totalPairs
       };
       return await rsRepository.save('client', client, event.clientId);
     }
@@ -86,7 +86,7 @@ module.exports = function(rsRepository, moment, logger) {
       clientAddressUpdated,
       clientInfoUpdated,
       clientSourceUpdated,
-      clientInventoryUpdated
+      sessionsPurchased
     }
   };
 };

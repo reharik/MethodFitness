@@ -63,11 +63,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
         'purchase': function(cmd) {
           cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'sessionsPurchased';
-          var clientInventoryUpdated = this.clientInventory.getInventory(cmd);
-          clientInventoryUpdated.clientId = this._id;
-          clientInventoryUpdated.eventName = 'clientInventoryUpdated';
           this.generateSessions(cmd).forEach(e => this.raiseEvent(e));
-          this.raiseEvent(clientInventoryUpdated);
           this.raiseEvent(cmd);
         }
       }
