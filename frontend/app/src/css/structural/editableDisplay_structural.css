@@ -1,0 +1,31 @@
+.editableDisplay__header{
+  margin: 15px 0 10px 24px;
+}
+
+.editableDisplay__header__label {
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 20px 0px;
+}
+
+.editableDisplay__footer__edit{
+
+}
+
+.editableDisplay__content__form__row {
+  display:flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
+.editableDisplay__footer{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-end;
+}
+
+.editableDisplay {
+  max-width: 500px;
+  margin-left:5px;
+}

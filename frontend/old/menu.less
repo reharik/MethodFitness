@@ -1,0 +1,139 @@
+#mf_menuContainer {
+  border: none;
+  background: transparent;
+  margin-left: 2px;
+  margin-top: 8px;
+  width: 220px;
+  bottom: auto;
+  top: 0px;
+  right: auto;
+  left: 0px;
+  font-size: 12px;
+
+  ul.breadcrumb {
+    content: "";
+    display: table;
+    clear: both;
+    margin-bottom: 0;
+    padding: .4em;
+    background: url("../images/left-nav-title.png") repeat-x scroll 0 0 #71A8C2;
+    border-top: 1px solid #CADEE8;
+    margin: 10px 0 0 5px;
+    width: 90%;
+    height: auto;
+
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+
+    border: 1px solid #aaaaaa;
+    color: #222222;
+    font-weight: bold;
+
+    li {
+      float: left;
+      list-style: none;
+      margin: 0;
+      padding: 0 .2em;
+      font-size: .9em;
+      opacity: .7;
+
+      &.breadcrumb-last {
+        clear: left;
+        float: none;
+        opacity: 1;
+      }
+
+      a {
+        cursor: pointer;
+        cursor: hand;
+        float: left;
+        color: #457495;
+        font-size: 1em;
+        font-weight: bold;
+        text-decoration: underline;
+
+        &.breadcrumb-last{
+          cursor: default;
+          float: none;
+          display: block;
+          color: #FFFFFF;
+          background-image: none;
+          font-size: 1.3em;
+          text-decoration: none;
+        }
+      }
+
+      span {
+        background: url("../images/left-nav-separator-icon.png") 6px 3px transparent;
+        background-repeat: no-repeat;
+        float: left;
+        color: #457495;
+        font-size: 1em;
+        font-weight: bold;
+      }
+
+    }
+
+  }
+
+  ul.items {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 8px;
+
+    li {
+      clear: both;
+      width: 100%;
+      float: left;
+      margin: 0;
+      padding: 0;
+      border: 0;
+
+      a {
+        float: left;
+        width: 92%;
+        padding: .3em 3%;
+        text-decoration: none;
+        outline: 0;
+        line-height: 21px;
+        color: #457596;
+
+        span {
+          display: block;
+          cursor: pointer;
+          float: left;
+
+          &.ui-icon {
+            float: right;
+            background: url("../images/button-v-right.png");
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-position: 0 0;
+            background-color: transparent;
+            width: 17px;
+            height: 17px;
+          }
+        }
+      }
+
+      a.fg-menu-current {
+        display: block;
+        background-image: none;
+        font-size: 1.3em;
+        text-decoration: none;
+        color: #FFFFFF;
+      }
+    }
+
+    li.menuItem-Active {
+      background-color: #D7E6ED;
+    }
+
+    li:hover {
+      background-color: #D7E6ED;
+    }
+  }
+}

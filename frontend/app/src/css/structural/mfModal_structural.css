@@ -1,0 +1,48 @@
+.mf__modal{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mf__modal__overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1002;
+}
+
+.mf__modal__wrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+}
+
+.mf__modal__titleBar {
+    position: relative;
+}
+
+.mf__modal[data-title='bottom'] .mf__modal__content { order: 1 }
+.mf__modal[data-title='bottom'] .mf__modal__titleBar { order: 2 }
+
+/* ----- default theme ----- */
+
+.mf__modal__btn__close {
+    position: absolute;
+}
+
+.mf__modal__form__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.mf__modal__form__footer {
+    padding: 20px 5px;
+}

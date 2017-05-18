@@ -1,0 +1,14 @@
+.mainContent {
+  display:flex;
+  flex-flow:column nowrap;
+  width:87.5%;
+  height:100%;
+}
+
+.mainContent__contentInner {
+  margin-bottom:10px;
+}
+
+.mainContent__contentFooter {
+
+}

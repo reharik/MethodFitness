@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+  elasticsearch:
+    build:
+      context: ./ELK/elasticsearch
+      dockerfile: Dockerfile
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    volumes:
+      - elastic:/var/lib/elastic
+
+  logstash:
+    build:
+      context: ./ELK/logstash
+      dockerfile: Dockerfile
+    command: -f /etc/logstash/conf.d/
+    volumes:
+      - ./ELK/logstash/config:/etc/logstash/conf.d
+    ports:
+      - "5000:5000"
+    depends_on:
+      - elasticsearch
+  kibana:
+    build:
+      context: ./ELK/kibana
+      dockerfile: Dockerfile
+    volumes:
+      - ./ELK/kibana/config/:/etc/kibana/
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+volumes:
+  elastic:

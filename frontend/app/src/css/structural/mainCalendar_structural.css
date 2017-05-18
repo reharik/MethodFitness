@@ -1,0 +1,5 @@
+.mainCalendar__content__inner {
+  display:flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}

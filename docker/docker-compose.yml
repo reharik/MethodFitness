@@ -1,0 +1,49 @@
+version: "2"
+services:
+  front_end:
+    depends_on:
+      - api
+    build:
+      context: ../api
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../api/app:/home/current/app
+    command: npm start #top -b #
+    environment:
+      APPLICATION_NAME: frontend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./../.envrc.example
+
+  workflows:
+    build:
+      context: ../workflows
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../workflows/app:/home/current/app
+    command: npm start #top -b #
+    env_file:
+      - ./../.envrc.example
+
+  projections:
+    build:
+      context: ../projections
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../projections/app:/home/current/app
+    command: npm start #top -b #
+    env_file:
+      - ./../.envrc.example
+
+  api:
+    build:
+      context: ../api
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../api/app:/home/current/app
+    command: npm run docker #top -b #
+    ports:
+      - 3000:3000
+    env_file:
+      - ./../.envrc.example

@@ -1,0 +1,31 @@
+{
+  "configs": {
+    "children": {
+      "eventstore": {
+        "host": "eventstore",
+        "systemUsers": {
+          "admin": "admin"
+        },
+        "adminPassword": "changeit"
+      },
+      "postgres": {
+        "config" :{
+          "user": "methodfitness",
+          "database": "methodfitness",
+          "host"     : "postgres",
+          "password": "password",
+          "port": "5400",
+          "max": "10",
+          "idleTimeoutMillis": "30000"
+        }
+      },
+      "eventdispatcher": {
+        "targetStreamType": "command"
+      }
+    },
+    "logger": {
+      "moduleName": "Seed"
+    },
+    "env": "dev"
+  }
+}

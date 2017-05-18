@@ -1,0 +1,10 @@
+version: "2"
+services:
+  swagger_ui:
+      image: schickling/swagger-ui
+      environment:
+        API_URL: "http://localhost:3000/swagger"
+        PORT: 80
+      container_name: swagger_ui
+      ports:
+        - "4666:80"

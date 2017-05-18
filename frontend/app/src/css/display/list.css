@@ -1,0 +1,13 @@
+.list__header__right {
+  margin-right: 20px;
+}
+
+.list__header__left {
+  margin-left: 10px;
+}
+
+
+.list__cell__link {
+  color:rgb(0, 0, 238);
+  cursor: pointer;
+}

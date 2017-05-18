@@ -1,0 +1,15 @@
+NODE_ENV=development
+API_BASE_URL=http://localhost:3000/
+API_PORT=3000
+APPLICATION_KEYS=MethodFitness
+LOGGING_LEVEL=silly
+LOGGING_TRANSPORTS="console|logstash"
+POSTGRES_USER=methodfitness
+POSTGRES_DATABASE=methodfitness
+POSTGRES_HOST=postgres
+POSTGRES_PASSWORD=password
+POSTGRES_PORT=5432
+SWAGGER_UI_URL=http://localhost:4666
+EVENTSTORE_HOST=eventstore
+EVENTSTORE_USER=admin
+EVENTSTORE_PASSWORD=changeit

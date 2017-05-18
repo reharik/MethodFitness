@@ -1,0 +1,319 @@
+{
+  "definitions": {
+    "updateTrainerInfo": {
+      "title": "updateTrainerInfoRequest",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "birthDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "color": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "updateTrainerContact": {
+      "title": "updateTrainerContact",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "secondaryPhone": {
+          "type": "string"
+        },
+        "mobilePhone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      }
+    },
+    "updateTrainerAddress": {
+      "title": "updateTrainerAddress",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "street1": {
+          "type": "string"
+        },
+        "street2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        }
+      }
+    },
+    "updateTrainerPassword": {
+      "title": "updateTrainerPassword",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "credentials": {
+          "type": "object",
+          "title": "contact",
+          "properties": {
+            "password": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "updateTrainersClients": {
+      "title": "updateTrainersClients",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "clients": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "updateClientInfo": {
+      "title": "clientInfoRequest",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "updateClientSource": {
+      "title": "updateClientSource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source": {
+          "type": "string"
+        },
+        "sourceName": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "updateClientContact": {
+      "title": "updateClientContact",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "secondaryPhone": {
+          "type": "string"
+        },
+        "mobilePhone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "updateClientAddress": {
+      "title": "updateClientAddress",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "street1": {
+          "type": "string"
+        },
+        "street2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        }
+      }
+    },
+    "scheduleAppointment": {
+      "title": "scheduleAppointment",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "appointmentId": {
+          "type": "string"
+        },
+        "appointmentType": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "trainer": {
+          "type": "string"
+        },
+        "clients": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "appointmentType",
+        "date",
+        "startTime",
+        "endTime",
+        "trainer"
+      ]
+    },
+    "cancelAppointment": {
+      "title": "cancelAppointment",
+      "properties": {
+        "appointmentId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "entityName": {
+          "type": "string"
+        }
+      }
+    },
+    "archiveClient": {
+      "title": "archiveClient",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "archived": {
+          "type": "boolean"
+        }
+      }
+    },
+    "archiveTrainer": {
+      "title": "archiveTrainer",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "archived": {
+          "type": "boolean"
+        }
+      }
+    },
+    "purchase": {
+      "title": "purchase",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "clientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fullHour": {
+          "type": "number"
+        },
+        "fullHourTenPack": {
+          "type": "number"
+        },
+        "halfHour": {
+          "type": "number"
+        },
+        "halfHourTenPack": {
+          "type": "number"
+        },
+        "pair": {
+          "type": "number"
+        },
+        "pairTenPack": {
+          "type": "number"
+        },
+        "fullHourTotal": {
+          "type": "number"
+        },
+        "fullHourTenPackTotal": {
+          "type": "number"
+        },
+        "halfHourTotal": {
+          "type": "number"
+        },
+        "halfHourTenPackTotal": {
+          "type": "number"
+        },
+        "pairTotal": {
+          "type": "number"
+        },
+        "pairTenPackTotal": {
+          "type": "number"
+        },
+        "purchaseTotal": {
+          "type": "number"
+        },
+        "notes": {
+          "type": "string",
+          "x-input": "textArea"
+        }
+      }
+    }
+  }
+}

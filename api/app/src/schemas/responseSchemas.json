@@ -1,0 +1,122 @@
+{
+  "definitions": {
+    "auth": {
+      "title": "auth",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "user": {
+          "type": "object",
+          "$ref": "#/definitions/authUser"
+        }
+      },
+      "required": [
+        "success",
+        "user"
+      ]
+    },
+    "authUser": {
+      "title": "authUser",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "role": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "userName": {
+          "type": "string"
+        }
+      }
+    },
+    "standardSuccessResponse": {
+      "title": "standardResponse",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "payload": {
+          "type": "object"
+        }
+      }
+    },
+    "standardFailureResponse": {
+      "title": "standardResponse",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/errorMessage"
+          }
+        }
+      }
+    },
+    "errorMessage": {
+      "title": "errorMessage",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "trainersResponse": {
+      "title": "trainersResponse",
+      "properties": {
+        "trainers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/trainer"
+          }
+        }
+      }
+    },
+    "clientsResponse": {
+      "title": "clientsResponse",
+      "properties": {
+        "trainers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/client"
+          }
+        }
+      }
+    },
+    "appointmentsResponse": {
+      "title": "appointmentsResponse",
+      "properties": {
+        "trainers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/appointment"
+          }
+        }
+      }
+    },
+    "purchasesResponse": {
+      "title": "purchasesResponse",
+      "properties": {
+        "trainers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/purchase"
+          }
+        }
+      }
+    }
+  }
+}

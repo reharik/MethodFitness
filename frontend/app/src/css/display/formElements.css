@@ -1,0 +1,60 @@
+
+.editor__error {
+
+}
+
+.editor__success {
+
+}
+
+.editor__container {
+  padding:5px;
+}
+
+.editor__container__label {
+  font-size: 13px;
+  padding-left:2px;
+}
+
+.editor__container__input,
+.editor__container__number,
+.editor__container__string,
+.editor__container__password {
+  font-size: 13px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border linear .2s, box-shadow linear .2s;
+  border-radius: 4px;
+  vertical-align: middle;
+  padding: 4px 6px;
+  color:#666;
+  width:100%;
+}
+
+.editor__container__validation__error {
+  color: red;
+  min-height: 22px;
+}
+
+.editor__container__validation__success {
+  min-height: 22px;
+}
+
+.display__container {
+
+}
+
+.display__container__label {
+  font-size: 13px;
+  padding-left: 2px;
+  font-weight: bold;
+}
+
+.display__container__value {
+  padding-left:10px;
+}
+.display__container__value__color {
+  width: 50%;
+  margin: 0 0 12px 10px;;
+}

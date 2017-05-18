@@ -1,0 +1,9 @@
+version: "2"
+services:
+  data:
+    extends:
+      file: ../../data/docker/docker-compose.yml
+      service: data
+    environment:
+      NODE_ENV: "dev"
+    container_name: data

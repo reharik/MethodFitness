@@ -1,0 +1,18 @@
+
+.editor__container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    min-height : 60px;
+    width: 100%;
+}
+
+.display__container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  padding-left:6px;
+  height : 30px;
+  width: 100%;
+}
+

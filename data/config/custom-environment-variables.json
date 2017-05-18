@@ -1,0 +1,22 @@
+{
+  "configs": {
+    "children": {
+      "eventstore": {
+        "host": "EVENTSTORE_HOST",
+        "systemUsers": {
+          "admin": "EVENTSTORE_USER",
+          "adminPassword": "EVENTSTORE_PASSWORD"
+        }
+      },
+      "postgres": {
+        "config" :{
+          "user": "POSTGRES_USER",
+          "database": "POSTGRES_DATABASE",
+          "host"     : "POSTGRES_HOST",
+          "password": "POSTGRES_PASSWORD",
+          "port": "POSTGRES_PORT"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.mainHeader {
+  background: url("./images/header-title.gif") no-repeat #407397;
+}
+
+.mainHeader__profile__links {
+}
+
+.mainHeader__profile__links__link {
+  border-left: 1px solid #F6F6F6;
+  color: white;
+  font-family: verdana;
+  font-size: 10px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.mainHeader__profile__links__link:first-child {
+  border-left: none;
+}
+
+.mainHeader__profile__links__link:active {
+  background: white;
+  color: #333333 !important;
+  border-radius: 3px;
+}

@@ -1,0 +1,30 @@
+
+.editableDisplay___content {
+  border:1px solid #cccccc;
+  padding: 20px 10px 10px 0;
+  margin: 10px 30px 30px 24px;
+
+  border-radius: 4px;
+}
+
+.editableDisplay__content__form__row {
+  max-width: 500px;
+  margin-left:5px;
+}
+
+.editableDisplay__content__form__row__single {
+  max-width: 250px;
+  margin-left:5px;
+}
+
+.editableDisplay__content__form__row__address__state {
+  max-width: 300px;
+}
+
+.editableDisplay__content__form__row__address__zip {
+  max-width: 100px;
+}
+
+.editableDisplay__content__form__row__address__city {
+  max-width: 300px;
+}

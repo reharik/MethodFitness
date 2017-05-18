@@ -1,0 +1,75 @@
+.form{
+  height:100%;
+}
+
+.form__header__right {
+  margin-right: 20px;
+}
+
+.form__header__left {
+  margin-left: 10px;
+}
+
+
+.form__content {
+  background:white;
+  border: 1px solid #D9D9D9;
+}
+
+.form__section__header{
+  margin: 15px 0 0 24px;
+}
+
+.form__section__row {
+  max-width: 500px;
+  margin-left:20px;
+}
+
+.form__section__row__single {
+  max-width: 250px;
+  margin-left:20px;
+}
+
+.form__section__row__address__state {
+  max-width: 300px;
+}
+
+.form__section__row__address__zip {
+  max-width: 100px;
+}
+
+.form__section__row__address__city {
+  max-width: 300px;
+}
+
+.form__section__header__label {
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 20px 0px;
+}
+
+.form__footer {
+  padding: 20px 5px;
+}
+
+.form__footer__button {
+  background: url("./images/button-save-bg.png") repeat-x scroll 0 0 #CCCCCC;
+  border: 1px solid #B7D6DE;
+  height: 22px;
+  width: 80px;
+  color: #437182;
+  margin-left:20px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.form__footer__button:hover {
+  background: url("./images/button-save-bg-hover.png") repeat-x scroll 0 0 #CCCCCC;
+}
+
+.form__footer__button:active {
+  background: url("./images/button-save-bg-active.png") repeat-x scroll 0 0 #CCCCCC;
+}
+

@@ -1,0 +1,43 @@
+{
+  "name": "workflows",
+  "version": "0.0.1",
+  "private": false,
+  "description": "mf_workflows",
+  "homepage": "https://github.com/reharik/mf_workflows#readme",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "nodemon app/index.js",
+    "test": "mocha --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
+    "intTest": "mocha  ./app/tests/integrationTests/*.js"
+  },
+  "bugs": {
+    "url": "https://github.com/reharik/mf_workflows/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reharik/mf_workflows.git"
+  },
+  "keywords": [],
+  "author": "Raif Harik",
+  "license": "MIT",
+  "dependencies": {
+    "JSON": "^1.0.0",
+    "bcryptjs": "^2.3.0",
+    "bluebird": "^3.4.1",
+    "co": "^4.6.0",
+    "config": "^1.14.0",
+    "corelogger": "reharik/core_logger",
+    "extend": "^3.0.0",
+    "ges-eventsourcing": "reharik/ges-eventsourcing#08",
+    "moment": "^2.17.1",
+    "ramda": "^0.18.0",
+    "ramda-fantasy": "^0.4.1",
+    "uuid": "^2.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.2.5",
+    "must": "^0.12.0",
+    "nodemon": "^1.11.0"
+  }
+}

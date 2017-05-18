@@ -1,0 +1,47 @@
+version: "2"
+services:
+  node:
+    build:
+      context: ../nodeDocker/
+      dockerfile: Dockerfile
+
+  data:
+    build:
+      context: ./../data
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - node
+      - postgres
+      - eventstore
+    volumes:
+      - ./../data/app:/home/current/app
+    command: npm start #top -b#
+    env_file:
+      - ./.env
+    env_file:
+      - ./../.envrc.example
+
+  postgres:
+    image: postgres
+    ports:
+      - 5400:5432
+    env_file:
+      - ./../.envrc.example
+ 
+  eventstore:
+    image: eventstore/eventstore
+    ports:
+      - 2113:2113
+      - 1113:1113
+    environment:
+      - ext-http-prefixes=http://*:2113/
+      - ext-ip="0.0.0.0"
+      - log=/data/logs
+      - stats-period-sec=3000000
+    volumes:
+      - eventstore:/var/lib/eventstore
+
+
+volumes:
+  postgres_data:
+  eventstore:

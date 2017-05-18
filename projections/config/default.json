@@ -1,0 +1,28 @@
+{
+  "configs": {
+    "children": {
+      "eventstore": {
+        "host": "localhost",
+        "systemUsers": {
+          "admin": "admin",
+          "adminPassword": "changeit"
+        }
+      },
+      "postgres": {
+        "config" :{
+          "user": "methodfitness",
+          "database": "methodfitness",
+          "host"     : "localhost",
+          "password": "password",
+          "port": "5432",
+          "max": "10",
+          "idleTimeoutMillis": "30000"
+        }
+      }
+    },
+    "logger": {
+      "moduleName": "Projections"
+    },
+    "env": "dev"
+  }
+}

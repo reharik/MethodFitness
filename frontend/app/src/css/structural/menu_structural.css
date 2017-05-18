@@ -1,0 +1,35 @@
+.menu {
+  width: 220px;
+  min-height: 400px;
+  padding: 0 5px 21px;
+}
+
+.menu__items {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
+.menu__breadcrumb {
+  display:flex;
+  flex-flow: column nowrap;
+  font-family: Verdana,Arial,sans-serif;
+}
+
+.menu__breadcrumb__list {
+  display:flex;
+  flex-flow: row wrap;
+}
+
+.menu__breadcrumb__list__item{}
+
+.menu__breadcrumb__list__item__link {}
+
+.menu__item__node__link {  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.menu__item__leaf{}
+
+.menu__item__leaf__active{}

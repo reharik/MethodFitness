@@ -1,0 +1,272 @@
+{
+  "definitions": {
+    "signIn": {
+      "title": "signIn",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "x-input": "password"
+        }
+      },
+      "required": [
+        "userName",
+        "password"
+      ]
+    },
+    "contact": {
+      "title": "contact",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+        "secondaryPhone": {
+          "type": "string"
+        },
+        "mobilePhone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email",
+        "mobilePhone"
+      ]
+    },
+    "trainer": {
+      "title": "trainer",
+      "properties": {
+        "contact": {
+          "type": "object",
+          "$ref": "#/definitions/contact"
+        },
+        "account": {
+          "description": "The account information for users who can log in",
+          "type": "object",
+          "$ref": "#/definitions/account"
+        },
+        "birthDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-input": "date-time"
+        },
+        "color": {
+          "type": "string",
+          "x-input": "color-picker"
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "clients": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uniqueItems": true,
+          "x-input": "multi-select"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "client": {
+      "title": "client",
+      "properties": {
+        "contact": {
+          "$ref": "#/definitions/contact"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source": {
+          "type": "string",
+          "x-input": "select"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-input": "date-time"
+        },
+        "sourceNotes": {
+          "type": "string",
+          "x-input": "textArea"
+        },
+        "birthDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-input": "date-time"
+        },
+        "archived": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "startDate"
+      ]
+    },
+    "account": {
+      "title": "account",
+      "properties": {
+        "password": {
+          "type": "string",
+          "x-input": "password"
+        },
+        "role": {
+          "type": "string",
+          "x-input": "select"
+        }
+      },
+      "required": [
+        "password",
+        "role"
+      ]
+    },
+    "address": {
+      "title": "address",
+      "properties": {
+        "street1": {
+          "type": "string"
+        },
+        "street2": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "x-input": "select"
+        },
+        "zipCode": {
+          "type": "string"
+        }
+      }
+    },
+    "appointment": {
+      "title": "appointment",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "appointmentType": {
+          "type": "string",
+          "x-input": "select"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "x-input": "date-time"
+        },
+        "startTime": {
+          "type": "string",
+          "x-input": "select"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "trainer": {
+          "type": "string",
+          "format": "uuid",
+          "x-input": "select"
+        },
+        "clients": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uniqueItems": true,
+          "x-input": "multi-select"
+        },
+        "notes": {
+          "type": "string",
+          "x-input": "textArea"
+        }
+      },
+      "required": [
+        "appointmentType",
+        "date",
+        "startTime",
+        "endTime",
+        "trainer"
+      ]
+    },
+    "purchase": {
+      "title": "purchase",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "clientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fullHour": {
+          "type": "number"
+        },
+        "fullHourTenPack": {
+          "type": "number"
+        },
+        "halfHour": {
+          "type": "number"
+        },
+        "halfHourTenPack": {
+          "type": "number"
+        },
+        "pair": {
+          "type": "number"
+        },
+        "pairTenPack": {
+          "type": "number"
+        },
+        "fullHourTotal": {
+          "type": "number"
+        },
+        "fullHourTenPackTotal": {
+          "type": "number"
+        },
+        "halfHourTotal": {
+          "type": "number"
+        },
+        "halfHourTenPackTotal": {
+          "type": "number"
+        },
+        "pairTotal": {
+          "type": "number"
+        },
+        "pairTenPackTotal": {
+          "type": "number"
+        },
+        "purchaseTotal": {
+          "type": "number"
+        },
+        "notes": {
+          "type": "string",
+          "x-input": "textArea"
+        }
+      },
+      "required": [
+        "clientId"
+      ]
+    }
+  }
+}

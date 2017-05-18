@@ -1,0 +1,14 @@
+{
+  "configs": {
+    "children": {
+      "eventstore": {
+        "host": "localhost"
+      },
+      "postgres": {
+        "config" :{
+           "host": "localhost"
+        }
+      }
+    }
+  }
+}

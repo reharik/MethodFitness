@@ -1,0 +1,27 @@
+@import 'thirdParty/normalize.css';
+
+/*@import 'variables.css.temp';*/
+
+@import 'structural/structural.css';
+@import 'structural/menu_structural.css';
+@import 'structural/mainContent_structural.css';
+@import 'structural/list_structural.css';
+@import 'structural/form_structural.css';
+@import 'structural/formElements_structural.css';
+@import 'structural/editableDisplay_structural.css';
+@import 'structural/mfModal_structural.css';
+@import 'structural/mainCalendar_structural.css';
+
+@import 'display/body.css';
+@import 'display/signIn.css';
+@import 'display/formElements.css';
+@import 'display/header.css';
+@import 'display/body.css';
+@import 'display/menu.css';
+@import 'display/mainContent.css';
+@import 'display/list.css';
+@import 'display/form.css';
+@import 'display/contentHeader.css';
+@import 'display/editableDisplay.css';
+@import 'display/mfModal.css';
+@import 'display/toggleTrainerListForCalendar.css';
