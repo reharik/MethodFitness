@@ -19,10 +19,13 @@ dockerDown:
 dockerLoggingDown:
 	docker-compose -f docker/docker-compose-logging.yml -p methodfit down --rmi local --remove-orphans
 
-dockerUp: ecr-login
+dockerUp:
 	docker-compose -f docker/docker-compose.yml -p methodfit up
 
-dockerLoggingUp: ecr-login
+dockerDataUp:
+	docker-compose -f docker/docker-compose-data.yml -p methodfit up
+
+dockerLoggingUp:
 	docker-compose -f docker/docker-compose-logging.yml -p methodfit up -d
 
 dockerListServices:

@@ -1,13 +1,13 @@
 version: "2"
 services:
-  front_end:
+  frontend:
     depends_on:
       - api
     build:
-      context: ../api
+      context: ../frontend
       dockerfile: docker/Dockerfile
     volumes:
-      - ./../api/app:/home/current/app
+      - ./../frontend/app:/home/current/app
     command: npm start #top -b #
     environment:
       APPLICATION_NAME: frontend
@@ -42,7 +42,7 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ./../api/app:/home/current/app
-    command: npm run docker #top -b #
+    command: npm run start #top -b #
     ports:
       - 3000:3000
     env_file:

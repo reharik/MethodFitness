@@ -2,7 +2,7 @@ version: "2"
 services:
   node:
     build:
-      context: ../nodeDocker/
+      context: ./nodeDocker/
       dockerfile: Dockerfile
 
   data:
