@@ -19,6 +19,9 @@ dockerDown:
 dockerLoggingDown:
 	docker-compose -f docker/docker-compose-logging.yml -p methodfit down --rmi local --remove-orphans
 
+dockerDataDown:
+	docker-compose -f docker/docker-compose-data.yml -p methodfit down
+
 dockerUp:
 	docker-compose -f docker/docker-compose.yml -p methodfit up
 
@@ -54,12 +57,12 @@ kill-all-but-node:
 	- docker rmi -f $$(docker images | grep "<none>" | awk "{print \$$3}")
 	- docker volume rm docker_eventstore
 
-kill-eventstore:  kill-orphans
+kill-eventstore:
 	- docker rm -vf eventstore 2>/dev/null || echo "No more containers to remove."
 	- docker rmi eventstore/eventstore
 	- docker volume rm docker_eventstore
 
-kill-postgres:  kill-orphans
+kill-postgres:
 	- docker rm -vf postgres 2>/dev/null || echo "No more containers to remove."
 	- docker rmi postgres
 	- docker volume rm docker_postgres_data
