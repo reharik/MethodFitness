@@ -1,23 +1,23 @@
 /**
  * Created by reharik on 7/25/15.
  */
-'use strict';
+
 
 module.exports = function(authentication, paperslocal, koapapers) {
-  var serialize = function(user) {
+  let serialize = function(user) {
     return user;
   };
 
-  var deserialize = function(user) {
+  let deserialize = function(user) {
     return user;
   };
 
-  var authLocalUser = function(username, password) {
+  let authLocalUser = function(username, password) {
     return authentication.matchUser(username, password);
   };
 
-  var local = paperslocal(authLocalUser, { usernameField: 'userName' });
-  var config = {
+  let local = paperslocal(authLocalUser, { usernameField: 'userName' });
+  let config = {
     strategies: [local],
     useSession: true,
     serializers: [serialize],

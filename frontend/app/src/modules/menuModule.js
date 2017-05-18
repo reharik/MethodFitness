@@ -10,11 +10,11 @@ const item = localStorage.getItem('menu_data');
 const data = item
   ? JSON.parse(item)
   : {
-      menuItems: [],
-      path: [],
-      breadCrumbItems: ['Home'],
-      currentItem: ''
-    };
+    menuItems: [],
+    path: [],
+    breadCrumbItems: ['Home'],
+    currentItem: ''
+  };
 
 export default (state = data, action = {}) => {
   switch (action.type) {
@@ -36,7 +36,7 @@ export default (state = data, action = {}) => {
       var user = selectn('response.user', action);
       const role = user.role;
       const menuItems = getMenuItems(role);
-      const menuData = { ...state, menuItems: menuItems };
+      const menuData = { ...state, menuItems };
       localStorage.setItem('menu_data', JSON.stringify(menuData));
 
       return menuData;
@@ -48,14 +48,14 @@ export default (state = data, action = {}) => {
 export const menuItemClicked = (index, text, isParent) => {
   return isParent
     ? {
-        type: NAV_DOWN,
-        index,
-        text
-      }
+      type: NAV_DOWN,
+      index,
+      text
+    }
     : {
-        type: NAV_SELECT,
-        text
-      };
+      type: NAV_SELECT,
+      text
+    };
 };
 
 export const navBreadCrumbClicked = index => {

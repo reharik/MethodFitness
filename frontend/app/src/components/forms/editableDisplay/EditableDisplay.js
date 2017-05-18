@@ -58,9 +58,9 @@ class EditableDisplay extends Component {
       if (x.props.data) {
         const data = fields[x.props.data];
         if (x.props.bindChange) {
-          return React.cloneElement(x, { editing, data: data, onChange: x.props.bindChange.bind(this) });
+          return React.cloneElement(x, { editing, data, onChange: x.props.bindChange.bind(this) });
         }
-        return React.cloneElement(x, { editing, data: data });
+        return React.cloneElement(x, { editing, data });
       }
       let clonedItems = this.setEditing(x.props.children, editing, fields);
       return React.cloneElement(x, { children: clonedItems });
@@ -106,9 +106,9 @@ class EditableDisplay extends Component {
             {this.setEditing(this.props.children, this.state.editing, this.state.fields)}
             {this.props.footer
               ? <this.props.footer
-                  editing={this.state.editing}
-                  toggleEdit={this.toggleEdit}
-                  params={this.props.params}
+                editing={this.state.editing}
+                toggleEdit={this.toggleEdit}
+                params={this.props.params}
                 />
               : <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />}
           </form>

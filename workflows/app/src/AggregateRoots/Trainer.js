@@ -13,27 +13,27 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
 
     commandHandlers() {
       return {
-        hireTrainer: function(cmd) {
+        hireTrainer(cmd) {
           cmd.id = uuid.v4();
           cmd.eventName = 'trainerHired';
           this.raiseEvent(cmd);
         },
-        updateTrainerInfo: function(cmd) {
+        updateTrainerInfo(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerInfoUpdated';
           this.raiseEvent(cmd);
         },
-        updateTrainerContact: function(cmd) {
+        updateTrainerContact(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerContactUpdated';
           this.raiseEvent(cmd);
         },
-        updateTrainerAddress: function(cmd) {
+        updateTrainerAddress(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerAddressUpdated';
           this.raiseEvent(cmd);
         },
-        updateTrainerPassword: function(cmd) {
+        updateTrainerPassword(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerPasswordUpdated';
           this.raiseEvent(cmd);
@@ -53,7 +53,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
         //         }
         //     });
         // },
-        archiveTrainer: function(cmd) {
+        archiveTrainer(cmd) {
           this.expectNotArchived();
           this.raiseEvent({
             eventName: 'trainerArchived',
@@ -61,7 +61,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
             archivedDate: new Date()
           });
         },
-        unArchiveUser: function(cmd) {
+        unArchiveUser(cmd) {
           this.expectArchived();
           this.raiseEvent({
             eventName: 'trainerUnArchived',
@@ -69,7 +69,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
             unArchivedDate: new Date()
           });
         },
-        updateTrainersClients: function(cmd) {
+        updateTrainersClients(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainersClientsUpdated';
           this.raiseEvent(cmd);

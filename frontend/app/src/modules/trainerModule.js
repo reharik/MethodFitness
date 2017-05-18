@@ -31,7 +31,7 @@ export default (state = [], action = {}) => {
       return reducerMerge(state, action.response.trainers);
     }
     case HIRE_TRAINER.SUCCESS: {
-      var insertedItem = selectn('action.insertedItem', action);
+      let insertedItem = selectn('action.insertedItem', action);
       insertedItem.id = selectn('payload.result.handlerResult.trainerId', action);
 
       return insertedItem.id ? [...state, insertedItem] : state;

@@ -13,32 +13,32 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
 
     commandHandlers() {
       return {
-        addClient: function(cmd) {
+        addClient(cmd) {
           cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'clientAdded';
           this.raiseEvent(cmd);
         },
-        updateClientInfo: function(cmd) {
+        updateClientInfo(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientInfoUpdated';
           this.raiseEvent(cmd);
         },
-        updateClientSource: function(cmd) {
+        updateClientSource(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientSourceUpdated';
           this.raiseEvent(cmd);
         },
-        updateClientContact: function(cmd) {
+        updateClientContact(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientContactUpdated';
           this.raiseEvent(cmd);
         },
-        updateClientAddress: function(cmd) {
+        updateClientAddress(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'clientAddressUpdated';
           this.raiseEvent(cmd);
         },
-        archiveClient: function(cmd) {
+        archiveClient(cmd) {
           this.expectNotArchived();
           this.raiseEvent({
             eventName: 'clientArchived',
@@ -46,7 +46,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
             archivedDate: new Date()
           });
         },
-        unArchiveClient: function(cmd) {
+        unArchiveClient(cmd) {
           this.expectArchived();
           this.raiseEvent({
             eventName: 'clientUnArchived',
@@ -54,7 +54,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
             unArchivedDate: new Date()
           });
         },
-        purchase: function(cmd) {
+        purchase(cmd) {
           cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'sessionsPurchased';
           this.generateSessions(cmd).forEach(e => this.raiseEvent(e));

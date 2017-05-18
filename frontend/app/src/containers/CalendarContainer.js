@@ -13,8 +13,8 @@ const mapStateToProps = function(state) {
   };
   config.taskFilter = state.auth.user.role === 'admin'
     ? (x, calState) => {
-        return calState.toggleTrainerListForCalendar.includes(x.trainer);
-      }
+      return calState.toggleTrainerListForCalendar.includes(x.trainer);
+    }
     : x => x.trainer === state.auth.user.id;
 
   return {

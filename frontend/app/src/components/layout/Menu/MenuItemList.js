@@ -17,7 +17,7 @@ const MenuItemList = ({ items, breadCrumbItems, path, currentItem, menuItemClick
             key={index}
             {...item}
             currentItem={currentItem}
-            onClick={() => menuItemClicked(index, item.text, item.children ? true : false)}
+            onClick={() => menuItemClicked(index, item.text, !!item.children)}
           />
         ))}
       </ul>

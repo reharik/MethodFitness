@@ -1,7 +1,7 @@
 /**
  * Created by reharik on 7/26/15.
  */
-'use strict';
+
 module.exports = function(
   koagenericsession,
   koa2responsetime,
@@ -37,7 +37,7 @@ module.exports = function(
     app.use(koaconvert(papersMiddleware));
     app.use(koacompress());
 
-    var JSONSwaggerDoc = JSON.parse(swaggerSpec());
+    let JSONSwaggerDoc = JSON.parse(swaggerSpec());
     app.use(swaggerValidationMiddleware(JSONSwaggerDoc, customValidators));
 
     app.use(async function(ctx, next) {

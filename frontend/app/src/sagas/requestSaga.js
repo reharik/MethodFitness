@@ -23,7 +23,7 @@ export function requestStates(entity, reducerName) {
   };
 }
 
-var ajaxState = function(action) {
+let ajaxState = function(action) {
   const request = () => {
     if (action.startAjaxState) {
       return put({ type: REQ_AJAX_STATE, actionPrefix: action.states.PREFIX });
@@ -91,7 +91,7 @@ function* request(action) {
   }
 }
 
-export default function*() {
+export default function* () {
   yield takeEvery(action => action.type && action.type.includes('REQUEST'), request);
 }
 

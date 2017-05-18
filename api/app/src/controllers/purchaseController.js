@@ -1,7 +1,7 @@
-'use strict';
+
 
 module.exports = function(rsRepository, notificationListener, notificationParser, eventstore, commands, logger, uuid) {
-  var purchase = async function(ctx) {
+  let purchase = async function(ctx) {
     logger.debug('arrived at sessionsPurchase.purchases');
     let payload = ctx.request.body;
     payload.totalFullHours = parseInt(payload.fullHourTenPack) * 10 + parseInt(payload.fullHour);
@@ -10,14 +10,14 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     await processMessage(ctx, 'purchase', payload);
   };
 
-  var updatePurchase = async function(ctx) {
+  let updatePurchase = async function(ctx) {
     // will want logic here for only allowing admin and distinguishing
     // between accident and refund.
     logger.debug('arrived at sessionsPurchase.updatePurchase');
     await processMessage(ctx, 'updatePurchase', ctx.request.body);
   };
 
-  var cancelPurchase = async function(ctx) {
+  let cancelPurchase = async function(ctx) {
     // will want logic here for only allowing admin and distinguishing
     // between accident and refund.
     logger.debug('arrived at purchases.cancelPurchase');
@@ -32,7 +32,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     const command = commands[commandName + 'Command'](payload);
     await eventstore.commandPoster(command, commandName, continuationId);
 
-    var notification = await notificationPromise;
+    let notification = await notificationPromise;
 
     const result = notificationParser(notification);
 
@@ -41,7 +41,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     return ctx;
   };
 
-  var fetchPurchase = async function(ctx) {
+  let fetchPurchase = async function(ctx) {
     let purchase = await rsRepository.getById(ctx.params.id, 'purchase');
 
     ctx.status = 200;

@@ -17,14 +17,14 @@ export default (state = [], action = {}) => {
       var response = selectn('response.payload', action);
       if (response.updateType === 'rescheduleAppointmentToNewDay') {
         const newState = state.filter(x => x.id !== response.oldAppointmentId).map(x => ({ ...x }));
-        var newItem = selectn('action.upsertedItem', action);
+        let newItem = selectn('action.upsertedItem', action);
         newItem.id = response.newAppointmentId;
         return reducerMerge(newState, newItem);
       }
     }
     // fallback intentional for non new day updates
     case SCHEDULE_APPOINTMENT.SUCCESS: {
-      var upsertedItem = selectn('action.upsertedItem', action);
+      let upsertedItem = selectn('action.upsertedItem', action);
       upsertedItem.id = selectn('response.payload.appointmentId', action);
       return reducerMerge(state, upsertedItem);
     }
@@ -45,8 +45,8 @@ export function scheduleAppointment(data) {
   const formattedData = {
     ...data,
     date: startTime,
-    startTime: startTime,
-    endTime: endTime,
+    startTime,
+    endTime,
     entityName: moment(data.date).format('YYYYMMDD')
   };
   return {
@@ -74,8 +74,8 @@ export function updateAppointment(data) {
   const formattedData = {
     ...data,
     date: startTime,
-    startTime: startTime,
-    endTime: endTime,
+    startTime,
+    endTime,
     entityName: moment(data.date).format('YYYYMMDD')
   };
   return {

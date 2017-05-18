@@ -18,7 +18,7 @@ licenses.csv
 yarn-error.log
 
  *.orig
--artifacts
+artifacts
 .env
 .envrc
 

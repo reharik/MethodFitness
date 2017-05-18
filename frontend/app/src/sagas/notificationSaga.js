@@ -38,7 +38,7 @@ function* notifiy(action) {
   }
 }
 
-export default function*() {
+export default function* () {
   yield takeEvery(action => action.type && action.type === NOTIFICATION, notifiy);
 }
 

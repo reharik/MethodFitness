@@ -13,8 +13,8 @@ module.exports = function(invariant, logger) {
     applyEvent(event) {
       logger.debug(`${event.eventName} currently in applyEvent`);
       logger.debug(JSON.stringify(event));
-      var eventHandlers = this.applyEventHandlers();
-      var key = Object.keys(eventHandlers).find(x => x === event.eventName);
+      let eventHandlers = this.applyEventHandlers();
+      let key = Object.keys(eventHandlers).find(x => x === event.eventName);
       if (key) {
         eventHandlers[key](event);
       }

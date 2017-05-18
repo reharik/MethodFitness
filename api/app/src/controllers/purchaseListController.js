@@ -1,5 +1,5 @@
 module.exports = function(rsRepository, logger) {
-  var fetchPurchases = async function(ctx) {
+  let fetchPurchases = async function(ctx) {
     logger.debug('arrived at sessionsPurchaseList.fetchPurchases');
 
     try {

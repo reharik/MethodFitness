@@ -2,7 +2,7 @@ module.exports = function(eventRepository, logger, Client) {
   return function PurchasesWorkflow() {
     async function purchase(cmd, continuationId) {
       logger.info('calling purchase');
-      var client = await eventRepository.getById(Client, cmd.clientId);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.purchase(cmd);
 
       logger.info('saving client');

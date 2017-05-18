@@ -1,14 +1,14 @@
 /**
  * Created by reharik on 10/5/15.
  */
-'use strict';
+
 
 module.exports = function(koa, config, papersConfig, koaConfig, routes, logger) {
   return function() {
     logger.info('approot ' + __dirname);
     logger.info('appTitle ' + config.app.title);
 
-    var app = new koa();
+    let app = new koa();
     koaConfig(app, papersConfig);
     routes(app);
 

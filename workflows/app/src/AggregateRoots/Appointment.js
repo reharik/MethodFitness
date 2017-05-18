@@ -15,7 +15,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       this.expectCorrectNumberOfClients();
 
       return {
-        scheduleAppointment: function(cmd) {
+        scheduleAppointment(cmd) {
           this.raiseEvent({
             eventName: 'appointmentScheduled',
             id: uuid.v4(),
@@ -53,7 +53,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
     }
 
     expectAppointmentDurationCorrect() {
-      var diff = moment(this.startTime).diff(moment(this.endTime), 'minutes');
+      let diff = moment(this.startTime).diff(moment(this.endTime), 'minutes');
       switch (this.appointmentType) {
         case 'halfHour': {
           invariant(

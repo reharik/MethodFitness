@@ -1,7 +1,7 @@
 /**
  * Created by parallels on 7/16/15.
  */
-'use strict';
+
 
 module.exports = function(rsRepository, logger) {
   return function UserEventHandler() {
@@ -11,7 +11,7 @@ module.exports = function(rsRepository, logger) {
       console.log(`==========event=========`);
       console.log(event);
       console.log(`==========END event=========`);
-      var user = {
+      let user = {
         id: event.id,
         userName: event.contact.email,
         password: event.credentials.password,
@@ -23,28 +23,28 @@ module.exports = function(rsRepository, logger) {
     }
 
     async function trainerArchived(event) {
-      var user = await rsRepository.getById(event.id, 'user');
+      let user = await rsRepository.getById(event.id, 'user');
       user.active = true;
-      var sql = `UPDATE "user" SET "archived" = 'true', document = '${JSON.stringify(user)}' where id = '${event.id}'`;
+      let sql = `UPDATE "user" SET "archived" = 'true', document = '${JSON.stringify(user)}' where id = '${event.id}'`;
       return await rsRepository.saveQuery(sql);
     }
 
     async function trainerUnArchived(event) {
-      var user = await rsRepository.getById(event.id, 'user');
+      let user = await rsRepository.getById(event.id, 'user');
       user.active = false;
 
-      var sql = `UPDATE "user" SET "archived" = 'false', document = '${JSON.stringify(user)}' where id = '${event.id}'`;
+      let sql = `UPDATE "user" SET "archived" = 'false', document = '${JSON.stringify(user)}' where id = '${event.id}'`;
       return await rsRepository.saveQuery(sql);
     }
 
     async function trainerContactUpdated(event) {
-      var user = await rsRepository.getById(event.id, 'user');
+      let user = await rsRepository.getById(event.id, 'user');
       user.userName = event.contact.email;
       return await rsRepository.save('user', user, event.id);
     }
 
     async function trainerPasswordUpdated(event) {
-      var user = await rsRepository.getById(event.id, 'user');
+      let user = await rsRepository.getById(event.id, 'user');
       user.password = event.credentials.password;
       return await rsRepository.save('user', user, event.id);
     }

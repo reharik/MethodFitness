@@ -5,7 +5,7 @@ module.exports = function(rsRepository, logger) {
     async function appointmentScheduled(event) {
       logger.info('handling appointmentScheduled event');
 
-      var sql = `INSERT INTO "appointment" (
+      let sql = `INSERT INTO "appointment" (
             "id", 
             "date",
             "trainer",
@@ -20,7 +20,7 @@ module.exports = function(rsRepository, logger) {
 
     async function appointmentMovedFromDifferentDay(event) {
       logger.info('handling appointmentMovedFromDifferentDay event');
-      var sql = `INSERT INTO "appointment" (
+      let sql = `INSERT INTO "appointment" (
             "id", 
             "date",
             "trainer",
@@ -36,7 +36,7 @@ module.exports = function(rsRepository, logger) {
     async function appointmentCanceled(event) {
       logger.info('handling appointmentCanceled event');
 
-      var sql = `DELETE FROM "appointment" where "id" = '${event.id}'`;
+      let sql = `DELETE FROM "appointment" where "id" = '${event.id}'`;
       return await rsRepository.saveQuery(sql);
     }
 
@@ -46,7 +46,7 @@ module.exports = function(rsRepository, logger) {
     }
 
     async function appointmentUpdated(event) {
-      var sql = `update "appointment" set
+      let sql = `update "appointment" set
             "date" = '${event.entityName}',
             "trainer" = '${event.trainer}',
             "document" = '${JSON.stringify(event)}'

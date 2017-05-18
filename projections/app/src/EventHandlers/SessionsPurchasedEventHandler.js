@@ -4,7 +4,7 @@ module.exports = function(rsRepository, moment, logger) {
 
     async function sessionsPurchased(event) {
       logger.info('handling sessionsPurchased event');
-      var sql = `INSERT INTO "purchase" (
+      let sql = `INSERT INTO "purchase" (
             "id", 
             "client",
             "document"

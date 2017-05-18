@@ -2,7 +2,7 @@ module.exports = function(eventRepository, logger, Day) {
   return function DayWorkflow() {
     async function scheduleAppointment(cmd, continuationId) {
       let day = await scheduleAppointmentBase(cmd);
-      var newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainer);
+      let newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainer);
 
       logger.info('saving Day');
       logger.trace(day._id);
@@ -13,7 +13,7 @@ module.exports = function(eventRepository, logger, Day) {
 
     async function updateAppointment(cmd, continuationId) {
       logger.info(`calling updateAppointment on Day`);
-      var day = await eventRepository.getById(Day, cmd.entityName);
+      let day = await eventRepository.getById(Day, cmd.entityName);
       if (!day) {
         day = new Day();
       }
@@ -28,7 +28,7 @@ module.exports = function(eventRepository, logger, Day) {
 
     async function cancelAppointment(cmd, continuationId) {
       logger.info(`calling ${cmd.commandName} on Day`);
-      var day = await eventRepository.getById(Day, cmd.entityName);
+      let day = await eventRepository.getById(Day, cmd.entityName);
       day.cancelAppointment(cmd);
 
       logger.info('saving Day');
@@ -47,9 +47,9 @@ module.exports = function(eventRepository, logger, Day) {
 
     async function rescheduleAppointmentToNewDay(cmd, continuationId) {
       let day = await scheduleAppointmentBase(cmd);
-      var oldDay = await eventRepository.getById(Day, cmd.originalEntityName);
+      let oldDay = await eventRepository.getById(Day, cmd.originalEntityName);
       oldDay.cancelAppointment(cmd);
-      var newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainer);
+      let newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainer);
 
       logger.info('saving Day');
       logger.trace(day._id);
@@ -62,13 +62,13 @@ module.exports = function(eventRepository, logger, Day) {
       return {
         updateType: 'rescheduleAppointmentToNewDay',
         oldAppointmentId: cmd.appointmentId,
-        newAppointmentId: newAppointmentId
+        newAppointmentId
       };
     }
 
     async function scheduleAppointmentBase(cmd, continuationId) {
       logger.info(`calling ${cmd.commandName} on Day`);
-      var day = await eventRepository.getById(Day, cmd.entityName);
+      let day = await eventRepository.getById(Day, cmd.entityName);
       if (!day) {
         day = new Day();
       }

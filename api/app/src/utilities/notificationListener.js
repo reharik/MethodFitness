@@ -2,9 +2,9 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
   return continuationId => {
     logger.info('startDispatching | startDispatching called');
     const eventAppeared = eventstore.eventEmitterInstance();
-    var mAndF = mapAndFilterStream('notification');
-    var ef = applicationFunctions.eventFunctions;
-    var subscription = eventstore.gesConnection.subscribeToAllFrom(
+    let mAndF = mapAndFilterStream('notification');
+    let ef = applicationFunctions.eventFunctions;
+    let subscription = eventstore.gesConnection.subscribeToAllFrom(
       null,
       false,
       eventAppeared.emitEvent,

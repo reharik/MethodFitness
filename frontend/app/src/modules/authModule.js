@@ -20,7 +20,7 @@ export default (state = initialState, action = {}) => {
       localStorage.setItem('id_token', user.id);
       localStorage.setItem('user', JSON.stringify(user));
       return {
-        user: user,
+        user,
         isAuthenticated: true,
         errorMessage: ''
       };

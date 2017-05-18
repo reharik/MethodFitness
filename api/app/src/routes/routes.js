@@ -1,5 +1,5 @@
 module.exports = function(koarouter, routers_array, controllers, logger) {
-  var secured = async function(next) {
+  let secured = async function(next) {
     if (this.isAuthenticated()) {
       await next;
     } else {
@@ -9,7 +9,7 @@ module.exports = function(koarouter, routers_array, controllers, logger) {
 
   return function(app) {
     try {
-      var router = koarouter();
+      let router = koarouter();
       router.get('/', controllers.indexController.index);
 
       app.use(router.routes());

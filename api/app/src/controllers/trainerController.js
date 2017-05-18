@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = function(
   rsRepository,
@@ -10,7 +10,7 @@ module.exports = function(
   logger,
   authentication
 ) {
-  var hireTrainer = async function(ctx) {
+  let hireTrainer = async function(ctx) {
     logger.debug('arrived at trainer.hireTrainer');
     const payload = ctx.request.body;
     payload.credentials.password = authentication.createPassword(payload.credentials.password);
@@ -20,7 +20,7 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var updateTrainerInfo = async function(ctx) {
+  let updateTrainerInfo = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainerInfo');
     const result = await processMessage(ctx.request.body, 'updateTrainerInfo');
     console.log('==========result=========');
@@ -31,7 +31,7 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var updateTrainerContact = async function(ctx) {
+  let updateTrainerContact = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainerContact');
     const result = await processMessage(ctx.request.body, 'updateTrainerContact');
 
@@ -39,7 +39,7 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var updateTrainerAddress = async function(ctx) {
+  let updateTrainerAddress = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainerAddress');
 
     const result = await processMessage(ctx.request.body, 'updateTrainerAddress');
@@ -48,7 +48,7 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var updateTrainerPassword = async function(ctx) {
+  let updateTrainerPassword = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainerPassword');
     const payload = ctx.request.body;
     payload.password = authentication.createPassword(payload.password);
@@ -58,7 +58,7 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var updateTrainersClients = async function(ctx) {
+  let updateTrainersClients = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainersClients');
 
     const result = await processMessage(ctx.request.body, 'updateTrainersClients');
@@ -67,7 +67,7 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var archiveTrainer = async function(ctx) {
+  let archiveTrainer = async function(ctx) {
     logger.debug('arrived at trainer.archiveTrainer');
 
     const result = await processMessage(
@@ -90,7 +90,7 @@ module.exports = function(
     return notificationParser(notification);
   };
 
-  var getTrainer = async function(ctx) {
+  let getTrainer = async function(ctx) {
     const trainer = await rsRepository.getById(ctx.params.id, 'trainer');
     ctx.status = 200;
     ctx.body = trainer;

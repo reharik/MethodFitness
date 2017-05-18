@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 
   if (!props.isAdmin) {
-    var user = state.trainers.find(x => x.id === state.auth.user.id);
+    let user = state.trainers.find(x => x.id === state.auth.user.id);
     let clients = !props.model.clients.value ? user.clients : user.clients.concat(props.model.clients.value);
     props.clients = props.clients.filter(x => clients.some(c => x.value === c));
   }

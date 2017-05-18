@@ -28,7 +28,7 @@ export function getISODateTime(date, time) {
     return undefined;
   }
   const formattedTime = moment(time, 'hh:mm A').format('HHmm');
-  var moment2 = moment(date, 'YYYYMMDD');
+  let moment2 = moment(date, 'YYYYMMDD');
   const formattedDate = moment2.format('YYYYMMDD');
   let dateTime = `${formattedDate}T${formattedTime}`;
   return moment(dateTime).toISOString();

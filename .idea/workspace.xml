@@ -3,6 +3,77 @@
   <component name="ChangeListManager">
     <list default="true" id="42634bf3-938c-4c08-bb5e-6caaf535c5dd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/babelhook.js" afterPath="$PROJECT_DIR$/api/app/babelhook.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/index.js" afterPath="$PROJECT_DIR$/api/app/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/registry.js" afterPath="$PROJECT_DIR$/api/app/registry.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/appConfig/containerIPs.js" afterPath="$PROJECT_DIR$/api/app/src/appConfig/containerIPs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/appConfig/koaConfig.js" afterPath="$PROJECT_DIR$/api/app/src/appConfig/koaConfig.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/appConfig/papersConfig.js" afterPath="$PROJECT_DIR$/api/app/src/appConfig/papersConfig.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/commands/loginTrainerCommand.js" afterPath="$PROJECT_DIR$/api/app/src/commands/loginTrainerCommand.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/commands/scheduleAppointmentFactory.js" afterPath="$PROJECT_DIR$/api/app/src/commands/scheduleAppointmentFactory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/appointmentController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/appointmentController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/authController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/authController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/clientController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/clientController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/clientListController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/clientListController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/indexController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/indexController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/purchaseController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/purchaseController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/purchaseListController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/purchaseListController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/trainerController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/trainerController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/trainerListController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/trainerListController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/modules/authentication.js" afterPath="$PROJECT_DIR$/api/app/src/modules/authentication.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/modules/bcrypt_thunk.js" afterPath="$PROJECT_DIR$/api/app/src/modules/bcrypt_thunk.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/routes/routes.js" afterPath="$PROJECT_DIR$/api/app/src/routes/routes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/server.js" afterPath="$PROJECT_DIR$/api/app/src/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/utilities/koaErrorHandler.js" afterPath="$PROJECT_DIR$/api/app/src/utilities/koaErrorHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/utilities/notificationListener.js" afterPath="$PROJECT_DIR$/api/app/src/utilities/notificationListener.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/utilities/swaggerMiddleware/compiler.js" afterPath="$PROJECT_DIR$/api/app/src/utilities/swaggerMiddleware/compiler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/utilities/swaggerMiddleware/validateMethods.js" afterPath="$PROJECT_DIR$/api/app/src/utilities/swaggerMiddleware/validateMethods.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/utilities/swaggerSpec.js" afterPath="$PROJECT_DIR$/api/app/src/utilities/swaggerSpec.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/SubmissionFor.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/SubmissionFor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/PurchaseForm.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/forms/PurchaseForm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/AppointmentFooter.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/AppointmentFooter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/EDFooter.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/EDFooter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/EditableDisplay.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/EditableDisplay.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/layout/Menu/MenuItemList.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/layout/Menu/MenuItemList.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/mfModal/MFModal.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/mfModal/MFModal.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/containers/CalendarContainer.js" afterPath="$PROJECT_DIR$/frontend/app/src/containers/CalendarContainer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/containers/forms/AppointmentContainer.js" afterPath="$PROJECT_DIR$/frontend/app/src/containers/forms/AppointmentContainer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateAppointmentContainer.js" afterPath="$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateAppointmentContainer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js" afterPath="$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/modules/authModule.js" afterPath="$PROJECT_DIR$/frontend/app/src/modules/authModule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/modules/clientModule.js" afterPath="$PROJECT_DIR$/frontend/app/src/modules/clientModule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/modules/menuModule.js" afterPath="$PROJECT_DIR$/frontend/app/src/modules/menuModule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/modules/trainerModule.js" afterPath="$PROJECT_DIR$/frontend/app/src/modules/trainerModule.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/sagas/notificationSaga.js" afterPath="$PROJECT_DIR$/frontend/app/src/sagas/notificationSaga.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/sagas/requestSaga.js" afterPath="$PROJECT_DIR$/frontend/app/src/sagas/requestSaga.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/utilities/appointmentTimes.js" afterPath="$PROJECT_DIR$/frontend/app/src/utilities/appointmentTimes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/index.js" afterPath="$PROJECT_DIR$/projections/app/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/registry.js" afterPath="$PROJECT_DIR$/projections/app/registry.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/AppointmentEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/AppointmentEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/ClientEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/ClientEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/SessionEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/SessionEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/SessionsPurchasedEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/SessionsPurchasedEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/TrainerEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/TrainerEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/TrainerLoginEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/TrainerLoginEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/UserEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/UserEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/dispatch.js" afterPath="$PROJECT_DIR$/projections/app/src/dispatch.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/package.json" afterPath="$PROJECT_DIR$/projections/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/index.js" afterPath="$PROJECT_DIR$/workflows/app/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/registry.js" afterPath="$PROJECT_DIR$/workflows/app/registry.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/registry_intTests.js" afterPath="$PROJECT_DIR$/workflows/app/registry_intTests.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/registry_test.js" afterPath="$PROJECT_DIR$/workflows/app/registry_test.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/AggregateRootBase.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/AggregateRootBase.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Appointment.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Appointment.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Client.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Client.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Session.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Session.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Trainer.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Trainer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/ClientWorkflow.js" afterPath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/ClientWorkflow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/DayWorkflow.js" afterPath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/DayWorkflow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/PurchaseSessionsWorkflow.js" afterPath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/PurchaseSessionsWorkflow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/TrainerWorkflow.js" afterPath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/TrainerWorkflow.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/dispatch.js" afterPath="$PROJECT_DIR$/workflows/app/src/dispatch.js" />
     </list>
     <ignored path="MethodFitness.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,22 +99,9 @@
             <state relative-caret-position="570">
               <caret line="165" column="76" lean-forward="false" selection-start-line="165" selection-start-column="76" selection-end-line="165" selection-end-column="76" />
               <folding>
-                <marker date="1495148167753" expanded="true" signature="117:7821" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="325:367" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Session.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/workflows/app/src/AggregateRoots/Session.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-              <folding>
-                <marker date="1495148167753" expanded="true" signature="62:613" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="113:611" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="268:447" ph="{...}" />
+                <marker date="1495148582165" expanded="true" signature="70:7743" ph="{...}" />
+                <marker date="1495148582165" expanded="true" signature="117:7741" ph="{...}" />
+                <marker date="1495148582165" expanded="true" signature="325:333" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -53,18 +111,18 @@
         <entry file="file://$PROJECT_DIR$/workflows/app/src/AggregateRoots/Trainer.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="923">
-              <caret line="84" column="21" lean-forward="true" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
+              <caret line="84" column="21" lean-forward="false" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
               <folding>
-                <marker date="1495148167753" expanded="true" signature="62:3412" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="113:3410" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="334:380" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="349:380" ph="{...}" />
+                <marker date="1495148582165" expanded="true" signature="62:3332" ph="{...}" />
+                <marker date="1495148582165" expanded="true" signature="113:3330" ph="{...}" />
+                <marker date="1495148582165" expanded="true" signature="334:370" ph="{...}" />
+                <marker date="1495148582165" expanded="true" signature="349:370" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/workflows/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
@@ -74,37 +132,52 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
-              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+              <caret line="30" column="9" lean-forward="false" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Appointment.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/workflows/app/src/AggregateRoots/Appointment.js">
+      <file leaf-file-name="Makefile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="863">
-              <caret line="102" column="0" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+            <state relative-caret-position="435">
+              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Client.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/workflows/app/src/AggregateRoots/Client.js">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="59" column="16" lean-forward="false" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
-              <folding>
-                <marker date="1495148167753" expanded="true" signature="79:4797" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="129:4795" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="358:402" ph="{...}" />
-                <marker date="1495148167753" expanded="true" signature="373:402" ph="{...}" />
-              </folding>
+            <state relative-caret-position="135">
+              <caret line="9" column="44" lean-forward="false" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="50" lean-forward="false" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/projections/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="45" lean-forward="false" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="50" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -123,17 +196,7 @@
         <entry file="file://$PROJECT_DIR$/workflows/node_modules/eslint/lib/rules/object-shorthand.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="458">
-              <caret line="407" column="23" lean-forward="true" selection-start-line="407" selection-start-column="23" selection-end-line="407" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SessionEventHandler.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/projections/app/src/EventHandlers/SessionEventHandler.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="407" column="23" lean-forward="false" selection-start-line="407" selection-start-column="23" selection-end-line="407" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -247,10 +310,7 @@
         <option value="$PROJECT_DIR$/mf_projections/app/src/EventHandlers/ClientInventoryEventHandler.js" />
         <option value="$PROJECT_DIR$/projections/app/src/EventHandlers/ClientEventHandler.js" />
         <option value="$PROJECT_DIR$/docker/docker-compose.yml" />
-        <option value="$PROJECT_DIR$/api/package.json" />
-        <option value="$PROJECT_DIR$/projections/package.json" />
         <option value="$PROJECT_DIR$/api/.eslintignore" />
-        <option value="$PROJECT_DIR$/frontend/package.json" />
         <option value="$PROJECT_DIR$/workflows/app/src/AggregateRoots/AggregateRootBase.js" />
         <option value="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Session.js" />
         <option value="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Appointment.js" />
@@ -258,8 +318,11 @@
         <option value="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Trainer.js" />
         <option value="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js" />
         <option value="$PROJECT_DIR$/workflows/node_modules/eslint/lib/rules/object-shorthand.js" />
-        <option value="$PROJECT_DIR$/workflows/package.json" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/api/package.json" />
+        <option value="$PROJECT_DIR$/frontend/package.json" />
+        <option value="$PROJECT_DIR$/projections/package.json" />
+        <option value="$PROJECT_DIR$/workflows/package.json" />
       </list>
     </option>
   </component>
@@ -965,17 +1028,9 @@
         <state relative-caret-position="518">
           <caret line="66" column="5" lean-forward="false" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="5" />
           <folding>
-            <marker date="1495146200977" expanded="true" signature="3296:3300" ph="{...}" />
-            <marker date="1495146200977" expanded="true" signature="3296:3303" ph="{...}" />
+            <marker date="1495148549093" expanded="true" signature="3283:3287" ph="{...}" />
+            <marker date="1495148549093" expanded="true" signature="3283:3290" ph="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -995,26 +1050,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="839">
-          <caret line="66" column="1" lean-forward="false" selection-start-line="61" selection-start-column="3" selection-end-line="66" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/.eslintignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="65" column="44" lean-forward="false" selection-start-line="65" selection-start-column="44" selection-end-line="65" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -1039,14 +1078,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="8" lean-forward="true" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/projections/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" column="1" lean-forward="false" selection-start-line="52" selection-start-column="1" selection-end-line="52" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -1104,10 +1135,10 @@
         <state relative-caret-position="75">
           <caret line="59" column="16" lean-forward="false" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
           <folding>
-            <marker date="1495148167753" expanded="true" signature="79:4797" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="129:4795" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="358:402" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="373:402" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="79:4717" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="129:4715" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="358:392" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="373:392" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1115,11 +1146,11 @@
     <entry file="file://$PROJECT_DIR$/workflows/app/src/AggregateRoots/Session.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
-          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
-            <marker date="1495148167753" expanded="true" signature="62:613" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="113:611" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="268:447" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="62:603" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="113:601" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="268:437" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1127,12 +1158,12 @@
     <entry file="file://$PROJECT_DIR$/workflows/app/src/AggregateRoots/Trainer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="923">
-          <caret line="84" column="21" lean-forward="true" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
+          <caret line="84" column="21" lean-forward="false" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
           <folding>
-            <marker date="1495148167753" expanded="true" signature="62:3412" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="113:3410" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="334:380" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="349:380" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="62:3332" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="113:3330" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="334:370" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="349:370" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1142,8 +1173,9 @@
         <state relative-caret-position="570">
           <caret line="165" column="76" lean-forward="false" selection-start-line="165" selection-start-column="76" selection-end-line="165" selection-end-column="76" />
           <folding>
-            <marker date="1495148167753" expanded="true" signature="117:7821" ph="{...}" />
-            <marker date="1495148167753" expanded="true" signature="325:367" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="70:7743" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="117:7741" ph="{...}" />
+            <marker date="1495148582165" expanded="true" signature="325:333" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1151,7 +1183,7 @@
     <entry file="file://$PROJECT_DIR$/workflows/node_modules/eslint/lib/rules/object-shorthand.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="458">
-          <caret line="407" column="23" lean-forward="true" selection-start-line="407" selection-start-column="23" selection-end-line="407" selection-end-column="23" />
+          <caret line="407" column="23" lean-forward="false" selection-start-line="407" selection-start-column="23" selection-end-line="407" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -1164,18 +1196,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/workflows/package.json">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="44" lean-forward="false" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+        <state relative-caret-position="450">
+          <caret line="30" column="9" lean-forward="false" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/Makefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state relative-caret-position="435">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="44" lean-forward="false" selection-start-line="9" selection-start-column="44" selection-end-line="9" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="50" lean-forward="false" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projections/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="45" lean-forward="false" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflows/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="44" lean-forward="false" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
           <folding />
         </state>
       </provider>

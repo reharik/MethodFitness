@@ -7,8 +7,8 @@ const SubmissionFor = ({ data, containerStyle, noLabel, selectOptions, onChange 
   const _containerStyle = classNames('editor__container', containerStyle);
   return (
     <div className={_containerStyle}>
-      {noLabel ? null : LabelFor({ data: data })}
-      {InputFor({ data: data, selectOptions: selectOptions, onChange: onChange })}
+      {noLabel ? null : LabelFor({ data })}
+      {InputFor({ data, selectOptions, onChange })}
     </div>
   );
 };

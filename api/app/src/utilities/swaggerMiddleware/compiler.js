@@ -1,5 +1,5 @@
 // compiler.js
-'use strict';
+
 
 // var deref = require("json-schema-deref-sync");
 /*
@@ -36,7 +36,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
           break;
         case 'array':
           if (!Array.isArray(value)) {
-            var format = schema.collectionFormat || 'csv';
+            let format = schema.collectionFormat || 'csv';
             switch (format) {
               case 'csv':
                 value = String(value).split(',');
@@ -89,7 +89,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
   }
 
   function buildUpPathsForEndPoint(path, curriedValidatorWithDoc) {
-    var compiledPath = Object.assign({}, path);
+    let compiledPath = Object.assign({}, path);
     Object.keys(path)
       .filter(function(name) {
         return name !== 'parameters';
@@ -104,7 +104,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
   }
 
   function buildUpParameters(path, verbName) {
-    var verb = Object.assign({}, path[verbName]);
+    let verb = Object.assign({}, path[verbName]);
     // start with parameters at path level
     // merge in or replace parameters from verb level
     verb.resolvedParameters = mergeDistinct(path.parameters, verb.parameters);
@@ -113,7 +113,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
 
   function addValidatorsToParameters(verb, curriedValidatorWithDoc) {
     verb.resolvedParameters.forEach(function(parameter) {
-      var schema = parameter.schema || parameter;
+      let schema = parameter.schema || parameter;
       if (parameter.in === 'query' || parameter.in === 'header') {
         parameter.validator = stringValidator(schema);
       } else {
@@ -124,7 +124,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
 
   function addValidatorsForResponses(verb, curriedValidatorWithDoc) {
     Object.keys(verb.responses).forEach(function(statusCode) {
-      var response = verb.responses[statusCode];
+      let response = verb.responses[statusCode];
       if (response.schema) {
         response.validator = curriedValidatorWithDoc(response.schema);
       } else {
@@ -142,13 +142,13 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
     // and the actual values later as we get them.
     const curriedValidatorWithDoc = curriedValidator(document, customValidators);
     // get the de-referenced version of the swagger document
-    var swagger = jsonschemaderefsync(document);
+    let swagger = jsonschemaderefsync(document);
     // add a validator for every parameter in swagger document
-    var basePath = swagger.basePath || '';
+    let basePath = swagger.basePath || '';
 
-    var compiledPaths = Object.keys(swagger.paths).map(name => {
-      var item = swagger.paths[name];
-      var path = buildUpPathsForEndPoint(item, curriedValidatorWithDoc);
+    let compiledPaths = Object.keys(swagger.paths).map(name => {
+      let item = swagger.paths[name];
+      let path = buildUpPathsForEndPoint(item, curriedValidatorWithDoc);
 
       return {
         name,
@@ -160,7 +160,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
 
     return function(targetPath) {
       // get a list of matching paths, there should be only one
-      var matches = compiledPaths.filter(path => !!targetPath.match(path.regex));
+      let matches = compiledPaths.filter(path => !!targetPath.match(path.regex));
       return matches && matches.length === 1 ? matches[0] : null;
     };
   }

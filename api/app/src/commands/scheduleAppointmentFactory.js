@@ -31,7 +31,7 @@ module.exports = function(invariant) {
       `${commandName} requires that you pass the 
       enitityName since it's a date but the date prop is utc`
     );
-    var result = {
+    let result = {
       commandName,
       appointmentType,
       date,

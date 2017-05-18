@@ -8,14 +8,14 @@ module.exports = function(
   logger,
   uuid
 ) {
-  var fetchAppointment = async function(ctx) {
+  let fetchAppointment = async function(ctx) {
     logger.debug('arrived at appointment.fetchAppointment');
     const appointments = await rsRepository.getById(ctx.params.id, 'appointment');
     ctx.status = 200;
     ctx.body = appointments;
   };
 
-  var fetchAppointments = async function(ctx) {
+  let fetchAppointments = async function(ctx) {
     logger.debug('arrived at appointment.fetchAppointments');
     const sql = `SELECT * from "appointment" 
       where  "date" >= '${ctx.params.startDate}' 
@@ -26,9 +26,9 @@ module.exports = function(
     ctx.body = appointments;
   };
 
-  var scheduleAppointment = async function(ctx) {
+  let scheduleAppointment = async function(ctx) {
     logger.debug('arrived at appointment.scheduleAppointment');
-    var payload = ctx.request.body;
+    let payload = ctx.request.body;
     payload.commandName = 'scheduleAppointment';
     const notification = await processMessage(payload, 'scheduleAppointmentFactory', 'scheduleAppointment');
     const result = notificationParser(notification);
@@ -37,10 +37,10 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var updateAppointment = async function(ctx) {
+  let updateAppointment = async function(ctx) {
     try {
       logger.debug('arrived at appointment.updateAppointment');
-      var body = ctx.request.body;
+      let body = ctx.request.body;
       let notification;
       let commandName = '';
       const appointment = await rsRepository.getById(body.id, 'appointment');
@@ -81,9 +81,9 @@ module.exports = function(
     }
   };
 
-  var cancelAppointment = async function(ctx) {
+  let cancelAppointment = async function(ctx) {
     logger.debug('arrived at appointment.cancelAppointment');
-    var body = ctx.request.body;
+    let body = ctx.request.body;
 
     const notification = await processCommandMessage(body, 'cancelAppointment');
     const result = notificationParser(notification);

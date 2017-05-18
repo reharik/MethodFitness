@@ -1,7 +1,7 @@
-'use strict';
+
 
 module.exports = function(rsRepository, logger) {
-  var fetchAllClients = async function(ctx) {
+  let fetchAllClients = async function(ctx) {
     logger.debug('arrived at clientlist.fetchAllClients');
 
     try {
@@ -20,7 +20,7 @@ module.exports = function(rsRepository, logger) {
     ctx.status = 200;
   };
 
-  var fetchClients = async function(ctx) {
+  let fetchClients = async function(ctx) {
     logger.debug('arrived at clientlist.fetchClients');
 
     try {

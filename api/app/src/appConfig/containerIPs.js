@@ -1,12 +1,12 @@
 /**
  * Created by reharik on 7/26/15.
  */
-'use strict';
+
 
 module.exports = function(hostsparser, config, logger, fs) {
   return function() {
-    var hosts = new hostsparser.Hosts(fs.readFileSync('/etc/hosts', 'utf8'));
-    var frontend = hosts._origin.filter(function(i) {
+    let hosts = new hostsparser.Hosts(fs.readFileSync('/etc/hosts', 'utf8'));
+    let frontend = hosts._origin.filter(function(i) {
       return i.hostname === 'frontend';
     });
 
@@ -16,7 +16,7 @@ module.exports = function(hostsparser, config, logger, fs) {
       logger.info('frontend IP: ' + frontend[0].ip);
     }
 
-    var eventstore = hosts._origin.filter(function(i) {
+    let eventstore = hosts._origin.filter(function(i) {
       return i.hostname === 'eventstore';
     });
 
@@ -24,7 +24,7 @@ module.exports = function(hostsparser, config, logger, fs) {
       logger.info('eventstore IP: ' + eventstore[0].ip);
     }
 
-    var postgres = hosts._origin.filter(function(i) {
+    let postgres = hosts._origin.filter(function(i) {
       return i.hostname === 'postgres';
     });
 

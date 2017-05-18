@@ -5,7 +5,7 @@ module.exports = function(swaggerjsdoc, fs, schemas, deref) {
     console.log(apis);
     console.log('==========END apis=========');
 
-    var options = {
+    let options = {
       swaggerDefinition: {
         swagger: '2.0',
         info: {
@@ -19,8 +19,8 @@ module.exports = function(swaggerjsdoc, fs, schemas, deref) {
       apis
     };
 
-    var swaggerSpec = swaggerjsdoc(options);
-    var schemaDefs = Object.assign(
+    let swaggerSpec = swaggerjsdoc(options);
+    let schemaDefs = Object.assign(
       {},
       schemas.domainSchemas.definitions,
       schemas.responseSchemas.definitions,
@@ -31,7 +31,7 @@ module.exports = function(swaggerjsdoc, fs, schemas, deref) {
     if (!fs.existsSync('./app/src/swagger/')) {
       fs.mkdirSync('./app/src/swagger/');
     }
-    var swaggerDocument = JSON.stringify(swaggerSpec, null, 4);
+    let swaggerDocument = JSON.stringify(swaggerSpec, null, 4);
     fs.writeFileSync('./app/src/swagger/swagger_spec.json', swaggerDocument, { mode: 0o0777 });
     return swaggerDocument;
   };

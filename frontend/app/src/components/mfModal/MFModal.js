@@ -72,12 +72,12 @@ class MFModal extends Component {
     } = this.configs;
     return this.props.isOpen
       ? <div data-id="MFModal" data-title={titleBar.enable ? titleBar.position : null} className={'mf__modal'}>
-          <div style={position} className={classNames('mf__modal__wrapper', className)}>
-            {titleBar.enable && this.renderTitleBar()}
-            <div className={'mf__modal__content'}>{children}</div>
-          </div>
-          <div className={'mf__modal__overlay'} style={{ opacity: overlayOpacity }} onClick={this.props.closeModal} />
+        <div style={position} className={classNames('mf__modal__wrapper', className)}>
+          {titleBar.enable && this.renderTitleBar()}
+          <div className={'mf__modal__content'}>{children}</div>
         </div>
+        <div className={'mf__modal__overlay'} style={{ opacity: overlayOpacity }} onClick={this.props.closeModal} />
+      </div>
       : null;
   }
 }

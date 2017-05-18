@@ -11,7 +11,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
     }
 
     getNewAppointmentId(startTime, endTime, trainer) {
-      var item = this.appointments.find(
+      let item = this.appointments.find(
         x => x.startTime === startTime && x.endTime === endTime && x.trainer === trainer
       );
       return item ? item.id : undefined;
@@ -45,7 +45,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         this.expectCorrectNumberOfClients(cmd);
         this.expectTrainerNotConflicting(cmd);
         this.expectClientsNotConflicting(cmd);
-        var id = cmd.commandName === 'scheduleAppointment' || cmd.commandName === 'rescheduleAppointmentToNewDay'
+        let id = cmd.commandName === 'scheduleAppointment' || cmd.commandName === 'rescheduleAppointmentToNewDay'
           ? uuid.v4()
           : cmd.appointmentId;
         this.raiseEvent({
@@ -71,13 +71,13 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       }.bind(this);
 
       return {
-        scheduleAppointment: function(cmd) {
+        scheduleAppointment(cmd) {
           scheduleAppointment(cmd);
         },
-        updateAppointment: function(cmd) {
+        updateAppointment(cmd) {
           updateAppointment(cmd);
         },
-        cancelAppointment: function(cmd) {
+        cancelAppointment(cmd) {
           _cancelAppointment(cmd);
         }
       };
@@ -137,19 +137,19 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       }.bind(this);
 
       return {
-        appointmentMovedFromDifferentDay: function(event) {
+        appointmentMovedFromDifferentDay(event) {
           _appointmentScheduled(event);
         },
-        appointmentScheduled: function(event) {
+        appointmentScheduled(event) {
           _appointmentScheduled(event);
         },
-        appointmentMovedToDifferentDay: function(event) {
+        appointmentMovedToDifferentDay(event) {
           _appointmentCanceled(event);
         },
-        appointmentCanceled: function(event) {
+        appointmentCanceled(event) {
           _appointmentCanceled(event);
         },
-        appointmentUpdated: function(event) {
+        appointmentUpdated(event) {
           appointmentUpdated(event);
         }
       };
@@ -163,7 +163,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
     }
 
     expectAppointmentDurationCorrect(cmd) {
-      var diff = moment(cmd.endTime).diff(moment(cmd.startTime), 'minutes');
+      let diff = moment(cmd.endTime).diff(moment(cmd.startTime), 'minutes');
       switch (cmd.appointmentType) {
         case 'halfHour': {
           invariant(
@@ -210,7 +210,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
     }
 
     expectTrainerNotConflicting(cmd) {
-      var trainerConflict = this.appointments
+      let trainerConflict = this.appointments
         .filter(
           x =>
             (x.id &&
@@ -228,7 +228,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
     }
 
     expectClientsNotConflicting(cmd) {
-      var clientConflicts = this.appointments
+      let clientConflicts = this.appointments
         .filter(
           x =>
             (x.id &&

@@ -11,7 +11,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
 
     commandHandlers() {
       return {
-        createSession: function(cmd) {
+        createSession(cmd) {
           cmd.eventName = 'sessionCreated';
           cmd.id = uuid.v4();
           this.raiseEvent(cmd);

@@ -34,7 +34,7 @@ class PurchaseForm extends Component {
         }
       });
 
-      let finalResult = { ...result, fieldValues: fieldValues };
+      let finalResult = { ...result, fieldValues };
 
       this.props.purchase(finalResult.fieldValues);
       this.setState(finalResult);

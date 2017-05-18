@@ -29,7 +29,7 @@ export default (state = [], action = {}) => {
       return reducerMerge(state, action.response.clients);
     }
     case ADD_CLIENT.SUCCESS: {
-      var insertedItem = selectn('action.insertedItem', action);
+      let insertedItem = selectn('action.insertedItem', action);
       insertedItem.id = selectn('payload.result.handlerResult.clientId', action);
       return insertedItem.id ? [...state, insertedItem] : state;
     }

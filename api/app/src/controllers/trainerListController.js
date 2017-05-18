@@ -1,11 +1,11 @@
-'use strict';
+
 
 module.exports = function(rsRepository, logger) {
-  var fetchTrainers = async function(ctx) {
+  let fetchTrainers = async function(ctx) {
     logger.debug('arrived at trainerlist.fetchTrainers');
 
     try {
-      var sql = 'SELECT * from "trainer" where not "archived"';
+      let sql = 'SELECT * from "trainer" where not "archived"';
       if (ctx.state.user.role !== 'admin') {
         sql += ` and id = '${ctx.state.user.id}'`;
       }
@@ -17,7 +17,7 @@ module.exports = function(rsRepository, logger) {
     ctx.status = 200;
   };
 
-  var fetchAllTrainers = async function(ctx) {
+  let fetchAllTrainers = async function(ctx) {
     logger.debug('arrived at trainerlist.fetchAllTrainers');
 
     try {

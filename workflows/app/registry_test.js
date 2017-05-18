@@ -1,14 +1,14 @@
 /**
  * Created by parallels on 9/3/15.
  */
-var dagon = require('dagon');
-var path = require('path');
+let dagon = require('dagon');
+let path = require('path');
 module.exports = function(_options) {
-    var options   = _options || {};
-    var container = dagon(options.dagon).container;
-    var result;
-    try {
-        result = new container(x=> x.pathToRoot(path.join(__dirname, '..'))
+  let options = _options || {};
+  let container = dagon(options.dagon).container;
+  let result;
+  try {
+    result = new container(x=> x.pathToRoot(path.join(__dirname, '..'))
             .requireDirectoryRecursively('./app/src')
             .requireDirectoryRecursively('./app/tests/unitTests/mocks')
                 .for('eventstore').require('./app/tests/unitTests/mocks/eventStoreMock')
@@ -23,10 +23,10 @@ module.exports = function(_options) {
                 .instantiate('eventhandlerbase').asFunc().withParameters(options.children || {})
                 .complete());
 
-    } catch (ex) {
-        console.log(ex);
-        console.log(ex.stack);
-    }
-    return result;
+  } catch (ex) {
+    console.log(ex);
+    console.log(ex.stack);
+  }
+  return result;
 };
 
