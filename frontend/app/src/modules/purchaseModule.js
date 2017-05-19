@@ -1,6 +1,5 @@
 import config from './../utilities/configValues';
 import { browserHistory } from 'react-router';
-import selectn from 'selectn';
 import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
 import { fetchClientAction } from './clientModule';

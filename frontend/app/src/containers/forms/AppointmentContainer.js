@@ -1,4 +1,3 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import AppointmentForm from '../../components/forms/AppointmentForm';
 import { scheduleAppointment } from './../../modules/appointmentModule';

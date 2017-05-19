@@ -1,4 +1,4 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects';
+import { takeEvery, put, select } from 'redux-saga/effects';
 import { NOTIFICATION } from './../modules/notificationModule';
 import { actions as notifActions } from 'redux-notifications';
 const { notifSend, notifDismiss } = notifActions;
@@ -18,7 +18,7 @@ function* notifiy(action) {
     const formName = x.formName || x.containerName;
     const id = containerName + '_' + messageName + '_' + x.rule;
     newErrors.push(id);
-    if (!currentErrors.some(x => x.id === id)) {
+    if (!currentErrors.some(e => e.id === id)) {
       yield put(
         notifSend({
           id,

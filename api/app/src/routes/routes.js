@@ -1,11 +1,11 @@
 module.exports = function(koarouter, routers_array, controllers, logger) {
-  let secured = async function(next) {
-    if (this.isAuthenticated()) {
-      await next;
-    } else {
-      this.status = 401;
-    }
-  };
+  // let secured = async function(next) {
+  //   if (this.isAuthenticated()) {
+  //     await next;
+  //   } else {
+  //     this.status = 401;
+  //   }
+  // };
 
   return function(app) {
     try {

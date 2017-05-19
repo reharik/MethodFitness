@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import ClientList from '../../components/lists/ClientList';
-import CellLink from '../../components/GridElements/CellLink.js';
-import EmailLink from '../../components/GridElements/EmailLink.js';
-import ArchiveLink from '../../components/GridElements/ArchiveLink.js';
+import cellLink from '../../components/GridElements/CellLink.js';
+import emailLink from '../../components/GridElements/EmailLink.js';
+import archiveLink from '../../components/GridElements/ArchiveLink.js';
 
 import { fetchAllClientsAction, archiveClient } from './../../modules/clientModule';
 
 const columns = archiveClient => [
   {
-    property: ({ column, row }) => {
-      return CellLink('client')({ value: `${row.contact.lastName}`, row });
+    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
+      return cellLink('client')({ value: `${row.contact.lastName}`, row });
     },
     sort: 'lastName',
     display: 'Last Name',
@@ -21,7 +21,7 @@ const columns = archiveClient => [
     width: '10%'
   },
   {
-    property: EmailLink,
+    property: emailLink,
     propertyName: 'contact.email',
     display: 'Email',
     width: '35%'
@@ -32,16 +32,16 @@ const columns = archiveClient => [
     width: '10%'
   },
   {
-    property: ({ column, row }) => {
-      return ArchiveLink(archiveClient)({ value: `${row.archived}`, row });
+    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
+      return archiveLink(archiveClient)({ value: `${row.archived}`, row });
     },
     sort: 'Archived',
     display: 'Archived',
     width: '10%'
   },
   {
-    property: ({ column, row }) => {
-      return CellLink(`purchases`)({ value: '$$$', row });
+    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
+      return cellLink(`purchases`)({ value: '$$$', row });
     },
     display: '$',
     width: '10%'

@@ -11,7 +11,7 @@ function getCurrentItems(items, path) {
   );
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     items: getCurrentItems(state.menu.menuItems, state.menu.path),
     path: state.menu.path,

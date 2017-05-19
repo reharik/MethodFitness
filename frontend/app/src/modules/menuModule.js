@@ -18,28 +18,32 @@ const data = item
 
 export default (state = data, action = {}) => {
   switch (action.type) {
-    case NAV_DOWN:
+    case NAV_DOWN: {
       return Object.assign({}, state, {
         path: [...state.path, action.index],
         breadCrumbItems: [...state.breadCrumbItems, action.text]
       });
-    case NAV_SELECT:
+    }
+    case NAV_SELECT: {
       return Object.assign({}, state, {
         currentItem: action.text
       });
-    case NAV_TO:
+    }
+    case NAV_TO: {
       return Object.assign({}, state, {
         path: state.path.slice(0, action.index),
         breadCrumbItems: state.breadCrumbItems.slice(0, action.index + 1)
       });
-    case LOGIN.SUCCESS:
-      var user = selectn('response.user', action);
+    }
+    case LOGIN.SUCCESS: {
+      const user = selectn('response.user', action);
       const role = user.role;
       const menuItems = getMenuItems(role);
-      const menuData = { ...state, menuItems };
+      const menuData = {...state, menuItems};
       localStorage.setItem('menu_data', JSON.stringify(menuData));
 
       return menuData;
+    }
     default:
       return state;
   }

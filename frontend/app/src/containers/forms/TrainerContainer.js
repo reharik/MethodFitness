@@ -1,4 +1,3 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TrainerForm from '../../components/forms/TrainerForm';
 import { Form } from 'freakin-react-forms';
@@ -11,7 +10,7 @@ import { actions as notifActions } from 'redux-notifications';
 import { notifications } from './../../modules/notificationModule';
 const { notifClear } = notifActions;
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   const clients = state.clients
     .filter(x => !x.archived)
     .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));

@@ -1,4 +1,3 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import UpdateAppointmentForm from '../../components/forms/UpdateAppointmentForm';
 import { updateAppointment, fetchAppointmentAction, deleteAppointment } from './../../modules/appointmentModule';
@@ -10,10 +9,6 @@ import { notifications } from './../../modules/notificationModule';
 const { notifClear } = notifActions;
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('==========notifications=========');
-  console.log(notifications);
-  console.log('==========END notifications=========');
-
   const clients = state.clients
     .filter(x => !x.archived)
     .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));

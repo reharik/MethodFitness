@@ -1,7 +1,6 @@
 import reducerMerge from './../utilities/reducerMerge';
 import { getISODateTime } from './../utilities/appointmentTimes';
 import config from './../utilities/configValues';
-import uuid from 'uuid';
 import moment from 'moment';
 import { requestStates } from '../sagas/requestSaga';
 import selectn from 'selectn';
@@ -14,13 +13,14 @@ export const DELETE_APPOINTMENT = requestStates('delete_appointment', 'appointme
 export default (state = [], action = {}) => {
   switch (action.type) {
     case UPDATE_APPOINTMENT.SUCCESS: {
-      var response = selectn('response.payload', action);
+      let response = selectn('response.payload', action);
       if (response.updateType === 'rescheduleAppointmentToNewDay') {
         const newState = state.filter(x => x.id !== response.oldAppointmentId).map(x => ({ ...x }));
         let newItem = selectn('action.upsertedItem', action);
         newItem.id = response.newAppointmentId;
         return reducerMerge(newState, newItem);
       }
+      return state;
     }
     // fallback intentional for non new day updates
     case SCHEDULE_APPOINTMENT.SUCCESS: {
@@ -32,7 +32,7 @@ export default (state = [], action = {}) => {
       return reducerMerge(state, action.response.appointments);
     }
     case DELETE_APPOINTMENT.SUCCESS: {
-      var response = selectn('response.payload', action);
+      let response = selectn('response.payload', action);
       return state.filter(x => x.id !== response.appointmentId);
     }
   }
@@ -63,11 +63,6 @@ export function scheduleAppointment(data) {
   };
 }
 
-export function updateTaskViaDND(data) {
-  const submitData = { ...data.orig, date: data.date, startTime: data.startTime, endTime: data.endTime };
-  return updateAppointment(submitData);
-}
-
 export function updateAppointment(data) {
   const startTime = getISODateTime(data.date, data.startTime);
   const endTime = getISODateTime(data.date, data.endTime);
@@ -90,6 +85,11 @@ export function updateAppointment(data) {
       body: JSON.stringify(formattedData)
     }
   };
+}
+
+export function updateTaskViaDND(data) {
+  const submitData = { ...data.orig, date: data.date, startTime: data.startTime, endTime: data.endTime };
+  return updateAppointment(submitData);
 }
 
 export function deleteAppointment(appointmentId, date) {

@@ -1,4 +1,3 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PurchaseForm from '../../components/forms/PurchaseForm';
 import formJsonSchema from '../../utilities/formJsonSchema';

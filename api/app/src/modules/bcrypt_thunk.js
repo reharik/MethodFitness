@@ -15,16 +15,16 @@ module.exports = function(bcryptjs) {
 
   let hash = function(data, salt) {
     return new Promise(function(resolve, reject) {
-      bcryptjs.hash(data, salt, function(err, hash) {
+      bcryptjs.hash(data, salt, function(err, _hash) {
         if (err) {return reject(err);}
-        return resolve(hash);
+        return resolve(_hash);
       });
     });
   };
 
-  let compare = function(data, hash) {
+  let compare = function(data, _hash) {
     return new Promise(function(resolve, reject) {
-      bcryptjs.compare(data, hash, function(err, matched) {
+      bcryptjs.compare(data, _hash, function(err, matched) {
         if (err) {return reject(err);}
         return resolve(matched);
       });

@@ -1,7 +1,7 @@
 import { REQ_AJAX_STATE, SUCCESS_AJAX_STATE, FAILURE_AJAX_STATE } from './../modules/ajaxStateModule';
 import { notifications } from './../modules/notificationModule';
 
-import { takeEvery, call, put, delay } from 'redux-saga/effects';
+import { takeEvery, call, put} from 'redux-saga/effects';
 import { logoutUser } from './../modules';
 
 const standardSuccessResponse = (action, payload) => {
@@ -24,7 +24,7 @@ export function requestStates(entity, reducerName) {
 }
 
 let ajaxState = function(action) {
-  const request = () => {
+  const req = () => {
     if (action.startAjaxState) {
       return put({ type: REQ_AJAX_STATE, actionPrefix: action.states.PREFIX });
     }
@@ -44,7 +44,7 @@ let ajaxState = function(action) {
     }
   };
   return {
-    request,
+    request: req,
     success,
     failure
   };

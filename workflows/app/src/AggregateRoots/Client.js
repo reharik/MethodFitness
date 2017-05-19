@@ -2,7 +2,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
   return class Client extends AggregateRootBase {
     constructor() {
       super();
-      this._isArchived;
+      this._isArchived = false;
       this.type = 'Client';
       this.clientInventory = new ClientInventory();
     }
@@ -38,7 +38,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
           cmd.eventName = 'clientAddressUpdated';
           this.raiseEvent(cmd);
         },
-        archiveClient(cmd) {
+        archiveClient() {
           this.expectNotArchived();
           this.raiseEvent({
             eventName: 'clientArchived',
@@ -46,7 +46,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
             archivedDate: new Date()
           });
         },
-        unArchiveClient(cmd) {
+        unArchiveClient() {
           this.expectArchived();
           this.raiseEvent({
             eventName: 'clientUnArchived',
@@ -69,10 +69,10 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
           this._id = event.id;
         }.bind(this),
 
-        clientArchived: function(event) {
+        clientArchived: function() {
           this._isArchived = true;
         }.bind(this),
-        clientUnArchived: function(event) {
+        clientUnArchived: function() {
           this._isArchived = false;
         }.bind(this),
         fullHourSessionPurchased: function() {

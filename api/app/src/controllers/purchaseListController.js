@@ -4,14 +4,14 @@ module.exports = function(rsRepository, logger) {
 
     try {
       let sql = `SELECT * from "purchase" where "client" = '${ctx.params.id}';`;
-      var query = await rsRepository.query(sql);
+      const query = await rsRepository.query(sql);
+
+      ctx.body = {purchases: query};
+      ctx.status = 200;
+      return ctx;
     } catch (ex) {
       throw ex;
     }
-
-    ctx.body = { purchases: query };
-    ctx.status = 200;
-    return ctx;
   };
 
   return {

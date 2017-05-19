@@ -15,7 +15,7 @@ module.exports = function(bcryptjs, rsRepository) {
     return bcryptjs.compareSync(candidatePassword, realPassword);
   };
 
-  let matchUser = async function(username, password, done) {
+  let matchUser = async function(username, password) {
     let users = await rsRepository.query(
       `select * from "user" where not "archived" AND "document" ->> 'userName' = '${username.toLowerCase()}'`
     );
@@ -24,10 +24,6 @@ module.exports = function(bcryptjs, rsRepository) {
     if (!user) {
       return null;
     }
-    console.log(`==========comparePassword(password, user.password)=========`);
-    console.log(password);
-    console.log(comparePassword(password, user.password));
-    console.log(`==========END comparePassword(password, user.password)=========`);
     if (comparePassword(password, user.password)) {
       return { user };
     }

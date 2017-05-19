@@ -1,9 +1,5 @@
 import moment from 'moment';
 
-export function generateAllTimes(inc, start, end) {
-  return iterateTimes(inc, 'AM', start).concat(iterateTimes(inc, 'PM', 1, end));
-}
-
 const iterateTimes = (inc, morning, start = 1, end = 12) => {
   let times = [];
   for (let i = start; i <= end; i++) {
@@ -22,6 +18,10 @@ const iterateTimes = (inc, morning, start = 1, end = 12) => {
   }
   return times;
 };
+
+export function generateAllTimes(inc, start, end) {
+  return iterateTimes(inc, 'AM', start).concat(iterateTimes(inc, 'PM', 1, end));
+}
 
 export function getISODateTime(date, time) {
   if (!date || !time) {

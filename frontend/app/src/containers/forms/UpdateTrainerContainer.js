@@ -1,4 +1,3 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import UpdateTrainerForm from '../../components/forms/UpdateTrainerForm';
 import formJsonSchema from '../../utilities/formJsonSchema';
@@ -27,12 +26,6 @@ const mapStateToProps = (state, ownProps) => {
   model.confirmPassword = { ...model.password };
   model.confirmPassword.name = 'confirmPassword';
   model.confirmPassword.rules = [{ rule: 'equalTo', compareField: 'password' }];
-  console.log(`==========model=========`);
-  console.log(model);
-  console.log(`==========END model=========`);
-  console.log(`==========states=========`);
-  console.log(states);
-  console.log(`==========END states=========`);
   return {
     model,
     states,

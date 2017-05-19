@@ -1,9 +1,4 @@
-/**
- * Created by reharik on 7/26/15.
- */
-
-
-module.exports = function(commands, eventstore, logger, config) {
+module.exports = function(commands, eventstore, logger) {
   let signIn = function(ctx) {
     logger.debug('arrived at login');
     if (!ctx.state.user) {

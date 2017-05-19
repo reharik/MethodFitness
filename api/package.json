@@ -61,7 +61,6 @@
     "nodemon": "^1.11.0"
   },
   "pre-commit": [
-    "lint",
-    "test"
+    "lint"
   ]
 }

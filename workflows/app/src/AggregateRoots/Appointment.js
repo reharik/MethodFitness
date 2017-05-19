@@ -57,21 +57,21 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       switch (this.appointmentType) {
         case 'halfHour': {
           invariant(
-            diff != 30,
+            diff !== 30,
             'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time'
           );
           break;
         }
         case 'fullHour': {
           invariant(
-            diff != 60,
+            diff !== 60,
             'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time'
           );
           break;
         }
         case 'pair': {
           invariant(
-            diff != 60,
+            diff !== 60,
             'Given the Appointment Type of Pair the start time must be 60 minutes after the end time'
           );
           break;
@@ -84,14 +84,14 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         case 'halfHour':
         case 'fullHour': {
           invariant(
-            !clients || clients.length != 1,
+            !this.clients || this.clients.length !== 1,
             `Given the Appointment Type of ${this.appointmentType} you must have 1 and only 1 client assigned`
           );
           break;
         }
         case 'pair': {
           invariant(
-            !clients || clients.length <= 1,
+            !this.clients || this.clients.length <= 1,
             `Given the Appointment Type of Pair you must have 2 or more clients assigned`
           );
           break;

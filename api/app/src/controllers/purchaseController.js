@@ -1,5 +1,3 @@
-
-
 module.exports = function(rsRepository, notificationListener, notificationParser, eventstore, commands, logger, uuid) {
   let purchase = async function(ctx) {
     logger.debug('arrived at sessionsPurchase.purchases');
@@ -42,10 +40,10 @@ module.exports = function(rsRepository, notificationListener, notificationParser
   };
 
   let fetchPurchase = async function(ctx) {
-    let purchase = await rsRepository.getById(ctx.params.id, 'purchase');
+    let _purchase = await rsRepository.getById(ctx.params.id, 'purchase');
 
     ctx.status = 200;
-    ctx.body = purchase;
+    ctx.body = _purchase;
   };
 
   return {

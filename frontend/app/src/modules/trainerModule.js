@@ -1,4 +1,3 @@
-import { CALL_API } from 'redux-api-middleware';
 import config from './../utilities/configValues';
 import { browserHistory } from 'react-router';
 import { denormalizeTrainer } from './../utilities/denormalize';

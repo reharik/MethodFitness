@@ -39,7 +39,6 @@ dockerBuild:
 
 prettyLint:
 	cd api && yarn lint && \
-    cd ../data && yarn lint && \
     cd ../frontend && yarn lint && \
     cd ../workflows && yarn lint && \
     cd ../projections && yarn lint

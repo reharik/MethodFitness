@@ -66,7 +66,7 @@ module.exports = function(eventRepository, logger, Day) {
       };
     }
 
-    async function scheduleAppointmentBase(cmd, continuationId) {
+    async function scheduleAppointmentBase(cmd) {
       logger.info(`calling ${cmd.commandName} on Day`);
       let day = await eventRepository.getById(Day, cmd.entityName);
       if (!day) {

@@ -56,11 +56,12 @@ module.exports = function() {
         case 'query':
           value = (query || {})[parameter.name];
           break;
-        case 'path':
-          var actual = compiledPath.name.match(/[^\/]+/g);
-          var valueIndex = compiledPath.expected.indexOf('{' + parameter.name + '}');
+        case 'path': {
+          let actual = compiledPath.name.match(/[^\/]+/g);
+          let valueIndex = compiledPath.expected.indexOf('{' + parameter.name + '}');
           value = actual ? actual[valueIndex] : undefined;
           break;
+        }
         case 'body':
           value = body;
           bodyDefined = true;
@@ -98,16 +99,16 @@ module.exports = function() {
     }
 
     let operation = compiledPath.path[method.toLowerCase()];
-    // check the response matches the swagger schema
+    // check the res matches the swagger schema
 
     let validationResult = { success: true, errors: [], where: [] };
-    let response = operation.responses[status];
-    if (!response.schema && !body) {
+    let res = operation.responses[status];
+    if (!res.schema && !body) {
       return validationResult;
     }
     let result = {};
-    if (response) {
-      result = validate(body, response);
+    if (res) {
+      result = validate(body, res);
     } else {
       result.valid = false;
       result.errors = [{ message: `No response provided in schema for status: ${status}` }];

@@ -79,7 +79,7 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var processMessage = async function(payload, commandName) {
+  let processMessage = async function(payload, commandName) {
     const continuationId = uuid.v4();
     let notificationPromise = notificationListener(continuationId, commandName);
 

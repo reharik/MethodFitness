@@ -53,7 +53,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
         //         }
         //     });
         // },
-        archiveTrainer(cmd) {
+        archiveTrainer() {
           this.expectNotArchived();
           this.raiseEvent({
             eventName: 'trainerArchived',
@@ -61,7 +61,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
             archivedDate: new Date()
           });
         },
-        unArchiveUser(cmd) {
+        unArchiveUser() {
           this.expectArchived();
           this.raiseEvent({
             eventName: 'trainerUnArchived',
@@ -88,11 +88,11 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
           this._password = event.credentials.password;
         }.bind(this),
 
-        trainerArchived: function(event) {
+        trainerArchived: function() {
           this._isArchived = true;
         }.bind(this),
 
-        trainerUnArchived: function(event) {
+        trainerUnArchived: function() {
           this._isArchived = false;
         }.bind(this)
       };

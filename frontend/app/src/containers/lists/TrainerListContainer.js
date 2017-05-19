@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import TrainerList from '../../components/lists/TrainerList';
-import CellLink from '../../components/GridElements/CellLink.js';
-import EmailLink from '../../components/GridElements/EmailLink.js';
-import ArchiveLink from '../../components/GridElements/ArchiveLink.js';
+import cellLink from '../../components/GridElements/CellLink.js';
+import emailLink from '../../components/GridElements/EmailLink.js';
+import archiveLink from '../../components/GridElements/ArchiveLink.js';
 
 import { fetchAllTrainersAction, archiveTrainer } from './../../modules/trainerModule';
 
 const columns = archiveTrainer => [
   {
-    property: ({ column, row }) => {
-      return CellLink('trainer')({ value: `${row.contact.lastName}`, row });
+    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
+      return cellLink('trainer')({ value: `${row.contact.lastName}`, row });
     },
     sort: 'lastName',
     display: 'Last Name',
@@ -21,7 +21,7 @@ const columns = archiveTrainer => [
     width: '10%'
   },
   {
-    property: EmailLink,
+    property: emailLink,
     propertyName: 'contact.email',
     display: 'Email',
     width: '35%'
@@ -32,8 +32,8 @@ const columns = archiveTrainer => [
     width: '10%'
   },
   {
-    property: ({ column, row }) => {
-      return ArchiveLink(archiveTrainer)({ value: `${row.archived}`, row });
+    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
+      return archiveLink(archiveTrainer)({ value: `${row.archived}`, row });
     },
     sort: 'Archived',
     display: 'Archived',

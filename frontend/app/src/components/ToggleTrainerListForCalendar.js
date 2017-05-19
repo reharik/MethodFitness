@@ -32,7 +32,7 @@ class ToggleTrainerListForCalendar extends Component {
 
     return (
       <div className="toggleTrainerListForCalendar__container">
-        <button className={`toggleTrainerListForCalendar__button ${allSelectedClass}`} onClick={x => this.toggle()}>
+        <button className={`toggleTrainerListForCalendar__button ${allSelectedClass}`} onClick={() => this.toggle()}>
           {' '}All
         </button>
         <hr />
@@ -44,7 +44,7 @@ class ToggleTrainerListForCalendar extends Component {
               <li key={x.id}>
                 <button
                   className={`toggleTrainerListForCalendar__button ${selectedClass}`}
-                  onClick={c => this.toggle(x.id)}
+                  onClick={() => this.toggle(x.id)}
                 >
                   {' '}{x.name}{' '}
                 </button>

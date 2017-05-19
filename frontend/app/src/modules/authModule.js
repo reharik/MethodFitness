@@ -14,8 +14,8 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case LOGIN.SUCCESS:
-      var user = selectn('response.user', action);
+    case LOGIN.SUCCESS: {
+      const user = selectn('response.user', action);
 
       localStorage.setItem('id_token', user.id);
       localStorage.setItem('user', JSON.stringify(user));
@@ -24,10 +24,12 @@ export default (state = initialState, action = {}) => {
         isAuthenticated: true,
         errorMessage: ''
       };
-    case LOGOUT.SUCCESS:
+    }
+    case LOGOUT.SUCCESS: {
       return Object.assign({}, state, {
         isAuthenticated: false
       });
+    }
     default:
       return state;
   }

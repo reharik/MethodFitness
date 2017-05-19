@@ -9,24 +9,24 @@ module.exports = function(rsRepository, logger) {
       if (ctx.state.user.role !== 'admin') {
         sql += ` and id = '${ctx.state.user.id}'`;
       }
-      var query = await rsRepository.query(sql);
+      const query = await rsRepository.query(sql);
+      ctx.body = {trainers: query};
+      ctx.status = 200;
     } catch (ex) {
       throw ex;
     }
-    ctx.body = { trainers: query };
-    ctx.status = 200;
   };
 
   let fetchAllTrainers = async function(ctx) {
     logger.debug('arrived at trainerlist.fetchAllTrainers');
 
     try {
-      var query = await rsRepository.query('SELECT * from "trainer";');
+      const query = await rsRepository.query('SELECT * from "trainer";');
+      ctx.body = {trainers: query};
+      ctx.status = 200;
     } catch (ex) {
       throw ex;
     }
-    ctx.body = { trainers: query };
-    ctx.status = 200;
   };
 
   return {
