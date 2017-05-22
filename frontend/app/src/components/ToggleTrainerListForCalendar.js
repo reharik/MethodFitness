@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ToggleTrainerListForCalendar extends Component {
   state = {
@@ -56,5 +57,9 @@ class ToggleTrainerListForCalendar extends Component {
     );
   }
 }
+
+ToggleTrainerListForCalendar.propTypes = {
+  toggleTrainerListForCalendar: PropTypes.func
+};
 
 export default ToggleTrainerListForCalendar;

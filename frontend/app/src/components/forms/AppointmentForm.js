@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import { Form } from 'freakin-react-forms';
 import SubmissionFor from '../../containers/forms/SubmissionForContainer';
@@ -34,31 +35,34 @@ class AppointmentForm extends Component {
 
   handleTimeChange = e => {
     const endTime = syncApptTypeAndTime(this.state.fields.appointmentType.value, e.target.value);
+    let fields = [...this.state.fields];
+    fields.endTime = {...fields.endTime, value: endTime};
     this.state.fields.startTime.onChange(e);
-    this.state.fields.endTime.value = endTime;
-    this.setState({ ...this.state.fields });
+    this.setState({ ...fields });
   };
 
   handleAppointmentTypeChange = e => {
     const endTime = syncApptTypeAndTime(e.target.value, this.state.fields.startTime.value);
+    let fields = [...this.state.fields];
     this.state.fields.appointmentType.onChange(e);
-    this.state.fields.endTime.value = endTime;
-    this.setState({ ...this.state.fields });
+    fields.endTime = {...fields.endTime, value: endTime};
+    this.setState({ ...fields });
   };
 
   handleClientChange = e => {
+    let fields = [...this.state.fields];
     if (e.target.value.length > 1 && this.state.fields.appointmentType.value !== 'pair') {
-      this.state.fields.appointmentType.value = 'pair';
-      this.state.fields.endTime.value = syncApptTypeAndTime(
-        this.state.fields.appointmentType.value,
-        this.state.fields.startTime.value
-      );
+      fields.appointmentType = {...fields.appointmentType, value: 'pair'};
+      fields.endTime = {...fields.endTime, value: syncApptTypeAndTime(
+        fields.appointmentType.value,
+        fields.startTime.value
+      )};
     }
     if (e.target.value.length < 2 && this.state.fields.appointmentType.value === 'pair') {
-      this.state.fields.appointmentType.value = 'fullHour';
+      fields.appointmentType = {...fields.appointmentType, value: 'fullHour'};
     }
     this.state.fields.clients.onChange(e);
-    this.setState({ ...this.state.fields });
+    this.setState({ ...fields });
   };
 
   render() {
@@ -113,5 +117,17 @@ class AppointmentForm extends Component {
     );
   }
 }
+
+AppointmentForm.propTypes = {
+  model: PropTypes.object,
+  scheduleAppointment: PropTypes.func,
+  cancel: PropTypes.func,
+  notifications: PropTypes.func,
+  isAdmin: PropTypes.bool,
+  trainers: PropTypes.array,
+  clients: PropTypes.array,
+  appointmentTypes: PropTypes.array,
+  times: PropTypes.array
+};
 
 export default AppointmentForm;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import { Form } from 'freakin-react-forms';
 import ContentHeader from '../ContentHeader';
@@ -140,5 +141,17 @@ class TrainerForm extends Component {
     );
   }
 }
+
+TrainerForm.propTypes = {
+  params: PropTypes.object,
+  notifications: PropTypes.func,
+  model: PropTypes.object,
+  fetchTrainerAction: PropTypes.func,
+  fetchClientsAction: PropTypes.func,
+  hireTrainer: PropTypes.func,
+  states: PropTypes.array,
+  roles: PropTypes.array,
+  clients: PropTypes.array
+};
 
 export default TrainerForm;

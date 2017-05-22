@@ -1,16 +1,26 @@
-/**
- * Created by reharik on 4/16/16.
- */
 import { browserHistory } from 'react-router';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default route => {
-  return ({ value, row }) => {
+const CellLink = route => {
+  const link = ({ value, row }) => {
     const fullRoute = route + '/' + row.id;
     return (
-      <div onClick={e => browserHistory.push(fullRoute)} className="list__cell__link">
+      <div onClick={() => browserHistory.push(fullRoute)} className="list__cell__link">
         <span>{value}</span>
       </div>
     );
   };
+  link.propTypes = {
+    value: PropTypes.string,
+    row: PropTypes.object
+  };
+
+  return link;
 };
+
+CellLink.propTypes = {
+  route: PropTypes.string
+};
+
+export default CellLink;

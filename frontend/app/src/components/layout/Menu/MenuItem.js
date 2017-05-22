@@ -1,7 +1,5 @@
-/**
- * Created by reharik on 3/8/16.
- */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 
 const MenuItem = ({ children, text, onClick, path, currentItem }) => {
@@ -20,7 +18,7 @@ const MenuItem = ({ children, text, onClick, path, currentItem }) => {
       </li>
     );
   }
-  let selected = currentItem == text ? 'menu__item__leaf__active' : '';
+  let selected = currentItem === text ? 'menu__item__leaf__active' : '';
   return (
     <li className={'menu__item__leaf ' + selected} onClick={itemClick}>
       <span className="menu__item__leaf__link">{text}</span>
@@ -29,6 +27,10 @@ const MenuItem = ({ children, text, onClick, path, currentItem }) => {
 };
 
 MenuItem.propTypes = {
+  children: PropTypes.array,
+  onClick: PropTypes.func,
+  path: PropTypes.string,
+  currentItem: PropTypes.string,
   text: PropTypes.string.isRequired
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import ContentHeaderSearch from '../ContentHeaderSearch';
 import { Table } from 'redux-datatable';
@@ -33,8 +34,10 @@ const PurchaseList = ({ gridConfig, columns, params }) => {
   );
 };
 
-PurchaseList.contextTypes = {
-  gridConfig: React.PropTypes.object
+PurchaseList.propTypes = {
+  gridConfig: PropTypes.object,
+  columns: PropTypes.func,
+  params: PropTypes.object
 };
 
 export default PurchaseList;

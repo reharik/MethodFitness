@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import ContentHeaderSearch from '../ContentHeaderSearch';
 import { Table } from 'redux-datatable';
@@ -29,8 +30,10 @@ const ClientList = ({ gridConfig, columns, archiveClient }) => {
   );
 };
 
-ClientList.contextTypes = {
-  gridConfig: React.PropTypes.object
+ClientList.propTypes = {
+  gridConfig: PropTypes.object,
+  columns: PropTypes.func,
+  archiveClient: PropTypes.func
 };
 
 export default ClientList;

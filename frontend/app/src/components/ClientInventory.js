@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DisplayFor from './formElements/elementsFor/DisplayFor';
 
 const ClientInventory = ({ inventory }) => {
@@ -41,6 +42,10 @@ const ClientInventory = ({ inventory }) => {
       </div>
     </div>
   );
+};
+
+ClientInventory.propTypes = {
+  inventory: PropTypes.object
 };
 
 export default ClientInventory;

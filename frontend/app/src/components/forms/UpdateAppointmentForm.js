@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import EditableDisplay from './../../components/forms/editableDisplay/EditableDisplay';
 import AppointmentFooter from './../../components/forms/editableDisplay/AppointmentFooter';
 import DisplayFor from './../formElements/elementsFor/DisplayFor';
@@ -21,31 +22,34 @@ class UpdateAppointmentForm extends Component {
 
   handleTimeChange(e) {
     const endTime = syncApptTypeAndTime(this.state.fields.appointmentType.value, e.target.value);
-    this.state.fields.startTime.onChange(e);
-    this.state.fields.endTime.value = endTime;
-    this.setState({ ...this.state.fields });
+    let fields = [...this.state.fields];
+    fields.startTime.onChange(e);
+    fields.endTime = {...fields.endTime, value: endTime};
+    this.setState({ ...fields });
   }
 
   handleAppointmentTypeChange(e) {
     const endTime = syncApptTypeAndTime(e.target.value, this.state.fields.startTime.value);
-    this.state.fields.appointmentType.onChange(e);
-    this.state.fields.endTime.value = endTime;
-    this.setState({ ...this.state.fields });
+    let fields = [...this.state.fields];
+    fields.appointmentType.onChange(e);
+    fields.endTime = {...fields.endTime, value: endTime};
+    this.setState({ fields });
   }
 
   handleClientChange(e) {
+    let fields = [...this.state.fields];
     if (e.target.value.length > 1 && this.state.fields.appointmentType.value !== 'pair') {
-      this.state.fields.appointmentType.value = 'pair';
-      this.state.fields.endTime.value = syncApptTypeAndTime(
-        this.state.fields.appointmentType.value,
-        this.state.fields.startTime.value
-      );
+      fields.appointmentType = {...fields.appointmentType, value: 'pair'};
+      fields.endTime = {...fields.endTime, value: syncApptTypeAndTime(
+        fields.appointmentType.value,
+        fields.startTime.value
+      )};
     }
     if (e.target.value.length < 2 && this.state.fields.appointmentType.value === 'pair') {
-      this.state.fields.appointmentType.value = 'fullHour';
+      fields.appointmentType = {...fields.appointmentType, value: 'fullHour'};
     }
-    this.state.fields.clients.onChange(e);
-    this.setState({ ...this.state.fields });
+    fields.clients.onChange(e);
+    this.setState({ ...fields });
   }
 
   submitHandler = fields => {
@@ -61,10 +65,6 @@ class UpdateAppointmentForm extends Component {
   };
 
   render() {
-    console.log('==========this.props.notifications=========');
-    console.log(this.props.notifications);
-    console.log('==========END this.props.notifications=========');
-
     return (
       <div className="form">
         <EditableDisplay
@@ -115,5 +115,21 @@ class UpdateAppointmentForm extends Component {
     );
   }
 }
+
+UpdateAppointmentForm.propTypes = {
+  apptId: PropTypes.string,
+  notifications: PropTypes.func,
+  model: PropTypes.object,
+  isAdmin: PropTypes.bool,
+  trainers: PropTypes.array,
+  clients: PropTypes.array,
+  appointmentTypes: PropTypes.array,
+  times: PropTypes.array,
+  fetchAppointmentAction: PropTypes.func,
+  updateAppointment: PropTypes.func,
+  cancel: PropTypes.func,
+  copy: PropTypes.func,
+  deleteAppointment: PropTypes.func
+};
 
 export default UpdateAppointmentForm;

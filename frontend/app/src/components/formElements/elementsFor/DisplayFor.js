@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import ListItemValueDisplayFor from './ListItemValueDisplayFor';
@@ -55,6 +56,12 @@ const DisplayFor = ({ data, displayStyle, selectOptions }) => {
       {span()}
     </div>
   );
+};
+
+DisplayFor.propTypes = {
+  data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  displayStyle: PropTypes.string,
+  selectOptions: PropTypes.array
 };
 
 export default DisplayFor;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import { Form } from 'freakin-react-forms';
 import ContentHeader from '../ContentHeader';
@@ -151,5 +152,14 @@ class PurchaseForm extends Component {
     );
   }
 }
+
+PurchaseForm.propTypes = {
+  model: PropTypes.object,
+  params: PropTypes.object,
+  fetchClientAction: PropTypes.func,
+  notifications: PropTypes.func,
+  client: PropTypes.object,
+  purchase: PropTypes.object
+};
 
 export default PurchaseForm;

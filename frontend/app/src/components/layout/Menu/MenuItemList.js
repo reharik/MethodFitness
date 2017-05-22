@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import NavBreadCrumb from './NavBreadCrumb';
 import MenuItem from './MenuItem';
 
@@ -23,6 +25,15 @@ const MenuItemList = ({ items, breadCrumbItems, path, currentItem, menuItemClick
       </ul>
     </div>
   );
+};
+
+MenuItemList.propTypes = {
+  items: PropTypes.array,
+  breadCrumbItems: PropTypes.array,
+  path: PropTypes.array,
+  currentItem: PropTypes.string,
+  menuItemClicked: PropTypes.func,
+  navBreadCrumbClicked: PropTypes.func
 };
 
 export default MenuItemList;

@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
     .filter(x => !x.archived)
     .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));
 
-  trainer.trainerClientRates = (trainer.trainerClientRates||[]).map( x => {
+  trainer.trainerClientRates = (trainer.trainerClientRates || []).map( x => {
     let client = clients.find(c => c.value === x.clientId);
     return client ? {
       item: client,

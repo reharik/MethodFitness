@@ -2,6 +2,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
   return class Trainer extends AggregateRootBase {
     constructor() {
       super();
+      this.trainerClients = [];
       this._password = undefined;
       this._isArchived = false;
       this.type = 'Trainer';
@@ -72,13 +73,13 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
         updateTrainersClients(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainersClientsUpdated';
-            this.trainerClients.filter(x => !cmd.clients.find(y => y === x))
-              .map(x => ({
-                eventName: 'trainerClientAdded',
-                trainerId: this._id,
-                clientId: x
-              }))
-              .forEach(this.raiseEvent);
+          this.trainerClients.filter(x => !cmd.clients.find(y => y === x))
+            .map(x => ({
+              eventName: 'trainerClientAdded',
+              trainerId: this._id,
+              clientId: x
+            }))
+            .forEach(this.raiseEvent);
           cmd.clients.filter(x => !this.trainerClients.find(y => y === x))
             .map(x => ({
               eventName: 'trainerClientRemoved',

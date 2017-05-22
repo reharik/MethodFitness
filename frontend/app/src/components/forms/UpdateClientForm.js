@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from 'freakin-react-forms';
+import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import EditableFor from './../formElements/elementsFor/EditableFor';
 import EditableDisplay from './editableDisplay/EditableDisplay';
@@ -117,5 +117,19 @@ class UpdateClientForm extends Component {
     );
   }
 }
+
+UpdateClientForm.propTypes = {
+  clientId: PropTypes.string,
+  model: PropTypes.object,
+  inventory: PropTypes.object,
+  notifications: PropTypes.func,
+  states: PropTypes.array,
+  sources: PropTypes.array,
+  fetchClientAction: PropTypes.func,
+  updateClientSource: PropTypes.func,
+  updateClientInfo: PropTypes.func,
+  updateClientContact: PropTypes.func,
+  updateClientAddress: PropTypes.func
+};
 
 export default UpdateClientForm;

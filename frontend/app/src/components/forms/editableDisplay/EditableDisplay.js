@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import { Form } from 'freakin-react-forms';
 import EDFooter from './EDFooter.js';
@@ -46,7 +47,7 @@ class EditableDisplay extends Component {
       React.Children.forEach(children, x => {
         if (x.props) {
           if (x.props.data) {
-            this.applyDataAttrToModel(result, model, x)
+            this.applyDataAttrToModel(result, model, x);
           } else {
             it(x.props.children);
           }
@@ -77,10 +78,6 @@ class EditableDisplay extends Component {
 
   changeHandler = e => {
     const result = Form.onChangeHandler(this.state.fields)(e);
-console.log('==========result=========');
-console.log(result);
-console.log('==========END result=========');
-
     this.props.notifications(result.errors, this.props.formName, e.target.name);
     this.setState(result);
   };
@@ -130,5 +127,18 @@ console.log('==========END result=========');
     );
   }
 }
+
+EditableDisplay.propTypes = {
+  formName: PropTypes.string,
+  model: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  notifications: PropTypes.func,
+  overrideSubmit: PropTypes.func,
+  submitHandler: PropTypes.func,
+  deleteAppointment: PropTypes.func,
+  sectionHeader: PropTypes.string,
+  footer: PropTypes.object,
+  params: PropTypes.object
+};
 
 export default EditableDisplay;

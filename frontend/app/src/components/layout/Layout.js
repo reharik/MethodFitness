@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NavigationContainer from './../../containers/MenuContainer';
 import Header from './../../containers/HeaderContainer';
 import SignInContainer from '../../containers/forms/SignInContainer';
@@ -24,6 +25,12 @@ const Layout = ({ isReady, isAuthenticated, children }) => {
       </div>
     </div>
   );
+};
+
+Layout.propTypes = {
+  isReady: PropTypes.bool,
+  isAuthenticated: PropTypes.bool,
+  children: PropTypes.object
 };
 
 export default Layout;

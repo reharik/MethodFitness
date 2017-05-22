@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import UpdateClientForm from '../../components/forms/UpdateClientForm';
 import formJsonSchema from '../../utilities/formJsonSchema';
@@ -38,6 +39,13 @@ class UpdateClientFormContainer extends Component {
     return <UpdateClientForm {...this.props} />;
   }
 }
+
+UpdateClientFormContainer.propTypes = {
+  params: PropTypes.object,
+  fetchClientAction: PropTypes.func,
+  isFetching: PropTypes.func,
+  errorMessage: PropTypes.string
+};
 
 const mapStateToProps = (state, props) => {
   const client = state.clients.find(x => x.id === props.params.clientId);

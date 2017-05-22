@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { navDown } from '../modules/index';
 import Layout from '../components/layout/Layout';
 import { getJsonSchema } from './../modules/schemaModule';
 
@@ -28,6 +28,13 @@ class LayoutContainer extends Component {
     return <Layout {...this.props} />;
   }
 }
+
+LayoutContainer.propTypes = {
+  getJsonSchema: PropTypes.func,
+  isFetching: PropTypes.bool,
+  errorMessage: PropTypes.string
+};
+
 
 function mapStateToProps(state = []) {
   return {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Link } from 'react-router';
 
@@ -17,5 +18,10 @@ const UserProfileHeader = ({ userName, logoutUser }) => (
     </a>
   </div>
 );
+
+UserProfileHeader.propTypes = {
+  userName: PropTypes.string,
+  logoutUser: PropTypes.func
+};
 
 export default UserProfileHeader;

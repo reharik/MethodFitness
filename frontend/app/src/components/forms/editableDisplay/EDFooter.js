@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const EDFooter = ({ editing, toggleEdit }) => {
   return (
@@ -11,6 +12,11 @@ const EDFooter = ({ editing, toggleEdit }) => {
         : <a className="editableDisplay__footer_edit" onClick={e => toggleEdit(e, false)}>edit</a>}
     </div>
   );
+};
+
+EDFooter.propTypes = {
+  editing: PropTypes.bool,
+  toggleEdit: PropTypes.func
 };
 
 export default EDFooter;

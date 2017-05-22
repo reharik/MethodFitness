@@ -1,7 +1,6 @@
-/**
- * Created by reharik on 3/12/16.
- */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import NavBreadCrumbItem from './NavBreadCrumbItem';
 
 const NavBreadCrumb = ({ breadCrumbItems, navBreadCrumbClicked }) => (
@@ -12,7 +11,7 @@ const NavBreadCrumb = ({ breadCrumbItems, navBreadCrumbClicked }) => (
           key={index}
           text={item}
           onClick={() => navBreadCrumbClicked(index)}
-          position={index == breadCrumbItems.length - 1 ? 'last' : ''}
+          position={index === breadCrumbItems.length - 1 ? 'last' : ''}
         />
       ))}
     </ul>
@@ -23,5 +22,10 @@ const NavBreadCrumb = ({ breadCrumbItems, navBreadCrumbClicked }) => (
     </div>
   </div>
 );
+
+NavBreadCrumb.propTypes = {
+  breadCrumbItems: PropTypes.array,
+  navBreadCrumbClicked: PropTypes.func
+};
 
 export default NavBreadCrumb;

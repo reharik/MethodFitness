@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ContentHeader from './ContentHeader';
 import AppointmentModal from './AppointmentModal';
 import { Calendar } from 'redux-task-calendar';
@@ -113,8 +114,14 @@ class MFCalendar extends Component {
   }
 }
 
-MFCalendar.contextTypes = {
-  config: React.PropTypes.object
+MFCalendar.propTypes = {
+  config: PropTypes.object,
+  fetchClientsAction: PropTypes.func,
+  fetchTrainersAction: PropTypes.func,
+  retrieveDataAction: PropTypes.func,
+  updateTaskViaDND: PropTypes.func,
+  title: PropTypes.string,
+  isAdmin: PropTypes.bool
 };
 
 export default MFCalendar;

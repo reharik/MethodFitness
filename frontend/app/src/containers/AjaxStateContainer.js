@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 
 const AjaxStateComponent = ({ ajaxState }) => {
   return (
@@ -8,6 +10,11 @@ const AjaxStateComponent = ({ ajaxState }) => {
     </div>
   );
 };
+
+AjaxStateComponent.propTypes = {
+  ajaxState: PropTypes.object
+};
+
 
 const mapStateToProps = function(state, props) {
   return {

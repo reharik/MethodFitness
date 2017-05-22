@@ -1,10 +1,8 @@
-/**
- * Created by reharik on 4/16/16.
- */
 import React from 'react';
+import PropTypes from 'prop-types';
 import selectn from 'selectn';
 
-export default ({ column, row }) => {
+const EmailLink = ({ column, row }) => {
   const value = selectn(column.propertyName, row);
   return (
     <div>
@@ -12,3 +10,10 @@ export default ({ column, row }) => {
     </div>
   );
 };
+
+EmailLink.propTypes = {
+  column: PropTypes.object,
+  row: PropTypes.object
+};
+
+export default EmailLink;

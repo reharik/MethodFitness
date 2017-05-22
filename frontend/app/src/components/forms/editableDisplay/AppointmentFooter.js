@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const AppointmentFooter = ({ editing, toggleEdit, params }) => {
   const deleteAppointment = e => {
@@ -35,6 +36,12 @@ const AppointmentFooter = ({ editing, toggleEdit, params }) => {
         </div>}
     </div>
   );
+};
+
+AppointmentFooter.propTypes = {
+  editing: PropTypes.bool,
+  toggleEdit: PropTypes.func,
+  params: PropTypes.object
 };
 
 export default AppointmentFooter;

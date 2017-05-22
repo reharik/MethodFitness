@@ -47,7 +47,8 @@ module.exports = function(rsRepository, moment, logger) {
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.archived = true;
       trainer.archivedDate = moment().toISOString();
-      let sql = `UPDATE "trainer" SET "archived" = 'true', document = '${JSON.stringify(trainer)}' where id = '${event.id}'`;
+      let sql = `UPDATE "trainer" SET "archived" = 'true', document = '${JSON.stringify(trainer)}' 
+where id = '${event.id}'`;
       return await rsRepository.saveQuery(sql);
     }
 
@@ -55,7 +56,8 @@ module.exports = function(rsRepository, moment, logger) {
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.archived = false;
       trainer.archivedDate = moment().toISOString();
-      let sql = `UPDATE "trainer" SET "archived" = 'false', document = '${JSON.stringify(trainer)}' where id = '${event.id}'`;
+      let sql = `UPDATE "trainer" SET "archived" = 'false', document = '${JSON.stringify(trainer)}' 
+where id = '${event.id}'`;
       return await rsRepository.saveQuery(sql);
     }
 
@@ -63,14 +65,6 @@ module.exports = function(rsRepository, moment, logger) {
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.clients = event.clients;
       return await rsRepository.save('trainer', trainer, event.id);
-    }
-
-    async function clientArchived(event) {
-      let client = await rsRepository.getById(event.id, 'client');
-      client.archived = true;
-      client.archivedDate = moment().toISOString();
-      let sql = `UPDATE "client" SET "archived" = 'true', document = '${JSON.stringify(client)}' where id = '${event.id}'`;
-      return await rsRepository.saveQuery(sql);
     }
 
     return {

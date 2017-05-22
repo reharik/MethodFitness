@@ -54,7 +54,8 @@ module.exports = function(rsRepository, moment, logger) {
       let client = await rsRepository.getById(event.id, 'client');
       client.archived = true;
       client.archivedDate = moment().toISOString();
-      let sql = `UPDATE "client" SET "archived" = 'true', document = '${JSON.stringify(client)}' where id = '${event.id}'`;
+      let sql = `UPDATE "client" SET "archived" = 'true', document = '${JSON.stringify(client)}' 
+where id = '${event.id}'`;
       return await rsRepository.saveQuery(sql);
     }
 
@@ -62,7 +63,8 @@ module.exports = function(rsRepository, moment, logger) {
       let client = await rsRepository.getById(event.id, 'client');
       client.archived = false;
       client.archivedDate = moment().toISOString();
-      let sql = `UPDATE "client" SET "archived" = 'false', document = '${JSON.stringify(client)}' where id = '${event.id}'`;
+      let sql = `UPDATE "client" SET "archived" = 'false', document = '${JSON.stringify(client)}' 
+where id = '${event.id}'`;
       return await rsRepository.saveQuery(sql);
     }
 

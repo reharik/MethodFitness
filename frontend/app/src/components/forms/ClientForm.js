@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import { Form } from 'freakin-react-forms';
 import ContentHeader from '../ContentHeader';
@@ -117,5 +118,15 @@ class ClientForm extends Component {
     );
   }
 }
+
+ClientForm.propTypes = {
+  model: PropTypes.object,
+  params: PropTypes.object,
+  fetchClientAction: PropTypes.func,
+  addClient: PropTypes.func,
+  notifications: PropTypes.func,
+  states: PropTypes.array,
+  sources: PropTypes.array
+};
 
 export default ClientForm;

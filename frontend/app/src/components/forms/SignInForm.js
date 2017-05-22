@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SubmissionFor from '../../containers/forms/SubmissionForContainer';
 import { Notifs } from 'redux-notifications';
 import { Form } from 'freakin-react-forms';
@@ -74,5 +75,11 @@ class SignInForm extends Component {
     );
   }
 }
+
+SignInForm.propTypes = {
+  fields: PropTypes.object,
+  loginUser: PropTypes.func,
+  notifications: PropTypes.func
+};
 
 export default SignInForm;

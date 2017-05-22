@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import InputColor from 'react-input-color';
 import TokenAutocomplete from '../reactSelect/index';
 import Datepicker from 'react-datepicker';
@@ -106,7 +107,6 @@ const InputFor = (
         const password = data['x-input'] === 'password' ? { type: 'password' } : '';
         return (
           <input
-            ref={node => data.ref = node}
             className={inputStyle}
             {...password}
             placeholder={data.placeholder}
@@ -124,6 +124,12 @@ const InputFor = (
       {input()}
     </div>
   );
+};
+
+InputFor.propTypes = {
+  data: PropTypes.object,
+  selectOptions: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default InputFor;

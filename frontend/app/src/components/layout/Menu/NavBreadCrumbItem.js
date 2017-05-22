@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const NavBreadCrumbItem = ({ text, position, onClick }) => {
   if (position !== 'last') {
@@ -11,4 +12,11 @@ const NavBreadCrumbItem = ({ text, position, onClick }) => {
   }
   return null;
 };
+
+NavBreadCrumbItem.propTypes = {
+  text: PropTypes.string,
+  position: PropTypes.string,
+  onClick: PropTypes.func
+};
+
 export default NavBreadCrumbItem;
