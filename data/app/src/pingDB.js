@@ -9,11 +9,19 @@ console.log(`==========END configs=========`);
       // connect to our database
       return client.connect(function (err) {
         if (err) {
+          console.log('==========err=========');
+          console.log(err);
+          console.log('==========END err=========');
+
           return rej(err);
         }
         // execute a query on our database
         client.query('SELECT version()', function (err, result) {
           if (err) {
+          console.log('==========err=========');
+          console.log(err);
+          console.log('==========END err=========');
+
             return rej(err);
           }
           var output = result.rows[0];
@@ -21,6 +29,10 @@ console.log(`==========END configs=========`);
           // disconnect the client
           client.end(function (err) {
             if (err) {
+              console.log('==========err=========');
+              console.log(err);
+              console.log('==========END err=========');
+
               return rej(err);
             }
           });

@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import InputFor from './InputFor';
 import LabelFor from './LabelFor';
 
-const SubmissionFor = ({ data, containerStyle, noLabel, selectOptions, onChange }) => {
-  const _containerStyle = classNames('editor__container', containerStyle);
+const SubmissionFor = ({ data, containerStyle, noLabel, selectOptions, onChange, horizontal }) => {
+  const _containerStyle = classNames(containerStyle, {editor__container: !horizontal, display_conatainer: horizontal});
   return (
     <div className={_containerStyle}>
       {noLabel ? null : LabelFor({ data })}

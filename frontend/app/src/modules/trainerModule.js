@@ -10,6 +10,7 @@ export const UPDATE_TRAINER_PASSWORD = requestStates('update_trainer_password', 
 export const UPDATE_TRAINER_CONTACT = requestStates('update_trainer_contact', 'trainer');
 export const UPDATE_TRAINER_ADDRESS = requestStates('update_trainer_address', 'trainer');
 export const UPDATE_TRAINER_CLIENTS = requestStates('update_trainer_clients', 'trainer');
+export const UPDATE_TRAINER_CLIENT_RATES = requestStates('update_trainer_client_rates', 'trainer');
 export const UPDATE_TRAINER_INFO = requestStates('update_trainer_info', 'trainer');
 export const TRAINER_LIST = requestStates('trainer_list', 'trainer');
 export const ARCHIVE_TRAINER = requestStates('archive_trainer', 'trainer');
@@ -196,6 +197,26 @@ export function updateTrainerAddress(data) {
     type: UPDATE_TRAINER_ADDRESS.REQUEST,
     states: UPDATE_TRAINER_ADDRESS,
     url: config.apiBase + 'trainer/updateTrainerAddress',
+    update: data,
+    params: {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(item)
+    }
+  };
+}
+
+export function updateTrainersClientRate(data) {
+  const item = {
+    id: data.id,
+    trainerClientRates: data.trainerClientRates
+  };
+
+  return {
+    type: UPDATE_TRAINER_CLIENT_RATES.REQUEST,
+    states: UPDATE_TRAINER_CLIENT_RATES,
+    url: config.apiBase + 'trainer/updateTrainerClientRates',
     update: data,
     params: {
       method: 'POST',

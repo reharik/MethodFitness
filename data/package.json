@@ -6,7 +6,9 @@
   "scripts": {
     "localTest": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/integrationTests/*.js",
     "intTest": "mocha --require ./app/seedProject/babelhook --opts ./app/seedProject/tests/mocha.opts ./app/seedProject/tests/integrationTests/*.js",
-    "start": "node app/index.js"
+    "rebuildData": "node app/rebuildDataIndex.js",
+    "migration": "node app/migrationIndex.js",
+    "seedES": "node app/seedESIndex.js"
   },
   "repository": {
     "type": "git",

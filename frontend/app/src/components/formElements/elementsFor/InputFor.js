@@ -4,6 +4,7 @@ import TokenAutocomplete from '../reactSelect/index';
 import Datepicker from 'react-datepicker';
 import moment from 'moment';
 import classNames from 'classnames';
+import ListItemValueFor from './ListItemValueFor';
 
 const InputFor = (
   {
@@ -86,6 +87,14 @@ const InputFor = (
             name={data.name}
             value={data.value}
             onChange={_onChange}
+          />
+        );
+      }
+      case 'listItemValue': {
+        return (
+          <ListItemValueFor
+            className={inputStyle}
+            data={data}
           />
         );
       }

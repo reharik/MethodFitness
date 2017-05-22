@@ -23,9 +23,6 @@ module.exports = function(
   let updateTrainerInfo = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainerInfo');
     const result = await processMessage(ctx.request.body, 'updateTrainerInfo');
-    console.log('==========result=========');
-    console.log(result);
-    console.log('==========END result=========');
 
     ctx.body = result.body;
     ctx.status = result.status;
@@ -67,6 +64,15 @@ module.exports = function(
     ctx.status = result.status;
   };
 
+  let updateTrainersClientRates = async function(ctx) {
+    logger.debug('arrived at trainer.updateTrainersClientRates');
+
+    const result = await processMessage(ctx.request.body, 'updateTrainersClientRates');
+
+    ctx.body = result.body;
+    ctx.status = result.status;
+  };
+
   let archiveTrainer = async function(ctx) {
     logger.debug('arrived at trainer.archiveTrainer');
 
@@ -103,6 +109,7 @@ module.exports = function(
     updateTrainerAddress,
     updateTrainerPassword,
     updateTrainersClients,
+    updateTrainersClientRates,
     archiveTrainer,
     getTrainer
   };

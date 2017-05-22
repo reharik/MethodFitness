@@ -57,11 +57,17 @@ kill-all-but-node:
 	- docker volume rm docker_eventstore
 
 kill-eventstore:
-	- docker rm -vf eventstore 2>/dev/null || echo "No more containers to remove."
-	- docker rmi eventstore/eventstore
-	- docker volume rm docker_eventstore
+	- docker rm -v -f methodfit_eventstore_1 || echo "No more containers to remove."
 
 kill-postgres:
-	- docker rm -vf postgres 2>/dev/null || echo "No more containers to remove."
-	- docker rmi postgres
-	- docker volume rm docker_postgres_data
+	- docker rm -v -f methodfit_postgres_1  || echo "No more containers to remove."
+
+
+seedES:
+	- cd data && make seedES
+
+migration:
+	- cd data && make migration
+
+rebuildData:
+	- cd data && make rebuildData

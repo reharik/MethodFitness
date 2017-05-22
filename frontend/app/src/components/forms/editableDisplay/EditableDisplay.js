@@ -32,13 +32,21 @@ class EditableDisplay extends Component {
     }
   };
 
+  applyDataAttrToModel = (result, model, x ) => {
+    if (typeof x.props.dataFunction === 'function') {
+      result[x.props.data] = x.props.dataFunction(model);
+    } else {
+      result[x.props.data] = model[x.props.data];
+    }
+  };
+
   getRelevantFieldsFromModel = (children, model) => {
     let result = {};
     let it = children => {
       React.Children.forEach(children, x => {
         if (x.props) {
           if (x.props.data) {
-            result[x.props.data] = model[x.props.data];
+            this.applyDataAttrToModel(result, model, x)
           } else {
             it(x.props.children);
           }
@@ -69,11 +77,16 @@ class EditableDisplay extends Component {
 
   changeHandler = e => {
     const result = Form.onChangeHandler(this.state.fields)(e);
+console.log('==========result=========');
+console.log(result);
+console.log('==========END result=========');
+
     this.props.notifications(result.errors, this.props.formName, e.target.name);
     this.setState(result);
   };
 
   submitHandler = e => {
+
     e.preventDefault();
     let result;
     if (this.props.overrideSubmit) {

@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import ListItemValueDisplayFor from './ListItemValueDisplayFor';
+
 
 const DisplayFor = ({ data, displayStyle, selectOptions }) => {
   const span = function() {
@@ -36,6 +38,9 @@ const DisplayFor = ({ data, displayStyle, selectOptions }) => {
             {textValues.map((x, i) => <li key={i}>{x}</li>)}
           </ul>
         );
+      }
+      case 'listItemValue': {
+        return (<ListItemValueDisplayFor data={data} />);
       }
       default: {
         return <span className="display__container__value">{data.value.display || data.value.id || data.value}</span>;

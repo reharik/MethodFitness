@@ -173,6 +173,30 @@ module.exports = function trainerRouter(koarouter, controllers) {
     router.post('/trainer/updateTrainersClients', controllers.trainerController.updateTrainersClients);
     /**
      * @swagger
+     * /trainer/updateTrainersClientRates:
+     *   post:
+     *     x-name: /trainer/updateTrainersClientRates
+     *     description: update Trainers Client Rates
+     *     operationId: /trainer/updateTrainersClientRates
+     *     parameters:
+     *       - name: body
+     *         in: body
+     *         required: true
+     *         schema:
+     *           $ref: "#/definitions/updateTrainersClientRates"
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *             $ref: "#/definitions/standardSuccessResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.post('/trainer/updateTrainersClientRates', controllers.trainerController.updateTrainersClientRates);
+    /**
+     * @swagger
      * /trainer/getTrainer/{id}:
      *   get:
      *     x-name: trainer

@@ -18,14 +18,8 @@ module.exports = function(pingDB, config, dbmigrate) {
         console.log(`==========END "database not available"=========`);
       }
       
-      console.log(`==========configs=========`);
-      console.log(configs);
-      console.log(`==========END configs=========`);
       configs.driver = "pg";
-      var migrator = dbmigrate.getInstance(true, {config: {dev: configs}, cwd:'./app' });
-      console.log(`==========migrator=========`);
-      console.log(migrator);
-      console.log(`==========END migrator=========`);
+      const migrator = dbmigrate.getInstance(true, {config: {dev: configs}, cwd:'./app' });
       await migrator.reset();
       await migrator.up();
     }catch(ex){

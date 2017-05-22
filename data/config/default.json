@@ -2,17 +2,17 @@
   "configs": {
     "children": {
       "eventstore": {
-        "host": "eventstore",
+        "host": "localhost",
         "systemUsers": {
-          "admin": "admin"
-        },
-        "adminPassword": "changeit"
+          "admin": "admin",
+          "adminPassword": "changeit"
+        }
       },
       "postgres": {
         "config" :{
           "user": "methodfitness",
           "database": "methodfitness",
-          "host"     : "postgres",
+          "host"     : "localhost",
           "password": "password",
           "port": "5400",
           "max": "10",

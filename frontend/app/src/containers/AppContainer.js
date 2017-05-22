@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { navDown } from '../modules/index';
 import Layout from '../components/layout/Layout';

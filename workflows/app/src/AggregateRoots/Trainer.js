@@ -72,6 +72,20 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
         updateTrainersClients(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainersClientsUpdated';
+            this.trainerClients.filter(x => !cmd.clients.find(y => y === x))
+              .map(x => ({
+                eventName: 'trainerClientAdded',
+                trainerId: this._id,
+                clientId: x
+              }))
+              .forEach(this.raiseEvent);
+          cmd.clients.filter(x => !this.trainerClients.find(y => y === x))
+            .map(x => ({
+              eventName: 'trainerClientRemoved',
+              trainerId: this._id,
+              clientId: x
+            }))
+            .forEach(this.raiseEvent);
           this.raiseEvent(cmd);
         }
       };
@@ -94,7 +108,12 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
 
         trainerUnArchived: function() {
           this._isArchived = false;
+        }.bind(this),
+
+        trainersClientsUpdated: function(cmd) {
+          this.trainerClients = cmd.clients;
         }.bind(this)
+
       };
     }
 
