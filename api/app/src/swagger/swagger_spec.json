@@ -831,6 +831,37 @@
                 }
             }
         },
+        "/trainer/updateTrainersClientRates": {
+            "post": {
+                "x-name": "/trainer/updateTrainersClientRates",
+                "description": "update Trainers Client Rates",
+                "operationId": "/trainer/updateTrainersClientRates",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/updateTrainersClientRates"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/standardSuccessResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Failure",
+                        "schema": {
+                            "$ref": "#/definitions/standardFailureResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/trainer/getTrainer/{id}": {
             "get": {
                 "x-name": "trainer",
@@ -1048,6 +1079,31 @@
                     "uniqueItems": true,
                     "x-input": "multi-select"
                 },
+                "trainerClientRates": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "title": "trainerClientRate",
+                        "properties": {
+                            "trainerId": {
+                                "type": "string"
+                            },
+                            "clientId": {
+                                "type": "string"
+                            },
+                            "rate": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "trainerId",
+                            "clientId",
+                            "rate"
+                        ]
+                    },
+                    "uniqueItems": true,
+                    "x-input": "listItemValue"
+                },
                 "id": {
                     "type": "string",
                     "format": "uuid"
@@ -1149,6 +1205,25 @@
             "required": [
                 "password",
                 "role"
+            ]
+        },
+        "trainerClientRate": {
+            "title": "trainerClientRate",
+            "properties": {
+                "trainerId": {
+                    "type": "string"
+                },
+                "clientId": {
+                    "type": "string"
+                },
+                "rate": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "trainerId",
+                "clientId",
+                "rate"
             ]
         },
         "address": {
@@ -1471,6 +1546,31 @@
                                 },
                                 "uniqueItems": true,
                                 "x-input": "multi-select"
+                            },
+                            "trainerClientRates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "title": "trainerClientRate",
+                                    "properties": {
+                                        "trainerId": {
+                                            "type": "string"
+                                        },
+                                        "clientId": {
+                                            "type": "string"
+                                        },
+                                        "rate": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "trainerId",
+                                        "clientId",
+                                        "rate"
+                                    ]
+                                },
+                                "uniqueItems": true,
+                                "x-input": "listItemValue"
                             },
                             "id": {
                                 "type": "string",
