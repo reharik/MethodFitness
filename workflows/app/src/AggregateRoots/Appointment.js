@@ -1,5 +1,4 @@
-module.exports = function (AggregateRootBase, invariant, uuid, moment) {
-
+module.exports = function(AggregateRootBase, invariant, uuid, moment) {
   return class Appointment extends AggregateRootBase {
     constructor() {
       super();
@@ -16,26 +15,26 @@ module.exports = function (AggregateRootBase, invariant, uuid, moment) {
       this.expectCorrectNumberOfClients();
 
       return {
-        'scheduleAppointment': function (cmd) {
+        scheduleAppointment(cmd) {
           this.raiseEvent({
             eventName: 'appointmentScheduled',
-              id: uuid.v4(),
-              appointmentType: cmd.appt.appointmentType,
-              date: cmd.appt.date,
-              startTime: cmd.appt.startTime,
-              endTime: cmd.appt.endTime,
-              trainer: cmd.appt.trainer,
-              clients: cmd.appt.clients,
-              notes: cmd.appt.notes,
-              entityName: cmd.id
+            id: uuid.v4(),
+            appointmentType: cmd.appt.appointmentType,
+            date: cmd.appt.date,
+            startTime: cmd.appt.startTime,
+            endTime: cmd.appt.endTime,
+            trainer: cmd.appt.trainer,
+            clients: cmd.appt.clients,
+            notes: cmd.appt.notes,
+            entityName: cmd.id
           });
         }
-      }
+      };
     }
 
     applyEventHandlers() {
       return {
-        'appointmentScheduled': function (event) {
+        appointmentScheduled: function(event) {
           this._id = event.data.id;
           this.appointmentType = event.appointmentType;
           this.startTime = event.startTime;
@@ -43,33 +42,38 @@ module.exports = function (AggregateRootBase, invariant, uuid, moment) {
           this.trainer = event.trainer;
           this.clients = event.clients;
         }.bind(this)
-      }
+      };
     }
 
     expectEndTimeAfterStart() {
-      invariant(moment(this.startTime).isAfter(moment(this.endTime))
-        , 'Appointment End Time must be after Appointment Start Time');
+      invariant(
+        moment(this.startTime).isAfter(moment(this.endTime)),
+        'Appointment End Time must be after Appointment Start Time'
+      );
     }
 
     expectAppointmentDurationCorrect() {
-      var diff = moment(this.startTime).diff(moment(this.endTime), 'minutes');
+      let diff = moment(this.startTime).diff(moment(this.endTime), 'minutes');
       switch (this.appointmentType) {
-        case 'halfHour':
-        {
-          invariant(diff != 30,
-            'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time');
+        case 'halfHour': {
+          invariant(
+            diff !== 30,
+            'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time'
+          );
           break;
         }
-        case 'fullHour':
-        {
-          invariant(diff != 60,
-            'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time');
+        case 'fullHour': {
+          invariant(
+            diff !== 60,
+            'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time'
+          );
           break;
         }
-        case 'pair':
-        {
-          invariant(diff != 60,
-            'Given the Appointment Type of Pair the start time must be 60 minutes after the end time');
+        case 'pair': {
+          invariant(
+            diff !== 60,
+            'Given the Appointment Type of Pair the start time must be 60 minutes after the end time'
+          );
           break;
         }
       }
@@ -78,19 +82,21 @@ module.exports = function (AggregateRootBase, invariant, uuid, moment) {
     expectCorrectNumberOfClients() {
       switch (this.appointmentType) {
         case 'halfHour':
-        case 'fullHour':
-        {
-          invariant(!clients || clients.length != 1,
-            `Given the Appointment Type of ${this.appointmentType} you must have 1 and only 1 client assigned`);
+        case 'fullHour': {
+          invariant(
+            !this.clients || this.clients.length !== 1,
+            `Given the Appointment Type of ${this.appointmentType} you must have 1 and only 1 client assigned`
+          );
           break;
         }
-        case 'pair':
-        {
-          invariant(!clients || clients.length <= 1,
-            `Given the Appointment Type of Pair you must have 2 or more clients assigned`);
+        case 'pair': {
+          invariant(
+            !this.clients || this.clients.length <= 1,
+            `Given the Appointment Type of Pair you must have 2 or more clients assigned`
+          );
           break;
         }
       }
     }
-  }
+  };
 };

@@ -1,10 +1,10 @@
-var dagon = require('dagon');
-var path = require('path');
+let dagon = require('dagon');
+let path = require('path');
 
 module.exports = function(_options) {
-  var options = _options || {};
-  var container = dagon(options.dagon).container;
-  var result;
+  let options = _options || {};
+  let container = dagon(options.dagon).container;
+  let result;
   try {
     result = container(x =>
         x.pathToRoot(path.join(__dirname, '/../'))

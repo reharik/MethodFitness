@@ -1,12 +1,8 @@
-module.exports = function(eventRepository,
-                          logger,
-                          Client) {
-
-  return function PurchasesWorkflow(){
-
+module.exports = function(eventRepository, logger, Client) {
+  return function PurchasesWorkflow() {
     async function purchase(cmd, continuationId) {
       logger.info('calling purchase');
-      var client = await eventRepository.getById(Client, cmd.clientId);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.purchase(cmd);
 
       logger.info('saving client');
@@ -14,12 +10,12 @@ module.exports = function(eventRepository,
 
       await eventRepository.save(client, { continuationId });
 
-      return {clientId: client._id}
+      return { clientId: client._id };
     }
 
     return {
       handlerName: 'PurchasesWorkflow',
       purchase
-    }
+    };
   };
 };

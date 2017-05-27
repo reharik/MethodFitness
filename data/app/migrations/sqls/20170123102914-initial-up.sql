@@ -1,7 +1,5 @@
 
 
--- DROP SCHEMA public;
-
 GRANT ALL ON SCHEMA public TO methodfitness;
 GRANT ALL ON SCHEMA public TO public;
 COMMENT ON SCHEMA public

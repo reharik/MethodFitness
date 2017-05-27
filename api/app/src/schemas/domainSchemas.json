@@ -78,6 +78,15 @@
           "uniqueItems": true,
           "x-input": "multi-select"
         },
+        "trainerClientRates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/trainerClientRate"
+          },
+          "uniqueItems": true,
+          "x-input": "listItemValue"
+        },
         "id": {
           "type": "string",
           "format": "uuid"
@@ -135,6 +144,25 @@
       "required": [
         "password",
         "role"
+      ]
+    },
+    "trainerClientRate": {
+      "title": "trainerClientRate",
+      "properties": {
+        "trainerId": {
+          "type": "string"
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "rate": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "trainerId",
+        "clientId",
+        "rate"
       ]
     },
     "address": {

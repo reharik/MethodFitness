@@ -1,5 +1,4 @@
-
-module.exports = function(uuid) {
+module.exports = function() {
   return class ClientInventory {
     constructor() {
       this.fullHours = 0;
@@ -7,7 +6,7 @@ module.exports = function(uuid) {
       this.pairs = 0;
     }
 
-    getInventory(cmd) {
+    getInventory() {
       return {
         fullHours: this.fullHours,
         halfHours: this.halfHours,
@@ -16,15 +15,14 @@ module.exports = function(uuid) {
     }
 
     addFullHourSession() {
-      this.fullHours ++;
+      this.fullHours++;
     }
 
     addHalfHourSession() {
-      this.halfHours ++
+      this.halfHours++;
     }
     addPairSession() {
-      this.pairs ++;
+      this.pairs++;
     }
-
-  }
+  };
 };

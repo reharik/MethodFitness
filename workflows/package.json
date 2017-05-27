@@ -8,7 +8,9 @@
   "scripts": {
     "start": "nodemon app/index.js",
     "test": "mocha --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
-    "intTest": "mocha  ./app/tests/integrationTests/*.js"
+    "intTest": "mocha  ./app/tests/integrationTests/*.js",
+    "lint": "eslint -c ./../.eslintrc.json .",
+    "validate": "npm ls"
   },
   "bugs": {
     "url": "https://github.com/reharik/mf_workflows/issues"
@@ -36,8 +38,13 @@
   },
   "devDependencies": {
     "chai": "^3.3.0",
+    "eslint": "^3.19.0",
     "mocha": "^2.2.5",
     "must": "^0.12.0",
-    "nodemon": "^1.11.0"
-  }
+    "nodemon": "^1.11.0",
+    "precommit-hook-eslint": "^3.0.0"
+  },
+  "pre-commit": [
+    "lint"
+  ]
 }

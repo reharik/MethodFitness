@@ -1,102 +1,98 @@
-module.exports = function(eventRepository,
-                          logger,
-                          Client) {
+module.exports = function(eventRepository, logger, Client) {
+  return function ClientWorkflow() {
+    async function addClient(cmd, continuationId) {
+      logger.info('calling addClient');
+      let client = new Client();
+      client.addClient(cmd);
 
-    return function ClientWorkflow(){
+      logger.info('saving client');
+      logger.trace(client);
 
-        async function addClient(cmd, continuationId) {
-            logger.info('calling addClient');
-            var client = new Client();
-            client.addClient(cmd);
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
 
-            logger.info('saving client');
-            logger.trace(client);
+    async function updateClientAddress(cmd, continuationId) {
+      logger.info('calling updateClientAddress');
+      let client = await eventRepository.getById(Client, cmd.id);
+      client.updateClientAddress(cmd);
 
-            await eventRepository.save(client, { continuationId });
-            return {clientId: client._id}
-        }
+      logger.info('saving client');
+      logger.trace(client);
 
-        async function updateClientAddress(cmd, continuationId) {
-            logger.info('calling updateClientAddress');
-            var client = await eventRepository.getById(Client, cmd.id);
-            client.updateClientAddress(cmd);
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
 
-            logger.info('saving client');
-            logger.trace(client);
+    async function updateClientContact(cmd, continuationId) {
+      logger.info('calling updateClientContact');
+      let client = await eventRepository.getById(Client, cmd.id);
+      client.updateClientContact(cmd);
 
-            await eventRepository.save(client, { continuationId });
-            return {clientId: client._id};
-        }
+      logger.info('saving client');
+      logger.trace(client);
 
-        async function updateClientContact(cmd, continuationId) {
-            logger.info('calling updateClientContact');
-            var client = await eventRepository.getById(Client, cmd.id);
-            client.updateClientContact(cmd);
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
 
-            logger.info('saving client');
-            logger.trace(client);
+    async function updateClientInfo(cmd, continuationId) {
+      logger.info('calling updateClientInfo');
+      let client = await eventRepository.getById(Client, cmd.id);
+      client.updateClientInfo(cmd);
 
-            await eventRepository.save(client, { continuationId });
-            return {clientId: client._id};
-        }
+      logger.info('saving client');
+      logger.trace(client);
 
-        async function updateClientInfo(cmd, continuationId) {
-            logger.info('calling updateClientInfo');
-            var client = await eventRepository.getById(Client, cmd.id);
-            client.updateClientInfo(cmd);
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
 
-            logger.info('saving client');
-            logger.trace(client);
+    async function updateClientSource(cmd, continuationId) {
+      logger.info('calling updateClientSource');
+      let client = await eventRepository.getById(Client, cmd.id);
+      client.updateClientSource(cmd);
 
-            await eventRepository.save(client, { continuationId });
-            return {clientId: client._id};
-        }
+      logger.info('saving client');
+      logger.trace(client);
 
-        async function updateClientSource(cmd, continuationId) {
-            logger.info('calling updateClientSource');
-            var client = await eventRepository.getById(Client, cmd.id);
-            client.updateClientSource(cmd);
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
 
-            logger.info('saving client');
-            logger.trace(client);
+    async function archiveClient(cmd, continuationId) {
+      logger.info('calling archiveClient');
+      let client = await eventRepository.getById(Client, cmd.id);
+      client.archiveClient(cmd);
 
-            await eventRepository.save(client, { continuationId });
-            return {clientId: client._id};
-        }
+      logger.info('saving client');
+      logger.trace(client);
 
-        async function archiveClient(cmd, continuationId) {
-            logger.info('calling archiveClient');
-            var client = await eventRepository.getById(Client, cmd.id);
-            client.archiveClient(cmd);
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
 
-            logger.info('saving client');
-            logger.trace(client);
+    async function unArchiveClient(cmd, continuationId) {
+      logger.info('calling unArchiveClient');
+      let client = await eventRepository.getById(Client, cmd.id);
+      client.unArchiveClient(cmd);
 
-            await eventRepository.save(client, { continuationId });
-            return {clientId: client._id};
-        }
+      logger.info('saving client');
+      logger.trace(client);
 
-        async function unArchiveClient(cmd, continuationId) {
-            logger.info('calling unArchiveClient');
-            var client = await eventRepository.getById(Client, cmd.id);
-            client.unArchiveClient(cmd);
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
 
-            logger.info('saving client');
-            logger.trace(client);
-
-            await eventRepository.save(client, { continuationId });
-            return {clientId: client._id};
-        }
-
-        return {
-            handlerName: 'ClientWorkflow',
-            addClient,
-            updateClientInfo,
-            updateClientAddress,
-            updateClientContact,
-            updateClientSource,
-            archiveClient,
-            unArchiveClient
-        }
+    return {
+      handlerName: 'ClientWorkflow',
+      addClient,
+      updateClientInfo,
+      updateClientAddress,
+      updateClientContact,
+      updateClientSource,
+      archiveClient,
+      unArchiveClient
     };
+  };
 };

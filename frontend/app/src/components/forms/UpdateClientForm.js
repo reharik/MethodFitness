@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
-import {Form} from 'freakin-react-forms';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import EditableFor from './../formElements/elementsFor/EditableFor';
 import EditableDisplay from './editableDisplay/EditableDisplay';
-import {browserHistory} from 'react-router';
-import ClientInventory from './../ClientInventory'
-
+import { browserHistory } from 'react-router';
+import ClientInventory from './../ClientInventory';
 
 class UpdateClientForm extends Component {
   componentWillMount() {
@@ -20,80 +19,91 @@ class UpdateClientForm extends Component {
 
   render() {
     return (
-      <div className='form'>
-        <ContentHeader >
+      <div className="form">
+        <ContentHeader>
           <div className="form__header">
             <div className="form__header__left">
 
-              <button className="contentHeader__button__new" title="New"
-                      onClick={() => browserHistory.push('/client')}/>
+              <button
+                className="contentHeader__button__new"
+                title="New"
+                onClick={() => browserHistory.push('/client')}
+              />
             </div>
             <div className="form__header__center">
               <div className="form__header__center__title">Client</div>
             </div>
-            <div className="form__header__right">
-            </div>
+            <div className="form__header__right" />
           </div>
         </ContentHeader>
         <div className="form-scroll-inner">
           <div className="content-inner">
             <div className="flexRow">
-              <div style={{"width":"500px"}}>
-                <EditableDisplay model={this.props.model}
-                                 submitHandler={this.props.updateClientInfo}
-                                 sectionHeader="Client Info"
-                                 formName="ClientInfo"
-                                 notifications={this.props.notifications}>
+              <div style={{ width: '500px' }}>
+                <EditableDisplay
+                  model={this.props.model}
+                  submitHandler={this.props.updateClientInfo}
+                  sectionHeader="Client Info"
+                  formName="ClientInfo"
+                  notifications={this.props.notifications}
+                >
                   <div className="editableDisplay__content__form__row">
-                    <EditableFor data="firstName"/>
-                    <EditableFor data="lastName"/>
+                    <EditableFor data="firstName" />
+                    <EditableFor data="lastName" />
                   </div>
                   <div className="editableDisplay__content__form__row">
-                    <EditableFor data="birthDate"/>
+                    <EditableFor data="birthDate" />
                   </div>
                 </EditableDisplay>
-                <EditableDisplay model={this.props.model}
-                                 submitHandler={this.props.updateClientContact}
-                                 sectionHeader="Client Contact"
-                                 formName="ClientContact"
-                                 notifications={this.props.notifications}>
+                <EditableDisplay
+                  model={this.props.model}
+                  submitHandler={this.props.updateClientContact}
+                  sectionHeader="Client Contact"
+                  formName="ClientContact"
+                  notifications={this.props.notifications}
+                >
                   <div className="editableDisplay__content__form__row">
-                    <EditableFor data="mobilePhone"/>
-                    <EditableFor data="secondaryPhone"/>
+                    <EditableFor data="mobilePhone" />
+                    <EditableFor data="secondaryPhone" />
                   </div>
                   <div className="editableDisplay__content__form__row__single">
-                    <EditableFor data="email"/>
+                    <EditableFor data="email" />
                   </div>
                 </EditableDisplay>
-                <EditableDisplay model={this.props.model}
-                                 submitHandler={this.props.updateClientAddress}
-                                 sectionHeader="Client Address"
-                                 formName="ClientAddress"
-                                 notifications={this.props.notifications}>
+                <EditableDisplay
+                  model={this.props.model}
+                  submitHandler={this.props.updateClientAddress}
+                  sectionHeader="Client Address"
+                  formName="ClientAddress"
+                  notifications={this.props.notifications}
+                >
                   <div className="editableDisplay__content__form__row">
-                    <EditableFor data="street1"/>
-                    <EditableFor data="street2"/>
+                    <EditableFor data="street1" />
+                    <EditableFor data="street2" />
                   </div>
                   <div className="editableDisplay__content__form__row">
-                    <EditableFor data="city" containerStyle="editableDisplay__content__form__row__address__city"/>
-                    <EditableFor selectOptions={this.props.states}
-                                 data="state"
-                                 containerStyle="editableDisplay__content__form__row__address__state"
+                    <EditableFor data="city" containerStyle="editableDisplay__content__form__row__address__city" />
+                    <EditableFor
+                      selectOptions={this.props.states}
+                      data="state"
+                      containerStyle="editableDisplay__content__form__row__address__state"
                     />
-                    <EditableFor data="zipCode" containerStyle="editableDisplay__content__form__row__address__zip"/>
+                    <EditableFor data="zipCode" containerStyle="editableDisplay__content__form__row__address__zip" />
                   </div>
                 </EditableDisplay>
-                <EditableDisplay model={this.props.model}
-                                 submitHandler={this.props.updateClientSource}
-                                 sectionHeader="Source Info"
-                                 formName="ClientSource"
-                                 notifications={this.props.notifications}>
+                <EditableDisplay
+                  model={this.props.model}
+                  submitHandler={this.props.updateClientSource}
+                  sectionHeader="Source Info"
+                  formName="ClientSource"
+                  notifications={this.props.notifications}
+                >
                   <div className="editableDisplay__content__form__row">
-                    <EditableFor data="source" selectOptions={this.props.sources}/>
-                    <EditableFor data="startDate"/>
+                    <EditableFor data="source" selectOptions={this.props.sources} />
+                    <EditableFor data="startDate" />
                   </div>
                   <div className="editableDisplay__content__form__row">
-                    <EditableFor data="sourceNotes"/>
+                    <EditableFor data="sourceNotes" />
                   </div>
                 </EditableDisplay>
               </div>
@@ -103,8 +113,23 @@ class UpdateClientForm extends Component {
             </div>
           </div>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
+
+UpdateClientForm.propTypes = {
+  clientId: PropTypes.string,
+  model: PropTypes.object,
+  inventory: PropTypes.object,
+  notifications: PropTypes.func,
+  states: PropTypes.array,
+  sources: PropTypes.array,
+  fetchClientAction: PropTypes.func,
+  updateClientSource: PropTypes.func,
+  updateClientInfo: PropTypes.func,
+  updateClientContact: PropTypes.func,
+  updateClientAddress: PropTypes.func
+};
 
 export default UpdateClientForm;

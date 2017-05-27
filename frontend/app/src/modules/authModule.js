@@ -3,35 +3,37 @@ import configValues from './../utilities/configValues';
 import selectn from 'selectn';
 export const LOGIN = requestStates('login', 'auth');
 export const LOGOUT = requestStates('logout', 'auth');
-import {actions as notifActions} from 'redux-notifications';
-const {notifSend} = notifActions;
+import { actions as notifActions } from 'redux-notifications';
+const { notifSend } = notifActions;
 
 const initialState = {
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '',
-    isFetching: false,
-    isAuthenticated: !!localStorage.getItem('id_token')
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '',
+  isFetching: false,
+  isAuthenticated: !!localStorage.getItem('id_token')
 };
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case LOGIN.SUCCESS:
-      var user = selectn('response.user', action);
+    case LOGIN.SUCCESS: {
+      const user = selectn('response.user', action);
 
       localStorage.setItem('id_token', user.id);
       localStorage.setItem('user', JSON.stringify(user));
       return {
-        user: user,
+        user,
         isAuthenticated: true,
         errorMessage: ''
       };
-    case LOGOUT.SUCCESS:
+    }
+    case LOGOUT.SUCCESS: {
       return Object.assign({}, state, {
         isAuthenticated: false
       });
+    }
     default:
       return state;
   }
-}
+};
 
 export function logoutUser() {
   localStorage.removeItem('id_token');
@@ -44,7 +46,7 @@ export function logoutUser() {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' }
     }
   };
 }
@@ -59,7 +61,6 @@ const failureFunction = (action, response, payload) => {
   });
 };
 
-
 export function loginUser(data) {
   return {
     type: LOGIN.REQUEST,
@@ -71,8 +72,8 @@ export function loginUser(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }
-  }
+  };
 }

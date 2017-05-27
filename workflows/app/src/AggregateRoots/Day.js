@@ -11,15 +11,14 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
     }
 
     getNewAppointmentId(startTime, endTime, trainer) {
-      var item = this.appointments.find(x =>
-      x.startTime === startTime
-      && x.endTime === endTime
-      && x.trainer === trainer);
+      let item = this.appointments.find(
+        x => x.startTime === startTime && x.endTime === endTime && x.trainer === trainer
+      );
       return item ? item.id : undefined;
     }
 
     commandHandlers() {
-      const updateAppointment = function (cmd) {
+      const updateAppointment = function(cmd) {
         this.expectEndTimeAfterStart(cmd);
         this.expectAppointmentDurationCorrect(cmd);
         this.expectCorrectNumberOfClients(cmd);
@@ -40,14 +39,15 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         });
       }.bind(this);
 
-      const scheduleAppointment = function (cmd) {
+      const scheduleAppointment = function(cmd) {
         this.expectEndTimeAfterStart(cmd);
         this.expectAppointmentDurationCorrect(cmd);
         this.expectCorrectNumberOfClients(cmd);
         this.expectTrainerNotConflicting(cmd);
         this.expectClientsNotConflicting(cmd);
-        var id = cmd.commandName === 'scheduleAppointment' || cmd.commandName === 'rescheduleAppointmentToNewDay'
-          ? uuid.v4() : cmd.appointmentId;
+        let id = cmd.commandName === 'scheduleAppointment' || cmd.commandName === 'rescheduleAppointmentToNewDay'
+          ? uuid.v4()
+          : cmd.appointmentId;
         this.raiseEvent({
           eventName: this.mapCommandToEvent(cmd),
           id,
@@ -62,7 +62,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         });
       }.bind(this);
 
-      const _cancelAppointment = function (cmd) {
+      const _cancelAppointment = function(cmd) {
         // put lots of business logic here!
         this.raiseEvent({
           eventName: 'appointmentCanceled',
@@ -71,23 +71,22 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       }.bind(this);
 
       return {
-        'scheduleAppointment': function (cmd) {
+        scheduleAppointment(cmd) {
           scheduleAppointment(cmd);
         },
-        'updateAppointment': function (cmd) {
+        updateAppointment(cmd) {
           updateAppointment(cmd);
         },
-        'cancelAppointment': function (cmd) {
+        cancelAppointment(cmd) {
           _cancelAppointment(cmd);
         }
-
-      }
+      };
     }
 
     mapCommandToEvent(cmd) {
       switch (cmd.commandName) {
         case 'updateAppointment': {
-          return 'appointmentUpdated'
+          return 'appointmentUpdated';
         }
         case 'rescheduleAppointment': {
           if (this._id === cmd.originalEntityName) {
@@ -98,16 +97,16 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
           return 'appointmentRescheduled';
         }
         case 'cancelAppointment': {
-          return 'appointmentCanceled'
+          return 'appointmentCanceled';
         }
         case 'scheduleAppointment': {
-          return 'appointmentScheduled'
+          return 'appointmentScheduled';
         }
       }
     }
 
     applyEventHandlers() {
-      const _appointmentScheduled = function (event) {
+      const _appointmentScheduled = function(event) {
         if (!this._id) {
           this._id = event.entityName;
         }
@@ -121,7 +120,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         });
       }.bind(this);
 
-      const appointmentUpdated = function (event) {
+      const appointmentUpdated = function(event) {
         this.appointments.forEach(x => {
           if (x.id === event.id) {
             x.appointmentType = event.appointmentType;
@@ -133,50 +132,58 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         });
       }.bind(this);
 
-      const _appointmentCanceled = function (event) {
+      const _appointmentCanceled = function(event) {
         this.appointments = this.appointments.filter(x => x.id !== event.id);
       }.bind(this);
 
       return {
-        'appointmentMovedFromDifferentDay': function (event) {
+        appointmentMovedFromDifferentDay(event) {
           _appointmentScheduled(event);
         },
-        'appointmentScheduled': function (event) {
+        appointmentScheduled(event) {
           _appointmentScheduled(event);
         },
-        'appointmentMovedToDifferentDay': function (event) {
+        appointmentMovedToDifferentDay(event) {
           _appointmentCanceled(event);
         },
-        'appointmentCanceled': function (event) {
+        appointmentCanceled(event) {
           _appointmentCanceled(event);
         },
-        'appointmentUpdated': function (event) {
+        appointmentUpdated(event) {
           appointmentUpdated(event);
         }
-      }
-    };
+      };
+    }
 
     expectEndTimeAfterStart(cmd) {
-      invariant(moment(cmd.endTime).isAfter(moment(cmd.startTime))
-        , 'Appointment End Time must be after Appointment Start Time');
+      invariant(
+        moment(cmd.endTime).isAfter(moment(cmd.startTime)),
+        'Appointment End Time must be after Appointment Start Time'
+      );
     }
 
     expectAppointmentDurationCorrect(cmd) {
-      var diff = moment(cmd.endTime).diff(moment(cmd.startTime), 'minutes');
+      let diff = moment(cmd.endTime).diff(moment(cmd.startTime), 'minutes');
       switch (cmd.appointmentType) {
         case 'halfHour': {
-          invariant(diff === 30,
-            'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time');
+          invariant(
+            diff === 30,
+            'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time'
+          );
           break;
         }
         case 'fullHour': {
-          invariant(diff === 60,
-            'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time');
+          invariant(
+            diff === 60,
+            'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time'
+          );
           break;
         }
         case 'pair': {
-          invariant(diff === 60,
-            'Given the Appointment Type of Pair the start time must be 60 minutes after the end time');
+          invariant(
+            diff === 60,
+            'Given the Appointment Type of Pair the start time must be 60 minutes after the end time'
+          );
           break;
         }
       }
@@ -186,40 +193,57 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       switch (cmd.appointmentType) {
         case 'halfHour':
         case 'fullHour': {
-          invariant(cmd.clients && cmd.clients.length === 1,
-            `Given the Appointment Type of ${cmd.appointmentType} you must have 1 and only 1 client assigned`);
+          invariant(
+            cmd.clients && cmd.clients.length === 1,
+            `Given the Appointment Type of ${cmd.appointmentType} you must have 1 and only 1 client assigned`
+          );
           break;
         }
         case 'pair': {
-          invariant(cmd.clients && cmd.clients.length >= 2,
-            `Given the Appointment Type of Pair you must have 2 or more clients assigned`);
+          invariant(
+            cmd.clients && cmd.clients.length >= 2,
+            `Given the Appointment Type of Pair you must have 2 or more clients assigned`
+          );
           break;
         }
       }
     }
 
     expectTrainerNotConflicting(cmd) {
-      var trainerConflict = this.appointments.filter(x =>
-      x.id && x.id !== cmd.appointmentId
-      && moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')
-      ||
-      x.id && x.id !== cmd.appointmentId
-      && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes'), '[]')
+      let trainerConflict = this.appointments
+        .filter(
+          x =>
+            (x.id &&
+              x.id !== cmd.appointmentId &&
+              moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
+            (x.id && x.id !== cmd.appointmentId && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')),
+          '[]'
+        )
         .filter(x => x.trainer === cmd.trainer);
-      invariant(trainerConflict.length <= 0, `New Appointment conflicts with this Appointment: ${trainerConflict[0] && trainerConflict[0].id} 
-                for this trainer: ${cmd.trainer}.`);
+      invariant(
+        trainerConflict.length <= 0,
+        `New Appointment conflicts with this Appointment: ${trainerConflict[0] && trainerConflict[0].id} 
+                for this trainer: ${cmd.trainer}.`
+      );
     }
 
     expectClientsNotConflicting(cmd) {
-      var clientConflicts = this.appointments.filter(x =>
-      x.id && x.id !== cmd.appointmentId
-      && moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')
-      ||
-      x.id && x.id !== cmd.appointmentId
-      && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]'))
+      let clientConflicts = this.appointments
+        .filter(
+          x =>
+            (x.id &&
+              x.id !== cmd.appointmentId &&
+              moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
+            (x.id &&
+              x.id !== cmd.appointmentId &&
+              moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]'))
+        )
         .filter(x => x.clients.some(c => cmd.clients.some(c2 => c.id === c2.id)));
-      invariant(clientConflicts.length <= 0, `New Appointment conflicts with this Appointment: ${clientConflicts[0] && clientConflicts[0].id} 
-                for at least one client.`);
+      invariant(
+        clientConflicts.length <= 0,
+        `New Appointment conflicts with this Appointment: ${clientConflicts[0] && clientConflicts[0].id} 
+                for at least one client.`
+      );
     }
-  }
+  };
 };

@@ -1,19 +1,24 @@
-import React, {Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import SubmissionFor from '../../../containers/forms/SubmissionForContainer';
-import DisplayFor from './DisplayFor'
+import DisplayFor from './DisplayFor';
 
-const EditableFor = (props) => {
+const EditableFor = props => {
   if (props.editing) {
-    return <SubmissionFor {...props} />
+    return <SubmissionFor {...props} />;
   }
-  if(props.noDisplay){
+  if (props.noDisplay) {
     return null;
   }
-  return <DisplayFor {...props}/>
+  return <DisplayFor {...props} />;
+};
+
+EditableFor.propTypes = {
+  data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  displayStyle: PropTypes.string,
+  selectOptions: PropTypes.array,
+  noDisplay: PropTypes.string,
+  editing: PropTypes.bool
 };
 
 export default EditableFor;
-
-
-
-

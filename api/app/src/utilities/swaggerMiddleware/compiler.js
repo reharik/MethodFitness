@@ -1,5 +1,5 @@
 // compiler.js
-"use strict";
+
 
 // var deref = require("json-schema-deref-sync");
 /*
@@ -14,7 +14,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
    */
 
   function stringValidator(schema) {
-    return function (value) {
+    return function(value) {
       // if an optional field is not provided, we're all good other not so much
       if (value === undefined) {
         return !schema.required;
@@ -30,14 +30,13 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
         case 'boolean':
           if (value === 'true') {
             value = true;
-          }
-          else if (value === 'false') {
+          } else if (value === 'false') {
             value = false;
           }
           break;
         case 'array':
           if (!Array.isArray(value)) {
-            var format = schema.collectionFormat || 'csv';
+            let format = schema.collectionFormat || 'csv';
             switch (format) {
               case 'csv':
                 value = String(value).split(',');
@@ -60,25 +59,22 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
           switch (schema.items.type) {
             case 'number':
             case 'integer':
-              value = value.map(function (num) {
+              value = value.map(function(num) {
                 if (!isNaN(num)) {
                   // if the value is a number, make sure it's a number
                   return +num;
-                }
-                else {
+                } else {
                   return num;
                 }
               });
               break;
             case 'boolean':
-              value = value.map(function (bool) {
+              value = value.map(function(bool) {
                 if (bool === 'true') {
                   return true;
-                }
-                else if (bool === 'false') {
+                } else if (bool === 'false') {
                   return false;
-                }
-                else {
+                } else {
                   return bool;
                 }
               });
@@ -91,22 +87,24 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
       return !!value;
     };
   }
-  
+
   function buildUpPathsForEndPoint(path, curriedValidatorWithDoc) {
-    var compiledPath = Object.assign({}, path);
-    Object.keys(path).filter(function (name) {
-      return name !== 'parameters';
-    }).forEach(function (verbName) {
-      let verb = buildUpParameters(path, verbName);
-      addValidatorsToParameters(verb, curriedValidatorWithDoc);
-      addValidatorsForResponses(verb, curriedValidatorWithDoc);
-      compiledPath[verbName] = verb;
-    });
+    let compiledPath = Object.assign({}, path);
+    Object.keys(path)
+      .filter(function(name) {
+        return name !== 'parameters';
+      })
+      .forEach(function(verbName) {
+        let verb = buildUpParameters(path, verbName);
+        addValidatorsToParameters(verb, curriedValidatorWithDoc);
+        addValidatorsForResponses(verb, curriedValidatorWithDoc);
+        compiledPath[verbName] = verb;
+      });
     return compiledPath;
   }
 
   function buildUpParameters(path, verbName) {
-    var verb = Object.assign({}, path[verbName]);
+    let verb = Object.assign({}, path[verbName]);
     // start with parameters at path level
     // merge in or replace parameters from verb level
     verb.resolvedParameters = mergeDistinct(path.parameters, verb.parameters);
@@ -114,62 +112,58 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
   }
 
   function addValidatorsToParameters(verb, curriedValidatorWithDoc) {
-    verb.resolvedParameters.forEach(function (parameter) {
-      var schema = parameter.schema || parameter;
+    verb.resolvedParameters.forEach(function(parameter) {
+      let schema = parameter.schema || parameter;
       if (parameter.in === 'query' || parameter.in === 'header') {
         parameter.validator = stringValidator(schema);
-      }
-      else {
+      } else {
         parameter.validator = curriedValidatorWithDoc(schema);
       }
     });
   }
 
   function addValidatorsForResponses(verb, curriedValidatorWithDoc) {
-    Object.keys(verb.responses).forEach(function (statusCode) {
-      var response = verb.responses[statusCode];
+    Object.keys(verb.responses).forEach(function(statusCode) {
+      let response = verb.responses[statusCode];
       if (response.schema) {
         response.validator = curriedValidatorWithDoc(response.schema);
-      }
-      else {
+      } else {
         // no schema, so ensure there is no response
         // tslint:disable-next-line:no-null-keyword
-        response.validator = function (body) {
+        response.validator = function(body) {
           return body === undefined || body === null || body === '';
         };
       }
     });
   }
 
-  
   function compile(document, customValidators) {
     // the validation module is curried so we can add the document and custom validators now
     // and the actual values later as we get them.
     const curriedValidatorWithDoc = curriedValidator(document, customValidators);
     // get the de-referenced version of the swagger document
-    var swagger = jsonschemaderefsync(document);
+    let swagger = jsonschemaderefsync(document);
     // add a validator for every parameter in swagger document
-    var basePath = swagger.basePath || '';
+    let basePath = swagger.basePath || '';
 
-    var compiledPaths = Object.keys(swagger.paths).map(name => {
-      var item = swagger.paths[name];
-      var path = buildUpPathsForEndPoint(item, curriedValidatorWithDoc);
-      
+    let compiledPaths = Object.keys(swagger.paths).map(name => {
+      let item = swagger.paths[name];
+      let path = buildUpPathsForEndPoint(item, curriedValidatorWithDoc);
+
       return {
         name,
         path,
         regex: new RegExp(basePath + name.replace(/\{[^}]*}/g, '[^/]+') + '$'),
-        expected: (name.match(/[^\/]+/g) || []).map((s) => s.toString())
-      }
+        expected: (name.match(/[^\/]+/g) || []).map(s => s.toString())
+      };
     });
 
-    return function (targetPath) {
-
+    return function(targetPath) {
       // get a list of matching paths, there should be only one
-      var matches = compiledPaths.filter((path) => !!targetPath.match(path.regex) );
-      return (matches && matches.length === 1) ? matches[0] : null;
+      let matches = compiledPaths.filter(path => !!targetPath.match(path.regex));
+      return matches && matches.length === 1 ? matches[0] : null;
     };
   }
-  return compile
-}
+  return compile;
+};
 //# sourceMappingURL=compiler.js.map

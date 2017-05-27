@@ -1,9 +1,9 @@
 // validate.js
-"use strict";
+
 
 module.exports = function() {
   function isEmpty(value) {
-    return {valid: value === undefined || value === '' || Object.keys(value).length === 0};
+    return { valid: value === undefined || value === '' || Object.keys(value).length === 0 };
   }
 
   function validate(value, schema) {
@@ -11,7 +11,7 @@ module.exports = function() {
     if (schema === undefined) {
       return {
         success: false,
-        errors: [{message: `can not validate: ${JSON.stringify(value)}, when there is no applicable schema`}]
+        errors: [{ message: `can not validate: ${JSON.stringify(value)}, when there is no applicable schema` }]
       };
     }
     return schema.validator(value);
@@ -21,20 +21,20 @@ module.exports = function() {
     if (compiledPath === undefined) {
       return;
     }
-    
+
     // get operation object for path and method
-    var operation = compiledPath.path[method.toLowerCase()];
+    let operation = compiledPath.path[method.toLowerCase()];
     if (operation === undefined) {
       // operation not defined, return 405 (method not allowed)
       return;
     }
-    var parameters = operation.resolvedParameters;
-    var validationResult = {success: true, errors:[], where: []};
-    var bodyDefined = false;
+    let parameters = operation.resolvedParameters;
+    let validationResult = { success: true, errors: [], where: [] };
+    let bodyDefined = false;
 
     // check all the parameters match swagger schema
     if (parameters.length === 0) {
-      var emptyBodyResult = validate(body, {validator: isEmpty});
+      let emptyBodyResult = validate(body, { validator: isEmpty });
       if (!emptyBodyResult.valid) {
         validationResult.success = false;
         validationResult.errors.push(`Expected empty body but received ${body}`);
@@ -50,17 +50,18 @@ module.exports = function() {
       return validationResult;
     }
 
-    parameters.forEach(function (parameter) {
-      var value;
+    parameters.forEach(function(parameter) {
+      let value;
       switch (parameter.in) {
         case 'query':
           value = (query || {})[parameter.name];
           break;
-        case 'path':
-          var actual = compiledPath.name.match(/[^\/]+/g);
-          var valueIndex = compiledPath.expected.indexOf('{' + parameter.name + '}');
+        case 'path': {
+          let actual = compiledPath.name.match(/[^\/]+/g);
+          let valueIndex = compiledPath.expected.indexOf('{' + parameter.name + '}');
           value = actual ? actual[valueIndex] : undefined;
           break;
+        }
         case 'body':
           value = body;
           bodyDefined = true;
@@ -70,7 +71,7 @@ module.exports = function() {
           break;
         default:
       }
-      var paramResult = validate(value, parameter);
+      let paramResult = validate(value, parameter);
       if (!paramResult.valid) {
         validationResult.success = false;
         validationResult.errors = validationResult.errors.concat(paramResult.errors);
@@ -79,10 +80,10 @@ module.exports = function() {
     });
     // ensure body is undefined if no body schema is defined
     if (!bodyDefined && body !== undefined) {
-      var error = validate(body, {validator: isEmpty});
+      let error = validate(body, { validator: isEmpty });
       if (!error.valid) {
         validationResult.success = false;
-        validationResult.where .push('body');
+        validationResult.where.push('body');
         validationResult.errors.push(`Expected empty body but received ${JSON.stringify(body)}`);
       }
     }
@@ -96,24 +97,24 @@ module.exports = function() {
         expected: 'PATH'
       };
     }
-    
-    var operation = compiledPath.path[method.toLowerCase()];
-    // check the response matches the swagger schema
 
-    var validationResult = {success: true, errors:[], where: []};
-    var response = operation.responses[status];
-    if(!response.schema && !body){
+    let operation = compiledPath.path[method.toLowerCase()];
+    // check the res matches the swagger schema
+
+    let validationResult = { success: true, errors: [], where: [] };
+    let res = operation.responses[status];
+    if (!res.schema && !body) {
       return validationResult;
     }
-    var result = {};
-    if (response) {
-      result = validate(body, response);
+    let result = {};
+    if (res) {
+      result = validate(body, res);
     } else {
       result.valid = false;
-      result.errors = [{message: `No response provided in schema for status: ${status}`}];
+      result.errors = [{ message: `No response provided in schema for status: ${status}` }];
     }
 
-    if(!result.valid) {
+    if (!result.valid) {
       validationResult.success = false;
       validationResult.errors = result.errors;
       validationResult.where.push('body');
@@ -124,5 +125,5 @@ module.exports = function() {
   return {
     request,
     response
-  }
+  };
 };

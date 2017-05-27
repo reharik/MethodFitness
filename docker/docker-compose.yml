@@ -20,6 +20,10 @@ services:
     build:
       context: ../workflows
       dockerfile: docker/Dockerfile
+    depends_on:
+      - node
+      - postgres
+      - eventstore
     volumes:
       - ./../workflows/app:/home/current/app
     command: npm start #top -b #
@@ -30,6 +34,10 @@ services:
     build:
       context: ../projections
       dockerfile: docker/Dockerfile
+    depends_on:
+      - node
+      - postgres
+      - eventstore
     volumes:
       - ./../projections/app:/home/current/app
     command: npm start #top -b #
@@ -47,3 +55,26 @@ services:
       - 3000:3000
     env_file:
       - ./../.envrc.example
+
+  node:
+    build:
+      context: ./nodeDocker/
+      dockerfile: Dockerfile
+
+  postgres:
+    image: postgres
+    ports:
+      - 5400:5432
+    env_file:
+      - ./../.envrc.example
+
+  eventstore:
+    image: eventstore/eventstore
+    ports:
+      - 2113:2113
+      - 1113:1113
+    environment:
+      - ext-http-prefixes=http://*:2113/
+      - ext-ip="0.0.0.0"
+      - log=/data/logs
+      - stats-period-sec=3000000

@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DisplayFor from './formElements/elementsFor/DisplayFor';
 
-
-const ClientInventory =  ({inventory}) => {
-  if(!inventory){
+const ClientInventory = ({ inventory }) => {
+  if (!inventory) {
     return null;
   }
   const invModel = {
@@ -32,15 +32,20 @@ const ClientInventory =  ({inventory}) => {
       <label className="form__section__header__label">Current Client Inventory</label>
       <hr />
       <div className="form__section__row">
-        <DisplayFor data={invModel.fullHour}/>
+        <DisplayFor data={invModel.fullHour} />
       </div>
       <div className="form__section__row">
-        <DisplayFor data={invModel.halfHour}/>
+        <DisplayFor data={invModel.halfHour} />
       </div>
       <div className="form__section__row">
-        <DisplayFor data={invModel.pair}/>
+        <DisplayFor data={invModel.pair} />
       </div>
-    </div>)
+    </div>
+  );
+};
+
+ClientInventory.propTypes = {
+  inventory: PropTypes.object
 };
 
 export default ClientInventory;

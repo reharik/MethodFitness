@@ -9,11 +9,11 @@ export default (state = [], action = {}) => {
       return state;
     }
   }
-}
+};
 
 export function toggleTrainerListForCalendar(data) {
   return {
     type: TOGGLE_TRAINERS_LIST_FOR_CALENDAR,
-    selectedTrainers:data
+    selectedTrainers: data
   };
 }

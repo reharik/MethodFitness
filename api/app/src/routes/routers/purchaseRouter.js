@@ -1,6 +1,5 @@
 module.exports = function purchasesRouter(koarouter, controllers) {
-  return function (appRouter) {
-
+  return function(appRouter) {
     const router = koarouter();
 
     /**
@@ -27,7 +26,7 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *             $ref: "#/definitions/standardFailureResponse"
      *
      */
-    router.post("/purchase/purchase", controllers.purchaseController.purchase);
+    router.post('/purchase/purchase', controllers.purchaseController.purchase);
     /**
      * @swagger
      * /purchase/updatepurchase:
@@ -51,7 +50,7 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post("/purchase/updatepurchase", controllers.purchaseController.updatePurchase);
+    router.post('/purchase/updatepurchase', controllers.purchaseController.updatePurchase);
     /**
      * @swagger
      * /purchase/cancelpurchase:
@@ -75,7 +74,7 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post("/purchase/cancelpurchase", controllers.purchaseController.cancelPurchase);
+    router.post('/purchase/cancelpurchase', controllers.purchaseController.cancelPurchase);
     /**
      * @swagger
      * /purchase/fetchpurchase/{id}:
@@ -99,7 +98,7 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get("/purchase/fetchpurchase/:id", controllers.purchaseController.fetchPurchase);
+    router.get('/purchase/fetchpurchase/:id', controllers.purchaseController.fetchPurchase);
     /**
      * @swagger
      * /purchaselist/fetchpurchases/{id}:
@@ -119,7 +118,7 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *           $ref: "#/definitions/purchasesResponse"
      */
-    router.get("/purchaselist/fetchpurchases/:id", controllers.purchaseListController.fetchPurchases);
+    router.get('/purchaselist/fetchpurchases/:id', controllers.purchaseListController.fetchPurchases);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

@@ -14,7 +14,6 @@ export const ARCHIVE_CLIENT = requestStates('archive_client', 'client');
 export const CLIENT_LIST = requestStates('client_list', 'client');
 export const CLIENT = requestStates('client');
 
-
 export default (state = [], action = {}) => {
   switch (action.type) {
     case ADD_CLIENT.REQUEST:
@@ -30,8 +29,8 @@ export default (state = [], action = {}) => {
       return reducerMerge(state, action.response.clients);
     }
     case ADD_CLIENT.SUCCESS: {
-      var insertedItem = selectn('action.insertedItem', action);
-      insertedItem.id = selectn('payload.result.handlerResult.clientId',action);
+      let insertedItem = selectn('action.insertedItem', action);
+      insertedItem.id = selectn('payload.result.handlerResult.clientId', action);
       return insertedItem.id ? [...state, insertedItem] : state;
     }
     case UPDATE_CLIENT_INFO.FAILURE:
@@ -42,9 +41,11 @@ export default (state = [], action = {}) => {
     case ARCHIVE_CLIENT.SUCCESS: {
       let update = selectn('action.update', action);
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x,
-            archived: !update.archived }
+        if (x.id === update.id) {
+          return {
+            ...x,
+            archived: !update.archived
+          };
         }
         return x;
       });
@@ -54,10 +55,12 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x,
-            contact: {...x.contact, firstName: update.firstName, lastName: update.lastName},
-            birthDate: update.birthDate }
+        if (x.id === update.id) {
+          return {
+            ...x,
+            contact: { ...x.contact, firstName: update.firstName, lastName: update.lastName },
+            birthDate: update.birthDate
+          };
         }
         return x;
       });
@@ -67,8 +70,8 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x, source: update.source, sourceNotes: update.sourceNotes, startDate: update.startDate}
+        if (x.id === update.id) {
+          return { ...x, source: update.source, sourceNotes: update.sourceNotes, startDate: update.startDate };
         }
         return x;
       });
@@ -78,15 +81,16 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x,
+        if (x.id === update.id) {
+          return {
+            ...x,
             contact: {
               ...x.contact,
               secondaryPhone: update.secondaryPhone,
               mobilePhone: update.mobilePhone,
               email: update.email
             }
-          }
+          };
         }
         return x;
       });
@@ -96,8 +100,9 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if(x.id === update.id) {
-          return {...x,
+        if (x.id === update.id) {
+          return {
+            ...x,
             contact: {
               ...x.contact,
               address: {
@@ -106,9 +111,10 @@ export default (state = [], action = {}) => {
                 street2: update.street2,
                 city: update.city,
                 state: update.state,
-                zipCode: update.zipCode}
+                zipCode: update.zipCode
+              }
             }
-          }
+          };
         }
         return x;
       });
@@ -118,7 +124,7 @@ export default (state = [], action = {}) => {
       return state;
     }
   }
-}
+};
 
 export function updateClientInfo(data) {
   const item = {
@@ -131,11 +137,11 @@ export function updateClientInfo(data) {
     type: UPDATE_CLIENT_INFO.REQUEST,
     states: UPDATE_CLIENT_INFO,
     url: config.apiBase + 'client/updateClientInfo',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -153,11 +159,11 @@ export function updateClientContact(data) {
     type: UPDATE_CLIENT_CONTACT.REQUEST,
     states: UPDATE_CLIENT_CONTACT,
     url: config.apiBase + 'client/updateClientContact',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -175,11 +181,11 @@ export function updateClientSource(data) {
     type: UPDATE_CLIENT_SOURCE.REQUEST,
     states: UPDATE_CLIENT_SOURCE,
     url: config.apiBase + 'client/updateClientSource',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -198,11 +204,11 @@ export function updateClientAddress(data) {
     type: UPDATE_CLIENT_ADDRESS.REQUEST,
     states: UPDATE_CLIENT_ADDRESS,
     url: config.apiBase + 'client/updateClientAddress',
-    update:data,
+    update: data,
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     }
   };
@@ -210,7 +216,7 @@ export function updateClientAddress(data) {
 
 const successFunction = (action, payload) => {
   browserHistory.push('/clients');
-  return {type: action.states.SUCCESS, action, payload};
+  return { type: action.states.SUCCESS, action, payload };
 };
 
 export function addClient(data) {
@@ -226,7 +232,7 @@ export function addClient(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(client)
     }
   };
@@ -241,13 +247,13 @@ export function archiveClient(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }
   };
 }
 
-export function fetchClientAction(id){
+export function fetchClientAction(id) {
   let apiUrl = config.apiBase + 'client/getClient/' + id;
   return {
     type: CLIENT.REQUEST,

@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function() {
   return {
     async swagger(ctx) {
       // eslint-disable-line object-shorthand

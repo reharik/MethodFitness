@@ -1,6 +1,5 @@
 module.exports = function clientRouter(koarouter, controllers) {
-  return function (appRouter) {
-
+  return function(appRouter) {
     const router = koarouter();
 
     /**
@@ -16,7 +15,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *           $ref: "#/definitions/clientsResponse"
      */
-    router.get("/fetchClients", controllers.clientListController.fetchClients);
+    router.get('/fetchClients', controllers.clientListController.fetchClients);
     /**
      * @swagger
      * /fetchAllClients:
@@ -30,7 +29,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *           $ref: "#/definitions/clientsResponse"
      */
-    router.get("/fetchAllClients", controllers.clientListController.fetchAllClients);
+    router.get('/fetchAllClients', controllers.clientListController.fetchAllClients);
     /**
      * @swagger
      * /client/addClient:
@@ -55,7 +54,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *             $ref: "#/definitions/standardFailureResponse"
      *
      */
-    router.post("/client/addClient", controllers.clientController.addClient);
+    router.post('/client/addClient', controllers.clientController.addClient);
     /**
      * @swagger
      * /client/updateClientInfo:
@@ -79,7 +78,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post("/client/updateClientInfo", controllers.clientController.updateClientInfo);
+    router.post('/client/updateClientInfo', controllers.clientController.updateClientInfo);
     /**
      * @swagger
      * /client/updateClientSource:
@@ -103,7 +102,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post("/client/updateClientSource", controllers.clientController.updateClientSource);
+    router.post('/client/updateClientSource', controllers.clientController.updateClientSource);
     /**
      * @swagger
      * /client/updateClientContact:
@@ -127,7 +126,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post("/client/updateClientContact", controllers.clientController.updateClientContact);
+    router.post('/client/updateClientContact', controllers.clientController.updateClientContact);
     /**
      * @swagger
      * /client/updateClientAddress:
@@ -151,7 +150,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post("/client/updateClientAddress", controllers.clientController.updateClientAddress);
+    router.post('/client/updateClientAddress', controllers.clientController.updateClientAddress);
     /**
      * @swagger
      * /client/getClient/{id}:
@@ -175,7 +174,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get("/client/getClient/:id", controllers.clientController.getClient);
+    router.get('/client/getClient/:id', controllers.clientController.getClient);
     /**
      * @swagger
      * /client/archiveClient:
@@ -199,7 +198,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post("/client/archiveClient", controllers.clientController.archiveClient);
+    router.post('/client/archiveClient', controllers.clientController.archiveClient);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

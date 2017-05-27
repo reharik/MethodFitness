@@ -1,11 +1,8 @@
-
 module.exports = function(compiler, validateMethods) {
-  return function (document, customValidators) {
-
+  return function(document, customValidators) {
     // construct a validation object, pre-compiling all schema and regex required
     let compiled = compiler(document, customValidators);
-    return async(ctx, next) => {
-
+    return async (ctx, next) => {
       if (document.basePath !== undefined && !ctx.path.startsWith(document.basePath)) {
         // not a path that we care about
         await next();
@@ -26,7 +23,7 @@ module.exports = function(compiler, validateMethods) {
         return;
       }
       if (!validationErrors.success) {
-        validationErrors.code='SWAGGER_REQUEST_VALIDATION_FAILED';
+        validationErrors.code = 'SWAGGER_REQUEST_VALIDATION_FAILED';
         ctx.status = 422;
         ctx.body = validationErrors;
         return;
@@ -38,11 +35,10 @@ module.exports = function(compiler, validateMethods) {
       // check the response matches the swagger schema
       let responseResult = validateMethods.response(compiledPath, ctx.method, ctx.status, ctx.body);
       if (!responseResult.success) {
-
         responseResult.code = 'SWAGGER_RESPONSE_VALIDATION_FAILED';
         ctx.status = 500;
-        ctx.body = responseResult
+        ctx.body = responseResult;
       }
     };
-  }
+  };
 };

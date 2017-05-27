@@ -90,7 +90,7 @@
         "no-alert": 2,
         "no-array-constructor": 2,
         "no-caller": 2,
-        "no-catch-shadow": 2,
+        "no-catch-shadow": 1,
         "no-confusing-arrow": 1,
         "no-console": [
             2,
@@ -129,7 +129,7 @@
         "no-return-assign": 2,
         "no-script-url": 2,
         "no-sequences": 2,
-        "no-shadow": 2,
+        "no-shadow": 1,
         "no-shadow-restricted-names": 2,
         "no-spaced-func": 2,
         "no-trailing-spaces": 2,
