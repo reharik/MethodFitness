@@ -154,3 +154,18 @@ WITH (
 
 ALTER TABLE "purchase"
   OWNER TO methodfitness;
+
+DROP TABLE IF EXISTS "unpaidAppointments";
+
+CREATE TABLE "unpaidAppointments"
+(
+  id uuid NOT NULL,
+  meta jsonb,
+  document jsonb
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "unpaidAppointments"
+  OWNER TO methodfitness;

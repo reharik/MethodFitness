@@ -18,10 +18,13 @@
           "max": "10",
           "idleTimeoutMillis": "30000"
         }
+      },
+      "eventdispatcher": {
+        "targetStreamType": "command"
       }
     },
     "logger": {
-      "moduleName": "Projections"
+      "moduleName": "WorkFlows"
     },
     "env": "dev"
   }

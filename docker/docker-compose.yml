@@ -36,6 +36,7 @@ services:
       dockerfile: docker/Dockerfile
     depends_on:
       - node
+      - data
       - postgres
       - eventstore
     volumes:
@@ -53,6 +54,19 @@ services:
     command: npm run start #top -b #
     ports:
       - 3000:3000
+    env_file:
+      - ./../.envrc.example
+
+  data:
+    build:
+      context: ../data
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - node
+      - postgres
+    volumes:
+      - ./../data/app:/home/current/app
+    command: npm run migrationStartup
     env_file:
       - ./../.envrc.example
 

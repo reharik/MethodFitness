@@ -6,6 +6,8 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
       this._password = undefined;
       this._isArchived = false;
       this.type = 'Trainer';
+      this._defaultTrainerCientRate = 65;
+      this.trainerClientRates = [];
     }
 
     static aggregateName() {
@@ -15,7 +17,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
     commandHandlers() {
       return {
         hireTrainer(cmd) {
-          cmd.id = uuid.v4();
+          cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'trainerHired';
           this.raiseEvent(cmd);
         },
@@ -70,23 +72,47 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
             unArchivedDate: new Date()
           });
         },
+        updateTrainersClientRates(cmd) {
+          this.expectNotArchived();
+          cmd.eventName = 'trainersClientRatesUpdated';
+
+          this.trainerClientRates.filter(x => cmd.clients.find(y => x.clientId === y).rate !== x.rate)
+            .map(x => ({
+              eventName: 'trainersClientRateChanged',
+              trainerId: this._id,
+              clientId: x,
+              rate: x.rate
+            }))
+            .forEach(e => this.raiseEvent(e));
+          this.raiseEvent(cmd);
+
+        },
         updateTrainersClients(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainersClientsUpdated';
           this.trainerClients.filter(x => !cmd.clients.find(y => y === x))
             .map(x => ({
-              eventName: 'trainerClientAdded',
-              trainerId: this._id,
-              clientId: x
-            }))
-            .forEach(this.raiseEvent);
-          cmd.clients.filter(x => !this.trainerClients.find(y => y === x))
-            .map(x => ({
               eventName: 'trainerClientRemoved',
               trainerId: this._id,
               clientId: x
             }))
-            .forEach(this.raiseEvent);
+            .forEach(e => this.raiseEvent(e));
+          const newClients = cmd.clients.filter(x => !this.trainerClients.find(y => y === x));
+          newClients
+            .map(x => ({
+              eventName: 'trainerClientAdded',
+              trainerId: this._id,
+              clientId: x
+            }))
+            .forEach(e => this.raiseEvent(e));
+          newClients
+            .map(x => ({
+              eventName: 'trainersNewClientRateSet',
+              trainerId: this._id,
+              clientId: x,
+              rate: this._defaultTrainerCientRate
+            }))
+            .forEach(e => this.raiseEvent(e));
           this.raiseEvent(cmd);
         }
       };
@@ -113,8 +139,21 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
 
         trainersClientsUpdated: function(cmd) {
           this.trainerClients = cmd.clients;
-        }.bind(this)
+        }.bind(this),
 
+        trainersNewClientRateSet: function(cmd) {
+          this.trainerClientRates.push({clientId: cmd.clientId, rate: cmd.rate});
+        }.bind(this),
+
+        trainerClientRemoved: function(cmd) {
+          this.trainerClientRates = this.trainerClientRates.filter( x => x.clientId !== cmd.clientId);
+        }.bind(this),
+
+        trainersClientRateChanged: function(cmd) {
+          this.trainerClientRates = this.trainerClientRates.map( x => {
+            return x.clientId === cmd.clientId ? cmd : x;
+          });
+        }.bind(this)
       };
     }
 

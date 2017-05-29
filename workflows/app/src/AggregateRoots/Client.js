@@ -59,6 +59,21 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
           cmd.eventName = 'sessionsPurchased';
           this.generateSessions(cmd).forEach(e => this.raiseEvent(e));
           this.raiseEvent(cmd);
+        },
+        clientAttendsAppointment(cmd) {
+          cmd.id = cmd.id || uuid.v4();
+          cmd.eventName = 'appointmentAttendedByClient';
+          this.raiseEvent(cmd);
+          let hasSession = this.clientInventory.checkInventory(cmd);
+          if (!hasSession) {
+            let event = {
+              eventName: 'noSessionsAvailableForAppointment',
+              appointmentId: cmd.appointmentId,
+              appointmentType: cmd.appointmentType,
+              clientId: this._id
+            };
+            this.raiseEvent(event);
+          }
         }
       };
     }
@@ -75,14 +90,17 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
         clientUnArchived: function() {
           this._isArchived = false;
         }.bind(this),
-        fullHourSessionPurchased: function() {
-          this.clientInventory.addFullHourSession();
+        fullHourSessionPurchased: function(event) {
+          this.clientInventory.addFullHourSession(event);
         }.bind(this),
-        halfHourSessionPurchased: function() {
-          this.clientInventory.addHalfHourSession();
+        halfHourSessionPurchased: function(event) {
+          this.clientInventory.addHalfHourSession(event);
         }.bind(this),
-        pairSessionPurchased: function() {
-          this.clientInventory.addPairSession();
+        pairSessionPurchased: function(event) {
+          this.clientInventory.addPairSession(event);
+        }.bind(this),
+        appointmentAttendedByClient: function(event) {
+          this.clientInventory.adjustInventory(event);
         }.bind(this)
       };
     }
@@ -92,13 +110,14 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
     }
 
     createNewSessionEvent(type, purchasePrice, purchaseId) {
-      event.eventName = `${type}SessionPurchased`;
-      event.clientId = this._id;
-      event.sessionId = uuid.v4();
-      event.purchaseId = purchaseId;
-      event.purchasePrice = purchasePrice;
-      event.sessionType = type;
-      return event;
+      return {
+        eventName: `${type}SessionPurchased`,
+        clientId: this._id,
+        sessionId: uuid.v4(),
+        sessionType: type,
+        purchaseId,
+        purchasePrice
+      };
     }
 
     addFullHourSessions(cmd) {

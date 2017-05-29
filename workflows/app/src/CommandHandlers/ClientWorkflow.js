@@ -60,6 +60,18 @@ module.exports = function(eventRepository, logger, Client) {
       return { clientId: client._id };
     }
 
+    async function clientAttendsAppointment(cmd, continuationId) {
+      logger.info('clientAttendsAppointment');
+      let client = await eventRepository.getById(Client, cmd.id);
+      client.clientAttendsAppointment(cmd);
+
+      logger.info('saving client');
+      logger.trace(client);
+
+      await eventRepository.save(client, { continuationId });
+      return { clientId: client._id };
+    }
+
     async function archiveClient(cmd, continuationId) {
       logger.info('calling archiveClient');
       let client = await eventRepository.getById(Client, cmd.id);
@@ -92,7 +104,8 @@ module.exports = function(eventRepository, logger, Client) {
       updateClientContact,
       updateClientSource,
       archiveClient,
-      unArchiveClient
+      unArchiveClient,
+      clientAttendsAppointment
     };
   };
 };

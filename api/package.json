@@ -26,7 +26,7 @@
     "dagon": "reharik/dagon",
     "deref": "^0.6.4",
     "extend": "3.0.0",
-    "ges-eventsourcing": "reharik/ges-eventsourcing#08",
+    "ges-eventsourcing": "reharik/ges-eventsourcing#15",
     "hosts-parser": "0.3.1",
     "invariant": "^2.1.0",
     "json-schema-deref-sync": "^0.3.3",

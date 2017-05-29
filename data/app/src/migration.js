@@ -1,5 +1,6 @@
 module.exports = function(pingDB, config, dbmigrate) {
-  return async function () {
+  return async function (runOnlyIfNoDB) {
+    let dbExist;
     console.log(`=========="in migrator=========`);
     console.log("in migrator");
     console.log(`==========END "in migrator=========`);
@@ -10,18 +11,25 @@ module.exports = function(pingDB, config, dbmigrate) {
         console.log(`=========="pinging Db"=========`);
         console.log("pinging Db");
         console.log(`==========END "pinging Db"=========`);
-        await pingDB();
+        dbExists = await pingDB();
+
       }catch (err){
         console.log(`=========="database not available"=========`);
         console.log("database not available");
         console.log(err);
         console.log(`==========END "database not available"=========`);
       }
-      
-      configs.driver = "pg";
-      const migrator = dbmigrate.getInstance(true, {config: {dev: configs}, cwd:'./app' });
-      await migrator.reset();
-      await migrator.up();
+      if(!runOnlyIfNoDB || (runOnlyIfNoDB && !dbExists)) {
+        configs.driver = "pg";
+        const migrator = dbmigrate.getInstance(true, {config: {dev: configs}, cwd: './app'});
+        await migrator.reset();
+        await migrator.up();
+      } else {
+        console.log('=========="db already exists"=========');
+        console.log("db already exists");
+        console.log('==========END "db already exists"=========');
+        
+      }
     }catch(ex){
       console.log(`==========ex=========`);
       console.log(ex);

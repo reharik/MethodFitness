@@ -127,7 +127,7 @@ export function fetchAppointmentsAction(
 ) {
   const start = moment(startDate).format('YYYY-MM-DD');
   const end = moment(endDate).format('YYYY-MM-DD');
-  let apiUrl = `${config.apiBase}fetchAppointments/${start}/${end}}`;
+  let apiUrl = `${config.apiBase}fetchAppointments/${start}/${end}`;
 
   return {
     type: FETCH_APPOINTMENTS.REQUEST,

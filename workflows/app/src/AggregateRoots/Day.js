@@ -91,10 +91,10 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         case 'rescheduleAppointment': {
           if (this._id === cmd.originalEntityName) {
             return 'appointmentCanceled';
-          } else if (!this._id || this._id === cmd.entityName) {
-            return 'appointmentScheduled';
-          }
-          return 'appointmentRescheduled';
+          } // else if (!this._id || this._id === cmd.entityName) {
+          return 'appointmentScheduled';
+          // }
+          // return 'appointmentRescheduled';
         }
         case 'cancelAppointment': {
           return 'appointmentCanceled';
@@ -238,7 +238,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
               x.id !== cmd.appointmentId &&
               moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]'))
         )
-        .filter(x => x.clients.some(c => cmd.clients.some(c2 => c.id === c2.id)));
+        .filter(x => x.clients.includes(c => cmd.clients.includes(c2 => c.id === c2.id)));
       invariant(
         clientConflicts.length <= 0,
         `New Appointment conflicts with this Appointment: ${clientConflicts[0] && clientConflicts[0].id} 

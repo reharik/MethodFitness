@@ -1,7 +1,3 @@
-/**
- * Created by rharik on 10/1/15.
- */
-
 
 let dagon = require('dagon');
 let path = require('path');
@@ -14,15 +10,13 @@ module.exports = function(_options) {
     result = container(
                 x=> x.pathToRoot(path.join(__dirname, '/../'))
                 .requireDirectoryRecursively('./app/src')
-                  .groupAllInDirectory('./app/src/EventHandlers', 'EventHandlers_array')
-                  .groupAllInDirectory('./app/src/EventHandlerClasses', 'EventHandlerClasses_array')
                 .requiredModuleRegistires(['ges-eventsourcing'])
                 .for('corelogger').renameTo('logger')
-                .for('ramda').renameTo('R')
-                .for('ramdafantasy').renameTo('_fantasy')
-                .for('bluebird').renameTo('Promise')
-                .for('applicationFunctions').renameTo('appfuncs')
-                .complete(),
+                  .for('ramda').renameTo('R')
+                  .for('ramdafantasy').renameTo('_fantasy')
+                  .for('bluebird').renameTo('Promise')
+                  .for('applicationFunctions').renameTo('appfuncs')
+                  .complete(),
                 x=>x.instantiate('eventstore').asFunc().withParameters(options.children || {})
                 .instantiate('pgFuture').asFunc().withParameters(options.children || {})
                 .instantiate('eventRepository').asFunc().withParameters(options.children || {})

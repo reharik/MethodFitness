@@ -13,8 +13,7 @@ module.exports = function(rsRepository, moment, logger) {
         contact: event.contact,
         birthDate: event.birthDate,
         color: event.color,
-        clients: event.clients,
-        trainerClientRates: event.trainerClientRates
+        clients: event.clients
       };
 
       return await rsRepository.save('trainer', trainer);
@@ -67,6 +66,24 @@ where id = '${event.id}'`;
       return await rsRepository.save('trainer', trainer, event.id);
     }
 
+    async function trainersNewClientRateSet(event) {
+      let trainer = await rsRepository.getById(event.trainerId, 'trainer');
+      trainer.trainerClientRates.push({clientId: event.clientId, rate: event.rate});
+      return await rsRepository.save('trainer', trainer, event.trainerId);
+    }
+
+    async function trainerClientRemoved(event) {
+      let trainer = await rsRepository.getById(event.id, 'trainer');
+      trainer.trainerClientRates.filter( x => x.clientId !== event.clientId );
+      return await rsRepository.save('trainer', trainer, event.id);
+    }
+
+    async function trainersClientRateChanged(event) {
+      let trainer = await rsRepository.getById(event.id, 'trainer');
+      trainer.trainerClientRates.map(x => x.id === event.clientId ? Object.assign(x, {rate: event.rate}) : x);
+      return await rsRepository.save('trainer', trainer, event.id);
+    }
+
     return {
       handlerName: 'TrainerEventHandler',
       trainerHired,
@@ -75,7 +92,10 @@ where id = '${event.id}'`;
       trainerContactUpdated,
       trainerAddressUpdated,
       trainerInfoUpdated,
-      trainersClientsUpdated
+      trainersClientsUpdated,
+      trainersNewClientRateSet,
+      trainerClientRemoved,
+      trainersClientRateChanged
     };
   };
 };

@@ -32,22 +32,23 @@ module.exports = function(config,
       }
 
       const trainers = hireTrainers();
-      trainers[1].clients = [clients[0].id, clients[1].id, clients[2].id];
-      trainers[1].trainerClientRates = [
-        {clientId: clients[0].id, rate:65},
-        {clientId: clients[1].id, rate:65},
-        {clientId: clients[2].id, rate:65}];
-
-      trainers[2].clients = [clients[2].id, clients[3].id, clients[4].id];
-      trainers[2].trainerClientRates = [
-        {clientId: clients[2].id, rate:65},
-        {clientId: clients[3].id, rate:65},
-        {clientId: clients[4].id, rate:65}];
-
       for (let x of trainers) {
         let command = hireTrainer(x);
         await processCommands(command, 'hireTrainer');
       }
+
+      const addClientsToTrainer1 = {
+        id: trainers[1].id,
+        clients: [clients[0].id, clients[1].id, clients[2].id] };
+
+      await processCommands(addClientsToTrainer1, 'updateTrainersClients');
+
+      const addClientsToTrainer2 = {
+        id: trainers[2].id,
+        clients: [clients[2].id, clients[3].id, clients[4].id] };
+
+      await processCommands(addClientsToTrainer2, 'updateTrainersClients');
+
     };
 
     const hireTrainers = () => {
@@ -71,7 +72,8 @@ module.exports = function(config,
         credentials: {
           password: createPassword('123123'),
           role: 'admin'
-        }
+        },
+        id: uuid.v4()
       };
 
       const two = {
@@ -94,7 +96,8 @@ module.exports = function(config,
         credentials: {
           password: createPassword('345345'),
           role: 'admin'
-        }
+        },
+        id: uuid.v4()
       };
 
       const three =
@@ -118,7 +121,8 @@ module.exports = function(config,
           credentials: {
             password: createPassword('234234'),
             role: 'trainer'
-          }
+          },
+          id: uuid.v4()
         };
       return [one, two, three];
     };

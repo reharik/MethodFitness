@@ -17,13 +17,14 @@ module.exports = function(
 
   let fetchAppointments = async function(ctx) {
     logger.debug('arrived at appointment.fetchAppointments');
+    const trainerClause = ` AND "trainer" = '${ctx.state.user.id}'`;
     const sql = `SELECT * from "appointment" 
       where  "date" >= '${ctx.params.startDate}' 
         AND "date" <= '${ctx.params.endDate}'
-        ${ctx.state.user.role !== 'admin' ? ` AND "trainer" = '${ctx.state.user.id}'` : ``}`;
+        ${ctx.state.user.role !== 'admin' ? trainerClause : ''}`;
     const appointments = await rsRepository.query(sql);
     ctx.status = 200;
-    ctx.body = appointments;
+    ctx.body = { appointments };
   };
 
   let scheduleAppointment = async function(ctx) {

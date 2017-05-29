@@ -13,6 +13,13 @@ deps: \
 	cd ../projections && yarn && \
 	cd ../workflows && yarn
 
+reInstallDeps:
+	cd api && rm -rf node_modules yarn.lock && yarn && \
+	cd ../data && rm -rf node_modules yarn.lock && yarn && \
+	cd ../frontend && rm -rf node_modules yarn.lock && yarn && \
+	cd ../projections && rm -rf node_modules yarn.lock && yarn && \
+	cd ../workflows && rm -rf node_modules yarn.lock && yarn
+
 dockerDown:
 	docker-compose -f docker/docker-compose.yml -p methodfit down --rmi local --remove-orphans
 
@@ -62,6 +69,7 @@ kill-eventstore:
 kill-postgres:
 	- docker rm -v -f methodfit_postgres_1  || echo "No more containers to remove."
 
+kill-data: kill-eventstore kill-postgres
 
 seedES:
 	- cd data && make seedES
@@ -71,3 +79,9 @@ migration:
 
 rebuildData:
 	- cd data && make rebuildData
+
+
+stopRestart:
+	- docker rm -v -f methodfit_eventstore_1 || echo "No more containers to remove."
+	- docker rm -v -f methodfit_postgres_1  || echo "No more containers to remove."
+	docker-compose -f docker/docker-compose.yml -p methodfit up
