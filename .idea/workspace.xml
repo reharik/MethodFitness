@@ -3,19 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="42634bf3-938c-4c08-bb5e-6caaf535c5dd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/package.json" afterPath="$PROJECT_DIR$/api/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/yarn.lock" afterPath="$PROJECT_DIR$/api/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/package.json" afterPath="$PROJECT_DIR$/data/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/yarn.lock" afterPath="$PROJECT_DIR$/data/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/yarn.lock" afterPath="$PROJECT_DIR$/frontend/yarn.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js" afterPath="$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/package.json" afterPath="$PROJECT_DIR$/projections/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/yarn.lock" afterPath="$PROJECT_DIR$/projections/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/services/package.json" afterPath="$PROJECT_DIR$/services/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/services/yarn.lock" afterPath="$PROJECT_DIR$/services/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/package.json" afterPath="$PROJECT_DIR$/workflows/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/yarn.lock" afterPath="$PROJECT_DIR$/workflows/yarn.lock" />
     </list>
     <ignored path="MethodFitness.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +27,18 @@
       <file leaf-file-name="UnpaidAppointments.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="29" column="18" lean-forward="true" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+            <state relative-caret-position="540">
+              <caret line="30" column="18" lean-forward="false" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TODO" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TODO">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="73" lean-forward="false" selection-start-line="2" selection-start-column="73" selection-end-line="2" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -98,8 +97,8 @@
       <file leaf-file-name="UnpaidAppointmentsEventHandler.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="26" column="16" lean-forward="true" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
+            <state relative-caret-position="450">
+              <caret line="25" column="18" lean-forward="false" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -128,6 +127,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>pgb</find>
       <find>pgbl</find>
       <find>pgblu</find>
       <find>pgblue</find>
@@ -155,9 +155,8 @@
       <find>fullhour</find>
       <find>#</find>
       <find>#13</find>
-      <find>#14</find>
       <find>#1</find>
-      <find>#15</find>
+      <find>#14</find>
     </findStrings>
     <replaceStrings>
       <replace>purchase</replace>
@@ -173,7 +172,6 @@
       <replace>upa</replace>
       <replace>#14</replace>
       <replace>#15</replace>
-      <replace>#16</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/mf_api/app/src/utilities/swaggerMiddleware</dir>
@@ -197,7 +195,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/frontend/package.json" />
         <option value="$PROJECT_DIR$/workflows/app/registry.js" />
         <option value="$PROJECT_DIR$/workflows/app/registry_test.js" />
         <option value="$PROJECT_DIR$/data/app/src/seedES.js" />
@@ -244,10 +241,11 @@
         <option value="$PROJECT_DIR$/api/app/src/utilities/notificationListener.js" />
         <option value="$PROJECT_DIR$/projections/app/src/helpers/unpaidAppointments.js" />
         <option value="$PROJECT_DIR$/data/app/migrations/sqls/20170123102914-initial-up.sql" />
-        <option value="$PROJECT_DIR$/services/app/src/dispatch.js" />
         <option value="$PROJECT_DIR$/api/package.json" />
+        <option value="$PROJECT_DIR$/services/app/src/dispatch.js" />
         <option value="$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js" />
         <option value="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" />
+        <option value="$PROJECT_DIR$/TODO" />
       </list>
     </option>
   </component>
@@ -1230,12 +1228,12 @@
       <workItem from="1495285799775" duration="7244000" />
       <workItem from="1495305553157" duration="25314000" />
       <workItem from="1496076736241" duration="11000" />
-      <workItem from="1496076829876" duration="10559000" />
+      <workItem from="1496076829876" duration="11428000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="786508000" />
+    <option name="totallyTimeSpent" value="786448000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="35" width="1919" height="1061" extended-state="0" />
@@ -1291,13 +1289,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/frontend/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/projections/yarn.lock">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="326">
@@ -1625,14 +1616,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/app/src/dispatch.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="428">
@@ -1641,18 +1624,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/services/app/src/dispatch.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="29" column="18" lean-forward="true" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+        <state relative-caret-position="540">
+          <caret line="30" column="18" lean-forward="false" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TODO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="73" lean-forward="false" selection-start-line="2" selection-start-column="73" selection-end-line="2" selection-end-column="73" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="26" column="16" lean-forward="true" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
+        <state relative-caret-position="450">
+          <caret line="25" column="18" lean-forward="false" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="18" />
           <folding />
         </state>
       </provider>

@@ -8,23 +8,29 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
     async initialize() {
       logger.info('UnpaidAppointmentsEventHandler started up');
       let state = await rsRepository
-        .getAggregateView('unpaidAppointments', '00000000-0000-0000-0000-000000000001');
-      if (!state) {
+        .getAggregateViewMeta('unpaidAppointments', '00000000-0000-0000-0000-000000000001');
+      if (!state.trainers) {
         this.upa = new UnpaidAppointments();
-        await rsRepository.insertAggregateView('unpaidAppointments', this.upa, this.upa.unpaidAppointments);
+        console.log('==========this.upa=========');
+        console.log(this.upa);
+        console.log('==========END this.upa=========');
+
+        await rsRepository.insertAggregateMeta(
+          'unpaidAppointments',
+          this.upa);
       } else {
         this.upa = new UnpaidAppointments(state);
       }
     }
 
     async saveView(trainerId) {
-      let payload = this.upa.unpaidAppointments
+      let unpaidAppointments = this.upa.unpaidAppointments
         .concat(this.upa.unfundedAppointments)
         .filter(x => x.trainerId === trainerId);
       return await rsRepository.saveAggregateView(
         'unpaidAppointments',
         this.upa,
-        payload,
+        {unpaidAppointments},
         trainerId);
     }
 

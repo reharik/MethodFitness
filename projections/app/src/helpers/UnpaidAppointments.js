@@ -11,6 +11,7 @@ module.exports = function(invariant) {
         pair: state.sessions && state.sessions.pair || []};
       this.unfundedAppointments = state.unfundedAppointments || [];
       this.unpaidAppointments = state.unpaidAppointments || [];
+      this.currentTrainer = 0;
     }
 
     addTrainer(trainer) {
@@ -72,6 +73,8 @@ module.exports = function(invariant) {
       if (!appointment || appointment.length <= 0) {
         return;
       }
+
+      this.currentTrainer = appointment.trainerId;
 
       let curriedCreateUnpaidAppointment = this.curryCreateUnpaidAppointment(appointment);
       let curriedSubtractSession = this.currySubtractSession(appointment);

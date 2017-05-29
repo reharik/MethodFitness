@@ -1,0 +1,3 @@
+- UnpaidAppointmentsEventHandler.saveView is choking because it's serving both meta update alone and meta up with row
+update.  in the former there's no trainerId, and in the later, the upsert is incorrect because it checks for id and
+insert vs updates depending on that.  not sure what the fix is for either
