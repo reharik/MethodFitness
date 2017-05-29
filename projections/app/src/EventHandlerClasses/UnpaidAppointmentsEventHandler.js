@@ -8,21 +8,24 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
     async initialize() {
       logger.info('UnpaidAppointmentsEventHandler started up');
       let state = await rsRepository
-        .getSingletonAggregateView('unpaidAppointments', '00000000-0000-0000-0000-000000000001');
+        .getAggregateView('unpaidAppointments', '00000000-0000-0000-0000-000000000001');
       if (!state) {
         this.upa = new UnpaidAppointments();
-        await rsRepository.insertSingletonAggregateView('unpaidAppointments', this.upa, this.upa.unpaidAppointments);
+        await rsRepository.insertAggregateView('unpaidAppointments', this.upa, this.upa.unpaidAppointments);
       } else {
         this.upa = new UnpaidAppointments(state);
       }
     }
 
-    async saveView() {
-      return await rsRepository.saveSingletonAggregateView(
+    async saveView(trainerId) {
+      let payload = this.upa.unpaidAppointments
+        .concat(this.upa.unfundedAppointments)
+        .filter(x => x.trainerId === trainerId);
+      return await rsRepository.saveAggregateView(
         'unpaidAppointments',
         this.upa,
-        this.upa.unpaidAppointments,
-        this.upa.id);
+        payload,
+        trainerId);
     }
 
     async trainerHired(event) {
@@ -92,7 +95,7 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
 
     async fullHourSessionPurchased(event) {
       this.upa.addSession(event);
-      return await this.saveView();
+      return await this.saveView(x => x.trainerId === this.upa.currentTrainer);
     }
 
     async halfHourSessionPurchased(event) {

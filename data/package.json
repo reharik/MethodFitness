@@ -32,7 +32,7 @@
     "db-migrate-pg": "^0.1.11",
     "eventstore-node": "^0.0.29",
     "extend": "^3.0.0",
-    "ges-eventsourcing": "reharik/ges-eventsourcing#15",
+    "ges-eventsourcing": "reharik/ges-eventsourcing#16",
     "pg-async": "^2.4.0",
     "promise-retry": "^1.1.1",
     "uuid": "^2.0.1"

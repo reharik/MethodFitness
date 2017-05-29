@@ -1,6 +1,6 @@
 module.exports = function(invariant) {
   return class UnpaidAppointments {
-    constructor(state) {
+    constructor(state = {}) {
       this.id = state.id || '00000000-0000-0000-0000-000000000001';
       this.clients = state.clients || [];
       this.trainers = state.trainers || [];
@@ -24,7 +24,7 @@ module.exports = function(invariant) {
     addTRC(trainerId, item) {
       let trainer = this.trainers.find(x => x.id === trainerId);
       invariant(trainer, `Unable to find trainer with ID: ${trainerId}`);
-      trainer.TRCS.push(item);
+      trainer.TCRS.push(item);
     }
 
     updateTRC(item) {

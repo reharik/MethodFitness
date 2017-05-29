@@ -2,54 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42634bf3-938c-4c08-bb5e-6caaf535c5dd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/app/migrationStartupIndex.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/projections/app/src/pingDB.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/.dockerignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/.eslintignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/app/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/app/registry.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/app/src/dispatch.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/config/custom-environment-variables.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/config/default.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/config/prod.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/config/qa.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/docker/Dockerfile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/yarn.lock" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/workflows/app/src/pingDB.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/commands/updateTrainersClientRatesCommand.js" afterPath="$PROJECT_DIR$/api/app/src/commands/updateTrainersClientRatesCommand.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/appointmentController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/appointmentController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/utilities/notificationListener.js" afterPath="$PROJECT_DIR$/api/app/src/utilities/notificationListener.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/package.json" afterPath="$PROJECT_DIR$/api/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/yarn.lock" afterPath="$PROJECT_DIR$/api/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/app/migrations/sqls/20170123102914-initial-up.sql" afterPath="$PROJECT_DIR$/data/app/migrations/sqls/20170123102914-initial-up.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/app/src/migration.js" afterPath="$PROJECT_DIR$/data/app/src/migration.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/app/src/pingDB.js" afterPath="$PROJECT_DIR$/data/app/src/pingDB.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/app/src/seedES.js" afterPath="$PROJECT_DIR$/data/app/src/seedES.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/docker/Dockerfile" afterPath="$PROJECT_DIR$/data/docker/Dockerfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/package.json" afterPath="$PROJECT_DIR$/data/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/yarn.lock" afterPath="$PROJECT_DIR$/data/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docker/docker-compose.yml" afterPath="$PROJECT_DIR$/docker/docker-compose.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js" afterPath="$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/yarn.lock" afterPath="$PROJECT_DIR$/frontend/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/index.js" afterPath="$PROJECT_DIR$/projections/app/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/registry.js" afterPath="$PROJECT_DIR$/projections/app/registry.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlers/TrainerEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlers/TrainerEventHandler.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/dispatch.js" afterPath="$PROJECT_DIR$/projections/app/src/dispatch.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/config/default.json" afterPath="$PROJECT_DIR$/projections/config/default.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" afterPath="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js" afterPath="$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/package.json" afterPath="$PROJECT_DIR$/projections/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projections/yarn.lock" afterPath="$PROJECT_DIR$/projections/yarn.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/index.js" afterPath="$PROJECT_DIR$/workflows/app/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Client.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Client.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Trainer.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Trainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/ClientWorkflow.js" afterPath="$PROJECT_DIR$/workflows/app/src/CommandHandlers/ClientWorkflow.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/dispatch.js" afterPath="$PROJECT_DIR$/workflows/app/src/dispatch.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/entities/ClientInventory.js" afterPath="$PROJECT_DIR$/workflows/app/src/entities/ClientInventory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/services/package.json" afterPath="$PROJECT_DIR$/services/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/services/yarn.lock" afterPath="$PROJECT_DIR$/services/yarn.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/package.json" afterPath="$PROJECT_DIR$/workflows/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/yarn.lock" afterPath="$PROJECT_DIR$/workflows/yarn.lock" />
     </list>
@@ -71,11 +35,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="UnpaidAppointments.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UnpaidAppointments.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="80" column="40" lean-forward="true" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
+            <state relative-caret-position="522">
+              <caret line="29" column="18" lean-forward="true" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -94,8 +58,8 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="49" column="30" lean-forward="true" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
+            <state relative-caret-position="428">
+              <caret line="41" column="35" lean-forward="false" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -105,7 +69,7 @@
         <entry file="file://$PROJECT_DIR$/services/app/src/dispatch.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="20" column="8" lean-forward="true" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
+              <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -131,11 +95,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnpaidAppointmentsEventHandler.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UnpaidAppointmentsEventHandler.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="63" lean-forward="false" selection-start-line="10" selection-start-column="63" selection-end-line="10" selection-end-column="63" />
+            <state relative-caret-position="306">
+              <caret line="26" column="16" lean-forward="true" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -164,7 +128,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pgb</find>
       <find>pgbl</find>
       <find>pgblu</find>
       <find>pgblue</find>
@@ -192,8 +155,9 @@
       <find>fullhour</find>
       <find>#</find>
       <find>#13</find>
-      <find>#1</find>
       <find>#14</find>
+      <find>#1</find>
+      <find>#15</find>
     </findStrings>
     <replaceStrings>
       <replace>purchase</replace>
@@ -209,6 +173,7 @@
       <replace>upa</replace>
       <replace>#14</replace>
       <replace>#15</replace>
+      <replace>#16</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/mf_api/app/src/utilities/swaggerMiddleware</dir>
@@ -279,10 +244,10 @@
         <option value="$PROJECT_DIR$/api/app/src/utilities/notificationListener.js" />
         <option value="$PROJECT_DIR$/projections/app/src/helpers/unpaidAppointments.js" />
         <option value="$PROJECT_DIR$/data/app/migrations/sqls/20170123102914-initial-up.sql" />
-        <option value="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" />
-        <option value="$PROJECT_DIR$/api/package.json" />
         <option value="$PROJECT_DIR$/services/app/src/dispatch.js" />
+        <option value="$PROJECT_DIR$/api/package.json" />
         <option value="$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js" />
+        <option value="$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js" />
       </list>
     </option>
   </component>
@@ -1270,7 +1235,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="784537000" />
+    <option name="totallyTimeSpent" value="786508000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="35" width="1919" height="1061" extended-state="0" />
@@ -1652,14 +1617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="63" lean-forward="false" selection-start-line="10" selection-start-column="63" selection-end-line="10" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1668,26 +1625,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/package.json">
+    <entry file="file://$PROJECT_DIR$/services/app/src/dispatch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="49" column="30" lean-forward="true" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
+        <state relative-caret-position="360">
+          <caret line="20" column="8" lean-forward="false" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/app/src/dispatch.js">
+    <entry file="file://$PROJECT_DIR$/api/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="8" lean-forward="true" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
+        <state relative-caret-position="428">
+          <caret line="41" column="35" lean-forward="false" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/projections/app/src/helpers/UnpaidAppointments.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="80" column="40" lean-forward="true" selection-start-line="80" selection-start-column="40" selection-end-line="80" selection-end-column="40" />
+        <state relative-caret-position="522">
+          <caret line="29" column="18" lean-forward="true" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projections/app/src/EventHandlerClasses/UnpaidAppointmentsEventHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="26" column="16" lean-forward="true" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
           <folding />
         </state>
       </provider>
