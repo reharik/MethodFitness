@@ -12,7 +12,7 @@ services:
     environment:
       APPLICATION_NAME: frontend
     ports:
-      - "8080:8080"
+      - "8888:8080"
     env_file:
       - ./../.envrc.example
 
@@ -53,7 +53,7 @@ services:
       - ./../api/app:/home/current/app
     command: npm run start #top -b #
     ports:
-      - 3000:3000
+      - 3666:3000
     env_file:
       - ./../.envrc.example
 

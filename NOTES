@@ -1,0 +1,3 @@
+- UnpaidAppointmentsEventHandler.saveView is choking because it's serving both meta update alone and meta up with row
+update.  in the former there's no trainerId.  maybe create two methods
+- need to update to latest ges-es

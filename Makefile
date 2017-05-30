@@ -10,6 +10,7 @@ deps: \
 	cd api && yarn && \
 	cd ../data && yarn && \
 	cd ../frontend && yarn && \
+	cd ../services && yarn && \
 	cd ../projections && yarn && \
 	cd ../workflows && yarn
 
@@ -17,6 +18,7 @@ reInstallDeps:
 	cd api && rm -rf node_modules yarn.lock && yarn && \
 	cd ../data && rm -rf node_modules yarn.lock && yarn && \
 	cd ../frontend && rm -rf node_modules yarn.lock && yarn && \
+	cd ../services && rm -rf node_modules yarn.lock && yarn && \
 	cd ../projections && rm -rf node_modules yarn.lock && yarn && \
 	cd ../workflows && rm -rf node_modules yarn.lock && yarn
 
@@ -45,9 +47,15 @@ dockerBuild:
 	docker-compose -f docker/docker-compose-deploy.yml build
 
 prettyLint:
-	cd api && yarn lint && \
+	 echo "lint api" && \
+	 cd api && yarn lint && \
+    echo "lint frontend" && \
     cd ../frontend && yarn lint && \
+    echo "lint service" && \
+    cd ../services && yarn lint && \
+    echo "lint workflows" && \
     cd ../workflows && yarn lint && \
+    echo "lint projections" && \
     cd ../projections && yarn lint
 
 .PHONY: lint

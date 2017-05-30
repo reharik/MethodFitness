@@ -1,5 +1,5 @@
 NODE_ENV=development
-API_BASE_URL=http://localhost:3000/
+API_BASE_URL=http://localhost:3333/
 API_PORT=3000
 APPLICATION_KEYS=MethodFitness
 LOGGING_LEVEL=silly
