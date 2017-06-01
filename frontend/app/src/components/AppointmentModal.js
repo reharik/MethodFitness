@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import MFModal from './../components/mfModal/MFModal';
 
 const AppointmentModal = ({ form, onClose, isOpen, title }) => {

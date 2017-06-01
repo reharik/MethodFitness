@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {identity, noop} from 'lodash';
 
 export default class Token extends React.Component {
@@ -6,9 +7,9 @@ export default class Token extends React.Component {
   static displayName = 'Token';
 
   static propTypes = {
-    handleRemove: React.PropTypes.func,
-    index: React.PropTypes.number,
-    parse: React.PropTypes.func
+    handleRemove: PropTypes.func,
+    index: PropTypes.number,
+    parse: PropTypes.func
   }
 
   static defaultProps = {
@@ -42,7 +43,6 @@ export default class Token extends React.Component {
 
   render() {
     const className = `reactSelect__token__wrapper ${this.props.fullWidth?'reactSelect__token__wrapperFullWidth':''}`;
-    const {style} = this.props;
     return (
       <div ref="wrapper" className={className} >
         <div ref="value" className="reactSelect__token__value" >

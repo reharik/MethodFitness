@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import OptionList from './options/index.jsx';
 import Token from './token/index.jsx';
-import {includes, differenceWith, filter, noop, identity, isArray, isUndefined, isEmpty} from 'lodash';
+import {includes, differenceWith, filter, noop, identity, isArray, isUndefined} from 'lodash';
 import {contains} from 'underscore.string';
 import keyCodes from './utils/keyCodes';
 
@@ -13,22 +14,22 @@ class TokenAutocomplete extends React.Component {
 
   static propTypes = {
     //initial state
-    options: React.PropTypes.array,
-    placeholder: React.PropTypes.string,
+    options: PropTypes.array,
+    placeholder: PropTypes.string,
     // treshold: tresholdPropType,
     // defaultValues: defaultValuesPropType,
-    processing: React.PropTypes.bool,
-    focus: React.PropTypes.bool,
+    processing: PropTypes.bool,
+    focus: PropTypes.bool,
     //behaviour
-    filterOptions: React.PropTypes.bool,
-    simulateSelect: React.PropTypes.bool,
-    limitToOptions: React.PropTypes.bool,
-    parseOption: React.PropTypes.func,
-    parseToken: React.PropTypes.func,
-    parseCustom: React.PropTypes.func,
+    filterOptions: PropTypes.bool,
+    simulateSelect: PropTypes.bool,
+    limitToOptions: PropTypes.bool,
+    parseOption: PropTypes.func,
+    parseToken: PropTypes.func,
+    parseCustom: PropTypes.func,
     //handles
-    onInputChange: React.PropTypes.func,
-    onChange: React.PropTypes.func
+    onInputChange: PropTypes.func,
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -129,6 +130,8 @@ class TokenAutocomplete extends React.Component {
           e.preventDefault();
         }
         break;
+      default:
+
     }
   };
 
@@ -288,10 +291,7 @@ class TokenAutocomplete extends React.Component {
           ref="input"/>);
 
   renderDropdownIndicator = () => {
-    return
-    // this.props.simulateSelect
-    (<div ref="dropdownIndicator" className="reactSelect__dropdownIndicator" />)
-  //     : null;
+    return (<div ref="dropdownIndicator" className="reactSelect__dropdownIndicator" />)
   };
 
   render() {

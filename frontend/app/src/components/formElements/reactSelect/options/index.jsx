@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {noop, map} from 'lodash';
 import keyCodes from './../utils/keyCodes';
 import Option from './option/index';
@@ -8,9 +9,9 @@ export default class OptionList extends React.Component {
   static displayName = 'Option List';
 
   static propTypes = {
-    options: React.PropTypes.array,
-    alreadySelected: React.PropTypes.array,
-    term: React.PropTypes.string
+    options: PropTypes.array,
+    alreadySelected: PropTypes.array,
+    term: PropTypes.string
   }
 
   static defaultProps = {
@@ -57,6 +58,7 @@ export default class OptionList extends React.Component {
         this.selectNext();
         e.preventDefault();
         break;
+      default:
     }
   }
 

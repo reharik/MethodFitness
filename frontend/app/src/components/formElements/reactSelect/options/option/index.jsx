@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {noop, identity} from 'lodash';
 
 export default class Option extends React.Component {
@@ -6,12 +7,12 @@ export default class Option extends React.Component {
   static displayName = 'Option';
 
   static propTypes = {
-    selected: React.PropTypes.bool,
-    index: React.PropTypes.number,
-    handleSelect: React.PropTypes.func,
-    handleClick: React.PropTypes.func,
-    parse: React.PropTypes.func,
-    filter: React.PropTypes.string
+    selected: PropTypes.bool,
+    index: PropTypes.number,
+    handleSelect: PropTypes.func,
+    handleClick: PropTypes.func,
+    parse: PropTypes.func,
+    filter: PropTypes.string
   };
 
   static defaultProps = {
@@ -46,8 +47,7 @@ export default class Option extends React.Component {
         ref="wrapper"
         className={ className }
         onClick={this.onClick}
-        onMouseEnter={this.onMouseEnter} dangerouslySetInnerHTML={final}>
-      </div>
+        onMouseEnter={this.onMouseEnter} dangerouslySetInnerHTML={final} />
     );
   }
 }

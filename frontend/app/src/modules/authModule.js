@@ -1,10 +1,10 @@
 import { requestStates } from '../sagas/requestSaga';
 import configValues from './../utilities/configValues';
 import selectn from 'selectn';
-export const LOGIN = requestStates('login', 'auth');
-export const LOGOUT = requestStates('logout', 'auth');
 import { actions as notifActions } from 'redux-notifications';
 const { notifSend } = notifActions;
+export const LOGIN = requestStates('login', 'auth');
+export const LOGOUT = requestStates('logout', 'auth');
 
 const initialState = {
   user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '',

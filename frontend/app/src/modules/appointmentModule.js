@@ -15,7 +15,7 @@ export default (state = [], action = {}) => {
     case UPDATE_APPOINTMENT.SUCCESS: {
       let response = selectn('response.payload', action);
       if (response.updateType === 'rescheduleAppointmentToNewDay') {
-        const newState = state.filter(x => x.id !== response.oldAppointmentId).map(x => ({ ...x }));
+        const newState = state.filter(x => x.id !== response.oldAppointmentId).map(x => ({...x}));
         let newItem = selectn('action.upsertedItem', action);
         newItem.id = response.newAppointmentId;
         return reducerMerge(newState, newItem);
@@ -35,8 +35,9 @@ export default (state = [], action = {}) => {
       let response = selectn('response.payload', action);
       return state.filter(x => x.id !== response.appointmentId);
     }
+    default:
+      return state;
   }
-  return state;
 };
 
 export function scheduleAppointment(data) {

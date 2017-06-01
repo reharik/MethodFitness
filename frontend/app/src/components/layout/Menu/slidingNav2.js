@@ -4,8 +4,8 @@
 //
 // const SlideTransition = React.createClass({
 //   propTypes: {
-//     depth: React.PropTypes.number.isRequired,
-//     name: React.PropTypes.string
+//     depth: PropTypes.number.isRequired,
+//     name: PropTypes.string
 //   },
 //   getDefaultProps() {
 //     return {

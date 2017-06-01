@@ -14,4 +14,4 @@ Header.propTypes = {
   logoutUser: PropTypes.func
 };
 
-module.exports = Header;
+export default Header;
