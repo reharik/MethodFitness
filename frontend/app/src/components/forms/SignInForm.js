@@ -58,7 +58,7 @@ class SignInForm extends Component {
                 <label className="signIn__form__header__label">Sign In</label>
               </div>
               <div className="signIn__form__row">
-                <SubmissionFor ref="subForUserName" data={model.userName} />
+                <SubmissionFor data={model.userName} />
               </div>
               <div className="signIn__form__row">
                 <SubmissionFor data={model.password} />

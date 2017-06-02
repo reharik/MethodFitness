@@ -1,4 +1,4 @@
-let React = require('react');
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const CSSTransitionGroup = require('react-addons-css-transition-group');
@@ -12,7 +12,7 @@ const SlideTransition = ({ direction, children }) => (
       component="div"
       transitionName={direction}
     >
-      <div ref="inner" className="slider-inner-wrapper">
+      <div className="slider-inner-wrapper">
         {children}
       </div>
     </CSSTransitionGroup>

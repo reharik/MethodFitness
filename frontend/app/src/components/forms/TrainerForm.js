@@ -120,7 +120,7 @@ class TrainerForm extends Component {
                   <SubmissionFor selectOptions={this.props.roles} data={model.role} />
                 </div>
                 <div className="form__section__header">
-                  <label className="form__section__header__label">Trainer's Clients</label>
+                  <label className="form__section__header__label">{`Trainer's Clients`}</label>
                 </div>
                 <div className="form__section__row">
                   <SubmissionFor selectOptions={this.props.clients} data={model.clients} />
