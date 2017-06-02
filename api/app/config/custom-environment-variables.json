@@ -3,7 +3,12 @@
     "env": "NODE_ENV",
     "swagger_ui_url": "SWAGGER_UI_URL",
     "logging_level": "LOGGING_LEVEL",
-    "logging_transports": "LOGGING_TRANSPORTS"
+    "logging_transports": "LOGGING_TRANSPORTS",
+    "host": "API_HOST",
+    "port": "API_PORT",
+    "frontEndHost": "FRONT_END_HOST",
+    "frontEndPort": "FRONT_END_PORT"
+
   },
   "configs": {
     "children": {

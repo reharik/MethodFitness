@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import ClientForm from '../../components/forms/ClientForm';
-import formJsonSchema from '../../utilities/formJsonSchema';
+import normalizeModel from './../../utilities/normalizeModel';
 import states from './../../constants/states';
 import sources from './../../constants/sources';
 import { addClient, fetchClientAction } from './../../modules/clientModule';
 import { notifications } from './../../modules/notificationModule';
 
 const mapStateToProps = (state) => {
-  const model = formJsonSchema(state.schema.definitions.client);
+  const model = normalizeModel(state.schema.definitions.client);
   return {
     model,
     states,

@@ -4,12 +4,15 @@
   "fontendUrl": "http://localhost:8080/app.bundle.js?9b3657d5912777bbf51",
   "app": {
     "title": "Method Fitness",
+    "host": "localhost",
     "port": 3000,
     "env": "Dev",
     "keys": [
       "methodFitness"
     ],
     "swagger_ui_url": "http://localhost:4666",
+    "frontEndHost": "localhost",
+    "frontEndPort": "8888",
     "root": "./"
   },
   "configs": {

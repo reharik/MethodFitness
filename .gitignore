@@ -12,6 +12,7 @@ build-info.json
 swagger_spec.json
 
 .idea
+.idea/workspace.xml
 npm-debug.log
 output
 licenses.csv

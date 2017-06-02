@@ -873,7 +873,7 @@ generic-pool@2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/generic-pool/-/generic-pool-2.4.2.tgz#886bc5bf0beb7db96e81bcbba078818de5a62683"
 
-ges-eventsourcing@reharik/ges-eventsourcing#17:
+ges-eventsourcing@reharik/ges-eventsourcing:
   version "0.0.1"
   resolved "https://codeload.github.com/reharik/ges-eventsourcing/tar.gz/417be7bc74f6719d42cd93bae54ae15a03fca859"
   dependencies:

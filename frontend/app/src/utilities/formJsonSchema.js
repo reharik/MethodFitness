@@ -18,7 +18,7 @@ const mapProperty = (parent, propertyName) => ({
 // here parent is so you can get the required off of it
 const mapRules = (parent, property) => {
   if (parent.required && parent.required.some(x => x === property.name)) {
-    property.rules.push({ rule: 'required' });
+    property.rules.push({ required: true });
   }
   // propbably put the rule in an x-val or x-rule unless the data faker has
   // some convention for it
