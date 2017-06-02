@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { Input, DatePicker, Select } from 'antd';
 const Option = Select.Option;
 
@@ -7,7 +6,6 @@ const InputFor = ({ data, selectOptions }) => {
   const input = function() {
     switch (data['x-input'] || data.type) {
       case 'date-time': {
-        data.value = data.value ? data.value : moment().toISOString();
         return (
           <DatePicker />
         );

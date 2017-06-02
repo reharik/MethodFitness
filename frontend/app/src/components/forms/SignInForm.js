@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
-import { SubmissionFor } from './../formElements/submissionFor';
+import SubmissionFor from './../formElements/SubmissionFor';
 
 import { Form, Button} from 'antd';
 

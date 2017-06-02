@@ -17,4 +17,4 @@ SubmissionFor.propTypes = {
   selectOptions: PropTypes.array
 };
 
-export { SubmissionFor };
+export default SubmissionFor;

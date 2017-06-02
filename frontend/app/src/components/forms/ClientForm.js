@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
 import { browserHistory } from 'react-router';
-import { SubmissionFor } from './../formElements/submissionFor';
+import SubmissionFor from './../formElements/SubmissionFor';
 import { Form } from 'antd';
 
 class ClientForm extends Component {
