@@ -1,14 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InputFor from './InputFor';
-import { Form } from 'antd';
+import { Form, Col } from 'antd';
 const FormItem = Form.Item;
 
-const SubmissionFor = ({data, selectOptions, form}) => {
-  let input = InputFor({data, selectOptions});
-  return (<FormItem label={data.label}>
-    {form.getFieldDecorator(data.name, {rules: data.rules})(input)}
-  </FormItem>);
+const SubmissionFor = ({data,
+                         selectOptions,
+                         form,
+                         span,
+                         onChange
+}) => {
+
+  let input = InputFor({data, selectOptions, onChange});
+  return (
+    <Col span={span || 12}>
+      <FormItem label={data.label} style={{width: '100%', padding: '0 8px'}}>
+        {form.getFieldDecorator(data.name, {rules: data.rules})(input)}
+      </FormItem>
+    </Col>);
 };
 
 SubmissionFor.propTypes = {

@@ -73,7 +73,7 @@ export default class OptionList extends React.Component {
         handleClick={this.props.handleAddSelected}
         handleSelect={this.handleSelect}
         value={option}
-        selected={index === this.state.selected}/>
+        selected={index === this.state.selectedlayout={'vertical'}
     );
   }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DisplayFor from './formElements/elementsFor/DisplayFor';
+import { Card, Row } from 'antd';
 
 const ClientInventory = ({ inventory }) => {
   if (!inventory) {
@@ -28,19 +29,18 @@ const ClientInventory = ({ inventory }) => {
   };
 
   return (
-    <div className="form__section__header">
-      <label className="form__section__header__label">Current Client Inventory</label>
-      <hr />
-      <div className="form__section__row">
+      <Card title="Current Client Inventory" >
+        <Row type="flex">
+
         <DisplayFor data={invModel.fullHour} />
-      </div>
-      <div className="form__section__row">
+      </Row>
+        <Row type="flex">
         <DisplayFor data={invModel.halfHour} />
-      </div>
-      <div className="form__section__row">
+      </Row>
+        <Row type="flex">
         <DisplayFor data={invModel.pair} />
-      </div>
-    </div>
+      </Row>
+    </Card>
   );
 };
 

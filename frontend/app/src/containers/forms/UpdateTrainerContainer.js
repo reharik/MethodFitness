@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import UpdateTrainerForm from '../../components/forms/UpdateTrainerForm';
-import formJsonSchema from '../../utilities/formJsonSchema';
+import UpdateTrainerForm from '../../components/forms/UpdateTrainerForms/UpdateTrainerForm';
+import normalizeModel from './../../utilities/normalizeModel';
 import states from './../../constants/states';
 import roles from './../../constants/roles';
 import {
@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
       value: x.rate}
   : {};});
 
-  const model = formJsonSchema(state.schema.definitions.trainer, trainer);
+  const model = normalizeModel(state.schema.definitions.trainer, trainer);
   model.confirmPassword = { ...model.password };
   model.confirmPassword.name = 'confirmPassword';
   model.confirmPassword.rules = [{ rule: 'equalTo', compareField: 'password' }];

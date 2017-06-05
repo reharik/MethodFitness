@@ -1,70 +1,58 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
-import { Form } from 'freakin-react-forms';
 import ContentHeader from '../ContentHeader';
-import SubmissionFor from '../../containers/forms/SubmissionForContainer';
-import HiddenFor from './../formElements/elementsFor/HiddenFor';
-import ClientInventory from './../ClientInventory';
+import SubmissionFor from './../formElements/SubmissionFor';
+import { Form, Card, Row, Col } from 'antd';
 
 class PurchaseForm extends Component {
   componentWillMount() {
     this.loadData();
-    const fields = Form.buildModel('purchaseForm', this.props.model, { onChange: this.changeHandler });
-    this.setState({
-      fields,
-      formIsValid: false
-    });
+    this.setState({...this.purchasePrice({})});
   }
 
   loadData() {
-    if (this.props.params.clientId) {
-      this.props.fetchClientAction(this.props.params.clientId);
-    }
+    // if (this.props.params.clientId) {
+    //   this.props.fetchClientAction(this.props.params.clientId);
+    // }
   }
+
 
   onSubmitHandler = e => {
     e.preventDefault();
-    const result = Form.prepareSubmission(this.state.fields);
-    this.props.notifications(result.errors, this.containerName);
-    if (result.formIsValid) {
-      const fieldValues = { ...result.fieldValues, ...this.purchasePrice(this.state.fields) };
-      Object.keys(result.fields).forEach(x => {
-        if (result.fields[x].type === 'number' && !fieldValues[x]) {
-          fieldValues[x] = 0;
-        }
-      });
-
-      let finalResult = { ...result, fieldValues };
-
-      this.props.purchase(finalResult.fieldValues);
-      this.setState(finalResult);
-    } else {
-      this.setState(result);
-    }
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const fieldValues = {...values, ...this.purchasePrice(values)};
+        Object.keys(values).forEach(x => {
+          if (this.props.model[x].type === 'number' && !fieldValues[x]) {
+            fieldValues[x] = 0;
+          }
+        });
+        fieldValues.clientId = this.props.params.clientId;
+        this.props.purchase(fieldValues);
+        console.log('Received values of form: ', values);
+      }
+    });
   };
 
-  changeHandler = e => {
-    const result = Form.onChangeHandler(this.state.fields)(e);
-    this.props.notifications(result.errors, this.containerName, e.target.name);
-    const totals = this.purchasePrice(result.fields);
-    this.setState({ ...result, ...totals });
-  };
-
-  formReset = () => {
-    const fields = Form.buildModel('PurchaseForm', this.props.model, { onChange: this.changeHandler });
-    this.setState({ fields, formIsValid: false });
-  };
+  changeHandler = (field) => (value) =>
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        values[field] = value;
+        const totals = this.purchasePrice(values);
+        this.setState({...totals});
+      }
+    });
 
   purchasePrice = fields => {
     // this sucks of course, at least move the prices into a constant
     let purchase = {
-      fullHourTotal: fields.fullHour.value * 65,
-      fullHourTenPackTotal: fields.fullHourTenPack.value * 600,
-      halfHourTotal: fields.halfHour.value * 38,
-      halfHourTenPackTotal: fields.halfHourTenPack.value * 350,
-      pairTotal: fields.pair.value * 45,
-      pairTenPackTotal: fields.pairTenPack.value * 400
+      fullHourTotal: (fields.fullHour || 0) * 65,
+      fullHourTenPackTotal: (fields.fullHourTenPack || 0) * 600,
+      halfHourTotal: (fields.halfHour || 0)* 38,
+      halfHourTenPackTotal: (fields.halfHourTenPack || 0) * 350,
+      pairTotal: (fields.pair || 0) * 45,
+      pairTenPackTotal: (fields.pairTenPack || 0) * 400
     };
     purchase.purchaseTotal = purchase.fullHourTotal +
       purchase.fullHourTenPackTotal +
@@ -76,77 +64,72 @@ class PurchaseForm extends Component {
   };
 
   render() {
-    const model = this.state.fields;
+    const model = this.props.model;
+    const form = this.props.form;
     return (
       <div className="form">
         <ContentHeader>
           <div className="form__header">
-            <div className="form__header__left" />
+            <div className="form__header__left"/>
             <div className="form__header__center">
               <div className="form__header__center__title">
                 Purchase Information
                 for {`${this.props.client.contact.firstName} ${this.props.client.contact.lastName}`}
               </div>
             </div>
-            <div className="form__header__right" />
+            <div className="form__header__right"/>
           </div>
         </ContentHeader>
-        <Notifs containerName="PurchaseForm" />
+        <Notifs containerName="PurchaseForm"/>
         <div className="form-scroll-inner">
-          <div className="content-inner">
-
-            <form onSubmit={this.onSubmitHandler} className="form__content">
-              <div className="flexRow">
-
-                <div style={{ marginRight: '150px' }}>
-                  <div className="form__section__header">
-                    <label className="form__section__header__label">Client Purchase</label>
-                    <HiddenFor data={model.clientId} />
-                  </div>
-                  <div className="form__section__row">
-                    <SubmissionFor data={model.fullHour} />
+          <Form onSubmit={this.onSubmitHandler} className="form__content" layout="vertical">
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Client Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.fullHour} onChange={this.changeHandler('fullHour')} />
                     <div>{this.state.fullHourTotal}</div>
-                  </div>
-                  <div className="form__section__row">
-                    <SubmissionFor data={model.fullHourTenPack} />
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.fullHourTenPack} onChange={this.changeHandler('fullHourTenPack')} />
                     <div>{this.state.fullHourTenPackTotal}</div>
-                  </div>
-                  <div className="form__section__row">
-                    <SubmissionFor data={model.halfHour} />
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.halfHour} onChange={this.changeHandler('halfHour')} />
                     <div>{this.state.halfHourTotal}</div>
-                  </div>
-                  <div className="form__section__row">
-                    <SubmissionFor data={model.halfHourTenPack} />
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.halfHourTenPack} onChange={this.changeHandler('halfHourTenPack')} />
                     <div>{this.state.halfHourTenPackTotal}</div>
-                  </div>
-                  <div className="form__section__row">
-                    <SubmissionFor data={model.pair} />
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.pair} onChange={this.changeHandler('pair')} />
                     <div>{this.state.pairTotal}</div>
-                  </div>
-                  <div className="form__section__row">
-                    <SubmissionFor data={model.pairTenPack} />
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.pairTenPack} onChange={this.changeHandler("pairTenPack")} />
                     <div>{this.state.pairTenPackTotal}</div>
-                  </div>
-                  <div className="form__section__header">
-                    <label className="form__section__header__label">Purchase Total: {this.state.purchaseTotal}</label>
-                  </div>
-                  <div className="form__section__row">
-                    <SubmissionFor data={model.notes} />
-                  </div>
-                  <div className="form__footer">
-                    <button type="submit" className="form__footer__button">
-                      Save
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <ClientInventory inventory={this.props.client.inventory} />
-                </div>
-              </div>
-
-            </form>
-          </div>
-
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title={`Purchase Total: ${this.state.purchaseTotal}`}>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.noteslayout={'vertical'}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex" style={{margin: '24px 0'}}>
+              <Col span={4}>
+                <button type="submit" className="form__footer__button">
+                  Save
+                </button>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </div>
     );
@@ -159,7 +142,7 @@ PurchaseForm.propTypes = {
   fetchClientAction: PropTypes.func,
   notifications: PropTypes.func,
   client: PropTypes.object,
-  purchase: PropTypes.object
+  purchase: PropTypes.func
 };
 
-export default PurchaseForm;
+export default Form.create()(PurchaseForm);

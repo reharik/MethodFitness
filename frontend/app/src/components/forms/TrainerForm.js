@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
-import { Form } from 'freakin-react-forms';
 import ContentHeader from '../ContentHeader';
-import SubmissionFor from '../../containers/forms/SubmissionForContainer';
+import SubmissionFor from './../formElements/SubmissionFor';
 import { browserHistory } from 'react-router';
 import AjaxState from './../../containers/AjaxStateContainer';
+import { Form, Card, Row, Col } from 'antd';
 
 class TrainerForm extends Component {
   componentWillMount() {
     this.loadData();
-    const fields = Form.buildModel('trainerForm', this.props.model, { onChange: this.changeHandler });
-    this.setState({ fields, formIsValid: false });
   }
 
   loadData() {
@@ -21,30 +19,20 @@ class TrainerForm extends Component {
     this.props.fetchClientsAction();
   }
 
-  onSubmitHandler = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    const result = Form.prepareSubmission(this.state.fields);
-    if (result.formIsValid) {
-      this.props.hireTrainer(result.fieldValues);
-    }
-    this.props.notifications(result.errors, this.containerName);
-    this.setState(result);
-  };
-
-  changeHandler = e => {
-    const result = Form.onChangeHandler(this.state.fields)(e);
-    this.props.notifications(result.errors, this.containerName, e.target.name);
-    this.setState(result);
-  };
-
-  formReset = () => {
-    const fields = Form.buildModel('trainerForm', this.props.model, { onChange: this.changeHandler });
-    this.props.notifications([], this.containerName);
-    this.setState({ fields, formIsValid: false });
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.hireTrainer(values);
+        console.log('Received values of form: ', values);
+      }
+    });
   };
 
   render() {
-    const model = this.state.fields;
+    const model = this.props.model;
+    const form = this.props.form;
+
     return (
       <div className="form">
         <AjaxState />
@@ -64,68 +52,77 @@ class TrainerForm extends Component {
             <div className="form__header__center">
               <div className="form__header__center__title">Trainer</div>
             </div>
-            <div className="form__header__right" />
+            <div className="form__header__right"/>
           </div>
         </ContentHeader>
-        <Notifs containerName="trainerForm" />
+        <Notifs containerName="trainerForm"/>
         <div className="form-scroll-inner">
-          <div className="content-inner">
-            <form onSubmit={this.onSubmitHandler} className="form__content">
-              <div>
-                <div className="form__section__header">
-                  <label className="form__section__header__label">Contact Info</label>
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor data={model.firstName} />
-                  <SubmissionFor data={model.lastName} />
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor data={model.mobilePhone} />
-                  <SubmissionFor data={model.secondaryPhone} />
-                </div>
-                <div className="form__section__row__single">
-                  <SubmissionFor data={model.email} />
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor data={model.street1} />
-                  <SubmissionFor data={model.street2} />
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor data={model.city} containerStyle="form__section__row__address__city" />
-                  <SubmissionFor
-                    selectOptions={this.props.states}
-                    data={model.state}
-                    containerStyle="form__section__row__address__state"
-                  />
-                  <SubmissionFor data={model.zipCode} containerStyle="form__section__row__address__zip" />
-                </div>
-                <div className="form__section__header">
-                  <label className="form__section__header__label">Trainer Info</label>
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor data={model.birthDate} />
-                  {/*<SubmissionFor data={model.defaultClientRate} /> */}
-                  <SubmissionFor data={model.color} />
-                </div>
-                <div className="form__section__header">
-                  <label className="form__section__header__label">Trainer Credentials</label>
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor data={model.password} />
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor data={model.confirmPassword} />
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor selectOptions={this.props.roles} data={model.role} />
-                </div>
-                <div className="form__section__header">
-                  <label className="form__section__header__label">{`Trainer's Clients`}</label>
-                </div>
-                <div className="form__section__row">
-                  <SubmissionFor selectOptions={this.props.clients} data={model.clients} />
-                </div>
-              </div>
+          <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Contact Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.firstNamelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.lastNamelayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.mobilePhonelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.secondaryPhonelayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.emaillayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.street1layout={'vertical'}
+                    <SubmissionFor form={form} data={model.street2layout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.citylayout={'vertical'}
+                    <SubmissionFor
+                      selectOptions={this.props.states}
+                      form={form} data={model.state}
+                      span={8}
+                    />
+                    <SubmissionFor form={form} data={model.zipCode} span={4layout={'vertical'}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Trainer Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.birthDatelayout={'vertical'}
+                    {/*<SubmissionFor form={form} data={model.defaultClientRate} />*/}
+                    <SubmissionFor form={form} data={model.colorlayout={'vertical'}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Trainer Credentials">
+                  <Row type="flex"> <SubmissionFor form={form} data={model.passwordlayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.confirmPasswordlayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor selectOptions={this.props.roles} form={form} data={model.rolelayout={'vertical'}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Trainer' Clients">
+                  <Row type="flex">
+                    <SubmissionFor selectOptions={this.props.clients} form={form} data={model.clients}/>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
               <div className="form__footer">
                 <button type="submit" className="form__footer__button">
                   Submit
@@ -134,12 +131,11 @@ class TrainerForm extends Component {
                   Cancel
                 </button>
               </div>
-            </form>
-          </div>
+            </Row>
+          </Form>
         </div>
-      </div>
-    );
-  }
+      </div>);
+  };
 }
 
 TrainerForm.propTypes = {
@@ -154,4 +150,4 @@ TrainerForm.propTypes = {
   clients: PropTypes.array
 };
 
-export default TrainerForm;
+export default Form.create()(TrainerForm);

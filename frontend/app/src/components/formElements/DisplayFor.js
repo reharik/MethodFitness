@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import moment from 'moment';
+import { Col } from 'antd';
 // import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
 
-const DisplayFor = ({ data, displayStyle, selectOptions }) => {
-  const span = function() {
+const DisplayFor = ({ data, displayStyle, selectOptions, span }) => {
+  const _span = function() {
     switch (data['x-input'] || data.type) {
       case 'color-picker': {
         return (
@@ -49,12 +49,11 @@ const DisplayFor = ({ data, displayStyle, selectOptions }) => {
     }
   };
 
-  const _displayStyle = classNames('display__container', displayStyle);
   return (
-    <div className={_displayStyle}>
+    <Col span={span || 12} style={{marginBottom: '15px'}} >
       <label className="display__container__label"><span>{data.label}</span></label>
-      {span()}
-    </div>
+      {_span()}
+    </Col>
   );
 };
 

@@ -17,7 +17,7 @@ EditableFor.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   displayStyle: PropTypes.string,
   selectOptions: PropTypes.array,
-  noDisplay: PropTypes.string,
+  noDisplay: PropTypes.bool,
   editing: PropTypes.bool
 };
 

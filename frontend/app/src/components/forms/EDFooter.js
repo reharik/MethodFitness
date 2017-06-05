@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row,Col } from 'antd';
 
 const EDFooter = ({ editing, toggleEdit }) => {
   return (
-    <div className="editableDisplay__footer">
+    <Row type="flex" >
       {editing
-        ? <div>
-          <button type="submit" className="editableDisplay__footer__button"> Submit</button>
-          <button onClick={e => toggleEdit(e, true)}>Cancel</button>
-        </div>
-        : <a className="editableDisplay__footer_edit" onClick={e => toggleEdit(e, false)}>edit</a>}
-    </div>
+        ? <Col span={10} offset={14} >
+          <button type="submit" className="form__footer__button" > Submit</button>
+          <button onClick={e => toggleEdit(e, true)} className="form__footer__button">Cancel</button>
+        </Col>
+        : <Col span={5} offset={19} >
+          <button onClick={e => toggleEdit(e, false)} className="form__footer__button">Edit</button>
+       </Col>}
+    </Row>
   );
 };
 

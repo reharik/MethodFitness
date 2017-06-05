@@ -1,135 +1,159 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import EditableDisplay from './../../components/forms/editableDisplay/EditableDisplay';
-import AppointmentFooter from './../../components/forms/editableDisplay/AppointmentFooter';
-import DisplayFor from './../formElements/elementsFor/DisplayFor';
-import EditableFor from './../formElements/elementsFor/EditableFor';
-import { Form } from 'freakin-react-forms';
-import { syncApptTypeAndTime } from './../../utilities/appointmentTimes';
+import { syncApptTypeAndTime } from '../../utilities/appointmentTimes';
+import EditableFor from '../formElements/EditableFor';
+import { Form, Card, Row, Col } from 'antd';
 
 class UpdateAppointmentForm extends Component {
-  containerName = 'ApointmentInfo';
-  componentWillMount() {
-    this.loadData();
-  }
+  containerName = 'updateUpdateAppointmentForm';
+  state = {editing: false};
 
-  loadData() {
-    // this.props.notifClear('appointmentForm');
-    if (this.props.apptId) {
-      this.props.fetchAppointmentAction(this.props.apptId);
+  toggleEdit = (e, rollBack) => {
+    e.preventDefault();
+    if (rollBack) {
+      this.setState({ editing: !this.state.editing });
+    } else {
+      this.setState({
+        editing: !this.state.editing
+      });
     }
-  }
+  };
 
-  handleTimeChange(e) {
-    const endTime = syncApptTypeAndTime(this.state.fields.appointmentType.value, e.target.value);
-    let fields = [...this.state.fields];
-    fields.startTime.onChange(e);
-    fields.endTime = {...fields.endTime, value: endTime};
-    this.setState({ ...fields });
-  }
+  onSubmitHandler = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.scheduleAppointment(values);
+        this.props.cancel();
+        console.log('Received values of form: ', values);
+      }
+    });
+  };
 
-  handleAppointmentTypeChange(e) {
-    const endTime = syncApptTypeAndTime(e.target.value, this.state.fields.startTime.value);
-    let fields = [...this.state.fields];
-    fields.appointmentType.onChange(e);
-    fields.endTime = {...fields.endTime, value: endTime};
-    this.setState({ fields });
-  }
+  changeHandler = e => {
+    const result = Form.onChangeHandler(this.state.fields)(e);
+    this.props.notifications(result.errors, this.containerName, e.target.name);
+    this.setState(result);
+  };
 
-  handleClientChange(e) {
-    let fields = [...this.state.fields];
-    if (e.target.value.length > 1 && this.state.fields.appointmentType.value !== 'pair') {
-      fields.appointmentType = {...fields.appointmentType, value: 'pair'};
-      fields.endTime = {...fields.endTime, value: syncApptTypeAndTime(
-        fields.appointmentType.value,
-        fields.startTime.value
-      )};
+  handleTimeChange = value => {
+    const endTime = syncApptTypeAndTime(this.props.form.getFieldValue('appointmentType'), value);
+    this.props.form.setFieldsValue({endTime});
+  };
+
+  handleAppointmentTypeChange = value => {
+    if (this.props.form.getFieldValue('clients').length > 1 && value !== 'pair'){
+      this.props.form.setFieldsValue({clients:[]});
     }
-    if (e.target.value.length < 2 && this.state.fields.appointmentType.value === 'pair') {
-      fields.appointmentType = {...fields.appointmentType, value: 'fullHour'};
-    }
-    fields.clients.onChange(e);
-    this.setState({ ...fields });
-  }
+    const endTime = syncApptTypeAndTime(value, this.props.form.getFieldValue('startTime'));
+    this.props.form.setFieldsValue({endTime});
+  };
 
-  submitHandler = fields => {
-    const result = Form.prepareSubmission(fields);
-    if (result.formIsValid) {
-      result.fields.trainer = result.fields.trainer.id;
-      this.props.updateAppointment(result.fieldValues);
-      this.props.cancel();
-    }
-    this.props.notifications(result.errors, this.containerName);
+  handleClientChange = value => {
+    if (value.length > 1 && this.props.form.getFieldValue('appointmentType') !== 'pair') {
 
-    return result;
+    this.props.form.setFieldsValue({appointmentType: 'pair'});
+    const endTime = syncApptTypeAndTime('pair', this.props.form.getFieldValue('startTime'));
+    this.props.form.setFieldsValue({endTime});
+    }
+
+    if (value.length < 2 && this.props.form.getFieldValue('appointmentType') === 'pair') {
+      this.props.form.setFieldsValue({appointmentType: 'fullHour'});
+    }
   };
 
   render() {
+    const model = this.props.model;
+    const form = this.props.form;
     return (
       <div className="form">
-        <EditableDisplay
-          model={this.props.model}
-          submitHandler={this.submitHandler}
-          overrideSubmit={true}
-          sectionHeader="Appointment Info"
-          formName={this.containerName}
-          footer={AppointmentFooter}
-          notifications={this.props.notifications}
-          params={{
-            copy: this.props.copy,
-            deleteAppointment: this.props.deleteAppointment,
-            appointmentId: this.props.model.id.value,
-            date: this.props.model.date.value,
-            cancel: this.props.cancel
-          }}
-        >
-          <div className="editableDisplay__content__form__row">
-            {this.props.isAdmin
-              ? <EditableFor data="trainer" selectOptions={this.props.trainers} />
-              : <DisplayFor data="trainer" selectOptions={this.props.trainers} />}
-          </div>
-          <div className="editableDisplay__content__form__row">
-            <EditableFor data="clients" selectOptions={this.props.clients} bindChange={this.handleClientChange} />
-          </div>
-          <div className="editableDisplay__content__form__row">
-            <EditableFor
-              data="appointmentType"
-              selectOptions={this.props.appointmentTypes}
-              bindChange={this.handleAppointmentTypeChange}
-            />
-          </div>
-          <div className="editableDisplay__content__form__row">
-            <EditableFor data="date" />
-          </div>
-          <div className="editableDisplay__content__form__row">
-            <EditableFor data="startTime" selectOptions={this.props.times} bindChange={this.handleTimeChange} />
-          </div>
-          <div className="editableDisplay__content__form__row">
-            <DisplayFor data="endTime" />
-          </div>
-          <div className="editableDisplay__content__form__row">
-            <EditableFor data="notes" />
-          </div>
-        </EditableDisplay>
+        <Card title={'Appoointment Info'} >
+          <Form onSubmit={this.onSubmitHandler} layout={'vertical'} >
+            <EditableFor form={form} data={model.id} hidden={true} />
+            <Row type="flex">
+              <EditableFor
+                editing={this.state.editing}
+                form={form}
+                data={model.trainer}
+                selectOptions={this.props.trainers} />
+            </Row>
+            <Row type="flex">
+              <EditableFor
+                editing={this.state.editing}
+                form={form} data={model.clients}
+                selectOptions={this.props.clients}
+                onChange={this.handleClientChange} />
+            </Row>
+            <Row type="flex">
+              <EditableFor
+                editing={this.state.editing}
+                form={form} data={model.appointmentType}
+                selectOptions={this.props.appointmentTypes}
+                onChange={this.handleAppointmentTypeChange} />
+            </Row>
+            <Row type="flex">
+              <EditableFor
+                editing={this.state.editing}
+                form={form} data={model.date} />
+            </Row>
+            <Row type="flex">
+              <EditableFor
+                editing={this.state.editing}
+                form={form}
+                data={model.startTime}
+                selectOptions={this.props.times}
+                onChange={this.handleTimeChange} />
+            </Row>
+            <Row type="flex">
+              <EditableFor
+                editing={this.state.editing}
+                form={form} data={model.endTime} />
+            </Row>
+            <Row type="flex">
+              <EditableFor
+                editing={this.state.editing}
+                form={form} data={model.notes} />
+            </Row>
+            <Row type="flex" style={{margin: '24px 0'}}>
+              <Col span={4}>
+                <button  className="form__footer__button">
+                  Copy
+                </button>
+              </Col>
+              <Col span={4}>
+                <button  className="form__footer__button" onClick={this.props.deleteAppointment}>
+                  Delete
+                </button>
+              </Col>
+              <Col span={4}>
+                <button  className="form__footer__button" toggle>
+                  Edit
+                </button>
+              </Col>
+              <Col span={4}>
+                <button  className="form__footer__button">
+                  Cancel
+                </button>
+              </Col>
+            </Row>
+            {/*<EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />*/}
+          </Form>
+        </Card>
       </div>
     );
   }
 }
 
 UpdateAppointmentForm.propTypes = {
-  apptId: PropTypes.string,
-  notifications: PropTypes.func,
   model: PropTypes.object,
+  scheduleAppointment: PropTypes.func,
+  cancel: PropTypes.func,
+  notifications: PropTypes.func,
   isAdmin: PropTypes.bool,
   trainers: PropTypes.array,
   clients: PropTypes.array,
   appointmentTypes: PropTypes.array,
-  times: PropTypes.array,
-  fetchAppointmentAction: PropTypes.func,
-  updateAppointment: PropTypes.func,
-  cancel: PropTypes.func,
-  copy: PropTypes.func,
-  deleteAppointment: PropTypes.func
+  times: PropTypes.array
 };
 
-export default UpdateAppointmentForm;
+export default Form.create({mapPropsToFields: (props) => ({...props.model})})(UpdateAppointmentForm);

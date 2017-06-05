@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import NavigationContainer from './../../containers/MenuContainer';
 import Header from './../../containers/HeaderContainer';
 import SignInContainer from '../../containers/forms/SignInContainer';
+import {Layout} from 'antd';
+const { Content, Sider} = Layout;
 
-const Layout = ({ isReady, isAuthenticated, children }) => {
+const _Layout = ({isReady, isAuthenticated, children}) => {
   if (!isReady) {
     return null;
   }
@@ -12,25 +14,26 @@ const Layout = ({ isReady, isAuthenticated, children }) => {
     return <SignInContainer />;
   }
   return (
-    <div className="app">
+    <Layout >
       <Header />
-      <div className="mainBody">
-        <NavigationContainer />
-        <div className="mainContent">
-          <div className="mainContent__contentInner">
+      <Layout>
+        <Sider width={220} style={{background: '#f2f2f2'}}>
+          <NavigationContainer />
+        </Sider>
+        <Layout style={{padding: '0 0 24px', background: '#f2f2f2'}}>
+          <Content style={{ paddingRight: 24, margin: 0, minHeight: 280}}>
             {children}
-          </div>
-          <div className="mainContent__contentFooter" />
-        </div>
-      </div>
-    </div>
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   );
 };
 
-Layout.propTypes = {
+_Layout.propTypes = {
   isReady: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
   children: PropTypes.object
 };
 
-export default Layout;
+export default _Layout;

@@ -4,7 +4,7 @@ import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
 import { browserHistory } from 'react-router';
 import SubmissionFor from './../formElements/SubmissionFor';
-import { Form } from 'antd';
+import { Form, Card, Row, Col } from 'antd';
 
 class ClientForm extends Component {
 
@@ -46,63 +46,73 @@ class ClientForm extends Component {
             <div className="form__header__center">
               <div className="form__header__center__title">Client</div>
             </div>
-            <div className="form__header__right" />
+            <div className="form__header__right"/>
           </div>
         </ContentHeader>
-        <Notifs containerName="clientForm" />
+        <Notifs containerName="clientForm"/>
         <div className="form-scroll-inner">
-          <div className="content-inner">
-            <Form onSubmit={this.handleSubmit} className="form__content">
-              <div className="form__section__header">
-                <label className="form__section__header__label">Client Info</label>
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor form={form} data={model.firstName} />
-                <SubmissionFor form={form} data={model.lastName} />
-              </div>
-              <div className="form__section__header">
-                <label className="form__section__header__label">Contact Info</label>
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor form={form} data={model.mobilePhone} />
-                <SubmissionFor form={form} data={model.secondaryPhone} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor form={form} data={model.email} />
-                <SubmissionFor form={form} data={model.birthDate} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor form={form} data={model.street1} />
-                <SubmissionFor form={form} data={model.street2} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor form={form} data={model.city} containerStyle="form__section__row__address__city" />
-                <SubmissionFor
-                  form={form}
-                  selectOptions={this.props.states}
-                  data={model.state}
-                  containerStyle="form__section__row__address__state"
-                />
-                <SubmissionFor form={form} data={model.zipCode} containerStyle="form__section__row__address__zip" />
-              </div>
-              <div className="form__section__header">
-                <label className="form__section__header__label">Source Info</label>
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor form={form} data={model.source} selectOptions={this.props.sources} />
-                <SubmissionFor form={form} data={model.startDate} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor form={form} data={model.sourceNotes} />
-              </div>
+          <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Client Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.firstNamelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.lastNamelayout={'vertical'}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Contact Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.mobilePhonelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.secondaryPhonelayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.emaillayout={'vertical'}
+                    <SubmissionFor form={form} data={model.birthDatelayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
 
-              <div className="form__footer">
+                    <SubmissionFor form={form} data={model.street1layout={'vertical'}
+                    <SubmissionFor form={form} data={model.street2layout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+
+                    <SubmissionFor form={form} data={model.citylayout={'vertical'}
+                    <SubmissionFor
+                      span={8}
+                      form={form}
+                      selectOptions={this.props.states}
+                      data={model.state}
+                    />
+                    <SubmissionFor form={form} data={model.zipCode} span={4layout={'vertical'}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Source Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.source} selectOptions={this.props.sourceslayout={'vertical'}
+                    <SubmissionFor form={form} data={model.startDatelayout={'vertical'}
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.sourceNotes} span={24layout={'vertical'}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex" style={{margin: '24px 0'}}>
+              <Col span={4}>
                 <button type="submit" className="form__footer__button">
                   Submit
                 </button>
-              </div>
-            </Form>
-          </div>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </div>
     );

@@ -26,9 +26,7 @@ const PurchaseList = ({ gridConfig, columns, params }) => {
         </div>
       </ContentHeader>
       <div className="form-scroll-inner">
-        <div className="content-inner">
-          <Table columns={columns()} config={gridConfig} />
-        </div>
+        <Table columns={columns()} config={gridConfig} />
       </div>
     </div>
   );

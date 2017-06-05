@@ -256,7 +256,7 @@ class TokenAutocomplete extends React.Component {
           handleAddSelected: this.addSelectedValue,
           parseOption: this.props.parseOption
       };
-      return <OptionList ref="options" {...passProps}/>;
+      return <OptionList ref="options" {...passPropslayout={'vertical'};
     } else {
       return null;
     }
@@ -272,7 +272,7 @@ class TokenAutocomplete extends React.Component {
           value={value}
           fullWidth={this.props.simulateSelect}
           parse={this.props.parseToken}
-          handleRemove={this.deleteValue}/>
+          handleRemove={this.deleteValuelayout={'vertical'}
       );
     });
   };

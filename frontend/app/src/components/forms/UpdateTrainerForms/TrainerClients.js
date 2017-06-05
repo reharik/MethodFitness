@@ -4,7 +4,7 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-class ClientInfo extends Component {
+class TrainerClients extends Component {
   state = {editing: false};
 
   toggleEdit = (e, rollBack) => {
@@ -33,15 +33,15 @@ class ClientInfo extends Component {
     let model = this.props.model;
     let form = this.props.form;
     return (
-      <Card title={'Client Info'} >
+      <Card title={`Trainer's Clients`} >
         <Form onSubmit={this.handleSubmit} layout={'vertical'} >
           <EditableFor form={form} data={model.id} hidden={true} />
           <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.firstName} />
-            <EditableFor editing={this.state.editing} form={form} data={model.lastName} />
-          </Row>
-          <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.birthDate} />
+            <EditableFor
+              editing={this.state.editing}
+              form={form}
+              data={model.clients}
+              selectOptions={this.props.clients} />
           </Row>
           <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />
         </Form>
@@ -51,10 +51,11 @@ class ClientInfo extends Component {
 }
 
 
-ClientInfo.propTypes = {
+TrainerClients.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
+  clients: PropTypes.object,
   submit: PropTypes.func
 };
 
-export default Form.create({mapPropsToFields: (props) => ({...props.model})})(ClientInfo);
+export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerClients);

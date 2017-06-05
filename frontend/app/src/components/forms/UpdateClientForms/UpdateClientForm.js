@@ -4,6 +4,10 @@ import ContentHeader from '../../ContentHeader';
 import { browserHistory } from 'react-router';
 import ClientInventory from '../../ClientInventory';
 import ClientInfo from './ClientInfo';
+import ClientContact from './ClientContact';
+import ClientAddress from './ClientAddress';
+import ClientSource from './ClientSource';
+import { Row, Col } from 'antd';
 
 class UpdateClientForm extends Component {
   componentWillMount() {
@@ -35,16 +39,17 @@ class UpdateClientForm extends Component {
           </div>
         </ContentHeader>
         <div className="form-scroll-inner">
-          <div className="content-inner">
-            <div className="flexRow">
-              <div style={{ width: '500px' }}>
-                <ClientInfo model={model} submit={this.props.updateClientInfo} />
-              </div>
-              <div>
-                <ClientInventory inventory={this.props.inventory} />
-              </div>
-            </div>
-          </div>
+          <Row type="flex">
+            <Col span={8} >
+              <ClientInfo model={model} submit={this.props.updateClientInfo} />
+              <ClientContact model={model} submit={this.props.updateClientContact} />
+              <ClientAddress model={model} submit={this.props.updateClientAddress} states={this.props.states} />
+              <ClientSource model={model} submit={this.props.updateClientSource} sources={this.props.sources} />
+            </Col>
+            <Col span={6}>
+              <ClientInventory inventory={this.props.inventory} />
+            </Col>
+          </Row>
         </div>
       </div>
     );

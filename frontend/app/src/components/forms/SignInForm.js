@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import SubmissionFor from './../formElements/SubmissionFor';
 
-import { Form, Button} from 'antd';
+import { Form, Button, Row, Col } from 'antd';
 
 import AjaxState from './../../containers/AjaxStateContainer';
 import { LOGIN } from '../../modules/authModule';
@@ -37,21 +37,23 @@ class SignInForm extends Component {
           <div className="signIn__content">
             <Notifs containerName="signIn" />
             <Form onSubmit={this.handleSubmit}>
-              <div className="signIn__form__header">
+              <Row type="flex" className="signIn__form__header">
+                <Col span={24} >
                 <label className="signIn__form__header__label">Sign In</label>
-              </div>
-              <div className="signIn__form__row">
-                <SubmissionFor form={form} data={model.userName} />
-              </div>
-              <div className="signIn__form__row">
+                </Col>
+              </Row>
+              <Row type="flex" className="signIn__form__row">
+                <SubmissionFor form={form} data={model.userName} span={24} />
+              </Row>
+              <Row type="flex" className="signIn__form__row">
                 {/*<SubmissionFor data={model.password} />*/}
-                <SubmissionFor form={form} data={model.password} />
-              </div>
-              <div className="signIn__form__footer">
+                <SubmissionFor form={form} data={model.password} span={24} />
+              </Row>
+              <Row type="flex" className="signIn__form__footer">
                 <Button type="submit" htmlType="submit" className="signIn__form__footer__button">
                   Sign In
                 </Button>
-              </div>
+              </Row>
             </Form>
           </div>
         </div>

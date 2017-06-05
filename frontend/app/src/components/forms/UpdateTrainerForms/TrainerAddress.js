@@ -4,7 +4,7 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-class ClientInfo extends Component {
+class TrainerAddress extends Component {
   state = {editing: false};
 
   toggleEdit = (e, rollBack) => {
@@ -33,15 +33,22 @@ class ClientInfo extends Component {
     let model = this.props.model;
     let form = this.props.form;
     return (
-      <Card title={'Client Info'} >
+      <Card title={'Trainer Address'} >
         <Form onSubmit={this.handleSubmit} layout={'vertical'} >
           <EditableFor form={form} data={model.id} hidden={true} />
           <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.firstName} />
-            <EditableFor editing={this.state.editing} form={form} data={model.lastName} />
+            <EditableFor editing={this.state.editing} form={form} data={model.street1} />
+            <EditableFor editing={this.state.editing} form={form} data={model.street2} />
           </Row>
           <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.birthDate} />
+            <EditableFor editing={this.state.editing} form={form} data={model.city} />
+            <EditableFor
+              editing={this.state.editing}
+              form={form} data={model.state}
+              span={8}
+              selectOptions={this.props.states}
+            />
+            <EditableFor editing={this.state.editing} form={form} data={model.zipCode} span={4} />
           </Row>
           <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />
         </Form>
@@ -50,11 +57,11 @@ class ClientInfo extends Component {
   }
 }
 
-
-ClientInfo.propTypes = {
+TrainerAddress.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
+  states: PropTypes.array,
   submit: PropTypes.func
 };
 
-export default Form.create({mapPropsToFields: (props) => ({...props.model})})(ClientInfo);
+export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerAddress);

@@ -26,9 +26,7 @@ const TrainerList = ({ gridConfig, columns, archiveClient }) => {
         </div>
       </ContentHeader>
       <div className="form-scroll-inner">
-        <div className="content-inner">
-          <Table columns={columns(archiveClient)} config={gridConfig} />
-        </div>
+        <Table columns={columns(archiveClient)} config={gridConfig} />
       </div>
     </div>
   );

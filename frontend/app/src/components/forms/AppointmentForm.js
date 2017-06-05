@@ -1,30 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
-import { Form } from 'freakin-react-forms';
-import SubmissionFor from '../../containers/forms/SubmissionForContainer';
-import DisplayFor from './../formElements/elementsFor/DisplayFor';
+import DisplayFor from './../formElements/DisplayFor';
 import { syncApptTypeAndTime } from './../../utilities/appointmentTimes';
+import SubmissionFor from './../formElements/SubmissionFor';
+import { Form, Card, Row, Col } from 'antd';
 
 class AppointmentForm extends Component {
   containerName = 'appointmentForm';
 
   componentWillMount() {
     // this.props.notifClear('appointmentForm');
-    const fields = Form.buildModel(this.containerName, this.props.model, { onChange: this.changeHandler });
-    this.setState({ fields, formIsValid: false });
+    // const fields = Form.buildModel(this.containerName, this.props.model, {onChange: this.changeHandler});
+    // this.setState({fields, formIsValid: false});
   }
 
   onSubmitHandler = e => {
     e.preventDefault();
-    const result = Form.prepareSubmission(this.state.fields);
-    this.setState(result);
-    if (result.formIsValid) {
-      result.fields.trainer = result.fields.trainer.id;
-      this.props.scheduleAppointment(result.fieldValues);
-      this.props.cancel();
-    }
-    this.props.notifications(result.errors, this.containerName);
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.scheduleAppointment(values);
+        this.props.cancel();
+        console.log('Received values of form: ', values);
+      }
+    });
   };
 
   changeHandler = e => {
@@ -33,86 +32,78 @@ class AppointmentForm extends Component {
     this.setState(result);
   };
 
-  handleTimeChange = e => {
-    const endTime = syncApptTypeAndTime(this.state.fields.appointmentType.value, e.target.value);
-    let fields = [...this.state.fields];
-    fields.endTime = {...fields.endTime, value: endTime};
-    this.state.fields.startTime.onChange(e);
-    this.setState({ ...fields });
+  handleTimeChange = value => {
+    const endTime = syncApptTypeAndTime(this.props.form.getFieldValue('appointmentType'), value);
+    this.props.form.setFieldsValue({endTime});
   };
 
-  handleAppointmentTypeChange = e => {
-    const endTime = syncApptTypeAndTime(e.target.value, this.state.fields.startTime.value);
-    let fields = [...this.state.fields];
-    this.state.fields.appointmentType.onChange(e);
-    fields.endTime = {...fields.endTime, value: endTime};
-    this.setState({ ...fields });
+  handleAppointmentTypeChange = value => {
+    if (this.props.form.getFieldValue('clients').length > 1 && value !== 'pair'){
+      this.props.form.setFieldsValue({clients:[]});
+    }
+    const endTime = syncApptTypeAndTime(value, this.props.form.getFieldValue('startTime'));
+    this.props.form.setFieldsValue({endTime});
   };
 
-  handleClientChange = e => {
-    let fields = [...this.state.fields];
-    if (e.target.value.length > 1 && this.state.fields.appointmentType.value !== 'pair') {
-      fields.appointmentType = {...fields.appointmentType, value: 'pair'};
-      fields.endTime = {...fields.endTime, value: syncApptTypeAndTime(
-        fields.appointmentType.value,
-        fields.startTime.value
-      )};
+  handleClientChange = value => {
+    if (value.length > 1 && this.props.form.getFieldValue('appointmentType') !== 'pair') {
+
+    this.props.form.setFieldsValue({appointmentType: 'pair'});
+    const endTime = syncApptTypeAndTime('pair', this.props.form.getFieldValue('startTime'));
+    this.props.form.setFieldsValue({endTime});
     }
-    if (e.target.value.length < 2 && this.state.fields.appointmentType.value === 'pair') {
-      fields.appointmentType = {...fields.appointmentType, value: 'fullHour'};
+
+    if (value.length < 2 && this.props.form.getFieldValue('appointmentType') === 'pair') {
+      this.props.form.setFieldsValue({appointmentType: 'fullHour'});
     }
-    this.state.fields.clients.onChange(e);
-    this.setState({ ...fields });
   };
 
   render() {
-    const model = this.state.fields;
+    const model = this.props.model;
+    const form = this.props.form;
     return (
       <div className="form">
-        <Notifs containerName={this.containerName} />
-        <div className="content-inner">
-          <form onSubmit={this.onSubmitHandler} className="mf__modal__form__content">
-            <div className="form__section__row">
-              {this.props.isAdmin
-                ? <SubmissionFor data={model.trainer} selectOptions={this.props.trainers} />
-                : <DisplayFor data={model.trainer} selectOptions={this.props.trainers} />}
-            </div>
-            <div className="form__section__row">
-              <SubmissionFor
-                data={model.clients}
-                selectOptions={this.props.clients}
-                onChange={this.handleClientChange}
-              />
-            </div>
-            <div className="form__section__row">
-              <SubmissionFor
-                data={model.appointmentType}
-                selectOptions={this.props.appointmentTypes}
-                onChange={this.handleAppointmentTypeChange}
-                updateIfChanged={model.appointmentType.value}
-              />
-            </div>
-            <div className="form__section__row">
-              <SubmissionFor data={model.date} />
-            </div>
-            <div className="form__section__row">
-              <SubmissionFor data={model.startTime} selectOptions={this.props.times} onChange={this.handleTimeChange} />
-            </div>
-            <div className="form__section__row">
-              <DisplayFor data={model.endTime} />
-            </div>
-            <div className="form__section__row">
-              <SubmissionFor data={model.notes} />
-            </div>
-
-            <div className="mf__modal__form__footer">
-              <button type="submit" className="mf__modal__form__footer__button">Save</button>
-              <button type="reset" className="mf__modal__form__footer__button" onClick={this.props.cancel}>
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
+        <Notifs containerName={this.containerNamelayout={'vertical'}
+        <Form onSubmit={this.onSubmitHandler} className="mf__modal__form__content">
+          <Row type="flex">
+            {this.props.isAdmin
+              ? <SubmissionFor  form={form} data={model.trainer} selectOptions={this.props.trainerslayout={'vertical'}
+              : <DisplayFor data={model.trainer} selectOptions={this.props.trainerslayout={'vertical'}}
+          </Row>
+          <Row type="flex">
+            <SubmissionFor
+              form={form} data={model.clients}
+              selectOptions={this.props.clients}
+              onChange={this.handleClientChange}
+            />
+          </Row>
+          <Row type="flex">
+            <SubmissionFor
+              form={form} data={model.appointmentType}
+              selectOptions={this.props.appointmentTypes}
+              onChange={this.handleAppointmentTypeChange}
+              updateIfChanged={model.appointmentType.value}
+            />
+          </Row>
+          <Row type="flex">
+            <SubmissionFor form={form} data={model.datelayout={'vertical'}
+          </Row>
+          <Row type="flex">
+            <SubmissionFor form={form} data={model.startTime} selectOptions={this.props.times} onChange={this.handleTimeChangelayout={'vertical'}
+          </Row>
+          <Row type="flex">
+            <SubmissionFor form={form} data={model.endTime} />
+          </Row>
+          <Row type="flex">
+            <SubmissionFor form={form} data={model.noteslayout={'vertical'}
+          </Row>
+          <Row type="flex" style={{margin: '24px 0'}}>
+            <Col span={4}>
+              <button type="submit">Save</button>
+              <button type="reset" onClick={this.props.cancel}>Cancel</button>
+            </Col>
+          </Row>
+        </Form>
       </div>
     );
   }
@@ -130,4 +121,4 @@ AppointmentForm.propTypes = {
   times: PropTypes.array
 };
 
-export default AppointmentForm;
+export default Form.create({mapPropsToFields: (props) => ({...props.model})})(AppointmentForm);

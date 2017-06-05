@@ -54,10 +54,6 @@ a {
   height:73px;
 }
 
-.signIn__content {
-  min-height:320px;
-}
-
 .signIn__form__header {
   display: flex;
   justify-content:flex-start;
@@ -67,6 +63,7 @@ a {
   display: flex;
   align-items: center;
   margin-top: 25px;
+  margin-Bottom: 15px;
 }
 
 .mainHeader {
@@ -76,6 +73,7 @@ a {
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+  border-bottom: 7px white solid
 }
 
 .mainHeader__profile__links {

@@ -6,7 +6,6 @@ coverage
 
 Add a comment to this line
 #Compiled sources
-public
 build
 build-info.json
 swagger_spec.json
