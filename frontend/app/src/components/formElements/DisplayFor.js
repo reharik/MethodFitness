@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Col } from 'antd';
-// import ListItemValueDisplayFor from './ListItemValueDisplayFor';
+import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
 const DisplayFor = ({ data, selectOptions, span }) => {
   moment.locale('en');
@@ -39,9 +39,9 @@ const DisplayFor = ({ data, selectOptions, span }) => {
           </ul>
         );
       }
-      // case 'listItemValue': {
-      //   return (<ListItemValueDisplayFor data={data} />);
-      // }
+      case 'listItemValue': {
+        return (<ListItemValueDisplayFor data={data} />);
+      }
       default: {
         return <span className="display__container__value">{data.value.display || data.value.id || data.value}</span>;
       }

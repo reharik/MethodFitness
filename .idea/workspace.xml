@@ -2,21 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42634bf3-938c-4c08-bb5e-6caaf535c5dd" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/DisplayFor.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/EditableFor.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/HiddenFor.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/InlineValidationFor.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/InputFor.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/SubmissionFor.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/reactSelect/index.jsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/reactSelect/options/index.jsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/reactSelect/options/option/index.jsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/reactSelect/token/index.jsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/reactSelect/utils/keyCodes.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForm.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/AppointmentFooter.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/EDFooter.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/editableDisplay/EditableDisplay.js" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/ListItemValueDisplayFor.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/formElements/ListItemValueDisplayFor.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/ListItemValueFor.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/formElements/ListItemValueFor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api/app/src/controllers/appointmentController.js" afterPath="$PROJECT_DIR$/api/app/src/controllers/appointmentController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/AppointmentModal.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/AppointmentModal.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/Calendar.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/Calendar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/ClientInventory.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/ClientInventory.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/DisplayFor.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/formElements/DisplayFor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/HiddenFor.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/formElements/HiddenFor.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/formElements/InputFor.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/formElements/InputFor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/Appointment/AppointmentForm.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/forms/Appointment/AppointmentForm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/containers/forms/AppointmentContainer.js" afterPath="$PROJECT_DIR$/frontend/app/src/containers/forms/AppointmentContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/containers/lists/PurchaseListContainer.js" afterPath="$PROJECT_DIR$/frontend/app/src/containers/lists/PurchaseListContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js" afterPath="$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/selectors/appointmentModelSelector.js" afterPath="$PROJECT_DIR$/frontend/app/src/selectors/appointmentModelSelector.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/utilities/appointmentTimes.js" afterPath="$PROJECT_DIR$/frontend/app/src/utilities/appointmentTimes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/utilities/normalizeModel.js" afterPath="$PROJECT_DIR$/frontend/app/src/utilities/normalizeModel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js" afterPath="$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/EDFooter.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/forms/EDFooter.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/UpdateTrainerForm.js" afterPath="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/UpdateTrainerForm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateTrainerContainer.js" afterPath="$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateTrainerContainer.js" />
     </list>
     <ignored path="MethodFitness.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,101 +45,101 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AppointmentForm.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/Appointment/AppointmentForm.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InputFor.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="InputFor.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frontend/app/src/components/formElements/InputFor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="30" column="48" lean-forward="true" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
+            <state relative-caret-position="270">
+              <caret line="18" column="40" lean-forward="false" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calendar.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/moment/src/lib/locale/calendar.js">
+      <file leaf-file-name="TrainerForm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/TrainerForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="893">
+              <caret line="126" column="70" lean-forward="false" selection-start-line="126" selection-start-column="38" selection-end-line="126" selection-end-column="70" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="appointmentController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/app/src/controllers/appointmentController.js">
+      <file leaf-file-name="UpdateTrainerForm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/UpdateTrainerForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="670">
-              <caret line="70" column="35" lean-forward="true" selection-start-line="70" selection-start-column="35" selection-end-line="70" selection-end-column="35" />
+            <state relative-caret-position="405">
+              <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Day.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/workflows/app/src/AggregateRoots/Day.js">
+      <file leaf-file-name="ClientInventory.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/ClientInventory.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="668">
-              <caret line="109" column="38" lean-forward="true" selection-start-line="109" selection-start-column="38" selection-end-line="109" selection-end-column="38" />
+            <state relative-caret-position="465">
+              <caret line="31" column="43" lean-forward="true" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="appointmentModule.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js">
+      <file leaf-file-name="TrainerInfo.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerInfo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="127" column="40" lean-forward="true" selection-start-line="127" selection-start-column="40" selection-end-line="127" selection-end-column="40" />
+            <state relative-caret-position="60">
+              <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="appointmentTimes.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/app/src/utilities/appointmentTimes.js">
+      <file leaf-file-name="TrainerAddress.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerAddress.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="35" lean-forward="true" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+            <state relative-caret-position="480">
+              <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rsRepository.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/node_modules/ges-eventsourcing/app/src/readstoreRepository/rsRepository.js">
+      <file leaf-file-name="EDFooter.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/EDFooter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="60" lean-forward="false" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
+            <state relative-caret-position="375">
+              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Calendar.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/Calendar.js">
+      <file leaf-file-name="TrainerClientRates.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerClientRates.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="66" column="13" lean-forward="true" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
+            <state relative-caret-position="585">
+              <caret line="39" column="94" lean-forward="false" selection-start-line="39" selection-start-column="94" selection-end-line="39" selection-end-column="94" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppointmentContainer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/app/src/containers/forms/AppointmentContainer.js">
+      <file leaf-file-name="UpdateTrainerContainer.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateTrainerContainer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="55" column="6" lean-forward="true" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="6" />
+            <state relative-caret-position="405">
+              <caret line="27" column="59" lean-forward="true" selection-start-line="27" selection-start-column="59" selection-end-line="27" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DisplayFor.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/app/src/components/formElements/DisplayFor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="615">
+              <caret line="41" column="29" lean-forward="true" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -224,8 +233,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/UpdateClientForm.js" />
-        <option value="$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateTrainerContainer.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerContact.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/EditableFor.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/EditableFor.js" />
@@ -235,7 +242,6 @@
         <option value="$PROJECT_DIR$/frontend/app/src/components/lists/PurchaseList.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/lists/ClientList.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerPassword.js" />
-        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/UpdateTrainerForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerClients.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerAddress.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateClientForms/UpdateClientForm.js" />
@@ -250,9 +256,7 @@
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/SignInForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/PurchaseForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/SubmissionFor.js" />
-        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/EDFooter.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/ClientForm.js" />
-        <option value="$PROJECT_DIR$/frontend/app/src/components/ClientInventory.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/TrainerForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/AppointmentForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/Appointment/UpdateAppointmentForm.js" />
@@ -261,7 +265,6 @@
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/Appointment/AppointmentFooter.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/SubmissionFor.js" />
         <option value="$PROJECT_DIR$/frontend/app/config/webpack.config.dev.js" />
-        <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/DisplayFor.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/containers/lists/PurchaseListContainer.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/utilities/normalizeModel.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/AppointmentModal.js" />
@@ -273,8 +276,14 @@
         <option value="$PROJECT_DIR$/frontend/app/src/modules/appointmentModule.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/utilities/appointmentTimes.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/Appointment/AppointmentForm.js" />
-        <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/InputFor.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/Calendar.js" />
+        <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/DisplayFor.js" />
+        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/UpdateTrainerForm.js" />
+        <option value="$PROJECT_DIR$/frontend/app/src/components/ClientInventory.js" />
+        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerInfo.js" />
+        <option value="$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateTrainerContainer.js" />
+        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/EDFooter.js" />
+        <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/InputFor.js" />
       </list>
     </option>
   </component>
@@ -1024,6 +1033,126 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="forms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UpdateTrainerForms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MethodFitness" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="formElements" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -1052,11 +1181,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/app/src/components/formElements" />
       <recent name="$PROJECT_DIR$/frontend/app/src/components/forms/Appointment" />
       <recent name="$PROJECT_DIR$/frontend/app/src/components/forms" />
       <recent name="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateClientForms" />
       <recent name="$PROJECT_DIR$/frontend/app/tests" />
-      <recent name="$PROJECT_DIR$/workflows/app" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/app/src/components/forms/Appointment" />
@@ -1267,49 +1396,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerClientRates.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="36" column="43" lean-forward="false" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerClients.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="36" column="43" lean-forward="false" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerContact.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="36" column="43" lean-forward="false" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerInfo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="36" column="43" lean-forward="false" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerPassword.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="48" column="31" lean-forward="true" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateClientForms/ClientSource.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="46" column="89" lean-forward="false" selection-start-line="46" selection-start-column="89" selection-end-line="46" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateClientForms/ClientInfo.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="745">
@@ -1330,14 +1416,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="454">
           <caret line="65" column="0" lean-forward="true" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1390,14 +1468,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/EDFooter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/ClientForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
@@ -1410,22 +1480,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/TrainerForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="126" column="70" lean-forward="false" selection-start-line="126" selection-start-column="38" selection-end-line="126" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/ClientInventory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -1502,14 +1556,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="370">
           <caret line="246" column="74" lean-forward="true" selection-start-line="246" selection-start-column="74" selection-end-line="246" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/formElements/DisplayFor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="17" lean-forward="true" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -1650,14 +1696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/formElements/InputFor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="30" column="48" lean-forward="true" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/moment/src/lib/locale/calendar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1668,8 +1706,104 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/app/src/components/Calendar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="13" lean-forward="true" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
+        <state relative-caret-position="300">
+          <caret line="20" column="56" lean-forward="true" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/formElements/ListItemValueDisplayFor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/TrainerForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="893">
+          <caret line="126" column="70" lean-forward="false" selection-start-line="126" selection-start-column="38" selection-end-line="126" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="698">
+          <caret line="155" column="2" lean-forward="false" selection-start-line="155" selection-start-column="2" selection-end-line="155" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/formElements/DisplayFor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="29" lean-forward="true" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/UpdateTrainerForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/ClientInventory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="43" lean-forward="true" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerInfo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerAddress.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="33" lean-forward="true" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForms/TrainerClientRates.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="94" lean-forward="false" selection-start-line="39" selection-start-column="94" selection-end-line="39" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/containers/forms/UpdateTrainerContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="59" lean-forward="true" selection-start-line="27" selection-start-column="59" selection-end-line="27" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/forms/EDFooter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/app/src/components/formElements/InputFor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="40" lean-forward="false" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
           <folding />
         </state>
       </provider>

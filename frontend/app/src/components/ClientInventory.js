@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DisplayFor from './formElements/elementsFor/DisplayFor';
+import DisplayFor from './formElements/DisplayFor';
 import { Card, Row } from 'antd';
 
 const ClientInventory = ({ inventory }) => {

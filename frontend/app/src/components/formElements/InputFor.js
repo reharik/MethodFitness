@@ -1,6 +1,9 @@
 import React from 'react';
 import { Input, InputNumber, DatePicker, Select } from 'antd';
+import ListItemValueFor from './ListItemValueFor';
+import InputColor from 'react-input-color';
 const Option = Select.Option;
+
 
 const InputFor = ({ data, selectOptions, onChange }) => {
   const input = function() {
@@ -11,12 +14,10 @@ const InputFor = ({ data, selectOptions, onChange }) => {
           <DatePicker style={{width: '100%'}} {..._onChange} />
         );
       }
-      // case 'color-picker': {
-      //   const defaultOnChange = color => data.onChange({target: {name: data.name, value: color}});
-      //   const _onChange = onChange || defaultOnChange;
-      //   data.value = data.value || '#345678';
-      //   return <InputColor {...data} defaultValue={data.value} onChange={_onChangelayout={'vertical'};
-      // }
+      case 'color-picker': {
+        data.value = data.value || '#345678';
+        return <InputColor {...data} />;
+      }
       case 'select': {
         const _onChange = onChange ? {onChange} : {};
         let _data = {...data, value: undefined};
@@ -47,14 +48,11 @@ const InputFor = ({ data, selectOptions, onChange }) => {
           />
         );
       }
-      // case 'listItemValue': {
-      //   return (
-      //     <ListItemValueFor
-      //       className={inputStyle}
-      //       data={data}
-      //     />
-      //   );
-      // }
+      case 'listItemValue': {
+        return (
+          <ListItemValueFor data={data} />
+        );
+      }
       case 'number': {
         const _onChange = onChange ? {onChange} : {};
         return (

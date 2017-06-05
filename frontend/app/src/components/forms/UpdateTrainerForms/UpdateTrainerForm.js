@@ -6,7 +6,7 @@ import TrainerInfo from './TrainerInfo';
 import TrainerContact from './TrainerContact';
 import TrainerAddress from './TrainerAddress';
 import TrainerPassword from './TrainerPassword';
-// import TrainerClientRates from './TrainerClientRates';
+import TrainerClientRates from './TrainerClientRates';
 import TrainerClients from './TrainerClients';
 import { Row, Col } from 'antd';
 
@@ -50,7 +50,7 @@ class UpdateTrainerForm extends Component {
               <TrainerAddress model={model} submit={this.props.updateTrainerAddress} states={this.props.states} />
               <TrainerPassword model={model} submit={this.props.updateTrainerPassword} roles={this.props.roles} />
               <TrainerClients model={model} submit={this.props.updateTrainersClients} clients={this.props.clients} />
-              {/*<TrainerClientRates model={model} submit={this.props.updateTrainersClientRate} />*/}
+              <TrainerClientRates model={model} submit={this.props.updateTrainersClientRate} />
             </Col>
           </Row>
         </div>

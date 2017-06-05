@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
   const clients = state.clients
     .filter(x => !x.archived)
     .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));
-
+// possibly do this backwards in case a tcr hasn't been set for some reason
   trainer.trainerClientRates = (trainer.trainerClientRates || []).map( x => {
     let client = clients.find(c => c.value === x.clientId);
     return client ? {
