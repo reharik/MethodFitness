@@ -46,18 +46,18 @@ class ClientForm extends Component {
             <div className="form__header__center">
               <div className="form__header__center__title">Client</div>
             </div>
-            <div className="form__header__right"/>
+            <div className="form__header__right" />
           </div>
         </ContentHeader>
-        <Notifs containerName="clientForm"/>
+        <Notifs containerName="clientForm" />
         <div className="form-scroll-inner">
           <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
             <Row type="flex">
               <Col span={8}>
                 <Card title="Client Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.firstNamelayout={'vertical'}
-                    <SubmissionFor form={form} data={model.lastNamelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.firstName} />
+                    <SubmissionFor form={form} data={model.lastName} />
                   </Row>
                 </Card>
               </Col>
@@ -66,28 +66,28 @@ class ClientForm extends Component {
               <Col span={8}>
                 <Card title="Contact Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.mobilePhonelayout={'vertical'}
-                    <SubmissionFor form={form} data={model.secondaryPhonelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.mobilePhone} />
+                    <SubmissionFor form={form} data={model.secondaryPhone} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.emaillayout={'vertical'}
-                    <SubmissionFor form={form} data={model.birthDatelayout={'vertical'}
-                  </Row>
-                  <Row type="flex">
-
-                    <SubmissionFor form={form} data={model.street1layout={'vertical'}
-                    <SubmissionFor form={form} data={model.street2layout={'vertical'}
+                    <SubmissionFor form={form} data={model.email} />
+                    <SubmissionFor form={form} data={model.birthDate} />
                   </Row>
                   <Row type="flex">
 
-                    <SubmissionFor form={form} data={model.citylayout={'vertical'}
+                    <SubmissionFor form={form} data={model.street1} />
+                    <SubmissionFor form={form} data={model.street2} />
+                  </Row>
+                  <Row type="flex">
+
+                    <SubmissionFor form={form} data={model.city} />
                     <SubmissionFor
                       span={8}
                       form={form}
                       selectOptions={this.props.states}
                       data={model.state}
                     />
-                    <SubmissionFor form={form} data={model.zipCode} span={4layout={'vertical'}
+                    <SubmissionFor form={form} data={model.zipCode} span={4} />
                   </Row>
                 </Card>
               </Col>
@@ -96,11 +96,11 @@ class ClientForm extends Component {
               <Col span={8}>
                 <Card title="Source Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.source} selectOptions={this.props.sourceslayout={'vertical'}
-                    <SubmissionFor form={form} data={model.startDatelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.source} selectOptions={this.props.sources} />
+                    <SubmissionFor form={form} data={model.startDate} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.sourceNotes} span={24layout={'vertical'}
+                    <SubmissionFor form={form} data={model.sourceNotes} span={24} />
                   </Row>
                 </Card>
               </Col>

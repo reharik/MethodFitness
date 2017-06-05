@@ -5,7 +5,7 @@ import { Col } from 'antd';
 // import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
 
-const DisplayFor = ({ data, displayStyle, selectOptions, span }) => {
+const DisplayFor = ({ data, selectOptions, span }) => {
   const _span = function() {
     switch (data['x-input'] || data.type) {
       case 'color-picker': {
@@ -59,7 +59,7 @@ const DisplayFor = ({ data, displayStyle, selectOptions, span }) => {
 
 DisplayFor.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  displayStyle: PropTypes.string,
+  span: PropTypes.number,
   selectOptions: PropTypes.array
 };
 

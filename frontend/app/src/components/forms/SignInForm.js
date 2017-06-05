@@ -39,7 +39,7 @@ class SignInForm extends Component {
             <Form onSubmit={this.handleSubmit}>
               <Row type="flex" className="signIn__form__header">
                 <Col span={24} >
-                <label className="signIn__form__header__label">Sign In</label>
+                  <label className="signIn__form__header__label">Sign In</label>
                 </Col>
               </Row>
               <Row type="flex" className="signIn__form__row">

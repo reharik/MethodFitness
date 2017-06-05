@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row,Col } from 'antd';
+import { Row, Col } from 'antd';
 
 const EDFooter = ({ editing, toggleEdit }) => {
   return (
@@ -12,7 +12,7 @@ const EDFooter = ({ editing, toggleEdit }) => {
         </Col>
         : <Col span={5} offset={19} >
           <button onClick={e => toggleEdit(e, false)} className="form__footer__button">Edit</button>
-       </Col>}
+        </Col>}
     </Row>
   );
 };

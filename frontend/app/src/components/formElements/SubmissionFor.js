@@ -22,6 +22,8 @@ const SubmissionFor = ({data,
 
 SubmissionFor.propTypes = {
   form: PropTypes.object,
+  span: PropTypes.number,
+  onChange: PropTypes.func,
   data: PropTypes.object,
   selectOptions: PropTypes.array
 };

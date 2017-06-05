@@ -52,38 +52,38 @@ class TrainerForm extends Component {
             <div className="form__header__center">
               <div className="form__header__center__title">Trainer</div>
             </div>
-            <div className="form__header__right"/>
+            <div className="form__header__right" />
           </div>
         </ContentHeader>
-        <Notifs containerName="trainerForm"/>
+        <Notifs containerName="trainerForm" />
         <div className="form-scroll-inner">
           <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
             <Row type="flex">
               <Col span={8}>
                 <Card title="Contact Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.firstNamelayout={'vertical'}
-                    <SubmissionFor form={form} data={model.lastNamelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.firstName} />
+                    <SubmissionFor form={form} data={model.lastName} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.mobilePhonelayout={'vertical'}
-                    <SubmissionFor form={form} data={model.secondaryPhonelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.mobilePhone} />
+                    <SubmissionFor form={form} data={model.secondaryPhone} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.emaillayout={'vertical'}
+                    <SubmissionFor form={form} data={model.email} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.street1layout={'vertical'}
-                    <SubmissionFor form={form} data={model.street2layout={'vertical'}
+                    <SubmissionFor form={form} data={model.street1} />
+                    <SubmissionFor form={form} data={model.street2} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.citylayout={'vertical'}
+                    <SubmissionFor form={form} data={model.city} />
                     <SubmissionFor
                       selectOptions={this.props.states}
                       form={form} data={model.state}
                       span={8}
                     />
-                    <SubmissionFor form={form} data={model.zipCode} span={4layout={'vertical'}
+                    <SubmissionFor form={form} data={model.zipCode} span={4} />
                   </Row>
                 </Card>
               </Col>
@@ -92,9 +92,9 @@ class TrainerForm extends Component {
               <Col span={8}>
                 <Card title="Trainer Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.birthDatelayout={'vertical'}
+                    <SubmissionFor form={form} data={model.birthDate} />
                     {/*<SubmissionFor form={form} data={model.defaultClientRate} />*/}
-                    <SubmissionFor form={form} data={model.colorlayout={'vertical'}
+                    <SubmissionFor form={form} data={model.color} />
                   </Row>
                 </Card>
               </Col>
@@ -102,13 +102,13 @@ class TrainerForm extends Component {
             <Row type="flex">
               <Col span={8}>
                 <Card title="Trainer Credentials">
-                  <Row type="flex"> <SubmissionFor form={form} data={model.passwordlayout={'vertical'}
+                  <Row type="flex"> <SubmissionFor form={form} data={model.password} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.confirmPasswordlayout={'vertical'}
+                    <SubmissionFor form={form} data={model.confirmPassword} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor selectOptions={this.props.roles} form={form} data={model.rolelayout={'vertical'}
+                    <SubmissionFor selectOptions={this.props.roles} form={form} data={model.role} />
                   </Row>
                 </Card>
               </Col>
@@ -117,7 +117,7 @@ class TrainerForm extends Component {
               <Col span={8}>
                 <Card title="Trainer' Clients">
                   <Row type="flex">
-                    <SubmissionFor selectOptions={this.props.clients} form={form} data={model.clients}/>
+                    <SubmissionFor selectOptions={this.props.clients} form={form} data={model.clients} />
                   </Row>
                 </Card>
               </Col>
@@ -135,12 +135,13 @@ class TrainerForm extends Component {
           </Form>
         </div>
       </div>);
-  };
+  }
 }
 
 TrainerForm.propTypes = {
   params: PropTypes.object,
   notifications: PropTypes.func,
+  form: PropTypes.object,
   model: PropTypes.object,
   fetchTrainerAction: PropTypes.func,
   fetchClientsAction: PropTypes.func,

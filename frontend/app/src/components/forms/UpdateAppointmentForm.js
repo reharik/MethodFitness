@@ -42,8 +42,8 @@ class UpdateAppointmentForm extends Component {
   };
 
   handleAppointmentTypeChange = value => {
-    if (this.props.form.getFieldValue('clients').length > 1 && value !== 'pair'){
-      this.props.form.setFieldsValue({clients:[]});
+    if (this.props.form.getFieldValue('clients').length > 1 && value !== 'pair') {
+      this.props.form.setFieldsValue({clients: []});
     }
     const endTime = syncApptTypeAndTime(value, this.props.form.getFieldValue('startTime'));
     this.props.form.setFieldsValue({endTime});
@@ -51,10 +51,9 @@ class UpdateAppointmentForm extends Component {
 
   handleClientChange = value => {
     if (value.length > 1 && this.props.form.getFieldValue('appointmentType') !== 'pair') {
-
-    this.props.form.setFieldsValue({appointmentType: 'pair'});
-    const endTime = syncApptTypeAndTime('pair', this.props.form.getFieldValue('startTime'));
-    this.props.form.setFieldsValue({endTime});
+      this.props.form.setFieldsValue({appointmentType: 'pair'});
+      const endTime = syncApptTypeAndTime('pair', this.props.form.getFieldValue('startTime'));
+      this.props.form.setFieldsValue({endTime});
     }
 
     if (value.length < 2 && this.props.form.getFieldValue('appointmentType') === 'pair') {
@@ -116,22 +115,22 @@ class UpdateAppointmentForm extends Component {
             </Row>
             <Row type="flex" style={{margin: '24px 0'}}>
               <Col span={4}>
-                <button  className="form__footer__button">
+                <button className="form__footer__button">
                   Copy
                 </button>
               </Col>
               <Col span={4}>
-                <button  className="form__footer__button" onClick={this.props.deleteAppointment}>
+                <button className="form__footer__button" onClick={this.props.deleteAppointment}>
                   Delete
                 </button>
               </Col>
               <Col span={4}>
-                <button  className="form__footer__button" toggle>
+                <button className="form__footer__button" toggle>
                   Edit
                 </button>
               </Col>
               <Col span={4}>
-                <button  className="form__footer__button">
+                <button className="form__footer__button">
                   Cancel
                 </button>
               </Col>
@@ -146,7 +145,9 @@ class UpdateAppointmentForm extends Component {
 
 UpdateAppointmentForm.propTypes = {
   model: PropTypes.object,
+  form: PropTypes.object,
   scheduleAppointment: PropTypes.func,
+  deleteAppointment: PropTypes.func,
   cancel: PropTypes.func,
   notifications: PropTypes.func,
   isAdmin: PropTypes.bool,

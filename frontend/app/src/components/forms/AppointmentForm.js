@@ -38,8 +38,8 @@ class AppointmentForm extends Component {
   };
 
   handleAppointmentTypeChange = value => {
-    if (this.props.form.getFieldValue('clients').length > 1 && value !== 'pair'){
-      this.props.form.setFieldsValue({clients:[]});
+    if (this.props.form.getFieldValue('clients').length > 1 && value !== 'pair') {
+      this.props.form.setFieldsValue({clients: []});
     }
     const endTime = syncApptTypeAndTime(value, this.props.form.getFieldValue('startTime'));
     this.props.form.setFieldsValue({endTime});
@@ -48,9 +48,9 @@ class AppointmentForm extends Component {
   handleClientChange = value => {
     if (value.length > 1 && this.props.form.getFieldValue('appointmentType') !== 'pair') {
 
-    this.props.form.setFieldsValue({appointmentType: 'pair'});
-    const endTime = syncApptTypeAndTime('pair', this.props.form.getFieldValue('startTime'));
-    this.props.form.setFieldsValue({endTime});
+      this.props.form.setFieldsValue({appointmentType: 'pair'});
+      const endTime = syncApptTypeAndTime('pair', this.props.form.getFieldValue('startTime'));
+      this.props.form.setFieldsValue({endTime});
     }
 
     if (value.length < 2 && this.props.form.getFieldValue('appointmentType') === 'pair') {
@@ -63,47 +63,53 @@ class AppointmentForm extends Component {
     const form = this.props.form;
     return (
       <div className="form">
-        <Notifs containerName={this.containerNamelayout={'vertical'}
-        <Form onSubmit={this.onSubmitHandler} className="mf__modal__form__content">
-          <Row type="flex">
-            {this.props.isAdmin
-              ? <SubmissionFor  form={form} data={model.trainer} selectOptions={this.props.trainerslayout={'vertical'}
-              : <DisplayFor data={model.trainer} selectOptions={this.props.trainerslayout={'vertical'}}
-          </Row>
-          <Row type="flex">
-            <SubmissionFor
-              form={form} data={model.clients}
-              selectOptions={this.props.clients}
-              onChange={this.handleClientChange}
-            />
-          </Row>
-          <Row type="flex">
-            <SubmissionFor
-              form={form} data={model.appointmentType}
-              selectOptions={this.props.appointmentTypes}
-              onChange={this.handleAppointmentTypeChange}
-              updateIfChanged={model.appointmentType.value}
-            />
-          </Row>
-          <Row type="flex">
-            <SubmissionFor form={form} data={model.datelayout={'vertical'}
-          </Row>
-          <Row type="flex">
-            <SubmissionFor form={form} data={model.startTime} selectOptions={this.props.times} onChange={this.handleTimeChangelayout={'vertical'}
-          </Row>
-          <Row type="flex">
-            <SubmissionFor form={form} data={model.endTime} />
-          </Row>
-          <Row type="flex">
-            <SubmissionFor form={form} data={model.noteslayout={'vertical'}
-          </Row>
-          <Row type="flex" style={{margin: '24px 0'}}>
-            <Col span={4}>
-              <button type="submit">Save</button>
-              <button type="reset" onClick={this.props.cancel}>Cancel</button>
-            </Col>
-          </Row>
-        </Form>
+        <Notifs containerName={this.containerName} />
+        <Card title="Appointment" >
+          <Form onSubmit={this.onSubmitHandler} className="mf__modal__form__content">
+            <Row type="flex">
+              {this.props.isAdmin
+                ? <SubmissionFor form={form} data={model.trainer} selectOptions={this.props.trainers} />
+                : <DisplayFor data={model.trainer} selectOptions={this.props.trainers} />}
+            </Row>
+            <Row type="flex">
+              <SubmissionFor
+                form={form} data={model.clients}
+                selectOptions={this.props.clients}
+                onChange={this.handleClientChange}
+              />
+            </Row>
+            <Row type="flex">
+              <SubmissionFor
+                form={form} data={model.appointmentType}
+                selectOptions={this.props.appointmentTypes}
+                onChange={this.handleAppointmentTypeChange}
+                updateIfChanged={model.appointmentType.value}
+              />
+            </Row>
+            <Row type="flex">
+              <SubmissionFor form={form} data={model.date} />
+            </Row>
+            <Row type="flex">
+              <SubmissionFor
+                form={form}
+                data={model.startTime}
+                selectOptions={this.props.times}
+                onChange={this.handleTimeChange} />
+            </Row>
+            <Row type="flex">
+              <SubmissionFor form={form} data={model.endTime} />
+            </Row>
+            <Row type="flex">
+              <SubmissionFor form={form} data={model.notes} />
+            </Row>
+            <Row type="flex" style={{margin: '24px 0'}}>
+              <Col span={4}>
+                <button type="submit">Save</button>
+                <button type="reset" onClick={this.props.cancel}>Cancel</button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
     );
   }
@@ -111,6 +117,7 @@ class AppointmentForm extends Component {
 
 AppointmentForm.propTypes = {
   model: PropTypes.object,
+  form: PropTypes.object,
   scheduleAppointment: PropTypes.func,
   cancel: PropTypes.func,
   notifications: PropTypes.func,

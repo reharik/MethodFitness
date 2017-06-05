@@ -49,7 +49,7 @@ class PurchaseForm extends Component {
     let purchase = {
       fullHourTotal: (fields.fullHour || 0) * 65,
       fullHourTenPackTotal: (fields.fullHourTenPack || 0) * 600,
-      halfHourTotal: (fields.halfHour || 0)* 38,
+      halfHourTotal: (fields.halfHour || 0) * 38,
       halfHourTenPackTotal: (fields.halfHourTenPack || 0) * 350,
       pairTotal: (fields.pair || 0) * 45,
       pairTenPackTotal: (fields.pairTenPack || 0) * 400
@@ -70,17 +70,17 @@ class PurchaseForm extends Component {
       <div className="form">
         <ContentHeader>
           <div className="form__header">
-            <div className="form__header__left"/>
+            <div className="form__header__left" />
             <div className="form__header__center">
               <div className="form__header__center__title">
                 Purchase Information
                 for {`${this.props.client.contact.firstName} ${this.props.client.contact.lastName}`}
               </div>
             </div>
-            <div className="form__header__right"/>
+            <div className="form__header__right" />
           </div>
         </ContentHeader>
-        <Notifs containerName="PurchaseForm"/>
+        <Notifs containerName="PurchaseForm" />
         <div className="form-scroll-inner">
           <Form onSubmit={this.onSubmitHandler} className="form__content" layout="vertical">
             <Row type="flex">
@@ -107,7 +107,7 @@ class PurchaseForm extends Component {
                     <div>{this.state.pairTotal}</div>
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.pairTenPack} onChange={this.changeHandler("pairTenPack")} />
+                    <SubmissionFor form={form} data={model.pairTenPack} onChange={this.changeHandler('pairTenPack')} />
                     <div>{this.state.pairTenPackTotal}</div>
                   </Row>
                 </Card>
@@ -117,7 +117,7 @@ class PurchaseForm extends Component {
               <Col span={8}>
                 <Card title={`Purchase Total: ${this.state.purchaseTotal}`}>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.noteslayout={'vertical'}
+                    <SubmissionFor form={form} data={model.notes} />
                   </Row>
                 </Card>
               </Col>
@@ -138,6 +138,7 @@ class PurchaseForm extends Component {
 
 PurchaseForm.propTypes = {
   model: PropTypes.object,
+  form: PropTypes.object,
   params: PropTypes.object,
   fetchClientAction: PropTypes.func,
   notifications: PropTypes.func,

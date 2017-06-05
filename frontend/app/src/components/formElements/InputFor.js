@@ -28,7 +28,7 @@ const InputFor = ({ data, selectOptions, onChange }) => {
       case 'multi-select': {
         const _onChange = onChange ? {onChange} : {};
         return (
-          <Select mode="multiple" filterOption="true" {...data}  {..._onChange}>
+          <Select mode="multiple" filterOption="true" {...data} {..._onChange}>
             { selectOptions.map(x => (<Option key={x.value} value={x.value} >{x.display}</Option>)) }
           </Select>
         );

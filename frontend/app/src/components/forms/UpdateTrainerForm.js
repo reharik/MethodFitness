@@ -20,7 +20,6 @@ class UpdateTrainerForm extends Component {
   }
 
   render() {
-    let model = this.props.model;
     return (
       <div className="form">
         <ContentHeader>

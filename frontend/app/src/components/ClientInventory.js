@@ -29,15 +29,14 @@ const ClientInventory = ({ inventory }) => {
   };
 
   return (
-      <Card title="Current Client Inventory" >
-        <Row type="flex">
-
+    <Card title="Current Client Inventory">
+      <Row type="flex">
         <DisplayFor data={invModel.fullHour} />
       </Row>
-        <Row type="flex">
+      <Row type="flex">
         <DisplayFor data={invModel.halfHour} />
       </Row>
-        <Row type="flex">
+      <Row type="flex">
         <DisplayFor data={invModel.pair} />
       </Row>
     </Card>
