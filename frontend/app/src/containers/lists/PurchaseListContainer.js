@@ -20,6 +20,7 @@ const columns = () => [
 ];
 
 function mapStateToProps(state, props) {
+  moment.locale('en');
   const gridConfig = {
     tableName: 'purchaseList',
     dataSource: 'purchase',

@@ -1,7 +1,6 @@
 import uuid from 'uuid';
 import formJsonSchema from './formJsonSchema';
 import moment from 'moment';
-
 export function propToLabel(val) {
   return val ? val.replace(/([A-Z])/g, ' $1')
   // uppercase the first character
@@ -10,6 +9,7 @@ export function propToLabel(val) {
 }
 
 const normalizeModel = (schema, obj, formName) => {
+  moment.locale('en');
   const model = formJsonSchema(schema, obj);
   formName = formName || uuid.v4();
   const modelArray = model && Object.keys(model).map((x, i) => {

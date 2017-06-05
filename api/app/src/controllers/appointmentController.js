@@ -71,7 +71,6 @@ module.exports = function(
       body.appointmentId = body.id;
 
       notification = await processMessage(body, 'scheduleAppointmentFactory', commandName);
-
       const result = notificationParser(notification);
 
       ctx.body = result.body;

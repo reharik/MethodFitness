@@ -23,13 +23,13 @@ const mapStateToProps = (state, ownProps) => {
   // please put this shit in a config somewhere
   const times = generateAllTimes(15, 7, 7);
 
-  const buttons = ownProps.args.apptId
+  const buttons = ownProps.args.apptId && !ownProps.isCopy && !ownProps.isEdit
     ? ['copy', 'delete', 'edit', 'cancel']
     : ['submit', 'cancel'];
 
   const model = !ownProps.args.apptId
     ? appointmentModel(state, ownProps.args)
-    : updateAppointmentModel(state, ownProps.args, ownProps.copy);
+    : updateAppointmentModel(state, ownProps.args, ownProps.isCopy);
   model.appointmentType.label = 'Type';
 
   return {
@@ -40,9 +40,10 @@ const mapStateToProps = (state, ownProps) => {
     appointmentTypes,
     times,
     onCancel: ownProps.onCancel,
-    oncopy: ownProps.onCopy,
+    onCopy: ownProps.onCopy,
+    onEdit: ownProps.onEdit,
     buttons,
-    editing: !model.id.value
+    editing: !model.id.value || ownProps.isEdit
   };
 };
 

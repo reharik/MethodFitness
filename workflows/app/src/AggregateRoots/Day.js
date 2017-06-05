@@ -89,12 +89,11 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
           return 'appointmentUpdated';
         }
         case 'rescheduleAppointment': {
-          if (this._id === cmd.originalEntityName) {
+          if (this._id !== cmd.originalEntityName) {
             return 'appointmentCanceled';
-          } // else if (!this._id || this._id === cmd.entityName) {
-          return 'appointmentScheduled';
-          // }
-          // return 'appointmentRescheduled';
+          } else {
+            return 'appointmentRescheduled';
+          }
         }
         case 'cancelAppointment': {
           return 'appointmentCanceled';

@@ -4,8 +4,8 @@ import moment from 'moment';
 import { Col } from 'antd';
 // import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
-
 const DisplayFor = ({ data, selectOptions, span }) => {
+  moment.locale('en');
   const _span = function() {
     switch (data['x-input'] || data.type) {
       case 'color-picker': {
@@ -23,9 +23,8 @@ const DisplayFor = ({ data, selectOptions, span }) => {
         if (!data.value) {
           return;
         }
-
         const find = selectOptions.find(y => y.value === data.value);
-        const textValue = find.display;
+        const textValue = find && find.display;
         return <span className="display__container__value">{textValue}</span>;
       }
       case 'multi-select': {

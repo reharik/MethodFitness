@@ -11,6 +11,10 @@ class AppointmentForm extends Component {
   containerName = 'appointmentForm';
   state = {editing: this.props.editing};
 
+  componentWillReceiveProps(newProps) {
+    this.setState({editing: newProps.editing});
+  }
+
   toggleEdit = (e, rollBack) => {
     e.preventDefault();
     if (rollBack) {
@@ -26,7 +30,7 @@ class AppointmentForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        if (values.appointmentId) {
+        if (values.id) {
           this.props.updateAppointment(values);
         } else {
           this.props.scheduleAppointment(values);
@@ -35,11 +39,6 @@ class AppointmentForm extends Component {
         console.log('Received values of form: ', values);
       }
     });
-  };
-
-  changeHandler = e => {
-    const result = Form.onChangeHandler(this.state.fields)(e);
-    this.setState(result);
   };
 
   handleTimeChange = value => {
@@ -75,6 +74,16 @@ class AppointmentForm extends Component {
     this.props.onCancel();
   };
 
+  copyHandler = () => {
+    const apptId = this.props.form.getFieldValue('id');
+    this.props.onCopy({apptId});
+  };
+
+  editHandler = () => {
+    const apptId = this.props.form.getFieldValue('id');
+    this.props.onEdit({apptId});
+  };
+
   render() {
     const formItemLayout = {
       labelCol: {span: 8},
@@ -82,7 +91,6 @@ class AppointmentForm extends Component {
     };
     const model = this.props.model;
     const form = this.props.form;
-
     return (
       <Card title={this.props.title}>
         <Form onSubmit={this.onSubmitHandler} layout="horizontal">
@@ -160,7 +168,8 @@ class AppointmentForm extends Component {
               buttons={this.props.buttons}
               cancelHandler={this.props.onCancel}
               deleteHandler={this.deleteHandler}
-              copyHandler={this.props.onCopy} />
+              editHandler={this.editHandler}
+              copyHandler={this.copyHandler} />
           </Row>
         </Form>
       </Card>
@@ -176,6 +185,7 @@ AppointmentForm.propTypes = {
   deleteAppointment: PropTypes.func,
   onCancel: PropTypes.func,
   onCopy: PropTypes.func,
+  onEdit: PropTypes.func,
   editing: PropTypes.bool,
   isAdmin: PropTypes.bool,
   title: PropTypes.string,

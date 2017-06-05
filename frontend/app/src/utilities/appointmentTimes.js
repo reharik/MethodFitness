@@ -20,10 +20,12 @@ const iterateTimes = (inc, morning, start = 1, end = 12) => {
 };
 
 export function generateAllTimes(inc, start, end) {
+  moment.locale('en');
   return iterateTimes(inc, 'AM', start).concat(iterateTimes(inc, 'PM', 1, end));
 }
 
 export function getISODateTime(date, time) {
+  moment.locale('en');
   if (!date || !time) {
     return undefined;
   }
@@ -35,6 +37,7 @@ export function getISODateTime(date, time) {
 }
 
 export function syncApptTypeAndTime(apptType, startTime) {
+  moment.locale('en');
   const time = moment(startTime, 'hh:mm A');
   let endTime;
   if (apptType === 'halfHour') {
