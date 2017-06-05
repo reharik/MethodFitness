@@ -8,13 +8,14 @@ const SubmissionFor = ({data,
                          selectOptions,
                          form,
                          span,
-                         onChange
+                         onChange,
+                         formItemLayout
 }) => {
 
   let input = InputFor({data, selectOptions, onChange});
   return (
     <Col span={span || 12}>
-      <FormItem label={data.label} style={{width: '100%', padding: '0 8px'}}>
+      <FormItem {...formItemLayout} label={data.label} style={{padding: '0 8px'}}>
         {form.getFieldDecorator(data.name, {rules: data.rules})(input)}
       </FormItem>
     </Col>);
@@ -22,9 +23,10 @@ const SubmissionFor = ({data,
 
 SubmissionFor.propTypes = {
   form: PropTypes.object,
+  data: PropTypes.object,
   span: PropTypes.number,
   onChange: PropTypes.func,
-  data: PropTypes.object,
+  formItemLayout: PropTypes.object,
   selectOptions: PropTypes.array
 };
 

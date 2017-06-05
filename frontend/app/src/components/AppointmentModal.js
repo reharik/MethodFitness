@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MFModal from './../components/mfModal/MFModal';
+import AppointmentContainer from './../containers/forms/AppointmentContainer';
 
-const AppointmentModal = ({ form, onClose, isOpen, title }) => {
+const AppointmentModal = ({ args, onClose, onCopy, isCopy, isOpen, title }) => {
   const titleBar = {
     className: 'heading',
     text: title,
@@ -10,14 +11,17 @@ const AppointmentModal = ({ form, onClose, isOpen, title }) => {
   };
   return (
     <MFModal titleBar={titleBar} isOpen={isOpen} closeModal={onClose}>
-      {form}
+      <AppointmentContainer args={args} onCancel={onClose} onCopy={onCopy} isCopy={isCopy} />
     </MFModal>
   );
 };
 
 AppointmentModal.propTypes = {
   form: PropTypes.object,
+  args: PropTypes.object,
   onClose: PropTypes.func,
+  onCopy: PropTypes.func,
+  isCopy: PropTypes.bool,
   isOpen: PropTypes.bool,
   title: PropTypes.string
 };

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import ContentHeader from './ContentHeader';
 import AppointmentModal from './AppointmentModal';
 import { Calendar } from 'redux-task-calendar';
-import AppointmentContainer from './../containers/forms/AppointmentContainer';
-import UpdateAppointmentContainer from './../containers/forms/UpdateAppointmentContainer';
 import ToggleTrainerListForCalendarContainer from './../containers/ToggleTrainerListContainer';
 import moment from 'moment';
 
@@ -30,9 +28,10 @@ class MFCalendar extends Component {
   updateAppointment = args => {
     return (
       <AppointmentModal
+        args={args}
         isOpen={true}
         onClose={this.onClose}
-        form={<UpdateAppointmentContainer args={args} cancel={this.onClose} copy={this.copyAppointment} />}
+        onCopy={this.copyAppointment}
         title={this.props.title}
       />
     );
@@ -40,9 +39,9 @@ class MFCalendar extends Component {
 
   scheduleAppointment = args => (
     <AppointmentModal
+      args={args}
       isOpen={true}
       onClose={this.onClose}
-      form={<AppointmentContainer args={args} cancel={this.onClose} />}
       title={this.props.title}
     />
   );
@@ -51,10 +50,11 @@ class MFCalendar extends Component {
     this.setState({
       form: (
         <AppointmentModal
+          args={args}
           isOpen={true}
           onClose={this.onClose}
-          form={<AppointmentContainer args={args} cancel={this.onClose} copy={true} />}
           title={this.props.title}
+          isCopy={true}
         />
       )
     });
