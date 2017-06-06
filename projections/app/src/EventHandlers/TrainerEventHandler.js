@@ -68,6 +68,10 @@ where id = '${event.id}'`;
 
     async function trainersNewClientRateSet(event) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
+      console.log(`==========trainer.trainerClientRates=========`);
+      console.log(trainer);
+      console.log(`==========END trainer.trainerClientRates=========`);
+      trainer.trainerClientRates = trainer.trainerClientRates ? trainer.trainerClientRates : [];
       trainer.trainerClientRates.push({clientId: event.clientId, rate: event.rate});
       return await rsRepository.save('trainer', trainer, event.trainerId);
     }
