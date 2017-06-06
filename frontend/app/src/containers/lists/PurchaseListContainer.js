@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PurchaseList from '../../components/lists/PurchaseList';
 import cellLink from '../../components/GridElements/CellLink.js';
@@ -5,32 +7,50 @@ import moment from 'moment';
 
 import { getPurchases } from './../../modules/purchaseModule';
 
-const columns = () => [
+class PurchaseListContainer extends Component {
+  componentWillMount() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.props.getPurchases(this.props.clientId);
+  }
+
+  render() {
+    return (<PurchaseList gridConfig={this.props.gridConfig} clientId={this.props.clientId} />);
+  }
+}
+
+PurchaseListContainer.propTypes = {
+  gridConfig: PropTypes.object,
+  getPurchases: PropTypes.func,
+  clientId: PropTypes.string
+};
+
+const columns = [
   {
-    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
-      return cellLink('purchase')({ value: `${moment(row.createDate).format('dddd, MMMM Do YYYY')}`, row });
+    render: (value, row) => {
+      return cellLink('purchase')(`${moment(row.createDate).format('dddd, MMMM Do YYYY')}`, row );
     },
-    sort: 'createDate',
-    display: 'Created Date'
+    dataIndex: 'createDate',
+    title: 'Created Date'
   },
   {
-    property: 'purchaseTotal',
-    display: 'Total'
+    dataIndex: 'purchaseTotal',
+    title: 'Total'
   }
 ];
 
 function mapStateToProps(state, props) {
   moment.locale('en');
   const gridConfig = {
-    tableName: 'purchaseList',
-    dataSource: 'purchase',
-    fetchDataAction: () => getPurchases(props.params.clientId)
+    columns,
+    dataSource: state.purchase.filter(x => x.clientId === props.params.clientId)
   };
   return {
     gridConfig,
-    columns,
-    purchase: state.purchase.filter(x => x.clientId === props.params.clientId)
+    clientId: props.params.clientId
   };
 }
 
-export default connect(mapStateToProps)(PurchaseList);
+export default connect(mapStateToProps, { getPurchases })(PurchaseListContainer);

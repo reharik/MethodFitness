@@ -11,9 +11,6 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
         .getAggregateViewMeta('unpaidAppointments', '00000000-0000-0000-0000-000000000001');
       if (!state.trainers) {
         this.upa = new UnpaidAppointments();
-        console.log('==========this.upa=========');
-        console.log(this.upa);
-        console.log('==========END this.upa=========');
 
         await rsRepository.insertAggregateMeta(
           'unpaidAppointments',

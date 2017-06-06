@@ -2,10 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import ContentHeaderSearch from '../ContentHeaderSearch';
-import { Table } from 'redux-datatable';
+import { Table } from 'antd';
 import { browserHistory } from 'react-router';
 
-const PurchaseList = ({ gridConfig, columns, params }) => {
+const PurchaseList = ({ gridConfig, clientId }) => {
+  console.log(`==========clientId=========`);
+  console.log(clientId);
+  console.log(`==========END clientId=========`);
   return (
     <div id="purchaseList">
       <ContentHeader>
@@ -14,7 +17,7 @@ const PurchaseList = ({ gridConfig, columns, params }) => {
             <button
               className="contentHeader__button__new"
               title="New"
-              onClick={() => browserHistory.push(`/purchase/${params.clientId}`)}
+              onClick={() => browserHistory.push(`/purchase/${clientId}`)}
             />
           </div>
           <div className="list__header__center">
@@ -26,7 +29,13 @@ const PurchaseList = ({ gridConfig, columns, params }) => {
         </div>
       </ContentHeader>
       <div className="form-scroll-inner">
-        <Table columns={columns()} config={gridConfig} />
+        <Table
+          {...gridConfig}
+          pagination={false}
+          rowKey="id"
+          scroll={{ y: '100%'}}
+          size="small"
+        />
       </div>
     </div>
   );
@@ -34,8 +43,7 @@ const PurchaseList = ({ gridConfig, columns, params }) => {
 
 PurchaseList.propTypes = {
   gridConfig: PropTypes.object,
-  columns: PropTypes.func,
-  params: PropTypes.object
+  clientId: PropTypes.string
 };
 
 export default PurchaseList;

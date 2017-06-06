@@ -64,7 +64,7 @@ module.exports = function(invariant) {
     }
 
     addSession(item) {
-      this.sessions[item.appointmentType].push(item);
+      this.sessions[item.sessionType].push(item);
       this.checkForInArrears(item);
     }
 

@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ClientList from '../../components/lists/ClientList';
 import cellLink from '../../components/GridElements/CellLink.js';
@@ -6,73 +8,91 @@ import archiveLink from '../../components/GridElements/ArchiveLink.js';
 
 import { fetchAllClientsAction, archiveClient } from './../../modules/clientModule';
 
+class ClientListContainer extends Component {
+  componentWillMount() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.props.fetchAllClientsAction();
+  }
+
+  render() {
+    return (<ClientList gridConfig={this.props.gridConfig} archiveTrainer={this.props.archiveClient} />);
+  }
+}
+
+ClientListContainer.propTypes = {
+  gridConfig: PropTypes.object,
+  archiveClient: PropTypes.func,
+  fetchAllClientsAction: PropTypes.func
+};
+
 const columns = archiveClient => [
   {
-    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
-      return cellLink('client')({ value: `${row.contact.lastName}`, row });
+    render: (value, row) => { // eslint-disable-line no-unused-vars
+      return cellLink('client')(value, row );
     },
-    sort: 'lastName',
-    display: 'Last Name',
+    dataIndex: 'contact.lastName',
+    title: 'Last Name',
     width: '10%'
   },
   {
-    property: 'contact.firstName',
-    display: 'First Name',
+    dataIndex: 'contact.firstName',
+    title: 'First Name',
     width: '10%'
   },
   {
-    property: emailLink,
-    propertyName: 'contact.email',
-    display: 'Email',
+    render: emailLink,
+    dataIndex: 'contact.email',
+    title: 'Email',
     width: '35%'
   },
   {
-    property: 'contact.mobilePhone',
-    display: 'Mobile Phone',
+    dataIndex: 'contact.mobilePhone',
+    title: 'Mobile Phone',
     width: '10%'
   },
   {
-    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
-      return archiveLink(archiveClient)({ value: `${row.archived}`, row });
+    render: (value, row) => { // eslint-disable-line no-unused-vars
+      return archiveLink(archiveClient)(value, row);
     },
-    sort: 'Archived',
-    display: 'Archived',
+    dataIndex: 'Archived',
+    title: 'Archived',
     width: '10%'
   },
   {
-    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
-      return cellLink(`purchases`)({ value: '$$$', row });
+    render: ( value, row ) => { // eslint-disable-line no-unused-vars
+      return cellLink(`purchases`)( '$$$', row );
     },
-    display: '$',
+    title: '$',
     width: '10%'
-  },
-  {
-    property: 'id',
-    hidden: true
   }
 ];
 
 function mapStateToProps(state) {
+  let dataSource = state.clients.sort((a, b) => {
+    const _a = a.contact.lastName.toLowerCase();
+    const _b = b.contact.lastName.toLowerCase();
+    if (_a > _b) {
+      return 1;
+    }
+    if (_a < _b) {
+      return -1;
+    }
+    return 0;
+  });
+
   const gridConfig = {
-    tableName: 'clientList',
-    dataSource: 'clients',
-    fetchDataAction: fetchAllClientsAction
+    columns,
+    dataSource
   };
   return {
-    gridConfig,
-    columns,
-    clients: state.clients.sort((a, b) => {
-      const _a = a.contact.lastName.toLowerCase();
-      const _b = b.contact.lastName.toLowerCase();
-      if (_a > _b) {
-        return 1;
-      }
-      if (_a < _b) {
-        return -1;
-      }
-      return 0;
-    })
+    gridConfig
   };
 }
 
-export default connect(mapStateToProps, { archiveClient })(ClientList);
+export default connect(mapStateToProps, {
+  archiveClient,
+  fetchAllClientsAction
+})(ClientListContainer);
