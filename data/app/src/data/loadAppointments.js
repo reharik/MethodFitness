@@ -12,6 +12,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
   return {
     appointments: [
       {
+        commandName: "scheduleAppointment",
         appointmentType: "halfHour",
         clients: [loadClients.clients[0].id],
         date: seed.toISOString(),
@@ -22,6 +23,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         trainer: loadTrainers.trainers[1].id,
       },
       {
+        commandName: "scheduleAppointment",
         appointmentType: "halfHour",
         clients: [loadClients.clients[2].id],
         date: seed.toISOString(),
@@ -32,6 +34,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         trainer: loadTrainers.trainers[1].id,
       },
       {
+        commandName: "scheduleAppointment",
         appointmentType: "halfHour",
         clients: [loadClients.clients[3].id],
         date: seed.toISOString(),
@@ -42,7 +45,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         trainer: loadTrainers.trainers[2].id,
       }],
 
-    scheduleAppointment: ({
+    scheduleAppointment: ({commandName,
                             appointmentType,
                             date,
                             startTime,
@@ -64,6 +67,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
       enitityName since it's a date but the date prop is utc`
       );
       return {
+        commandName,
         appointmentType,
         date,
         startTime,
