@@ -4,7 +4,7 @@ module.exports = function(config,
                           eventstore,
                           loadClients,
                           loadTrainers,
-                          loadPayments,
+                          loadPurchases,
                           loadAppointments) {
   return function () {
 
@@ -22,7 +22,7 @@ module.exports = function(config,
       }
 
       for (let x of loadTrainers.trainers) {
-        let command = loadTrainers.hireTrainer(x);
+        let command = loadTrainers.addTrainer(x);
         await processCommands(command, 'hireTrainer');
       }
 

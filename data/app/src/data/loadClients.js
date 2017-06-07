@@ -1,4 +1,4 @@
-module.exports = function(invariant) {
+module.exports = function(uuid, invariant) {
   return {
     clients: [
       {

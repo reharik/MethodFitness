@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42634bf3-938c-4c08-bb5e-6caaf535c5dd" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/data/app/src/data/loadPurchaases.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/app/src/data/loadClients.js" afterPath="$PROJECT_DIR$/data/app/src/data/loadClients.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/app/src/seedES.js" afterPath="$PROJECT_DIR$/data/app/src/seedES.js" />
     </list>
     <ignored path="MethodFitness.iws" />
@@ -22,16 +24,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="dispatch.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/services/app/src/dispatch.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/services/docker/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,6 +64,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="seedES.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/data/app/src/seedES.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="332">
+              <caret line="24" column="38" lean-forward="false" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="loadAppointments.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/app/src/data/loadAppointments.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -85,15 +87,15 @@
       <file leaf-file-name="loadClients.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/app/src/data/loadClients.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="684">
-              <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loadPurchaases.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/app/src/data/loadPurchaases.js">
+      <file leaf-file-name="loadPurchases.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/app/src/data/loadPurchases.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="756">
               <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
@@ -105,14 +107,14 @@
       <file leaf-file-name="loadTrainers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/app/src/data/loadTrainers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="31" column="22" lean-forward="true" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+            <state relative-caret-position="635">
+              <caret line="84" column="7" lean-forward="false" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -135,8 +137,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>updateAppointmentConta</find>
-      <find>updateAppointmentContai</find>
       <find>updateAppointmentContainer</find>
       <find>DisplayFor</find>
       <find>scheduleAppointment</find>
@@ -165,6 +165,8 @@
       <find>moment.locale(en)</find>
       <find>moment</find>
       <find>;</find>
+      <find>uuid</find>
+      <find>hiretr</find>
     </findStrings>
     <replaceStrings>
       <replace>purchase</replace>
@@ -210,8 +212,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateTrainerForm.js" />
-        <option value="$PROJECT_DIR$/frontend/app/src/components/forms/UpdateAppointmentForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/SignInForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/forms/PurchaseForm.js" />
         <option value="$PROJECT_DIR$/frontend/app/src/components/formElements/elementsFor/SubmissionFor.js" />
@@ -260,6 +260,8 @@
         <option value="$PROJECT_DIR$/data/app/src/data/trainer.js" />
         <option value="$PROJECT_DIR$/data/app/src/data/loadAppointments.js" />
         <option value="$PROJECT_DIR$/data/app/src/data/loadPayments.js" />
+        <option value="$PROJECT_DIR$/data/package.json" />
+        <option value="$PROJECT_DIR$/data/app/src/data/loadClients.js" />
         <option value="$PROJECT_DIR$/data/app/src/seedES.js" />
       </list>
     </option>
@@ -1375,12 +1377,12 @@
       <workItem from="1496076736241" duration="11000" />
       <workItem from="1496076829876" duration="11428000" />
       <workItem from="1496532297434" duration="31318000" />
-      <workItem from="1496799571699" duration="5718000" />
+      <workItem from="1496799571699" duration="6242000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="834631000" />
+    <option name="totallyTimeSpent" value="835155000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="35" width="1922" height="1080" extended-state="0" />
@@ -1520,6 +1522,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-720">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1766,14 +1769,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/app/src/seedES.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="761">
-          <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/services/app/src/dispatch.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1806,14 +1801,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.envrc.example">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="18" lean-forward="false" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/app/src/data/loadAppointments.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
@@ -1822,26 +1809,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/app/src/data/loadClients.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/app/src/data/loadPurchaases.js">
+    <entry file="file://$PROJECT_DIR$/data/app/src/data/loadPurchases.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="756">
           <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/app/src/data/loadTrainers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="31" column="22" lean-forward="true" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -1850,6 +1821,38 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.envrc.example">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="18" lean-forward="false" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/app/src/data/loadClients.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/app/src/data/loadTrainers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="635">
+          <caret line="84" column="7" lean-forward="false" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/app/src/seedES.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="24" column="38" lean-forward="false" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
           <folding />
         </state>
       </provider>
