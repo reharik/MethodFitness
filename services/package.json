@@ -5,7 +5,7 @@
   "description": "sessionManagement",
   "main": "app/index.js",
   "scripts": {
-    "start": "node app/index.js",
+    "start": "NODE_CONFIG_DIR=./app/config node app/index.js",
     "lint": "eslint -c ./../.eslintrc.json .",
     "validate": "npm ls"
   },

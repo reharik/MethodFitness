@@ -8,8 +8,8 @@ module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
 
     appointments.filter(x => {
       const before = moment(x.endTime).isBefore(moment(), 'minute');
-      const after = moment(x.endTime).isAfter(moment().subtract(30, 'minutes'));
-      return before && after;
+      const notCompleted = !x.completed;
+      return before && notCompleted;
     })
       .map(x => ({clients: x.clients, appointmentId: x.id}))
       .forEach(x =>
