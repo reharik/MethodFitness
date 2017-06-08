@@ -6,6 +6,7 @@
 module.exports = function(eventRepository, logger, Trainer) {
   return function TrainerWorkflow() {
     // async function loginTrainer(cmd, continuationId ) {
+    //   throw new Error('yo! wtf!');
     //     var trainer = await eventRepository.getById(Trainer, cmd.id, 5);
     //     trainer.loginTrainer(cmd);
     //     return await eventRepository.save(trainer, { continuationId });

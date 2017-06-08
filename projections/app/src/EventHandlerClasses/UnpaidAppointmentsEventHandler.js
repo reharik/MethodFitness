@@ -21,14 +21,19 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
     }
 
     async saveView(trainerId) {
-      let unpaidAppointments = this.upa.unpaidAppointments
-        .concat(this.upa.unfundedAppointments)
-        .filter(x => x.trainerId === trainerId);
+      let document = {};
+      if(trainerId) {
+        let unpaidAppointments = this.upa.unpaidAppointments
+          .concat(this.upa.unfundedAppointments)
+          .filter(x => x.trainerId === trainerId);
+
+        document.id = trainerId;
+        document.unpaidAppointments = unpaidAppointments;
+      }
       return await rsRepository.saveAggregateView(
         'unpaidAppointments',
         this.upa,
-        {unpaidAppointments},
-        trainerId);
+        document);
     }
 
     async trainerHired(event) {
