@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import ContentHeaderSearch from '../ContentHeaderSearch';
-import { Table } from 'redux-datatable';
+import { Table } from 'antd';
 import { browserHistory } from 'react-router';
 
-const TrainerList = ({ gridConfig, columns, archiveClient }) => {
+const TrainerList = ({ gridConfig, archiveTrainer }) => {
   return (
     <div id="trainerList">
       <ContentHeader>
@@ -26,9 +26,14 @@ const TrainerList = ({ gridConfig, columns, archiveClient }) => {
         </div>
       </ContentHeader>
       <div className="form-scroll-inner">
-        <div className="content-inner">
-          <Table columns={columns(archiveClient)} config={gridConfig} />
-        </div>
+        <Table
+          columns={gridConfig.columns(archiveTrainer)}
+          dataSource={gridConfig.dataSource}
+          pagination={false}
+          rowKey="id"
+          scroll={{ y: '100%'}}
+          size="small"
+        />
       </div>
     </div>
   );
@@ -36,8 +41,7 @@ const TrainerList = ({ gridConfig, columns, archiveClient }) => {
 
 TrainerList.propTypes = {
   gridConfig: PropTypes.object,
-  columns: PropTypes.func,
-  archiveClient: PropTypes.func
+  archiveTrainer: PropTypes.func
 };
 
 export default TrainerList;

@@ -26,4 +26,5 @@ const routes = (
     <Route path="/purchases(/:clientId)" component={PurchaseListContainer} />
   </Route>
 );
-module.exports = routes;
+
+export default routes;

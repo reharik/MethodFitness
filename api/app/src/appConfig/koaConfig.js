@@ -27,8 +27,7 @@ module.exports = function(
       app.use(koalogger());
     }
     app.use(koaErrorHandler());
-
-    app.use(koa2cors({ origin: 'http://localhost:8080', credentials: true }));
+    app.use(koa2cors({ origin: `http://${config.app.frontEndHost}:${config.app.frontEndPort}`, credentials: true }));
     // app.use(koacors({origin:config.app.swagger_ui_url}));
 
     app.use(koabodyparser());

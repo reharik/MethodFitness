@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TrainerList from '../../components/lists/TrainerList';
 import cellLink from '../../components/GridElements/CellLink.js';
@@ -6,56 +8,73 @@ import archiveLink from '../../components/GridElements/ArchiveLink.js';
 
 import { fetchAllTrainersAction, archiveTrainer } from './../../modules/trainerModule';
 
+class TrainerListContainer extends Component {
+  componentWillMount() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.props.fetchAllTrainersAction();
+  }
+
+  render() {
+    return (<TrainerList gridConfig={this.props.gridConfig} archiveTrainer={this.props.archiveTrainer} />);
+  }
+}
+
+TrainerListContainer.propTypes = {
+  gridConfig: PropTypes.object,
+  archiveTrainer: PropTypes.func,
+  fetchAllTrainersAction: PropTypes.func
+};
+
 const columns = archiveTrainer => [
   {
-    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
-      return cellLink('trainer')({ value: `${row.contact.lastName}`, row });
+    render: (column, row) => {
+      return cellLink('trainer')(column, row);
     },
-    sort: 'lastName',
-    display: 'Last Name',
+    dataIndex: 'contact.lastName',
+    title: 'Last Name',
+    width: '10%',
+    sorter: true
+  },
+  {
+    dataIndex: 'contact.firstName',
+    title: 'First Name',
     width: '10%'
   },
   {
-    property: 'contact.firstName',
-    display: 'First Name',
-    width: '10%'
-  },
-  {
-    property: emailLink,
-    propertyName: 'contact.email',
-    display: 'Email',
+    render: emailLink,
+    dataIndex: 'contact.email',
+    title: 'Email',
     width: '35%'
   },
   {
-    property: 'contact.mobilePhone',
-    display: 'Mobile Phone',
+    dataIndex: 'contact.mobilePhone',
+    title: 'Mobile Phone',
     width: '10%'
   },
   {
-    property: ({ column, row }) => { // eslint-disable-line no-unused-vars
-      return archiveLink(archiveTrainer)({ value: `${row.archived}`, row });
+    render: (column, row) => {
+      return archiveLink(archiveTrainer)(column, row);
     },
-    sort: 'Archived',
-    display: 'Archived',
+    dataIndex: 'archived',
+    title: 'Archived',
     width: '10%'
-  },
-  {
-    property: 'id',
-    hidden: true
   }
 ];
 
 function mapStateToProps(state) {
   const gridConfig = {
-    tableName: 'trainerList',
-    dataSource: 'trainers',
-    fetchDataAction: fetchAllTrainersAction
+    columns,
+    dataSource: state.trainers
   };
   return {
-    gridConfig,
-    columns,
-    trainers: state.trainers
+    gridConfig
   };
 }
 
-export default connect(mapStateToProps, { archiveTrainer })(TrainerList);
+export default connect(mapStateToProps, {
+  archiveTrainer,
+  fetchAllTrainersAction
+})(TrainerListContainer);

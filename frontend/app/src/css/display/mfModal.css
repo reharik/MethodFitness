@@ -34,13 +34,13 @@
     border-radius: 3px;
     overflow: hidden;
     max-width: 80%;
-    min-width: 300px;
+    min-width: 350px;
     box-shadow: 0 0 20px rgba(0, 0, 0, .9);
     background-color: white;
 }
 
 .mf__modal__content {
-    background: var(--veryLightGrey);
+    /*background: var(--veryLightGrey);*/
     /*padding: 20px 24px 36px;*/
 }
 

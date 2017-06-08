@@ -72,9 +72,9 @@ where id = '${event.id}'`;
       logger.info('handling clientInventoryUpdated event');
       let client = await rsRepository.getById(event.clientId, 'client');
       client.inventory = {
-        fullHours: client.inventory.fullHours + event.totalFullHours,
-        halfHours: client.inventory.halfHours + event.totalHalfHours,
-        pairs: client.inventory.pairs + event.totalPairs
+        fullHours: (client.inventory.fullHours || 0) + event.totalFullHours,
+        halfHours: (client.inventory.halfHours || 0) + event.totalHalfHours,
+        pairs: (client.inventory.pairs || 0) + event.totalPairs
       };
       return await rsRepository.save('client', client, event.clientId);
     }

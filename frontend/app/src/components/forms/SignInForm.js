@@ -1,51 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SubmissionFor from '../../containers/forms/SubmissionForContainer';
 import { Notifs } from 'redux-notifications';
-import { Form } from 'freakin-react-forms';
+import SubmissionFor from './../formElements/SubmissionFor';
+
+import { Form, Button, Row, Col } from 'antd';
+
 import AjaxState from './../../containers/AjaxStateContainer';
 import { LOGIN } from '../../modules/authModule';
 
 class SignInForm extends Component {
   containerName = 'signIn';
 
-  componentWillMount() {
-    const fields = Form.buildModel(this.containerName, this.props.fields, { onChange: this.changeHandler });
-    this.setState({ fields, formIsValid: false });
-  }
-
-  componentDidMount() {
-    this.state.fields.userName.ref.focus();
-  }
-  // componentWillReceiveProps(newProps) {
-  //   const result = handleNewState(this.props.ajaxState, newProps.ajaxState, LOGIN, this.state.fields, "signIn");
-  //   if(result.update){
-  //     this.setState({ajaxState: result.ajaxState, fields: result.fields});
-  //   }
-  // }
-
-  onSubmitHandler = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    const result = Form.prepareSubmission(this.state.fields);
-    if (result.formIsValid) {
-      this.props.loginUser(result.fieldValues);
-    }
-    this.props.notifications(result.errors, this.containerName);
-    this.setState(result);
-  };
-
-  changeHandler = e => {
-    e.preventDefault();
-    const result = Form.onChangeHandler(this.state.fields)(e);
-    this.props.notifications(result.errors, this.containerName, e.target.name);
-    this.setState(result);
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.loginUser(values);
+        console.log('Received values of form: ', values);
+      }
+    });
   };
 
   render() {
-    const model = this.state.fields;
-    if (!model) {
-      return null;
-    }
+    const model = this.props.fields;
+    const form = this.props.form;
+
+    // const { getFieldDecorator,  getFieldError, getFieldsError, isFieldTouched } = this.props.form;
+
+    // const userNameError = isFieldTouched('userName') && getFieldError('userName');
+    // const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
       <div className="signIn">
         <AjaxState prefix={LOGIN.PREFIX} />
@@ -53,22 +36,25 @@ class SignInForm extends Component {
           <div className="signIn__header" />
           <div className="signIn__content">
             <Notifs containerName="signIn" />
-            <form onSubmit={this.onSubmitHandler}>
-              <div className="signIn__form__header">
-                <label className="signIn__form__header__label">Sign In</label>
-              </div>
-              <div className="signIn__form__row">
-                <SubmissionFor ref="subForUserName" data={model.userName} />
-              </div>
-              <div className="signIn__form__row">
-                <SubmissionFor data={model.password} />
-              </div>
-              <div className="signIn__form__footer">
-                <button type="submit" className="signIn__form__footer__button">
+            <Form onSubmit={this.handleSubmit}>
+              <Row type="flex" className="signIn__form__header">
+                <Col span={24} >
+                  <label className="signIn__form__header__label">Sign In</label>
+                </Col>
+              </Row>
+              <Row type="flex" className="signIn__form__row">
+                <SubmissionFor form={form} data={model.userName} span={24} />
+              </Row>
+              <Row type="flex" className="signIn__form__row">
+                {/*<SubmissionFor data={model.password} />*/}
+                <SubmissionFor form={form} data={model.password} span={24} />
+              </Row>
+              <Row type="flex" className="signIn__form__footer">
+                <Button type="submit" htmlType="submit" className="signIn__form__footer__button">
                   Sign In
-                </button>
-              </div>
-            </form>
+                </Button>
+              </Row>
+            </Form>
           </div>
         </div>
       </div>
@@ -79,7 +65,8 @@ class SignInForm extends Component {
 SignInForm.propTypes = {
   fields: PropTypes.object,
   loginUser: PropTypes.func,
-  notifications: PropTypes.func
+  notifications: PropTypes.func,
+  form: PropTypes.object
 };
 
-export default SignInForm;
+export default Form.create()(SignInForm);

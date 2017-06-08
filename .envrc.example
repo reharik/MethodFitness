@@ -1,6 +1,9 @@
 NODE_ENV=development
-API_BASE_URL=http://localhost:3000/
+API_BASE_URL=http://localhost:3333/
+API_HOST=localhost
 API_PORT=3000
+FRONT_END_HOST=0.0.0.0
+FRONT_END_PORT=8888
 APPLICATION_KEYS=MethodFitness
 LOGGING_LEVEL=silly
 LOGGING_TRANSPORTS="console|logstash"
@@ -13,3 +16,4 @@ SWAGGER_UI_URL=http://localhost:4666
 EVENTSTORE_HOST=eventstore
 EVENTSTORE_USER=admin
 EVENTSTORE_PASSWORD=changeit
+NODE_CONFIG_DIR=./app/config

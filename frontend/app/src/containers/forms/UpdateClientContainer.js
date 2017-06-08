@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import UpdateClientForm from '../../components/forms/UpdateClientForm';
-import formJsonSchema from '../../utilities/formJsonSchema';
+import UpdateClientForm from '../../components/forms/UpdateClientForms/UpdateClientForm';
+import normalizeModel from '../../utilities/normalizeModel';
 import states from './../../constants/states';
 import sources from './../../constants/sources';
 import {
@@ -49,7 +49,7 @@ UpdateClientFormContainer.propTypes = {
 
 const mapStateToProps = (state, props) => {
   const client = state.clients.find(x => x.id === props.params.clientId);
-  const model = formJsonSchema(state.schema.definitions.client, client);
+  const model = normalizeModel(state.schema.definitions.client, client);
 
   return {
     model,

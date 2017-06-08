@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import ContentHeaderSearch from '../ContentHeaderSearch';
-import { Table } from 'redux-datatable';
+import { Table } from 'antd';
 import { browserHistory } from 'react-router';
 
-const ClientList = ({ gridConfig, columns, archiveClient }) => {
+const ClientList = ({ gridConfig, archiveClient }) => {
   return (
     <div id="clientList">
       <ContentHeader>
@@ -22,9 +22,14 @@ const ClientList = ({ gridConfig, columns, archiveClient }) => {
         </div>
       </ContentHeader>
       <div className="form-scroll-inner">
-        <div className="content-inner">
-          <Table columns={columns(archiveClient)} config={gridConfig} />
-        </div>
+        <Table
+          columns={gridConfig.columns(archiveClient)}
+          dataSource={gridConfig.dataSource}
+          pagination={false}
+          rowKey="id"
+          scroll={{ y: '100%'}}
+          size="small"
+        />
       </div>
     </div>
   );

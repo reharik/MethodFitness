@@ -14,13 +14,14 @@ export default (state = [], action = {}) => {
   switch (action.type) {
     case UPDATE_APPOINTMENT.SUCCESS: {
       let response = selectn('response.payload', action);
+      let newItem = selectn('action.upsertedItem', action);
       if (response.updateType === 'rescheduleAppointmentToNewDay') {
-        const newState = state.filter(x => x.id !== response.oldAppointmentId).map(x => ({ ...x }));
-        let newItem = selectn('action.upsertedItem', action);
+        const newState = state.filter(x => x.id !== response.oldAppointmentId);
         newItem.id = response.newAppointmentId;
         return reducerMerge(newState, newItem);
+      } else {
+        return reducerMerge(state, newItem);
       }
-      return state;
     }
     // fallback intentional for non new day updates
     case SCHEDULE_APPOINTMENT.SUCCESS: {
@@ -35,11 +36,13 @@ export default (state = [], action = {}) => {
       let response = selectn('response.payload', action);
       return state.filter(x => x.id !== response.appointmentId);
     }
+    default:
+      return state;
   }
-  return state;
 };
 
 export function scheduleAppointment(data) {
+  moment.locale('en');
   const startTime = getISODateTime(data.date, data.startTime);
   const endTime = getISODateTime(data.date, data.endTime);
   const formattedData = {
@@ -64,6 +67,7 @@ export function scheduleAppointment(data) {
 }
 
 export function updateAppointment(data) {
+  moment.locale('en');
   const startTime = getISODateTime(data.date, data.startTime);
   const endTime = getISODateTime(data.date, data.endTime);
   const formattedData = {
@@ -93,6 +97,7 @@ export function updateTaskViaDND(data) {
 }
 
 export function deleteAppointment(appointmentId, date) {
+  moment.locale('en');
   let apiUrl = `${config.apiBase}appointment/cancelAppointment`;
   return {
     type: DELETE_APPOINTMENT.REQUEST,
@@ -125,6 +130,7 @@ export function fetchAppointmentsAction(
   endDate = moment().endOf('month'),
   trainerId
 ) {
+  moment.locale('en');
   const start = moment(startDate).format('YYYY-MM-DD');
   const end = moment(endDate).format('YYYY-MM-DD');
   let apiUrl = `${config.apiBase}fetchAppointments/${start}/${end}`;

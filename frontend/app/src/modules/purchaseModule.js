@@ -12,8 +12,9 @@ export default (state = [], action = {}) => {
     case GET_PURCHASE_SESSIONS.SUCCESS: {
       return reducerMerge(state, action.response.purchases);
     }
+    default:
+      return state;
   }
-  return state;
 };
 
 const successFunction = (action, payload) => {

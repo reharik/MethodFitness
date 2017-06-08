@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
-import { Form } from 'freakin-react-forms';
 import ContentHeader from '../ContentHeader';
-import SubmissionFor from '../../containers/forms/SubmissionForContainer';
 import { browserHistory } from 'react-router';
+import SubmissionFor from './../formElements/SubmissionFor';
+import { Form, Card, Row, Col } from 'antd';
 
 class ClientForm extends Component {
+
   componentWillMount() {
     this.loadData();
-    const fields = Form.buildModel('clientForm', this.props.model, { onChange: this.changeHandler });
-    this.setState({ fields, formIsValid: false });
   }
 
   loadData() {
@@ -19,35 +18,25 @@ class ClientForm extends Component {
     }
   }
 
-  onSubmitHandler = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    const result = Form.prepareSubmission(this.state.fields);
-    if (result.formIsValid) {
-      this.props.addClient(result.fieldValues);
-    }
-    this.props.notifications(result.errors, this.containerName);
-    this.setState(result);
-  };
-
-  changeHandler = e => {
-    const result = Form.onChangeHandler(this.state.fields)(e);
-    this.props.notifications(result.errors, this.containerName, e.target.name);
-    this.setState(result);
-  };
-
-  formReset = () => {
-    const fields = Form.buildModel('clientForm', this.props.model, { onChange: this.changeHandler });
-    this.setState({ fields, formIsValid: false });
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.addClient(values);
+        console.log('Received values of form: ', values);
+      }
+    });
   };
 
   render() {
-    const model = this.state.fields;
+    const model = this.props.model;
+    const form = this.props.form;
+
     return (
       <div className="form">
         <ContentHeader>
           <div className="form__header">
             <div className="form__header__left">
-
               <button
                 className="contentHeader__button__new"
                 title="New"
@@ -62,57 +51,68 @@ class ClientForm extends Component {
         </ContentHeader>
         <Notifs containerName="clientForm" />
         <div className="form-scroll-inner">
-          <div className="content-inner">
-            <form onSubmit={this.onSubmitHandler} className="form__content">
-              <div className="form__section__header">
-                <label className="form__section__header__label">Client Info</label>
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor data={model.firstName} />
-                <SubmissionFor data={model.lastName} />
-              </div>
-              <div className="form__section__header">
-                <label className="form__section__header__label">Contact Info</label>
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor data={model.mobilePhone} />
-                <SubmissionFor data={model.secondaryPhone} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor data={model.email} />
-                <SubmissionFor data={model.birthDate} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor data={model.street1} />
-                <SubmissionFor data={model.street2} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor data={model.city} containerStyle="form__section__row__address__city" />
-                <SubmissionFor
-                  selectOptions={this.props.states}
-                  data={model.state}
-                  containerStyle="form__section__row__address__state"
-                />
-                <SubmissionFor data={model.zipCode} containerStyle="form__section__row__address__zip" />
-              </div>
-              <div className="form__section__header">
-                <label className="form__section__header__label">Source Info</label>
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor data={model.source} selectOptions={this.props.sources} />
-                <SubmissionFor data={model.startDate} />
-              </div>
-              <div className="form__section__row">
-                <SubmissionFor data={model.sourceNotes} />
-              </div>
+          <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Client Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.firstName} />
+                    <SubmissionFor form={form} data={model.lastName} />
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Contact Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.mobilePhone} />
+                    <SubmissionFor form={form} data={model.secondaryPhone} />
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.email} />
+                    <SubmissionFor form={form} data={model.birthDate} />
+                  </Row>
+                  <Row type="flex">
 
-              <div className="form__footer">
+                    <SubmissionFor form={form} data={model.street1} />
+                    <SubmissionFor form={form} data={model.street2} />
+                  </Row>
+                  <Row type="flex">
+
+                    <SubmissionFor form={form} data={model.city} />
+                    <SubmissionFor
+                      span={8}
+                      form={form}
+                      selectOptions={this.props.states}
+                      data={model.state}
+                    />
+                    <SubmissionFor form={form} data={model.zipCode} span={4} />
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex">
+              <Col span={8}>
+                <Card title="Source Info">
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.source} selectOptions={this.props.sources} />
+                    <SubmissionFor form={form} data={model.startDate} />
+                  </Row>
+                  <Row type="flex">
+                    <SubmissionFor form={form} data={model.sourceNotes} span={24} />
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+            <Row type="flex" style={{margin: '24px 0'}}>
+              <Col span={4}>
                 <button type="submit" className="form__footer__button">
                   Submit
                 </button>
-              </div>
-            </form>
-          </div>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </div>
     );
@@ -126,7 +126,8 @@ ClientForm.propTypes = {
   addClient: PropTypes.func,
   notifications: PropTypes.func,
   states: PropTypes.array,
+  form: PropTypes.object,
   sources: PropTypes.array
 };
 
-export default ClientForm;
+export default Form.create()(ClientForm);

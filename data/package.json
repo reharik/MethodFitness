@@ -6,10 +6,10 @@
   "scripts": {
     "localTest": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/integrationTests/*.js",
     "intTest": "mocha --require ./app/seedProject/babelhook --opts ./app/seedProject/tests/mocha.opts ./app/seedProject/tests/integrationTests/*.js",
-    "rebuildData": "node app/rebuildDataIndex.js",
-    "migration": "node app/migrationIndex.js",
-    "seedES": "node app/seedESIndex.js",
-    "migrationStartup": "node app/migrationStartupIndex.js"
+    "rebuildData": "NODE_CONFIG_DIR=./app/config node app/rebuildDataIndex.js",
+    "migration": "NODE_CONFIG_DIR=./app/config node app/migrationIndex.js",
+    "seedES": "NODE_CONFIG_DIR=./app/config node app/seedESIndex.js",
+    "migrationStartup": "NODE_CONFIG_DIR=./app/config node app/migrationStartupIndex.js"
   },
   "repository": {
     "type": "git",
@@ -32,10 +32,10 @@
     "db-migrate-pg": "^0.1.11",
     "eventstore-node": "^0.0.29",
     "extend": "^3.0.0",
-    "ges-eventsourcing": "reharik/ges-eventsourcing#16",
+    "ges-eventsourcing": "reharik/ges-eventsourcing",
     "pg-async": "^2.4.0",
     "promise-retry": "^1.1.1",
-    "uuid": "^2.0.1"
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",

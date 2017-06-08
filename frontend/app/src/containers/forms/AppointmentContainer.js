@@ -1,44 +1,56 @@
 import { connect } from 'react-redux';
-import AppointmentForm from '../../components/forms/AppointmentForm';
+import AppointmentForm from '../../components/forms/Appointment/AppointmentForm';
 import { scheduleAppointment } from './../../modules/appointmentModule';
 import { notifications } from './../../modules/notificationModule';
 import appointmentTypes from './../../constants/appointmentTypes';
 import { generateAllTimes } from './../../utilities/appointmentTimes';
-import { appointmentModel, copyAppointmentModel } from './../../selectors/appointmentModelSelector';
-import { actions as notifActions } from 'redux-notifications';
-const { notifClear } = notifActions;
+import { appointmentModel, updateAppointmentModel } from './../../selectors/appointmentModelSelector';
+import { updateAppointment, fetchAppointmentAction, deleteAppointment } from './../../modules/appointmentModule';
 
 const mapStateToProps = (state, ownProps) => {
+  const isAdmin = state.auth.user.role === 'admin';
+  let user = state.trainers.find(x => x.id === state.auth.user.id);
+
   const clients = state.clients
     .filter(x => !x.archived)
-    .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));
+    .filter(x => isAdmin || user.clients.includes(c => c === x.id))
+    .map(x => ({value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}`}));
+
+  const trainers = state.trainers
+    .filter(x => !x.archived)
+    .map(x => ({value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}`}));
 
   // please put this shit in a config somewhere
   const times = generateAllTimes(15, 7, 7);
 
-  let props = {
-    model: ownProps.copy ? copyAppointmentModel(state, ownProps.args) : appointmentModel(state, ownProps.args),
+  const buttons = ownProps.args.apptId && !ownProps.isCopy && !ownProps.isEdit
+    ? ['copy', 'delete', 'edit', 'cancel']
+    : ['submit', 'cancel'];
+
+  const model = !ownProps.args.apptId
+    ? appointmentModel(state, ownProps.args)
+    : updateAppointmentModel(state, ownProps.args, ownProps.isCopy);
+  model.appointmentType.label = 'Type';
+
+  return {
+    isAdmin,
+    model,
     clients,
+    trainers,
     appointmentTypes,
     times,
-    cancel: ownProps.cancel,
-    isAdmin: state.auth.user.role === 'admin',
-    trainers: state.trainers
-      .filter(x => !x.archived)
-      .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }))
+    onCancel: ownProps.onCancel,
+    onCopy: ownProps.onCopy,
+    onEdit: ownProps.onEdit,
+    buttons,
+    editing: !model.id.value || ownProps.isEdit
   };
-
-  if (!props.isAdmin) {
-    let user = state.trainers.find(x => x.id === state.auth.user.id);
-    let clients = !props.model.clients.value ? user.clients : user.clients.concat(props.model.clients.value);
-    props.clients = props.clients.filter(x => clients.some(c => x.value === c));
-  }
-
-  return props;
 };
 
 export default connect(mapStateToProps, {
   scheduleAppointment,
+  updateAppointment,
+  fetchAppointmentAction,
   notifications,
-  notifClear
+  deleteAppointment
 })(AppointmentForm);

@@ -1,7 +1,8 @@
 /**
  * Created by rharik on 5/3/16.
  */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import routes from '../routes';
 import { Router } from 'react-router';

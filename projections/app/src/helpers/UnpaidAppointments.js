@@ -1,4 +1,4 @@
-module.exports = function(invariant) {
+module.exports = function(invariant, logger) {
   return class UnpaidAppointments {
     constructor(state = {}) {
       this.id = state.id || '00000000-0000-0000-0000-000000000001';
@@ -64,7 +64,7 @@ module.exports = function(invariant) {
     }
 
     addSession(item) {
-      this.sessions[item.appointmentType].push(item);
+      this.sessions[item.sessionType].push(item);
       this.checkForInArrears(item);
     }
 
@@ -102,10 +102,17 @@ module.exports = function(invariant) {
     curryCreateUnpaidAppointment(appointment) {
       return clientId => {
         let client = this.clients.find(c => c.id === clientId);
-        let session = this.sessions[appointment.appointmentType]
-          .filter(a => clientId === a.id)[0];
+        logger.trace(`client: ${JSON.stringify(client)}`);
+        let session = this.sessions[appointment.appointmentType].filter(a => clientId === a.clientId)[0];
+        logger.trace(`this.sessions[appointment.appointmentType]: \
+${JSON.stringify(this.sessions[appointment.appointmentType].filter(a => clientId === a.clientId))}`);
+        logger.trace(`appointmentType: ${appointment.appointmentType}`);
+
+        logger.trace(`session: ${JSON.stringify(session)}`);
 
         let trainer = this.trainers.find(x => x.id === appointment.trainer);
+        logger.trace(`trainer: ${JSON.stringify(trainer)}`);
+
         let TCR = trainer.TCRS.find(tcr => tcr.clientId === clientId);
         let TR = 0;
         if (session && TCR) {

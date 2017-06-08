@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import ContentHeader from './ContentHeader';
 import AppointmentModal from './AppointmentModal';
 import { Calendar } from 'redux-task-calendar';
-import AppointmentContainer from './../containers/forms/AppointmentContainer';
-import UpdateAppointmentContainer from './../containers/forms/UpdateAppointmentContainer';
 import ToggleTrainerListForCalendarContainer from './../containers/ToggleTrainerListContainer';
 import moment from 'moment';
 
 class MFCalendar extends Component {
   state = {
     isOpen: false,
-    form: null
+    apptArgs: {}
   };
 
   componentWillMount() {
@@ -27,42 +25,33 @@ class MFCalendar extends Component {
     };
   }
 
-  updateAppointment = args => {
-    return (
-      <AppointmentModal
-        isOpen={true}
-        onClose={this.onClose}
-        form={<UpdateAppointmentContainer args={args} cancel={this.onClose} copy={this.copyAppointment} />}
-        title={this.props.title}
-      />
-    );
+  copyAppointment = args => {
+    let apptArgs = {
+      apptId: args.apptId,
+      isCopy: true
+    };
+    this.setState({
+      isOpen: true,
+      apptArgs
+    });
   };
 
-  scheduleAppointment = args => (
-    <AppointmentModal
-      isOpen={true}
-      onClose={this.onClose}
-      form={<AppointmentContainer args={args} cancel={this.onClose} />}
-      title={this.props.title}
-    />
-  );
-
-  copyAppointment = args => {
+  editAppointment = args => {
+    let apptArgs = {
+      apptId: args.apptId,
+      isEdit: true
+    };
     this.setState({
-      form: (
-        <AppointmentModal
-          isOpen={true}
-          onClose={this.onClose}
-          form={<AppointmentContainer args={args} cancel={this.onClose} copy={true} />}
-          title={this.props.title}
-        />
-      )
+      isOpen: true,
+      apptArgs
     });
   };
 
   taskClickedEvent = (id, task, calendarName) => {
+    let apptArgs = { apptId: id, task, calendarName };
     this.setState({
-      form: this.updateAppointment({ apptId: id, task, calendarName })
+      isOpen: true,
+      apptArgs
     });
   };
 
@@ -79,20 +68,22 @@ class MFCalendar extends Component {
     }
 
     const formattedTime = moment(time, 'h:mm A').format('hh:mm A');
+    let apptArgs = { day, startTime: formattedTime, calendarName };
     this.setState({
       isOpen: true,
-      form: this.scheduleAppointment({ day, startTime: formattedTime, calendarName })
+      apptArgs
     });
   };
 
   onClose = () => {
     this.setState({
       isOpen: false,
-      form: null
+      apptArgs: {}
     });
   };
 
   render() {
+    moment.locale('en');
     return (
       <div id="mainCalendar">
         <ContentHeader>
@@ -108,7 +99,16 @@ class MFCalendar extends Component {
             <Calendar config={this.config} />
           </div>
         </div>
-        {this.state.form}
+        <AppointmentModal
+          args={this.state.apptArgs}
+          title={this.props.title}
+          onClose={this.onClose}
+          onCopy={this.copyAppointment}
+          onEdit={this.editAppointment}
+          isOpen={this.state.isOpen}
+          isCopy={this.state.apptArgs.isCopy}
+          isEdit={this.state.apptArgs.isEdit}
+        />
       </div>
     );
   }

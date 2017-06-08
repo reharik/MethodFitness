@@ -1,4 +1,6 @@
 @import 'thirdParty/normalize.css';
+@import 'thirdParty/antd.min.css';
+@import 'thirdParty/antd-overrides.css';
 
 /*@import 'variables.css.temp';*/
 

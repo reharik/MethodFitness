@@ -3,8 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CellLink = route => {
-  const link = ({ value, row }) => {
-    const fullRoute = route + '/' + row.id;
+  const link = ( value, row ) => {
+    const fullRoute = route + '/' + (row ? row.id : 0);
     return (
       <div onClick={() => browserHistory.push(fullRoute)} className="list__cell__link">
         <span>{value}</span>
