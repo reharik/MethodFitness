@@ -22,7 +22,7 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
 
     async saveView(trainerId) {
       let document = {};
-      if(trainerId) {
+      if (trainerId) {
         let unpaidAppointments = this.upa.unpaidAppointments
           .concat(this.upa.unfundedAppointments)
           .filter(x => x.trainerId === trainerId);
