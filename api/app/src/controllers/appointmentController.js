@@ -60,7 +60,7 @@ module.exports = function(
       } else if (
         appointment.appointmentType !== body.appointmentType ||
         !clientsSame ||
-        appointment.trainer !== body.trainer ||
+        appointment.trainerId !== body.trainerId ||
         appointment.notes !== body.notes
       ) {
         commandName += 'updateAppointment';
@@ -101,6 +101,10 @@ module.exports = function(
     const continuationId = uuid.v4();
     let notificationPromise = notificationListener(continuationId);
     const command = commands[commandFactory](payload);
+    if (command.trainer) {
+      command.trainerId = command.trainer;
+      delete command.trainer;
+    }
     await eventstore.commandPoster(command, commandName, continuationId);
 
     return await notificationPromise;

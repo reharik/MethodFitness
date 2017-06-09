@@ -76,7 +76,7 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
         appointmentType: event.appointmentType,
         date: event.date,
         startTime: event.startTime,
-        trainer: event.trainer,
+        trainerId: event.trainerId,
         clients: event.clients
       });
 
@@ -89,7 +89,7 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
         appointmentType: event.appointmentType,
         date: event.date,
         startTime: event.startTime,
-        trainer: event.trainer,
+        trainerId: event.trainerId,
         clients: event.clients
       });
 
@@ -103,22 +103,22 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
 
     async fullHourSessionPurchased(event) {
       this.upa.addSession(event);
-      return await this.saveView(x => x.trainerId === this.upa.currentTrainer);
+      return await this.saveView(this.upa.currentTrainer);
     }
 
     async halfHourSessionPurchased(event) {
       this.upa.addSession(event);
-      return await this.saveView();
+      return await this.saveView(this.upa.currentTrainer);
     }
 
     async pairSessionPurchased(event) {
       this.upa.addSession(event);
-      return await this.saveView();
+      return await this.saveView(this.upa.currentTrainer);
     }
 
     async appointmentAttendedByClient(event) {
       this.upa.processAppointment(event.appointmentId);
-      return await this.saveView();
+      return await this.saveView(this.upa.currentTrainer);
     }
   };
 };

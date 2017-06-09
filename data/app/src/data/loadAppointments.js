@@ -20,7 +20,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         endTime: getISODateTime(seed, '6:30 AM'),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainer: loadTrainers.trainers[1].id,
+        trainerId: loadTrainers.trainers[1].id,
       },
       {
         commandName: "scheduleAppointment",
@@ -31,7 +31,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         endTime: getISODateTime(seed, '7:30 AM'),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainer: loadTrainers.trainers[1].id,
+        trainerId: loadTrainers.trainers[1].id,
       },
       {
         commandName: "scheduleAppointment",
@@ -42,7 +42,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         endTime: getISODateTime(seed, '7:30 AM'),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainer: loadTrainers.trainers[2].id,
+        trainerId: loadTrainers.trainers[2].id,
       }],
 
     scheduleAppointment: ({commandName,
@@ -50,13 +50,13 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
                             date,
                             startTime,
                             endTime,
-                            trainer,
+                            trainerId,
                             clients,
                             notes,
                             entityName
                           }) => {
       invariant(appointmentType, `scheduleAppointment requires that you pass the appointmentType`);
-      invariant(trainer, `scheduleAppointment requires that you pass trainer`);
+      invariant(trainerId, `scheduleAppointment requires that you pass trainer`);
       invariant(date, `scheduleAppointment requires that you pass the appointment date`);
       invariant(startTime, `scheduleAppointment requires that you pass the appointment start time`);
       invariant(endTime, `scheduleAppointment requires that you pass the trainer`);
@@ -72,7 +72,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         date,
         startTime,
         endTime,
-        trainer,
+        trainerId,
         clients,
         notes,
         entityName

@@ -10,9 +10,9 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       return 'Day';
     }
 
-    getNewAppointmentId(startTime, endTime, trainer) {
+    getNewAppointmentId(startTime, endTime, trainerId) {
       let item = this.appointments.find(
-        x => x.startTime === startTime && x.endTime === endTime && x.trainer === trainer
+        x => x.startTime === startTime && x.endTime === endTime && x.trainerId === trainerId
       );
       return item ? item.id : undefined;
     }
@@ -32,7 +32,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
           date: cmd.date,
           startTime: cmd.startTime,
           endTime: cmd.endTime,
-          trainer: cmd.trainer,
+          trainerId: cmd.trainerId,
           clients: cmd.clients,
           notes: cmd.notes,
           entityName: cmd.entityName
@@ -55,7 +55,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
           date: cmd.date,
           startTime: cmd.startTime,
           endTime: cmd.endTime,
-          trainer: cmd.trainer,
+          trainerId: cmd.trainerId,
           clients: cmd.clients,
           notes: cmd.notes,
           entityName: cmd.entityName
@@ -114,7 +114,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
           appointmentType: event.appointmentType,
           startTime: event.startTime,
           endTime: event.endTime,
-          trainer: event.trainer,
+          trainerId: event.trainerId,
           clients: event.clients
         });
       }.bind(this);
@@ -125,7 +125,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
             x.appointmentType = event.appointmentType;
             x.startTime = event.startTime;
             x.endTime = event.endTime;
-            x.trainer = event.trainer;
+            x.trainerId = event.trainerId;
             x.clients = event.clients;
           }
         });
@@ -218,11 +218,11 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
             (x.id && x.id !== cmd.appointmentId && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')),
           '[]'
         )
-        .filter(x => x.trainer === cmd.trainer);
+        .filter(x => x.trainerId === cmd.trainerId);
       invariant(
         trainerConflict.length <= 0,
         `New Appointment conflicts with this Appointment: ${trainerConflict[0] && trainerConflict[0].id} 
-                for this trainer: ${cmd.trainer}.`
+                for this trainerId: ${cmd.trainerId}.`
       );
     }
 

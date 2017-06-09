@@ -23,7 +23,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
             date: cmd.appt.date,
             startTime: cmd.appt.startTime,
             endTime: cmd.appt.endTime,
-            trainer: cmd.appt.trainer,
+            trainerId: cmd.appt.trainerId,
             clients: cmd.appt.clients,
             notes: cmd.appt.notes,
             entityName: cmd.id
@@ -39,7 +39,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
           this.appointmentType = event.appointmentType;
           this.startTime = event.startTime;
           this.endTime = event.endTime;
-          this.trainer = event.trainer;
+          this.trainerId = event.trainerId;
           this.clients = event.clients;
         }.bind(this)
       };

@@ -1,4 +1,4 @@
-module.exports = function(invariant, logger) {
+module.exports = function(invariant) {
   return class UnpaidAppointments {
     constructor(state = {}) {
       this.id = state.id || '00000000-0000-0000-0000-000000000001';
@@ -69,6 +69,7 @@ module.exports = function(invariant, logger) {
     }
 
     async processAppointment(appointmentId) {
+
       let appointment = this.appointments.find(x => x.id === appointmentId);
       if (!appointment || appointment.length <= 0) {
         return;
@@ -102,16 +103,8 @@ module.exports = function(invariant, logger) {
     curryCreateUnpaidAppointment(appointment) {
       return clientId => {
         let client = this.clients.find(c => c.id === clientId);
-        logger.trace(`client: ${JSON.stringify(client)}`);
         let session = this.sessions[appointment.appointmentType].filter(a => clientId === a.clientId)[0];
-        logger.trace(`this.sessions[appointment.appointmentType]: \
-${JSON.stringify(this.sessions[appointment.appointmentType].filter(a => clientId === a.clientId))}`);
-        logger.trace(`appointmentType: ${appointment.appointmentType}`);
-
-        logger.trace(`session: ${JSON.stringify(session)}`);
-
-        let trainer = this.trainers.find(x => x.id === appointment.trainer);
-        logger.trace(`trainer: ${JSON.stringify(trainer)}`);
+        let trainer = this.trainers.find(x => x.id === appointment.trainerId);
 
         let TCR = trainer.TCRS.find(tcr => tcr.clientId === clientId);
         let TR = 0;
@@ -122,11 +115,12 @@ ${JSON.stringify(this.sessions[appointment.appointmentType].filter(a => clientId
         return {
           trainerId: trainer.id,
           clientId: client.id,
-          sessionId: session ? session.id : 0,
-          appointmentId: appointment.id,
           clientName: `${client.firstName} ${client.lastName}`,
+          appointmentId: appointment.id,
           appointmentDate: appointment.date,
+          appointmentStartTime: appointment.startTime,
           appointmentType: appointment.appointmentType,
+          sessionId: session ? session.id : 0,
           pricePerSession: session ? session.purchasePrice : 0,
           trainerPercentage: TCR ? TCR.rate : 0,
           trainerPay: TR,

@@ -13,7 +13,7 @@ module.exports = function(rsRepository, logger) {
             ) VALUES (
             '${event.id}',
             '${event.entityName}',
-            '${event.trainer}',
+            '${event.trainerId}',
             '${JSON.stringify(event)}')`;
       return await rsRepository.saveQuery(sql);
     }
@@ -28,7 +28,7 @@ module.exports = function(rsRepository, logger) {
             ) VALUES (
             '${event.id}',
             '${event.entityName}',
-            '${event.trainer}',
+            '${event.trainerId}',
             '${JSON.stringify(event)}')`;
       return await rsRepository.saveQuery(sql);
     }
@@ -48,7 +48,7 @@ module.exports = function(rsRepository, logger) {
     async function appointmentUpdated(event) {
       let sql = `update "appointment" set
             "date" = '${event.entityName}',
-            "trainer" = '${event.trainer}',
+            "trainer" = '${event.trainerId}',
             "document" = '${JSON.stringify(event)}'
             where "id" = '${event.id}'`;
       return await rsRepository.saveQuery(sql);

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import TrainerForm from '../../components/forms/TrainerForm';
-import { Form } from 'freakin-react-forms';
-import formJsonSchema from '../../utilities/formJsonSchema';
+import normalizeModel from '../../utilities/normalizeModel';
 import states from './../../constants/states';
 import { hireTrainer, fetchTrainerAction, HIRE_TRAINER } from './../../modules/trainerModule';
 import { fetchClientsAction } from './../../modules/clientModule';
@@ -14,11 +13,10 @@ const mapStateToProps = (state) => {
   const clients = state.clients
     .filter(x => !x.archived)
     .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));
-  const jsonModel = formJsonSchema(state.schema.definitions.trainer);
-  jsonModel.confirmPassword = { ...jsonModel.password };
-  jsonModel.confirmPassword.name = 'confirmPassword';
-  jsonModel.confirmPassword.rules = [{ rule: 'equalTo', compareField: 'password' }];
-  const model = Form.buildModel('trainerForm', jsonModel);
+  let model = normalizeModel(state.schema.definitions.trainer);
+  model.confirmPassword = { ...model.password };
+  model.confirmPassword.name = 'confirmPassword';
+  // model.confirmPassword.rules = [{ rule: 'equalTo', compareField: 'password' }];
   const ajaxState = state.ajaxState[HIRE_TRAINER.request];
   return {
     model,

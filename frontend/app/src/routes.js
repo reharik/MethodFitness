@@ -11,6 +11,7 @@ import ClientContainer from './containers/forms/ClientContainer';
 import UpdateClientContainer from './containers/forms/UpdateClientContainer';
 import PurchaseContainer from './containers/forms/PurchaseContainer';
 import PurchaseListContainer from './containers/lists/PurchaseListContainer';
+import TrainerVerificationListContainer from './containers/lists/TrainerVerificationListContainer';
 
 const routes = (
   <Route path="/" component={AppContainer}>
@@ -24,6 +25,7 @@ const routes = (
     <Route path="/client(/:clientId)" component={UpdateClientContainer} />
     <Route path="/purchase(/:clientId)" component={PurchaseContainer} />
     <Route path="/purchases(/:clientId)" component={PurchaseListContainer} />
+    <Route path="/verification" component={TrainerVerificationListContainer} />
   </Route>
 );
 

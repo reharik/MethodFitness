@@ -2,7 +2,7 @@ module.exports = function(eventRepository, logger, Day) {
   return function DayWorkflow() {
     async function scheduleAppointment(cmd, continuationId) {
       let day = await scheduleAppointmentBase(cmd);
-      let newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainer);
+      let newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainerId);
 
       logger.info('saving Day');
       logger.trace(day._id);
@@ -49,7 +49,7 @@ module.exports = function(eventRepository, logger, Day) {
       let day = await scheduleAppointmentBase(cmd);
       let oldDay = await eventRepository.getById(Day, cmd.originalEntityName);
       oldDay.cancelAppointment(cmd);
-      let newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainer);
+      let newAppointmentId = day.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainerId);
 
       logger.info('saving Day');
       logger.trace(day._id);
