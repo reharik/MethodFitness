@@ -10,7 +10,11 @@ module.exports = function(rsRepository, logger) {
         sql += ` id <> '00000000-0000-0000-0000-000000000001'`;
       }
       const query = await rsRepository.query(sql);
-      ctx.body = query.filter(x => !x.verified);
+      console.log('==========query=========');
+      console.log(query);
+      console.log('==========END query=========');
+      const result = query.reduce((ag, x) => ag.concat(x.unpaidAppointments), []);
+      ctx.body = result.filter(x => !x.verified);
       ctx.status = 200;
     } catch (ex) {
       throw ex;

@@ -9,7 +9,7 @@ export default (state = [], action = {}) => {
   switch (action.type) {
     case
     FETCH_TRAINER_VERIFICATION.SUCCESS: {
-      return reducerMerge(state, action.response.appointments);
+      return reducerMerge(state, action.response);
     }
     default:
       return state;

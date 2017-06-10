@@ -24,7 +24,7 @@ const TrainerVerificationList = ({ gridConfig }) => {
         <Table
           {...gridConfig}
           pagination={false}
-          rowKey="id"
+          rowKey={(row) => `${row.appointmentId}---${row.clientId}`}
           scroll={{ y: '100%'}}
           size="small"
         />
