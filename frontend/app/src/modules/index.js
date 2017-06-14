@@ -7,6 +7,7 @@ import purchase from './purchaseModule';
 import ajaxState from './ajaxStateModule';
 import toggleTrainerListForCalendar from './toggleTrainerListForCalendarModule';
 import trainerVerifications from './trainerVerificationModule';
+import payTrainers from './payTrainersModule';
 
 export { loginUser, logoutUser } from './authModule';
 export { menuItemClicked, navBreadCrumbClicked } from './menuModule';
@@ -26,5 +27,6 @@ export default {
   toggleTrainerListForCalendar,
   ajaxState,
   purchase,
-  trainerVerifications
+  trainerVerifications,
+  payTrainers
 };

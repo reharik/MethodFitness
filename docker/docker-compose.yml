@@ -21,7 +21,6 @@ services:
       context: ../workflows
       dockerfile: docker/Dockerfile
     depends_on:
-      - node
       - postgres
       - eventstore
     volumes:
@@ -29,13 +28,14 @@ services:
     command: npm start #top -b #
     env_file:
       - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: workflows
 
   projections:
     build:
       context: ../projections
       dockerfile: docker/Dockerfile
     depends_on:
-      - node
       - data
       - postgres
       - eventstore
@@ -44,6 +44,9 @@ services:
     command: npm start #top -b #
     env_file:
       - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: projections
+
 
   api:
     build:
@@ -56,24 +59,22 @@ services:
       - 3666:3000
     env_file:
       - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: api
 
   data:
     build:
       context: ../data
       dockerfile: docker/Dockerfile
     depends_on:
-      - node
       - postgres
     volumes:
       - ./../data/app:/home/current/app
     command: npm run migrationStartup
     env_file:
       - ./../.envrc.example
-
-  node:
-    build:
-      context: ./nodeDocker/
-      dockerfile: Dockerfile
+    environment:
+      APPLICATION_NAME: data
 
   postgres:
     image: postgres

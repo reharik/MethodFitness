@@ -7,6 +7,7 @@
     "host": "API_HOST",
     "port": "API_PORT",
     "frontEndHost": "FRONT_END_HOST",
+    "frontEndHostAlt": "FRONT_END_HOST_ALT",
     "frontEndPort": "FRONT_END_PORT"
 
   },

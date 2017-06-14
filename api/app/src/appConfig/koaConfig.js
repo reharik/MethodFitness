@@ -27,8 +27,16 @@ module.exports = function(
       app.use(koalogger());
     }
     app.use(koaErrorHandler());
-    app.use(koa2cors({ origin: `http://${config.app.frontEndHost}:${config.app.frontEndPort}`, credentials: true }));
-    // app.use(koacors({origin:config.app.swagger_ui_url}));
+    app.use(koa2cors({
+      origin: ctx => {
+        const origin1 = `http://${config.app.frontEndHost}:${config.app.frontEndPort}`;
+        const origin2 = `http://${config.app.frontEndHostAlt}:${config.app.frontEndPort}`;
+        if (ctx.header.origin === origin1 || ctx.header.origin === origin2) {
+          return ctx.header.origin;
+        }
+        return false;
+      },
+      credentials: true }));
 
     app.use(koabodyparser());
     app.use(koagenericsession());

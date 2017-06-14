@@ -61,6 +61,13 @@ const columns = archiveTrainer => [
     dataIndex: 'archived',
     title: 'Archived',
     width: '10%'
+  },
+  {
+    render: ( value, row ) => { // eslint-disable-line no-unused-vars
+      return cellLink(`payTrainer`)( '$$$', row );
+    },
+    title: '$',
+    width: '10%'
   }
 ];
 

@@ -27,15 +27,21 @@ module.exports = function(config,
       }
 
       const addClientsToTrainer1 = {
-        id: loadTrainers.trainers[1].id,
-        clients: [loadClients.clients[0].id, loadClients.clients[1].id, loadClients.clients[2].id]
+        id: loadTrainers.trainers[0].id,
+        clients: [
+          loadClients.clients[0].id,
+          loadClients.clients[1].id,
+          loadClients.clients[2].id]
       };
 
       await processCommands(addClientsToTrainer1, 'updateTrainersClients');
 
       const addClientsToTrainer2 = {
         id: loadTrainers.trainers[2].id,
-        clients: [loadClients.clients[2].id, loadClients.clients[3].id, loadClients.clients[4].id]
+        clients: [
+          loadClients.clients[0].id,
+          loadClients.clients[1].id,
+          loadClients.clients[2].id]
       };
 
       await processCommands(addClientsToTrainer2, 'updateTrainersClients');

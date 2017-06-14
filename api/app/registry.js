@@ -21,8 +21,8 @@ module.exports = function(_options) {
           .groupAllInDirectory('./app/src/commands', 'commands')
           .complete(),
       x => x.instantiate('eventstore').asFunc().withParameters(options.children || {})
-        .instantiate('pgFuture').asFunc().withParameters(options.children || {})
         .instantiate('logger').asFunc().withParameters(options.logger || {})
+        .instantiate('rsRepository').asFunc().withParameters(options.children.postgres.config || {})
         .complete());
   } catch (ex) {
     console.log(ex);

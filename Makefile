@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := dev
 
 .PHONY: deps
-deps: \
+yarnUp: \
 	api/yarn.lock \
 	data/yarn.lock \
 	frontend/yarn.lock \
@@ -88,8 +88,3 @@ migration:
 rebuildData:
 	- cd data && make rebuildData
 
-
-stopRestart:
-	- docker rm -v -f methodfit_eventstore_1 || echo "No more containers to remove."
-	- docker rm -v -f methodfit_postgres_1  || echo "No more containers to remove."
-	docker-compose -f docker/docker-compose.yml -p methodfit up

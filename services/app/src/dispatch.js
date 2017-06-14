@@ -3,6 +3,7 @@ module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
     let date = moment().format('YYYY-MM-DD');
     let sql = `select * from appointment where date='${date}';`;
     const appointments = await rsRepository.query(sql);
+
     logger.info(JSON.stringify(appointments));
     let commands = [];
 

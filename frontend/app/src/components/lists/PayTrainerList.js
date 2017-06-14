@@ -4,20 +4,19 @@ import ContentHeader from '../ContentHeader';
 import ContentHeaderSearch from '../ContentHeaderSearch';
 import { Table } from 'antd';
 
-class TrainerVerificationList extends Component {
+class PayTrainerList extends Component {
   state = {
     selectedRowKeys: [],
     trainerTotal: 0
   };
 
   onSelect = (record, selected, selectedRows) => {
-    let trainerTotal = selectedRows
-      .filter(x => x.funded)
-      .reduce((a, b) => a + b.trainerPay, 0);
-    let selectedRowKeys = selectedRows
-      .filter(x => x.funded)
-      .map(x => `${x.appointmentId}---${x.clientId}`);
-    this.setState({trainerTotal, selectedRowKeys});
+    var trainerTotal = selectedRows.reduce((a, b) => a + b.trainerPay, 0);
+    this.setState({trainerTotal});
+  };
+
+  onSelectChange = (selectedRowKeys) => {
+    this.setState({selectedRowKeys});
   };
 
   render() {
@@ -38,7 +37,7 @@ class TrainerVerificationList extends Component {
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">
-                {`Trainer Verification.  Trainer Total: ${this.state.trainerTotal}`}
+                {`Pay Trainer.  Trainer Total: ${this.state.trainerTotal}`}
               </div>
             </div>
             <div className="list__header__right">
@@ -62,8 +61,8 @@ class TrainerVerificationList extends Component {
   }
 }
 
-TrainerVerificationList.propTypes = {
+PayTrainerList.propTypes = {
   gridConfig: PropTypes.object
 };
 
-export default TrainerVerificationList;
+export default PayTrainerList;

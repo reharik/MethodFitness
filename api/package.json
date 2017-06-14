@@ -5,6 +5,7 @@
   "main": "app/index.js",
   "scripts": {
     "start": "nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
+    "local": "NODE_CONFIG_DIR=./app/config nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
     "intTest": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/integrationTests/temp.js",
     "lint": "eslint -c ./../.eslintrc.json .",
@@ -26,7 +27,7 @@
     "dagon": "reharik/dagon",
     "deref": "^0.6.4",
     "extend": "3.0.0",
-    "ges-eventsourcing": "reharik/ges-eventsourcing",
+    "ges-eventsourcing": "reharik/ges-eventsourcing#removePGFuture",
     "hosts-parser": "0.3.1",
     "invariant": "^2.1.0",
     "json-schema-deref-sync": "^0.3.3",
@@ -48,7 +49,6 @@
     "pg-bluebird": "^1.0.8",
     "rx": "^4.0.0",
     "swagger-jsdoc": "^1.9.1",
-    "swagger-model-validator": "reharik/swagger-model-validator",
     "swig": "1.4.x",
     "uuid": "^2.0.1",
     "uuid-validate": "0.0.2"

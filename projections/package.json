@@ -7,6 +7,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app/index.js",
+    "local": "NODE_CONFIG_DIR=./app/config nodemon app/index.js",
     "test": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
     "intTest": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/integrationTests/*.js",
     "lint": "eslint -c ./../.eslintrc.json . --fix",
@@ -38,7 +39,7 @@
     "corelogger": "reharik/core_logger",
     "dagon": "reharik/dagon",
     "extend": "^3.0.0",
-    "ges-eventsourcing": "reharik/ges-eventsourcing",
+    "ges-eventsourcing": "reharik/ges-eventsourcing#removePGFuture",
     "moment": "^2.17.1",
     "nodemon": "^1.11.0",
     "promise-retry": "^1.1.1",

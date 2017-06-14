@@ -88,7 +88,7 @@ module.exports = function(invariant) {
         .map(x => curriedSubtractSession(x))
         .map(x => curriedHandleInArrears(x));
 
-      this.unpaidAppointments = this.unpaidAppointments.concat(newItems.filter(x => !x.funded));
+      this.unpaidAppointments = this.unpaidAppointments.concat(newItems.filter(x => x.funded));
     }
 
     curryFilterClientsWhoPaidForThisAppointment(appointment) {
@@ -109,7 +109,7 @@ module.exports = function(invariant) {
         let TCR = trainer.TCRS.find(tcr => tcr.clientId === clientId);
         let TR = 0;
         if (session && TCR) {
-          TR = session.purchasePrice * (TCR * .01);
+          TR = session.purchasePrice * (TCR.rate * .01);
         }
 
         return {
@@ -120,7 +120,7 @@ module.exports = function(invariant) {
           appointmentDate: appointment.date,
           appointmentStartTime: appointment.startTime,
           appointmentType: appointment.appointmentType,
-          sessionId: session ? session.id : 0,
+          sessionId: session ? session.sessionId : 0,
           pricePerSession: session ? session.purchasePrice : 0,
           trainerPercentage: TCR ? TCR.rate : 0,
           trainerPay: TR,
@@ -137,7 +137,7 @@ module.exports = function(invariant) {
         }
         this.sessions[appointment.appointmentType] =
           this.sessions[appointment.appointmentType]
-            .filter(x => !item.sessionId === x.id);
+            .filter(x => item.sessionId !== x.sessionId);
         return item;
       };
     }

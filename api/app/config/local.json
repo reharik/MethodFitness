@@ -1,4 +1,10 @@
 {
+  "app": {
+    "env": "NODE_ENV",
+    "frontEndHost": "0.0.0.0",
+    "frontEndHostAlt": "localhost",
+    "frontEndPort": "8888"
+  },
   "configs": {
     "children": {
       "eventstore": {

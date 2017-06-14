@@ -1,5 +1,3 @@
-
-
 module.exports = function(bcryptjs, rsRepository) {
   let createPassword = function(_password) {
     try {

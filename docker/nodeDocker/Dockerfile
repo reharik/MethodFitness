@@ -1,4 +1,5 @@
-FROM node:latest
+#FROM node:8.1
+FROM kkarczmarczyk/node-yarn:latest
 
 ENV HOME /home/current
 RUN mkdir -p $HOME
