@@ -9,7 +9,7 @@ module.exports = function(swaggermodelvalidator) {
     }
     return function(schema) {
       return function(value) {
-        return validator.validate(value, schema, document.definitions);
+        return validator.validate(value, schema, document.definitions, true);
       };
     };
   };

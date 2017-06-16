@@ -160,7 +160,7 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
 
     return function(targetPath) {
       // get a list of matching paths, there should be only one
-      let matches = compiledPaths.filter(path => !!targetPath.match(path.regex));
+      let matches = compiledPaths.filter(path => !!targetPath.toLowerCase().match(path.regex));
       return matches && matches.length === 1 ? matches[0] : null;
     };
   }

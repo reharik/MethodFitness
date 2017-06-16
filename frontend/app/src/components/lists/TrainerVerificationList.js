@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
-import ContentHeaderSearch from '../ContentHeaderSearch';
-import { Table } from 'antd';
+import { Table, Modal } from 'antd';
+const confirm = Modal.confirm;
 
 class TrainerVerificationList extends Component {
   state = {
     selectedRowKeys: [],
+    selectedIds: [],
     trainerTotal: 0
+  };
+
+  submitVerification = () => {
+    confirm({
+      title: 'Are you sure you would like to Verify?',
+      content: `${this.selectedIds.length} Appointments for $${this.state.trainerTotal}`,
+      onOk() {
+        const payload = {
+          sessionIds: this.state.selectedIds
+        };
+        this.props.verifyAppointments(payload);
+      },
+      onCancel() {
+      }
+    });
   };
 
   onSelect = (record, selected, selectedRows) => {
@@ -17,7 +33,10 @@ class TrainerVerificationList extends Component {
     let selectedRowKeys = selectedRows
       .filter(x => x.funded)
       .map(x => `${x.appointmentId}---${x.clientId}`);
-    this.setState({trainerTotal, selectedRowKeys});
+    let selectedIds = selectedRows
+      .filter(x => x.funded)
+      .map(x => x.sessionId);
+    this.setState({trainerTotal, selectedRowKeys, selectedIds});
   };
 
   render() {
@@ -42,7 +61,7 @@ class TrainerVerificationList extends Component {
               </div>
             </div>
             <div className="list__header__right">
-              <ContentHeaderSearch />
+              <button onClick={this.submitVerification} >Submit Verification </button>
             </div>
           </div>
         </ContentHeader>
@@ -63,7 +82,8 @@ class TrainerVerificationList extends Component {
 }
 
 TrainerVerificationList.propTypes = {
-  gridConfig: PropTypes.object
+  gridConfig: PropTypes.object,
+  verifyAppointments: PropTypes.func
 };
 
 export default TrainerVerificationList;

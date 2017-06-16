@@ -3,7 +3,7 @@ module.exports = function trainerRouter(koarouter, controllers) {
     const router = koarouter();
     /**
      * @swagger
-     * /fetchUnverifiedAppointments:
+     * /trainerverification/fetchunverifiedappointments:
      *   get:
      *     x-name: fetchUnverifiedAppointments
      *     description: fetchUnverifiedAppointments
@@ -12,13 +12,13 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *       200:
      *         description: Success
      *         schema:
-     *           $ref: "#/definitions/trainersResponse"
+     *           $ref: "#/definitions/sessionManagement"
      */
-    router.get('/fetchUnverifiedAppointments',
+    router.get('/trainerverification/fetchunverifiedappointments',
       controllers.trainerVerificationController.fetchUnverifiedAppointments);
     /**
      * @swagger
-     * /verifyAppointments:
+     * /trainerverification/verifyappointments:
      *   post:
      *     x-name: verifyAppointments
      *     description: verifyAppointments
@@ -39,7 +39,7 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/verifyAppointments',
+    router.post('/trainerverification/verifyappointments',
       controllers.trainerVerificationController.verifyAppointments);
 
 

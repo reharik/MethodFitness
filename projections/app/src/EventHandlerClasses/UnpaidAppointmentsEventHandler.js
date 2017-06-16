@@ -120,5 +120,15 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
       this.upa.processAppointment(event.appointmentId);
       return await this.saveView(this.upa.currentTrainer);
     }
+
+    async trainerVerifiedAppointments(event) {
+      this.upa.sessionsVerified(event.sessionIds);
+      return await this.saveView(event.trainerId);
+    }
+
+    async trainerPaid(event) {
+      this.upa.trainerPaid(event.sessionIds);
+      return await this.saveView(event.trainerId);
+    }
   };
 };

@@ -14,9 +14,6 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
     );
 
     logger.info('subscription.isSubscribedToAll: ' + subscription.isSubscribedToAll);
-    console.log('==========eventstore.gesConnection=========');
-    console.log(eventstore.gesConnection);
-    console.log('==========END eventstore.gesConnection=========');
 
     return rx.Observable
       .fromEvent(eventAppeared.emitter, 'event')

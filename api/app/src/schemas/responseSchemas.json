@@ -117,6 +117,54 @@
           }
         }
       }
+    },
+    "sessionManagement": {
+      "title": "sessionManagement",
+      "properties": {
+        "clientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "trainerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "appointmentId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "funded": {
+          "type": "boolean"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "clientName": {
+          "type": "string"
+        },
+        "trainerPay": {
+          "type": "number"
+        },
+        "pricePerSession": {
+          "type": "number"
+        },
+        "trainerPercentage": {
+          "type": "number"
+        },
+        "appointmentDate": {
+          "type": "string"
+        },
+        "appointmentType": {
+          "type": "string"
+        },
+        "appointmentStartTime": {
+          "type": "string"
+        }
+      }
     }
   }
 }

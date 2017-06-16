@@ -97,7 +97,6 @@ module.exports = function() {
         expected: 'PATH'
       };
     }
-
     let operation = compiledPath.path[method.toLowerCase()];
     // check the res matches the swagger schema
 

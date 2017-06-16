@@ -112,11 +112,23 @@ module.exports = function(eventRepository, logger, Trainer) {
       return { trainerId: trainer._id };
     }
 
-    async function verifySessions(cmd, continuationId) {
-      logger.info('verifying Sessions');
+    async function verifyAppointments(cmd, continuationId) {
+      logger.info('verifying Appointments');
 
       let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.verifyAppointments(cmd);
+      logger.info('saving trainer');
+      logger.trace(trainer);
+
+      await eventRepository.save(trainer, { continuationId });
+      return { trainerId: trainer._id };
+    }
+
+    async function payTrainer(cmd, continuationId) {
+      logger.info('Paying Trainer');
+
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
+      trainer.payTrainer(cmd);
       logger.info('saving trainer');
       logger.trace(trainer);
 
@@ -134,7 +146,8 @@ module.exports = function(eventRepository, logger, Trainer) {
       updateTrainersClients,
       archiveTrainer,
       unArchiveTrainer,
-      verifySessions
+      verifyAppointments,
+      payTrainer
     };
   };
 };

@@ -130,6 +130,10 @@ export function fetchAppointmentsAction(
   endDate = moment().endOf('month'),
   trainerId
 ) {
+  console.log(`==========trainerId=========`);
+  console.log(trainerId);
+  console.log(`==========END trainerId=========`);
+
   moment.locale('en');
   const start = moment(startDate).format('YYYY-MM-DD');
   const end = moment(endDate).format('YYYY-MM-DD');

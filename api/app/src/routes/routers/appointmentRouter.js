@@ -3,7 +3,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
     const router = koarouter();
     /**
      * @swagger
-     * /fetchAppointments/{startDate}/{endDate}:
+     * /fetchappointments/{startDate}/{endDate}:
      *   get:
      *     x-name: fetchAppointments
      *     description: fetch Appointments
@@ -27,7 +27,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      */
     /**
      * @swagger
-     * /fetchAppointments/{startDate}/{endDate}/{trainerId}:
+     * /fetchappointments/{startDate}/{endDate}/{trainerId}:
      *   get:
      *     x-name: fetchAppointments
      *     description: fetch Appointments
@@ -55,11 +55,11 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *             $ref: "#/definitions/appointmentsResponse"
      */
     router.get(
-      '/fetchAppointments/:startDate/:endDate/:trainerId?',
+      '/fetchappointments/:startDate/:endDate/:trainerId?',
       controllers.appointmentController.fetchAppointments
     );
     /**
-     * /fetchAppointment:
+     * /fetchappointment:
      *   get:
      *     x-name: fetchAppointment
      *     description: fetch Appointment by id
@@ -76,10 +76,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/appointment"
      */
-    router.get('/fetchAppointment/:id', controllers.appointmentController.fetchAppointment);
+    router.get('/fetchappointment/:id', controllers.appointmentController.fetchAppointment);
     /**
      * @swagger
-     * /appointment/scheduleAppointment:
+     * /appointment/scheduleappointment:
      *   post:
      *     x-name: /appointment/scheduleAppointment
      *     description: schedule Appointment
@@ -100,10 +100,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/scheduleAppointment', controllers.appointmentController.scheduleAppointment);
+    router.post('/appointment/scheduleappointment', controllers.appointmentController.scheduleAppointment);
     /**
      * @swagger
-     * /appointment/updateAppointment:
+     * /appointment/updateappointment:
      *   post:
      *     x-name: /appointment/updateAppointment
      *     description: update Appointment
@@ -124,10 +124,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/updateAppointment', controllers.appointmentController.updateAppointment);
+    router.post('/appointment/updateappointment', controllers.appointmentController.updateAppointment);
     /**
      * @swagger
-     * /appointment/cancelAppointment:
+     * /appointment/cancelappointment:
      *   post:
      *     x-name: /appointment/cancelAppointment
      *     description: cancel Appointment
@@ -148,7 +148,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/cancelAppointment', controllers.appointmentController.cancelAppointment);
+    router.post('/appointment/cancelappointment', controllers.appointmentController.cancelAppointment);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

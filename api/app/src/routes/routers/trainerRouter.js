@@ -4,7 +4,7 @@ module.exports = function trainerRouter(koarouter, controllers) {
 
     /**
      * @swagger
-     * /fetchTrainers:
+     * /fetchtrainers:
      *   get:
      *     x-name: fetchTrainers
      *     description: retrieve trainers
@@ -15,10 +15,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *           $ref: "#/definitions/trainersResponse"
      */
-    router.get('/fetchTrainers', controllers.trainerListController.fetchTrainers);
+    router.get('/fetchtrainers', controllers.trainerListController.fetchTrainers);
     /**
      * @swagger
-     * /fetchAllTrainers:
+     * /fetchalltrainers:
      *   get:
      *     x-name: fetchAllTrainers
      *     description: retrieve all trainers
@@ -29,10 +29,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *           $ref: "#/definitions/trainersResponse"
      */
-    router.get('/fetchAllTrainers', controllers.trainerListController.fetchAllTrainers);
+    router.get('/fetchalltrainers', controllers.trainerListController.fetchAllTrainers);
     /**
      * @swagger
-     * /trainer/hireTrainer:
+     * /trainer/hiretrainer:
      *   post:
      *     x-name: /trainer/hireTrainer
      *     description: hire trainer
@@ -49,10 +49,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      */
-    router.post('/trainer/hireTrainer', controllers.trainerController.hireTrainer);
+    router.post('/trainer/hiretrainer', controllers.trainerController.hireTrainer);
     /**
      * @swagger
-     * /trainer/updateTrainerInfo:
+     * /trainer/updatetrainerinfo:
      *   post:
      *     x-name: /trainer/updateTrainerInfo
      *     description: update Trainer Info
@@ -74,10 +74,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *             $ref: "#/definitions/standardFailureResponse"
      *
      */
-    router.post('/trainer/updateTrainerInfo', controllers.trainerController.updateTrainerInfo);
+    router.post('/trainer/updatetrainerinfo', controllers.trainerController.updateTrainerInfo);
     /**
      * @swagger
-     * /trainer/updateTrainerContact:
+     * /trainer/updatetrainercontact:
      *   post:
      *     x-name: /trainer/updateTrainerContact
      *     description: update Trainer Contact
@@ -98,10 +98,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updateTrainerContact', controllers.trainerController.updateTrainerContact);
+    router.post('/trainer/updatetrainercontact', controllers.trainerController.updateTrainerContact);
     /**
      * @swagger
-     * /trainer/updateTrainerAddress:
+     * /trainer/updatetraineraddress:
      *   post:
      *     x-name: /trainer/updateTrainerAddress
      *     description: update Trainer Address
@@ -122,10 +122,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updateTrainerAddress', controllers.trainerController.updateTrainerAddress);
+    router.post('/trainer/updatetraineraddress', controllers.trainerController.updateTrainerAddress);
     /**
      * @swagger
-     * /trainer/updateTrainerPassword:
+     * /trainer/updatetrainerpassword:
      *   post:
      *     x-name: /trainer/updateTrainerPassword
      *     description: update Trainer Password
@@ -146,10 +146,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updateTrainerPassword', controllers.trainerController.updateTrainerPassword);
+    router.post('/trainer/updatetrainerpassword', controllers.trainerController.updateTrainerPassword);
     /**
      * @swagger
-     * /trainer/updateTrainersClients:
+     * /trainer/updatetrainersclients:
      *   post:
      *     x-name: /trainer/updateTrainersClients
      *     description: update Trainers Clients
@@ -170,10 +170,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updateTrainersClients', controllers.trainerController.updateTrainersClients);
+    router.post('/trainer/updatetrainersclients', controllers.trainerController.updateTrainersClients);
     /**
      * @swagger
-     * /trainer/updateTrainersClientRates:
+     * /trainer/updatetrainersclientrates:
      *   post:
      *     x-name: /trainer/updateTrainersClientRates
      *     description: update Trainers Client Rates
@@ -194,10 +194,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updateTrainersClientRates', controllers.trainerController.updateTrainersClientRates);
+    router.post('/trainer/updatetrainersclientrates', controllers.trainerController.updateTrainersClientRates);
     /**
      * @swagger
-     * /trainer/getTrainer/{id}:
+     * /trainer/gettrainer/{id}:
      *   get:
      *     x-name: trainer
      *     description: retrieve single trainer by id
@@ -218,10 +218,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/trainer/getTrainer/:id', controllers.trainerController.getTrainer);
+    router.get('/trainer/gettrainer/:id', controllers.trainerController.getTrainer);
     /**
      * @swagger
-     * /trainer/archiveTrainer:
+     * /trainer/archivetrainer:
      *   post:
      *     x-name: /trainer/archiveTrainer
      *     description: archive Trainer
@@ -242,7 +242,7 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/archiveTrainer', controllers.trainerController.archiveTrainer);
+    router.post('/trainer/archivetrainer', controllers.trainerController.archiveTrainer);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

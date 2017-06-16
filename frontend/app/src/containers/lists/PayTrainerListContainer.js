@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PayTrainerList from '../../components/lists/PayTrainerList';
 import moment from 'moment';
 
-import { fetchAppointmentsAction } from './../../modules/payTrainersModule';
+import { fetchVerifiedAppointments, submitTrainerPayment } from './../../modules/sessionPaymentModule';
 
 class PayTrainerListContainer extends Component {
   componentWillMount() {
@@ -12,17 +12,18 @@ class PayTrainerListContainer extends Component {
   }
 
   loadData() {
-    this.props.fetchAppointmentsAction(this.props.trainerId);
+    this.props.fetchVerifiedAppointments(this.props.trainerId);
   }
 
   render() {
-    return (<PayTrainerList gridConfig={this.props.gridConfig} />);
+    return (<PayTrainerList {...this.props} />);
   }
 }
 
 PayTrainerListContainer.propTypes = {
   gridConfig: PropTypes.object,
-  fetchAppointmentsAction: PropTypes.func,
+  fetchVerifiedAppointments: PropTypes.func,
+  submitTrainerPayment: PropTypes.func,
   trainerId: PropTypes.string
 };
 
@@ -66,7 +67,7 @@ const columns = [
 
 function mapStateToProps(state, props) {
   moment.locale('en');
-  let dataSource = state.payTrainers
+  let dataSource = state.sessionPayment
     .filter(x => x.verified)
     .map(x => ({
       ...x,
@@ -84,4 +85,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps, { fetchAppointmentsAction })(PayTrainerListContainer);
+export default connect(mapStateToProps, {
+  fetchVerifiedAppointments,
+  submitTrainerPayment
+})(PayTrainerListContainer);

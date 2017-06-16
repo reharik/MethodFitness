@@ -96,6 +96,19 @@ module.exports = function(eventRepository, logger, Client) {
       return { clientId: client._id };
     }
 
+    async function purchase(cmd, continuationId) {
+      logger.info('calling purchase');
+      let client = await eventRepository.getById(Client, cmd.clientId);
+      client.purchase(cmd);
+
+      logger.info('saving client');
+      logger.trace(JSON.stringify(client));
+
+      await eventRepository.save(client, { continuationId });
+
+      return { clientId: client._id };
+    }
+
     return {
       handlerName: 'ClientWorkflow',
       addClient,
@@ -105,7 +118,8 @@ module.exports = function(eventRepository, logger, Client) {
       updateClientSource,
       archiveClient,
       unArchiveClient,
-      clientAttendsAppointment
+      clientAttendsAppointment,
+      purchase
     };
   };
 };

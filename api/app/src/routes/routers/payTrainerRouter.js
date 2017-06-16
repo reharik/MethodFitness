@@ -3,7 +3,7 @@ module.exports = function payTrainerRouter(koarouter, controllers) {
     const router = koarouter();
     /**
      * @swagger
-     * /fetchVerifiedAppointments/{trainerId}:
+     * /paytrainer/fetchverifiedappointments/{trainerId}:
      *   get:
      *     x-name: fetchVerifiedAppointments
      *     description: fetchVerifiedAppointments
@@ -18,10 +18,40 @@ module.exports = function payTrainerRouter(koarouter, controllers) {
      *       200:
      *         description: Success
      *         schema:
-     *           $ref: "#/definitions/trainersResponse"
+     *           $ref: "#/definitions/sessionManagement"
      */
-    router.get('/fetchVerifiedAppointments/:trainerId',
+    router.get('/paytrainer/fetchverifiedappointments/:trainerId',
       controllers.payTrainerController.fetchVerifiedAppointments);
+    /**
+     * @swagger
+     * /paytrainer/{trainerId}:
+     *   post:
+     *     x-name: payTrainer
+     *     description: payTrainer
+     *     operationId: payTrainer
+     *     parameters:
+     *       - name: trainerId
+     *         in: path
+     *         required: false
+     *         description: the trainer id to pay
+     *         type: string
+     *       - name: body
+     *         in: body
+     *         required: true
+     *         schema:
+     *           $ref: "#/definitions/verifyAppointments"
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *             $ref: "#/definitions/standardSuccessResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.post('/paytrainer/:trainerId',
+      controllers.payTrainerController.payTrainer);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

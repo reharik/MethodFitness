@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TrainerVerificationList from '../../components/lists/TrainerVerificationList';
 import moment from 'moment';
 
-import { fetchAppointmentsAction } from './../../modules/trainerVerificationModule';
+import { fetchUnverifiedAppointments, verifyAppointments } from '../../modules/sessionPaymentModule';
 
 class TrainerVerificationListContainer extends Component {
   componentWillMount() {
@@ -12,18 +12,18 @@ class TrainerVerificationListContainer extends Component {
   }
 
   loadData() {
-    this.props.fetchAppointmentsAction(this.props.trainerId);
+    this.props.fetchUnverifiedAppointments();
   }
 
   render() {
-    return (<TrainerVerificationList gridConfig={this.props.gridConfig} />);
+    return (<TrainerVerificationList {...this.props} />);
   }
 }
 
 TrainerVerificationListContainer.propTypes = {
   gridConfig: PropTypes.object,
-  fetchAppointmentsAction: PropTypes.func,
-  trainerId: PropTypes.string
+  fetchUnverifiedAppointments: PropTypes.func,
+  verifyAppointments: PropTypes.func
 };
 
 const columns = [
@@ -66,7 +66,7 @@ const columns = [
 
 function mapStateToProps(state, props) {
   moment.locale('en');
-  let dataSource = state.trainerVerifications
+  let dataSource = state.sessionPayment
     .filter(x => !x.verified)
     .map(x => ({
       ...x,
@@ -79,9 +79,11 @@ function mapStateToProps(state, props) {
     dataSource
   };
   return {
-    gridConfig,
-    trainerId: props.params.trainerId
+    gridConfig
   };
 }
 
-export default connect(mapStateToProps, { fetchAppointmentsAction })(TrainerVerificationListContainer);
+export default connect(mapStateToProps, {
+  fetchUnverifiedAppointments,
+  verifyAppointments
+})(TrainerVerificationListContainer);

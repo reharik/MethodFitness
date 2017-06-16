@@ -68,6 +68,28 @@ module.exports = function(invariant) {
       this.checkForInArrears(item);
     }
 
+    sessionsVerified(sessions) {
+      this.unpaidAppointments = this.unpaidAppointments
+        .map(x => sessions.some(y => x.sessionId === y) ? Object.assign(x, {verified: true}) : x);
+    }
+
+    trainerPaid(sessions) {
+      let paidAppointments = this.unpaidAppointments
+        .filter(x => sessions.some(y => x.sessionId === y));
+      this.unpaidAppointments = this.unpaidAppointments
+        .filter(x => !sessions.some(y => x.sessionId === y));
+      this.sessions.fullHour = this.sessions.fullHour
+        .filter(x => !sessions.some(y => x.sessionId === y));
+      this.sessions.halfHour = this.sessions.halfHour
+        .filter(x => !sessions.some(y => x.sessionId === y));
+      this.sessions.pair = this.sessions.pair
+        .filter(x => !sessions.some(y => x.sessionId === y));
+      paidAppointments.filter(x =>
+          !this.unpaidAppointments.some(y => x.appointmentId === y.appointmentId )
+          && !this.unfundedAppointments.some(y => x.appointmentId === y.appointmentId ))
+        .forEach(x => this.appointments = this.appointments.filter(y => y.id !== x.appointmentId)); // eslint-disable-line
+    }
+
     async processAppointment(appointmentId) {
 
       let appointment = this.appointments.find(x => x.id === appointmentId);
@@ -78,14 +100,14 @@ module.exports = function(invariant) {
       this.currentTrainer = appointment.trainerId;
 
       let curriedCreateUnpaidAppointment = this.curryCreateUnpaidAppointment(appointment);
-      let curriedSubtractSession = this.currySubtractSession(appointment);
+      let curriedUseSession = this.curryUseSession(appointment);
       let curriedHandleInArrears = this.curryHandleInArrears(appointment);
       let curriedFilterClientsWhoPaidForThisAppointment = this.curryFilterClientsWhoPaidForThisAppointment(appointment);
 
       let newItems = appointment.clients
         .filter(x => curriedFilterClientsWhoPaidForThisAppointment(x))
         .map(x => curriedCreateUnpaidAppointment(x))
-        .map(x => curriedSubtractSession(x))
+        .map(x => curriedUseSession(x))
         .map(x => curriedHandleInArrears(x));
 
       this.unpaidAppointments = this.unpaidAppointments.concat(newItems.filter(x => x.funded));
@@ -103,7 +125,9 @@ module.exports = function(invariant) {
     curryCreateUnpaidAppointment(appointment) {
       return clientId => {
         let client = this.clients.find(c => c.id === clientId);
-        let session = this.sessions[appointment.appointmentType].filter(a => clientId === a.clientId)[0];
+        let session = this.sessions[appointment.appointmentType]
+          .filter(a => clientId === a.clientId
+          && !a.used)[0];
         let trainer = this.trainers.find(x => x.id === appointment.trainerId);
 
         let TCR = trainer.TCRS.find(tcr => tcr.clientId === clientId);
@@ -130,14 +154,15 @@ module.exports = function(invariant) {
       };
     }
 
-    currySubtractSession(appointment) {
+    curryUseSession(appointment) {
       return item => {
         if (!item.funded) {
           return item;
         }
+
         this.sessions[appointment.appointmentType] =
           this.sessions[appointment.appointmentType]
-            .filter(x => item.sessionId !== x.sessionId);
+            .map(x => item.sessionId === x.sessionId ? Object.assign(x, {used: true}) : x);
         return item;
       };
     }

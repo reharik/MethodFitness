@@ -1,22 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
-import ContentHeaderSearch from '../ContentHeaderSearch';
-import { Table } from 'antd';
+import { Table, Modal } from 'antd';
+const confirm = Modal.confirm;
 
 class PayTrainerList extends Component {
   state = {
     selectedRowKeys: [],
+    selectedIds: [],
     trainerTotal: 0
   };
 
-  onSelect = (record, selected, selectedRows) => {
-    var trainerTotal = selectedRows.reduce((a, b) => a + b.trainerPay, 0);
-    this.setState({trainerTotal});
+  submitTrainerPayment = () => {
+    confirm({
+      title: 'Are you sure you would like to pay trainer: ${}?',
+      content: `$${this.state.trainerTotal} for ${this.selectedIds.length} Appointments`,
+      onOk() {
+        const payload = {
+          trainerId: this.props.params.trainerId,
+          sessionIds: this.state.selectedIds
+        };
+        this.props.submitTrainerPayment(payload);
+      },
+      onCancel() {
+      }
+    });
   };
 
-  onSelectChange = (selectedRowKeys) => {
-    this.setState({selectedRowKeys});
+  onSelect = (record, selected, selectedRows) => {
+    let trainerTotal = selectedRows
+      .filter(x => x.funded)
+      .reduce((a, b) => a + b.trainerPay, 0);
+    let selectedRowKeys = selectedRows
+      .filter(x => x.funded)
+      .map(x => `${x.appointmentId}---${x.clientId}`);
+    let selectedIds = selectedRows
+      .filter(x => x.funded)
+      .map(x => x.sessionId);
+    this.setState({trainerTotal, selectedRowKeys, selectedIds});
   };
 
   render() {
@@ -41,7 +62,7 @@ class PayTrainerList extends Component {
               </div>
             </div>
             <div className="list__header__right">
-              <ContentHeaderSearch />
+              <button onClick={this.submitTrainerPayment} >Submit Trainer Payment</button>
             </div>
           </div>
         </ContentHeader>
@@ -62,7 +83,9 @@ class PayTrainerList extends Component {
 }
 
 PayTrainerList.propTypes = {
-  gridConfig: PropTypes.object
+  gridConfig: PropTypes.object,
+  params: PropTypes.object,
+  submitTrainerPayment: PropTypes.func
 };
 
 export default PayTrainerList;

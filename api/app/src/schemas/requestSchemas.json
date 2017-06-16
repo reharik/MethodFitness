@@ -318,10 +318,6 @@
     "verifyAppointments": {
       "title": "verifyAppointments",
       "properties": {
-        "trainerId": {
-          "type": "string",
-          "format": "uuid"
-        },
         "sessionIds": {
           "type": "array",
           "minItems": 1,
@@ -333,7 +329,6 @@
         }
       },
       "required": [
-        "trainerId",
         "sessionIds"
       ]
     }

@@ -8,8 +8,9 @@ module.exports = function(compiler, validateMethods) {
         await next();
         return;
       }
+
       let compiledPath = compiled(ctx.path);
-      if (compiledPath === undefined) {
+      if (!compiledPath) {
         // if there is no single matching path, return 404 (not found)
         ctx.status = 404;
         return;
@@ -17,7 +18,7 @@ module.exports = function(compiler, validateMethods) {
       // check the request matches the swagger schema
       let validationErrors = validateMethods.request(compiledPath, ctx.method, ctx.query, ctx.request.body);
 
-      if (validationErrors === undefined) {
+      if (!validationErrors) {
         // operation not defined, return 405 (method not allowed)
         ctx.status = 405;
         return;

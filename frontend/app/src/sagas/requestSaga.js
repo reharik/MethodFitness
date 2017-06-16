@@ -53,6 +53,14 @@ let ajaxState = function(action) {
 function* request(action) {
   let response;
   let payload;
+  let headers = new Headers();
+  headers.append('Accept', 'application/json, text/plain, */*');
+  headers.append('Content-Type', 'application/json');
+  action.params.headers = headers;
+  action.params.body = action.params.body && typeof action.params.body !== 'string'
+    ? JSON.stringify(action.params.body)
+    : action.params.body;
+
   let ajaxStateFunctions = ajaxState(action);
   try {
     yield ajaxStateFunctions.request();

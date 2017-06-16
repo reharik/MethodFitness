@@ -106,7 +106,10 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
     }
 
     generateSessions(cmd) {
-      return [].concat(this.addFullHourSessions(cmd), this.addHalfHourSessions(cmd), this.addPairSessions(cmd));
+      return [].concat(
+        this.addSessions(cmd, 'fullHour'),
+        this.addSessions(cmd, 'halfHour'),
+        this.addSessions(cmd, 'pair'));
     }
 
     createNewSessionEvent(type, purchasePrice, purchaseId) {
@@ -120,31 +123,17 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
       };
     }
 
-    addFullHourSessions(cmd) {
-      const individualHourPrice = cmd.fullHour ? cmd.fullHourTotal / cmd.fullHour : 0;
-      const tenPackHourPrice = cmd.fullHourTenPack ? cmd.fullHourTenPackTotal / (cmd.fullHourTenPack * 10) : 0;
-      let sessions = Array(cmd.fullHour).fill(this.createNewSessionEvent('fullHour', individualHourPrice, cmd.id));
-      return sessions.concat(
-        Array(cmd.fullHourTenPack * 10).fill(this.createNewSessionEvent('fullHour', tenPackHourPrice, cmd.id))
-      );
-    }
-
-    addHalfHourSessions(cmd) {
-      const individualHalfHourPrice = cmd.halfHour ? cmd.halfHourTotal / cmd.halfHour : 0;
-      const tenPackHalfHourPrice = cmd.halfHourTenPack ? cmd.halfHourTenPackTotal / (cmd.halfHourTenPack * 10) : 0;
-      let sessions = Array(cmd.halfHour).fill(this.createNewSessionEvent('halfHour', individualHalfHourPrice, cmd.id));
-      return sessions.concat(
-        Array(cmd.halfHourTenPack * 10).fill(this.createNewSessionEvent('halfHour', tenPackHalfHourPrice, cmd.id))
-      );
-    }
-
-    addPairSessions(cmd) {
-      const individualPairPrice = cmd.pair ? cmd.pairTotal / cmd.pair : 0;
-      const tenPackPairPrice = cmd.pairTenPack ? cmd.pairTenPackTotal / (cmd.pairTenPack * 10) : 0;
-      let sessions = Array(cmd.pair).fill(this.createNewSessionEvent('pair', individualPairPrice, cmd.id));
-      return sessions.concat(
-        Array(cmd.pairTenPack * 10).fill(this.createNewSessionEvent('pair', tenPackPairPrice, cmd.id))
-      );
+    addSessions(cmd, type) {
+      const individualPrice = cmd[type] ? cmd[`${type}Total`] / cmd[type] : 0;
+      const tenPackPrice = cmd[`${type}TenPack`] ? cmd[`${type}TenPackTotal`] / (cmd[`${type}TenPack`] * 10) : 0;
+      let sessions = [];
+      for (let i = 0; i < cmd[type]; i++) {
+        sessions.push(this.createNewSessionEvent(type, individualPrice, cmd.id));
+      }
+      for (let i = 0; i < cmd[`${type}TenPack`] * 10; i++) {
+        sessions.push(this.createNewSessionEvent(type, tenPackPrice, cmd.id));
+      }
+      return sessions;
     }
 
     expectNotArchived() {

@@ -4,7 +4,7 @@ module.exports = function clientRouter(koarouter, controllers) {
 
     /**
      * @swagger
-     * /fetchClients:
+     * /fetchclients:
      *   get:
      *     x-name: fetchClients
      *     description: retrieve clients
@@ -15,10 +15,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *           $ref: "#/definitions/clientsResponse"
      */
-    router.get('/fetchClients', controllers.clientListController.fetchClients);
+    router.get('/fetchclients', controllers.clientListController.fetchClients);
     /**
      * @swagger
-     * /fetchAllClients:
+     * /fetchallclients:
      *   get:
      *     x-name: fetchAllClients
      *     description: retrieve all clients
@@ -29,10 +29,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *           $ref: "#/definitions/clientsResponse"
      */
-    router.get('/fetchAllClients', controllers.clientListController.fetchAllClients);
+    router.get('/fetchallclients', controllers.clientListController.fetchAllClients);
     /**
      * @swagger
-     * /client/addClient:
+     * /client/addclient:
      *   post:
      *     x-name: /client/addClient
      *     description: add client
@@ -54,10 +54,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *             $ref: "#/definitions/standardFailureResponse"
      *
      */
-    router.post('/client/addClient', controllers.clientController.addClient);
+    router.post('/client/addclient', controllers.clientController.addClient);
     /**
      * @swagger
-     * /client/updateClientInfo:
+     * /client/updateclientinfo:
      *   post:
      *     x-name: /client/updateClientInfo
      *     description: update Client Info
@@ -78,10 +78,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateClientInfo', controllers.clientController.updateClientInfo);
+    router.post('/client/updateclientinfo', controllers.clientController.updateClientInfo);
     /**
      * @swagger
-     * /client/updateClientSource:
+     * /client/updateclientsource:
      *   post:
      *     x-name: /client/updateClientSource
      *     description: update Client Source
@@ -102,10 +102,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateClientSource', controllers.clientController.updateClientSource);
+    router.post('/client/updateclientsource', controllers.clientController.updateClientSource);
     /**
      * @swagger
-     * /client/updateClientContact:
+     * /client/updateclientcontact:
      *   post:
      *     x-name: /client/updateClientContact
      *     description: update Client Contact
@@ -126,10 +126,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateClientContact', controllers.clientController.updateClientContact);
+    router.post('/client/updateclientcontact', controllers.clientController.updateClientContact);
     /**
      * @swagger
-     * /client/updateClientAddress:
+     * /client/updateclientaddress:
      *   post:
      *     x-name: /client/updateClientAddress
      *     description: update Client Address
@@ -150,10 +150,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateClientAddress', controllers.clientController.updateClientAddress);
+    router.post('/client/updateclientaddress', controllers.clientController.updateClientAddress);
     /**
      * @swagger
-     * /client/getClient/{id}:
+     * /client/getclient/{id}:
      *   get:
      *     x-name: client
      *     description: retrieve single client by id
@@ -174,10 +174,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/client/getClient/:id', controllers.clientController.getClient);
+    router.get('/client/getclient/:id', controllers.clientController.getClient);
     /**
      * @swagger
-     * /client/archiveClient:
+     * /client/archiveclient:
      *   post:
      *     x-name: /client/archiveClient
      *     description: archive Client
@@ -198,7 +198,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/archiveClient', controllers.clientController.archiveClient);
+    router.post('/client/archiveclient', controllers.clientController.archiveClient);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };
