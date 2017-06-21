@@ -1,6 +1,3 @@
-import { REQ_AJAX_STATE, SUCCESS_AJAX_STATE, FAILURE_AJAX_STATE } from './../modules/ajaxStateModule';
-import { notifications } from './../modules/notificationModule';
-
 import { takeEvery, call, put} from 'redux-saga/effects';
 import { logoutUser } from './../modules';
 
@@ -18,37 +15,9 @@ export function requestStates(entity, reducerName) {
   return {
     REQUEST: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_REQUEST`,
     SUCCESS: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_SUCCESS`,
-    FAILURE: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_FAILURE`,
-    PREFIX: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}`
+    FAILURE: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_FAILURE`
   };
 }
-
-let ajaxState = function(action) {
-  const req = () => {
-    if (action.startAjaxState) {
-      return put({ type: REQ_AJAX_STATE, actionPrefix: action.states.PREFIX });
-    }
-  };
-
-  const success = () => {
-    if (action.startAjaxState) {
-      return put({ type: SUCCESS_AJAX_STATE, actionPrefix: action.states.PREFIX });
-    }
-  };
-  const failure = payload => {
-    if (action.startAjaxState) {
-      if (payload && payload.errors) {
-        put(notifications(payload.errors, action.containerName));
-      }
-      return put({ type: FAILURE_AJAX_STATE, actionPrefix: action.states.PREFIX });
-    }
-  };
-  return {
-    request: req,
-    success,
-    failure
-  };
-};
 
 function* request(action) {
   let response;
@@ -61,9 +30,7 @@ function* request(action) {
     ? JSON.stringify(action.params.body)
     : action.params.body;
 
-  let ajaxStateFunctions = ajaxState(action);
   try {
-    yield ajaxStateFunctions.request();
     response = yield call(fetch, action.url, action.params);
 
     if (response.status === 401) {
@@ -73,7 +40,6 @@ function* request(action) {
     const success = action.successFunction ? action.successFunction : standardSuccessResponse;
     if (response.status === 204) {
       yield put(success(action, payload));
-      yield ajaxStateFunctions.success();
       return;
     }
 
@@ -87,14 +53,12 @@ function* request(action) {
     }
 
     yield put(success(action, payload));
-    yield ajaxStateFunctions.success();
 
     if (action.subsequentAction) {
       yield put(action.subsequentAction);
     }
   } catch (err) {
     const failure = action.failureFunction ? action.failureFunction : standardFailureResponse;
-    yield ajaxStateFunctions.failure(payload);
     yield put(failure(action, payload || response, err));
   }
 }

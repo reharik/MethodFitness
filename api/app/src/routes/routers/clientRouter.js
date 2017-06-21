@@ -14,6 +14,14 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *           $ref: "#/definitions/clientsResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/fetchclients', controllers.clientListController.fetchClients);
     /**
@@ -28,6 +36,14 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *           $ref: "#/definitions/clientsResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/fetchallclients', controllers.clientListController.fetchAllClients);
     /**
@@ -49,6 +65,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
@@ -77,6 +97,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/client/updateclientinfo', controllers.clientController.updateClientInfo);
     /**
@@ -98,6 +122,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"

@@ -62,7 +62,7 @@ module.exports = function(eventRepository, logger, Client) {
 
     async function clientAttendsAppointment(cmd, continuationId) {
       logger.info('clientAttendsAppointment');
-      let client = await eventRepository.getById(Client, cmd.id);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.clientAttendsAppointment(cmd);
 
       logger.info('saving client');

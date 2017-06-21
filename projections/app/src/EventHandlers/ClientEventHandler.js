@@ -15,7 +15,11 @@ module.exports = function(rsRepository, moment, logger) {
         startDate: event.startDate,
         birthDate: event.birthDate,
         contact: event.contact,
-        inventory: {}
+        inventory: {
+          fullHour: 0,
+          halfHour: 0,
+          pair: 0
+        }
       };
       return await rsRepository.save('client', client);
     }
@@ -25,13 +29,13 @@ module.exports = function(rsRepository, moment, logger) {
       client.contact.email = event.contact.email;
       client.contact.secondaryPhone = event.contact.secondaryPhone;
       client.contact.mobilePhone = event.contact.mobilePhone;
-      return await rsRepository.save('client', client, event.id);
+      return await rsRepository.save('client', client);
     }
 
     async function clientAddressUpdated(event) {
       let client = await rsRepository.getById(event.id, 'client');
       client.contact.address = event.address;
-      return await rsRepository.save('client', client, event.id);
+      return await rsRepository.save('client', client);
     }
 
     async function clientInfoUpdated(event) {
@@ -39,7 +43,7 @@ module.exports = function(rsRepository, moment, logger) {
       client.contact.firstName = event.firstName;
       client.contact.lastName = event.lastName;
       client.birthDate = event.birthDate;
-      return await rsRepository.save('client', client, event.id);
+      return await rsRepository.save('client', client);
     }
 
     async function clientSourceUpdated(event) {
@@ -47,7 +51,7 @@ module.exports = function(rsRepository, moment, logger) {
       client.source = event.source;
       client.sourceNotes = event.sourceNotes;
       client.startDate = event.startDate;
-      return await rsRepository.save('client', client, event.id);
+      return await rsRepository.save('client', client);
     }
 
     async function clientArchived(event) {
@@ -72,11 +76,18 @@ where id = '${event.id}'`;
       logger.info('handling clientInventoryUpdated event');
       let client = await rsRepository.getById(event.clientId, 'client');
       client.inventory = {
-        fullHours: (client.inventory.fullHours || 0) + event.totalFullHours,
-        halfHours: (client.inventory.halfHours || 0) + event.totalHalfHours,
-        pairs: (client.inventory.pairs || 0) + event.totalPairs
+        fullHour: (client.inventory.fullHour || 0) + (event.fullHourTenPack * 10) + event.fullHour,
+        halfHour: (client.inventory.halfHour || 0) + (event.halfHourTenPack * 10) + event.halfHour,
+        pair: (client.inventory.pair || 0) + (event.pairTenPack * 10) + event.pair
       };
-      return await rsRepository.save('client', client, event.clientId);
+      return await rsRepository.save('client', client);
+    }
+
+    async function appointmentAttendedByClient(event) {
+      logger.info('handling appointmentAttendedByClient event');
+      let client = await rsRepository.getById(event.clientId, 'client');
+      client.inventory[event.appointmentType] = client.inventory[event.appointmentType] - 1;
+      return await rsRepository.save('client', client);
     }
 
     return {
@@ -88,7 +99,8 @@ where id = '${event.id}'`;
       clientAddressUpdated,
       clientInfoUpdated,
       clientSourceUpdated,
-      sessionsPurchased
+      sessionsPurchased,
+      appointmentAttendedByClient
     };
   };
 };

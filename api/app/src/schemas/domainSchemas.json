@@ -209,7 +209,7 @@
         "endTime": {
           "type": "string"
         },
-        "trainer": {
+        "trainerId": {
           "type": "string",
           "format": "uuid",
           "x-input": "select"
@@ -234,7 +234,7 @@
         "date",
         "startTime",
         "endTime",
-        "trainer"
+        "trainerId"
       ]
     },
     "purchase": {

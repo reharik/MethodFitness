@@ -4,7 +4,6 @@ module.exports = function(rsRepository, logger) {
 
     try {
       let sql = 'SELECT * from "client";';
-
       if (ctx.state.user.role !== 'admin') {
         const trainer = await rsRepository.getById(ctx.state.user.id, 'trainer');
         sql = `SELECT * from "client" where id in (${trainer.clients.map(item => `'${item}'`)});`;

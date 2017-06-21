@@ -117,7 +117,17 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
     }
 
     async appointmentAttendedByClient(event) {
-      this.upa.processAppointment(event.appointmentId);
+      this.upa.processFundedAppointment(event);
+      return await this.saveView(this.upa.currentTrainer);
+    }
+
+    async appointmentAttendedByUnfundedClient(event) {
+      this.upa.processUnfundedAppointment(event);
+      return await this.saveView(this.upa.currentTrainer);
+    }
+
+    async unfundedAppointmentFundedByClient(event) {
+      this.upa.processNewlyFundedAppointment(event);
       return await this.saveView(this.upa.currentTrainer);
     }
 

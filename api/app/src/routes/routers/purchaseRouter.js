@@ -24,6 +24,10 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      *
      */
     router.post('/purchase/purchase', controllers.purchaseController.purchase);
@@ -46,6 +50,10 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
@@ -73,6 +81,10 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/purchase/cancelpurchase', controllers.purchaseController.cancelPurchase);
     /**
@@ -97,6 +109,10 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/purchase/fetchpurchase/:id', controllers.purchaseController.fetchPurchase);
     /**
@@ -117,6 +133,14 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *           $ref: "#/definitions/purchasesResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/purchaselist/fetchpurchases/:id', controllers.purchaseListController.fetchPurchases);
 

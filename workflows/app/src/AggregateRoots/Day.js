@@ -26,7 +26,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         this.expectClientsNotConflicting(cmd);
 
         this.raiseEvent({
-          eventName: this.mapCommandToEvent(cmd),
+          eventName: 'appointmentUpdated',
           id: cmd.appointmentId,
           appointmentType: cmd.appointmentType,
           date: cmd.date,
@@ -48,8 +48,9 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         let id = cmd.commandName === 'scheduleAppointment' || cmd.commandName === 'rescheduleAppointmentToNewDay'
           ? uuid.v4()
           : cmd.appointmentId;
+
         this.raiseEvent({
-          eventName: this.mapCommandToEvent(cmd),
+          eventName: 'appointmentScheduled',
           id,
           appointmentType: cmd.appointmentType,
           date: cmd.date,
@@ -63,7 +64,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
       }.bind(this);
 
       const _cancelAppointment = function(cmd) {
-        // put lots of business logic here!
+        //TODO put lots of business logic here!
         this.raiseEvent({
           eventName: 'appointmentCanceled',
           id: cmd.appointmentId
@@ -81,27 +82,6 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
           _cancelAppointment(cmd);
         }
       };
-    }
-
-    mapCommandToEvent(cmd) {
-      switch (cmd.commandName) {
-        case 'updateAppointment': {
-          return 'appointmentUpdated';
-        }
-        case 'rescheduleAppointment': {
-          if (this._id !== cmd.originalEntityName) {
-            return 'appointmentCanceled';
-          } else {
-            return 'appointmentRescheduled';
-          }
-        }
-        case 'cancelAppointment': {
-          return 'appointmentCanceled';
-        }
-        case 'scheduleAppointment': {
-          return 'appointmentScheduled';
-        }
-      }
     }
 
     applyEventHandlers() {

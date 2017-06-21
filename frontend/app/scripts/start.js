@@ -37,7 +37,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // Tools like Cloud9 rely on this.
-const DEFAULT_PORT = parseInt(process.env.FRONT_END_PORT, 10) || 8080;
+const DEFAULT_PORT = parseInt(process.env.FRONT_END_PORT, 10) || 8888;
 const HOST = process.env.FRONT_END_HOSTX || '0.0.0.0';
 
 // We attempt to use the default port but if it is busy, we offer the user to

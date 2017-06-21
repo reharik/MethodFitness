@@ -52,7 +52,7 @@
           "type": "boolean"
         },
         "error": {
-          "type": "boolean"
+          "type": "string"
         },
         "errors": {
           "type": "array",

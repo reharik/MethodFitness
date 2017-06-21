@@ -1,10 +1,12 @@
 module.exports = function appointmentRouter(koarouter, controllers) {
   return function(appRouter) {
     const router = koarouter();
+    // having two stacked like this is intentional and allows for optional params
+    // secondly this is a get that is actually a post cuz you can't have a body with a get
     /**
      * @swagger
      * /fetchappointments/{startDate}/{endDate}:
-     *   get:
+     *   post:
      *     x-name: fetchAppointments
      *     description: fetch Appointments
      *     operationId: fetchAppointments
@@ -24,11 +26,19 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *             $ref: "#/definitions/appointmentsResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     /**
      * @swagger
      * /fetchappointments/{startDate}/{endDate}/{trainerId}:
-     *   get:
+     *   post:
      *     x-name: fetchAppointments
      *     description: fetch Appointments
      *     operationId: fetchAppointments
@@ -53,8 +63,16 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *             $ref: "#/definitions/appointmentsResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get(
+    router.post(
       '/fetchappointments/:startDate/:endDate/:trainerId?',
       controllers.appointmentController.fetchAppointments
     );
@@ -75,6 +93,14 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *             $ref: "#/definitions/appointment"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/fetchappointment/:id', controllers.appointmentController.fetchAppointment);
     /**
@@ -96,6 +122,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
@@ -123,6 +153,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/appointment/updateappointment', controllers.appointmentController.updateAppointment);
     /**
@@ -144,6 +178,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"

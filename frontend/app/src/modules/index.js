@@ -4,9 +4,9 @@ import menu from './menuModule';
 import trainers from './trainerModule';
 import clients from './clientModule';
 import purchase from './purchaseModule';
-import ajaxState from './ajaxStateModule';
 import toggleTrainerListForCalendar from './toggleTrainerListForCalendarModule';
-import sessionPayment from './sessionPaymentModule';
+import sessionVerification from './sessionVerificationModule';
+import trainerPayment from './trainerPaymentModule';
 
 export { loginUser, logoutUser } from './authModule';
 export { menuItemClicked, navBreadCrumbClicked } from './menuModule';
@@ -24,7 +24,7 @@ export default {
   trainers,
   clients,
   toggleTrainerListForCalendar,
-  ajaxState,
   purchase,
-  sessionPayment
+  trainerPayment,
+  sessionVerification
 };

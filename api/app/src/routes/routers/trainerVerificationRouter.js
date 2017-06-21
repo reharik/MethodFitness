@@ -13,6 +13,14 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *           $ref: "#/definitions/sessionManagement"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/trainerverification/fetchunverifiedappointments',
       controllers.trainerVerificationController.fetchUnverifiedAppointments);
@@ -35,6 +43,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"

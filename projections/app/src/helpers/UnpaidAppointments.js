@@ -64,8 +64,9 @@ module.exports = function(invariant) {
     }
 
     addSession(item) {
-      this.sessions[item.sessionType].push(item);
-      this.checkForInArrears(item);
+      if (!item.used) {
+        this.sessions[item.appointmentType].push(item);
+      }
     }
 
     sessionsVerified(sessions) {
@@ -74,125 +75,115 @@ module.exports = function(invariant) {
     }
 
     trainerPaid(sessions) {
-      let paidAppointments = this.unpaidAppointments
+      this.paidAppointments = this.unpaidAppointments
         .filter(x => sessions.some(y => x.sessionId === y));
+
       this.unpaidAppointments = this.unpaidAppointments
         .filter(x => !sessions.some(y => x.sessionId === y));
+
       this.sessions.fullHour = this.sessions.fullHour
         .filter(x => !sessions.some(y => x.sessionId === y));
       this.sessions.halfHour = this.sessions.halfHour
         .filter(x => !sessions.some(y => x.sessionId === y));
       this.sessions.pair = this.sessions.pair
         .filter(x => !sessions.some(y => x.sessionId === y));
-      paidAppointments.filter(x =>
+
+      this.paidAppointments.filter(x =>
           !this.unpaidAppointments.some(y => x.appointmentId === y.appointmentId )
           && !this.unfundedAppointments.some(y => x.appointmentId === y.appointmentId ))
         .forEach(x => this.appointments = this.appointments.filter(y => y.id !== x.appointmentId)); // eslint-disable-line
+
     }
 
-    async processAppointment(appointmentId) {
-
-      let appointment = this.appointments.find(x => x.id === appointmentId);
+    processFundedAppointment(event) {
+      let appointment = this.appointments.find(x => x.id === event.appointmentId);
       if (!appointment || appointment.length <= 0) {
         return;
       }
 
       this.currentTrainer = appointment.trainerId;
-
-      let curriedCreateUnpaidAppointment = this.curryCreateUnpaidAppointment(appointment);
-      let curriedUseSession = this.curryUseSession(appointment);
-      let curriedHandleInArrears = this.curryHandleInArrears(appointment);
-      let curriedFilterClientsWhoPaidForThisAppointment = this.curryFilterClientsWhoPaidForThisAppointment(appointment);
-
-      let newItems = appointment.clients
-        .filter(x => curriedFilterClientsWhoPaidForThisAppointment(x))
-        .map(x => curriedCreateUnpaidAppointment(x))
-        .map(x => curriedUseSession(x))
-        .map(x => curriedHandleInArrears(x));
-
-      this.unpaidAppointments = this.unpaidAppointments.concat(newItems.filter(x => x.funded));
+      this.unpaidAppointments.push(this.createUnpaidAppointment(appointment, event));
     }
 
-    curryFilterClientsWhoPaidForThisAppointment(appointment) {
-      return clientId => {
-        return !this.unpaidAppointments.find(y =>
-        y.clientId === clientId
-        && y.appointmentId === appointment.id
-        && y.funded);
-      };
-    }
-
-    curryCreateUnpaidAppointment(appointment) {
-      return clientId => {
-        let client = this.clients.find(c => c.id === clientId);
-        let session = this.sessions[appointment.appointmentType]
-          .filter(a => clientId === a.clientId
-          && !a.used)[0];
-        let trainer = this.trainers.find(x => x.id === appointment.trainerId);
-
-        let TCR = trainer.TCRS.find(tcr => tcr.clientId === clientId);
-        let TR = 0;
-        if (session && TCR) {
-          TR = session.purchasePrice * (TCR.rate * .01);
-        }
-
-        return {
-          trainerId: trainer.id,
-          clientId: client.id,
-          clientName: `${client.firstName} ${client.lastName}`,
-          appointmentId: appointment.id,
-          appointmentDate: appointment.date,
-          appointmentStartTime: appointment.startTime,
-          appointmentType: appointment.appointmentType,
-          sessionId: session ? session.sessionId : 0,
-          pricePerSession: session ? session.purchasePrice : 0,
-          trainerPercentage: TCR ? TCR.rate : 0,
-          trainerPay: TR,
-          verified: false,
-          funded: !!session
-        };
-      };
-    }
-
-    curryUseSession(appointment) {
-      return item => {
-        if (!item.funded) {
-          return item;
-        }
-
-        this.sessions[appointment.appointmentType] =
-          this.sessions[appointment.appointmentType]
-            .map(x => item.sessionId === x.sessionId ? Object.assign(x, {used: true}) : x);
-        return item;
-      };
-    }
-
-    curryHandleInArrears(appointment) {
-      return item => {
-        if (!item.funded) {
-          this.unfundedAppointments.push(item);
-        } else {
-          this.unfundedAppointments = this.unfundedAppointments
-            .filter(uf =>
-            uf.clientId !== item.clientId
-            || uf.appointmentId !== appointment.id
-            || uf.appointmentType !== appointment.appointmentType);
-        }
-        return item;
-      };
-    }
-
-    checkForInArrears(event) {
-      const inArrears = this.unfundedAppointments
-        .filter(x => x.clientId === event.clientId && x.appointmentType === event.sessionType);
-
-      if (inArrears && inArrears.length > 0) {
-        this.processAppointment(inArrears[0].appointmentId);
+    processUnfundedAppointment(event) {
+      let appointment = this.appointments.find(x => x.id === event.appointmentId);
+      if (!appointment || appointment.length <= 0) {
+        return;
       }
+
+      this.currentTrainer = appointment.trainerId;
+      this.unfundedAppointments.push(this.createUnfundedAppointment(appointment, event));
     }
 
-    getDisplayResult() {
-      return this.unpaidAppointments.concat(this.unfundedAppointments);
+    processNewlyFundedAppointment(event) {
+      let appointment = this.appointments.find(x => x.id === event.appointmentId);
+      if (!appointment || appointment.length <= 0) {
+        return;
+      }
+
+      this.currentTrainer = appointment.trainerId;
+      this.unfundedAppointments.filter(x => x.appointmentId !== event.appointmentId && x.clientId !== event.clientId);
+      this.unpaidAppointments.push(this.fundUnfundedAppointment(event, appointment));
+    }
+
+    fundUnfundedAppointment(event, appointment) {
+      let unfunded = this.unfundedAppointments
+        .find(x => x.appointmentId === event.appointmentId && x.clientId === event.clientId);
+      let client = this.clients.find(c => c.id === event.clientId);
+      let trainer = this.trainers.find(x => x.id === appointment.trainerId);
+      let TCR = trainer.TCRS.find(tcr => tcr.clientId === client.id);
+      let TR = TCR ? event.purchasePrice * (TCR.rate * .01) : 0;
+      unfunded.sessionId = event.sessionId;
+      unfunded.pricePerSession = event.purchasePrice;
+      //possibly set this to default TCR if 0
+      unfunded.trainerPercentage = TCR ? TCR.rate : 0;
+      unfunded.trainerPay = TR;
+      unfunded.verified = false;
+      return unfunded;
+    }
+
+    createUnpaidAppointment(appointment, event) {
+      let client = this.clients.find(c => c.id === event.clientId);
+      let session = this.sessions[appointment.appointmentType]
+        .find(s => s.sessionId === event.sessionId);
+
+      let trainer = this.trainers.find(x => x.id === appointment.trainerId);
+
+      let TCR = trainer.TCRS.find(tcr => tcr.clientId === client.id);
+      let TR = 0;
+      if (session && TCR) {
+        TR = session.purchasePrice * (TCR.rate * .01);
+      }
+
+      return {
+        trainerId: trainer.id,
+        clientId: client.id,
+        clientName: `${client.firstName} ${client.lastName}`,
+        appointmentId: appointment.id,
+        appointmentDate: appointment.date,
+        appointmentStartTime: appointment.startTime,
+        appointmentType: appointment.appointmentType,
+        sessionId: session.sessionId,
+        pricePerSession: session.purchasePrice,
+        //possibly set this to default TCR if 0
+        trainerPercentage: TCR ? TCR.rate : 0,
+        trainerPay: TR,
+        verified: false
+      };
+    }
+
+    createUnfundedAppointment(appointment, event) {
+      let client = this.clients.find(c => c.id === event.clientId);
+      let trainer = this.trainers.find(x => x.id === appointment.trainerId);
+      return {
+        trainerId: trainer.id,
+        clientId: client.id,
+        clientName: `${client.firstName} ${client.lastName}`,
+        appointmentId: appointment.id,
+        appointmentDate: appointment.date,
+        appointmentStartTime: appointment.startTime,
+        appointmentType: appointment.appointmentType
+      };
     }
   };
 };

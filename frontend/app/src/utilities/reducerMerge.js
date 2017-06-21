@@ -1,10 +1,10 @@
-const singleReducer = (map = new Map(), item = {}, id = 'id') => {
+const singleReducer = (map = new Map(), item = {}, id) => {
   // map set will add or update if existing
   map.set(item[id], item);
   return map;
 };
 
-export default (currentItems = [], newItems, id) => {
+export default (currentItems = [], newItems, id = 'id') => {
   if (!newItems || newItems.length <= 0) {
     return currentItems;
   }
@@ -27,5 +27,9 @@ export default (currentItems = [], newItems, id) => {
   // iterate over new items adding them to the map or updating existing item
   newItems.reduce((prev, item) => singleReducer(prev, item, id), m);
   // return an array of the values.  so array in array out
+  console.log(`==========[...m.values()]=========`);
+  console.log([...m.values()]);
+  console.log(`==========END [...m.values()]=========`);
+
   return [...m.values()];
 };

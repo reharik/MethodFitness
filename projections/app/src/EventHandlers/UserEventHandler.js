@@ -8,9 +8,6 @@ module.exports = function(rsRepository, logger) {
     logger.info('UserEventHandler started up');
 
     async function trainerHired(event) {
-      console.log(`==========event=========`);
-      console.log(event);
-      console.log(`==========END event=========`);
       let user = {
         id: event.id,
         userName: event.contact.email,
@@ -40,13 +37,13 @@ module.exports = function(rsRepository, logger) {
     async function trainerContactUpdated(event) {
       let user = await rsRepository.getById(event.id, 'user');
       user.userName = event.contact.email;
-      return await rsRepository.save('user', user, event.id);
+      return await rsRepository.save('user', user``);
     }
 
     async function trainerPasswordUpdated(event) {
       let user = await rsRepository.getById(event.id, 'user');
       user.password = event.credentials.password;
-      return await rsRepository.save('user', user, event.id);
+      return await rsRepository.save('user', user);
     }
 
     return {

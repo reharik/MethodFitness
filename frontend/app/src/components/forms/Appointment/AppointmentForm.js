@@ -30,6 +30,9 @@ class AppointmentForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        if(!values.trainerId) {
+          values.trainerId = this.props.trainerId;
+        }
         if (values.id) {
           this.props.updateAppointment(values);
         } else {
@@ -102,11 +105,11 @@ class AppointmentForm extends Component {
               ? <EditableFor
                 editing={this.state.editing}
                 form={form}
-                data={model.trainer}
+                data={model.trainerId}
                 selectOptions={this.props.trainers}
                 formItemLayout={formItemLayout}
                 span={24} />
-              : <DisplayFor data={model.trainer} selectOptions={this.props.trainers} />}
+              : <DisplayFor data={model.trainerId} selectOptions={this.props.trainers} />}
           </Row>
           <Row type="flex">
             <EditableFor
@@ -190,6 +193,7 @@ AppointmentForm.propTypes = {
   isAdmin: PropTypes.bool,
   title: PropTypes.string,
   trainers: PropTypes.array,
+  trainerId: PropTypes.string,
   clients: PropTypes.array,
   appointmentTypes: PropTypes.array,
   times: PropTypes.array,

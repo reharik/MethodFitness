@@ -19,6 +19,14 @@ module.exports = function payTrainerRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *           $ref: "#/definitions/sessionManagement"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/paytrainer/fetchverifiedappointments/:trainerId',
       controllers.payTrainerController.fetchVerifiedAppointments);
@@ -39,13 +47,17 @@ module.exports = function payTrainerRouter(koarouter, controllers) {
      *         in: body
      *         required: true
      *         schema:
-     *           $ref: "#/definitions/verifyAppointments"
+     *           $ref: "#/definitions/payTrainer"
      *     responses:
      *       200:
      *         description: Success
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"

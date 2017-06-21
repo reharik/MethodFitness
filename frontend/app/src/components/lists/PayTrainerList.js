@@ -12,31 +12,41 @@ class PayTrainerList extends Component {
   };
 
   submitTrainerPayment = () => {
-    confirm({
-      title: 'Are you sure you would like to pay trainer: ${}?',
-      content: `$${this.state.trainerTotal} for ${this.selectedIds.length} Appointments`,
-      onOk() {
-        const payload = {
-          trainerId: this.props.params.trainerId,
-          sessionIds: this.state.selectedIds
-        };
-        this.props.submitTrainerPayment(payload);
-      },
-      onCancel() {
-      }
-    });
+    let that = this;
+    if(this.state.selectedIds.length > 0) {
+      confirm({
+        title: `Are you sure you would like to pay trainer: ${this.props.trainerName}?`,
+        content: `$${this.state.trainerTotal} for ${this.state.selectedIds.length} Appointments`,
+        okText: 'OK',
+        cancelText: 'Cancel',
+        onOk() {
+          const payload = {
+            trainerId: that.props.params.trainerId,
+            paidAppointments: that.state.selectedIds
+          };
+          that.props.submitTrainerPayment(payload);
+          that.setState({
+            selectedRowKeys: [],
+            selectedIds: [],
+            trainerTotal: 0
+          });
+        },
+        onCancel() {
+        }
+      });
+    }
   };
 
   onSelect = (record, selected, selectedRows) => {
     let trainerTotal = selectedRows
-      .filter(x => x.funded)
+      .filter(x => x.sessionId)
       .reduce((a, b) => a + b.trainerPay, 0);
     let selectedRowKeys = selectedRows
-      .filter(x => x.funded)
+      .filter(x => x.sessionId)
       .map(x => `${x.appointmentId}---${x.clientId}`);
     let selectedIds = selectedRows
-      .filter(x => x.funded)
-      .map(x => x.sessionId);
+      .filter(x => x.sessionId)
+      .map(x => ({sessionId: x.sessionId, appointmentId: x.appointmentId}));
     this.setState({trainerTotal, selectedRowKeys, selectedIds});
   };
 
@@ -85,6 +95,7 @@ class PayTrainerList extends Component {
 PayTrainerList.propTypes = {
   gridConfig: PropTypes.object,
   params: PropTypes.object,
+  trainerName: PropTypes.string,
   submitTrainerPayment: PropTypes.func
 };
 

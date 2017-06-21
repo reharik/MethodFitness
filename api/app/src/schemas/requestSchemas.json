@@ -199,7 +199,7 @@
         "endTime": {
           "type": "string"
         },
-        "trainer": {
+        "trainerId": {
           "type": "string"
         },
         "clients": {
@@ -220,7 +220,7 @@
         "date",
         "startTime",
         "endTime",
-        "trainer"
+        "trainerId"
       ]
     },
     "cancelAppointment": {
@@ -331,6 +331,41 @@
       "required": [
         "sessionIds"
       ]
+    },
+    "payTrainer": {
+      "title": "payTrainer",
+      "properties": {
+        "paidAppointments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/paidAppointments"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "paidAppointments"
+      ]
+    },
+    "paidAppointments": {
+      "title": "paidAppointments",
+      "properties": {
+        "appointmentid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "appointmentId",
+        "sessionId"
+      ]
     }
+
   }
 }

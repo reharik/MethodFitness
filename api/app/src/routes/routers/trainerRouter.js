@@ -14,6 +14,14 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *           $ref: "#/definitions/trainersResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/fetchtrainers', controllers.trainerListController.fetchTrainers);
     /**
@@ -28,6 +36,14 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *           $ref: "#/definitions/trainersResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/fetchalltrainers', controllers.trainerListController.fetchAllTrainers);
     /**
@@ -48,6 +64,14 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/trainer/hiretrainer', controllers.trainerController.hireTrainer);
     /**
@@ -72,7 +96,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
-     *
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/trainer/updatetrainerinfo', controllers.trainerController.updateTrainerInfo);
     /**
@@ -94,6 +121,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
@@ -121,6 +152,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/trainer/updatetraineraddress', controllers.trainerController.updateTrainerAddress);
     /**
@@ -142,6 +177,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
@@ -169,6 +208,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/trainer/updatetrainersclients', controllers.trainerController.updateTrainersClients);
     /**
@@ -190,6 +233,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
@@ -217,6 +264,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/trainer/gettrainer/:id', controllers.trainerController.getTrainer);
     /**
@@ -238,6 +289,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
      *         description: Failure
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"

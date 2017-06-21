@@ -7,7 +7,7 @@ module.exports = function(invariant) {
       date,
       startTime,
       endTime,
-      trainer,
+      trainerId,
       clients,
       notes,
       originalEntityName,
@@ -21,10 +21,10 @@ module.exports = function(invariant) {
       invariant(originalEntityName, `rescheduleAppointment requires that you pass in the originalEntityName`);
     }
     invariant(appointmentType, `${commandName} requires that you pass the appointmentType`);
-    invariant(trainer, `${commandName} requires that you pass trainer`);
+    invariant(trainerId, `${commandName} requires that you pass trainerId`);
     invariant(date, `${commandName} requires that you pass the appointment date`);
     invariant(startTime, `${commandName} requires that you pass the appointment start time`);
-    invariant(endTime, `${commandName} requires that you pass the trainer`);
+    invariant(endTime, `${commandName} requires that you pass the appointment end time`);
     invariant(clients && clients.length > 0, `${commandName} requires that you pass at lease 1 client`);
     invariant(
       entityName,
@@ -37,7 +37,7 @@ module.exports = function(invariant) {
       date,
       startTime,
       endTime,
-      trainer,
+      trainerId,
       clients,
       notes,
       entityName,

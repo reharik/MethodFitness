@@ -5,6 +5,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
       this._isArchived = false;
       this.type = 'Client';
       this.clientInventory = new ClientInventory();
+      this.unfundedAppointments = [];
     }
 
     static aggregateName() {
@@ -57,23 +58,31 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
         purchase(cmd) {
           cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'sessionsPurchased';
-          this.generateSessions(cmd).forEach(e => this.raiseEvent(e));
+          let sessions = this.generateSessions(cmd);
+          let fundedAppointments = [];
+          this.unfundedAppointments.forEach(x => {
+            let session = sessions.first(s => s.appointmentType === x.appointmentType && !s.used);
+            x.eventName = 'unfundedAppointmentFundedByClient';
+            x.sessionId = session.sessionId;
+            x.purchasePrice = session.purchasePrice;
+            session.used = true;
+            fundedAppointments.push(x);
+          });
+          fundedAppointments.forEach(e => this.raiseEvent(e));
+          this.unfundedAppointments = this.unfundedAppointments
+            .filter(u => !fundedAppointments.some(f => u.appointmentId === f.appointmentId));
+          sessions.forEach(e => this.raiseEvent(e));
           this.raiseEvent(cmd);
         },
+
         clientAttendsAppointment(cmd) {
           cmd.id = cmd.id || uuid.v4();
-          cmd.eventName = 'appointmentAttendedByClient';
-          this.raiseEvent(cmd);
-          let hasSession = this.clientInventory.checkInventory(cmd);
-          if (!hasSession) {
-            let event = {
-              eventName: 'noSessionsAvailableForAppointment',
-              appointmentId: cmd.appointmentId,
-              appointmentType: cmd.appointmentType,
-              clientId: this._id
-            };
-            this.raiseEvent(event);
+          if (cmd.sessionId) {
+            cmd.eventName = 'appointmentAttendedByClient';
+          } else {
+            cmd.eventName = 'appointmentAttendedByUnfundedClient';
           }
+          this.raiseEvent(cmd);
         }
       };
     }
@@ -91,16 +100,26 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
           this._isArchived = false;
         }.bind(this),
         fullHourSessionPurchased: function(event) {
-          this.clientInventory.addFullHourSession(event);
+          if (!event.used) {
+            this.clientInventory.addFullHourSession(event);
+          }
         }.bind(this),
         halfHourSessionPurchased: function(event) {
-          this.clientInventory.addHalfHourSession(event);
+          if (!event.used) {
+            this.clientInventory.addHalfHourSession(event);
+          }
         }.bind(this),
         pairSessionPurchased: function(event) {
-          this.clientInventory.addPairSession(event);
+          if (!event.used) {
+            this.clientInventory.addPairSession(event);
+          }
         }.bind(this),
         appointmentAttendedByClient: function(event) {
           this.clientInventory.adjustInventory(event);
+        }.bind(this),
+        appointmentAttendedByUnfundedClient: function(event) {
+          this.clientInventory.adjustInventory(event);
+          this.unfundedAppointments.push(event);
         }.bind(this)
       };
     }
@@ -117,7 +136,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
         eventName: `${type}SessionPurchased`,
         clientId: this._id,
         sessionId: uuid.v4(),
-        sessionType: type,
+        appointmentType: type,
         purchaseId,
         purchasePrice
       };

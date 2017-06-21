@@ -57,7 +57,12 @@ module.exports = function(rsRepository, logger) {
     async function appointmentAttendedByClient(event) {
       let appointment = await rsRepository.getById(event.appointmentId, 'appointment');
       appointment.completed = true;
-      return await rsRepository.save('appointment', appointment, event.appointmentId);
+      let sql = `update "appointment" set
+            "date" = '${appointment.entityName}',
+            "trainer" = '${appointment.trainerId}',
+            "document" = '${JSON.stringify(appointment)}'
+            where "id" = '${event.appointmentId}'`;
+      return await rsRepository.saveQuery(sql);
     }
 
     return {

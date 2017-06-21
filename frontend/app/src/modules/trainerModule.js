@@ -262,7 +262,6 @@ export function hireTrainer(data) {
     url: config.apiBase + 'trainer/hireTrainer',
     insertedItem: trainer,
     successFunction,
-    startAjaxState: true,
     params: {
       method: 'POST',
       credentials: 'include',

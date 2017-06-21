@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS "lastProcessedPosition";
 
 CREATE TABLE "lastProcessedPosition"
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   "commitPosition" bigint,
   "preparePosition" bigint,
   "handlerType" text UNIQUE
@@ -30,7 +30,7 @@ DROP TABLE IF EXISTS "states";
 
 CREATE TABLE states
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   document jsonb
 )
 WITH (
@@ -44,7 +44,7 @@ ALTER TABLE states
 DROP TABLE IF EXISTS "trainer";
 CREATE TABLE trainer
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   archived boolean DEFAULT false,
   document jsonb
 )
@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS "client";
 
 CREATE TABLE client
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   archived boolean DEFAULT false,
   document jsonb
 )
@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS "trainerLoggedIn";
 
 CREATE TABLE "trainerLoggedIn"
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   document jsonb
 )
 WITH (
@@ -91,7 +91,7 @@ DROP TABLE IF EXISTS "user";
 
 CREATE TABLE "user"
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   archived boolean DEFAULT false,
   document jsonb
 )
@@ -107,7 +107,7 @@ DROP TABLE IF EXISTS "appointment";
 
 CREATE TABLE "appointment"
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   trainer uuid NOT NULL,
   date date NOT NULL,
   document jsonb
@@ -120,22 +120,19 @@ ALTER TABLE "appointment"
   OWNER TO methodfitness;
 
 
--- Table: "session"
-DROP TABLE IF EXISTS "session";
+-- Table: "clientSessions"
+DROP TABLE IF EXISTS "clientSessions";
 
-CREATE TABLE "session"
+CREATE TABLE "clientSessions"
 (
-  id uuid NOT NULL,
-  used bool,
-  client uuid NOT NULL,
-  type varchar(50) NOT NULL,
+  id uuid PRIMARY KEY,
   document jsonb
 )
 WITH (
   OIDS=FALSE
 );
 
-ALTER TABLE "session"
+ALTER TABLE "clientSessions"
   OWNER TO methodfitness;
 
 -- Table: "purchase"
@@ -144,7 +141,7 @@ DROP TABLE IF EXISTS "purchase";
 
 CREATE TABLE "purchase"
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   client uuid NOT NULL,
   document jsonb
 )
@@ -159,7 +156,7 @@ DROP TABLE IF EXISTS "unpaidAppointments";
 
 CREATE TABLE "unpaidAppointments"
 (
-  id uuid NOT NULL,
+  id uuid PRIMARY KEY,
   meta jsonb,
   document jsonb
 )
@@ -168,4 +165,19 @@ WITH (
 );
 
 ALTER TABLE "unpaidAppointments"
+  OWNER TO methodfitness;
+
+DROP TABLE IF EXISTS "trainerPayments";
+
+CREATE TABLE "trainerPayments"
+(
+  id uuid PRIMARY KEY,
+  meta jsonb,
+  document jsonb
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "trainerPayments"
   OWNER TO methodfitness;

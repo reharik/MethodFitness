@@ -7,7 +7,6 @@ import { notifications } from './../../modules/notificationModule';
 const mapStateToProps = state => {
   const model = normalizeModel(state.schema.definitions.signIn);
   return {
-    ajaxState: state.ajaxState,
     fields: model
   };
 };

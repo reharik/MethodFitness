@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const clients = state.clients
     .filter(x => !x.archived)
-    .filter(x => isAdmin || user.clients.includes(c => c === x.id))
+    .filter(x => isAdmin || user.clients.includes(x.id))
     .map(x => ({value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}`}));
 
   const trainers = state.trainers
@@ -31,6 +31,7 @@ const mapStateToProps = (state, ownProps) => {
     ? appointmentModel(state, ownProps.args)
     : updateAppointmentModel(state, ownProps.args, ownProps.isCopy);
   model.appointmentType.label = 'Type';
+  model.trainerId.label = 'Trainer';
 
   return {
     isAdmin,
@@ -43,7 +44,8 @@ const mapStateToProps = (state, ownProps) => {
     onCopy: ownProps.onCopy,
     onEdit: ownProps.onEdit,
     buttons,
-    editing: !model.id.value || ownProps.isEdit
+    editing: !model.id.value || ownProps.isEdit,
+    trainerId: user.id
   };
 };
 

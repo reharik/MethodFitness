@@ -5,9 +5,6 @@ import SubmissionFor from './../formElements/SubmissionFor';
 
 import { Form, Button, Row, Col } from 'antd';
 
-import AjaxState from './../../containers/AjaxStateContainer';
-import { LOGIN } from '../../modules/authModule';
-
 class SignInForm extends Component {
   containerName = 'signIn';
 
@@ -31,7 +28,6 @@ class SignInForm extends Component {
     // const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
       <div className="signIn">
-        <AjaxState prefix={LOGIN.PREFIX} />
         <div className="signIn__outer">
           <div className="signIn__header" />
           <div className="signIn__content">

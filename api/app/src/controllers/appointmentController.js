@@ -76,7 +76,7 @@ module.exports = function(
       ctx.body = result.body;
       ctx.status = result.status;
     } catch (ex) {
-      ctx.body = { success: false, error: ex };
+      ctx.body = { success: false, error: ex.message };
       ctx.status = 500;
     }
   };
@@ -101,10 +101,6 @@ module.exports = function(
     const continuationId = uuid.v4();
     let notificationPromise = notificationListener(continuationId);
     const command = commands[commandFactory](payload);
-    if (command.trainer) {
-      command.trainerId = command.trainer;
-      delete command.trainer;
-    }
     await eventstore.commandPoster(command, commandName, continuationId);
 
     return await notificationPromise;

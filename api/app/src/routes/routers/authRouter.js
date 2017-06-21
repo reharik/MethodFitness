@@ -20,6 +20,14 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         description: Success
      *         schema:
      *             $ref: "#/definitions/auth"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
      */
     // router.get("/auth", controllers.authController.checkAuth);
     router.post('/auth', controllers.authController.signIn);

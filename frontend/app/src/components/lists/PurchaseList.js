@@ -6,9 +6,6 @@ import { Table } from 'antd';
 import { browserHistory } from 'react-router';
 
 const PurchaseList = ({ gridConfig, clientId }) => {
-  console.log(`==========clientId=========`);
-  console.log(clientId);
-  console.log(`==========END clientId=========`);
   return (
     <div id="purchaseList">
       <ContentHeader>

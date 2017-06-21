@@ -4,7 +4,6 @@ import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
 import SubmissionFor from './../formElements/SubmissionFor';
 import { browserHistory } from 'react-router';
-import AjaxState from './../../containers/AjaxStateContainer';
 import { Form, Card, Row, Col } from 'antd';
 
 class TrainerForm extends Component {
@@ -35,7 +34,6 @@ class TrainerForm extends Component {
 
     return (
       <div className="form">
-        <AjaxState />
         <ContentHeader>
           <div className="form__header">
             <div className="form__header__left">

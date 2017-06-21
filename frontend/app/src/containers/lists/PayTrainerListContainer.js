@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import PayTrainerList from '../../components/lists/PayTrainerList';
 import moment from 'moment';
 
-import { fetchVerifiedAppointments, submitTrainerPayment } from './../../modules/sessionPaymentModule';
+import { fetchVerifiedAppointments } from './../../modules/sessionVerificationModule';
+import { submitTrainerPayment } from './../../modules/trainerPaymentModule';
 
 class PayTrainerListContainer extends Component {
   componentWillMount() {
@@ -67,7 +68,7 @@ const columns = [
 
 function mapStateToProps(state, props) {
   moment.locale('en');
-  let dataSource = state.sessionPayment
+  let dataSource = state.sessionVerification
     .filter(x => x.verified)
     .map(x => ({
       ...x,
@@ -75,12 +76,16 @@ function mapStateToProps(state, props) {
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
     }));
 
+  let trainer = state.trainers.find(x => x.id === props.params.trainerId);
+  let trainerName = `${trainer.contact.firstName} ${trainer.contact.lastName}`;
+
   const gridConfig = {
     columns,
     dataSource
   };
   return {
     gridConfig,
+    trainerName,
     trainerId: props.params.trainerId
   };
 }

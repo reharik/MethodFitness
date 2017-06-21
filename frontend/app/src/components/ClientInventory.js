@@ -11,19 +11,19 @@ const ClientInventory = ({ inventory }) => {
     fullHour: {
       name: 'fullHour',
       type: 'number',
-      value: inventory.fullHours || 0,
+      value: inventory.fullHour || 0,
       label: 'Full Hour'
     },
     halfHour: {
       name: 'halfHour',
       type: 'number',
-      value: inventory.halfHours || 0,
+      value: inventory.halfHour || 0,
       label: 'Half Hour'
     },
     pair: {
       name: 'pair',
       type: 'number',
-      value: inventory.pairs || 0,
+      value: inventory.pair || 0,
       label: 'Pair'
     }
   };

@@ -66,7 +66,6 @@ export function loginUser(data) {
     type: LOGIN.REQUEST,
     states: LOGIN,
     url: configValues.apiBase + 'auth',
-    startAjaxState: true,
     failureFunction,
     containerName: 'signIn',
     params: {

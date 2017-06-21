@@ -13,6 +13,13 @@ module.exports = function(bcryptjs, rsRepository) {
     return bcryptjs.compareSync(candidatePassword, realPassword);
   };
 
+  let getClientsForTrainer = async user => {
+    let trainer = await rsRepository.query(
+      `select * from "trainer" where id = '${user.id}'`
+    );
+    return trainer[0] ? Object.assign({}, user, {clients: trainer[0].clients}) : user;
+  };
+
   let matchUser = async function(username, password) {
     let users = await rsRepository.query(
       `select * from "user" where not "archived" AND "document" ->> 'userName' = '${username.toLowerCase()}'`
@@ -23,6 +30,10 @@ module.exports = function(bcryptjs, rsRepository) {
       return null;
     }
     if (comparePassword(password, user.password)) {
+      if (user.role !== 'admin') {
+        user = await getClientsForTrainer(user);
+      }
+
       return { user };
     }
 

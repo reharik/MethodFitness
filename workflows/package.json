@@ -7,6 +7,7 @@
   "main": "app/index.js",
   "scripts": {
     "start": "nodemon app/index.js",
+    "local": "NODE_CONFIG_DIR=./app/config nodemon -w app/src -w node_modules",
     "test": "mocha --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
     "intTest": "mocha  ./app/tests/integrationTests/*.js",
     "lint": "eslint -c ./../.eslintrc.json .",

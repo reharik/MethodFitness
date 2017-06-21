@@ -265,7 +265,7 @@ export function fetchClientAction(id) {
     }
   };
 }
-// put paging sorting etc params here
+
 export function fetchAllClientsAction() {
   let apiUrl = config.apiBase + 'fetchAllClients';
   return {

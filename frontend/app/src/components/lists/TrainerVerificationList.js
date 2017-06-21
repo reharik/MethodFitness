@@ -12,29 +12,39 @@ class TrainerVerificationList extends Component {
   };
 
   submitVerification = () => {
-    confirm({
-      title: 'Are you sure you would like to Verify?',
-      content: `${this.selectedIds.length} Appointments for $${this.state.trainerTotal}`,
-      onOk() {
-        const payload = {
-          sessionIds: this.state.selectedIds
-        };
-        this.props.verifyAppointments(payload);
-      },
-      onCancel() {
-      }
-    });
+    let that = this;
+    if(this.state.selectedIds.length > 0) {
+      confirm({
+        title: 'Are you sure you would like to Verify?',
+        content: `${this.state.selectedIds.length} Appointments for $${this.state.trainerTotal}`,
+        okText: 'OK',
+        cancelText: 'Cancel',
+        onOk() {
+          const payload = {
+            sessionIds: that.state.selectedIds
+          };
+          that.props.verifyAppointments(payload);
+          that.setState({
+            selectedRowKeys: [],
+            selectedIds: [],
+            trainerTotal: 0
+          });
+        },
+        onCancel() {
+        }
+      });
+    }
   };
 
   onSelect = (record, selected, selectedRows) => {
     let trainerTotal = selectedRows
-      .filter(x => x.funded)
+      .filter(x => x.sessionId)
       .reduce((a, b) => a + b.trainerPay, 0);
     let selectedRowKeys = selectedRows
-      .filter(x => x.funded)
+      .filter(x => x.sessionId)
       .map(x => `${x.appointmentId}---${x.clientId}`);
     let selectedIds = selectedRows
-      .filter(x => x.funded)
+      .filter(x => x.sessionId)
       .map(x => x.sessionId);
     this.setState({trainerTotal, selectedRowKeys, selectedIds});
   };

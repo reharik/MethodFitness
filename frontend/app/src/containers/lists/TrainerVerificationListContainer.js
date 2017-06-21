@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TrainerVerificationList from '../../components/lists/TrainerVerificationList';
 import moment from 'moment';
 
-import { fetchUnverifiedAppointments, verifyAppointments } from '../../modules/sessionPaymentModule';
+import { fetchUnverifiedAppointments, verifyAppointments } from '../../modules/sessionVerificationModule';
 
 class TrainerVerificationListContainer extends Component {
   componentWillMount() {
@@ -66,7 +66,7 @@ const columns = [
 
 function mapStateToProps(state, props) {
   moment.locale('en');
-  let dataSource = state.sessionPayment
+  let dataSource = state.sessionVerification
     .filter(x => !x.verified)
     .map(x => ({
       ...x,

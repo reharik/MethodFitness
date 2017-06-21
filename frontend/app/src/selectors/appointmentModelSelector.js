@@ -9,7 +9,7 @@ export function appointmentModel(state, args) {
   model.appointmentType.value = 'halfHour';
   model.startTime.value = args.startTime;
   model.endTime.value = syncApptTypeAndTime(model.appointmentType.value, model.startTime.value);
-  model.trainer.value = state.auth.user.id;
+  model.trainerId.value = state.auth.user.id;
   return model;
 }
 
