@@ -5,7 +5,7 @@ import { requestStates } from '../sagas/requestSaga';
 
 export const FETCH_TRAINER_PAYMENT_DETAILS = requestStates('fetch_trainer_payment_details', 'trainerPaymentDetails');
 
-export default (state = {}, action = {}) => {
+export default (state = [], action = {}) => {
   switch (action.type) {
     case FETCH_TRAINER_PAYMENT_DETAILS.SUCCESS: {
       return reducerMerge(state, action.response, 'paymentId');
@@ -15,11 +15,11 @@ export default (state = {}, action = {}) => {
   }
 };
 
-export function fetchTrainerPayments() {
+export function fetchTrainerPaymentDetails(paymentId) {
   return {
     type: FETCH_TRAINER_PAYMENT_DETAILS.REQUEST,
     states: FETCH_TRAINER_PAYMENT_DETAILS,
-    url: `${config.apiBase}trainerPaymentDetails`,
+    url: `${config.apiBase}trainerPaymentDetails/${paymentId}`,
     params: {
       method: 'GET',
       credentials: 'include'

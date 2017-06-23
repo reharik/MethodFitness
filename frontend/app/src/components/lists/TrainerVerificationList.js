@@ -63,16 +63,14 @@ class TrainerVerificationList extends Component {
         <ContentHeader>
           <div className="list__header">
             <div className="list__header__left">
-              {/*put trainer pay total in here*/}
+              <button onClick={this.submitVerification} >Submit Verification </button>
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">
                 {`Trainer Verification.  Trainer Total: ${this.state.trainerTotal}`}
               </div>
             </div>
-            <div className="list__header__right">
-              <button onClick={this.submitVerification} >Submit Verification </button>
-            </div>
+            <div className="list__header__right" />
           </div>
         </ContentHeader>
         <div className="form-scroll-inner">

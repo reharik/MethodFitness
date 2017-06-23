@@ -8,6 +8,7 @@ import purchaseDetails from './purchaseDetailsModule';
 import toggleTrainerListForCalendar from './toggleTrainerListForCalendarModule';
 import sessionVerification from './sessionVerificationModule';
 import trainerPayment from './trainerPaymentModule';
+import trainerPaymentDetail from './trainerPaymentDetailModule';
 
 export { loginUser, logoutUser } from './authModule';
 export { menuItemClicked, navBreadCrumbClicked } from './menuModule';
@@ -28,5 +29,6 @@ export default {
   purchase,
   trainerPayment,
   sessionVerification,
-  purchaseDetails
+  purchaseDetails,
+  trainerPaymentDetail
 };

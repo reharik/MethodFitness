@@ -15,7 +15,7 @@ import PurchaseDetailsListContainer from './containers/lists/PurchaseDetailsList
 import TrainerVerificationListContainer from './containers/lists/TrainerVerificationListContainer';
 import PayTrainerListContainer from './containers/lists/PayTrainerListContainer';
 import TrainerPaymentListContainer from './containers/lists/TrainerPaymentListContainer';
-import TrainerPaidItemListContainer from './containers/lists/TrainerPaidItemListContainer';
+import TrainerPaymentDetailsContainer from './containers/lists/TrainerPaymentDetailsListContainer';
 
 const routes = (
   <Route path="/" component={AppContainer}>
@@ -33,7 +33,7 @@ const routes = (
     <Route path="/verification" component={TrainerVerificationListContainer} />
     <Route path="/payTrainer(/:trainerId)" component={PayTrainerListContainer} />
     <Route path="/trainerPayments" component={TrainerPaymentListContainer} />
-    <Route path="/trainerPayment(/:id)" component={TrainerPaidItemListContainer} />
+    <Route path="/trainerPayment(/:paymentId)" component={TrainerPaymentDetailsContainer} />
   </Route>
 );
 

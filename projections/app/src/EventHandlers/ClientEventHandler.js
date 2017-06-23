@@ -83,6 +83,10 @@ where id = '${event.id}'`;
       return await rsRepository.save('client', client);
     }
 
+    async function appointmentAttendedByUnfundedClient(event) {
+      return appointmentAttendedByClient(event);
+    }
+
     async function appointmentAttendedByClient(event) {
       logger.info('handling appointmentAttendedByClient event');
       let client = await rsRepository.getById(event.clientId, 'client');
@@ -100,7 +104,8 @@ where id = '${event.id}'`;
       clientInfoUpdated,
       clientSourceUpdated,
       sessionsPurchased,
-      appointmentAttendedByClient
+      appointmentAttendedByClient,
+      appointmentAttendedByUnfundedClient
     };
   };
 };

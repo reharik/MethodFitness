@@ -62,7 +62,7 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
           let sessions = this.generateSessions(cmd);
           let fundedAppointments = [];
           this.unfundedAppointments.forEach(x => {
-            let session = sessions.first(s => s.appointmentType === x.appointmentType && !s.used);
+            let session = sessions.find(s => s.appointmentType === x.appointmentType && !s.used);
             x.eventName = 'unfundedAppointmentFundedByClient';
             x.sessionId = session.sessionId;
             x.purchasePrice = session.purchasePrice;

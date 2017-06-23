@@ -13,7 +13,7 @@ module.exports = function(pg, config, promiseretry) {
           return rej(connError);
         }
         // execute a query on our database
-        client.query(`select relname as table from pg_stat_user_tables where schemaname = 'public'`,
+        client.query(`select relname from pg_class where relname='trainer' and relkind='r';`,
           (queryErr, result) => {
             if (queryErr) {
               console.log('==========queryErr=========');

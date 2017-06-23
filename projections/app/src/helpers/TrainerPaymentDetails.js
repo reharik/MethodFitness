@@ -63,14 +63,18 @@ module.exports = function(invariant) {
     }
 
     addSession(item) {
-      if (!item.used) {
-        this.sessions[item.appointmentType].push(item);
-      }
+      this.sessions[item.appointmentType].push(item);
     }
 
     cleanUp() {
       this.paidAppointments.forEach(x => {
         let appointment = this.appointments.find(a => a.id === x.appointmentId);
+        console.log(`==========x=========`);
+        console.log(x);
+        console.log(`==========END x=========`);
+        console.log(`==========appointmnet=========`);
+        console.log(appointment);
+        console.log(`==========END appointmnet=========`);
         // remove appointment
         if (appointment.appointmentType !== 'pair' || appointment.clients.length === 1) {
           this.appointments = this.appointments.filter(a => a.id !== appointment.id);
@@ -79,7 +83,6 @@ module.exports = function(invariant) {
         if (appointment.appointmentType === 'pair') {
           appointment.clients = appointment.clients.filter(c => c.id !== x.clientId);
         }
-
         this.sessions[x.appointmentType] = this.sessions[x.appointmentType]
           .filter(s => s.id !== x.sessionId);
       });

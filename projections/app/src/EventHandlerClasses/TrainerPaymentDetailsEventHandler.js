@@ -22,17 +22,18 @@ module.exports = function(rsRepository, moment, TrainerPaymentDetails, logger) {
     async saveView(paymentId, trainerId) {
       let trainerPaymentDetails = {};
       if (trainerId) {
-        trainerPaymentDetails = rsRepository.getById(trainerId, 'trainerPaymentDetails');
-        if (!trainerPaymentDetails.trainerId) {
-          trainerPaymentDetails = { id: trainerId, payments: [] };
+        trainerPaymentDetails = await rsRepository.getById(trainerId, 'trainerPaymentDetails');
+        if (!trainerPaymentDetails.id) {
+          trainerPaymentDetails = { id: trainerId, paidAppointments: [] };
         }
-        trainerPaymentDetails.payments.push({
+        trainerPaymentDetails.paidAppointments.push({
           paymentId,
           paymentDate: moment().toISOString(),
           paidAppointments: this.tpd.paidAppointments,
           paymentTotal: this.tpd.paidAppointments.reduce((a, b) => a + b.trainerPay, 0)
         });
       }
+      this.tpd.paidAppointments = [];
       return await rsRepository.saveAggregateView(
         'trainerPaymentDetails',
         this.tpd,

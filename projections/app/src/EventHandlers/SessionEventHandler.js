@@ -27,6 +27,10 @@ module.exports = function(rsRepository, moment, logger) {
       return await rsRepository.save('clientSessions', clientSessions);
     }
 
+    async function appointmentAttendedByUnfundedClient(event) {
+      return appointmentAttendedByClient(event);
+    }
+
     async function appointmentAttendedByClient(event) {
       logger.info('handling appointmentAttendedByClient event');
       let clientSessions = await rsRepository.getById(event.clientId, 'clientSessions');
@@ -40,7 +44,8 @@ module.exports = function(rsRepository, moment, logger) {
     return {
       handlerName: 'SessionEventHandler',
       sessionsPurchased,
-      appointmentAttendedByClient
+      appointmentAttendedByClient,
+      appointmentAttendedByUnfundedClient
     };
   };
 };

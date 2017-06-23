@@ -28,20 +28,28 @@ TrainerPaymentListContainer.propTypes = {
 const columns = [
   {
     render: (value, row) => { // eslint-disable-line no-unused-vars
-      return cellLink('trainerPayment')(value, row);
+      return cellLink('trainerPayment', 'paymentId')(value, row);
     },
     dataIndex: 'date',
     title: 'Payment Date',
     width: '20%'
+  },
+  {
+    dataIndex: 'paymentTotal',
+    title: 'Payment Total',
+    width: '10%'
   }
 ];
 
 function mapStateToProps(state) {
   moment.locale('en');
-  let dataSource = state.trainerPayment
+  let trainerPayment = state.trainerPayment.find(x => x.id === state.auth.user.id);
+  let dataSource = trainerPayment ? trainerPayment.payments
     .map(x => ({
+      paymentId: x.paymentId,
+      paymentTotal: x.paymentTotal,
       date: moment(x.date).format('MM/DD/YYYY')
-    }));
+    })) : [];
 
   const gridConfig = {
     columns,

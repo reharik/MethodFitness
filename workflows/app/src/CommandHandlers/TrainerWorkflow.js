@@ -119,6 +119,12 @@ module.exports = function(eventRepository, logger, Trainer) {
       trainer.verifyAppointments(cmd);
       logger.info('saving trainer');
       logger.trace(trainer);
+      console.log(`==========trainer._id=========`);
+      console.log(trainer._id);
+      console.log(`==========END trainer._id=========`);
+      console.log(`==========JSON.stringify(trainer)=========`);
+      console.log(JSON.stringify(trainer));
+      console.log(`==========END JSON.stringify(trainer)=========`);
 
       await eventRepository.save(trainer, { continuationId });
       return { trainerId: trainer._id };
@@ -131,7 +137,6 @@ module.exports = function(eventRepository, logger, Trainer) {
       trainer.payTrainer(cmd);
       logger.info('saving trainer');
       logger.trace(trainer);
-
       await eventRepository.save(trainer, { continuationId });
       return { trainerId: trainer._id };
     }

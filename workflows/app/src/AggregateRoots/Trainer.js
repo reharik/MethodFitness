@@ -49,6 +49,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
         payTrainer(cmd) {
           this.expectNotArchived();
           cmd.eventName = 'trainerPaid';
+          cmd.paymentId = uuid.v4();
           this.raiseEvent(cmd);
         },
 

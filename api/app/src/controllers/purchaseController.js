@@ -22,7 +22,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     await processMessage(ctx, 'cancelPurchase', ctx.request.body);
   };
 
-  var processMessage = async function(ctx, commandName, payload) {
+  let processMessage = async function(ctx, commandName, payload) {
     logger.debug(`api: processing ${commandName}`);
     const continuationId = uuid.v4();
     let notificationPromise = notificationListener(continuationId);

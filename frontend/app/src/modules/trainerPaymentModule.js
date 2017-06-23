@@ -6,7 +6,7 @@ import { requestStates } from '../sagas/requestSaga';
 export const SUBMIT_TRAINER_PAYMENT = requestStates('submit_trainer_payment', 'trainerPayment');
 export const FETCH_TRAINER_PAYMENTS = requestStates('fetch_trainer_payments', 'trainerPayment');
 
-export default (state = {}, action = {}) => {
+export default (state = [], action = {}) => {
   switch (action.type) {
     case FETCH_TRAINER_PAYMENTS.SUCCESS: {
       return reducerMerge(state, action.response, 'paymentId');

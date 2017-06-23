@@ -33,6 +33,9 @@ module.exports = function(rsRepository,
       payload.commandName = 'verifyAppointments';
       payload.verifiedDate = moment().format('MM/DD/YYYY');
       payload.trainerId = ctx.state.user.id;
+      console.log(`==========ctx.state.user.id=========`);
+      console.log(ctx.state.user.id);
+      console.log(`==========END ctx.state.user.id=========`);
       const continuationId = uuid.v4();
       let notificationPromise = notificationListener(continuationId);
       const command = commands.verifyAppointmentsCommand(payload);

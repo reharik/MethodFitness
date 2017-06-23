@@ -59,6 +59,7 @@ const InputFor = ({ data, selectOptions, onChange }) => {
           <InputNumber
             {..._onChange}
             placeholder={data.placeholder}
+            min={0}
             name={data.name}
           />
         );
