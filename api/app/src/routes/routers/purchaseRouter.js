@@ -170,7 +170,8 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/purchaselist/fetchpurchasedetails/:purchaseId', controllers.purchaseListController.fetchPurchaseDetails);
+    router.get('/purchaselist/fetchpurchasedetails/:purchaseId',
+      controllers.purchaseListController.fetchPurchaseDetails);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

@@ -16,14 +16,14 @@ class PurchaseDetailsListContainer extends Component {
   }
 
   render() {
-    return (<PurchaseDetailsList gridConfig={this.props.gridConfig} clientId={this.props.clientId} />);
+    return (<PurchaseDetailsList gridConfig={this.props.gridConfig} />);
   }
 }
 
 PurchaseDetailsListContainer.propTypes = {
   gridConfig: PropTypes.object,
   getPurchaseDetails: PropTypes.func,
-  clientId: PropTypes.string
+  purchaseId: PropTypes.string
 };
 
 const columns = [

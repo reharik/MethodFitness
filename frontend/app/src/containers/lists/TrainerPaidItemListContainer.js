@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import TrainerPaidItemList from '../../components/lists/TrainerPaidItemList';
 import moment from 'moment';

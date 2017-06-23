@@ -1,7 +1,7 @@
 import reducerMerge from './../utilities/reducerMerge';
 import config from './../utilities/configValues';
 import { requestStates } from '../sagas/requestSaga';
-import selectn from 'selectn';
+// import selectn from 'selectn';
 
 export const SUBMIT_TRAINER_PAYMENT = requestStates('submit_trainer_payment', 'trainerPayment');
 export const FETCH_TRAINER_PAYMENTS = requestStates('fetch_trainer_payments', 'trainerPayment');

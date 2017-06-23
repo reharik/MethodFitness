@@ -6,7 +6,7 @@ module.exports = function(rsRepository, logger) {
       const clientPurchases = await rsRepository.getById(ctx.params.clientId, 'purchases');
 
       ctx.body = clientPurchases.purchases ? clientPurchases.purchases : [];
-      
+
       ctx.status = 200;
       return ctx;
     } catch (ex) {

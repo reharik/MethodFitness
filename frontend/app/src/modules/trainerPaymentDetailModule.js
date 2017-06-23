@@ -1,7 +1,7 @@
 import reducerMerge from './../utilities/reducerMerge';
 import config from './../utilities/configValues';
 import { requestStates } from '../sagas/requestSaga';
-import selectn from 'selectn';
+// import selectn from 'selectn';
 
 export const FETCH_TRAINER_PAYMENT_DETAILS = requestStates('fetch_trainer_payment_details', 'trainerPaymentDetails');
 

@@ -3,7 +3,7 @@ module.exports = function(rsRepository, logger) {
     logger.debug('arrived at trainerPaymentsList.fetchTrainerPayments');
     try {
       const result = await rsRepository.getById(ctx.state.user.id, 'trainerPayments');
-      const body = result.payments
+      const body = result.payments;
       ctx.body = body.payments ? body.payments : [];
       ctx.status = 200;
       return ctx;
@@ -15,7 +15,7 @@ module.exports = function(rsRepository, logger) {
   let fetchTrainerPaymentDetails = async function(ctx) {
     logger.debug('arrived at trainerPaymentsList.fetchTrainerPaymentDetails');
     try {
-      var body = await rsRepository.getById(ctx.state.user.id, 'trainerPayments');
+      let body = await rsRepository.getById(ctx.state.user.id, 'trainerPayments');
       ctx.body = body.payments ? body.payments : [];
       ctx.status = 200;
       return ctx;
@@ -24,6 +24,7 @@ module.exports = function(rsRepository, logger) {
     }
   };
   return {
-    fetchTrainerPayments
+    fetchTrainerPayments,
+    fetchTrainerPaymentDetails
   };
 };

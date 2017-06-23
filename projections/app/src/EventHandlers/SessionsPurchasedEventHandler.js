@@ -5,7 +5,7 @@ module.exports = function(rsRepository, moment, logger) {
     async function sessionsPurchased(event) {
       logger.info('handling sessionsPurchased event');
       let clientPurchases = await rsRepository.getById(event.clientId, 'purchases');
-      clientPurchases = clientPurchases.purchases ? clientPurchases : {id: event.clientId, purchases:[]};
+      clientPurchases = clientPurchases.purchases ? clientPurchases : {id: event.clientId, purchases: []};
       clientPurchases.purchases.push({
         purchaseTotal: event.purchaseTotal,
         purchaseDate: event.purchaseDate,

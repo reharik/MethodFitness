@@ -30,7 +30,7 @@ module.exports = function(rsRepository, moment, TrainerPaymentDetails, logger) {
           paymentId,
           paymentDate: moment().toISOString(),
           paidAppointments: this.tpd.paidAppointments,
-          paymentTotal: this.tpd.paidAppointments.reduce((a,b) => a + b.trainerPay, 0)
+          paymentTotal: this.tpd.paidAppointments.reduce((a, b) => a + b.trainerPay, 0)
         });
       }
       return await rsRepository.saveAggregateView(
