@@ -137,20 +137,38 @@ ALTER TABLE "clientSessions"
 
 -- Table: "purchase"
 
-DROP TABLE IF EXISTS "purchase";
+DROP TABLE IF EXISTS "purchaseDetails";
 
-CREATE TABLE "purchase"
+CREATE TABLE "purchaseDetails"
 (
   id uuid PRIMARY KEY,
-  client uuid NOT NULL,
   document jsonb
 )
 WITH (
   OIDS=FALSE
 );
 
-ALTER TABLE "purchase"
+ALTER TABLE "purchaseDetails"
   OWNER TO methodfitness;
+
+
+-- Table: "purchases"
+
+DROP TABLE IF EXISTS "purchases";
+
+CREATE TABLE "purchases"
+(
+  id uuid PRIMARY KEY,
+  document jsonb
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "purchases"
+  OWNER TO methodfitness;
+
+-- Table: "unpaidAppointments"
 
 DROP TABLE IF EXISTS "unpaidAppointments";
 
@@ -167,6 +185,8 @@ WITH (
 ALTER TABLE "unpaidAppointments"
   OWNER TO methodfitness;
 
+-- Table: "trainerPayments"
+
 DROP TABLE IF EXISTS "trainerPayments";
 
 CREATE TABLE "trainerPayments"
@@ -180,4 +200,21 @@ WITH (
 );
 
 ALTER TABLE "trainerPayments"
+  OWNER TO methodfitness;
+
+-- Table: "trainerPaymentDetails"
+
+DROP TABLE IF EXISTS "trainerPaymentDetails";
+
+CREATE TABLE "trainerPaymentDetails"
+(
+  id uuid PRIMARY KEY,
+  meta jsonb,
+  document jsonb
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "trainerPaymentDetails"
   OWNER TO methodfitness;

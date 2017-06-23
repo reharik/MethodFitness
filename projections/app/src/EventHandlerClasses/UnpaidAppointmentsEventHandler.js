@@ -101,18 +101,8 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
       return await this.saveView();
     }
 
-    async fullHourSessionPurchased(event) {
-      this.upa.addSession(event);
-      return await this.saveView(this.upa.currentTrainer);
-    }
-
-    async halfHourSessionPurchased(event) {
-      this.upa.addSession(event);
-      return await this.saveView(this.upa.currentTrainer);
-    }
-
-    async pairSessionPurchased(event) {
-      this.upa.addSession(event);
+    async sessionsPurchased(event) {
+      event.sessions.forEach(e => this.upa.addSession(e));
       return await this.saveView(this.upa.currentTrainer);
     }
 
@@ -137,7 +127,7 @@ module.exports = function(rsRepository, moment, UnpaidAppointments, logger) {
     }
 
     async trainerPaid(event) {
-      this.upa.trainerPaid(event.sessionIds);
+      this.upa.trainerPaid(event.paidAppointments);
       return await this.saveView(event.trainerId);
     }
   };

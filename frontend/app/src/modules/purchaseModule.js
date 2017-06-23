@@ -5,12 +5,12 @@ import { requestStates } from '../sagas/requestSaga';
 import { fetchClientAction } from './clientModule';
 
 export const PURCHASE_SESSIONS = requestStates('purchase_sessions', 'purchase_sessions');
-export const GET_PURCHASE_SESSIONS = requestStates('get_purchase_sessions', 'purchase_sessions');
+export const GET_PURCHASES = requestStates('get_purchases', 'purchase_sessions');
 
 export default (state = [], action = {}) => {
   switch (action.type) {
-    case GET_PURCHASE_SESSIONS.SUCCESS: {
-      return reducerMerge(state, action.response.purchases);
+    case GET_PURCHASES.SUCCESS: {
+      return reducerMerge(state, action.response);
     }
     default:
       return state;
@@ -41,8 +41,8 @@ export function purchase(data) {
 
 export function getPurchases(id) {
   return {
-    type: GET_PURCHASE_SESSIONS.REQUEST,
-    states: GET_PURCHASE_SESSIONS,
+    type: GET_PURCHASES.REQUEST,
+    states: GET_PURCHASES,
     url: `${config.apiBase}purchaselist/fetchpurchases/${id}`,
     params: {
       method: 'GET',

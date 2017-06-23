@@ -6,12 +6,8 @@ import selectn from 'selectn';
 export const SUBMIT_TRAINER_PAYMENT = requestStates('submit_trainer_payment', 'trainerPayment');
 export const FETCH_TRAINER_PAYMENTS = requestStates('fetch_trainer_payments', 'trainerPayment');
 
-export default (state = [], action = {}) => {
+export default (state = {}, action = {}) => {
   switch (action.type) {
-    case SUBMIT_TRAINER_PAYMENT.SUCCESS: {
-      let ids = JSON.parse(selectn('action.params.body', action)).sessionIds;
-      return state.filter(x => !ids.includes(x.sessionId));
-    }
     case FETCH_TRAINER_PAYMENTS.SUCCESS: {
       return reducerMerge(state, action.response, 'paymentId');
     }
@@ -20,11 +16,11 @@ export default (state = [], action = {}) => {
   }
 };
 
-export function fetchTrainerPayments(trainerId) {
+export function fetchTrainerPayments() {
   return {
     type: FETCH_TRAINER_PAYMENTS.REQUEST,
     states: FETCH_TRAINER_PAYMENTS,
-    url: `${config.apiBase}trainerPayment/${trainerId}`,
+    url: `${config.apiBase}trainerPayments`,
     params: {
       method: 'GET',
       credentials: 'include'

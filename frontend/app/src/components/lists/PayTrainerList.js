@@ -22,6 +22,7 @@ class PayTrainerList extends Component {
         onOk() {
           const payload = {
             trainerId: that.props.params.trainerId,
+            paymentTotal: that.state.trainerTotal,
             paidAppointments: that.state.selectedIds
           };
           that.props.submitTrainerPayment(payload);

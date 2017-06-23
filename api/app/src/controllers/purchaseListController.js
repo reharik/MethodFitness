@@ -3,10 +3,24 @@ module.exports = function(rsRepository, logger) {
     logger.debug('arrived at sessionsPurchaseList.fetchPurchases');
 
     try {
-      let sql = `SELECT * from "purchase" where "client" = '${ctx.params.id}';`;
-      const query = await rsRepository.query(sql);
+      const clientPurchases = await rsRepository.getById(ctx.params.clientId, 'purchases');
 
-      ctx.body = {purchases: query};
+      ctx.body = clientPurchases.purchases ? clientPurchases.purchases : [];
+      
+      ctx.status = 200;
+      return ctx;
+    } catch (ex) {
+      throw ex;
+    }
+  };
+
+  let fetchPurchaseDetails = async function(ctx) {
+    logger.debug('arrived at sessionsPurchaseList.fetchPurchaseDetails');
+
+    try {
+      const purchaseDetails = await rsRepository.getById(ctx.params.purchaseId, 'purchaseDetails');
+
+      ctx.body = purchaseDetails ? purchaseDetails.sessions : [];
       ctx.status = 200;
       return ctx;
     } catch (ex) {
@@ -15,6 +29,7 @@ module.exports = function(rsRepository, logger) {
   };
 
   return {
-    fetchPurchases
+    fetchPurchases,
+    fetchPurchaseDetails
   };
 };

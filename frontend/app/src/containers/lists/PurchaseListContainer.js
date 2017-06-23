@@ -30,7 +30,7 @@ PurchaseListContainer.propTypes = {
 const columns = [
   {
     render: (value, row) => {
-      return cellLink('purchase')(`${moment(row.createDate).format('dddd, MMMM Do YYYY')}`, row );
+      return cellLink('purchaseDetails', 'purchaseId')(`${moment(row.createDate).format('dddd, MMMM Do YYYY')}`, row );
     },
     dataIndex: 'createDate',
     title: 'Created Date'

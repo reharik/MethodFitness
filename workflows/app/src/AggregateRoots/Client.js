@@ -1,4 +1,4 @@
-module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
+module.exports = function(AggregateRootBase, ClientInventory, moment, invariant, uuid) {
   return class Client extends AggregateRootBase {
     constructor() {
       super();
@@ -58,6 +58,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
         purchase(cmd) {
           cmd.id = cmd.id || uuid.v4();
           cmd.eventName = 'sessionsPurchased';
+          cmd.purchaseDate = moment().toISOString();
           let sessions = this.generateSessions(cmd);
           let fundedAppointments = [];
           this.unfundedAppointments.forEach(x => {
@@ -71,7 +72,7 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
           fundedAppointments.forEach(e => this.raiseEvent(e));
           this.unfundedAppointments = this.unfundedAppointments
             .filter(u => !fundedAppointments.some(f => u.appointmentId === f.appointmentId));
-          sessions.forEach(e => this.raiseEvent(e));
+          cmd.sessions = sessions;
           this.raiseEvent(cmd);
         },
 
@@ -133,7 +134,6 @@ module.exports = function(AggregateRootBase, ClientInventory, invariant, uuid) {
 
     createNewSessionEvent(type, purchasePrice, purchaseId) {
       return {
-        eventName: `${type}SessionPurchased`,
         clientId: this._id,
         sessionId: uuid.v4(),
         appointmentType: type,

@@ -117,13 +117,13 @@ module.exports = function purchasesRouter(koarouter, controllers) {
     router.get('/purchase/fetchpurchase/:id', controllers.purchaseController.fetchPurchase);
     /**
      * @swagger
-     * /purchaselist/fetchpurchases/{id}:
+     * /purchaselist/fetchpurchases/{clientId}:
      *   get:
      *     x-name: /purchaseList/fetchPurchases
      *     description: retrieve clients purchases
      *     operationId: fetchClientsPurchases
      *     parameters:
-     *       - name: id
+     *       - name: clientId
      *         in: path
      *         required: true
      *         description: The id of the client whose purchase we are getting
@@ -142,7 +142,35 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/purchaselist/fetchpurchases/:id', controllers.purchaseListController.fetchPurchases);
+    router.get('/purchaselist/fetchpurchases/:clientId', controllers.purchaseListController.fetchPurchases);
+    /**
+     * @swagger
+     * /purchaselist/fetchpurchasedetails/{purchaseId}:
+     *   get:
+     *     x-name: /purchaseList/fetchpurchasedetails
+     *     description: retrieve clients purchase details
+     *     operationId: fetchpurchasedetails
+     *     parameters:
+     *       - name: purchaseId
+     *         in: path
+     *         required: true
+     *         description: The id of the purchase we are getting
+     *         type: string
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *           $ref: "#/definitions/purchaseDetailsResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.get('/purchaselist/fetchpurchasedetails/:purchaseId', controllers.purchaseListController.fetchPurchaseDetails);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

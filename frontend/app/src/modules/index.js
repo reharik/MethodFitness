@@ -4,6 +4,7 @@ import menu from './menuModule';
 import trainers from './trainerModule';
 import clients from './clientModule';
 import purchase from './purchaseModule';
+import purchaseDetails from './purchaseDetailsModule';
 import toggleTrainerListForCalendar from './toggleTrainerListForCalendarModule';
 import sessionVerification from './sessionVerificationModule';
 import trainerPayment from './trainerPaymentModule';
@@ -26,5 +27,6 @@ export default {
   toggleTrainerListForCalendar,
   purchase,
   trainerPayment,
-  sessionVerification
+  sessionVerification,
+  purchaseDetails
 };

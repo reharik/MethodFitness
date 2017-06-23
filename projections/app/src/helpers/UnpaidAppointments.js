@@ -76,17 +76,17 @@ module.exports = function(invariant) {
 
     trainerPaid(sessions) {
       this.paidAppointments = this.unpaidAppointments
-        .filter(x => sessions.some(y => x.sessionId === y));
+        .filter(x => sessions.some(y => x.sessionId === y.sessionId));
 
       this.unpaidAppointments = this.unpaidAppointments
-        .filter(x => !sessions.some(y => x.sessionId === y));
+        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
 
       this.sessions.fullHour = this.sessions.fullHour
-        .filter(x => !sessions.some(y => x.sessionId === y));
+        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
       this.sessions.halfHour = this.sessions.halfHour
-        .filter(x => !sessions.some(y => x.sessionId === y));
+        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
       this.sessions.pair = this.sessions.pair
-        .filter(x => !sessions.some(y => x.sessionId === y));
+        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
 
       this.paidAppointments.filter(x =>
           !this.unpaidAppointments.some(y => x.appointmentId === y.appointmentId )

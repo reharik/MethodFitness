@@ -12,7 +12,7 @@ class TrainerPaymentListContainer extends Component {
   }
 
   loadData() {
-    this.props.fetchTrainerPayments(this.props.trainerId);
+    this.props.fetchTrainerPayments();
   }
 
   render() {
@@ -22,8 +22,7 @@ class TrainerPaymentListContainer extends Component {
 
 TrainerPaymentListContainer.propTypes = {
   gridConfig: PropTypes.object,
-  fetchTrainerPayments: PropTypes.func,
-  trainerId: PropTypes.string
+  fetchTrainerPayments: PropTypes.func
 };
 
 const columns = [
@@ -49,8 +48,7 @@ function mapStateToProps(state) {
     dataSource
   };
   return {
-    gridConfig,
-    trainerId: state.auth.user.id
+    gridConfig
   };
 }
 

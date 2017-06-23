@@ -2,12 +2,9 @@ module.exports = function(rsRepository, moment, logger) {
   return function SessionEventHandler() {
     logger.info('SessionEventHandler started up');
 
-    async function sessionPurchased(event) {
-      logger.info('handling sessionPurchased event');
+    async function sessionsPurchased(event) {
+      logger.info('handling sessionsPurchased event');
       //meaning the client had an unfunded appointment
-      if (event.used) {
-        return;
-      }
 
       let clientSessions = await rsRepository.getById(event.clientId, 'clientSessions');
       if (Object.keys(clientSessions) <= 0) {
@@ -18,21 +15,16 @@ module.exports = function(rsRepository, moment, logger) {
           pair: []
         };
       }
-      if (!clientSessions[event.appointmentType]) {
-        clientSessions[event.appointmentType] = [];
-      }
-      clientSessions[event.appointmentType].push(event);
-      return await rsRepository.save('clientSessions', clientSessions);
-    }
+      event.sessions.forEach(x => {
+        if (!event.used) {
+          if (!clientSessions[x.appointmentType]) {
+            clientSessions[x.appointmentType] = [];
+          }
+          clientSessions[x.appointmentType].push(x);
+        }
+      });
 
-    async function fullHourSessionPurchased(event) {
-      return await sessionPurchased(event);
-    }
-    async function halfHourSessionPurchased(event) {
-      return await sessionPurchased(event);
-    }
-    async function pairSessionPurchased(event) {
-      return await sessionPurchased(event);
+      return await rsRepository.save('clientSessions', clientSessions);
     }
 
     async function appointmentAttendedByClient(event) {
@@ -47,9 +39,7 @@ module.exports = function(rsRepository, moment, logger) {
 
     return {
       handlerName: 'SessionEventHandler',
-      fullHourSessionPurchased,
-      halfHourSessionPurchased,
-      pairSessionPurchased,
+      sessionsPurchased,
       appointmentAttendedByClient
     };
   };

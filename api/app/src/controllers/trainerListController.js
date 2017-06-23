@@ -19,7 +19,6 @@ module.exports = function(rsRepository, logger) {
 
   let fetchAllTrainers = async function(ctx) {
     logger.debug('arrived at trainerlist.fetchAllTrainers');
-
     try {
       const query = await rsRepository.query('SELECT * from "trainer";');
       ctx.body = {trainers: query};

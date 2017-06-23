@@ -4,15 +4,15 @@ module.exports = function(rsRepository, moment, logger) {
 
     async function sessionsPurchased(event) {
       logger.info('handling sessionsPurchased event');
-      let sql = `INSERT INTO "purchase" (
-            "id", 
-            "client",
-            "document"
-            ) VALUES (
-            '${event.id}',
-            '${event.clientId}',
-            '${JSON.stringify(event)}')`;
-      return await rsRepository.saveQuery(sql);
+      let clientPurchases = await rsRepository.getById(event.clientId, 'purchases');
+      clientPurchases = clientPurchases.purchases ? clientPurchases : {id: event.clientId, purchases:[]};
+      clientPurchases.purchases.push({
+        purchaseTotal: event.purchaseTotal,
+        purchaseDate: event.purchaseDate,
+        purchaseId: event.id,
+        clientId: event.clientId
+      });
+      return await rsRepository.save('purchases', clientPurchases);
     }
 
     return {

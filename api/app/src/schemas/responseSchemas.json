@@ -118,6 +118,47 @@
         }
       }
     },
+    "purchase": {
+      "title": "purchase",
+      "properties": {
+        "purchaseId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "purchaseDate": {
+          "type": "string"
+        },
+        "purchaseTotal": {
+          "type": "number"
+        }
+      }
+    },
+    "purchaseDetailsResponse": {
+      "title": "purchaseDetailsResponse",
+      "properties": {
+        "trainers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sessions"
+          }
+        }
+      }
+    },
+    "sessions": {
+      "title": "sessions",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "appointmentType": {
+          "type": "string"
+        },
+        "purchasePrice": {
+          "type": "number"
+        }
+      }
+    },
     "sessionManagement": {
       "title": "sessionManagement",
       "properties": {
