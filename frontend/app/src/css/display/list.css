@@ -13,5 +13,7 @@
 }
 
 .row-in-arrears {
-  background-color: red;
+  color: red;
+  font: bold;
+  background-color: #ffdffd !important;
 }

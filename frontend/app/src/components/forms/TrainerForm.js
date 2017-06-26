@@ -138,7 +138,6 @@ class TrainerForm extends Component {
 
 TrainerForm.propTypes = {
   params: PropTypes.object,
-  notifications: PropTypes.func,
   form: PropTypes.object,
   model: PropTypes.object,
   fetchTrainerAction: PropTypes.func,

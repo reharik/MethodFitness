@@ -62,7 +62,6 @@ UpdateTrainerForm.propTypes = {
   params: PropTypes.object,
   model: PropTypes.object,
   roles: PropTypes.array,
-  notifications: PropTypes.func,
   states: PropTypes.array,
   clients: PropTypes.array,
   updateTrainersClientRate: PropTypes.func,

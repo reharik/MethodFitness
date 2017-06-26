@@ -1,1 +1,4 @@
-- UnpaidAppointments needs to put record in EITHER unpaid or unfunded. currently does both
+- global error handling
+- sched service
+- global msg implemented
+    - start adding proper errors and statuses to api calls and displaying via new notification component

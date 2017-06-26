@@ -1,8 +1,8 @@
 import { requestStates } from '../sagas/requestSaga';
 import configValues from './../utilities/configValues';
 import selectn from 'selectn';
-import { actions as notifActions } from 'redux-notifications';
-const { notifSend } = notifActions;
+// import { actions as notifActions } from 'redux-notifications';
+// const { notifSend } = notifActions;
 export const LOGIN = requestStates('login', 'auth');
 export const LOGOUT = requestStates('logout', 'auth');
 
@@ -51,22 +51,22 @@ export function logoutUser() {
   };
 }
 
-const failureFunction = (action, response, payload) => {
-  return notifSend({
-    id: 'ajaxError',
-    containerName: 'signIn',
-    formName: 'signIn',
-    message: payload.message,
-    kind: 'danger'
-  });
-};
+// const failureFunction = (action, response, payload) => {
+//   return notifSend({
+//     id: 'ajaxError',
+//     containerName: 'signIn',
+//     formName: 'signIn',
+//     message: payload.message,
+//     kind: 'danger'
+//   });
+// };
 
 export function loginUser(data) {
   return {
     type: LOGIN.REQUEST,
     states: LOGIN,
     url: configValues.apiBase + 'auth',
-    failureFunction,
+    // failureFunction,
     containerName: 'signIn',
     params: {
       method: 'POST',

@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Notifs } from 'redux-notifications';
 import SubmissionFor from './../formElements/SubmissionFor';
-
 import { Form, Button, Row, Col } from 'antd';
+import Notification from './../../containers/NotificationContainer';
+import { LOGIN } from './../../modules/authModule';
+
+
 
 class SignInForm extends Component {
   containerName = 'signIn';
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.props.clearNotification();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.loginUser(values);
-        console.log('Received values of form: ', values);
+        let payload = {password: values.password.trim(), userName: values.userName.trim()};
+        this.props.loginUser(payload);
       }
     });
   };
@@ -31,7 +34,7 @@ class SignInForm extends Component {
         <div className="signIn__outer">
           <div className="signIn__header" />
           <div className="signIn__content">
-            <Notifs containerName="signIn" />
+            <Notification actionName={LOGIN.FAILURE} />
             <Form onSubmit={this.handleSubmit}>
               <Row type="flex" className="signIn__form__header">
                 <Col span={24} >
@@ -61,8 +64,9 @@ class SignInForm extends Component {
 SignInForm.propTypes = {
   fields: PropTypes.object,
   loginUser: PropTypes.func,
-  notifications: PropTypes.func,
-  form: PropTypes.object
+  notifications: PropTypes.string,
+  form: PropTypes.object,
+  clearNotification: PropTypes.func
 };
 
 export default Form.create()(SignInForm);

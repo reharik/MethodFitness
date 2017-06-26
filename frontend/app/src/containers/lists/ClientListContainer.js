@@ -71,17 +71,22 @@ const columns = archiveClient => [
 ];
 
 function mapStateToProps(state) {
-  let dataSource = state.clients.sort((a, b) => {
-    const _a = a.contact.lastName.toLowerCase();
-    const _b = b.contact.lastName.toLowerCase();
-    if (_a > _b) {
-      return 1;
-    }
-    if (_a < _b) {
-      return -1;
-    }
-    return 0;
-  });
+  const isAdmin = state.auth.user.role === 'admin';
+  let user = state.trainers.find(x => x.id === state.auth.user.id);
+
+  let dataSource = state.clients
+    .filter(x => isAdmin || user.clients.includes(x.id))
+    .sort((a, b) => {
+      const _a = a.contact.lastName.toLowerCase();
+      const _b = b.contact.lastName.toLowerCase();
+      if (_a > _b) {
+        return 1;
+      }
+      if (_a < _b) {
+        return -1;
+      }
+      return 0;
+    });
 
   const gridConfig = {
     columns,
