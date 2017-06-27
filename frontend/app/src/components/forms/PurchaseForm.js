@@ -47,7 +47,7 @@ class PurchaseForm extends Component {
   purchasePrice = fields => {
     // this sucks of course, at least move the prices into a constant
     let purchase = {
-      fullHourTotal: (fields.fullHour || 0) * 65,
+      fullHourTotal: (fields.fullHour || 0) * 65.5,
       fullHourTenPackTotal: (fields.fullHourTenPack || 0) * 600,
       halfHourTotal: (fields.halfHour || 0) * 38,
       halfHourTenPackTotal: (fields.halfHourTenPack || 0) * 350,
@@ -87,35 +87,59 @@ class PurchaseForm extends Component {
               <Col span={8}>
                 <Card title="Client Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.fullHour} onChange={this.changeHandler('fullHour')} />
-                    <div>{this.state.fullHourTotal}</div>
+                    <SubmissionFor
+                      form={form}
+                      data={model.fullHour}
+                      onChange={this.changeHandler('fullHour')}
+                      span={8} />
+                    <div style={{paddingTop: '8px'}}>${this.state.fullHourTotal.toFixed(2)}</div>
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.fullHourTenPack} onChange={this.changeHandler('fullHourTenPack')} />
-                    <div>{this.state.fullHourTenPackTotal}</div>
+                    <SubmissionFor
+                      form={form}
+                      data={model.fullHourTenPack}
+                      onChange={this.changeHandler('fullHourTenPack')}
+                      span={8} />
+                    <div style={{paddingTop: '8px'}}>${this.state.fullHourTenPackTotal.toFixed(2)}</div>
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.halfHour} onChange={this.changeHandler('halfHour')} />
-                    <div>{this.state.halfHourTotal}</div>
+                    <SubmissionFor
+                      form={form}
+                      data={model.halfHour}
+                      onChange={this.changeHandler('halfHour')}
+                      span={8} />
+                    <div style={{paddingTop: '8px'}}>${this.state.halfHourTotal.toFixed(2)}</div>
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.halfHourTenPack} onChange={this.changeHandler('halfHourTenPack')} />
-                    <div>{this.state.halfHourTenPackTotal}</div>
+                    <SubmissionFor
+                      form={form}
+                      data={model.halfHourTenPack}
+                      onChange={this.changeHandler('halfHourTenPack')}
+                      span={8} />
+                    <div style={{paddingTop: '8px'}}>${this.state.halfHourTenPackTotal.toFixed(2)}</div>
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.pair} onChange={this.changeHandler('pair')} />
-                    <div>{this.state.pairTotal}</div>
+                    <SubmissionFor
+                      form={form}
+                      data={model.pair}
+                      onChange={this.changeHandler('pair')}
+                      span={8} />
+                    <div style={{paddingTop: '8px'}}>${this.state.pairTotal.toFixed(2)}</div>
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.pairTenPack} onChange={this.changeHandler('pairTenPack')} />
-                    <div>{this.state.pairTenPackTotal}</div>
+                    <SubmissionFor
+                      form={form}
+                      data={model.pairTenPack}
+                      onChange={this.changeHandler('pairTenPack')}
+                      span={8} />
+                    <div style={{paddingTop: '8px'}}>${this.state.pairTenPackTotal.toFixed(2)}</div>
                   </Row>
                 </Card>
               </Col>
             </Row>
             <Row type="flex">
               <Col span={8}>
-                <Card title={`Purchase Total: ${this.state.purchaseTotal}`}>
+                <Card title={`Purchase Total: $${this.state.purchaseTotal.toFixed(2)}`}>
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.notes} />
                   </Row>

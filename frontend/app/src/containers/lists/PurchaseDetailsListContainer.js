@@ -32,6 +32,7 @@ const columns = [
     title: 'Appointment Type'
   },
   {
+    render: val => val ? `$${val}` : val,
     dataIndex: 'purchasePrice',
     title: 'Total'
   }

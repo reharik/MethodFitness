@@ -9,7 +9,7 @@ export default (state = {}, action = {}) => {
     switch (status) {
       case 401: {
         if (selectn('action.url', action).includes('auth')) {
-          return {...state, [action.type]: {type: 'success', message: 'invalid creds yo'}};
+          return {...state, [action.type]: {type: 'error', message: 'invalid creds yo'}};
         }
         return state;
       }

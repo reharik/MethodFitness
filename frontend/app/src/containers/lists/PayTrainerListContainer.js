@@ -50,16 +50,19 @@ const columns = [
     width: '15%'
   },
   {
+    render: val => val ? `$${val}` : val,
     dataIndex: 'pricePerSession',
     title: 'Cost',
     width: '10%'
   },
   {
+    render: val => val ? `${val}%` : val,
     dataIndex: 'trainerPercentage',
     title: 'Percent',
     width: '10%'
   },
   {
+    render: val => val ? `$${val}` : val,
     dataIndex: 'trainerPay',
     title: 'Pay',
     width: '10%'

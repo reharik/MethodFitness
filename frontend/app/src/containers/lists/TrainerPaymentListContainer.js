@@ -35,6 +35,7 @@ const columns = [
     width: '20%'
   },
   {
+    render: val => val ? `$${val}` : '',
     dataIndex: 'paymentTotal',
     title: 'Payment Total',
     width: '10%'

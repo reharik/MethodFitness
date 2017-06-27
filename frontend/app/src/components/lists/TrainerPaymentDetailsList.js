@@ -12,7 +12,7 @@ const TrainerPaymentDetailsList = ({gridConfig, paymentTotal, paymentDate}) => (
         </div>
         <div className="list__header__center">
           <div className="list__header__center__title" >
-            Payment Date: {paymentDate} - Payment Total: {paymentTotal}
+            Payment Date: {paymentDate} - Payment Total: ${paymentTotal.toFixed(2)}
           </div>
         </div>
         <div className="list__header__right" />

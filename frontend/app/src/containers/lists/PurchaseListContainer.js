@@ -36,6 +36,7 @@ const columns = [
     title: 'Created Date'
   },
   {
+    render: val => val ? `$${val}` : val,
     dataIndex: 'purchaseTotal',
     title: 'Total'
   }

@@ -67,7 +67,7 @@ class TrainerVerificationList extends Component {
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">
-                {`Trainer Verification.  Trainer Total: ${this.state.trainerTotal}`}
+                {`Trainer Verification.  Trainer Total: $${this.state.trainerTotal.toFixed(2)}`}
               </div>
             </div>
             <div className="list__header__right" />

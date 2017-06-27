@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Layout from '../components/layout/Layout';
 import { getJsonSchema } from './../modules/schemaModule';
+import { fetchAllClientsAction } from './../modules/clientModule';
+import { fetchAllTrainersAction } from './../modules/trainerModule';
 
 class LayoutContainer extends Component {
   componentDidMount() {
     this.loadData();
   }
 
-  // XXX this componentDidUpdate() was causing inifinte loop, since we aren't updating yet this deferred but will
-  // bee needed next sprint probably
-  // this causes infinte loop for some reason
-  // componentDidUpdate() { this.loadData(); }
-
   loadData() {
     this.props.getJsonSchema();
+    // ping auth here and only make call if auth'd
+    this.props.fetchAllClientsAction();
+    this.props.fetchAllTrainersAction();
   }
 
   render() {
@@ -31,6 +31,8 @@ class LayoutContainer extends Component {
 
 LayoutContainer.propTypes = {
   getJsonSchema: PropTypes.func,
+  fetchAllTrainersAction: PropTypes.func,
+  fetchAllClientsAction: PropTypes.func,
   isFetching: PropTypes.bool,
   errorMessage: PropTypes.string
 };
@@ -44,4 +46,8 @@ function mapStateToProps(state = []) {
   };
 }
 
-export default connect(mapStateToProps, { getJsonSchema })(LayoutContainer);
+export default connect(mapStateToProps, {
+  getJsonSchema,
+  fetchAllClientsAction,
+  fetchAllTrainersAction
+})(LayoutContainer);
