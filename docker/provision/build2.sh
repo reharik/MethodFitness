@@ -31,7 +31,7 @@ echo "$IMAGE_NAME_KEY=$IMAGE_NAME" >> docker/.envrc
 done
 
 echo "image names in env file"
-cat docker/.env
+cat docker/.envrc 2>/dev/null
 
 echo "Building docker images and deployment artifacts"
 
