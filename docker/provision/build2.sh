@@ -11,7 +11,7 @@
 set -e
 
  echo "Logging into the ECR"
- $(aws ecr get-login --region us-east-2)
+ $(sudo aws ecr get-login --region us-east-2)
 
 echo "Creating the Build artifacts directory"
 rm -f docker/.envrc
