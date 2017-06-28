@@ -35,10 +35,10 @@ cat docker/.env
 
 echo "Building docker images and deployment artifacts"
 
-docker-compose -f docker/docker-compose-build.yml build
+sudo docker-compose -f docker/docker-compose-build.yml build
 
-docker-compose -f docker/docker-compose-build.yml push
+sudo docker-compose -f docker/docker-compose-build.yml push
 
-docker-compose -f docker/docker-compose-build.yml down --rmi local --remove-orphans
+sudo docker-compose -f docker/docker-compose-build.yml down --rmi local --remove-orphans
 
 echo "All Docker Images have been built and deploy artifacts have been created, Happy deploying!"

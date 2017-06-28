@@ -7,6 +7,9 @@ module.exports = function(config,
                           loadPurchases,
                           loadAppointments) {
   return function () {
+console.log('==========config=========');
+console.log(config.configs.children.eventstore);
+console.log('==========END config=========');
 
     const processCommands = async function (command, commandName) {
       await eventstore.commandPoster(
@@ -19,6 +22,10 @@ module.exports = function(config,
       console.log('=========="begin seed"=========');
       console.log("begin seed");
       console.log('==========END "begin seed"=========');
+
+      console.log('==========eventstore=========');
+      console.log(eventstore);
+      console.log('==========END eventstore=========');
       
       for (let x of loadClients.clients) {
         let command = loadClients.addClient(x);
