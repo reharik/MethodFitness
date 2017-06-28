@@ -16,6 +16,10 @@ module.exports = function(config,
     };
 
     const populateES = async function () {
+      console.log('=========="begin seed"=========');
+      console.log("begin seed");
+      console.log('==========END "begin seed"=========');
+      
       for (let x of loadClients.clients) {
         let command = loadClients.addClient(x);
         await processCommands(command, 'addClient');
@@ -55,6 +59,11 @@ module.exports = function(config,
         let command = loadPurchases.purchase(x);
         await processCommands(command, 'purchase');
       }
+      
+      console.log('=========="End Seed"=========');
+      console.log("End Seed");
+      console.log('==========END "End Seed"=========');
+      
     };
 
     const begin = async function () {

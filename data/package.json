@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node app/index.js",
     "localTest": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/integrationTests/*.js",
     "intTest": "mocha --require ./app/seedProject/babelhook --opts ./app/seedProject/tests/mocha.opts ./app/seedProject/tests/integrationTests/*.js",
     "rebuildData": "NODE_CONFIG_DIR=./app/config node app/rebuildDataIndex.js",

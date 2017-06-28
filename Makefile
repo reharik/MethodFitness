@@ -1,3 +1,4 @@
+SHELL:=/bin/bash
 .DEFAULT_GOAL := dev
 
 .PHONY: deps
@@ -22,8 +23,19 @@ reInstallDeps:
 	cd ../projections && rm -rf node_modules yarn.lock && yarn && \
 	cd ../workflows && rm -rf node_modules yarn.lock && yarn
 
+killModules:
+	cd api && rm -rf node_modules yarn.lock && \
+	cd ../data && rm -rf node_modules yarn.lock && \
+	cd ../frontend && rm -rf node_modules yarn.lock && \
+	cd ../services && rm -rf node_modules yarn.lock && \
+	cd ../projections && rm -rf node_modules yarn.lock && \
+	cd ../workflows && rm -rf node_modules yarn.lock
+
 dockerDown:
 	docker-compose -f docker/docker-compose.yml -p methodfit down --rmi local --remove-orphans
+
+dockerDeployDown:
+	docker-compose -f docker/docker-compose-build.yml -p methodfit down --rmi local --remove-orphans
 
 dockerLoggingDown:
 	docker-compose -f docker/docker-compose-logging.yml -p methodfit down --rmi local --remove-orphans
@@ -33,6 +45,9 @@ dockerDataDown:
 
 dockerUp:
 	docker-compose -f docker/docker-compose.yml -p methodfit up
+
+dockerDeployUp:
+	docker-compose -f docker/docker-compose-build.yml -p methodfit up
 
 dockerDataUp:
 	docker-compose -f docker/docker-compose-data.yml -p methodfit up
@@ -87,4 +102,7 @@ migration:
 
 rebuildData:
 	- cd data && make rebuildData
+
+build:
+	- cd docker/provision && bash build.sh
 

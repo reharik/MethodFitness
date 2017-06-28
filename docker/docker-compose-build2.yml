@@ -1,0 +1,89 @@
+version: "2"
+services:
+  frontend:
+    depends_on:
+      - api
+    build:
+      context: ../frontend
+      dockerfile: docker/Dockerfile
+    image: ${mf_frontend_image}
+    command: npm run start2 #top -b #
+    environment:
+      APPLICATION_NAME: frontend
+    ports:
+      - "8888:8888"
+    env_file:
+      - ./../.envrc.qa
+
+  workflows:
+    build:
+      context: ../workflows
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+      - eventstore
+    image: ${mf_workflows_image}
+    command: npm start #top -b #
+    env_file:
+      - ./../.envrc.qa
+    environment:
+      APPLICATION_NAME: workflows
+
+  projections:
+    build:
+      context: ../projections
+      dockerfile: docker/Dockerfile
+    image: ${mf_projections_image}
+    depends_on:
+      - data
+      - postgres
+      - eventstore
+    command: npm start #top -b #
+    env_file:
+      - ./../.envrc.qa
+    environment:
+      APPLICATION_NAME: projections
+
+  api:
+    build:
+      context: ../api
+      dockerfile: docker/Dockerfile
+    image: ${mf_api_image}
+    command: npm run start #top -b #
+    ports:
+      - 3666:3000
+    env_file:
+      - ./../.envrc.qa
+    environment:
+      APPLICATION_NAME: api
+
+  data:
+    build:
+      context: ../data
+      dockerfile: docker/Dockerfile
+    image: ${mf_data_image}
+    depends_on:
+      - postgres
+    command: npm run migrationStartup
+    env_file:
+      - ./../.envrc.qa
+    environment:
+      APPLICATION_NAME: data
+
+  postgres:
+    image: postgres
+    ports:
+      - 5400:5432
+    env_file:
+      - ./../.envrc.qa
+
+  eventstore:
+    image: eventstore/eventstore
+    ports:
+      - 2113:2113
+      - 1113:1113
+    environment:
+      - ext-http-prefixes=http://*:2113/
+      - ext-ip="0.0.0.0"
+      - log=/data/logs
+      - stats-period-sec=3000000
