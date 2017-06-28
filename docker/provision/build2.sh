@@ -14,7 +14,7 @@ set -e
 # $(aws ecr get-login --profile $AWS_PROFILE --region us-east-1)
 
 echo "Creating the Build artifacts directory"
-rm docker/.envrc
+rm -f docker/.envrc
 
 DOCKER_REPO="709865789463.dkr.ecr.us-east-2.amazonaws.com/methodfitness/"
 export TAG=$(git rev-parse --short HEAD)
