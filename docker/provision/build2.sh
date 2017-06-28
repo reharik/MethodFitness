@@ -10,8 +10,8 @@
 
 set -e
 
-# echo "Logging into the ECR"
-# $(aws ecr get-login --profile $AWS_PROFILE --region us-east-1)
+ echo "Logging into the ECR"
+ $(aws ecr get-login --region us-east-2)
 
 echo "Creating the Build artifacts directory"
 rm -f docker/.envrc
@@ -33,11 +33,15 @@ done
 echo "image names in env file"
 cat docker/.envrc 2>/dev/null
 
-echo "Building docker images and deployment artifacts"
+echo "Building docker images"
 
 sudo docker-compose -f docker/docker-compose-build.yml build
 
+echo "Pushing docker images"
+
 sudo docker-compose -f docker/docker-compose-build.yml push
+
+echo "Removing docker images"
 
 sudo docker-compose -f docker/docker-compose-build.yml down --rmi local --remove-orphans
 
