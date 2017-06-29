@@ -1,8 +1,8 @@
 #!/bin/bash
 
+$(aws ecr get-login --region us-east-2)
 
 cat ./.env
-echo cat ./.env
-sudo docker run hello-world
+
 sudo docker-compose -p methodfitness down --rmi local
 sudo docker-compose -p methodfitness up -d
