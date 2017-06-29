@@ -3,6 +3,7 @@ services:
   frontend:
     depends_on:
       - api
+    command: npm run start2 #top -b #
     image: ${mf_frontend_image}
     environment:
       APPLICATION_NAME: frontend
@@ -15,6 +16,7 @@ services:
     depends_on:
       - postgres
       - eventstore
+    command: npm start #top -b #
     image: ${mf_workflows_image}
     env_file:
       - ./.envrc
@@ -26,6 +28,7 @@ services:
       - data
       - postgres
       - eventstore
+    command: npm start #top -b #
     image: ${mf_projections_image}
     env_file:
       - ./.envrc
@@ -34,6 +37,7 @@ services:
 
   api:
     image: ${mf_api_image}
+    command: npm run start #top -b #
     ports:
       - 3666:3000
     env_file:
@@ -44,6 +48,7 @@ services:
   data:
     depends_on:
       - postgres
+    command: npm run migrationStartup
     image: ${mf_data_image}
     env_file:
       - ./.envrc
