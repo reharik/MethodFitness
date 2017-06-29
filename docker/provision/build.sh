@@ -14,7 +14,7 @@ set -e
 $(aws ecr get-login --region us-east-2)
 
 echo "Creating the Build artifacts directory"
-rm -f docker/.envrc
+rm -f deploy
 
 DOCKER_REPO="709865789463.dkr.ecr.us-east-2.amazonaws.com/methodfitness/"
 export TAG=$(git rev-parse --short HEAD)
@@ -26,12 +26,15 @@ for IMG in ${SERVICES[@]}
         IMAGE_NAME=$DOCKER_REPO$IMG:$TAG
         IMAGE_NAME_KEY="mf_"$IMG"_image"
         export $IMAGE_NAME_KEY=$IMAGE_NAME
-        echo "$IMAGE_NAME_KEY=$IMAGE_NAME" >> docker/.envrc
+        echo "$IMAGE_NAME_KEY=$IMAGE_NAME" >> deploy/.env
 
     done
 
 echo "image names in env file"
-cat docker/.envrc 2>/dev/null
+cat .envrc.qa >> deploy/.env
+cat deploy/.env 2>/dev/null
+cp docker/docker-compose-deploy.yml deploy/docker-compose.yml
+cp docker/provision/deploy_containers.sh deploy/deploy_containers.sh
 
 echo "Building docker images and deployment artifacts"
 
