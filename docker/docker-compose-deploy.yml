@@ -9,7 +9,7 @@ services:
     ports:
       - "8888:8888"
     env_file:
-      - ./../.envrc
+      - ./.envrc
 
   workflows:
     depends_on:
@@ -17,7 +17,7 @@ services:
       - eventstore
     image: ${mf_workflows_image}
     env_file:
-      - ./../.envrc
+      - ./.envrc
     environment:
       APPLICATION_NAME: workflows
 
@@ -28,7 +28,7 @@ services:
       - eventstore
     image: ${mf_projections_image}
     env_file:
-      - ./../.envrc
+      - ./.envrc
     environment:
       APPLICATION_NAME: projections
 
@@ -37,7 +37,7 @@ services:
     ports:
       - 3666:3000
     env_file:
-      - ./../.envrc
+      - ./.envrc
     environment:
       APPLICATION_NAME: api
 
@@ -46,7 +46,7 @@ services:
       - postgres
     image: ${mf_data_image}
     env_file:
-      - ./../.envrc
+      - ./.envrc
     environment:
       APPLICATION_NAME: data
 
@@ -55,7 +55,7 @@ services:
     ports:
       - 5400:5432
     env_file:
-      - ./../.envrc
+      - ./.envrc
 
   eventstore:
     image: eventstore/eventstore
