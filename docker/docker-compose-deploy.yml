@@ -3,10 +3,7 @@ services:
   frontend:
     depends_on:
       - api
-    build:
-      context: ../frontend
-      dockerfile: docker/Dockerfile
-    command: npm run start2 #top -b #
+    image: ${mf_frontend_image}
     environment:
       APPLICATION_NAME: frontend
     ports:
@@ -15,37 +12,28 @@ services:
       - ./../.envrc
 
   workflows:
-    build:
-      context: ../workflows
-      dockerfile: docker/Dockerfile
     depends_on:
       - postgres
       - eventstore
-    command: npm start #top -b #
+    image: ${mf_workflows_image}
     env_file:
       - ./../.envrc
     environment:
       APPLICATION_NAME: workflows
 
   projections:
-    build:
-      context: ../projections
-      dockerfile: docker/Dockerfile
     depends_on:
       - data
       - postgres
       - eventstore
-    command: npm start #top -b #
+    image: ${mf_projections_image}
     env_file:
       - ./../.envrc
     environment:
       APPLICATION_NAME: projections
 
   api:
-    build:
-      context: ../api
-      dockerfile: docker/Dockerfile
-    command: npm run start #top -b #
+    image: ${mf_api_image}
     ports:
       - 3666:3000
     env_file:
@@ -54,12 +42,9 @@ services:
       APPLICATION_NAME: api
 
   data:
-    build:
-      context: ../data
-      dockerfile: docker/Dockerfile
     depends_on:
       - postgres
-    command: npm run migrationStartup
+    image: ${mf_data_image}
     env_file:
       - ./../.envrc
     environment:
