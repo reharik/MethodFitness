@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# echo "Logging into the ECR"
+$(aws ecr get-login --region us-east-2)
+
 echo "Uploading artifacts"
 scp docker-compose-deploy.yml ubuntu@ec2-18-220-36-147.us-east-2.compute.amazonaws.com:~/docker-compose.yml
 scp .env ubuntu@ec2-18-220-36-147.us-east-2.compute.amazonaws.com:~/.env
