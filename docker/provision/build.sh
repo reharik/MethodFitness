@@ -8,51 +8,49 @@
 #
 ###########################################
 
-AWS_PROFILE=$1
-BUILD_PLANNAME=$2
 set -e
 
-echo "Logging into the ECR"
-$(aws ecr get-login --profile $AWS_PROFILE --region us-east-1)
+# echo "Logging into the ECR"
+# $(aws ecr get-login --region us-east-1)
 
 echo "Creating the Build artifacts directory"
-rm -rf artifacts
-mkdir -p artifacts
-cp ./docker/docker-compose-deploy.yml artifacts/docker-compose.yml
-cp ./docker/provision/deploy_containers.sh artifacts/deploy_containers.sh
-cp ./docker/provision/deploy.sh artifacts/deploy.sh
-cp ./docker/provision/env_builder.sh artifacts/env_builder.sh
-cp ./.envrc.example artifacts/.envrc.example
-
-touch artifacts/.env
+rm -f docker/.envrc
 
 DOCKER_REPO="709865789463.dkr.ecr.us-east-2.amazonaws.com/methodfitness/"
 export TAG=$(git rev-parse --short HEAD)
 
-SERVICES=("data" "api" "serve" "frontend")
+SERVICES=("data" "api" "workflows" "projections" "frontend")
 for IMG in ${SERVICES[@]}
-do
+    do
 
-IMAGE_NAME=$DOCKER_REPO$IMG:$TAG
-IMAGE_NAME_KEY="mf_"$IMG"_image"
-export $IMAGE_NAME_KEY=$IMAGE_NAME
-echo "$IMAGE_NAME_KEY=$IMAGE_NAME" >> artifacts/.env
+        IMAGE_NAME=$DOCKER_REPO$IMG:$TAG
+        IMAGE_NAME_KEY="mf_"$IMG"_image"
+        export $IMAGE_NAME_KEY=$IMAGE_NAME
+        echo "$IMAGE_NAME_KEY=$IMAGE_NAME" >> docker/.envrc
 
-done
+    done
 
 echo "image names in env file"
-cat artifacts/.env
-
-cp artifacts/.env docker/.envrc.example
+cat docker/.envrc 2>/dev/null
 
 echo "Building docker images and deployment artifacts"
 
-docker-compose -f docker/docker-compose-build.yml build
+#IMAGE_CHECK=$(aws ecr list-images --repository-name wk/api | grep -w "$TAG")
+#if [ -z "${IMAGE_CHECK}" ]; then
 
-docker-compose -f docker/docker-compose-build.yml push
+#    docker-compose -f docker/docker-compose-build2.yml down --rmi local --remove-orphans
 
-rm docker/.envrc.example
+    docker-compose -f docker/docker-compose-build2.yml build
 
-#docker-compose -f docker/docker-compose-build.yml down --rmi local --remove-orphans
+    docker-compose -f docker/docker-compose-build2.yml push
+
+ #   docker-compose -f docker/docker-compose-build2.yml down --rmi local --remove-orphans
+
+#else
+
+  echo "$DOCKER_REPO:$TAG exists in the ECR skipping build process"
+  echo "------------------------"
+
+#fi
 
 echo "All Docker Images have been built and deploy artifacts have been created, Happy deploying!"
