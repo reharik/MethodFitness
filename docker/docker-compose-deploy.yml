@@ -10,7 +10,7 @@ services:
     ports:
       - "8888:8888"
     env_file:
-      - ./.envrc
+      - ./.env
 
   workflows:
     depends_on:
@@ -19,7 +19,7 @@ services:
     command: npm start #top -b #
     image: ${mf_workflows_image}
     env_file:
-      - ./.envrc
+      - ./.env
     environment:
       APPLICATION_NAME: workflows
 
@@ -31,7 +31,7 @@ services:
     command: npm start #top -b #
     image: ${mf_projections_image}
     env_file:
-      - ./.envrc
+      - ./.env
     environment:
       APPLICATION_NAME: projections
 
@@ -41,7 +41,7 @@ services:
     ports:
       - 3666:3000
     env_file:
-      - ./.envrc
+      - ./.env
     environment:
       APPLICATION_NAME: api
 
@@ -51,7 +51,7 @@ services:
     command: npm run migrationStartup
     image: ${mf_data_image}
     env_file:
-      - ./.envrc
+      - ./.env
     environment:
       APPLICATION_NAME: data
 
@@ -60,7 +60,7 @@ services:
     ports:
       - 5400:5432
     env_file:
-      - ./.envrc
+      - ./.env
 
   eventstore:
     image: eventstore/eventstore
