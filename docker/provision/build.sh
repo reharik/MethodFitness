@@ -14,7 +14,7 @@ set -e
 $(aws ecr get-login --region us-east-2)
 
 echo "Creating the Build artifacts directory"
-rm -f ./deploy
+rm -rf ./deploy
 mkdir ./deploy
 cp docker/docker-compose-deploy.yml deploy/docker-compose.yml
 cp docker/provision/deploy_containers.sh deploy/deploy_containers.sh
