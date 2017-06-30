@@ -22,7 +22,9 @@ module.exports = function(authentication, paperslocal, koapapers) {
     useSession: true,
     serializers: [serialize],
     deserializers: [deserialize],
-    whiteList: [{ url: '/swagger', method: 'GET' }, { url: '/signout', method: 'POST' }]
+    whiteList: [{ url: '/swagger', method: 'GET' },
+      { url: '/signout', method: 'POST' },
+      { url: '/scheduledJobs/appointmentStatusUpdate', method: 'POST' }]
   };
 
   return koapapers().registerMiddleware(config);

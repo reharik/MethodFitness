@@ -365,7 +365,14 @@
         "appointmentId",
         "sessionId"
       ]
+    },
+    "appointmentStatusUpdate": {
+      "title": "appointmentStatusUpdate",
+      "properties": {
+        "event": {
+          "type": "object"
+        }
+      }
     }
-
   }
 }
