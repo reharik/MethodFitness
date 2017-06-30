@@ -29,7 +29,7 @@ module.exports = function payTrainerRouter(koarouter, controllers) {
      *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/scheduledjobs/appointmentstatusupdate',
-      controllers.scheduledjobsController.appointmentstatusupdate);
+      controllers.scheduledJobsController.appointmentStatusUpdate);
     appRouter.use(router.routes(), router.allowedMethods());
   };
 };

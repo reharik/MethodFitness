@@ -102,7 +102,7 @@ module.exports = function() {
 
     let validationResult = { success: true, errors: [], where: [] };
     let res = operation.responses[status];
-    if (!res.schema && !body) {
+    if (res && !res.schema && !body) {
       return validationResult;
     }
     let result = {};
