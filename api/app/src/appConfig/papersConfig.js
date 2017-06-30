@@ -24,7 +24,7 @@ module.exports = function(authentication, paperslocal, koapapers) {
     deserializers: [deserialize],
     whiteList: [{ url: '/swagger', method: 'GET' },
       { url: '/signout', method: 'POST' },
-      { url: '/scheduledJobs/appointmentStatusUpdate', method: 'POST' }]
+      { url: '/scheduledjobs/appointmentstatusupdate', method: 'POST' }]
   };
 
   return koapapers().registerMiddleware(config);
