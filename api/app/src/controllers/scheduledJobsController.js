@@ -37,6 +37,9 @@ module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
     for (let c of commands) {
       await eventstore.commandPoster(c, c.commandName, uuid.v4());
     }
+
+    ctx.status = 200;
+    ctx.body = {yay: 'yay'};
   };
 
   return {
