@@ -43,7 +43,7 @@ echo "Building docker images and deployment artifacts"
 #if [ -z "${IMAGE_CHECK}" ]; then
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-     docker rmi $(docker images -a) 2>/dev/null || echo "No more containers to remove."
+     docker rmi -f $(docker images -a) 2>/dev/null || echo "No more containers to remove."
 
     docker-compose -f docker/docker-compose-build2.yml build
 
