@@ -42,8 +42,8 @@ echo "Building docker images and deployment artifacts"
 #IMAGE_CHECK=$(aws ecr list-images --repository-name wk/api | grep -w "$TAG")
 #if [ -z "${IMAGE_CHECK}" ]; then
 
-    - docker rm -vf $$(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-    - docker rmi $$(docker images -a) 2>/dev/null || echo "No more containers to remove."
+    - docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
+    - docker rmi $(docker images -a) 2>/dev/null || echo "No more containers to remove."
 
     docker-compose -f docker/docker-compose-build2.yml build
 
