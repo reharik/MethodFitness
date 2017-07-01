@@ -1,9 +1,6 @@
 module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
-    console.log('==========ctx.body=========');
-    console.log(ctx.body);
-    console.log('==========END ctx.body=========');
 
     let date = moment().format('YYYY-MM-DD');
     let sql = `select * from appointment where date='${date}';`;
@@ -39,7 +36,7 @@ module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
     }
 
     ctx.status = 200;
-    ctx.body = {yay: 'yay'};
+    ctx.body = {commandsProcessed: commands};
   };
 
   return {

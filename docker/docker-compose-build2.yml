@@ -64,7 +64,7 @@ services:
     image: ${mf_data_image}
     depends_on:
       - postgres
-    command: npm run migrationStartup
+    command: npm start
     env_file:
       - ./../.envrc.qa
     environment:
