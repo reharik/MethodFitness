@@ -42,13 +42,13 @@ echo "Building docker images and deployment artifacts"
 #IMAGE_CHECK=$(aws ecr list-images --repository-name wk/api | grep -w "$TAG")
 #if [ -z "${IMAGE_CHECK}" ]; then
 
-#    docker-compose -f docker/docker-compose-build2.yml down --rmi local --remove-orphans
+    docker-compose -f docker/docker-compose-build2.yml down --rmi local --remove-orphans
 
     docker-compose -f docker/docker-compose-build2.yml build
 
     docker-compose -f docker/docker-compose-build2.yml push
 
- #   docker-compose -f docker/docker-compose-build2.yml down --rmi local --remove-orphans
+    docker-compose -f docker/docker-compose-build2.yml down --rmi local --remove-orphans
 
 #else
 
