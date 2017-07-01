@@ -39,7 +39,7 @@ cat deploy/.env 2>/dev/null
 
 echo "Building docker images and deployment artifacts"
 
-IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api) | grep -w "$TAG"
+IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep -w "$TAG")
 if [ -z "${IMAGE_CHECK}" ]; then
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
