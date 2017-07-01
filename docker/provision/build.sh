@@ -39,8 +39,8 @@ cat deploy/.env 2>/dev/null
 
 echo "Building docker images and deployment artifacts"
 
-#IMAGE_CHECK=$(aws ecr list-images --repository-name wk/api | grep -w "$TAG")
-#if [ -z "${IMAGE_CHECK}" ]; then
+IMAGE_CHECK=$(aws ecr list-images --repository-name wk/api | grep -w "$TAG")
+if [ -z "${IMAGE_CHECK}" ]; then
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
      docker rmi -f $(docker images -a) 2>/dev/null || echo "No more containers to remove."
@@ -49,11 +49,11 @@ echo "Building docker images and deployment artifacts"
 
     docker-compose -f docker/docker-compose-build2.yml push
 
-#else
+else
 
   echo "$DOCKER_REPO:$TAG exists in the ECR skipping build process"
   echo "------------------------"
 
-#fi
+fi
 
 echo "All Docker Images have been built and deploy artifacts have been created, Happy deploying!"
