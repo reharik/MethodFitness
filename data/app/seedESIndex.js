@@ -1,12 +1,11 @@
-var extend = require('extend');
 var config = require('config');
 
 function wait(mod) {
 }
 
 module.exports = function(_options) {
-  var options = {};
-  extend(options, config.get('configs') || {}, _options || {});
+  let options = {};
+  Object.assign(options, config.get('configs') || {}, _options || {});
   console.log('==========options=========');
   console.log(options);
   console.log('==========END options=========');

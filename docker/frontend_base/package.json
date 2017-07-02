@@ -1,32 +1,6 @@
 {
-  "name": "mf_frontend",
+  "name": "api",
   "version": "0.0.0",
-  "private": true,
-  "keywords": [
-    "koa",
-    "react",
-    "mongoose",
-    "gulp",
-    "mocha",
-    "passport",
-    "react-bootstrap",
-    "react-router"
-  ],
-  "main": "app.js",
-  "scripts": {
-    "start2": "node ./app/scripts/start.js",
-    "build": "webpack -p --config ./app/webpack.config.js --progress --profile --colors",
-    "start": "webpack-dev-server --progress --config ./app/webpack.config.js",
-    "test": "NODE_ENV=test mocha -w --recursive --compilers js:babel-core/register ./app/tests/**",
-    "testOnce": "NODE_ENV=test mocha --recursive --compilers js:babel-core/register ./app/tests/**",
-    "lint": "eslint -c ./../.eslintrc-react.json .",
-    "validate": "npm ls",
-    "esw": "esw -w --color"
-  },
-  "license": "MIT",
-  "engines": {
-    "node": ">=0.12.0"
-  },
   "dependencies": {
     "antd": "^2.11.0",
     "babel-polyfill": "^6.23.0",
@@ -43,9 +17,7 @@
     "react-router-redux": "^4.0.0",
     "redux": "^3.3.1",
     "redux-logger": "^2.6.1",
-    "redux-notifications": "reharik/re-notif",
     "redux-saga": "^0.14.3",
-    "redux-task-calendar": "reharik/redux-task-calendar",
     "redux-thunk": "^2.0.1",
     "selectn": "^1.1.1",
     "webpack-validator": "^3.0.0"
@@ -86,16 +58,5 @@
     "webpack": "2.6.1",
     "webpack-dev-server": "2.4.5",
     "webpack-manifest-plugin": "1.1.0"
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "pre-commit": [
-    "lint"
-  ]
+  }
 }

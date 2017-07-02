@@ -4,7 +4,6 @@
 
 require('must');
 var config = require('config');
-var extend = require('extend');
 var fs = require('fs');
 
 describe('appendToStreamPromiseTester', function() {
@@ -21,7 +20,7 @@ describe('appendToStreamPromiseTester', function() {
 
 
     before(function(){
-        extend(options, config.get('configs') || {});
+        Object.assign(options, config.get('configs') || {});
         container = require('../../registry')(options);
         handlers = container.getArrayOfGroup('EventHandlers');
         eventDispatcher = container.getInstanceOf('eventDispatcher');

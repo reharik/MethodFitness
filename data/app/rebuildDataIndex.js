@@ -1,9 +1,8 @@
-var extend = require('extend');
-var config = require('config');
+let config = require('config');
 
 module.exports = async function(_options) {
-  var options = {};
-  extend(options, config.get('configs') || {}, _options || {});
+  let options = {};
+  Object.assign(options, config.get('configs') || {}, _options || {});
   const container = require('./registry')(options);
   const mod1 = container.getInstanceOf('migration');
   const mod2 = container.getInstanceOf('seedES');

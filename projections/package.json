@@ -24,12 +24,10 @@
   "author": "Raif Harik",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^3.2.0",
-    "chai-as-promised": "^5.1.0",
+    "chai": "^3.3.0",
     "eslint": "^3.6.0",
-    "jasmine-core": "^2.3.4",
-    "mocha": "^2.2.5",
-    "mocha-junit-reporter": "^1.6.1",
+    "mocha": "3.4.2",
+    "nodemon": "^1.11.0",
     "precommit-hook-eslint": "^3.0.0"
   },
   "dependencies": {
@@ -37,15 +35,13 @@
     "bluebird": "^3.4.1",
     "config": "^1.14.0",
     "corelogger": "reharik/core_logger",
-    "dagon": "reharik/dagon",
-    "extend": "^3.0.0",
-    "ges-eventsourcing": "reharik/ges-eventsourcing#removePGFuture",
+    "dagon": "1.3.4",
+    "ges-eventsourcing": "reharik/ges-eventsourcing",
     "moment": "^2.17.1",
-    "nodemon": "^1.11.0",
     "promise-retry": "^1.1.1",
-    "ramda": "^0.18.0",
-    "ramda-fantasy": "^0.4.1",
-    "uuid": "^2.0.1"
+    "ramda": "^0.24.1",
+    "ramda-fantasy": "^0.8.0",
+    "uuid": "^3.0.1"
   },
   "pre-commit": [
     "lint"
