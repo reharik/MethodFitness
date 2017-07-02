@@ -48,7 +48,7 @@ services:
   data:
     depends_on:
       - postgres
-    command: npm run migrationStartup
+    command: npm start
     image: ${mf_data_image}
     env_file:
       - ./.env
