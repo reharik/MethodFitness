@@ -44,8 +44,8 @@ echo $IMAGE_CHECK
 if [ -z "${IMAGE_CHECK}" ]; then
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-     docker rmi -f $(docker images -a) 2>/dev/null || echo "No more containers to remove."
-
+     #docker rmi -f $(docker images -a) 2>/dev/null || echo "No more containers to remove."
+    docker images | grep "/methodfitness" | awk '{print $1}' | xargs docker rm
     docker-compose -f docker/docker-compose-build2.yml build
 
     docker-compose -f docker/docker-compose-build2.yml push
