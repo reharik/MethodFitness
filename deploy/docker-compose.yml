@@ -1,0 +1,74 @@
+version: "2"
+services:
+  frontend:
+    depends_on:
+      - api
+    command: npm run start2 #top -b #
+    image: ${mf_frontend_image}
+    environment:
+      APPLICATION_NAME: frontend
+    ports:
+      - "8888:8888"
+    env_file:
+      - ./.env
+
+  workflows:
+    depends_on:
+      - postgres
+      - eventstore
+    command: npm start #top -b #
+    image: ${mf_workflows_image}
+    env_file:
+      - ./.env
+    environment:
+      APPLICATION_NAME: workflows
+
+  projections:
+    depends_on:
+      - data
+      - postgres
+      - eventstore
+    command: npm start #top -b #
+    image: ${mf_projections_image}
+    env_file:
+      - ./.env
+    environment:
+      APPLICATION_NAME: projections
+
+  api:
+    image: ${mf_api_image}
+    command: npm run start #top -b #
+    ports:
+      - 3666:3000
+    env_file:
+      - ./.env
+    environment:
+      APPLICATION_NAME: api
+
+  data:
+    depends_on:
+      - postgres
+    command: npm start
+    image: ${mf_data_image}
+    env_file:
+      - ./.env
+    environment:
+      APPLICATION_NAME: data
+
+  postgres:
+    image: postgres
+    ports:
+      - 5400:5432
+    env_file:
+      - ./.env
+
+  eventstore:
+    image: eventstore/eventstore
+    ports:
+      - 2113:2113
+      - 1113:1113
+    environment:
+      - ext-http-prefixes=http://*:2113/
+      - ext-ip="0.0.0.0"
+      - log=/data/logs
+      - stats-period-sec=3000000

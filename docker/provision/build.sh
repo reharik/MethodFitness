@@ -44,8 +44,7 @@ echo $IMAGE_CHECK
 if [ -z "${IMAGE_CHECK}" ]; then
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-    # docker rmi -f $(docker images -a) 2>/dev/null || echo "No more containers to remove."
-    docker images | grep "/methodfitness" | awk '{print $1,":$TAG"}' | xargs echo #|xargs docker rmi
+     docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi
 
     docker-compose -f docker/docker-compose-build2.yml build
 
@@ -53,7 +52,7 @@ if [ -z "${IMAGE_CHECK}" ]; then
 
 else
 
-  echo "$DOCKER_REPO:$TAG exists in the ECR skipping build process"
+  echo "$DOCKER_REPO/api:$TAG exists in the ECR skipping build process"
   echo "------------------------"
 
 fi
