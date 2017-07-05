@@ -67,7 +67,7 @@ const columns = [
   }
 ];
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   moment.locale('en');
   let dataSource = state.sessionVerification
     .filter(x => !x.verified)

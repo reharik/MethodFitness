@@ -2,7 +2,7 @@
   "configs": {
     "children": {
       "eventstore": {
-        "host": "ec2-18-220-36-147.us-east-2.compute.amazonaws.com",
+        "host": "localhost",
         "systemUsers": {
           "admin": "admin",
           "adminPassword": "changeit"

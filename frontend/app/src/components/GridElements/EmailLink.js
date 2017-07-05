@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const EmailLink = ( value, row ) => {
+const EmailLink = ( value ) => {
   return (
     <div>
       <a href={'mailto:' + value}>{value}</a>
