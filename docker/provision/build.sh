@@ -52,8 +52,8 @@ echo docker-compose -f docker/docker-compose-build.yml config
 docker-compose -f docker/docker-compose-build.yml config
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-     docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  2>/dev/null
-     docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi 2>/dev/null
+     docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  || ''
+     docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi || ''
 
 echo "--------------------------------------"
 echo "Rebuilding the images"
