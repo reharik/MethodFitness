@@ -7,12 +7,12 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
     let A = time.substring(time.indexOf(' ') + 1);
     hour = A === 'AM' ? hour : hour + 12;
     const result = moment(seed).hour(hour).minute(min);
-    if (result.utcOffset() !== 300) {
-      result.utcOffset(-5);
-      console.log(`==========result.utcOffset()=========`);
-      console.log(result.utcOffset());
-      console.log(`==========END result.utcOffset()=========`);
-    }
+    // if (result.utcOffset() !== 300) {
+    //   result.utcOffset(5);
+    //   console.log(`==========result.utcOffset()=========`);
+    //   console.log(result.utcOffset());
+    //   console.log(`==========END result.utcOffset()=========`);
+    // }
     console.log(`==========result=========`);
     console.log(result.toString());
     console.log(result.toISOString());

@@ -6,6 +6,7 @@ services:
     build:
       context: ../frontend
       dockerfile: docker/Dockerfile
+    image: ${mf_frontend_image}
     command: npm run start2 #top -b #
     environment:
       APPLICATION_NAME: frontend
@@ -21,6 +22,7 @@ services:
     depends_on:
       - postgres
       - eventstore
+    image: ${mf_workflows_image}
     command: npm start #top -b #
     env_file:
       - ./../.envrc.qa
@@ -31,6 +33,7 @@ services:
     build:
       context: ../projections
       dockerfile: docker/Dockerfile
+    image: ${mf_projections_image}
     depends_on:
       - data
       - postgres
@@ -45,6 +48,7 @@ services:
     build:
       context: ../api
       dockerfile: docker/Dockerfile
+    image: ${mf_api_image}
     command: npm run start #top -b #
     ports:
       - 3666:3000
@@ -57,6 +61,7 @@ services:
     build:
       context: ../data
       dockerfile: docker/Dockerfile
+    image: ${mf_data_image}
     depends_on:
       - postgres
     command: npm start

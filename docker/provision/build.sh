@@ -54,13 +54,13 @@ echo "--------------------------------------"
 echo "Rebuilding the images"
 echo "--------------------------------------"
 
-    docker-compose -f docker/docker-compose-build2.yml build
+    docker-compose -f docker/docker-compose-build.yml build
 
 echo "--------------------------------------"
 echo "Pushing images to aws"
 echo "--------------------------------------"
 
-    docker-compose -f docker/docker-compose-build2.yml push
+    docker-compose -f docker/docker-compose-build.yml push
 
 else
   echo "--------------------------------------"
