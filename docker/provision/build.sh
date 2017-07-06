@@ -38,6 +38,8 @@ for IMG in ${SERVICES[@]}
 
 cat .envrc.qa >> deploy/.env
 
+printenv
+
 IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep "$TAG") || echo ''
 echo $IMAGE_CHECK
 if [ -z "${IMAGE_CHECK}" ]; then
@@ -53,8 +55,7 @@ echo "--------------------------------------"
 echo "--------------------------------------"
 echo "Rebuilding the images"
 echo "--------------------------------------"
-
-    docker-compose -f docker/docker-compose-build.yml build
+echo docker-compose -f docker/docker-compose-build.yml build
 
 echo "--------------------------------------"
 echo "Pushing images to aws"

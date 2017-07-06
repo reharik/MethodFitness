@@ -11,4 +11,6 @@ echo "--------------------------------------"
 echo "--------------------------------------"
 echo "Building new containers"
 echo "--------------------------------------"
+echo docker-compose config
+
 sudo docker-compose -p methodfitness up -d
