@@ -36,13 +36,6 @@ for IMG in ${SERVICES[@]}
 
     done
 
-echo "image names in env file"
-cat .envrc.qa >> deploy/.env
-cat deploy/.env 2>/dev/null
-
-echo "--------------------------------------"
-echo "Building docker images and deployment artifacts"
-echo "--------------------------------------"
 
 IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep "$TAG") || echo ''
 echo $IMAGE_CHECK

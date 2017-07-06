@@ -7,7 +7,11 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
     let A = time.substring(time.indexOf(' ') + 1);
     hour = A === 'AM' ? hour : hour + 12;
     const result = moment(seed).hour(hour).minute(min);
-    return result.toISOString();
+    console.log(`==========result=========`);
+    console.log(result.toString());
+    console.log(result.toISOString());
+    console.log(`==========END result=========`);
+    result.toISOString();
   };
 
   return {
