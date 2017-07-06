@@ -39,7 +39,7 @@ for IMG in ${SERVICES[@]}
 cat .envrc.qa >> deploy/.env
 echo "POSTGRES_USER=$(printenv POSTGRES_USER)"  >> deploy/.env
 cat .envrc.qa >> deploy/.env
-cant deploy.env
+cat deploy.env
 
 IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep "$TAG") || echo ''
 echo $IMAGE_CHECK
