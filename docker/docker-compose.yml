@@ -69,7 +69,7 @@ services:
       - postgres
     volumes:
       - ./../data/app:/home/current/app
-    command: npm run migration
+    command: npm run migration #npm start
     env_file:
       - ./../.envrc.example
     environment:
