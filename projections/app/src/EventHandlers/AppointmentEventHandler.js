@@ -42,7 +42,7 @@ module.exports = function(rsRepository, logger) {
 
     async function appointmentRescheduled(event) {
       logger.info('handling appointmentRescheduled event');
-      return appointmentUpdated(event);
+      return await appointmentUpdated(event);
     }
 
     async function appointmentUpdated(event) {

@@ -28,7 +28,7 @@ module.exports = function(rsRepository, moment, logger) {
     }
 
     async function appointmentAttendedByUnfundedClient(event) {
-      return appointmentAttendedByClient(event);
+      return await appointmentAttendedByClient(event);
     }
 
     async function appointmentAttendedByClient(event) {
@@ -39,6 +39,7 @@ module.exports = function(rsRepository, moment, logger) {
           clientSessions[event.appointmentType].filter(x => x.sessionId !== event.sessionId);
         return await rsRepository.save('clientSessions', clientSessions);
       }
+      return Promise.resolve();
     }
 
     return {

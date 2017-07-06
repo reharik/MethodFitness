@@ -84,7 +84,7 @@ where id = '${event.id}'`;
     }
 
     async function appointmentAttendedByUnfundedClient(event) {
-      return appointmentAttendedByClient(event);
+      return await appointmentAttendedByClient(event);
     }
 
     async function appointmentAttendedByClient(event) {

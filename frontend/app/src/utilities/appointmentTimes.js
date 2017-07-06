@@ -29,11 +29,13 @@ export function getISODateTime(date, time) {
   if (!date || !time) {
     return undefined;
   }
-  const formattedTime = moment(time, 'hh:mm A').format('HHmm');
-  let moment2 = moment(date, 'YYYYMMDD');
-  const formattedDate = moment2.format('YYYYMMDD');
-  let dateTime = `${formattedDate}T${formattedTime}`;
-  return moment(dateTime).toISOString();
+
+  let hour = parseInt(time.substring(0, time.indexOf(':')));
+  let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
+  let A = time.substring(time.indexOf(' ') + 1);
+  hour = A === 'AM' ? hour : hour + 12;
+  const result = moment(date).hour(hour).minute(min);
+  return result.toISOString();
 }
 
 export function syncApptTypeAndTime(apptType, startTime) {
