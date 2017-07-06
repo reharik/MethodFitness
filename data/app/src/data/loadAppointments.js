@@ -9,6 +9,9 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
     const result = moment(seed).hour(hour).minute(min);
     if (result.utcOffset() !== 300) {
       result.utcOffset('-5:00');
+      console.log(`==========result.utcOffset()=========`);
+      console.log(result.utcOffset());
+      console.log(`==========END result.utcOffset()=========`);
     }
     console.log(`==========result=========`);
     console.log(result.toString());
