@@ -38,8 +38,10 @@ for IMG in ${SERVICES[@]}
 
 echo "POSTGRES_USER=$(printenv POSTGRES_USER)"  >> .envrc.qa
 echo "POSTGRES_PASSWORD=$(printenv POSTGRES_PASSWORD)"  >> .envrc.qa
+echo "EVENTSTORE_USER=$(printenv EVENTSTORE_USER)"  >> .envrc.qa
+echo "EVENTSTORE_PASSWORD=$(printenv EVENTSTORE_PASSWORD)"  >> .envrc.qa
+
 cat .envrc.qa >> deploy/.env
-cat deploy/.env
 
 IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep "$TAG") || echo ''
 echo $IMAGE_CHECK
@@ -48,12 +50,10 @@ if [ -z "${IMAGE_CHECK}" ]; then
 echo "--------------------------------------"
 echo "Removing old images"
 echo "--------------------------------------"
-echo docker-compose -f docker/docker-compose-build.yml config
-docker-compose -f docker/docker-compose-build.yml config
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-#     docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  || ''
-#     docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi || ''
+     docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  || ''
+     docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi || ''
 
 echo "--------------------------------------"
 echo "Rebuilding the images"

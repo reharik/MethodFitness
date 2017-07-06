@@ -6,7 +6,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
     let min =  parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
     let A = time.substring(time.indexOf(' ') + 1);
     hour = A === 'AM' ? hour : hour + 12;
-    const result = moment(seed);
+    let result = moment(seed);
     if (result.utcOffset() !== 300) {
       result.utcOffset(5);
     }
