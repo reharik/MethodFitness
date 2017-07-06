@@ -92,4 +92,3 @@ services:
       - ext-ip="0.0.0.0"
       - log=/data/logs
       - stats-period-sec=3000000
-      
