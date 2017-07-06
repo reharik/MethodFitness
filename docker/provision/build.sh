@@ -55,7 +55,9 @@ echo "--------------------------------------"
 echo "--------------------------------------"
 echo "Rebuilding the images"
 echo "--------------------------------------"
-echo docker-compose -f docker/docker-compose-build.yml build
+echo docker-compose config
+
+    docker-compose -f docker/docker-compose-build.yml build
 
 echo "--------------------------------------"
 echo "Pushing images to aws"
