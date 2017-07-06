@@ -11,7 +11,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
     console.log(result.toString());
     console.log(result.toISOString());
     console.log(`==========END result=========`);
-    result.toISOString();
+    return result.toISOString();
   };
 
   return {
