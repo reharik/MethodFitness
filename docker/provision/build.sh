@@ -13,7 +13,10 @@ set -e
 # echo "Logging into the ECR"
 $(aws ecr get-login --region us-east-2)
 
+echo "--------------------------------------"
 echo "Creating the Build artifacts directory"
+echo "--------------------------------------"
+
 rm -rf ./deploy
 mkdir ./deploy
 cp docker/docker-compose-deploy.yml deploy/docker-compose.yml
@@ -37,11 +40,17 @@ echo "image names in env file"
 cat .envrc.qa >> deploy/.env
 cat deploy/.env 2>/dev/null
 
+echo "--------------------------------------"
 echo "Building docker images and deployment artifacts"
+echo "--------------------------------------"
 
 IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep "$TAG") || echo ''
 echo $IMAGE_CHECK
 if [ -z "${IMAGE_CHECK}" ]; then
+
+echo "--------------------------------------"
+echo "Rebuilding the images and pushing to aws"
+echo "--------------------------------------"
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
      docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi
@@ -53,10 +62,12 @@ if [ -z "${IMAGE_CHECK}" ]; then
     docker-compose -f docker/docker-compose-build2.yml push
 
 else
-
+  echo "--------------------------------------"
   echo "$DOCKER_REPO/api:$TAG exists in the ECR skipping build process"
-  echo "------------------------"
+  echo "--------------------------------------"
 
 fi
 
-echo "All Docker Images have been built and deploy artifacts have been created, Happy deploying!"
+echo "--------------------------------------"
+echo "Build stage complete"
+echo "--------------------------------------"
