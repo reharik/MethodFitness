@@ -47,6 +47,8 @@ if [ -z "${IMAGE_CHECK}" ]; then
 echo "--------------------------------------"
 echo "Removing old images"
 echo "--------------------------------------"
+echo docker-compose config
+docker-compose config
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
      docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  2>/dev/null
@@ -55,7 +57,6 @@ echo "--------------------------------------"
 echo "--------------------------------------"
 echo "Rebuilding the images"
 echo "--------------------------------------"
-docker-compose config
 
     docker-compose -f docker/docker-compose-build.yml build
 
