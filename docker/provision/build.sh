@@ -36,21 +36,29 @@ for IMG in ${SERVICES[@]}
 
     done
 
+cat .envrc.qa >> deploy/.env
 
 IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep "$TAG") || echo ''
 echo $IMAGE_CHECK
 if [ -z "${IMAGE_CHECK}" ]; then
 
 echo "--------------------------------------"
-echo "Rebuilding the images and pushing to aws"
+echo "Removing old images"
 echo "--------------------------------------"
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
      docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi
      docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi
 
+echo "--------------------------------------"
+echo "Rebuilding the images"
+echo "--------------------------------------"
 
     docker-compose -f docker/docker-compose-build2.yml build
+
+echo "--------------------------------------"
+echo "Pushing images to aws"
+echo "--------------------------------------"
 
     docker-compose -f docker/docker-compose-build2.yml push
 
