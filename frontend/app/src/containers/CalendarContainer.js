@@ -9,7 +9,8 @@ const mapStateToProps = function(state) {
     increment: 15,
     calendarName: 'schedule',
     dataSource: 'appointments',
-    defaultView: 'week'
+    defaultView: 'week',
+    utcTime: true
   };
   config.taskFilter = state.auth.user.role === 'admin'
     ? (x, calState) => {

@@ -26,13 +26,11 @@ const mapStateToProps = (state, ownProps) => {
   const buttons = ownProps.args.apptId && !ownProps.isCopy && !ownProps.isEdit
     ? ['copy', 'delete', 'edit', 'cancel']
     : ['submit', 'cancel'];
-
   const model = !ownProps.args.apptId
     ? appointmentModel(state, ownProps.args)
     : updateAppointmentModel(state, ownProps.args, ownProps.isCopy);
   model.appointmentType.label = 'Type';
   model.trainerId.label = 'Trainer';
-
   return {
     isAdmin,
     model,

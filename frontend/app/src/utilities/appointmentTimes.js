@@ -24,17 +24,21 @@ export function generateAllTimes(inc, start, end) {
   return iterateTimes(inc, 'AM', start).concat(iterateTimes(inc, 'PM', 1, end));
 }
 
+const convertLocalTimeToUtc = (time) => {
+  let hour = parseInt(time.substring(0, time.indexOf(':'))) + (-moment().utcOffset() / 60);
+  let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
+  let A = time.substring(time.indexOf(' ') + 1);
+  hour = A === 'AM' ? hour : hour + 12;
+  return {hour, min, A};
+};
+
 export function getISODateTime(date, time) {
   moment.locale('en');
   if (!date || !time) {
     return undefined;
   }
-
-  let hour = parseInt(time.substring(0, time.indexOf(':')));
-  let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
-  let A = time.substring(time.indexOf(' ') + 1);
-  hour = A === 'AM' ? hour : hour + 12;
-  const result = moment(date).hour(hour).minute(min);
+  let utcTime = convertLocalTimeToUtc(time);
+  const result = moment(date).hour(utcTime.hour).minute(utcTime.min);
   return result.toISOString();
 }
 

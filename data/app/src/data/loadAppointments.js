@@ -1,24 +1,20 @@
 module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
-  const seed = moment();
-  const getISODateTime = (date, time = '1:00') => {
-    moment.locale('en');
-    let hour = parseInt(time.substring(0, time.indexOf(':')));
-    let min =  parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
+  const seed = moment().local();
+  const convertLocalTimeToUtc = (time) => {
+    let hour = parseInt(time.substring(0, time.indexOf(':'))) + 5;
+    let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
     let A = time.substring(time.indexOf(' ') + 1);
     hour = A === 'AM' ? hour : hour + 12;
-    let result = moment(seed);
-    if (result.utcOffset() !== 300) {
-      result.utcOffset(5);
-    }
-    result = result.hour(hour).minute(min);
-    console.log(`==========result.utcOffset()=========`);
-    console.log(result.utcOffset());
-    console.log(`==========END result.utcOffset()=========`);
+    return {hour, min, A};
+  };
 
-    console.log(`==========result=========`);
-    console.log(result.toString());
-    console.log(result.toISOString());
-    console.log(`==========END result=========`);
+  const getISODateTime = (date, time) => {
+    moment.locale('en');
+    if (!date || !time) {
+      return undefined;
+    }
+    let utcTime = convertLocalTimeToUtc(time);
+    const result = moment(date).hour(utcTime.hour).minute(utcTime.min);
     return result.toISOString();
   };
 

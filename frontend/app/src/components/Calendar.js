@@ -55,20 +55,20 @@ class MFCalendar extends Component {
     });
   };
 
-  permissionToSetAppointment(date, time, isAdmin) {
+  permissionToSetAppointment(task, isAdmin) {
     return isAdmin ||
-      (moment(date).isAfter(moment(), 'day') ||
-        (moment(date).isSame(moment(), 'day') && moment(time, 'h:mm A').isAfter(moment().subtract(2, 'hours'))));
+      (moment(task.day).isAfter(moment(), 'day') ||
+        (moment(task.day).isSame(moment(), 'day') && moment(task.startTime, 'h:mm A').isAfter(moment().utc().subtract(2, 'hours'))));
   }
 
-  openSpaceClickedEvent = (day, time, calendarName) => {
-    if (!this.permissionToSetAppointment(day, time, this.props.isAdmin)) {
+  openSpaceClickedEvent = (task, calendarName) => {
+    if (!this.permissionToSetAppointment(task, this.props.isAdmin)) {
       // showPopup;
       return;
     }
 
-    const formattedTime = moment(time, 'h:mm A').format('hh:mm A');
-    let apptArgs = { day, startTime: formattedTime, calendarName };
+    const formattedTime = moment(task.startTime).format('hh:mm A');
+    let apptArgs = { day: task.day, startTime: formattedTime, calendarName };
     this.setState({
       isOpen: true,
       apptArgs

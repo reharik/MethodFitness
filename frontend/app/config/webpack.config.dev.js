@@ -15,7 +15,8 @@ require('babel-plugin-import');
 const envVariables = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PUBLIC_URL: process.env.PUBLIC_URL || '',
-  NODE_PATH: process.env.NODE_PATH || ''
+  NODE_PATH: process.env.NODE_PATH || '',
+  API_BASE_URL: process.env.API_BASE_URL
 };
 const stringifiedEnvVariables = {
   'process.env': Object.keys(envVariables).reduce(

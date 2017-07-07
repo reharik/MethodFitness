@@ -43,7 +43,7 @@ dockerLoggingDown:
 dockerDataDown:
 	docker-compose -f docker/docker-compose-data.yml -p methodfit down
 
-dockerUp:
+dockerUp: kill-data
 	docker-compose -f docker/docker-compose.yml -p methodfit up
 
 dockerDeployUp:
@@ -106,3 +106,5 @@ rebuildData:
 build:
 	- cd docker/provision && bash build.sh
 
+ecr-login:
+	$(aws ecr get-login --no-include-email --region us-east-2)

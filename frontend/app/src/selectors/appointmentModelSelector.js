@@ -5,7 +5,7 @@ import moment from 'moment';
 export function appointmentModel(state, args) {
   moment.locale('en');
   const model = normalizeModel(state.schema.definitions.appointment);
-  model.date.value = moment(args.day);
+  model.date.value = moment(args.day).utc();
   model.appointmentType.value = 'halfHour';
   model.startTime.value = args.startTime;
   model.endTime.value = syncApptTypeAndTime(model.appointmentType.value, model.startTime.value);
