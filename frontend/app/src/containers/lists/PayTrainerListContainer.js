@@ -75,8 +75,8 @@ function mapStateToProps(state, props) {
     .filter(x => x.verified)
     .map(x => ({
       ...x,
-      appointmentDate: moment(x.appointmentDate).format('MM/DD/YYYY'),
-      appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
+      appointmentDate: moment(x.appointmentDate).format('L'),
+      appointmentStartTime: moment(x.appointmentStartTime).format('LT')
     }));
 
   let trainer = state.trainers.find(x => x.id === props.params.trainerId);

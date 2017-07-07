@@ -28,6 +28,9 @@
           "password": "POSTGRES_PASSWORD",
           "port": "POSTGRES_PORT"
         }
+      },
+      "loggly": {
+        "token": "LOGGLY_TOKEN"
       }
     }
   }
