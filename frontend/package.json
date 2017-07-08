@@ -91,8 +91,6 @@
       "react-app"
     ]
   },
-  "eslintConfig": {
-  },
   "pre-commit": [
     "lint"
   ]

@@ -32,9 +32,11 @@ module.exports = function(
         const origin1 = `http://${config.app.frontEndHost}:${config.app.frontEndPort}`;
         const origin2 = `http://${config.app.frontEndHostAlt}:${config.app.frontEndPort}`;
         const origin3 = `http://${config.app.frontEndHost}`;
+        const origin4 = `http://${config.app.frontEndHostAlt}`;
         if (ctx.header.origin === origin1
           || ctx.header.origin === origin2
-          || ctx.header.origin === origin3) {
+          || ctx.header.origin === origin3
+          || ctx.header.origin === origin4) {
           return ctx.header.origin;
         }
         return false;

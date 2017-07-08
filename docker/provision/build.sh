@@ -40,6 +40,7 @@ echo "POSTGRES_USER=$(printenv POSTGRES_USER)"  >> .envrc.qa
 echo "POSTGRES_PASSWORD=$(printenv POSTGRES_PASSWORD)"  >> .envrc.qa
 echo "EVENTSTORE_USER=$(printenv EVENTSTORE_USER)"  >> .envrc.qa
 echo "EVENTSTORE_PASSWORD=$(printenv EVENTSTORE_PASSWORD)"  >> .envrc.qa
+echo "LOGGLY_TOKEN=$(printenv LOGGLY_TOKEN)"  >> .envrc.qa
 
 cat .envrc.qa >> deploy/.env
 
