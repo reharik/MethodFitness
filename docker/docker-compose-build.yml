@@ -11,7 +11,7 @@ services:
     environment:
       APPLICATION_NAME: frontend
     ports:
-      - "8888:8888"
+      - "88:8888"
     env_file:
       - ./../.envrc.qa
 
