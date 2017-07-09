@@ -61,7 +61,7 @@ TrainerContact.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
   submit: PropTypes.func,
-  roles: PropTypes.func
+  roles: PropTypes.array
 };
 
 export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerContact);

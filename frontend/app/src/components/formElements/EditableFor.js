@@ -18,7 +18,7 @@ const EditableFor = props => {
 };
 
 EditableFor.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  data: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
   displayStyle: PropTypes.string,
   selectOptions: PropTypes.array,
   noDisplay: PropTypes.bool,

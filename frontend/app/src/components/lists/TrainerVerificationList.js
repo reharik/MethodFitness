@@ -63,7 +63,7 @@ class TrainerVerificationList extends Component {
         <ContentHeader>
           <div className="list__header">
             <div className="list__header__left">
-              <button onClick={this.submitVerification} >Submit Verification </button>
+              <button className="contentHeader__button" onClick={this.submitVerification} >Submit Verification </button>
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">

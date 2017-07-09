@@ -54,7 +54,7 @@ class TrainerClients extends Component {
 TrainerClients.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
-  clients: PropTypes.object,
+  clients: PropTypes.array,
   submit: PropTypes.func
 };
 

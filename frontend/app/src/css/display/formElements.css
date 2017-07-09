@@ -53,6 +53,8 @@
 
 .display__container__value {
   padding-left:10px;
+  vertical-align: middle;
+  line-height: 32px;
 }
 .display__container__value__color {
   width: 50%;

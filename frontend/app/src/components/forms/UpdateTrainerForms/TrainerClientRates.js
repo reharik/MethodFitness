@@ -37,7 +37,7 @@ class TrainerInfo extends Component {
         <Form onSubmit={this.handleSubmit} layout={'vertical'} >
           <EditableFor form={form} data={model.id} hidden={true} />
           <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.trainerClientRates} />
+            <EditableFor editing={this.state.editing} form={form} data={model.trainerClientRates} span={16} />
           </Row>
           <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />
         </Form>

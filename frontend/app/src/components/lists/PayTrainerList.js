@@ -65,7 +65,9 @@ class PayTrainerList extends Component {
         <ContentHeader>
           <div className="list__header">
             <div className="list__header__left">
-              <button onClick={this.submitTrainerPayment} >Submit Trainer Payment</button>
+              <button className="contentHeader__button" onClick={this.submitTrainerPayment} >
+                Submit Trainer Payment
+              </button>
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">

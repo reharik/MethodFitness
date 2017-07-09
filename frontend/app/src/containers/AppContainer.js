@@ -5,6 +5,7 @@ import Layout from '../components/layout/Layout';
 import { getJsonSchema } from './../modules/schemaModule';
 import { fetchAllClientsAction } from './../modules/clientModule';
 import { fetchAllTrainersAction } from './../modules/trainerModule';
+import SignInContainer from './forms/SignInContainer';
 
 class LayoutContainer extends Component {
   componentDidMount() {
@@ -13,9 +14,10 @@ class LayoutContainer extends Component {
 
   loadData() {
     this.props.getJsonSchema();
-    // ping auth here and only make call if auth'd
-    this.props.fetchAllClientsAction();
-    this.props.fetchAllTrainersAction();
+    if (this.props.isAuthenticated) {
+      this.props.fetchAllClientsAction();
+      this.props.fetchAllTrainersAction();
+    }
   }
 
   render() {
@@ -24,6 +26,9 @@ class LayoutContainer extends Component {
     }
     if (this.props.errorMessage) {
       return <p style={{ 'padding-top': '100px' }}>ERROR! -&gt; {this.props.errorMessage}</p>;
+    }
+    if (!this.props.isAuthenticated) {
+      return <SignInContainer />;
     }
     return <Layout {...this.props} />;
   }
@@ -34,7 +39,8 @@ LayoutContainer.propTypes = {
   fetchAllTrainersAction: PropTypes.func,
   fetchAllClientsAction: PropTypes.func,
   isFetching: PropTypes.bool,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  isAuthenticated: PropTypes.bool
 };
 
 

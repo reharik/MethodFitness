@@ -29,3 +29,22 @@
   border: 1px solid #c6c6c6;
   background: url(./images/icon-header-plus.png) no-repeat scroll 0 -23px transparent;
 }
+
+.contentHeader__button {
+  background: url("./images/button-save-bg.png") repeat-x scroll 0 0 #CCCCCC;
+  border: 1px solid #B7D6DE;
+  padding: 5px 10px;
+  color: #437182;
+  margin-left:5px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.contentHeader__button:hover {
+  background: url("./images/button-save-bg-hover.png") repeat-x scroll 0 0 #CCCCCC;
+}
+
+.contentHeader__button:active {
+  background: url("./images/button-save-bg-active.png") repeat-x scroll 0 0 #CCCCCC;
+}

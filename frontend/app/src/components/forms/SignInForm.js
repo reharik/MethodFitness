@@ -5,8 +5,6 @@ import { Form, Button, Row, Col } from 'antd';
 import Notification from './../../containers/NotificationContainer';
 import { LOGIN } from './../../modules/authModule';
 
-
-
 class SignInForm extends Component {
   containerName = 'signIn';
 
@@ -22,6 +20,9 @@ class SignInForm extends Component {
   };
 
   render() {
+    if (!this.props.fields) {
+      return null;
+    }
     const model = this.props.fields;
     const form = this.props.form;
 

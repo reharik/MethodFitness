@@ -6,6 +6,9 @@ export const NAV_DOWN = 'methodFit/menu/NAV_DOWN';
 export const NAV_SELECT = 'methodFit/menu/NAV_SELECT';
 export const NAV_TO = 'methodFit/menu/NAV_TO';
 
+//Menu items are imported above from utilities/menuItems
+//Menu items are imported above from utilities/menuItems
+//Menu items are imported above from utilities/menuItems
 const item = localStorage.getItem('menu_data');
 const data = item
   ? JSON.parse(item)
