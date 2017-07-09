@@ -5,6 +5,7 @@ services:
       - api
     command: npm run start2 #top -b #
     image: ${mf_frontend_image}
+    restart: on-failure
     environment:
       APPLICATION_NAME: frontend
     ports:
@@ -18,6 +19,7 @@ services:
       - eventstore
     command: npm start #top -b #
     image: ${mf_workflows_image}
+    restart: on-failure
     env_file:
       - ./.env
     environment:
@@ -30,6 +32,7 @@ services:
       - eventstore
     command: npm start #top -b #
     image: ${mf_projections_image}
+    restart: on-failure
     env_file:
       - ./.env
     environment:
@@ -37,6 +40,7 @@ services:
 
   api:
     image: ${mf_api_image}
+    restart: on-failure
     command: npm run start #top -b #
     ports:
       - 3666:3000
