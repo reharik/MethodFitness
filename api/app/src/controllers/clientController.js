@@ -53,8 +53,14 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     const command = commands[commandName + 'Command'](payload);
 
     await eventstore.commandPoster(command, commandName, continuationId);
+    console.log('==========notificationPromise=========');
+    console.log(notificationPromise);
+    console.log('==========END notificationPromise=========');
 
     let notification = await notificationPromise;
+    console.log('==========notificationPromise=========');
+    console.log(notificationPromise);
+    console.log('==========END notificationPromise=========');
 
     const result = notificationParser(notification);
 
