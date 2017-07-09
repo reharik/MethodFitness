@@ -74,7 +74,7 @@ where id = '${event.id}'`;
     }
 
     async function trainerClientRemoved(event) {
-      let trainer = await rsRepository.getById(event.id, 'trainer');
+      let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.trainerClientRates.filter( x => x.clientId !== event.clientId );
       return await rsRepository.save('trainer', trainer);
     }

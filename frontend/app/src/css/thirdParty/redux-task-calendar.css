@@ -20,11 +20,19 @@
             align-items: center;
     width: 100%
 }
-.redux__task__calendar__header__display__date {
-    width: 300px
-}
+
 .redux__task__calendar__header__view__nav {
     margin-right: 10px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+
+    margin-right: 10px;
+    width: 180px;
 }
 .redux__task__calendar__header__date__nav {
     margin-right: 10px;
@@ -156,7 +164,7 @@
     text-align: center
 }
 .redux__task__calendar__header__date__nav {
-    width: 105px;
+    width: 135px;
     margin-left: 10px;
 
 }
@@ -170,7 +178,8 @@
     color: #555555;
     height: 28px;
     font-size: 13px;
-    font-weight: bold
+    font-weight: bold;
+    padding: 0 10px;
 }
 .redux__task__calendar__header__date__nav__button:hover {
     background: -webkit-linear-gradient(bottom, #c2c2c2 0%, #bababa 0%, #c3c3c3 30%, #d9d9d9 100%);
@@ -191,7 +200,8 @@
     color: #555555;
     height: 28px;
     font-size: 13px;
-    font-weight: bold
+    font-weight: bold;
+    padding: 0 10px;
 }
 .redux__task__calendar__header__view__nav_button:hover {
     background: -webkit-linear-gradient(bottom, #c2c2c2 0%, #bababa 0%, #c3c3c3 30%, #d9d9d9 100%);

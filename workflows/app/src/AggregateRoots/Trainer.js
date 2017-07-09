@@ -76,7 +76,7 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
             archivedDate: new Date()
           });
         },
-        unArchiveUser() {
+        unArchiveTrainer() {
           this.expectArchived();
           this.raiseEvent({
             eventName: 'trainerUnArchived',

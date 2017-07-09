@@ -4,8 +4,8 @@
   "private": true,
   "main": "app/index.js",
   "scripts": {
-    "start": "nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
-    "local": "LOGGING_TRANSPORTS=loggly NODE_CONFIG_DIR=./app/config nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
+    "start": "node app/index.js",
+    "local": "NODE_CONFIG_DIR=./app/config nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
     "intTest": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/integrationTests/temp.js",
     "lint": "eslint -c ./../.eslintrc.json .",

@@ -18,7 +18,7 @@ class ClientListContainer extends Component {
   }
 
   render() {
-    return (<ClientList gridConfig={this.props.gridConfig} archiveTrainer={this.props.archiveClient} />);
+    return (<ClientList gridConfig={this.props.gridConfig} archiveClient={this.props.archiveClient} />);
   }
 }
 
@@ -57,7 +57,7 @@ const columns = archiveClient => [
     render: (value, row) => { // eslint-disable-line no-unused-vars
       return archiveLink(archiveClient)(value, row);
     },
-    dataIndex: 'Archived',
+    dataIndex: 'archived',
     title: 'Archived',
     width: '10%'
   },

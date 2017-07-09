@@ -6,6 +6,10 @@ import { Table } from 'antd';
 import { browserHistory } from 'react-router';
 
 const ClientList = ({ gridConfig, archiveClient }) => {
+  console.log('==========archiveClient=========');
+  console.log(archiveClient);
+  console.log('==========END archiveClient=========');
+
   return (
     <div id="clientList">
       <ContentHeader>

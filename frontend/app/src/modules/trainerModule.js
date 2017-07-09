@@ -40,7 +40,18 @@ export default (state = [], action = {}) => {
     case HIRE_TRAINER.FAILURE: {
       return state;
     }
-
+    case ARCHIVE_TRAINER.SUCCESS: {
+      let update = selectn('action.update', action);
+      return state.map(x => {
+        if (x.id === update.id) {
+          return {
+            ...x,
+            archived: !x.archived
+          };
+        }
+        return x;
+      });
+    }
     case UPDATE_TRAINER_INFO.SUCCESS: {
       let update = selectn('action.update', action);
 

@@ -6,7 +6,7 @@
   "homepage": "https://github.com/reharik/mf_workflows#readme",
   "main": "app/index.js",
   "scripts": {
-    "start": "nodemon app/index.js",
+    "start": "node app/index.js",
     "local": "LOGGING_TRANSPORTS=loggly NODE_CONFIG_DIR=./app/config LOGGING_LEVEL=info nodemon -w app/src -w node_modules",
     "test": "mocha --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
     "intTest": "mocha  ./app/tests/integrationTests/*.js",

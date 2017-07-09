@@ -1,4 +1,4 @@
 - global error handling
-- sched service
 - global msg implemented
     - start adding proper errors and statuses to api calls and displaying via new notification component
+- add logic that you can not archive yourself in trainer list
