@@ -15,15 +15,20 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
 
     logger.info('subscription.isSubscribedToAll: ' + subscription.isSubscribedToAll);
 
-    return rx.Observable
+    var stream = rx.Observable
       .fromEvent(eventAppeared.emitter, 'event')
       .filter(mAndF.isValidStreamType)
       .first(
         note =>
-          mAndF.continuationId(note).getOrElse() === continuationId &&
-          ef.parseData(note).getOrElse().initialEvent.metadata.streamType === 'command'
+        mAndF.continuationId(note).getOrElse() === continuationId &&
+        ef.parseData(note).getOrElse().initialEvent.metadata.streamType === 'command'
       )
       .map(note => ef.parseData(note).getOrElse())
       .toPromise();
+
+    return {
+      stream,
+      subscription
+    }
   };
 };
