@@ -9,9 +9,14 @@ module.exports = function(_options) {
     }
   };
   Object.assign(options, config.get('configs') || {}, _options || {});
-  let container = require('./registry')(options);
-  let api = container.getInstanceOf('server');
-  api();
+  try {
+    let container = require('./registry')(options);
+    let api = container.getInstanceOf('server');
+    api();
+  } catch (ex) {
+    console.log(ex);
+    console.log(ex.stack);
+  }
 }();
 
 
