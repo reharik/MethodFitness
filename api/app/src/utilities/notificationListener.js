@@ -15,7 +15,7 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
 
     logger.info('subscription.isSubscribedToAll: ' + subscription.isSubscribedToAll);
 
-    var stream = rx.Observable
+    let stream = rx.Observable
       .fromEvent(eventAppeared.emitter, 'event')
       .filter(mAndF.isValidStreamType)
       .first(
@@ -25,10 +25,12 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
       )
       .map(note => ef.parseData(note).getOrElse())
       .toPromise();
-
+    console.log(`==========subscription=========`);
+    console.log(subscription);
+    console.log(`==========END subscription=========`);
     return {
       stream,
       subscription
-    }
+    };
   };
 };

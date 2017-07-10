@@ -1,9 +1,9 @@
 module.exports = function(logger) {
   return async notificationPromise => {
     let notification = await notificationPromise.stream;
-console.log('==========notification=========');
-console.log(notification);
-console.log('==========END notification=========');
+    console.log('==========notification=========');
+    console.log(notificationPromise);
+    console.log('==========END notification=========');
 
     const status = notification.success ? 200 : 422;
     let body = {};
@@ -17,13 +17,10 @@ console.log('==========END notification=========');
       body.success = notification.success;
       body.payload = notification.handlerResult;
     }
-    console.log('==========subscription=========');
-    console.log(subscription);
-    console.log('==========END subscription=========');
 
     notificationPromise.subscription.stop();
     console.log('==========subscription=========');
-    console.log(subscription);
+    console.log(notificationPromise.subscription);
     console.log('==========END subscription=========');
 
     return {

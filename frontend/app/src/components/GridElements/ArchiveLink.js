@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { message } from 'antd';
 
-const ArchiveLink = action => {
+const ArchiveLink = (action, loggedInUser) => {
   const link = (value, row) => {
-    const result = { id: row.id, archived: value };
+    const result = {id: row.id, archived: value};
+    const archiveClick = (result) => {
+      if (result.id === loggedInUser) {
+        message.info('You may not archive the currently logged in User', 3);
+        return;
+      }
+      action(result);
+    };
 
     return (
-      <div onClick={() => action(result)} className="list__cell__link">
+      <div onClick={() => archiveClick(result)} className="list__cell__link">
         <span>{result.archived ? 'UnArchive' : 'Archive'}</span>
       </div>
     );
@@ -21,7 +29,8 @@ const ArchiveLink = action => {
 };
 
 ArchiveLink.propTypes = {
-  action: PropTypes.func
+  action: PropTypes.func,
+  loggedInUser: PropTypes.string
 };
 
 export default ArchiveLink;

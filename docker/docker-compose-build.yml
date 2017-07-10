@@ -23,7 +23,7 @@ services:
       - postgres
       - eventstore
     image: ${mf_workflows_image}
-    command: npm start #top -b #
+    command: npm run startRemoteContainer #top -b #
     env_file:
       - ./../.envrc.qa
     environment:
@@ -38,7 +38,7 @@ services:
       - data
       - postgres
       - eventstore
-    command: npm start #top -b #
+    command: npm run startRemoteContainer #top -b #
     env_file:
       - ./../.envrc.qa
     environment:
@@ -49,7 +49,7 @@ services:
       context: ../api
       dockerfile: docker/Dockerfile
     image: ${mf_api_image}
-    command: npm run start #top -b #
+    command: npm run startRemoteContainer #top -b #
     ports:
       - 3666:3000
     env_file:

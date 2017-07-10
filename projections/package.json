@@ -6,7 +6,8 @@
   "homepage": "https://github.com/reharik/mf_projections#readme",
   "main": "index.js",
   "scripts": {
-    "start": "node app/index.js",
+    "startLocalContainer": "nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
+    "startRemoteContainer": "node app/index.js",
     "local": "NODE_CONFIG_DIR=./app/config nodemon app/index.js",
     "test": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
     "intTest": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/integrationTests/*.js",

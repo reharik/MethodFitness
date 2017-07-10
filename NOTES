@@ -3,5 +3,6 @@
     - start adding proper errors and statuses to api calls and displaying via new notification component
 - add logic that you can not archive yourself in trainer list
 - global or at least signin error not staying on screen
+  - as suspected this is because the store is cleaned on logout. signin failure leads to logout. I'll figure a workaround
 - dispose of subscription after notification returns.  do this by passing sub with rx.observer in an object and
 then passing object to parser, skip putting the await in controller.

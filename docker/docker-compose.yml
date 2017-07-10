@@ -25,7 +25,7 @@ services:
       - eventstore
     volumes:
       - ./../workflows/app:/home/current/app
-    command: npm start #top -b #
+    command: npm run startLocalContainer #top -b #
     env_file:
       - ./../.envrc.example
     environment:
@@ -41,7 +41,7 @@ services:
       - eventstore
     volumes:
       - ./../projections/app:/home/current/app
-    command: npm start #top -b #
+    command: npm run startLocalContainer #top -b #
     env_file:
       - ./../.envrc.example
     environment:
@@ -53,7 +53,7 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ./../api/app:/home/current/app
-    command: npm run start #top -b #
+    command: npm run startLocalContainer #top -b #
     ports:
       - 3666:3000
     env_file:

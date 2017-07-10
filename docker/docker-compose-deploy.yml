@@ -17,7 +17,7 @@ services:
     depends_on:
       - postgres
       - eventstore
-    command: npm start #top -b #
+    command: npm run startRemoteContainer #top -b #
     image: ${mf_workflows_image}
     restart: on-failure
     env_file:
@@ -30,7 +30,7 @@ services:
       - data
       - postgres
       - eventstore
-    command: npm start #top -b #
+    command: npm run startRemoteContainer #top -b #
     image: ${mf_projections_image}
     restart: on-failure
     env_file:
@@ -41,7 +41,7 @@ services:
   api:
     image: ${mf_api_image}
     restart: on-failure
-    command: npm run start #top -b #
+    command: npm run startRemoteContainer #top -b #
     ports:
       - 3666:3000
     env_file:

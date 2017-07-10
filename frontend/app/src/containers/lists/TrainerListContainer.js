@@ -28,7 +28,7 @@ TrainerListContainer.propTypes = {
   fetchAllTrainersAction: PropTypes.func
 };
 
-const columns = archiveTrainer => [
+const columns = (archiveTrainer, loggedInUser) => [
   {
     render: (column, row) => {
       return cellLink('trainer')(column, row);
@@ -56,7 +56,7 @@ const columns = archiveTrainer => [
   },
   {
     render: (column, row) => {
-      return archiveLink(archiveTrainer)(column, row);
+      return archiveLink(archiveTrainer, loggedInUser)(column, row);
     },
     dataIndex: 'archived',
     title: 'Archived',
@@ -77,7 +77,8 @@ function mapStateToProps(state) {
     dataSource: state.trainers
   };
   return {
-    gridConfig
+    gridConfig,
+    loggedInUser: state.auth.user.id
   };
 }
 

@@ -5,7 +5,7 @@ import ContentHeaderSearch from '../ContentHeaderSearch';
 import { Table } from 'antd';
 import { browserHistory } from 'react-router';
 
-const TrainerList = ({ gridConfig, archiveTrainer }) => {
+const TrainerList = ({ gridConfig, archiveTrainer, loggedInUser }) => {
   return (
     <div id="trainerList">
       <ContentHeader>
@@ -27,7 +27,7 @@ const TrainerList = ({ gridConfig, archiveTrainer }) => {
       </ContentHeader>
       <div className="form-scroll-inner">
         <Table
-          columns={gridConfig.columns(archiveTrainer)}
+          columns={gridConfig.columns(archiveTrainer, loggedInUser)}
           dataSource={gridConfig.dataSource}
           pagination={false}
           rowKey="id"
@@ -41,6 +41,7 @@ const TrainerList = ({ gridConfig, archiveTrainer }) => {
 
 TrainerList.propTypes = {
   gridConfig: PropTypes.object,
+  loggedInUser: PropTypes.string,
   archiveTrainer: PropTypes.func
 };
 
