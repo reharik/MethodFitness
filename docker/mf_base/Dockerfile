@@ -1,4 +1,4 @@
-FROM 709865789463.dkr.ecr.us-east-2.amazonaws.com/node_base:latest
+FROM 709865789463.dkr.ecr.us-east-2.amazonaws.com/node_base
 
 MAINTAINER reharik@gmail.com
 
