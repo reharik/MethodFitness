@@ -23,7 +23,7 @@ cp docker/docker-compose-deploy.yml deploy/docker-compose.yml
 cp docker/provision/deploy_containers.sh deploy/deploy_containers.sh
 
 DOCKER_REPO="709865789463.dkr.ecr.us-east-2.amazonaws.com/methodfitness/"
-export TAG=$(git rev-parse --short HEAD)
+export TAG=$(git show -s --format=%h)
 
 SERVICES=("data" "api" "workflows" "projections" "frontend")
 for IMG in ${SERVICES[@]}
