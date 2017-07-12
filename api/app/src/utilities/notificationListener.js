@@ -17,7 +17,6 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
     let stream = rx.Observable
       .fromEvent(eventAppeared.emitter, 'event')
       .map(x => {
-        console.log(x);
         return x;
       })
       .filter(mAndF.isValidStreamType)
