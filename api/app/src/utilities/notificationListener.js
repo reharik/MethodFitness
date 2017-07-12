@@ -4,11 +4,10 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
     const eventAppeared = eventstore.eventEmitterInstance();
     let mAndF = mapAndFilterStream('notification');
     let ef = applicationFunctions.eventFunctions;
-    let subscription = eventstore.gesConnection.subscribeToAllFrom(
-      null,
+    let subscription = eventstore.gesConnection.subscribeToStream(
+      'notification',
       false,
       eventAppeared.emitEvent,
-      null,
       null,
       eventstore.credentials
     );
@@ -17,6 +16,10 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
 
     let stream = rx.Observable
       .fromEvent(eventAppeared.emitter, 'event')
+      .map(x => {
+        console.log(x);
+        return x;
+      })
       .filter(mAndF.isValidStreamType)
       .first(
         note =>
@@ -25,9 +28,6 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
       )
       .map(note => ef.parseData(note).getOrElse())
       .toPromise();
-    console.log(`==========subscription=========`);
-    console.log(subscription);
-    console.log(`==========END subscription=========`);
     return {
       stream,
       subscription

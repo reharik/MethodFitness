@@ -107,4 +107,4 @@ build:
 	- cd docker/provision && bash build.sh
 
 ecr-login:
-	$(aws ecr get-login --no-include-email --region us-east-2)
+	aws ecr get-login --no-include-email --region us-east-2

@@ -6,3 +6,5 @@
   - as suspected this is because the store is cleaned on logout. signin failure leads to logout. I'll figure a workaround
 - dispose of subscription after notification returns.  do this by passing sub with rx.observer in an object and
 then passing object to parser, skip putting the await in controller.
+- on toggle trainer appointments make it so when you are on "all" and you click one trainer it turns all off except that one trainer now it's opposite
+- start thinkng about form or field validation e.g. email phone etc

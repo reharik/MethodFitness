@@ -6,7 +6,7 @@
   "homepage": "https://github.com/reharik/mf_workflows#readme",
   "main": "app/index.js",
   "scripts": {
-    "startLocalContainer": "nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
+    "startLocalContainer": "nodemon  -V -w app -w node_modules",
     "startRemoteContainer": "node app/index.js",
     "local": "LOGGING_TRANSPORTS=loggly NODE_CONFIG_DIR=./app/config LOGGING_LEVEL=info nodemon -w app/src -w node_modules",
     "test": "mocha --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
