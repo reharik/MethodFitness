@@ -54,6 +54,10 @@ module.exports = function(rsRepository, logger) {
       return await rsRepository.saveQuery(sql);
     }
 
+    async function appointmentAttendedByUnfundedClient() {
+      return await appointmentAttendedByClient(event);
+    }
+
     async function appointmentAttendedByClient(event) {
       let appointment = await rsRepository.getById(event.appointmentId, 'appointment');
       appointment.completed = true;
@@ -72,7 +76,8 @@ module.exports = function(rsRepository, logger) {
       appointmentCanceled,
       appointmentRescheduled,
       appointmentUpdated,
-      appointmentAttendedByClient
+      appointmentAttendedByClient,
+      appointmentAttendedByUnfundedClient
     };
   };
 };
