@@ -7,7 +7,7 @@ const ArchiveLink = (action, loggedInUser) => {
     const result = {id: row.id, archived: value};
     const archiveClick = (result) => {
       if (result.id === loggedInUser) {
-        message.info('You may not archive the currently logged in User', 3);
+        message.info('You may not archive the currently logged in User', 8);
         return;
       }
       action(result);

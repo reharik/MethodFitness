@@ -18,12 +18,16 @@ class TrainerListContainer extends Component {
   }
 
   render() {
-    return (<TrainerList gridConfig={this.props.gridConfig} archiveTrainer={this.props.archiveTrainer} />);
+    return (<TrainerList
+      gridConfig={this.props.gridConfig}
+      archiveTrainer={this.props.archiveTrainer}
+      loggedInUser={this.props.loggedInUser} />);
   }
 }
 
 TrainerListContainer.propTypes = {
   gridConfig: PropTypes.object,
+  loggedInUser: PropTypes.string,
   archiveTrainer: PropTypes.func,
   fetchAllTrainersAction: PropTypes.func
 };

@@ -19,13 +19,19 @@ class ToggleTrainerListForCalendar extends Component {
 
   toggle = id => {
     let result;
-    if (id) {
-      result = this.state.items.map(x => id && x.id === id ? { ...x, selected: !x.selected } : x);
+    let allSelected = !id && !this.state.allSelected;
+    if (id && this.state.allSelected) {
+      result = this.state.items.map(x => x.id !== id ? { ...x, selected: false } : x);
+    } else if (id) {
+      result = this.state.items.map(x => x.id === id ? { ...x, selected: !x.selected } : x);
+      if(result.every(x => x.selected)) {
+        allSelected = true;
+      }
     } else {
       result = this.state.items.map(x => ({ ...x, selected: !this.state.allSelected }));
     }
     this.props.toggleTrainerListForCalendar(result.filter(x => x.selected).map(x => x.id));
-    this.setState({ allSelected: !id && !this.state.allSelected, items: [...result] });
+    this.setState({ allSelected, items: [...result] });
   };
 
   render() {
