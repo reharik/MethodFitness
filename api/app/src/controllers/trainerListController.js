@@ -1,5 +1,3 @@
-
-
 module.exports = function(rsRepository, logger) {
   let fetchTrainers = async function(ctx) {
     logger.debug('arrived at trainerlist.fetchTrainers');

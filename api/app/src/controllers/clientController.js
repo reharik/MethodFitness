@@ -48,14 +48,11 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     logger.debug(`api: processing ${commandName}`);
     const payload = ctx.request.body;
     const continuationId = uuid.v4();
+
     let notificationPromise = notificationListener(continuationId);
-
     const command = commands[commandName + 'Command'](payload);
-
     await eventstore.commandPoster(command, commandName, continuationId);
-
-
-    const result = notificationParser(notificationPromise);
+    const result = await notificationParser(notificationPromise);
 
     ctx.body = result.body;
     ctx.status = result.status;

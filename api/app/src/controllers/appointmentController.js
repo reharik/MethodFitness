@@ -32,7 +32,7 @@ module.exports = function(
     let payload = ctx.request.body;
     payload.commandName = 'scheduleAppointment';
     const notification = await processMessage(payload, 'scheduleAppointmentFactory', 'scheduleAppointment');
-    const result = notificationParser(notification);
+    const result = await notificationParser(notification);
 
     ctx.body = result.body;
     ctx.status = result.status;
@@ -71,7 +71,7 @@ module.exports = function(
       body.appointmentId = body.id;
 
       notification = await processMessage(body, 'scheduleAppointmentFactory', commandName);
-      const result = notificationParser(notification);
+      const result = await notificationParser(notification);
 
       ctx.body = result.body;
       ctx.status = result.status;
@@ -86,7 +86,7 @@ module.exports = function(
     let body = ctx.request.body;
 
     const notification = await processCommandMessage(body, 'cancelAppointment');
-    const result = notificationParser(notification);
+    const result = await notificationParser(notification);
 
     ctx.body = result.body;
     ctx.status = result.status;
@@ -103,7 +103,7 @@ module.exports = function(
     const command = commands[commandFactory](payload);
     await eventstore.commandPoster(command, commandName, continuationId);
 
-    return await notificationPromise;
+    return notificationPromise;
   };
 
   return {

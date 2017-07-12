@@ -36,8 +36,7 @@ module.exports = function(rsRepository,
       const command = commands.payTrainerCommand(payload);
       await eventstore.commandPoster(command, 'payTrainer', continuationId);
 
-      const notification = await notificationPromise;
-      const result = notificationParser(notification);
+      const result = await notificationParser(notificationPromise);
       ctx.body = result.body;
       ctx.status = result.status;
     } catch (ex) {

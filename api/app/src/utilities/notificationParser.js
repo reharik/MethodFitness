@@ -15,7 +15,7 @@ module.exports = function(logger) {
       body.payload = notification.handlerResult;
     }
 
-    // notificationPromise.subscription.stop();
+    notificationPromise.subscription.then(x => x.close());
 
     return {
       body,

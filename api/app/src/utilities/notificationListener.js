@@ -28,6 +28,7 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
       )
       .map(note => ef.parseData(note).getOrElse())
       .toPromise();
+
     return {
       stream,
       subscription

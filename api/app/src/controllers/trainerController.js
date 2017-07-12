@@ -92,8 +92,7 @@ module.exports = function(
     const command = commands[commandName + 'Command'](payload);
     await eventstore.commandPoster(command, commandName, continuationId);
 
-    const notification = await notificationPromise;
-    return notificationParser(notification);
+    return await notificationParser(notificationPromise);
   };
 
   let getTrainer = async function(ctx) {

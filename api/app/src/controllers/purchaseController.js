@@ -30,9 +30,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     const command = commands[commandName + 'Command'](payload);
     await eventstore.commandPoster(command, commandName, continuationId);
 
-    let notification = await notificationPromise;
-
-    const result = notificationParser(notification);
+    const result = await notificationParser(notificationPromise);
 
     ctx.body = result.body;
     ctx.status = result.status;
