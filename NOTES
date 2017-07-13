@@ -4,3 +4,4 @@
 - global or at least signin error not staying on screen
   - as suspected this is because the store is cleaned on logout. signin failure leads to logout. I'll figure a workaround
 - start thinkng about form or field validation e.g. email phone etc
+- more/better logging
