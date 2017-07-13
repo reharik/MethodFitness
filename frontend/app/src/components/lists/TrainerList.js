@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
-import ContentHeaderSearch from '../ContentHeaderSearch';
 import { Table } from 'antd';
 import { browserHistory } from 'react-router';
 
@@ -20,9 +19,7 @@ const TrainerList = ({ gridConfig, archiveTrainer, loggedInUser }) => {
           <div className="list__header__center">
             <div className="list__header__center__title">Trainers</div>
           </div>
-          <div className="list__header__right">
-            <ContentHeaderSearch />
-          </div>
+          <div className="list__header__right" />
         </div>
       </ContentHeader>
       <div className="form-scroll-inner">
