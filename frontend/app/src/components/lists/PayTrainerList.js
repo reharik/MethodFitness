@@ -16,7 +16,7 @@ class PayTrainerList extends Component {
     if(this.state.selectedIds.length > 0) {
       confirm({
         title: `Are you sure you would like to pay trainer: ${this.props.trainerName}?`,
-        content: `$${this.state.trainerTotal.toFixed(2)} for $${this.state.selectedIds.length.toFixed(2)} Appointments`,
+        content: `$${this.state.trainerTotal.toFixed(2)} for ${this.state.selectedIds.length} Appointments`,
         okText: 'OK',
         cancelText: 'Cancel',
         onOk() {

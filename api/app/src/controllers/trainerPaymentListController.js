@@ -13,8 +13,10 @@ module.exports = function(rsRepository, logger) {
   let fetchTrainerPaymentDetails = async function(ctx) {
     logger.debug('arrived at trainerPaymentsList.fetchTrainerPaymentDetails');
     try {
-      let body = await rsRepository.getById(ctx.state.user.id, 'trainerPaymentDetails');
-      ctx.body = body.payments ? body.payments : [];
+      let result = await rsRepository.getById(ctx.state.user.id, 'trainerPaymentDetails');
+      ctx.body = result && result.paidAppointments
+        ? result.paidAppointments.filter(x => x.paymentId === ctx.params.paymentId)
+        : [];
       ctx.status = 200;
       return ctx;
     } catch (ex) {

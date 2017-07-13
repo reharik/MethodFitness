@@ -16,7 +16,7 @@ class TrainerVerificationList extends Component {
     if(this.state.selectedIds.length > 0) {
       confirm({
         title: 'Are you sure you would like to Verify?',
-        content: `${this.state.selectedIds.length} Appointments for $${this.state.trainerTotal}`,
+        content: `${this.state.selectedIds.length} Appointments for $${this.state.trainerTotal.toFixed(2)}`,
         okText: 'OK',
         cancelText: 'Cancel',
         onOk() {

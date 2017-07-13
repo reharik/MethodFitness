@@ -54,7 +54,7 @@ module.exports = function(rsRepository, logger) {
       return await rsRepository.saveQuery(sql);
     }
 
-    async function appointmentAttendedByUnfundedClient() {
+    async function appointmentAttendedByUnfundedClient(event) {
       return await appointmentAttendedByClient(event);
     }
 
