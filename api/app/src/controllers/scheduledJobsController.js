@@ -1,4 +1,4 @@
-module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
+module.exports = function(rsRepository, eventstore, moment, uuid, commands, logger) {
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
 
@@ -7,28 +7,28 @@ module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
     const appointments = await rsRepository.query(sql);
 
     logger.info(`appoinments: ${JSON.stringify(appointments)}`);
-    let commands = [];
+    let _commands = [];
 
     appointments.filter(x => {
       const before = moment(x.endTime).isBefore(moment(), 'minute');
       const notCompleted = !x.completed;
       return before && notCompleted;
     }).forEach(x =>
-      x.clients.forEach(y => commands.push({
-        commandName: 'clientAttendsAppointment',
-        clientId: y,
-        appointmentId: x.id,
-        appointmentType: x.appointmentType
-      }))
+      x.clients.forEach(y =>
+        _commands.push(commands.clientAttendsAppointmentCommand({
+          clientId: y,
+          appointmentId: x.id,
+          appointmentType: x.appointmentType
+        })))
     );
 
-    logger.info(`commands ${JSON.stringify(commands)}`);
-    for (let c of commands) {
+    logger.info(`commands ${JSON.stringify(_commands)}`);
+    for (let c of _commands) {
       await eventstore.commandPoster(c, c.commandName, uuid.v4());
     }
 
     ctx.status = 200;
-    ctx.body = {commandsProcessed: commands};
+    ctx.body = {commandsProcessed: _commands};
   };
 
   return {

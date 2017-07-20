@@ -1,10 +1,55 @@
 module.exports = function(invariant) {
-  return function(client) {
-    invariant(client.contact.firstName, 'addClient requires that you pass the clients first name');
-    invariant(client.contact.lastName, 'addClient requires that you pass the clients last name');
-    invariant(client.contact.email, 'addClient requires that you pass the clients email');
-    invariant(client.contact.mobilePhone, 'addClient requires that you pass the clients mobilePhone');
-    invariant(client.startDate, 'addClient requires that you pass the clients startDate');
-    return client;
+  return function({
+                     source,
+                     startDate,
+                     sourceNotes,
+                     birthDate,
+                     archived,
+                     contact
+                   }) {
+    const {
+      firstName,
+      lastName,
+      address,
+      secondaryPhone,
+      mobilePhone,
+      email
+    } = contact;
+
+    const {
+      street1,
+      street2,
+      city,
+      state,
+      zipCode
+    } = address;
+
+    invariant(firstName, 'addClient requires that you pass the clients first name');
+    invariant(lastName, 'addClient requires that you pass the clients last name');
+    invariant(email, 'addClient requires that you pass the clients email');
+    invariant(mobilePhone, 'addClient requires that you pass the clients mobilePhone');
+    invariant(startDate, 'addClient requires that you pass the clients startDate');
+
+    return {
+      source,
+      startDate,
+      sourceNotes,
+      birthDate,
+      archived,
+      contact: {
+        firstName,
+        lastName,
+        secondaryPhone,
+        mobilePhone,
+        email,
+        address: {
+          street1,
+          street2,
+          city,
+          state,
+          zipCode
+        }
+      }
+    };
   };
 };
