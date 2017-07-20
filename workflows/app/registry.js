@@ -21,6 +21,7 @@ module.exports = function(_options) {
         .for('ramdafantasy').renameTo('_fantasy')
         .for('bluebird').renameTo('Promise')
         .for('applicationFunctions').renameTo('appfuncs')
+        .groupAllInDirectory('./app/src/events', 'esEvents')
         .complete(),
       x=>x.instantiate('eventstore').asFunc().withParameters(options.children || {})
         .instantiate('eventRepository').asFunc().withParameters(options.children || {})

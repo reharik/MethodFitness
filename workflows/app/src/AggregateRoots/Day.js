@@ -1,4 +1,4 @@
-module.exports = function(AggregateRootBase, invariant, uuid, moment) {
+module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) {
   return class Day extends AggregateRootBase {
     constructor() {
       super();
@@ -25,18 +25,7 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         this.expectTrainerNotConflicting(cmd);
         this.expectClientsNotConflicting(cmd);
 
-        this.raiseEvent({
-          eventName: 'appointmentUpdated',
-          id: cmd.appointmentId,
-          appointmentType: cmd.appointmentType,
-          date: cmd.date,
-          startTime: cmd.startTime,
-          endTime: cmd.endTime,
-          trainerId: cmd.trainerId,
-          clients: cmd.clients,
-          notes: cmd.notes,
-          entityName: cmd.entityName
-        });
+        this.raiseEvent(esEvents.appointmentUpdatedEvent(cmd));
       }.bind(this);
 
       const scheduleAppointment = function(cmd) {
@@ -45,30 +34,17 @@ module.exports = function(AggregateRootBase, invariant, uuid, moment) {
         this.expectCorrectNumberOfClients(cmd);
         this.expectTrainerNotConflicting(cmd);
         this.expectClientsNotConflicting(cmd);
-        let id = cmd.commandName === 'scheduleAppointment' || cmd.commandName === 'rescheduleAppointmentToNewDay'
+        cmd.appointmentId = cmd.commandName === 'scheduleAppointment'
+        || cmd.commandName === 'rescheduleAppointmentToNewDay'
           ? uuid.v4()
           : cmd.appointmentId;
 
-        this.raiseEvent({
-          eventName: 'appointmentScheduled',
-          id,
-          appointmentType: cmd.appointmentType,
-          date: cmd.date,
-          startTime: cmd.startTime,
-          endTime: cmd.endTime,
-          trainerId: cmd.trainerId,
-          clients: cmd.clients,
-          notes: cmd.notes,
-          entityName: cmd.entityName
-        });
+        this.raiseEvent(esEvents.appointmentScheduledEvent(cmd));
       }.bind(this);
 
       const _cancelAppointment = function(cmd) {
         //TODO put lots of business logic here!
-        this.raiseEvent({
-          eventName: 'appointmentCanceled',
-          id: cmd.appointmentId
-        });
+        this.raiseEvent(esEvents.appointmentCanceledEvent(cmd));
       }.bind(this);
 
       return {

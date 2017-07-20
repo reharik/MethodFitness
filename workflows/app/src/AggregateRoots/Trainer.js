@@ -1,4 +1,4 @@
-module.exports = function(AggregateRootBase, invariant, uuid) {
+module.exports = function(AggregateRootBase, esEvents, invariant, uuid) {
   return class Trainer extends AggregateRootBase {
     constructor() {
       super();
@@ -18,39 +18,32 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
       return {
         hireTrainer(cmd) {
           cmd.id = cmd.id || uuid.v4();
-          cmd.eventName = 'trainerHired';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.trainerHiredEvent(cmd));
         },
         updateTrainerInfo(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainerInfoUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.trainerInfoUpdatedEvent(cmd));
         },
         updateTrainerContact(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainerContactUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.trainerContactUpdatedEvent(cmd));
         },
         updateTrainerAddress(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainerAddressUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.trainerAddressUpdatedEvent(cmd));
         },
         updateTrainerPassword(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainerPasswordUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.trainerPasswordUpdatedEvent(cmd));
         },
         verifyAppointments(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainerVerifiedAppointments';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.trainerVerifiedAppointmentsEvent(cmd));
         },
         payTrainer(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainerPaid';
           cmd.paymentId = uuid.v4();
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.trainerPaidEvent(cmd));
         },
 
 
@@ -68,64 +61,53 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
         //         }
         //     });
         // },
-        archiveTrainer() {
+        archiveTrainer(cmd) {
           this.expectNotArchived();
-          this.raiseEvent({
-            eventName: 'trainerArchived',
-            id: this._id,
-            archivedDate: new Date()
-          });
+          this.raiseEvent(esEvents.trainerArchivedEvent(cmd));
         },
-        unArchiveTrainer() {
+        unArchiveTrainer(cmd) {
           this.expectArchived();
-          this.raiseEvent({
-            eventName: 'trainerUnArchived',
-            id: this._id,
-            unArchivedDate: new Date()
-          });
+          this.raiseEvent(esEvents.trainerunArchivedEvent(cmd));
         },
         updateTrainersClientRates(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainersClientRatesUpdated';
 
           this.trainerClientRates.filter(x => cmd.clients.find(y => x.clientId === y).rate !== x.rate)
             .map(x => ({
-              eventName: 'trainersClientRateChanged',
               trainerId: this._id,
               clientId: x,
               rate: x.rate
             }))
-            .forEach(e => this.raiseEvent(e));
-          this.raiseEvent(cmd);
+            .forEach(e => this.raiseEvent(esEvents.trainersClientRatesUpdatedEvent(e)));
+
+          this.raiseEvent(esEvents.trainersClientRatesUpdatedEvent(cmd));
 
         },
         updateTrainersClients(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'trainersClientsUpdated';
           this.trainerClients.filter(x => !cmd.clients.find(y => y === x))
             .map(x => ({
-              eventName: 'trainerClientRemoved',
               trainerId: this._id,
               clientId: x
             }))
-            .forEach(e => this.raiseEvent(e));
+            .forEach(e => this.raiseEvent(esEvents.trainerClientRemovedEvent(e)));
+
           const newClients = cmd.clients.filter(x => !this.trainerClients.find(y => y === x));
           newClients
             .map(x => ({
-              eventName: 'trainerClientAdded',
               trainerId: this._id,
               clientId: x
             }))
-            .forEach(e => this.raiseEvent(e));
+            .forEach(e => this.raiseEvent(esEvents.trainerClientAddedEvent(e)));
           newClients
             .map(x => ({
-              eventName: 'trainersNewClientRateSet',
               trainerId: this._id,
               clientId: x,
               rate: this._defaultTrainerCientRate
             }))
-            .forEach(e => this.raiseEvent(e));
-          this.raiseEvent(cmd);
+            .forEach(e => this.raiseEvent(esEvents.trainersNewClientRateSetEvent(e)));
+
+          this.raiseEvent(esEvents.trainersClientsUpdatedEvent(cmd));
         }
       };
     }

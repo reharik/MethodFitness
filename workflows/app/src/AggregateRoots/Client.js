@@ -1,4 +1,4 @@
-module.exports = function(AggregateRootBase, ClientInventory, moment, invariant, uuid) {
+module.exports = function(AggregateRootBase, ClientInventory, esEvents, invariant, uuid) {
   return class Client extends AggregateRootBase {
     constructor() {
       super();
@@ -16,54 +16,38 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
       return {
         addClient(cmd) {
           cmd.id = cmd.id || uuid.v4();
-          cmd.eventName = 'clientAdded';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.clientAddedEvent(cmd));
         },
         updateClientInfo(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'clientInfoUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.clientInfoUpdatedEvent(cmd));
         },
         updateClientSource(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'clientSourceUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.clientSourceUpdatedEvent(cmd));
         },
         updateClientContact(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'clientContactUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.clientContactUpdatedEvent(cmd));
         },
         updateClientAddress(cmd) {
           this.expectNotArchived();
-          cmd.eventName = 'clientAddressUpdated';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.clientAddressUpdatedEvent(cmd));
         },
-        archiveClient() {
+        archiveClient(cmd) {
           this.expectNotArchived();
-          this.raiseEvent({
-            eventName: 'clientArchived',
-            id: this._id,
-            archivedDate: new Date()
-          });
+          this.raiseEvent(esEvents.clientArchivedEvent(cmd));
         },
-        unArchiveClient() {
+        unArchiveClient(cmd) {
           this.expectArchived();
-          this.raiseEvent({
-            eventName: 'clientUnArchived',
-            id: this._id,
-            unArchivedDate: new Date()
-          });
+          this.raiseEvent(esEvents.clientUnarchivedEvent(cmd));
         },
         purchase(cmd) {
           cmd.id = cmd.id || uuid.v4();
-          cmd.eventName = 'sessionsPurchased';
-          cmd.purchaseDate = moment().toISOString();
           let sessions = this.generateSessions(cmd);
           let fundedAppointments = [];
           this.unfundedAppointments.forEach(x => {
             let session = sessions.find(s => s.appointmentType === x.appointmentType && !s.used);
-            x.eventName = 'unfundedAppointmentFundedByClient';
             x.sessionId = session.sessionId;
             x.purchasePrice = session.purchasePrice;
             session.used = true;
@@ -72,26 +56,24 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
           this.unfundedAppointments = this.unfundedAppointments
             .filter(u => !fundedAppointments.some(f => u.appointmentId === f.appointmentId));
           cmd.sessions = sessions;
-          this.raiseEvent(cmd);
-          fundedAppointments.forEach(e => this.raiseEvent(e));
+          this.raiseEvent(esEvents.sessionsPurchasedEvent(cmd));
+          fundedAppointments.forEach(e => this.raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e)));
         },
 
         clientAttendsAppointment(cmd) {
+          let event = esEvents.unfundedAppointmentAttendedByClientEvent(cmd);
           cmd.id = cmd.id || uuid.v4();
           const session = this.clientInventory.consumeSession(cmd);
           if (session) {
-            cmd.eventName = 'appointmentAttendedByClient';
             cmd.sessionId = session.sessionId;
-          } else {
-            cmd.eventName = 'appointmentAttendedByUnfundedClient';
+            event = esEvents.appointmentAttendedByClientEvent(cmd);
           }
-          this.raiseEvent(cmd);
+          this.raiseEvent(event);
         },
 
         refundSessions(cmd) {
           this.expectSessionsExist(cmd);
-          cmd.eventName = 'sessionsRefunded';
-          this.raiseEvent(cmd);
+          this.raiseEvent(esEvents.sessionsRefundedEvent(cmd));
         }
       };
     }
@@ -114,7 +96,7 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
         appointmentAttendedByClient: function(event) {
           this.clientInventory.removeSession(event);
         }.bind(this),
-        appointmentAttendedByUnfundedClient: function(event) {
+        unfundedAppointmentAttendedByClient: function(event) {
           this.unfundedAppointments.push(event);
         }.bind(this),
         sessionsRefunded: function(event) {
@@ -130,14 +112,14 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
         this.addSessions(cmd, 'pair'));
     }
 
-    createNewSessionEvent(type, purchasePrice, purchaseId) {
+    createNewSessionEvent(type, purchasePrice, cmd) {
       return {
         clientId: this._id,
         sessionId: uuid.v4(),
         appointmentType: type,
-        purchaseId,
+        purchaseId: cmd.id,
         purchasePrice,
-        createdDate: moment().toISOString()
+        createdDate: cmd.createDate
       };
     }
 
@@ -146,10 +128,10 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
       const tenPackPrice = cmd[`${type}TenPack`] ? cmd[`${type}TenPackTotal`] / (cmd[`${type}TenPack`] * 10) : 0;
       let sessions = [];
       for (let i = 0; i < cmd[type]; i++) {
-        sessions.push(this.createNewSessionEvent(type, individualPrice, cmd.id));
+        sessions.push(this.createNewSessionEvent(type, individualPrice, cmd));
       }
       for (let i = 0; i < cmd[`${type}TenPack`] * 10; i++) {
-        sessions.push(this.createNewSessionEvent(type, tenPackPrice, cmd.id));
+        sessions.push(this.createNewSessionEvent(type, tenPackPrice, cmd));
       }
       return sessions;
     }
