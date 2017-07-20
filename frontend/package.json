@@ -15,6 +15,7 @@
   "main": "app.js",
   "scripts": {
     "start2": "node ./app/scripts/start.js",
+    "local": "API_BASE_URL=http://localhost:3666/ node ./app/scripts/start.js",
     "build": "webpack -p --config ./app/webpack.config.js --progress --profile --colors",
     "start": "webpack-dev-server --progress --config ./app/webpack.config.js",
     "test": "NODE_ENV=test mocha -w --recursive --compilers js:babel-core/register ./app/tests/**",
@@ -28,7 +29,7 @@
     "node": ">=0.12.0"
   },
   "dependencies": {
-    "antd": "^2.11.0",
+    "antd": "^2.12.0",
     "babel-polyfill": "^6.23.0",
     "bluebird": "^3.4.1",
     "json": "^9.0.4",

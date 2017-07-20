@@ -69,20 +69,28 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
             session.used = true;
             fundedAppointments.push(x);
           });
-          fundedAppointments.forEach(e => this.raiseEvent(e));
           this.unfundedAppointments = this.unfundedAppointments
             .filter(u => !fundedAppointments.some(f => u.appointmentId === f.appointmentId));
           cmd.sessions = sessions;
           this.raiseEvent(cmd);
+          fundedAppointments.forEach(e => this.raiseEvent(e));
         },
 
         clientAttendsAppointment(cmd) {
           cmd.id = cmd.id || uuid.v4();
-          if (cmd.sessionId) {
+          const session = this.clientInventory.consumeSession(cmd);
+          if (session) {
             cmd.eventName = 'appointmentAttendedByClient';
+            cmd.sessionId = session.sessionId;
           } else {
             cmd.eventName = 'appointmentAttendedByUnfundedClient';
           }
+          this.raiseEvent(cmd);
+        },
+
+        refundSessions(cmd) {
+          this.expectSessionsExist(cmd);
+          cmd.eventName = 'sessionsRefunded';
           this.raiseEvent(cmd);
         }
       };
@@ -100,27 +108,17 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
         clientUnArchived: function() {
           this._isArchived = false;
         }.bind(this),
-        fullHourSessionPurchased: function(event) {
-          if (!event.used) {
-            this.clientInventory.addFullHourSession(event);
-          }
-        }.bind(this),
-        halfHourSessionPurchased: function(event) {
-          if (!event.used) {
-            this.clientInventory.addHalfHourSession(event);
-          }
-        }.bind(this),
-        pairSessionPurchased: function(event) {
-          if (!event.used) {
-            this.clientInventory.addPairSession(event);
-          }
+        sessionsPurchased: function(event) {
+          this.clientInventory.addSessionsToInventory(event);
         }.bind(this),
         appointmentAttendedByClient: function(event) {
-          this.clientInventory.adjustInventory(event);
+          this.clientInventory.removeSession(event);
         }.bind(this),
         appointmentAttendedByUnfundedClient: function(event) {
-          this.clientInventory.adjustInventory(event);
           this.unfundedAppointments.push(event);
+        }.bind(this),
+        sessionsRefunded: function(event) {
+          event.refundSessions.forEach(x => this.clientInventory.removeSession(x));
         }.bind(this)
       };
     }
@@ -138,7 +136,8 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
         sessionId: uuid.v4(),
         appointmentType: type,
         purchaseId,
-        purchasePrice
+        purchasePrice,
+        createdDate: moment().toISOString()
       };
     }
 
@@ -161,6 +160,11 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
 
     expectArchived() {
       invariant(this._isArchived, 'Client is not archived archived');
+    }
+
+    expectSessionsExist(cmd) {
+      invariant(this.clientInventory.sessionsExists(cmd), `Client does not have sessions with these Ids.
+ It is possible that they have just been used, or there has been an error`);
     }
   };
 };

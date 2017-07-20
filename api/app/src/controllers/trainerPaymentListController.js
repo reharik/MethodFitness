@@ -14,8 +14,8 @@ module.exports = function(rsRepository, logger) {
     logger.debug('arrived at trainerPaymentsList.fetchTrainerPaymentDetails');
     try {
       let result = await rsRepository.getById(ctx.state.user.id, 'trainerPaymentDetails');
-      ctx.body = result && result.paidAppointments
-        ? result.paidAppointments.filter(x => x.paymentId === ctx.params.paymentId)
+      ctx.body = result && result.payments
+        ? result.payments.filter(x => x.paymentId === ctx.params.paymentId)
         : [];
       ctx.status = 200;
       return ctx;

@@ -1,59 +1,25 @@
-module.exports = function() {
+module.exports = function(sortby) {
   return class ClientInventory {
     constructor() {
-      this.fullHours = 0;
-      this.halfHours = 0;
-      this.pairs = 0;
+      this.sessions = [];
     }
 
-    getInventory() {
-      return {
-        fullHours: this.fullHours,
-        halfHours: this.halfHours,
-        pairs: this.pairs
-      };
+    addSessionsToInventory(event) {
+      this.sessions = this.sessions.concat(event.sessions.filter(x => !x.used));
     }
 
-    addFullHourSession() {
-      this.fullHours ++;
+    consumeSession(cmd) {
+      return this.sessions
+        .filter(x => x.appointmentType === cmd.appointmentType)
+        .sort(sortby('createdDate'))[0];
     }
 
-    addHalfHourSession() {
-      this.halfHours ++;
-    }
-    addPairSession() {
-      this.pairs ++;
+    removeSession(event) {
+      this.sessions = this.sessions.filter(x => x.sessionId !== event.sessionId);
     }
 
-    checkInventory(cmd) {
-      switch (cmd.appointmentType) {
-        case 'fullHour': {
-          return this.fullHours > 0;
-        }
-        case 'halfHour': {
-          return this.halfHours > 0;
-        }
-        case 'pair': {
-          return this.pairs > 0;
-        }
-      }
-    }
-
-    adjustInventory(event) {
-      switch (event.appointmentType) {
-        case 'fullHour': {
-          this.fullHours --;
-          break;
-        }
-        case 'halfHour': {
-          this.halfHours --;
-          break;
-        }
-        case 'pair': {
-          this.pair --;
-          break;
-        }
-      }
+    sessionsExists(cmd) {
+      return !cmd.refundSessions.find(x => !this.sessions.some(y => y.sessionId === x.sessionId));
     }
   };
 };

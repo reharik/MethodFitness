@@ -6,7 +6,7 @@ module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
     let sql = `select * from appointment where date='${date}';`;
     const appointments = await rsRepository.query(sql);
 
-    logger.info(JSON.stringify(appointments));
+    logger.info(`appoinments: ${JSON.stringify(appointments)}`);
     let commands = [];
 
     appointments.filter(x => {
@@ -22,15 +22,7 @@ module.exports = function(rsRepository, eventstore, moment, uuid, logger) {
       }))
     );
 
-    for (let c of commands) {
-      let clientSessions = await rsRepository.getById(c.clientId, 'clientSessions');
-      let session = clientSessions && clientSessions[c.appointmentType]
-        ? clientSessions[c.appointmentType][0]
-        : undefined;
-      c.sessionId = session ? session.sessionId : undefined;
-    }
-
-    logger.info(JSON.stringify(commands));
+    logger.info(`commands ${JSON.stringify(commands)}`);
     for (let c of commands) {
       await eventstore.commandPoster(c, c.commandName, uuid.v4());
     }

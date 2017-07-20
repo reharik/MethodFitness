@@ -2,7 +2,7 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
   return continuationId => {
     logger.info('startDispatching | startDispatching called');
     const eventAppeared = eventstore.eventEmitterInstance();
-    let mAndF = mapAndFilterStream('notification');
+    let mAndF = mapAndFilterStream();
     let ef = applicationFunctions.eventFunctions;
     let subscription = eventstore.gesConnection.subscribeToStream(
       'notification',
@@ -16,10 +16,6 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
 
     let stream = rx.Observable
       .fromEvent(eventAppeared.emitter, 'event')
-      .map(x => {
-        return x;
-      })
-      .filter(mAndF.isValidStreamType)
       .first(
         note =>
         mAndF.continuationId(note).getOrElse() === continuationId &&

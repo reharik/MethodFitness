@@ -61,34 +61,6 @@ module.exports = function purchasesRouter(koarouter, controllers) {
     router.post('/purchase/updatepurchase', controllers.purchaseController.updatePurchase);
     /**
      * @swagger
-     * /purchase/cancelpurchase:
-     *   post:
-     *     x-name: /purchase/cancelPurchase
-     *     description: cancel session purchase for client
-     *     operationId: /purchase/cancelPurchase
-     *     parameters:
-     *       - name: body
-     *         in: body
-     *         required: true
-     *         schema:
-     *           $ref: "#/definitions/cancelPurchase"
-     *     responses:
-     *       200:
-     *         description: Success
-     *         schema:
-     *             $ref: "#/definitions/standardSuccessResponse"
-     *       422:
-     *         description: Failure
-     *         schema:
-     *             $ref: "#/definitions/standardFailureResponse"
-     *       500:
-     *         description: Failure
-     *         schema:
-     *             $ref: "#/definitions/standardFailureResponse"
-     */
-    router.post('/purchase/cancelpurchase', controllers.purchaseController.cancelPurchase);
-    /**
-     * @swagger
      * /purchase/fetchpurchase/{id}:
      *   get:
      *     x-name: trainer
@@ -143,24 +115,25 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *             $ref: "#/definitions/standardFailureResponse"
      */
     router.get('/purchaselist/fetchpurchases/:clientId', controllers.purchaseListController.fetchPurchases);
+
     /**
      * @swagger
-     * /purchaselist/fetchpurchasedetails/{purchaseId}:
-     *   get:
-     *     x-name: /purchaseList/fetchpurchasedetails
-     *     description: retrieve clients purchase details
-     *     operationId: fetchpurchasedetails
+     * /purchase/refundsessions:
+     *   post:
+     *     x-name: /purchase/refundsessions
+     *     description: refund sessions
+     *     operationId: refundsessions
      *     parameters:
-     *       - name: purchaseId
-     *         in: path
+     *       - name: body
+     *         in: body
      *         required: true
-     *         description: The id of the purchase we are getting
-     *         type: string
+     *         schema:
+     *           $ref: "#/definitions/refundSessions"
      *     responses:
      *       200:
      *         description: Success
      *         schema:
-     *           $ref: "#/definitions/purchaseDetailsResponse"
+     *             $ref: "#/definitions/standardSuccessResponse"
      *       422:
      *         description: Failure
      *         schema:
@@ -170,8 +143,7 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/purchaselist/fetchpurchasedetails/:purchaseId',
-      controllers.purchaseListController.fetchPurchaseDetails);
+    router.post('/purchase/refundsessions', controllers.purchaseController.refundSessions);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

@@ -15,11 +15,11 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     await processMessage(ctx, 'updatePurchase', ctx.request.body);
   };
 
-  let cancelPurchase = async function(ctx) {
+  let refundSessions = async function(ctx) {
     // will want logic here for only allowing admin and distinguishing
     // between accident and refund.
-    logger.debug('arrived at purchases.cancelPurchase');
-    await processMessage(ctx, 'cancelPurchase', ctx.request.body);
+    logger.debug('arrived at sessionsPurchase.refundSessions');
+    await processMessage(ctx, 'refundSessions', ctx.request.body);
   };
 
   let processMessage = async function(ctx, commandName, payload) {
@@ -47,7 +47,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
   return {
     purchase,
     updatePurchase,
-    cancelPurchase,
+    refundSessions,
     fetchPurchase
   };
 };

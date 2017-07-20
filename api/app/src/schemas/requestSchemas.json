@@ -373,6 +373,43 @@
           "type": "object"
         }
       }
+    },
+    "refundSessions": {
+      "title": "refundSessions",
+      "properties": {
+        "refundSessions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/refundSession"
+          },
+          "uniqueItems": true
+        },
+        "clientId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "refundSessions",
+        "clientId"
+      ]
+    },
+    "refundSession": {
+      "title": "refundSession",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "appointmentType": {
+          "type": "string"
+        }},
+      "required": [
+        "sessionId",
+        "appointmentType"
+      ]
     }
   }
 }

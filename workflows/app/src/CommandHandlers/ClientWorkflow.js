@@ -103,6 +103,18 @@ module.exports = function(eventRepository, logger, Client) {
 
       logger.info('saving client');
       logger.trace(JSON.stringify(client));
+      await eventRepository.save(client, { continuationId });
+
+      return { clientId: client._id };
+    }
+
+    async function refundSessions(cmd, continuationId) {
+      logger.info('calling refundSessions');
+      let client = await eventRepository.getById(Client, cmd.clientId);
+      client.refundSessions(cmd);
+
+      logger.info('saving client');
+      logger.trace(JSON.stringify(client));
 
       await eventRepository.save(client, { continuationId });
 
@@ -119,7 +131,8 @@ module.exports = function(eventRepository, logger, Client) {
       archiveClient,
       unArchiveClient,
       clientAttendsAppointment,
-      purchase
+      purchase,
+      refundSessions
     };
   };
 };

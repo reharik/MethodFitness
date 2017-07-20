@@ -94,6 +94,13 @@ where id = '${event.id}'`;
       return await rsRepository.save('client', client);
     }
 
+    async function sessionsRefunded(event) {
+      logger.info('handling sessionsRefunded event');
+      let client = await rsRepository.getById(event.clientId, 'client');
+      event.refundSessions.forEach(x => client.inventory[x.appointmentType] = client.inventory[x.appointmentType] - 1);
+      return await rsRepository.save('client', client);
+    }
+
     return {
       handlerName: 'ClientEventHandler',
       clientAdded,
@@ -105,7 +112,8 @@ where id = '${event.id}'`;
       clientSourceUpdated,
       sessionsPurchased,
       appointmentAttendedByClient,
-      appointmentAttendedByUnfundedClient
+      appointmentAttendedByUnfundedClient,
+      sessionsRefunded
     };
   };
 };

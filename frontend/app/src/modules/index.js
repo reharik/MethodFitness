@@ -3,8 +3,7 @@ import schema from './schemaModule';
 import menu from './menuModule';
 import trainers from './trainerModule';
 import clients from './clientModule';
-import purchase from './purchaseModule';
-import purchaseDetails from './purchaseDetailsModule';
+import purchases from './purchaseModule';
 import toggleTrainerListForCalendar from './toggleTrainerListForCalendarModule';
 import sessionVerification from './sessionVerificationModule';
 import trainerPayment from './trainerPaymentModule';
@@ -27,10 +26,9 @@ export default {
   trainers,
   clients,
   toggleTrainerListForCalendar,
-  purchase,
+  purchases,
   trainerPayment,
   sessionVerification,
-  purchaseDetails,
   trainerPaymentDetail,
   notifications
 };

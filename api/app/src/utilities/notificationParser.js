@@ -14,9 +14,7 @@ module.exports = function(logger) {
       body.success = notification.success;
       body.payload = notification.handlerResult;
     }
-
     notificationPromise.subscription.then(x => x.close());
-
     return {
       body,
       status

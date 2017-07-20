@@ -2,7 +2,7 @@
   "name": "api",
   "version": "0.0.0",
   "dependencies": {
-    "antd": "^2.11.0",
+    "antd": "^2.12.0",
     "babel-polyfill": "^6.23.0",
     "bluebird": "^3.4.1",
     "json": "^9.0.4",

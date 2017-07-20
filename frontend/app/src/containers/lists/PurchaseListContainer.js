@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PurchaseList from '../../components/lists/PurchaseList';
-import cellLink from '../../components/GridElements/CellLink.js';
 import moment from 'moment';
 
-import { getPurchases } from './../../modules/purchaseModule';
+import { getPurchases, refundSessions } from './../../modules/purchaseModule';
 
 class PurchaseListContainer extends Component {
   componentWillMount() {
@@ -17,7 +16,7 @@ class PurchaseListContainer extends Component {
   }
 
   render() {
-    return (<PurchaseList gridConfig={this.props.gridConfig} clientId={this.props.clientId} />);
+    return (<PurchaseList {...this.props} />);
   }
 }
 
@@ -27,13 +26,12 @@ PurchaseListContainer.propTypes = {
   clientId: PropTypes.string
 };
 
+
 const columns = [
   {
-    render: (value, row) => {
-      return cellLink('purchaseDetails', 'purchaseId')(`${moment(row.createDate).format('dddd, MMMM Do YYYY')}`, row );
-    },
-    dataIndex: 'createDate',
-    title: 'Created Date'
+    render: val => val ? moment(val).format('L') : val,
+    dataIndex: 'purchaseDate',
+    title: 'Purchase Date'
   },
   {
     render: val => val ? `$${val}` : val,
@@ -44,9 +42,12 @@ const columns = [
 
 function mapStateToProps(state, props) {
   moment.locale('en');
+  const dataSource = state.purchases
+    .filter(x => x.clientId === props.params.clientId);
+
   const gridConfig = {
     columns,
-    dataSource: state.purchase.filter(x => x.clientId === props.params.clientId)
+    dataSource
   };
   return {
     gridConfig,
@@ -54,4 +55,4 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps, { getPurchases })(PurchaseListContainer);
+export default connect(mapStateToProps, { getPurchases, refundSessions })(PurchaseListContainer);

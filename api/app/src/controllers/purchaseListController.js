@@ -3,7 +3,7 @@ module.exports = function(rsRepository, logger) {
     logger.debug('arrived at sessionsPurchaseList.fetchPurchases');
 
     try {
-      const clientPurchases = await rsRepository.getById(ctx.params.clientId, 'purchases');
+      const clientPurchases = await rsRepository.getById(ctx.params.clientId, 'sessionsPurchased');
 
       ctx.body = clientPurchases.purchases ? clientPurchases.purchases : [];
 
@@ -14,22 +14,7 @@ module.exports = function(rsRepository, logger) {
     }
   };
 
-  let fetchPurchaseDetails = async function(ctx) {
-    logger.debug('arrived at sessionsPurchaseList.fetchPurchaseDetails');
-
-    try {
-      const purchaseDetails = await rsRepository.getById(ctx.params.purchaseId, 'purchaseDetails');
-
-      ctx.body = purchaseDetails ? purchaseDetails.sessions : [];
-      ctx.status = 200;
-      return ctx;
-    } catch (ex) {
-      throw ex;
-    }
-  };
-
   return {
-    fetchPurchases,
-    fetchPurchaseDetails
+    fetchPurchases
   };
 };

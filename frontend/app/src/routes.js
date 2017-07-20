@@ -11,7 +11,6 @@ import ClientContainer from './containers/forms/ClientContainer';
 import UpdateClientContainer from './containers/forms/UpdateClientContainer';
 import PurchaseContainer from './containers/forms/PurchaseContainer';
 import PurchaseListContainer from './containers/lists/PurchaseListContainer';
-import PurchaseDetailsListContainer from './containers/lists/PurchaseDetailsListContainer';
 import TrainerVerificationListContainer from './containers/lists/TrainerVerificationListContainer';
 import PayTrainerListContainer from './containers/lists/PayTrainerListContainer';
 import TrainerPaymentListContainer from './containers/lists/TrainerPaymentListContainer';
@@ -29,7 +28,6 @@ const routes = (
     <Route path="/client(/:clientId)" component={UpdateClientContainer} />
     <Route path="/purchase(/:clientId)" component={PurchaseContainer} />
     <Route path="/purchases(/:clientId)" component={PurchaseListContainer} />
-    <Route path="/purchaseDetails(/:purchaseId)" component={PurchaseDetailsListContainer} />
     <Route path="/verification" component={TrainerVerificationListContainer} />
     <Route path="/payTrainer(/:trainerId)" component={PayTrainerListContainer} />
     <Route path="/trainerPayments" component={TrainerPaymentListContainer} />
