@@ -33,3 +33,9 @@
 .ant-message .anticon{
   font-size: 16px;
 }
+
+.ant-radio-button-wrapper-checked {
+  background-color: #49a9ee;
+  box-shadow: -1px 0 0 0 #49a9ee;
+  color: white;
+}

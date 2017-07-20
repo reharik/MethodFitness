@@ -14,8 +14,18 @@
 
 .row-in-arrears {
   color: red;
-  font: bold;
+  font-weight: bold;
   background-color: #ffdffd !important;
+}
+
+.row-gray {
+  font-weight: bold;
+  background-color: lightcyan !important;
+}
+
+.row-salmon {
+  font-weight: bold;
+  background-color: lightsalmon !important;
 }
 
 .list_header__button {

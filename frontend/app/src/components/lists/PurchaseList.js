@@ -104,10 +104,10 @@ class PurchaseList extends Component {
 
     const getRowClass = (row) => {
       if(row.appointmentId) {
-        return 'row-in-arrears';
+        return 'row-gray';
       }
       if(row.refunded) {
-        return 'row-in-arrears';
+        return 'row-salmon';
       }
       return '';
     };
