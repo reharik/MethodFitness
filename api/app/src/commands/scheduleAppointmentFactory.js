@@ -1,19 +1,17 @@
 module.exports = function(invariant) {
-  return function(
-    {
-      commandName,
-      appointmentId,
-      appointmentType,
-      date,
-      startTime,
-      endTime,
-      trainerId,
-      clients,
-      notes,
-      originalEntityName,
-      entityName
-    }
-  ) {
+  return function({
+                     commandName,
+                     appointmentId,
+                     appointmentType,
+                     date,
+                     startTime,
+                     endTime,
+                     trainerId,
+                     clients,
+                     notes,
+                     originalEntityName,
+                     entityName
+                   }) {
     if (commandName !== 'scheduleAppointment') {
       invariant(appointmentId, `scheduleAppointment requires that you pass the appointmentId`);
     }

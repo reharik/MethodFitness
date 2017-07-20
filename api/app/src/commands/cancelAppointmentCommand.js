@@ -1,10 +1,8 @@
 module.exports = function(invariant) {
-  return function(
-    {
-      appointmentId,
-      entityName
-    }
-  ) {
+  return function({
+                     appointmentId,
+                     entityName
+                   }) {
     invariant(appointmentId, `Cancel appointment requires that you pass the AppointmentId`);
     invariant(
       entityName,
