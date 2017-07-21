@@ -8,6 +8,7 @@ module.exports = function(invariant) {
     invariant(appointmentId, 'clientAttendsAppointmentCommand requires that you pass the appointment id');
     invariant(appointmentType, 'clientAttendsAppointmentCommand requires that you pass the appointment type');
     return {
+      commandName: 'clientAttendsAppointment',
       clientId,
       appointmentId,
       appointmentType

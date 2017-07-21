@@ -5,11 +5,7 @@ module.exports = function(invariant) {
       clients: state.clients || [],
       trainers: state.trainers || [],
       appointments: state.appointments || [],
-      sessions: {
-        fullHour: state.sessions && state.sessions.fullHour || [],
-        halfHour: state.sessions && state.sessions.halfHour || [],
-        pair: state.sessions && state.sessions.pair || []
-      },
+      sessions: [],
       unfundedAppointments: state.unfundedAppointments || [],
       unpaidAppointments: state.unpaidAppointments || []
     };
@@ -42,7 +38,7 @@ module.exports = function(invariant) {
 
     const addSession = item => {
       if (!item.used) {
-        innerState.sessions[item.appointmentType].push(item);
+        innerState.sessions.push(item);
       }
     };
 
@@ -58,12 +54,7 @@ module.exports = function(invariant) {
       innerState.unpaidAppointments = innerState.unpaidAppointments
         .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
 
-      innerState.sessions.fullHour = innerState.sessions.fullHour
-        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
-      innerState.sessions.halfHour = innerState.sessions.halfHour
-        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
-      innerState.sessions.pair = innerState.sessions.pair
-        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
+      innerState.sessions = innerState.sessions.filter(x => !sessions.some(y => x.sessionId === y.sessionId));
 
       paidAppointments.filter(x =>
       !innerState.unpaidAppointments.some(y => x.appointmentId === y.appointmentId)
@@ -121,8 +112,7 @@ module.exports = function(invariant) {
 
     const createUnpaidAppointment = (appointment, event) => {
       let client = innerState.clients.find(c => c.id === event.clientId);
-      let session = innerState.sessions[appointment.appointmentType]
-        .find(s => s.sessionId === event.sessionId);
+      let session = innerState.sessions.find(s => s.sessionId === event.sessionId);
 
       let trainer = innerState.trainers.find(x => x.id === appointment.trainerId);
 
@@ -163,7 +153,7 @@ module.exports = function(invariant) {
       };
     };
 
-    const sessionsRefunded = event => {
+    const refundSessions = event => {
       innerState.sessions.filter(x => !event.refundSessions.some(y => y.sessionId === x.sessionId));
     };
 
@@ -180,7 +170,7 @@ module.exports = function(invariant) {
       removeTCR,
       updateTRC,
       addTRC,
-      sessionsRefunded
+      refundSessions
     };
   };
 };

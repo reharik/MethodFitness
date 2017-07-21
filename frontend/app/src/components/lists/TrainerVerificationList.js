@@ -38,16 +38,15 @@ class TrainerVerificationList extends Component {
 
   onSelect = (record, selected, selectedRows) => {
     let trainerTotal = selectedRows
-      .filter(x => x.sessionId)
       .reduce((a, b) => a + b.trainerPay, 0);
     let selectedRowKeys = selectedRows
-      .filter(x => x.sessionId)
       .map(x => `${x.appointmentId}---${x.clientId}`);
     let selectedIds = selectedRows
-      .filter(x => x.sessionId)
       .map(x => x.sessionId);
     this.setState({trainerTotal, selectedRowKeys, selectedIds});
   };
+
+  getCheckboxProps = record => ({ disabled: !record.sessionId });
 
   render() {
     const {selectedRowKeys} = this.state;
@@ -55,7 +54,8 @@ class TrainerVerificationList extends Component {
       selectedRowKeys,
       onSelect: this.onSelect,
       onSelectAll: this.onSelect,
-      onChange: this.onSelectChange
+      onChange: this.onSelectChange,
+      getCheckboxProps: this.getCheckboxProps
     };
 
     return (

@@ -5,11 +5,7 @@ module.exports = function(moment, invariant) {
       clients: state.clients || [],
       trainers: state.trainers || [],
       appointments: state.appointments || [],
-      sessions: {
-        fullHour: state.sessions && state.sessions.fullHour || [],
-        halfHour: state.sessions && state.sessions.halfHour || [],
-        pair: state.sessions && state.sessions.pair || []
-      },
+      sessions: [],
       paidAppointments: state.paidAppointments || []
     };
 
@@ -40,7 +36,7 @@ module.exports = function(moment, invariant) {
     };
 
     const addSession = item => {
-      innerState.sessions[item.appointmentType].push(item);
+      innerState.sessions.push(item);
     };
 
     const cleanUp = () => {
@@ -54,8 +50,7 @@ module.exports = function(moment, invariant) {
         if (appointment.appointmentType === 'pair') {
           appointment.clients = appointment.clients.filter(c => c.id !== x.clientId);
         }
-        innerState.sessions[x.appointmentType] = innerState.sessions[x.appointmentType]
-          .filter(s => s.sessionId !== x.sessionId);
+        innerState.sessions = innerState.sessions.filter(s => s.sessionId !== x.sessionId);
       });
       innerState.paidAppointments = [];
     };
@@ -76,8 +71,7 @@ module.exports = function(moment, invariant) {
 
     const createPaidAppointment = item => {
       let appointment = innerState.appointments.find(x => x.id === item.appointmentId);
-      let session = innerState.sessions[appointment.appointmentType]
-        .find(s => s.sessionId === item.sessionId);
+      let session = innerState.sessions.find(s => s.sessionId === item.sessionId);
 
       let client = innerState.clients.find(c => c.id === session.clientId);
 
@@ -105,7 +99,7 @@ module.exports = function(moment, invariant) {
       };
     };
 
-    const sessionsRefunded = event => {
+    const refundSessions = event => {
       innerState.sessions.filter(x => !event.refundSessions.some(y => y.sessionId === x.sessionId));
     };
 
@@ -117,7 +111,7 @@ module.exports = function(moment, invariant) {
       removeTCR,
       updateTRC,
       addTRC,
-      sessionsRefunded
+      refundSessions
     };
   };
 };

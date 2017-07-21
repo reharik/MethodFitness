@@ -381,8 +381,8 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "type": "object",
-            "$ref": "#/definitions/refundSession"
+            "type": "string",
+            "format": "uuid"
           },
           "uniqueItems": true
         },
@@ -394,21 +394,6 @@
       "required": [
         "refundSessions",
         "clientId"
-      ]
-    },
-    "refundSession": {
-      "title": "refundSession",
-      "properties": {
-        "sessionId": {
-          "type": "string",
-          "format": "uuid"
-        },
-        "appointmentType": {
-          "type": "string"
-        }},
-      "required": [
-        "sessionId",
-        "appointmentType"
       ]
     }
   }

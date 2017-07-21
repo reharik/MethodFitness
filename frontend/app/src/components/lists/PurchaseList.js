@@ -8,32 +8,36 @@ const confirm = Modal.confirm;
 
 class PurchaseList extends Component {
   state = {
-    selectedRowKeys: [],
-    refund: 0
+    purchases: {}
   };
 
   submitVerification = () => {
     let that = this;
-    if (this.state.selectedRowKeys.length > 0) {
+    let refund = 0;
+    Object.keys(this.state.purchases).forEach(x => {
+      refund += this.state.purchases[x].refundTotal;
+    });
+    if (refund > 0) {
+      let refundSessions = [];
+      Object.keys(this.state.purchases).forEach(x => {
+        refundSessions = refundSessions.concat(this.state.purchases[x].selectedRowKeys);
+      });
       confirm({
         title: 'Are you sure you would like to Refund?',
-        content: `${this.state.selectedRowKeys.length} Sessions for $${this.state.refund.toFixed(2)}`,
+        content: `${refundSessions.length} Sessions for $${refund.toFixed(2)}`,
         okText: 'OK',
         cancelText: 'Cancel',
         onOk() {
           const payload = {
-            clientId: that.props.clientId
+            clientId: that.props.clientId,
+            refundSessions
           };
-          const sessions = that.props.gridConfig.dataSource.reduce((a, b) => a.concat(b.sessions), []);
-
-          payload.refundSessions = that.state.selectedRowKeys.map(x => ({
-            sessionId: x,
-            appointmentType: sessions.find(y => y.sessionId === x).appointmentType}));
-
+          console.log(`==========payload=========`);
+          console.log(payload);
+          console.log(`==========END payload=========`);
           that.props.refundSessions(payload);
           that.setState({
-            selectedRowKeys: [],
-            trainerTotal: 0
+            purchases: {}
           });
         },
         onCancel() {
@@ -42,28 +46,39 @@ class PurchaseList extends Component {
     }
   };
 
-  onSelect = (record, selected) => {
-    if(record.appointmentId) {
-      return;
-    }
-    let refund = selected
-    ? this.state.refund + record.purchasePrice
-    : this.state.refund - record.purchasePrice;
-
-    let selectedRowKeys = selected
-      ? [...this.state.selectedRowKeys, record.sessionId]
-        : this.state.selectedRowKeys.filter(x => x !== record.sessionId);
-
-    this.setState({refund, selectedRowKeys});
+  updateSelectedRows = (purchaseId, selectedRows) => {
+    let selectedRowKeys = selectedRows
+      .map(x => x.sessionId);
+    let purchases = {...this.state.purchases,
+      [purchaseId]: {
+        selectedRowKeys,
+        refundTotal: selectedRows.reduce((a, b) => a + b.purchasePrice, 0)
+      }
+    };
+    this.setState({purchases});
   };
 
+  onSelect = (record, selected, selectedRows) => {
+    const purchaseId = record.purchaseId;
+    this.updateSelectedRows(purchaseId, selectedRows);
+  };
+
+  onSelectAll = (selected, selectedRows, changeRows) => {
+    const purchaseId = changeRows[0].purchaseId;
+    this.updateSelectedRows(purchaseId, selectedRows);
+  };
+
+  getCheckboxProps = record => ({ disabled: !!record.refunded || !!record.appointmentId });
+
   expandRowRender = (data) => {
-    const {selectedRowKeys} = this.state;
+    const selectedRowKeys = this.state.purchases[data.purchaseId]
+      ? this.state.purchases[data.purchaseId].selectedRowKeys
+        : [];
     let rowSelection = {
       selectedRowKeys,
       onSelect: this.onSelect,
-      onSelectAll: this.onSelect,
-      onChange: this.onSelectChange
+      onSelectAll: this.onSelectAll,
+      getCheckboxProps: this.getCheckboxProps
     };
 
     const columns = [
@@ -125,6 +140,9 @@ class PurchaseList extends Component {
   };
 
   render() {
+    let hasRefundableItems = this.props.gridConfig.dataSource
+      .reduce((a, b) => a.concat(b.sessions), [])
+      .some(x => !x.refunded && !x.appointmentId);
     return (
       <div id="purchaseList">
         <ContentHeader>
@@ -135,7 +153,9 @@ class PurchaseList extends Component {
                 title="New"
                 onClick={() => browserHistory.push(`/purchase/${this.props.clientId}`)}
               />
-              <button className="contentHeader__button" onClick={this.submitVerification} >Submit Refund</button>
+              {hasRefundableItems
+                ? <button className="contentHeader__button" onClick={this.submitVerification} >Submit Refund</button>
+                  : null }
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">Purchases</div>

@@ -112,7 +112,7 @@ module.exports = function(AggregateRootBase, ClientInventory, moment, invariant,
           this.clientInventory.addSessionsToInventory(event);
         }.bind(this),
         appointmentAttendedByClient: function(event) {
-          this.clientInventory.removeSession(event);
+          this.clientInventory.removeSession(event.sessionId);
         }.bind(this),
         appointmentAttendedByUnfundedClient: function(event) {
           this.unfundedAppointments.push(event);

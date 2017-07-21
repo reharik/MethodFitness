@@ -14,12 +14,12 @@ module.exports = function(sortby) {
         .sort(sortby('createdDate'))[0];
     }
 
-    removeSession(event) {
-      this.sessions = this.sessions.filter(x => x.sessionId !== event.sessionId);
+    removeSession(sessionId) {
+      this.sessions = this.sessions.filter(x => x.sessionId !== sessionId);
     }
 
     sessionsExists(cmd) {
-      return !cmd.refundSessions.find(x => !this.sessions.some(y => y.sessionId === x.sessionId));
+      return !cmd.refundSessions.find(x => !this.sessions.some(y => y.sessionId === x));
     }
   };
 };

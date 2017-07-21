@@ -29,7 +29,7 @@ module.exports = function() {
     const refundSessions = event => {
       let purchaseIds = [];
       event.refundSessions.map(x => {
-        let session = innerState.sessions.find(y => x.sessionId === y.sessionId);
+        let session = innerState.sessions.find(y => x === y.sessionId);
         session.refunded = true;
         if (!purchaseIds.includes(session.purchaseId)) {
           purchaseIds.push(session.purchaseId);

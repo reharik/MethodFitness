@@ -12,7 +12,7 @@ export const GET_PURCHASES = requestStates('get_purchases', 'purchase_sessions')
 export default (state = [], action = {}) => {
   switch (action.type) {
     case GET_PURCHASES.SUCCESS: {
-      return reducerMerge(state, action.response);
+      return reducerMerge(state, action.response, 'purchaseId');
     }
     case SESSIONS_REFUND.SUCCESS: {
       let selectedIds = JSON.stringify(selectn('action.params.body', action)) || [];
