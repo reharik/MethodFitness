@@ -53,7 +53,7 @@ class ClientForm extends Component {
         <div className="form-scroll-inner">
           <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Client Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.firstName} />
@@ -63,7 +63,7 @@ class ClientForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Contact Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.mobilePhone} />
@@ -93,7 +93,7 @@ class ClientForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Source Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.source} selectOptions={this.props.sources} />

@@ -84,7 +84,7 @@ class PurchaseForm extends Component {
         <div className="form-scroll-inner">
           <Form onSubmit={this.onSubmitHandler} className="form__content" layout="vertical">
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Client Info">
                   <Row type="flex">
                     <SubmissionFor
@@ -138,7 +138,7 @@ class PurchaseForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title={`Purchase Total: $${this.state.purchaseTotal.toFixed(2)}`}>
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.notes} />

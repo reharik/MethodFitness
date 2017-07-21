@@ -6,11 +6,11 @@ const EDFooter = ({ editing, toggleEdit }) => {
   return (
     <Row type="flex" >
       {editing
-        ? <Col span={10} offset={14} >
+        ? <Col md={10} sm={24} offset={14} >
           <button type="submit" className="form__footer__button" > Submit</button>
           <button onClick={e => toggleEdit(e, true)} className="form__footer__button">Cancel</button>
         </Col>
-        : <Col span={5} offset={19} >
+        : <Col md={5} sm={24} offset={19} >
           <button onClick={e => toggleEdit(e, false)} className="form__footer__button">Edit</button>
         </Col>}
     </Row>

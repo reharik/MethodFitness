@@ -10,7 +10,7 @@ import { Router } from 'react-router';
 const Root = ({ store, history }) => (
   <Provider store={store}>
     <LocaleProvider locale={enUS}>
-      <div>
+      <div style={{height: '100%'}}>
         <Router history={history} routes={routes} />
         <DevTools />
       </div>

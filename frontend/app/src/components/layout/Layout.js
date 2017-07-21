@@ -10,14 +10,14 @@ const _Layout = ({isReady, children}) => {
     return null;
   }
   return (
-    <Layout >
+    <Layout style={{height: '100%'}} >
       <Header />
       <Layout>
-        <Sider width={220} style={{background: '#f2f2f2'}}>
+        <Sider breakpoint="sm" collapsible={true} style={{background: '#f2f2f2'}}>
           <NavigationContainer />
         </Sider>
         <Layout style={{padding: '0 0 24px', background: '#f2f2f2'}}>
-          <Content style={{ paddingRight: 24, margin: 0, minHeight: 280}}>
+          <Content style={{ paddingRight: 24, margin: 0, minHeight: '100%'}}>
             {children}
           </Content>
         </Layout>
