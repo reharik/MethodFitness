@@ -60,3 +60,8 @@
   width: 50%;
   margin: 0 0 12px 10px;;
 }
+
+.display__container__value__color {
+  width: 100%;
+  display: flex;
+}

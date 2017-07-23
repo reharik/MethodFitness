@@ -16,7 +16,7 @@ module.exports = function(invariant) {
       trainer.TCRS.push(item);
     };
 
-    const updateTRC = item => {
+    const updateTCR = item => {
       innerState.trainers = innerState.trainers.map(x => {
         if (x.id === item.trainerId) {
           x.TCRS.map(c => c.clientId === item.clientId ? Object.assign(c, {rate: item.rate}) : c);
@@ -168,7 +168,7 @@ module.exports = function(invariant) {
       sessionsVerified,
       addSession,
       removeTCR,
-      updateTRC,
+      updateTCR,
       addTRC,
       refundSessions
     };

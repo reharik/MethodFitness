@@ -31,7 +31,9 @@ class TrainerForm extends Component {
   render() {
     const model = this.props.model;
     const form = this.props.form;
-
+    console.log(`==========model.role=========`);
+    console.log(model.role);
+    console.log(`==========END model.role=========`);
     return (
       <div className="form">
         <ContentHeader>

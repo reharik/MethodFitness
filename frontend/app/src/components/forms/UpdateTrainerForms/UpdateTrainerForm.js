@@ -18,6 +18,7 @@ class UpdateTrainerForm extends Component {
   loadData() {
     if (this.props.params.trainerId) {
       this.props.fetchTrainerAction(this.props.params.trainerId);
+      this.props.getTrainerClientRates(this.props.params.trainerId);
     }
     this.props.fetchClientsAction();
   }
@@ -71,7 +72,8 @@ UpdateTrainerForm.propTypes = {
   updateTrainerInfo: PropTypes.func,
   updateTrainerContact: PropTypes.func,
   updateTrainerAddress: PropTypes.func,
-  updateTrainerPassword: PropTypes.func
+  updateTrainerPassword: PropTypes.func,
+  getTrainerClientRates: PropTypes.func
 };
 
 export default UpdateTrainerForm;

@@ -33,7 +33,7 @@ class TrainerInfo extends Component {
     let model = this.props.model;
     let form = this.props.form;
     return (
-      <Card title={'Trainer Info'} >
+      <Card title={'Trainer Info'} style={{overflow: 'visible'}} >
         <Form onSubmit={this.handleSubmit} layout={'vertical'} >
           <EditableFor form={form} data={model.id} hidden={true} />
           <Row type="flex">

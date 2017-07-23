@@ -11,8 +11,7 @@ const SubmissionFor = ({data,
                          onChange,
                          formItemLayout
 }) => {
-
-  let input = InputFor({data, selectOptions, onChange});
+  let input = InputFor({data, selectOptions, onChange, form});
   return (
     <Col span={span || 12}>
       <FormItem {...formItemLayout} label={data.label} style={{padding: '0 8px'}}>

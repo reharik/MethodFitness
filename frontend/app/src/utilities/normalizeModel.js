@@ -10,6 +10,7 @@ export function propToLabel(val) {
 
 const normalizeModel = (schema, obj, formName) => {
   moment.locale('en');
+  // debugger; //eslint-disable-line
   const model = formJsonSchema(schema, obj);
   formName = formName || uuid.v4();
   const modelArray = model && Object.keys(model).map((x, i) => {
@@ -21,6 +22,9 @@ const normalizeModel = (schema, obj, formName) => {
     }
     if(item['x-input'] === 'date-time' && value) {
       value = moment(value);
+    }
+    if(item['x-input'] === 'listItemValue' && value) {
+      item.listItems = value;
     }
 
     item.label = propToLabel(item.label || item.name);

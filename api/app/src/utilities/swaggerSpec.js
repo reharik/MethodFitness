@@ -1,9 +1,6 @@
 module.exports = function(swaggerjsdoc, fs, schemas, deref) {
   return function() {
     const apis = fs.readdirSync('./app/src/routes/routers/').map(x => `./app/src/routes/routers/${x}`);
-    console.log('==========apis=========');
-    console.log(apis);
-    console.log('==========END apis=========');
 
     let options = {
       swaggerDefinition: {

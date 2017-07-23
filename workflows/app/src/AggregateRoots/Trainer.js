@@ -88,12 +88,12 @@ module.exports = function(AggregateRootBase, invariant, uuid) {
           this.expectNotArchived();
           cmd.eventName = 'trainersClientRatesUpdated';
 
-          this.trainerClientRates.filter(x => cmd.clients.find(y => x.clientId === y).rate !== x.rate)
+          this.trainerClientRates.filter(x => cmd.clientRates.find(y => x.clientId === y.id).rate !== x.rate)
             .map(x => ({
               eventName: 'trainersClientRateChanged',
               trainerId: this._id,
-              clientId: x,
-              rate: x.rate
+              clientId: x.clientId,
+              rate: cmd.clientRates.find(y => x.clientId === y.id).rate
             }))
             .forEach(e => this.raiseEvent(e));
           this.raiseEvent(cmd);

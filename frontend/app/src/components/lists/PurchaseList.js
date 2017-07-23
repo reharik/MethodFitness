@@ -32,9 +32,6 @@ class PurchaseList extends Component {
             clientId: that.props.clientId,
             refundSessions
           };
-          console.log(`==========payload=========`);
-          console.log(payload);
-          console.log(`==========END payload=========`);
           that.props.refundSessions(payload);
           that.setState({
             purchases: {}

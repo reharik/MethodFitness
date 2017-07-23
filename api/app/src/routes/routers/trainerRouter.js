@@ -272,6 +272,34 @@ module.exports = function trainerRouter(koarouter, controllers) {
     router.get('/trainer/gettrainer/:id', controllers.trainerController.getTrainer);
     /**
      * @swagger
+     * /trainer/gettrainerclientrates/{id}:
+     *   get:
+     *     x-name: gettrainerclientrates
+     *     description: retrieve trainer client rates by trianer id
+     *     operationId: gettrainerclientrates
+     *     parameters:
+     *       - name: id
+     *         in: path
+     *         required: true
+     *         description: The trainers id
+     *         type: string
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *             $ref: "#/definitions/standardSuccessResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.get('/trainer/gettrainerclientrates/:id', controllers.trainerController.getTrainerClientRates);
+    /**
+     * @swagger
      * /trainer/archivetrainer:
      *   post:
      *     x-name: /trainer/archiveTrainer

@@ -4,9 +4,6 @@ import { message } from 'antd';
 
 const ArchiveLink = (action, loggedInUser) => {
   const link = (value, row) => {
-    console.log('==========row=========');
-    console.log(row);
-    console.log('==========END row=========');
     const result = {id: row.id, archived: value};
     const archiveClick = (result) => {
       if (result.id === loggedInUser) {

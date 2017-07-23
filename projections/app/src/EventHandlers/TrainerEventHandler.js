@@ -80,8 +80,8 @@ where id = '${event.id}'`;
     }
 
     async function trainersClientRateChanged(event) {
-      let trainer = await rsRepository.getById(event.id, 'trainer');
-      trainer.trainerClientRates.map(x => x.id === event.clientId ? Object.assign(x, {rate: event.rate}) : x);
+      let trainer = await rsRepository.getById(event.trainerId, 'trainer');
+      trainer.trainerClientRates.map(x => x.clientId === event.clientId ? Object.assign(x, {rate: event.rate}) : x);
       return await rsRepository.save('trainer', trainer);
     }
 

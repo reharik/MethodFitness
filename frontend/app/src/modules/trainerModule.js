@@ -127,6 +127,19 @@ export default (state = [], action = {}) => {
       });
     }
 
+    case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
+      let update = selectn('action.update', action);
+      console.log(`==========update=========`);
+      console.log(update);
+      console.log(`==========END update=========`);
+      return state.map(x => {
+        if (x.id === update.id) {
+          return { ...x, trainerClientRates: update.clientRates };
+        }
+        return x;
+      });
+    }
+
     default: {
       return state;
     }
@@ -221,13 +234,13 @@ export function updateTrainerAddress(data) {
 export function updateTrainersClientRate(data) {
   const item = {
     id: data.id,
-    trainerClientRates: data.trainerClientRates
+    clientRates: data.clientRates
   };
 
   return {
     type: UPDATE_TRAINER_CLIENT_RATES.REQUEST,
     states: UPDATE_TRAINER_CLIENT_RATES,
-    url: config.apiBase + 'trainer/updateTrainerClientRates',
+    url: config.apiBase + 'trainer/updateTrainersClientRates',
     update: data,
     params: {
       method: 'POST',

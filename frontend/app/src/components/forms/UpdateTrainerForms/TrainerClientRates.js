@@ -22,23 +22,39 @@ class TrainerInfo extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.submit(values);
-        console.log('Received values of form: ', values);
+        const payload = {
+          id: this.props.model.id.value,
+          clientRates: Object.keys(values)
+            .filter(x => values[x])
+            .map(x => ({id: x, rate: values[x]}))
+        };
+        this.props.submit(payload);
+        console.log('Received values of form: ', payload);
         this.toggleEdit(e);
       }
     });
-  };
+  }
+
 
   render() {
+    const formItemLayout = {labelCol: {span: 16, pull: 6}, wrapperCol: {span: 6, push: 1}};
     let model = this.props.model;
     let form = this.props.form;
     return (
       <Card title={`Trainer's Client Rate`} >
-        <Form onSubmit={this.handleSubmit} layout={'vertical'} >
+        <Form layout="inline" onSubmit={this.handleSubmit} >
           <EditableFor form={form} data={model.id} hidden={true} />
-          <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.trainerClientRates} span={16} />
-          </Row>
+          { model.trainerClientRates.listItems.map(x => {
+            return (<Row type="flex" key={x.name} >
+              <EditableFor
+                formItemLayout={formItemLayout}
+                key={x.name}
+                editing={this.state.editing}
+                form={form}
+                data={x}
+                span={16} /></Row>);
+          })
+          }
           <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />
         </Form>
       </Card>
@@ -53,4 +69,13 @@ TrainerInfo.propTypes = {
   submit: PropTypes.func
 };
 
-export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerInfo);
+const mapPropsToFields = (props) => {
+  let data = {};
+  if (props.model.trainerClientRates.listItems) {
+    props.model.trainerClientRates.listItems.forEach(x => data[x.name] = x);
+  }
+  return data;
+};
+
+export default Form.create({mapPropsToFields})(TrainerInfo);
+

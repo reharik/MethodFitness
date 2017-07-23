@@ -100,6 +100,39 @@
         }
       }
     },
+    "updateTrainersClientRates": {
+      "title": "updateTrainersClientRates",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "clientRates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/clientRate"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "clientRate": {
+      "title": "clientRate",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rate": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "rate"
+      ]
+    },
     "updateClientInfo": {
       "title": "clientInfoRequest",
       "properties": {
@@ -394,6 +427,21 @@
       "required": [
         "refundSessions",
         "clientId"
+      ]
+    },
+    "refundSession": {
+      "title": "refundSession",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "appointmentType": {
+          "type": "string"
+        }},
+      "required": [
+        "sessionId",
+        "appointmentType"
       ]
     }
   }

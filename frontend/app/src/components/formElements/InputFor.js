@@ -5,9 +5,10 @@ import InputColor from 'react-input-color';
 const Option = Select.Option;
 
 
-const InputFor = ({ data, selectOptions, onChange }) => {
+const InputFor = ({ data, selectOptions, onChange, form }) => {
+  const {value, ..._data} = data; //eslint-disable-line no-unused-vars
   const input = function() {
-    switch (data['x-input'] || data.type) {
+    switch (_data['x-input'] || _data.type) {
       case 'date-time': {
         const _onChange = onChange ? {onChange} : {};
         return (
@@ -15,12 +16,10 @@ const InputFor = ({ data, selectOptions, onChange }) => {
         );
       }
       case 'color-picker': {
-        data.value = data.value || '#345678';
-        return <InputColor {...data} />;
+        return <InputColor {..._data} style={{display: 'flex', width: '100%'}} />;
       }
       case 'select': {
         const _onChange = onChange ? {onChange} : {};
-        let _data = {...data, value: undefined};
         return (
           <Select filterOption="true" {..._data} {..._onChange}>
             { selectOptions.map(x => (<Option key={x.value} value={x.value} >{x.display}</Option>)) }
@@ -29,7 +28,6 @@ const InputFor = ({ data, selectOptions, onChange }) => {
       }
       case 'multi-select': {
         const _onChange = onChange ? {onChange} : {};
-        let _data = {...data, value: undefined};
         return (
           <Select mode="multiple" filterOption="true" {..._data} {..._onChange}>
             { selectOptions.map(x => (<Option key={x.value} value={x.value} >{x.display}</Option>)) }
@@ -42,15 +40,15 @@ const InputFor = ({ data, selectOptions, onChange }) => {
         return (
           <Input
             type="textarea"
-            placeholder={data.placeholder}
-            name={data.name}
+            placeholder={_data.placeholder}
+            name={_data.name}
             {..._onChange}
           />
         );
       }
       case 'listItemValue': {
         return (
-          <ListItemValueFor data={data} />
+          <ListItemValueFor data={_data} form={form} />
         );
       }
       case 'number': {
@@ -58,9 +56,9 @@ const InputFor = ({ data, selectOptions, onChange }) => {
         return (
           <InputNumber
             {..._onChange}
-            placeholder={data.placeholder}
+            placeholder={_data.placeholder}
             min={0}
-            name={data.name}
+            name={_data.name}
           />
         );
       }
@@ -68,14 +66,14 @@ const InputFor = ({ data, selectOptions, onChange }) => {
       default:
       case 'password':
       case 'string': {
-        const password = data['x-input'] === 'password' ? { type: 'password' } : '';
+        const password = _data['x-input'] === 'password' ? { type: 'password' } : '';
         const _onChange = onChange ? {onChange} : {};
         return (
           <Input
             {...password}
             {..._onChange}
-            placeholder={data.placeholder}
-            name={data.name}
+            placeholder={_data.placeholder}
+            name={_data.name}
           />
         );
       }

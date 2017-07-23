@@ -5,6 +5,7 @@ import DisplayFor from './DisplayFor';
 import HiddenFor from './HiddenFor';
 
 const EditableFor = props => {
+
   if(props.hidden) {
     return <HiddenFor {...props} />;
   }
@@ -23,7 +24,8 @@ EditableFor.propTypes = {
   selectOptions: PropTypes.array,
   noDisplay: PropTypes.bool,
   hidden: PropTypes.bool,
-  editing: PropTypes.bool
+  editing: PropTypes.bool,
+  formItemLayout: PropTypes.object
 };
 
 export default EditableFor;

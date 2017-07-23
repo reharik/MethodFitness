@@ -9,13 +9,15 @@ import {
   updateTrainerAddress,
   updateTrainerPassword,
   updateTrainersClients,
-  updateTrainersClientRate,
   fetchTrainerAction
 } from './../../modules/trainerModule';
+import { updateTrainersClientRate, getTrainerClientRates } from './../../modules/trainerClientRatesModule';
 import { fetchClientsAction } from './../../modules/clientModule';
 
 import { actions as notifActions } from 'redux-notifications';
 const { notifClear } = notifActions;
+
+// isn't calling mapstate to props after trc changes cuz it's fucking nested.
 
 const mapStateToProps = (state, ownProps) => {
   const trainer = {...state.trainers.find(x => x.id === ownProps.params.trainerId)};
@@ -23,12 +25,17 @@ const mapStateToProps = (state, ownProps) => {
     .filter(x => !x.archived)
     .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));
 // possibly do this backwards in case a tcr hasn't been set for some reason
-  trainer.trainerClientRates = (trainer.trainerClientRates || []).map( x => {
-    let client = clients.find(c => c.value === x.clientId);
-    return client ? {
-      item: client,
-      value: x.rate}
-  : {};});
+  if(trainer && clients) {
+    trainer.trainerClientRates = state.trainerClientRates.filter(x => x.trainerId === trainer.id).map(x => {
+      let client = clients.find(c => c.value === x.clientId);
+      return {
+        value: x.rate,
+        label: client.display || '',
+        name: x.clientId,
+        rule: [{required: true}]
+      };
+    });
+  }
 
   const model = normalizeModel(state.schema.definitions.trainer, trainer);
   model.confirmPassword = { ...model.password };
@@ -51,5 +58,6 @@ export default connect(mapStateToProps, {
   updateTrainersClientRate,
   fetchTrainerAction,
   fetchClientsAction,
+  getTrainerClientRates,
   notifClear
 })(UpdateTrainerForm);

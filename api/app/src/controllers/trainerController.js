@@ -101,6 +101,13 @@ module.exports = function(
     ctx.body = trainer;
   };
 
+
+  let getTrainerClientRates = async function(ctx) {
+    const trainer = await rsRepository.getById(ctx.params.id, 'trainer');
+    ctx.status = 200;
+    ctx.body = trainer.trainerClientRates.map(x => ({trainerId: trainer.id, clientId: x.clientId, rate: x.rate}));
+  };
+
   return {
     hireTrainer,
     updateTrainerInfo,
@@ -110,6 +117,7 @@ module.exports = function(
     updateTrainersClients,
     updateTrainersClientRates,
     archiveTrainer,
+    getTrainerClientRates,
     getTrainer
   };
 };

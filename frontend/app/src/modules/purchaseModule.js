@@ -55,9 +55,6 @@ export function purchase(data) {
 }
 
 export function refundSessions(data) {
-  console.log('==========data=========');
-  console.log(data);
-  console.log('==========END data=========');
   return {
     type: SESSIONS_REFUND.REQUEST,
     states: SESSIONS_REFUND,
