@@ -8,7 +8,7 @@ module.exports = function(invariant) {
     invariant(appointmentId, 'unfundedAppointmentAttendedByClientEvent requires that you pass the appointment id');
     invariant(appointmentType, 'unfundedAppointmentAttendedByClientEvent requires that you pass the appointment type');
     return {
-      eventName: 'unfundedAppointmentAttendedByClientEvent',
+      eventName: 'unfundedAppointmentAttendedByClient',
       id,
       clientId,
       appointmentId,

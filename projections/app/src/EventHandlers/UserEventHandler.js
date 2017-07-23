@@ -37,7 +37,7 @@ module.exports = function(rsRepository, logger) {
     async function trainerContactUpdated(event) {
       let user = await rsRepository.getById(event.id, 'user');
       user.userName = event.contact.email;
-      return await rsRepository.save('user', user``);
+      return await rsRepository.save('user', user);
     }
 
     async function trainerPasswordUpdated(event) {

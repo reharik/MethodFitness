@@ -24,6 +24,8 @@ module.exports = function(rsRepository, moment, logger) {
       trainer.contact.email = event.contact.email;
       trainer.contact.secondaryPhone = event.contact.secondaryPhone;
       trainer.contact.mobilePhone = event.contact.mobilePhone;
+      trainer.contact.firstName = event.contact.firstName;
+      trainer.contact.lastName = event.contact.lastName;
       return await rsRepository.save('trainer', trainer);
     }
 
@@ -35,8 +37,6 @@ module.exports = function(rsRepository, moment, logger) {
 
     async function trainerInfoUpdated(event) {
       let trainer = await rsRepository.getById(event.id, 'trainer');
-      trainer.contact.firstName = event.firstName;
-      trainer.contact.lastName = event.lastName;
       trainer.birthDate = event.birthDate;
       trainer.color = event.color;
       return await rsRepository.save('trainer', trainer);

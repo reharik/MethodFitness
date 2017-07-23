@@ -56,7 +56,7 @@ module.exports = function(rsRepository, logger) {
       return await rsRepository.saveQuery(sql);
     }
 
-    async function appointmentAttendedByUnfundedClient(event) {
+    async function unfundedAppointmentAttendedByClient(event) {
       return await appointmentAttendedByClient(event);
     }
 
@@ -79,7 +79,7 @@ module.exports = function(rsRepository, logger) {
       // appointmentRescheduled,
       appointmentUpdated,
       appointmentAttendedByClient,
-      appointmentAttendedByUnfundedClient
+      unfundedAppointmentAttendedByClient
     };
   };
 };

@@ -60,8 +60,7 @@ export default (state = [], action = {}) => {
           return {
             ...x,
             color: update.color,
-            birthDate: update.birthDate,
-            contact: { ...x.contact, firstName: update.firstName, lastName: update.lastName }
+            birthDate: update.birthDate
           };
         }
         return x;
@@ -84,7 +83,9 @@ export default (state = [], action = {}) => {
               ...x.contact,
               secondaryPhone: update.secondaryPhone,
               mobilePhone: update.mobilePhone,
-              email: update.email
+              email: update.email,
+              firstName: update.firstName,
+              lastName: update.lastName
             }
           };
         }
@@ -129,9 +130,6 @@ export default (state = [], action = {}) => {
 
     case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
       let update = selectn('action.update', action);
-      console.log(`==========update=========`);
-      console.log(update);
-      console.log(`==========END update=========`);
       return state.map(x => {
         if (x.id === update.id) {
           return { ...x, trainerClientRates: update.clientRates };
@@ -150,9 +148,7 @@ export function updateTrainerInfo(data) {
   const item = {
     id: data.id,
     birthDate: data.birthDate,
-    color: data.color,
-    firstName: data.firstName,
-    lastName: data.lastName
+    color: data.color
   };
 
   return {
@@ -192,7 +188,9 @@ export function updateTrainerContact(data) {
     id: data.id,
     secondaryPhone: data.secondaryPhone,
     mobilePhone: data.mobilePhone,
-    email: data.email
+    email: data.email,
+    firstName: data.firstName,
+    lastName: data.lastName
   };
   return {
     type: UPDATE_TRAINER_CONTACT.REQUEST,

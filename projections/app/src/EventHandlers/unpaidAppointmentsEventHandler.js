@@ -23,6 +23,17 @@ module.exports = function(unpaidAppointmentsPersistence,
       return await persistence.saveState(state);
     }
 
+    async function trainersClientRatesUpdated(event) {
+      logger.info('handling trainersClientRatesUpdated event in trainerPaymentDetailsEventHandler');
+      event.clientRates.forEach(x => state.updateTRC({
+        trainerId: event.trainerId,
+        clientId: x.id,
+        rate: x.rate
+      }));
+
+      return await persistence.saveState(state);
+    }
+
     async function trainerClientRemoved(event) {
       logger.info('handling trainerClientRemoved event in unpaidAppointmentsEventHandler');
       state.removeTCR(event);
@@ -42,8 +53,8 @@ module.exports = function(unpaidAppointmentsPersistence,
       return await persistence.saveState(state, trainerId);
     }
 
-    async function appointmentAttendedByUnfundedClient(event) {
-      logger.info('handling appointmentAttendedByUnfundedClient event in unpaidAppointmentsEventHandler');
+    async function unfundedAppointmentAttendedByClient(event) {
+      logger.info('handling unfundedAppointmentAttendedByClient event in unpaidAppointmentsEventHandler');
       const trainerId = state.processUnfundedAppointment(event);
       return await persistence.saveState(state, trainerId);
     }
@@ -77,11 +88,12 @@ module.exports = function(unpaidAppointmentsPersistence,
       handlerName: 'unpaidAppointmentsEventHandler',
       trainerVerifiedAppointments,
       unfundedAppointmentFundedByClient,
-      appointmentAttendedByUnfundedClient,
+      unfundedAppointmentAttendedByClient,
       appointmentAttendedByClient,
       sessionsPurchased,
       trainerClientRemoved,
       trainersClientRateChanged,
+      trainersClientRatesUpdated,
       trainersNewClientRateSet,
       trainerPaid,
       sessionsRefunded

@@ -10,7 +10,7 @@ module.exports = function(invariant) {
     invariant(appointmentType, 'appointmentAttendedByClientEvent requires that you pass the appointment type');
     invariant(appointmentType, 'appointmentAttendedByClientEvent requires that you pass the sessionId');
     return {
-      eventName: 'appointmentAttendedByClientEvent',
+      eventName: 'appointmentAttendedByClient',
       id,
       clientId,
       appointmentId,

@@ -16,6 +16,17 @@ module.exports = function(trainerPaymentDetailsPersistence,
       return await persistence.saveState(state);
     }
 
+    async function trainersClientRatesUpdated(event) {
+      logger.info('handling trainersClientRatesUpdated event in trainerPaymentDetailsEventHandler');
+      event.clientRates.forEach(x => state.updateTRC({
+        trainerId: event.trainerId,
+        clientId: x.id,
+        rate: x.rate
+      }));
+
+      return await persistence.saveState(state);
+    }
+
     async function trainersClientRateChanged(event) {
       logger.info('handling trainersClientRateChanged event in trainerPaymentDetailsEventHandler');
       state.updateTCR(event);
@@ -56,6 +67,7 @@ module.exports = function(trainerPaymentDetailsPersistence,
       trainerClientRemoved,
       trainersClientRateChanged,
       trainersNewClientRateSet,
+      trainersClientRatesUpdated,
       sessionsRefunded
     };
 
