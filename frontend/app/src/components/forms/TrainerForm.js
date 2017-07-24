@@ -59,7 +59,7 @@ class TrainerForm extends Component {
         <div className="form-scroll-inner">
           <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Contact Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.firstName} />
@@ -89,7 +89,7 @@ class TrainerForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Trainer Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.birthDate} />
@@ -100,7 +100,7 @@ class TrainerForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Trainer Credentials">
                   <Row type="flex"> <SubmissionFor form={form} data={model.password} />
                   </Row>
@@ -114,7 +114,7 @@ class TrainerForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col span={8}>
+              <Col md={10} sm={24} >
                 <Card title="Trainer' Clients">
                   <Row type="flex">
                     <SubmissionFor selectOptions={this.props.clients} form={form} data={model.clients} />

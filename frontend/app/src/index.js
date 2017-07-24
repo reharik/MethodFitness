@@ -13,4 +13,4 @@ import './css/thirdParty/notif-styles.css';
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
-ReactDOM.render(<Root store={store} history={history} />, document.getElementById('root'));
+ReactDOM.render(<Root store={store} history={history} style={{height: '100%'}} />, document.getElementById('root'));

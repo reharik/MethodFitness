@@ -40,13 +40,13 @@ class UpdateClientForm extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Row type="flex">
-            <Col span={8} >
+            <Col md={10} sm={24} >
               <ClientInfo model={model} submit={this.props.updateClientInfo} />
               <ClientContact model={model} submit={this.props.updateClientContact} />
               <ClientAddress model={model} submit={this.props.updateClientAddress} states={this.props.states} />
               <ClientSource model={model} submit={this.props.updateClientSource} sources={this.props.sources} />
             </Col>
-            <Col span={6}>
+            <Col md={6} sm={24}>
               <ClientInventory inventory={this.props.inventory} />
             </Col>
           </Row>
