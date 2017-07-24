@@ -7,6 +7,7 @@ import { fetchTrainersAction } from './../modules/trainerModule';
 const mapStateToProps = function(state) {
   let config = {
     increment: 15,
+    firstDayOfWeek: 0,
     calendarName: 'schedule',
     dataSource: 'appointments',
     defaultView: 'week',

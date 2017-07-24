@@ -43,8 +43,15 @@ export default (state = [], action = {}) => {
 
 export function scheduleAppointment(data) {
   moment.locale('en');
+  console.log(`==========data=========`);
+  console.log(data);
+  console.log(`==========END data=========`);
   const startTime = getISODateTime(data.date, data.startTime);
   const endTime = getISODateTime(data.date, data.endTime);
+  console.log(`==========startTime=========`);
+  console.log(startTime);
+  console.log(endTime);
+  console.log(`==========END startTime=========`);
   const formattedData = {
     ...data,
     date: startTime,
@@ -68,8 +75,15 @@ export function scheduleAppointment(data) {
 
 export function updateAppointment(data) {
   moment.locale('en');
+  console.log(`==========data=========`);
+  console.log(data);
+  console.log(`==========END data=========`);
   const startTime = getISODateTime(data.date, data.startTime);
   const endTime = getISODateTime(data.date, data.endTime);
+  console.log(`==========startTime=========`);
+  console.log(startTime);
+  console.log(endTime);
+  console.log(`==========END startTime=========`);
   const formattedData = {
     ...data,
     date: startTime,

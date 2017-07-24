@@ -24,8 +24,8 @@ export function generateAllTimes(inc, start, end) {
   return iterateTimes(inc, 'AM', start).concat(iterateTimes(inc, 'PM', 1, end));
 }
 
-const convertLocalTimeToUtc = (time) => {
-  let hour = parseInt(time.substring(0, time.indexOf(':'))) + (-moment().utcOffset() / 60);
+const convertoHoursAndMin = (time) => {
+  let hour = parseInt(time.substring(0, time.indexOf(':')));
   let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
   let A = time.substring(time.indexOf(' ') + 1);
   hour = A === 'AM' ? hour : hour + 12;
@@ -37,9 +37,10 @@ export function getISODateTime(date, time) {
   if (!date || !time) {
     return undefined;
   }
-  let utcTime = convertLocalTimeToUtc(time);
-  const result = moment(date).hour(utcTime.hour).minute(utcTime.min);
-  return result.toISOString();
+  let _date = moment(date).local();
+  let hourMin = convertoHoursAndMin(time);
+  const result = _date.hour(hourMin.hour).minute(hourMin.min).toISOString();
+  return result;
 }
 
 export function syncApptTypeAndTime(apptType, startTime) {

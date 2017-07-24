@@ -15,36 +15,44 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
     commandHandlers() {
       return {
         addClient(cmd) {
-          cmd.id = cmd.id || uuid.v4();
-          this.raiseEvent(esEvents.clientAddedEvent(cmd));
+          let cmdClone = Object.assign({}, cmd);
+          cmdClone.id = cmdClone.id || uuid.v4();
+          this.raiseEvent(esEvents.clientAddedEvent(cmdClone));
         },
         updateClientInfo(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.clientInfoUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.clientInfoUpdatedEvent(cmdClone));
         },
         updateClientSource(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.clientSourceUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.clientSourceUpdatedEvent(cmdClone));
         },
         updateClientContact(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.clientContactUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.clientContactUpdatedEvent(cmdClone));
         },
         updateClientAddress(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.clientAddressUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.clientAddressUpdatedEvent(cmdClone));
         },
         archiveClient(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.clientArchivedEvent(cmd));
+          this.raiseEvent(esEvents.clientArchivedEvent(cmdClone));
         },
         unArchiveClient(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectArchived();
-          this.raiseEvent(esEvents.clientUnarchivedEvent(cmd));
+          this.raiseEvent(esEvents.clientUnarchivedEvent(cmdClone));
         },
         purchase(cmd) {
-          cmd.id = cmd.id || uuid.v4();
-          let sessions = this.generateSessions(cmd);
+          let cmdClone = Object.assign({}, cmd);
+          cmdClone.id = cmdClone.id || uuid.v4();
+          let sessions = this.generateSessions(cmdClone);
           let fundedAppointments = [];
           this.unfundedAppointments.forEach(x => {
             let session = sessions.find(s => s.appointmentType === x.appointmentType && !s.used);
@@ -55,25 +63,27 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
           });
           this.unfundedAppointments = this.unfundedAppointments
             .filter(u => !fundedAppointments.some(f => u.appointmentId === f.appointmentId));
-          cmd.sessions = sessions;
-          this.raiseEvent(esEvents.sessionsPurchasedEvent(cmd));
+          cmdClone.sessions = sessions;
+          this.raiseEvent(esEvents.sessionsPurchasedEvent(cmdClone));
           fundedAppointments.forEach(e => this.raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e)));
         },
 
         clientAttendsAppointment(cmd) {
-          let event = esEvents.unfundedAppointmentAttendedByClientEvent(cmd);
-          cmd.id = cmd.id || uuid.v4();
-          const session = this.clientInventory.consumeSession(cmd);
+          let cmdClone = Object.assign({}, cmd);
+          let event = esEvents.unfundedAppointmentAttendedByClientEvent(cmdClone);
+          cmdClone.id = cmdClone.id || uuid.v4();
+          const session = this.clientInventory.consumeSession(cmdClone);
           if (session) {
-            cmd.sessionId = session.sessionId;
-            event = esEvents.appointmentAttendedByClientEvent(cmd);
+            cmdClone.sessionId = session.sessionId;
+            event = esEvents.appointmentAttendedByClientEvent(cmdClone);
           }
           this.raiseEvent(event);
         },
 
         refundSessions(cmd) {
-          this.expectSessionsExist(cmd);
-          this.raiseEvent(esEvents.sessionsRefundedEvent(cmd));
+          let cmdClone = Object.assign({}, cmd);
+          this.expectSessionsExist(cmdClone);
+          this.raiseEvent(esEvents.sessionsRefundedEvent(cmdClone));
         }
       };
     }

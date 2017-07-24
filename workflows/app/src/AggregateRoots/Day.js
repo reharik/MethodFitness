@@ -19,32 +19,35 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
 
     commandHandlers() {
       const updateAppointment = function(cmd) {
-        this.expectEndTimeAfterStart(cmd);
-        this.expectAppointmentDurationCorrect(cmd);
-        this.expectCorrectNumberOfClients(cmd);
-        this.expectTrainerNotConflicting(cmd);
-        this.expectClientsNotConflicting(cmd);
+        let cmdClone = Object.assign({}, cmd);
+        this.expectEndTimeAfterStart(cmdClone);
+        this.expectAppointmentDurationCorrect(cmdClone);
+        this.expectCorrectNumberOfClients(cmdClone);
+        this.expectTrainerNotConflicting(cmdClone);
+        this.expectClientsNotConflicting(cmdClone);
 
-        this.raiseEvent(esEvents.appointmentUpdatedEvent(cmd));
+        this.raiseEvent(esEvents.appointmentUpdatedEvent(cmdClone));
       }.bind(this);
 
       const scheduleAppointment = function(cmd) {
-        this.expectEndTimeAfterStart(cmd);
-        this.expectAppointmentDurationCorrect(cmd);
-        this.expectCorrectNumberOfClients(cmd);
-        this.expectTrainerNotConflicting(cmd);
-        this.expectClientsNotConflicting(cmd);
-        cmd.appointmentId = cmd.commandName === 'scheduleAppointment'
-        || cmd.commandName === 'rescheduleAppointmentToNewDay'
+        let cmdClone = Object.assign({}, cmd);
+        this.expectEndTimeAfterStart(cmdClone);
+        this.expectAppointmentDurationCorrect(cmdClone);
+        this.expectCorrectNumberOfClients(cmdClone);
+        this.expectTrainerNotConflicting(cmdClone);
+        this.expectClientsNotConflicting(cmdClone);
+        cmdClone.appointmentId = cmdClone.commandName === 'scheduleAppointment'
+        || cmdClone.commandName === 'rescheduleAppointmentToNewDay'
           ? uuid.v4()
-          : cmd.appointmentId;
+          : cmdClone.appointmentId;
 
-        this.raiseEvent(esEvents.appointmentScheduledEvent(cmd));
+        this.raiseEvent(esEvents.appointmentScheduledEvent(cmdClone));
       }.bind(this);
 
       const _cancelAppointment = function(cmd) {
         //TODO put lots of business logic here!
-        this.raiseEvent(esEvents.appointmentCanceledEvent(cmd));
+        let cmdClone = Object.assign({}, cmd);
+        this.raiseEvent(esEvents.appointmentCanceledEvent(cmdClone));
       }.bind(this);
 
       return {
@@ -168,10 +171,10 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
       let trainerConflict = this.appointments
         .filter(
           x =>
-            (x.id &&
-              x.id !== cmd.appointmentId &&
-              moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
-            (x.id && x.id !== cmd.appointmentId && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')),
+          (x.id &&
+          x.id !== cmd.appointmentId &&
+          moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
+          (x.id && x.id !== cmd.appointmentId && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')),
           '[]'
         )
         .filter(x => x.trainerId === cmd.trainerId);
@@ -186,12 +189,12 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
       let clientConflicts = this.appointments
         .filter(
           x =>
-            (x.id &&
-              x.id !== cmd.appointmentId &&
-              moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
-            (x.id &&
-              x.id !== cmd.appointmentId &&
-              moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]'))
+          (x.id &&
+          x.id !== cmd.appointmentId &&
+          moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
+          (x.id &&
+          x.id !== cmd.appointmentId &&
+          moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]'))
         )
         .filter(x => x.clients.includes(c => cmd.clients.includes(c2 => c.id === c2.id)));
       invariant(

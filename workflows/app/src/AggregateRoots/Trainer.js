@@ -17,33 +17,40 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid) {
     commandHandlers() {
       return {
         hireTrainer(cmd) {
-          cmd.id = cmd.id || uuid.v4();
-          this.raiseEvent(esEvents.trainerHiredEvent(cmd));
+          let cmdClone = Object.assign({}, cmd);
+          cmdClone.id = cmdClone.id || uuid.v4();
+          this.raiseEvent(esEvents.trainerHiredEvent(cmdClone));
         },
         updateTrainerInfo(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.trainerInfoUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.trainerInfoUpdatedEvent(cmdClone));
         },
         updateTrainerContact(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.trainerContactUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.trainerContactUpdatedEvent(cmdClone));
         },
         updateTrainerAddress(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.trainerAddressUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.trainerAddressUpdatedEvent(cmdClone));
         },
         updateTrainerPassword(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.trainerPasswordUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.trainerPasswordUpdatedEvent(cmdClone));
         },
         verifyAppointments(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.trainerVerifiedAppointmentsEvent(cmd));
+          this.raiseEvent(esEvents.trainerVerifiedAppointmentsEvent(cmdClone));
         },
         payTrainer(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          cmd.paymentId = uuid.v4();
-          this.raiseEvent(esEvents.trainerPaidEvent(cmd));
+          cmdClone.paymentId = uuid.v4();
+          this.raiseEvent(esEvents.trainerPaidEvent(cmdClone));
         },
 
 
@@ -62,37 +69,41 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid) {
         //     });
         // },
         archiveTrainer(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.raiseEvent(esEvents.trainerArchivedEvent(cmd));
+          this.raiseEvent(esEvents.trainerArchivedEvent(cmdClone));
         },
         unArchiveTrainer(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectArchived();
-          this.raiseEvent(esEvents.trainerunArchivedEvent(cmd));
+          this.raiseEvent(esEvents.trainerunArchivedEvent(cmdClone));
         },
         updateTrainersClientRates(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
 
-          this.trainerClientRates.filter(x => cmd.clientRates.find(y => x.clientId === y.id).rate !== x.rate)
+          this.trainerClientRates.filter(x => cmdClone.clientRates.find(y => x.clientId === y.id).rate !== x.rate)
             .map(x => ({
               trainerId: this._id,
               clientId: x.clientId,
-              rate: cmd.clientRates.find(y => x.clientId === y.id).rate
+              rate: cmdClone.clientRates.find(y => x.clientId === y.id).rate
             }))
             .forEach(e => this.raiseEvent(esEvents.trainersClientRatesUpdatedEvent(e)));
 
-          this.raiseEvent(esEvents.trainersClientRatesUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.trainersClientRatesUpdatedEvent(cmdClone));
 
         },
         updateTrainersClients(cmd) {
+          let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
-          this.trainerClients.filter(x => !cmd.clients.find(y => y === x))
+          this.trainerClients.filter(x => !cmdClone.clients.find(y => y === x))
             .map(x => ({
               trainerId: this._id,
               clientId: x
             }))
             .forEach(e => this.raiseEvent(esEvents.trainerClientRemovedEvent(e)));
 
-          const newClients = cmd.clients.filter(x => !this.trainerClients.find(y => y === x));
+          const newClients = cmdClone.clients.filter(x => !this.trainerClients.find(y => y === x));
           newClients
             .map(x => ({
               trainerId: this._id,
@@ -107,7 +118,7 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid) {
             }))
             .forEach(e => this.raiseEvent(esEvents.trainersNewClientRateSetEvent(e)));
 
-          this.raiseEvent(esEvents.trainersClientsUpdatedEvent(cmd));
+          this.raiseEvent(esEvents.trainersClientsUpdatedEvent(cmdClone));
         }
       };
     }
