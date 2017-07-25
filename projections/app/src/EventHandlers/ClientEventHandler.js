@@ -8,6 +8,7 @@ module.exports = function(rsRepository, moment, logger) {
     logger.info('ClientEventHandler started up');
 
     async function clientAdded(event) {
+      logger.info('handling clientAdded event in ClientEventHandler');
       let client = {
         id: event.id,
         source: event.source,
@@ -25,9 +26,8 @@ module.exports = function(rsRepository, moment, logger) {
     }
 
     async function clientContactUpdated(event) {
+      logger.info('handling clientContactUpdated event in ClientEventHandler');
       let client = await rsRepository.getById(event.id, 'client');
-      client.contact.firstName = event.firstName;
-      client.contact.lastName = event.lastName;
       client.contact.email = event.contact.email;
       client.contact.secondaryPhone = event.contact.secondaryPhone;
       client.contact.mobilePhone = event.contact.mobilePhone;
@@ -35,19 +35,23 @@ module.exports = function(rsRepository, moment, logger) {
     }
 
     async function clientAddressUpdated(event) {
+      logger.info('handling clientAddressUpdated event in ClientEventHandler');
       let client = await rsRepository.getById(event.id, 'client');
       client.contact.address = event.address;
       return await rsRepository.save('client', client);
     }
 
     async function clientInfoUpdated(event) {
+      logger.info('handling clientInfoUpdated event in ClientEventHandler');
       let client = await rsRepository.getById(event.id, 'client');
+      client.contact.firstName = event.firstName;
+      client.contact.lastName = event.lastName;
       client.birthDate = event.birthDate;
-      client.color = event.color;
       return await rsRepository.save('client', client);
     }
 
     async function clientSourceUpdated(event) {
+      logger.info('handling clientSourceUpdated event in ClientEventHandler');
       let client = await rsRepository.getById(event.id, 'client');
       client.source = event.source;
       client.sourceNotes = event.sourceNotes;
@@ -56,6 +60,7 @@ module.exports = function(rsRepository, moment, logger) {
     }
 
     async function clientArchived(event) {
+      logger.info('handling clientArchived event in ClientEventHandler');
       let client = await rsRepository.getById(event.id, 'client');
       client.archived = true;
       client.archivedDate = moment().toISOString();
@@ -65,6 +70,7 @@ where id = '${event.id}'`;
     }
 
     async function clientUnArchived(event) {
+      logger.info('handling clientUnArchived event in ClientEventHandler');
       let client = await rsRepository.getById(event.id, 'client');
       client.archived = false;
       client.archivedDate = moment().toISOString();
@@ -74,7 +80,7 @@ where id = '${event.id}'`;
     }
 
     async function sessionsPurchased(event) {
-      logger.info('handling clientInventoryUpdated event');
+      logger.info('handling sessionsPurchased event in ClientEventHandler');
       let client = await rsRepository.getById(event.clientId, 'client');
       client.inventory = {
         fullHour: (client.inventory.fullHour || 0) + (event.fullHourTenPack * 10) + event.fullHour,
@@ -89,14 +95,14 @@ where id = '${event.id}'`;
     }
 
     async function appointmentAttendedByClient(event) {
-      logger.info('handling appointmentAttendedByClient event');
+      logger.info('handling appointmentAttendedByClient event in ClientEventHandler');
       let client = await rsRepository.getById(event.clientId, 'client');
       client.inventory[event.appointmentType] = client.inventory[event.appointmentType] - 1;
       return await rsRepository.save('client', client);
     }
 
     async function sessionsRefunded(event) {
-      logger.info('handling sessionsRefunded event');
+      logger.info('handling sessionsRefunded event in ClientEventHandler');
       let client = await rsRepository.getById(event.clientId, 'client');
       event.refundSessions.forEach(x => client.inventory[x.appointmentType] = client.inventory[x.appointmentType] - 1);
       return await rsRepository.save('client', client);

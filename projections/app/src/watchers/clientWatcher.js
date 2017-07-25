@@ -14,7 +14,7 @@ module.exports = function(logger) {
     }
 
     async function clientContactUpdated(event) {
-      logger.info(`handling clientAdded event in ${handlerName}`);
+      logger.info(`handling clientContactUpdated event in ${handlerName}`);
       const subEvent = {
         id: event.id,
         firstName: event.contact.firstName,

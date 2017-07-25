@@ -8,6 +8,7 @@ module.exports = function(rsRepository, moment, logger) {
     logger.info('TrainerEventHandler started up');
 
     async function trainerHired(event) {
+      logger.info('handling trainerHired event in TrainerEventHandler');
       let trainer = {
         id: event.id,
         contact: event.contact,
@@ -20,6 +21,7 @@ module.exports = function(rsRepository, moment, logger) {
     }
 
     async function trainerContactUpdated(event) {
+      logger.info('handling trainerContactUpdated event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.contact.email = event.contact.email;
       trainer.contact.secondaryPhone = event.contact.secondaryPhone;
@@ -30,12 +32,14 @@ module.exports = function(rsRepository, moment, logger) {
     }
 
     async function trainerAddressUpdated(event) {
+      logger.info('handling trainerAddressUpdated event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.contact.address = event.address;
       return await rsRepository.save('trainer', trainer);
     }
 
     async function trainerInfoUpdated(event) {
+      logger.info('handling trainerInfoUpdated event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.birthDate = event.birthDate;
       trainer.color = event.color;
@@ -43,6 +47,7 @@ module.exports = function(rsRepository, moment, logger) {
     }
 
     async function trainerArchived(event) {
+      logger.info('handling trainerArchived event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.archived = true;
       trainer.archivedDate = moment().toISOString();
@@ -52,6 +57,7 @@ where id = '${event.id}'`;
     }
 
     async function trainerUnArchived(event) {
+      logger.info('handling trainerUnArchived event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.archived = false;
       trainer.archivedDate = moment().toISOString();
@@ -61,12 +67,14 @@ where id = '${event.id}'`;
     }
 
     async function trainersClientsUpdated(event) {
+      logger.info('handling trainersClientsUpdated event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.id, 'trainer');
       trainer.clients = event.clients;
       return await rsRepository.save('trainer', trainer);
     }
 
     async function trainersNewClientRateSet(event) {
+      logger.info('handling trainersNewClientRateSet event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.trainerClientRates = trainer.trainerClientRates ? trainer.trainerClientRates : [];
       trainer.trainerClientRates.push({clientId: event.clientId, rate: event.rate});
@@ -74,12 +82,14 @@ where id = '${event.id}'`;
     }
 
     async function trainerClientRemoved(event) {
+      logger.info('handling trainerClientRemoved event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.trainerClientRates.filter( x => x.clientId !== event.clientId );
       return await rsRepository.save('trainer', trainer);
     }
 
     async function trainersClientRateChanged(event) {
+      logger.info('handling trainersClientRateChanged event in TrainerEventHandler');
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.trainerClientRates.map(x => x.clientId === event.clientId ? Object.assign(x, {rate: event.rate}) : x);
       return await rsRepository.save('trainer', trainer);
