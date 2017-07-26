@@ -1,7 +1,6 @@
 module.exports = function(logger) {
   return async notificationPromise => {
     let notification = await notificationPromise.stream;
-
     const status = notification.success ? 200 : 422;
     let body = {};
     if (!notification.success) {
