@@ -73,7 +73,7 @@ function mapStateToProps(state) {
     .filter(x => !x.verified)
     .map(x => ({
       ...x,
-      appointmentDate: moment(x.appointmentDate).format('MM/DD/YYYY'),
+      appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
     }));
 

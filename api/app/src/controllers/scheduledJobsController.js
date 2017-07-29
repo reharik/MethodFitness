@@ -3,7 +3,8 @@ module.exports = function(rsRepository, eventstore, moment, uuid, commands, logg
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
 
     let date = moment().format('YYYY-MM-DD');
-    let sql = `select * from appointment where date='${date}';`;
+    let sql = `select * from appointment 
+    where date<='${date}' and date>'${moment().subtract(1, 'month').format('YYYY-MM-DD')}';`;
     const appointments = await rsRepository.query(sql);
 
     logger.info(`appoinments: ${JSON.stringify(appointments)}`);

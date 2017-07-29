@@ -74,7 +74,7 @@ function mapStateToProps(state, props) {
     dataSource = payment ? payment.paidAppointments : [];
     dataSource = dataSource.map(x => ({
       ...x,
-      appointmentDate: moment(x.appointmentDate).format('MM/DD/YYYY'),
+      appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
     }));
   }
@@ -86,7 +86,7 @@ function mapStateToProps(state, props) {
     gridConfig,
     paymentId: props.params.paymentId,
     paymentTotal: payment ? payment.paymentTotal : 0,
-    paymentDate: payment ? moment(payment.paymentDate).format('MM/DD/YYYY') : ''
+    paymentDate: payment ? moment(payment.paymentDate).format('L') : ''
   };
 }
 

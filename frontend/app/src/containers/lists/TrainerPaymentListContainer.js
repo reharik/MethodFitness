@@ -49,7 +49,7 @@ function mapStateToProps(state) {
     .map(x => ({
       paymentId: x.paymentId,
       paymentTotal: x.paymentTotal,
-      date: moment(x.date).format('MM/DD/YYYY')
+      date: moment(x.date).format('L')
     })) : [];
 
   const gridConfig = {

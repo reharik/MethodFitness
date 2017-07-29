@@ -28,9 +28,9 @@ module.exports = function(invariant) {
 
     invariant(firstName, 'trainerHired requires that you pass the trainers first name');
     invariant(lastName, 'trainerHired requires that you pass the trainers last name');
-    invariant(email, 'trainerHired requires that you pass the trainers email');
-    invariant(mobilePhone, 'trainerHired requires that you pass the trainers mobilePhone');
-    invariant(password, 'trainerHired requires that you pass the trainers password');
+    // invariant(email, 'trainerHired requires that you pass the trainers email');
+    // invariant(mobilePhone, 'trainerHired requires that you pass the trainers mobilePhone');
+    // invariant(password, 'trainerHired requires that you pass the trainers password');
     invariant(role, 'trainerHired requires that you pass the trainers role');
 
     return {

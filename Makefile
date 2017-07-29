@@ -43,7 +43,7 @@ dockerLoggingDown:
 dockerDataDown:
 	docker-compose -f docker/docker-compose-data.yml -p methodfit down
 
-dockerUp: kill-data
+dockerUp:  kill-data
 	docker-compose -f docker/docker-compose.yml -p methodfit up
 
 dockerDeployUp:

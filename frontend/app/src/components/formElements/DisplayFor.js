@@ -17,7 +17,7 @@ const DisplayFor = ({ data, selectOptions, span }) => {
         );
       }
       case 'date-time': {
-        return <span>{moment(data.value).format('MM/DD/YYYY')}</span>;
+        return <span>{moment(data.value).format('L')}</span>;
       }
       case 'select': {
         if (!data.value) {
