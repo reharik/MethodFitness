@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
+import ContentHeaderSearch from '../ContentHeaderSearch';
 import { Table, Radio } from 'antd';
 import { browserHistory } from 'react-router';
 const RadioButton = Radio.Button;
@@ -13,12 +14,14 @@ class ClientList extends Component {
   };
 
   componentWillReceiveProps(newProps) {
-    this.changeView(newProps.gridConfig.dataSource, this.state.view);
+    let newState = this.changeView(newProps.gridConfig.dataSource, this.state.view);
+    this.setState(newState);
   }
 
   onChange = (e) => {
     let dataSource = this.props.gridConfig.dataSource;
-    this.changeView(dataSource, e.target.value);
+    let newState = this.changeView(dataSource, e.target.value);
+    this.setState(newState);
   };
 
   changeView = (dataSource, view) => {
@@ -37,7 +40,18 @@ class ClientList extends Component {
         dataSource = dataSource.filter(x => !x.archived);
       }
     }
-    this.setState({view, dataSource});
+    return {dataSource, view};
+  };
+
+  search = (e) => {
+    let tgt = e.target.value;
+    const dataSource = tgt
+    ? this.state.dataSource.filter(x => x.contact.lastName.toLowerCase().startsWith(tgt.toLowerCase()))
+      : this.props.gridConfig.dataSource;
+
+    let newState = this.changeView(dataSource, this.state.view);
+
+    this.setState({dataSource: newState.dataSource});
   };
 
   render() {
@@ -60,6 +74,7 @@ class ClientList extends Component {
                 <RadioButton value="archived">Archived</RadioButton>
                 <RadioButton value="showAll">Show All</RadioButton>
               </RadioGroup>
+              <ContentHeaderSearch search={this.search} />
             </div>
           </div>
         </ContentHeader>
