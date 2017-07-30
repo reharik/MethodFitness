@@ -49,11 +49,11 @@ const DisplayFor = ({ data, selectOptions, span }) => {
   };
 
   return (
-    <Col md={span || 12} sm={span || 12} xs={24} style={{ marginBottom: '15px' }}>
-      <Col span={10}>
+    <Col xl={span || 12} lg={span || 10} sm={span || 12} xs={24} style={{ marginBottom: '15px' }}>
+      <Col xl={10} lg={10} sm={12} xs={24}>
         <label className="display__container__label ant-form-item-label"><span>{data.label}</span></label>
       </Col>
-      <Col md={14} xs={24}>
+      <Col xl={14} lg={14} xs={24}>
         <div className="display__container__value" >{_span()}</div>
       </Col>
     </Col>

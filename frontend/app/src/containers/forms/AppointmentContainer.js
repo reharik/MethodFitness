@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 import AppointmentForm from '../../components/forms/Appointment/AppointmentForm';
-import { scheduleAppointment } from './../../modules/appointmentModule';
 import { notifications } from './../../modules/notificationModule';
 import appointmentTypes from './../../constants/appointmentTypes';
 import { generateAllTimes } from './../../utilities/appointmentTimes';
 import { appointmentModel, updateAppointmentModel } from './../../selectors/appointmentModelSelector';
-import { updateAppointment, fetchAppointmentAction, deleteAppointment } from './../../modules/appointmentModule';
+import { scheduleAppointment,
+  updateAppointment,
+  fetchAppointmentAction,
+  deleteAppointment } from './../../modules/appointmentModule';
 
 const mapStateToProps = (state, ownProps) => {
   const isAdmin = state.auth.user.role === 'admin';

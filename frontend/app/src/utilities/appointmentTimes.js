@@ -37,10 +37,12 @@ export function getISODateTime(date, time) {
   if (!date || !time) {
     return undefined;
   }
-  let _date = moment(date).local();
+  date = moment(date);
+  let _date = date.isUTC()
+    ? moment(date).local().add(Math.abs(moment(date).local().utcOffset()), 'minutes')
+    : moment(date);
   let hourMin = convertoHoursAndMin(time);
-  const result = _date.hour(hourMin.hour).minute(hourMin.min).toISOString();
-  return result;
+  return _date.hour(hourMin.hour).minute(hourMin.min).toISOString();
 }
 
 export function syncApptTypeAndTime(apptType, startTime) {
@@ -48,10 +50,10 @@ export function syncApptTypeAndTime(apptType, startTime) {
   const time = moment(startTime, 'hh:mm A');
   let endTime;
   if (apptType === 'halfHour') {
-    endTime = time.add(30, 'm');
+    endTime = time.add(29, 'm');
   }
   if (apptType === 'fullHour' || apptType === 'pair') {
-    endTime = time.add(60, 'm');
+    endTime = time.add(59, 'm');
   }
   return endTime.format('h:mm A');
 }

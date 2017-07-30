@@ -45,7 +45,7 @@ class UpdateTrainerForm extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Row type="flex">
-            <Col md={10} sm={24} >
+            <Col xl={10} lg={18} sm={24} >
               <TrainerContact model={model} submit={this.props.updateTrainerContact} />
               <TrainerInfo model={model} submit={this.props.updateTrainerInfo} />
               <TrainerAddress model={model} submit={this.props.updateTrainerAddress} states={this.props.states} />
