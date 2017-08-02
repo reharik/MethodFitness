@@ -50,10 +50,10 @@ export function syncApptTypeAndTime(apptType, startTime) {
   const time = moment(startTime, 'hh:mm A');
   let endTime;
   if (apptType === 'halfHour') {
-    endTime = time.add(29, 'm');
+    endTime = time.add(30, 'm');
   }
   if (apptType === 'fullHour' || apptType === 'pair') {
-    endTime = time.add(59, 'm');
+    endTime = time.add(60, 'm');
   }
   return endTime.format('h:mm A');
 }

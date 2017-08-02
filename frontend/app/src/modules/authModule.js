@@ -5,6 +5,7 @@ import selectn from 'selectn';
 // const { notifSend } = notifActions;
 export const LOGIN = requestStates('login', 'auth');
 export const LOGOUT = requestStates('logout', 'auth');
+import { browserHistory } from 'react-router';
 
 const initialState = {
   user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '',
@@ -60,6 +61,10 @@ export function logoutUser() {
 //     kind: 'danger'
 //   });
 // };
+const successFunction = (action, response) => {
+  browserHistory.push('/');
+  return { type: action.states.SUCCESS, action, response };
+};
 
 export function loginUser(data) {
   return {
@@ -68,6 +73,7 @@ export function loginUser(data) {
     url: configValues.apiBase + 'auth',
     // failureFunction,
     containerName: 'signIn',
+    successFunction,
     params: {
       method: 'POST',
       credentials: 'include',

@@ -45,12 +45,14 @@ class ClientList extends Component {
 
   search = (e) => {
     let tgt = e.target.value;
-    const dataSource = tgt
-    ? this.state.dataSource.filter(x => x.contact.lastName.toLowerCase().startsWith(tgt.toLowerCase()))
-      : this.props.gridConfig.dataSource;
+    let freshDataSource = this.changeView(this.props.gridConfig.dataSource, this.state.view).dataSource;
 
-    let newState = this.changeView(dataSource, this.state.view);
+    const filter = x =>
+      x.contact.lastName.toLowerCase().startsWith(tgt.toLowerCase())
+    || x.contact.firstName.toLowerCase().startsWith(tgt.toLowerCase());
+    const newDataSource = freshDataSource.filter(filter);
 
+    let newState = this.changeView(newDataSource, this.state.view);
     this.setState({dataSource: newState.dataSource});
   };
 

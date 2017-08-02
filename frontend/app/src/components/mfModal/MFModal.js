@@ -16,10 +16,10 @@ class MFModal extends Component {
     document.removeEventListener('keydown', this.onKeyDown.bind(this));
   }
 
-  onKeyDown(e) {
-    if (this.props.isOpen && e.keyCode === 27) {
-      this.props.closeModal();
-    }
+  onKeyDown() {
+    // if (this.props.isOpen && e.keyCode === 27) {
+    //   this.props.closeModal();
+    // }
   }
 
   mergeConfig() {

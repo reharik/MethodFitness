@@ -1,6 +1,14 @@
+const constructId = (obj, id) => {
+  if(!Array.isArray(id)) {
+    return obj[id];
+  }
+  return `${obj[id[0]]}-${obj[id[1]]}`;
+};
+
 const singleReducer = (map = new Map(), item = {}, id) => {
   // map set will add or update if existing
-  map.set(item[id], item);
+  let _id = constructId(item, id);
+  map.set(_id, item);
   return map;
 };
 
@@ -19,8 +27,9 @@ export default (currentItems = [], newItems, id = 'id') => {
   // create a new map by using the obj id for key and obj for value
   let m = new Map();
   for(let obj of currentItems) {
-    if (obj && obj[id]) {
-      m.set(obj[id], obj);
+    let _id = constructId(obj, id);
+    if (_id) {
+      m.set(_id, obj);
     }
   }
 

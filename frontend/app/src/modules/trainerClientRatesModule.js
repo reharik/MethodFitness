@@ -9,14 +9,14 @@ export const GET_TRAINER_CLIENT_RATES = requestStates('get_trainer_client_rates'
 export default (state = [], action = {}) => {
   switch (action.type) {
     case GET_TRAINER_CLIENT_RATES.SUCCESS: {
-      return reducerMerge(state, action.response, 'trainerId');
+      return reducerMerge(state, action.response, ['trainerId', 'clientId']);
     }
     case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
       let update = selectn('action.update', action);
       let updated = update.clientRates.map(x => ({trainerId: update.id, clientId: x.id, rate: x.rate}));
       return state.map(x => {
         const tcr = updated.find(t => t.trainerId === x.trainerId && t.clientId === x.clientId);
-        if (tcr.rate !== x.rate) {
+        if (tcr && tcr.rate !== x.rate) {
           return tcr;
         }
         return x;

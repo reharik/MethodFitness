@@ -125,21 +125,21 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
       switch (cmd.appointmentType) {
         case 'halfHour': {
           invariant(
-            diff === 29,
+            diff === 30,
             'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time'
           );
           break;
         }
         case 'fullHour': {
           invariant(
-            diff === 59,
+            diff === 60,
             'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time'
           );
           break;
         }
         case 'pair': {
           invariant(
-            diff === 59,
+            diff === 60,
             'Given the Appointment Type of Pair the start time must be 60 minutes after the end time'
           );
           break;
