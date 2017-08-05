@@ -2,15 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TrainerList from '../../components/lists/TrainerList';
-import cellLink from '../../components/GridElements/CellLink.js';
-import emailLink from '../../components/GridElements/EmailLink.js';
-import archiveLink from '../../components/GridElements/ArchiveLink.js';
-
 import { fetchAllTrainersAction, archiveTrainer } from './../../modules/trainerModule';
+import trainerListDefinition from './listDefinition/trainerListDefinition';
+import sortBy from 'sort-by';
+import Breakjs from 'breakjs';
+
+const layout = Breakjs({
+  mobile: 0,
+  tablet: 768,
+  laptop: 1201
+});
 
 class TrainerListContainer extends Component {
-  componentWillMount() {
+  state = {layout: layout.current()};
+
+  componentDidMount() {
+    this.setState({layout: layout.current()});
     this.loadData();
+    layout.addChangeListener(layout => this.setState({layout}));
+  }
+
+  componentWillUnmount() {
+    layout.removeChangeListener(layout => this.setState({layout}));
   }
 
   loadData() {
@@ -18,8 +31,10 @@ class TrainerListContainer extends Component {
   }
 
   render() {
+    let columns = trainerListDefinition(this.state.layout);
+    this.gridConfig = {...this.props.gridConfig, columns };
     return (<TrainerList
-      gridConfig={this.props.gridConfig}
+      gridConfig={this.gridConfig}
       archiveTrainer={this.props.archiveTrainer}
       loggedInUser={this.props.loggedInUser} />);
   }
@@ -32,53 +47,9 @@ TrainerListContainer.propTypes = {
   fetchAllTrainersAction: PropTypes.func
 };
 
-const columns = (archiveTrainer, loggedInUser) => [
-  {
-    render: (column, row) => {
-      return cellLink('trainer')(column, row);
-    },
-    dataIndex: 'contact.lastName',
-    title: 'Last Name',
-    width: '10%',
-    sorter: true
-  },
-  {
-    dataIndex: 'contact.firstName',
-    title: 'First Name',
-    width: '10%'
-  },
-  {
-    render: emailLink,
-    dataIndex: 'contact.email',
-    title: 'Email',
-    width: '35%'
-  },
-  {
-    dataIndex: 'contact.mobilePhone',
-    title: 'Mobile Phone',
-    width: '10%'
-  },
-  {
-    render: (column, row) => {
-      return archiveLink(archiveTrainer, loggedInUser)(column, row);
-    },
-    dataIndex: 'archived',
-    title: 'Archived',
-    width: '10%'
-  },
-  {
-    render: ( value, row ) => { // eslint-disable-line no-unused-vars
-      return cellLink(`payTrainer`)( '$$$', row );
-    },
-    title: '$',
-    width: '10%'
-  }
-];
-
 function mapStateToProps(state) {
   const gridConfig = {
-    columns,
-    dataSource: state.trainers
+    dataSource: state.trainers.sort(sortBy('contact.lastName'))
   };
   return {
     gridConfig,

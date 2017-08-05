@@ -11,6 +11,8 @@ const mapStateToProps = function(state) {
     calendarName: 'schedule',
     dataSource: 'appointments',
     defaultView: 'week',
+    dayStartsAt: '5:00 AM',
+    dayEndsAt: '10:00 PM',
     utcTime: true
   };
   config.taskFilter = state.auth.user.role === 'admin'

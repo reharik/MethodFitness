@@ -32,6 +32,7 @@
     "antd": "^2.12.0",
     "babel-polyfill": "^6.23.0",
     "bluebird": "^3.4.1",
+    "breakjs": "^1.0.0",
     "json": "^9.0.4",
     "moment": "^2.17.1",
     "postcss-cssnext": "^2.11.0",
@@ -49,6 +50,7 @@
     "redux-task-calendar": "reharik/redux-task-calendar",
     "redux-thunk": "^2.0.1",
     "selectn": "^1.1.1",
+    "sort-by": "^1.2.0",
     "webpack-validator": "^3.0.0"
   },
   "devDependencies": {

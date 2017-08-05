@@ -3,7 +3,9 @@ module.exports = function(logger) {
     return async (ctx, next) => {
       try {
         await next();
-        if (ctx.response.status === 404 && !ctx.response.body) {ctx.throw(404);}
+        if (ctx.response.status === 404 && !ctx.response.body) {
+          ctx.throw(`There is no endpoint that matches the url:${ctx.host}${ctx.url}`);
+        }
       } catch (err) {
         logger.error(err);
         ctx.status = err.statusCode || err.status || 500;

@@ -2,15 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ClientList from '../../components/lists/ClientList';
-import cellLink from '../../components/GridElements/CellLink.js';
-import emailLink from '../../components/GridElements/EmailLink.js';
-import archiveLink from '../../components/GridElements/ArchiveLink.js';
-
+import clientListDefinition from './listDefinition/clientListDefinition';
 import { fetchAllClientsAction, archiveClient } from './../../modules/clientModule';
+import sortBy from 'sort-by';
+import Breakjs from 'breakjs';
+
+const layout = Breakjs({
+  mobile: 0,
+  tablet: 768,
+  laptop: 1201
+});
 
 class ClientListContainer extends Component {
-  componentWillMount() {
+  state = {layout: layout.current()};
+
+  componentDidMount() {
+    this.setState({layout: layout.current()});
     this.loadData();
+    layout.addChangeListener(layout => this.setState({layout}));
+  }
+
+  componentWillUnmount() {
+    layout.removeChangeListener(layout => this.setState({layout}));
   }
 
   loadData() {
@@ -18,57 +31,18 @@ class ClientListContainer extends Component {
   }
 
   render() {
-    return (<ClientList gridConfig={this.props.gridConfig} archiveClient={this.props.archiveClient} />);
+    let columns = clientListDefinition(this.state.layout);
+    this.gridConfig = {...this.props.gridConfig, columns };
+    return (<ClientList gridConfig={this.gridConfig} archiveClient={this.props.archiveClient} />);
   }
 }
 
 ClientListContainer.propTypes = {
   gridConfig: PropTypes.object,
   archiveClient: PropTypes.func,
-  fetchAllClientsAction: PropTypes.func
+  fetchAllClientsAction: PropTypes.func,
+  containerWidth: PropTypes.number
 };
-
-const columns = archiveClient => [
-  {
-    render: (value, row) => { // eslint-disable-line no-unused-vars
-      return cellLink('client')(value, row );
-    },
-    dataIndex: 'contact.lastName',
-    title: 'Last Name',
-    width: '10%'
-  },
-  {
-    dataIndex: 'contact.firstName',
-    title: 'First Name',
-    width: '10%'
-  },
-  {
-    render: emailLink,
-    dataIndex: 'contact.email',
-    title: 'Email',
-    width: '35%'
-  },
-  {
-    dataIndex: 'contact.mobilePhone',
-    title: 'Mobile Phone',
-    width: '10%'
-  },
-  {
-    render: (value, row) => { // eslint-disable-line no-unused-vars
-      return archiveLink(archiveClient)(value, row);
-    },
-    dataIndex: 'archived',
-    title: 'Archived',
-    width: '10%'
-  },
-  {
-    render: ( value, row ) => { // eslint-disable-line no-unused-vars
-      return cellLink(`purchases`)( '$$$', row );
-    },
-    title: '$',
-    width: '10%'
-  }
-];
 
 function mapStateToProps(state) {
   const isAdmin = state.auth.user.role === 'admin';
@@ -76,20 +50,9 @@ function mapStateToProps(state) {
 
   let dataSource = state.clients
     .filter(x => isAdmin || user.clients.includes(x.id))
-    .sort((a, b) => {
-      const _a = a.contact.lastName.toLowerCase();
-      const _b = b.contact.lastName.toLowerCase();
-      if (_a > _b) {
-        return 1;
-      }
-      if (_a < _b) {
-        return -1;
-      }
-      return 0;
-    });
+    .sort(sortBy('contact.lastName'));
 
   const gridConfig = {
-    columns,
     dataSource
   };
   return {
