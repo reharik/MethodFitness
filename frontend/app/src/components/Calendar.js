@@ -4,12 +4,21 @@ import ContentHeader from './ContentHeader';
 import AppointmentModal from './AppointmentModal';
 import { Calendar } from 'redux-task-calendar';
 import ToggleTrainerListForCalendarContainer from './../containers/ToggleTrainerListContainer';
+import { Row, Col } from 'antd';
 import moment from 'moment';
+import Breakjs from 'breakjs';
+
+const layout = Breakjs({
+  mobile: 0,
+  tablet: 768,
+  laptop: 1201
+});
 
 class MFCalendar extends Component {
   state = {
     isOpen: false,
-    apptArgs: {}
+    apptArgs: {},
+    layout: layout.current()
   };
 
   componentWillMount() {
@@ -23,6 +32,18 @@ class MFCalendar extends Component {
       taskClickedEvent: this.taskClickedEvent,
       openSpaceClickedEvent: this.openSpaceClickedEvent
     };
+    if(this.state.layout === 'mobile') {
+      this.config = {
+        ...this.props.config,
+        defaultView: 'day',
+        hideViewMenu: true
+      };
+    }
+    layout.addChangeListener(layout => this.setState({layout}));
+  }
+
+  componentWillUnmount() {
+    layout.removeChangeListener(layout => this.setState({layout}));
   }
 
   copyAppointment = args => {
@@ -48,7 +69,7 @@ class MFCalendar extends Component {
   };
 
   taskClickedEvent = (id, task, calendarName) => {
-    let apptArgs = { apptId: id, task, calendarName };
+    let apptArgs = {apptId: id, task, calendarName};
     this.setState({
       isOpen: true,
       apptArgs
@@ -58,7 +79,7 @@ class MFCalendar extends Component {
   permissionToSetAppointment(task, isAdmin) {
     return isAdmin ||
       (moment(task.day).isAfter(moment(), 'day') ||
-        (moment(task.day).isSame(moment(), 'day') && moment(task.startTime, 'h:mm A').isAfter(moment().utc().subtract(2, 'hours'))));
+      (moment(task.day).isSame(moment(), 'day') && moment(task.startTime, 'h:mm A').isAfter(moment().utc().subtract(2, 'hours'))));
   }
 
   openSpaceClickedEvent = (task, calendarName) => {
@@ -68,7 +89,7 @@ class MFCalendar extends Component {
     }
 
     const formattedTime = moment(task.startTime).format('hh:mm A');
-    let apptArgs = { day: task.day, startTime: formattedTime, calendarName };
+    let apptArgs = {day: task.day, startTime: formattedTime, calendarName};
     this.setState({
       isOpen: true,
       apptArgs
@@ -86,17 +107,17 @@ class MFCalendar extends Component {
     moment.locale('en');
     return (
       <div id="mainCalendar">
-        <ContentHeader>
-          <div className="mainCalendar__header">
-            <div className="mainCalendar__header__left" />
-            <div className="mainCalendar__header__center" />
-            <div className="mainCalendar__header__right" />
-          </div>
-        </ContentHeader>
+        <ContentHeader />
         <div className="form-scroll-inner">
           <div className="mainCalendar__content__inner">
-            {this.props.isAdmin ? <ToggleTrainerListForCalendarContainer /> : null}
-            <Calendar config={this.config} />
+            <Row type="flex" style={this.state.layout === 'laptop'
+              ? {width: '100%'}
+              : { flexDirection: 'column-reverse', width: '100%' }}>
+              {this.props.isAdmin ? <Col xl={3} lg={4} sm={24}><ToggleTrainerListForCalendarContainer /></Col> : null}
+              <Col xl={21} lg={20} sm={24} >
+                <Calendar config={this.config} />
+              </Col>
+            </Row>
           </div>
         </div>
         <AppointmentModal
@@ -116,6 +137,7 @@ class MFCalendar extends Component {
 
 MFCalendar.propTypes = {
   config: PropTypes.object,
+  layout: PropTypes.string,
   fetchClientsAction: PropTypes.func,
   fetchTrainersAction: PropTypes.func,
   retrieveDataAction: PropTypes.func,

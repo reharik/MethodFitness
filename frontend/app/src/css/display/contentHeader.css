@@ -1,8 +1,9 @@
 .contentHeader {
   width: 100%;
-  height: 41px;
+  min-height: 41px;
   background: url(./images/content-header-silver.png) repeat-x scroll 0 0 transparent;
   margin-top:10px;
+  padding-top:7px;
 }
 
 .contentHeader__headerSearch {

@@ -13,7 +13,7 @@ const _Layout = ({isReady, children}) => {
     <Layout style={{height: '100%'}} >
       <Header />
       <Layout>
-        <Sider breakpoint="sm" collapsible={true} style={{background: '#f2f2f2'}}>
+        <Sider breakpoint="sm" collapsible={true} style={{overflow: 'hidden', background: '#f2f2f2'}}>
           <NavigationContainer />
         </Sider>
         <Layout style={{padding: '0 0 24px', background: '#f2f2f2'}}>

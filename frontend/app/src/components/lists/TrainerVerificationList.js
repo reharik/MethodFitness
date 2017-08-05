@@ -3,13 +3,31 @@ import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
 const confirm = Modal.confirm;
+import trainerVerificationListDefinition
+  from './../../containers/lists/listDefinition/trainerVerificationListDefinition';
+import Breakjs from 'breakjs';
+
+const layout = Breakjs({
+  mobile: 0,
+  tablet: 768,
+  laptop: 1201
+});
 
 class TrainerVerificationList extends Component {
   state = {
     selectedRowKeys: [],
     selectedIds: [],
-    trainerTotal: 0
+    trainerTotal: 0,
+    layout: layout.current()
   };
+
+  componentDidMount() {
+    layout.addChangeListener(layout => this.setState({layout}));
+  }
+
+  componentWillUnmount() {
+    layout.removeChangeListener(layout => this.setState({layout}));
+  }
 
   submitVerification = () => {
     let that = this;
@@ -57,7 +75,7 @@ class TrainerVerificationList extends Component {
       onChange: this.onSelectChange,
       getCheckboxProps: this.getCheckboxProps
     };
-
+    this.gridConfig = {...this.props.gridConfig, columns: trainerVerificationListDefinition(this.state.layout)};
     return (
       <div id="trainerVerificationList">
         <ContentHeader>
@@ -75,7 +93,7 @@ class TrainerVerificationList extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Table
-            {...this.props.gridConfig}
+            {...this.gridConfig}
             rowSelection={rowSelection}
             rowClassName={row => !row.sessionId ? 'row-in-arrears' : ''}
             pagination={false}

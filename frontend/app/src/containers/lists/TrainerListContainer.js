@@ -17,7 +17,6 @@ class TrainerListContainer extends Component {
   state = {layout: layout.current()};
 
   componentDidMount() {
-    this.setState({layout: layout.current()});
     this.loadData();
     layout.addChangeListener(layout => this.setState({layout}));
   }

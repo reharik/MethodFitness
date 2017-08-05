@@ -4,12 +4,28 @@ import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
 import { browserHistory } from 'react-router';
 import moment from 'moment';
+import Breakjs from 'breakjs';
 const confirm = Modal.confirm;
+
+const layout = Breakjs({
+  mobile: 0,
+  tablet: 768,
+  laptop: 1201
+});
 
 class PurchaseList extends Component {
   state = {
-    purchases: {}
+    purchases: {},
+    layout: layout.current()
   };
+
+  componentWillMount() {
+    layout.addChangeListener(layout => this.setState({layout}));
+  }
+
+  componentWillUnmount() {
+    layout.removeChangeListener(layout => this.setState({layout}));
+  }
 
   submitVerification = () => {
     let that = this;
@@ -166,7 +182,7 @@ class PurchaseList extends Component {
             pagination={false}
             scroll={{y: '100%'}}
             size="small"
-            expandedRowRender={this.expandRowRender}
+            expandedRowRender={this.state.layout !== 'mobile' ? this.expandRowRender : null}
             rowKey="purchaseId"
           />
         </div>

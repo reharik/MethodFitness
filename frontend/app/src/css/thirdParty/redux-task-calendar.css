@@ -10,8 +10,8 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
+    -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
@@ -155,13 +155,14 @@
 }
 .redux__task__calendar__calendar { width: 100%; }
 .redux__task__calendar__header {
-    height: 28px;
+    min-height: 28px;
     margin-top: 10px
 }
 .redux__task__calendar__header__display__date {
     font-weight: bold;
     font-size: 18px;
-    text-align: center
+    text-align: center;
+    padding: 10px 0 0 10px;
 }
 .redux__task__calendar__header__date__nav {
     width: 135px;

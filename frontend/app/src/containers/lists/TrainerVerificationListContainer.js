@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TrainerVerificationList from '../../components/lists/TrainerVerificationList';
 import moment from 'moment';
-
 import { fetchUnverifiedAppointments, verifyAppointments } from '../../modules/sessionVerificationModule';
 
 class TrainerVerificationListContainer extends Component {
@@ -16,7 +15,7 @@ class TrainerVerificationListContainer extends Component {
   }
 
   render() {
-    return (<TrainerVerificationList {...this.props} />);
+    return (<TrainerVerificationList gridConfig={this.gridConfig} />);
   }
 }
 
@@ -25,47 +24,6 @@ TrainerVerificationListContainer.propTypes = {
   fetchUnverifiedAppointments: PropTypes.func,
   verifyAppointments: PropTypes.func
 };
-
-const columns = [
-  {
-    dataIndex: 'clientName',
-    title: 'Client Name',
-    width: '20%'
-  },
-  {
-    dataIndex: 'appointmentDate',
-    title: 'Date',
-    width: '20%'
-  },
-  {
-    dataIndex: 'appointmentStartTime',
-    title: 'Start Time',
-    width: '15%'
-  },
-  {
-    dataIndex: 'appointmentType',
-    title: 'Type',
-    width: '15%'
-  },
-  {
-    render: val => val ? `$${val}` : val,
-    dataIndex: 'pricePerSession',
-    title: 'Cost',
-    width: '10%'
-  },
-  {
-    render: val => val ? `${val}%` : val,
-    dataIndex: 'trainerPercentage',
-    title: 'Percent',
-    width: '10%'
-  },
-  {
-    render: val => val ? `$${val}` : val,
-    dataIndex: 'trainerPay',
-    title: 'Pay',
-    width: '10%'
-  }
-];
 
 function mapStateToProps(state) {
   moment.locale('en');
@@ -78,7 +36,6 @@ function mapStateToProps(state) {
     }));
 
   const gridConfig = {
-    columns,
     dataSource
   };
   return {
