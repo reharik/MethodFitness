@@ -18,7 +18,6 @@ module.exports = function(_options) {
             .requiredModuleRegistires(['ges-eventsourcing'])
             .for('ramda').renameTo('R')
             .for('ramdafantasy').renameTo('_fantasy')
-            .for('bluebird').renameTo('Promise')
             .for('applicationFunctions').renameTo('appfuncs')
             .complete(),
           x=>x

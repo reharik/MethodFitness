@@ -13,15 +13,14 @@ module.exports = function(_options) {
           .for('corelogger').renameTo('logger')
           .for('ramda').renameTo('R')
           .for('ramdafantasy').renameTo('_fantasy')
-          .for('bluebird').renameTo('Promise')
           .for('applicationFunctions').renameTo('appfuncs')
           .groupAllInDirectory('./app/src/controllers', 'controllers')
           .groupAllInDirectory('./app/src/schemas', 'schemas', true)
           .groupAllInDirectory('./app/src/routes/routers', 'routers_array')
           .groupAllInDirectory('./app/src/commands', 'commands')
           .complete(),
-      x => x.instantiate('eventstore').asFunc().withParameters(options.children || {})
-        .instantiate('logger').asFunc().withParameters(options.logger || {})
+      x=>x.instantiate('eventstore').asFunc().withParameters(options.children || {})
+          .instantiate('logger').asFunc().withParameters(options.logger || {})
         .instantiate('rsRepository').asFunc().withParameters(options.children.postgres.config || {})
         .complete());
   } catch (ex) {

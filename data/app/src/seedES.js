@@ -1,5 +1,4 @@
 module.exports = function(config,
-                          Promise,
                           uuid,
                           eventstore,
                           loadClients,

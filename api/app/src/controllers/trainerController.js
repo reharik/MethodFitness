@@ -87,7 +87,7 @@ module.exports = function(
 
   let processMessage = async function(payload, commandName) {
     const continuationId = uuid.v4();
-    let notificationPromise = notificationListener(continuationId, commandName);
+    let notificationPromise = await notificationListener(continuationId, commandName);
 
     const command = commands[commandName + 'Command'](payload);
     await eventstore.commandPoster(command, commandName, continuationId);

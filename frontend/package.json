@@ -31,7 +31,6 @@
   "dependencies": {
     "antd": "^2.12.0",
     "babel-polyfill": "^6.23.0",
-    "bluebird": "^3.4.1",
     "breakjs": "^1.0.0",
     "json": "^9.0.4",
     "moment": "^2.17.1",

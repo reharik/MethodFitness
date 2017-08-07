@@ -1,20 +1,12 @@
 module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFilterStream) {
-  return continuationId => {
+  return async continuationId => {
     logger.info('startDispatching | startDispatching called');
     const eventAppeared = eventstore.eventEmitterInstance();
     let mAndF = mapAndFilterStream();
     let ef = applicationFunctions.eventFunctions;
 
-
-    // const subscriptionDropped = (subscription, reason, error) => {
-    //   if (error) {
-    //     logger.error(error);
-    //     logger.error(reason);
-    //   }
-    //   logger.info('Subscription dropped.');
-    // };
-
-    let subscription = eventstore.gesConnection.subscribeToStream(
+    const connection = await eventstore.gesConnection;
+    let subscription = connection.subscribeToStream(
       'notification',
       false,
       eventAppeared.emitEvent,

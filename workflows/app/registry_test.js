@@ -17,7 +17,6 @@ module.exports = function(_options) {
         .for('corelogger').renameTo('logger')
         .for('ramda').renameTo('R')
         .for('ramdafantasy').renameTo('_fantasy')
-        .for('bluebird').renameTo('Promise')
         .for('applicationFunctions').renameTo('appfuncs')
         .for('eventstore').replaceWith('eventStoreMock')
         .complete(),

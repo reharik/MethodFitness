@@ -32,7 +32,7 @@ module.exports = function(rsRepository,
       payload.datePaid = moment().format('MM/DD/YYYY');
       payload.trainerId = ctx.state.user.id;
       const continuationId = uuid.v4();
-      let notificationPromise = notificationListener(continuationId);
+      let notificationPromise = await notificationListener(continuationId);
       const command = commands.payTrainerCommand(payload);
       await eventstore.commandPoster(command, 'payTrainer', continuationId);
 

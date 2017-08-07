@@ -25,7 +25,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
   let processMessage = async function(ctx, commandName, payload) {
     logger.debug(`api: processing ${commandName}`);
     const continuationId = uuid.v4();
-    let notificationPromise = notificationListener(continuationId);
+    let notificationPromise = await notificationListener(continuationId);
 
     const command = commands[commandName + 'Command'](payload);
     await eventstore.commandPoster(command, commandName, continuationId);

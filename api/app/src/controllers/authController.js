@@ -6,6 +6,9 @@ module.exports = function(commands, eventstore, logger) {
       ctx.body = { success: false, errors: ['Invalid credentials provided'] };
     } else {
       let user = ctx.state.user;
+      console.log(`==========eventstore=========`);
+      console.log(eventstore);
+      console.log(`==========END eventstore=========`);
       let cmd = commands.loginTrainerCommand(user.id, user.userName);
       eventstore.commandPoster(cmd, 'loginTrainer');
       delete user.password;

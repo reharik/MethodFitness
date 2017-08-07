@@ -17,7 +17,6 @@ module.exports = function(_options) {
             .for('eventdispatcher').instantiate(i=>i.asFunc().withParameters(options.children || {}))
             .for('eventrepository').instantiate(i=>i.asFunc().withParameters(options.children || {}))
             .for('corelogger').renameTo('logger').instantiate(i=>i.asFunc().withParameters(options.logger || {}))
-            .for('bluebird').renameTo('Promise')
             .complete());
   } catch (ex) {
     console.log(ex);

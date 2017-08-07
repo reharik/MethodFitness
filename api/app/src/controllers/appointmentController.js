@@ -99,7 +99,7 @@ module.exports = function(
   var processMessage = async function(payload, commandFactory, commandName) {
     logger.debug(`api: processing ${commandName}`);
     const continuationId = uuid.v4();
-    let notificationPromise = notificationListener(continuationId);
+    let notificationPromise = await notificationListener(continuationId);
     const command = commands[commandFactory](payload);
     await eventstore.commandPoster(command, commandName, continuationId);
 
