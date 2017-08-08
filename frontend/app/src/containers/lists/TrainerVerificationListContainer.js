@@ -15,7 +15,7 @@ class TrainerVerificationListContainer extends Component {
   }
 
   render() {
-    return (<TrainerVerificationList gridConfig={this.gridConfig} />);
+    return (<TrainerVerificationList gridConfig={this.props.gridConfig} />);
   }
 }
 
