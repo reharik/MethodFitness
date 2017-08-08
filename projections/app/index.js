@@ -1,10 +1,6 @@
 let config = require('config');
 
 module.exports = function(_options) {
-  console.log(`==========config=========`);
-  console.log(config);
-  console.log(`==========END config=========`);
-
   let options = Object.assign({}, config.get('configs') || {}, _options || {});
   let container = require('./registry')(options);
   let dispatch = container.getInstanceOf('dispatch');
