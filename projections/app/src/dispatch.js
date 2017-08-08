@@ -8,10 +8,10 @@ module.exports = function(eventDispatcher,
     }
 
     for ( let _x of EventHandlers_array) {
+      let x = await _x();
+
       let dispatcher = await eventDispatcher();
       let source = dispatcher.startDispatching('event');
-
-      let x = await _x();
       eventReceiver(source, x);
     }
   };
