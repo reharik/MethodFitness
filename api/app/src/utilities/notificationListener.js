@@ -6,6 +6,9 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
     let ef = applicationFunctions.eventFunctions;
 
     const connection = await eventstore.gesConnection;
+    console.log(`==========connection=========`);
+    console.log(connection);
+    console.log(`==========END connection=========`);
     let subscription = connection.subscribeToStream(
       'notification',
       false,

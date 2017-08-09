@@ -5,11 +5,6 @@ import DisplayFor from './DisplayFor';
 import HiddenFor from './HiddenFor';
 
 const EditableFor = props => {
-  // console.log(`==========form.getFieldValue('city')=========`);
-  // console.log(props);
-  // console.log(props.form.getFieldValue('street1'));
-  // console.log(`==========END form.getFieldValue('city')=========`);
-
   if(props.hidden) {
     return <HiddenFor {...props} />;
   }
@@ -29,9 +24,7 @@ EditableFor.propTypes = {
   noDisplay: PropTypes.bool,
   hidden: PropTypes.bool,
   editing: PropTypes.bool,
-  formItemLayout: PropTypes.object,
-  form: PropTypes.object,
-  props: PropTypes.object
+  formItemLayout: PropTypes.object
 };
 
 export default EditableFor;

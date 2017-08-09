@@ -43,8 +43,7 @@ const DisplayFor = ({ data, selectOptions, span }) => {
         return (<ListItemValueDisplayFor data={data} />);
       }
       default: {
-        let fu = {...data};
-        return <span>{fu.value.display || fu.value.id || fu.value}</span>;
+        return <span>{data.value.display || data.value.id || data.value}</span>;
       }
     }
   };
