@@ -20,16 +20,18 @@ const InputFor = ({ data, selectOptions, onChange, form }) => {
       }
       case 'select': {
         const _onChange = onChange ? {onChange} : {};
+        const filter = (v, o) => o.props.children.toLowerCase().includes(v.toLowerCase());
         return (
-          <Select filterOption="true" {..._data} {..._onChange}>
+          <Select filterOption={filter} showSearch {..._data} {..._onChange} >
             { selectOptions.map(x => (<Option key={x.value} value={x.value} >{x.display}</Option>)) }
           </Select>
         );
       }
       case 'multi-select': {
         const _onChange = onChange ? {onChange} : {};
+        const filter = (v, o) => o.props.children.toLowerCase().includes(v.toLowerCase());
         return (
-          <Select mode="multiple" filterOption="true" {..._data} {..._onChange}>
+          <Select mode="multiple" filterOption={filter} {..._data} {..._onChange}>
             { selectOptions.map(x => (<Option key={x.value} value={x.value} >{x.display}</Option>)) }
           </Select>
         );

@@ -105,7 +105,9 @@ module.exports = function(
   let getTrainerClientRates = async function(ctx) {
     const trainer = await rsRepository.getById(ctx.params.id, 'trainer');
     ctx.status = 200;
-    ctx.body = trainer.trainerClientRates.map(x => ({trainerId: trainer.id, clientId: x.clientId, rate: x.rate}));
+    ctx.body = trainer.trainerClientRate
+      ? trainer.trainerClientRates.map(x => ({trainerId: trainer.id, clientId: x.clientId, rate: x.rate}))
+      : [];
   };
 
   return {
