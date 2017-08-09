@@ -4,64 +4,77 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-class TrainerContact extends Component {
-  state = {editing: false};
+const TrainerPasswordInner = ({model,
+                           form,
+                           toggleEdit,
+                           submit,
+                           editing,
+                           roles
+                         }) => {
 
-  toggleEdit = (e, rollBack) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (rollBack) {
-      this.setState({ editing: !this.state.editing });
-    } else {
-      this.setState({
-        editing: !this.state.editing
-      });
-    }
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
-        this.props.submit(values);
+        submit(values);
         console.log('Received values of form: ', values);
-        this.toggleEdit(e);
+        toggleEdit(e);
       }
     });
   };
 
-  render() {
-    let model = this.props.model;
-    let form = this.props.form;
-    return (
-      <Card title={'Trainer Password'} >
-        <Form onSubmit={this.handleSubmit} layout={'vertical'} >
-          <EditableFor form={form} data={model.id} hidden={true} />
-          <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.password} noDisplay={true} />
-          </Row>
-          <Row type="flex">
-            <EditableFor editing={this.state.editing} form={form} data={model.confirmPassword} noDisplay={true} />
-          </Row>
-          <Row type="flex">
-            <EditableFor
-              editing={this.state.editing}
-              form={form}
-              data={model.role}
-              selectOptions={this.props.roles}
-              noDisplay={true} />
-          </Row>
-          <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />
-        </Form>
-      </Card>
-    );
-  }
-}
+  return (
+    <Card title={'Trainer Password'}>
+      <Form onSubmit={handleSubmit} layout={'vertical'}>
+        <EditableFor form={form} data={model.id} hidden={true} />
+        <Row type="flex">
+          <EditableFor editing={editing} form={form} data={model.password} noDisplay={true} />
+        </Row>
+        <Row type="flex">
+          <EditableFor editing={editing} form={form} data={model.confirmPassword} noDisplay={true} />
+        </Row>
+        <Row type="flex">
+          <EditableFor
+            editing={editing}
+            form={form}
+            data={model.role}
+            selectOptions={roles}
+            noDisplay={true} />
+        </Row>
+        <EDFooter editing={editing} toggleEdit={toggleEdit} />
+      </Form>
+    </Card>
+  );
+};
 
-TrainerContact.propTypes = {
+TrainerPasswordInner.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
   submit: PropTypes.func,
-  roles: PropTypes.array
+  roles: PropTypes.array,
+  editing: PropTypes.bool,
+  toggleEdit: PropTypes.func
 };
 
-export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerContact);
+
+class TrainerPassword extends Component {
+  state = {editing: false};
+
+  toggleEdit = (e) => {
+    e.preventDefault();
+    this.setState({editing: !this.state.editing});
+  };
+
+  render() {
+    let Inner = Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerPasswordInner);
+    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
+  }
+}
+
+TrainerPassword.propTypes = {
+  form: PropTypes.object,
+  model: PropTypes.object,
+  submit: PropTypes.func
+};
+
+export default TrainerPassword;

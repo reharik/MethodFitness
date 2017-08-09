@@ -4,78 +4,88 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-class TrainerInfo extends Component {
-  state = {editing: false};
+const TrainerClientRatesInner = ({model,
+                       form,
+                       toggleEdit,
+                       submit,
+                       editing
+                     }) => {
 
-  toggleEdit = (e, rollBack) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (rollBack) {
-      this.setState({ editing: !this.state.editing });
-    } else {
-      this.setState({
-        editing: !this.state.editing
-      });
-    }
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
         const payload = {
-          id: this.props.model.id.value,
+          id: model.id.value,
           clientRates: Object.keys(values)
             .filter(x => values[x])
             .map(x => ({id: x, rate: values[x]}))
         };
-        this.props.submit(payload);
+        submit(payload);
         console.log('Received values of form: ', payload);
-        this.toggleEdit(e);
+        toggleEdit(e);
       }
     });
-  }
+  };
 
+  const formItemLayout = {labelCol: {span: 16, pull: 6}, wrapperCol: {span: 6, push: 1}};
+
+  return (
+    <Card title={`Trainer's Client Rate`}>
+      <Form layout="inline" onSubmit={handleSubmit}>
+        <EditableFor form={form} data={model.id} hidden={true} />
+        { model.trainerClientRates.listItems.map(x => {
+          return (<Row type="flex" key={x.name}>
+            <EditableFor
+              formItemLayout={formItemLayout}
+              key={x.name}
+              editing={editing}
+              form={form}
+              data={x}
+              span={16} /></Row>);
+        })
+        }
+        <EDFooter editing={editing} toggleEdit={toggleEdit} />
+      </Form>
+    </Card>
+  );
+};
+
+TrainerClientRatesInner.propTypes = {
+  form: PropTypes.object,
+  model: PropTypes.object,
+  submit: PropTypes.func,
+  editing: PropTypes.bool,
+  toggleEdit: PropTypes.func
+};
+
+
+class TrainerClientRates extends Component {
+  state = {editing: false};
+
+  toggleEdit = (e) => {
+    e.preventDefault();
+    this.setState({editing: !this.state.editing});
+  };
+
+  mapPropsToFields = (props) => {
+    let data = {};
+    if (props.model.trainerClientRates.listItems) {
+      props.model.trainerClientRates.listItems.forEach(x => data[x.name] = x);
+    }
+    return data;
+  };
 
   render() {
-    const formItemLayout = {labelCol: {span: 16, pull: 6}, wrapperCol: {span: 6, push: 1}};
-    let model = this.props.model;
-    let form = this.props.form;
-    return (
-      <Card title={`Trainer's Client Rate`} >
-        <Form layout="inline" onSubmit={this.handleSubmit} >
-          <EditableFor form={form} data={model.id} hidden={true} />
-          { model.trainerClientRates.listItems.map(x => {
-            return (<Row type="flex" key={x.name} >
-              <EditableFor
-                formItemLayout={formItemLayout}
-                key={x.name}
-                editing={this.state.editing}
-                form={form}
-                data={x}
-                span={16} /></Row>);
-          })
-          }
-          <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />
-        </Form>
-      </Card>
-    );
+    let Inner = Form.create({mapPropsToFields: this.mapPropsToFields})(TrainerClientRatesInner);
+    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
   }
 }
 
-
-TrainerInfo.propTypes = {
+TrainerClientRates.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
   submit: PropTypes.func
 };
 
-const mapPropsToFields = (props) => {
-  let data = {};
-  if (props.model.trainerClientRates.listItems) {
-    props.model.trainerClientRates.listItems.forEach(x => data[x.name] = x);
-  }
-  return data;
-};
-
-export default Form.create({mapPropsToFields})(TrainerInfo);
-
+export default TrainerClientRates;

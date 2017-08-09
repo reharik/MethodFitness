@@ -4,58 +4,70 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-class TrainerClients extends Component {
-  state = {editing: false};
+const TrainerClientsInner = ({model,
+                               form,
+                               toggleEdit,
+                               submit,
+                               editing,
+                              clients
+                             }) => {
 
-  toggleEdit = (e, rollBack) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (rollBack) {
-      this.setState({ editing: !this.state.editing });
-    } else {
-      this.setState({
-        editing: !this.state.editing
-      });
-    }
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
-        this.props.submit(values);
+        submit(values);
         console.log('Received values of form: ', values);
-        this.toggleEdit(e);
+        toggleEdit(e);
       }
     });
   };
 
+  return (
+    <Card title={`Trainer's Clients`}>
+      <Form onSubmit={handleSubmit} layout={'vertical'}>
+        <EditableFor form={form} data={model.id} hidden={true} />
+        <Row type="flex">
+          <EditableFor
+            editing={editing}
+            form={form}
+            data={model.clients}
+            selectOptions={clients} />
+        </Row>
+        <EDFooter editing={editing} toggleEdit={toggleEdit} />
+      </Form>
+    </Card>
+  );
+};
+
+TrainerClientsInner.propTypes = {
+  form: PropTypes.object,
+  model: PropTypes.object,
+  clients: PropTypes.array,
+  submit: PropTypes.func,
+  editing: PropTypes.bool,
+  toggleEdit: PropTypes.func
+};
+
+
+class TrainerClients extends Component {
+  state = {editing: false};
+
+  toggleEdit = (e) => {
+    e.preventDefault();
+    this.setState({editing: !this.state.editing});
+  };
+
   render() {
-    let model = this.props.model;
-    let form = this.props.form;
-    return (
-      <Card title={`Trainer's Clients`} >
-        <Form onSubmit={this.handleSubmit} layout={'vertical'} >
-          <EditableFor form={form} data={model.id} hidden={true} />
-          <Row type="flex">
-            <EditableFor
-              editing={this.state.editing}
-              form={form}
-              data={model.clients}
-              selectOptions={this.props.clients} />
-          </Row>
-          <EDFooter editing={this.state.editing} toggleEdit={this.toggleEdit} />
-        </Form>
-      </Card>
-    );
+    let Inner = Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerClientsInner);
+    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
   }
 }
-
 
 TrainerClients.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
-  clients: PropTypes.array,
   submit: PropTypes.func
 };
 
-export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerClients);
+export default TrainerClients;

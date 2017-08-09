@@ -33,9 +33,6 @@ class AppointmentForm extends Component {
         if(!values.trainerId) {
           values.trainerId = this.props.trainerId;
         }
-        console.log(`==========values=========`);
-        console.log(values.date.format('L'));
-        console.log(`==========END values=========`);
         if (values.id) {
           this.props.updateAppointment(values);
         } else {
