@@ -12,7 +12,7 @@ export default (state = [], action = {}) => {
   switch (action.type) {
     case FETCH_TRAINER_PAYABLES.SUCCESS:
     case FETCH_TRAINER_VERIFICATION.SUCCESS: {
-      return reducerMerge(state, action.response, 'sessionId');
+      return reducerMerge(state, action.response, ['appointmentId', 'clientId']);
     }
     case SUBMIT_TRAINER_VERIFICATION.SUCCESS: {
       let ids = JSON.parse(selectn('action.params.body', action)).sessionIds;

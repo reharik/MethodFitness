@@ -19,10 +19,11 @@ const InputFor = ({ data, selectOptions, onChange, form }) => {
         return <InputColor {..._data} style={{display: 'flex', width: '100%'}} />;
       }
       case 'select': {
-        const _onChange = onChange ? {onChange} : {};
+        // const _onChange = onChange ? {onChange} : {};
         const filter = (v, o) => o.props.children.toLowerCase().includes(v.toLowerCase());
         return (
-          <Select filterOption={filter} showSearch {..._data} {..._onChange} >
+          //eslint-disable-next-line
+          <Select filterOption={filter} showSearch {..._data} onChange={() => {debugger; }} >
             { selectOptions.map(x => (<Option key={x.value} value={x.value} >{x.display}</Option>)) }
           </Select>
         );

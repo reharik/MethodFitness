@@ -39,3 +39,7 @@
   box-shadow: -1px 0 0 0 #49a9ee;
   color: white;
 }
+
+* {
+  animation-duration: 0s !important;
+}
