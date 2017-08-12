@@ -43,6 +43,7 @@ module.exports = function(rsRepository, logger) {
     async function trainerPasswordUpdated(event) {
       let user = await rsRepository.getById(event.id, 'user');
       user.password = event.credentials.password;
+      user.role = event.credentials.role;
       return await rsRepository.save('user', user);
     }
 

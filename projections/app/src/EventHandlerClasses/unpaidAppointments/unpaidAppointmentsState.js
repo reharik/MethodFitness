@@ -154,7 +154,7 @@ module.exports = function(invariant) {
     };
 
     const refundSessions = event => {
-      innerState.sessions.filter(x => !event.refundSessions.some(y => y.sessionId === x.sessionId));
+      innerState.sessions = innerState.sessions.filter(x => !event.refundSessions.find(y => y === x.sessionId));
     };
 
     return {

@@ -1,4 +1,4 @@
-module.exports = function(AggregateRootBase, ClientInventory, esEvents, invariant, uuid) {
+module.exports = function(AggregateRootBase, ClientInventory, esEvents, invariant, uuid, logger) {
   return class Client extends AggregateRootBase {
     constructor() {
       super();
@@ -54,15 +54,18 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
           cmdClone.id = cmdClone.id || uuid.v4();
           let sessions = this.generateSessions(cmdClone);
           let fundedAppointments = [];
+          logger.debug(`unfundedAppointments: ${JSON.stringify(this.unfundedAppointments)}`);
           this.unfundedAppointments.forEach(x => {
             let session = sessions.find(s => s.appointmentType === x.appointmentType && !s.used);
-            x.sessionId = session.sessionId;
-            x.purchasePrice = session.purchasePrice;
-            session.used = true;
-            fundedAppointments.push(x);
+            if (session) {
+              x.sessionId = session.sessionId;
+              x.purchasePrice = session.purchasePrice;
+              session.used = true;
+              fundedAppointments.push(x);
+            }
           });
-          this.unfundedAppointments = this.unfundedAppointments
-            .filter(u => !fundedAppointments.some(f => u.appointmentId === f.appointmentId));
+          logger.debug(`newlyFundedAppointments: ${JSON.stringify(fundedAppointments)}`);
+
           cmdClone.sessions = sessions;
           this.raiseEvent(esEvents.sessionsPurchasedEvent(cmdClone));
           fundedAppointments.forEach(e => this.raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e)));
@@ -70,12 +73,14 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
 
         clientAttendsAppointment(cmd) {
           let cmdClone = Object.assign({}, cmd);
-          let event = esEvents.unfundedAppointmentAttendedByClientEvent(cmdClone);
+          let event;
           cmdClone.id = cmdClone.id || uuid.v4();
           const session = this.clientInventory.consumeSession(cmdClone);
           if (session) {
             cmdClone.sessionId = session.sessionId;
             event = esEvents.appointmentAttendedByClientEvent(cmdClone);
+          } else {
+            event = esEvents.unfundedAppointmentAttendedByClientEvent(cmdClone);
           }
           this.raiseEvent(event);
         },
@@ -111,6 +116,10 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
         }.bind(this),
         sessionsRefunded: function(event) {
           event.refundSessions.forEach(x => this.clientInventory.removeSession(x));
+        }.bind(this),
+        unfundedAppointmentFundedByClient: function(event) {
+          this.unfundedAppointments = this.unfundedAppointments
+            .filter(u => u.appointmentId !== event.appointmentId);
         }.bind(this)
       };
     }

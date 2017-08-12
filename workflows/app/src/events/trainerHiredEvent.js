@@ -1,5 +1,6 @@
 module.exports = function(invariant) {
   return function({ id,
+                    color,
                     birthDate,
                     archived,
                     contact,
@@ -36,6 +37,7 @@ module.exports = function(invariant) {
     return {
       eventName: 'trainerHired',
       id,
+      color,
       birthDate,
       archived,
       clients,

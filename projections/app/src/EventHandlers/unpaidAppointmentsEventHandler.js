@@ -83,6 +83,30 @@ module.exports = function(unpaidAppointmentsPersistence,
       return await persistence.saveState(state);
     }
 
+    // beginning to try and reconcile a past appointment update. not done obviously
+    async function pastAppointmentUpdated(event) {
+      logger.info(`handling appointmentUpdated event in unpaidAppointmentsEventHandler`);
+      const subEvent = Object.assign({}, event);
+      delete subEvent.eventName;
+      delete subEvent.endTime;
+      delete subEvent.notes;
+      delete subEvent.entityName;
+      state.innerState.appointments = state.innerState.appointments.map(x =>
+        x.id === subEvent.id
+          ? subEvent
+          : x);
+      state.innerState.unpaidAppointments = state.innerState.unpaidAppointments.map(x =>
+        x.id === subEvent.id
+          ? subEvent
+          : x);
+      state.innerState.unfundedAppointments = state.innerState.unfundedAppointments.map(x =>
+        x.id === subEvent.id
+          ? subEvent
+          : x);
+      await persistence.saveState(state, event.trainerId);
+    }
+
+
     let output = {
       handlerType: 'unpaidAppointmentsEventHandler',
       handlerName: 'unpaidAppointmentsEventHandler',
@@ -96,7 +120,8 @@ module.exports = function(unpaidAppointmentsPersistence,
       trainersClientRatesUpdated,
       trainersNewClientRateSet,
       trainerPaid,
-      sessionsRefunded
+      sessionsRefunded,
+      pastAppointmentUpdated
     };
 
     return Object.assign(output,

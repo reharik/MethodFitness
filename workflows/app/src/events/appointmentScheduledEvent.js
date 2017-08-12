@@ -5,7 +5,8 @@ module.exports = function() {
                      date,
                      startTime,
                      endTime,
-                     trainerId,
+                    trainerId,
+                    color,
                      clients,
                      notes,
                      entityName
@@ -18,6 +19,7 @@ module.exports = function() {
       startTime,
       endTime,
       trainerId,
+      color,
       clients,
       notes,
       entityName

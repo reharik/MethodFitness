@@ -7,6 +7,8 @@ import ToggleTrainerListForCalendarContainer from './../containers/ToggleTrainer
 import { Row, Col } from 'antd';
 import moment from 'moment';
 import Breakjs from 'breakjs';
+import { Modal } from 'antd';
+const warning = Modal.warning;
 
 const layout = Breakjs({
   mobile: 0,
@@ -76,15 +78,18 @@ class MFCalendar extends Component {
     });
   };
 
-  permissionToSetAppointment(task, isAdmin) {
-    return isAdmin ||
-      (moment(task.day).isAfter(moment(), 'day') ||
+  permissionToSetAppointment(task) { //, isAdmin) {
+    // return isAdmin || // waiting to I finish past appointment editing
+    return (moment(task.day).isAfter(moment(), 'day') ||
       (moment(task.day).isSame(moment(), 'day') && moment(task.startTime, 'h:mm A').isAfter(moment().utc().subtract(2, 'hours'))));
   }
 
   openSpaceClickedEvent = (task, calendarName) => {
     if (!this.permissionToSetAppointment(task, this.props.isAdmin)) {
-      // showPopup;
+      warning({
+        title: `You can not set an appointment in the past`,
+        okText: 'OK'
+      });
       return;
     }
 

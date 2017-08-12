@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import moment from 'moment';
 import AppointmentForm from '../../components/forms/Appointment/AppointmentForm';
 import { notifications } from './../../modules/notificationModule';
 import appointmentTypes from './../../constants/appointmentTypes';
@@ -20,17 +21,30 @@ const mapStateToProps = (state, ownProps) => {
 
   const trainers = state.trainers
     .filter(x => !x.archived)
-    .map(x => ({value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}`}));
+    .map(x => ({value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}`, color: x.color}));
 
   // please put this shit in a config somewhere
   const times = generateAllTimes(15, 7, 7);
 
-  const buttons = ownProps.args.apptId && !ownProps.isCopy && !ownProps.isEdit
-    ? ['copy', 'delete', 'edit', 'cancel']
-    : ['submit', 'cancel'];
   const model = !ownProps.args.apptId
     ? appointmentModel(state, ownProps.args)
     : updateAppointmentModel(state, ownProps.args, ownProps.isCopy);
+
+  const canUpdate = // isAdmin ||
+    (moment(model.date).isAfter(moment(), 'day')
+    || (moment(model.date).isSame(moment(), 'day')
+    && moment(model.startTime, 'h:mm A').isAfter(moment().utc().subtract(2, 'hours'))));
+
+  let buttons;
+  if (ownProps.args.apptId && !ownProps.isCopy && !ownProps.isEdit) {
+    buttons = ['copy', 'cancel'];
+    if (canUpdate) {
+      buttons.splice(1, 0, 'delete', 'edit');
+    }
+  } else {
+    buttons = ['submit', 'cancel'];
+  }
+
   model.appointmentType.label = 'Type';
   model.trainerId.label = 'Trainer';
   return {

@@ -46,10 +46,9 @@ ClientListContainer.propTypes = {
 
 function mapStateToProps(state) {
   const isAdmin = state.auth.user.role === 'admin';
-  let user = state.trainers.find(x => x.id === state.auth.user.id);
 
   let dataSource = state.clients
-    .filter(x => isAdmin || user.clients.includes(x.id))
+    .filter(x => isAdmin || state.auth.user.clients.includes(x.id))
     .sort(sortBy('contact.lastName'));
 
   const gridConfig = {

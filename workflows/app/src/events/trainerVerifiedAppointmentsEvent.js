@@ -5,7 +5,7 @@ module.exports = function(invariant) {
     invariant(sessionIds, 'verifyAppointments requires that you pass the session ids');
     invariant(sessionIds.length > 0, 'verifyAppointments requires that you pass at least one session id');
     return {
-      eventName: 'verifyAppointments',
+      eventName: 'trainerVerifiedAppointments',
       trainerId, sessionIds, verifiedDate};
   };
 };

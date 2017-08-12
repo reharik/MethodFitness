@@ -30,6 +30,7 @@ class AppointmentForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        values.color = this.props.trainers.find(x => x.value === values.trainerId).color;
         if(!values.trainerId) {
           values.trainerId = this.props.trainerId;
         }

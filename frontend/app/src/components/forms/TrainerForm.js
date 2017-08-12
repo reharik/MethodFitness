@@ -7,8 +7,7 @@ import { browserHistory } from 'react-router';
 import { Form, Card, Row, Col } from 'antd';
 
 class TrainerForm extends Component {
-  componentWillMount() {
-    this.loadData();
+  componentWillMount() { this.loadData();
   }
 
   loadData() {
@@ -31,9 +30,6 @@ class TrainerForm extends Component {
   render() {
     const model = this.props.model;
     const form = this.props.form;
-    console.log(`==========model.role=========`);
-    console.log(model.role);
-    console.log(`==========END model.role=========`);
     return (
       <div className="form">
         <ContentHeader>
@@ -44,7 +40,7 @@ class TrainerForm extends Component {
                 className="contentHeader__button__new"
                 title="New"
                 onClick={() => {
-                  this.formReset();
+                  form.resetFields();
                   browserHistory.push('/trainer');
                 }}
               />

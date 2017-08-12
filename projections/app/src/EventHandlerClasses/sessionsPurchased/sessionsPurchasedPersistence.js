@@ -33,6 +33,24 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
         state.innerState,
         sessionsPurchased);
     }
+    // beginning to try and reconcile a past appointment update. not done obviously
+    // async function saveUpdatedAppointment(state, appointmentId) {
+    //   logger.info('Saving state in sessionsPurchasedPersistence');
+    //   let sessionsPurchased = {};
+    //   if (purchase) {
+    //     sessionsPurchased = await rsRepository.getById(purchase.clientId, 'sessionsPurchased');
+    //     if (!sessionsPurchased.id) {
+    //       sessionsPurchased = {id: purchase.clientId, purchases: []};
+    //     }
+    //     sessionsPurchased.purchases = sessionsPurchased.purchases.filter(x => x.purchaseId !== purchase.purchaseId);
+    //     sessionsPurchased.purchases.push(purchase);
+    //   }
+    //
+    //   return await rsRepository.saveAggregateView(
+    //     'sessionsPurchased',
+    //     state.innerState,
+    //     sessionsPurchased);
+    // }
 
     return {
       initializeState,

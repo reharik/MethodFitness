@@ -5,3 +5,5 @@
   - as suspected this is because the store is cleaned on logout. signin failure leads to logout. I'll figure a workaround
 - start thinkng about form or field validation e.g. email phone etc
 - more/better logging
+- handle past appointments being updated and what that does to the stateful eventhandlers.  it should probably be
+handled by the Workflow handler

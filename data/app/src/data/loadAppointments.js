@@ -18,6 +18,7 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
     return result.toISOString();
   };
 
+  const trainer0 = loadTrainers.trainers[0];
   return {
     appointments: [
       {
@@ -29,7 +30,8 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         endTime: getISODateTime(seed, '9:30 AM'),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainerId: loadTrainers.trainers[0].id,
+        trainerId: trainer0.id,
+        color: trainer0.color
       },
       {
         commandName: 'scheduleAppointment',
@@ -40,7 +42,8 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         endTime: getISODateTime(seed, '7:30 AM'),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainerId: loadTrainers.trainers[0].id,
+        trainerId: trainer0.id,
+        color: trainer0.color
       },
       {
         commandName: 'scheduleAppointment',
@@ -51,7 +54,8 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         endTime: getISODateTime(seed, '8:30 AM'),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainerId: loadTrainers.trainers[0].id,
+        trainerId: trainer0.id,
+        color: trainer0.color
       }],
 
     scheduleAppointment: ({commandName,

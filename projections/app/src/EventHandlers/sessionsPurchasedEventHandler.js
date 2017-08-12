@@ -41,6 +41,26 @@ module.exports = function(moment,
       }
     }
 
+    // beginning to try and reconcile a past appointment update. not done obviously
+    // async function appointmentUpdated(event) {
+    //   logger.info(`handling appointmentUpdated event in SessionsPurchasedEventHandler`);
+    //   const subEvent = Object.assign({}, event);
+    //   delete subEvent.eventName;
+    //   delete subEvent.endTime;
+    //   delete subEvent.notes;
+    //   delete subEvent.entityName;
+    //   const oldAppointment = state.innerState.appointments.find(x => x.id === subEvent.id);
+    //   if (oldAppointment.clients !== subEvent.clients
+    // || oldAppointment.appointmentType !== subEvent.appointmentType) {
+    //
+    //   }
+    //   state.innerState.appointments = state.innerState.appointments.map(x =>
+    //     x.id === subEvent.id
+    //       ? subEvent
+    //       : x);
+    //   await persistence.saveState(state);
+    // }
+
     let output = {
       handlerType: 'sessionsPurchasedEventHandler',
       handlerName: 'sessionsPurchasedEventHandler',

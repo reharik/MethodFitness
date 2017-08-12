@@ -95,6 +95,13 @@ where id = '${event.id}'`;
       return await rsRepository.save('trainer', trainer);
     }
 
+    async function trainerPasswordUpdated(event) {
+      logger.info('handling trainerPasswordUpdated event in TrainerEventHandler');
+      let trainer = await rsRepository.getById(event.trainerId, 'trainer');
+      trainer = event.credentials.role;
+      return await rsRepository.save('trainer', trainer);
+    }
+
     return {
       handlerName: 'TrainerEventHandler',
       trainerHired,
@@ -106,7 +113,8 @@ where id = '${event.id}'`;
       trainersClientsUpdated,
       trainersNewClientRateSet,
       trainerClientRemoved,
-      trainersClientRateChanged
+      trainersClientRateChanged,
+      trainerPasswordUpdated
     };
   };
 };

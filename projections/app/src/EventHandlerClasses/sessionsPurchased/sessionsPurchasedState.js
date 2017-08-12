@@ -39,7 +39,7 @@ module.exports = function() {
     };
 
     const cleanUp = purchase => {
-      if (purchase.sessions.every(x => !!x.appointmentId)) {
+      if (purchase.sessions.every(x => !!x.appointmentId || x.refunded)) {
         purchase.sessions.forEach(x => {
           innerState.appointments = innerState.appointments.filter(a => a.appointmentId !== x.appointmentId);
           innerState.sessions = innerState.sessions.filter(s => s.sessionId !== x.sessionId);
