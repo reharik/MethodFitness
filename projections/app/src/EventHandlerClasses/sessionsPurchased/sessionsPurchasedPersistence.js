@@ -16,6 +16,14 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
       return state;
     }
 
+    async function getPreviousPurchase(clientId, sessionId) {
+      logger.info('retrieving previous purchase in sessionsPurchasedPersistence');
+      let sessionsPurchased = await rsRepository.getById(clientId, 'sessionsPurchased');
+      let sessions = sessionsPurchased.purchases.reduce((a, b) => a.concat(b.sessions), []);
+      const session = sessions.find(x => x.sessionId === sessionId);
+      return sessionsPurchased.purchases.find(x => x.purchaseId === session.purchaseId);
+    }
+
     async function saveState(state, purchase) {
       logger.info('Saving state in sessionsPurchasedPersistence');
       let sessionsPurchased = {};
@@ -24,6 +32,7 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
         if (!sessionsPurchased.id) {
           sessionsPurchased = {id: purchase.clientId, purchases: []};
         }
+        //remove the specific purchase and then re-add the newly amended one
         sessionsPurchased.purchases = sessionsPurchased.purchases.filter(x => x.purchaseId !== purchase.purchaseId);
         sessionsPurchased.purchases.push(purchase);
       }
@@ -54,6 +63,7 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
 
     return {
       initializeState,
+      getPreviousPurchase,
       saveState
     };
   };

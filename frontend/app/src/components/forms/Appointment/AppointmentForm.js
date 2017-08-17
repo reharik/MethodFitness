@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { syncApptTypeAndTime } from '../../../utilities/appointmentTimes';
+import { syncApptTypeAndTime, getISODateTime } from '../../../utilities/appointmentTimes';
 import DisplayFor from '../../formElements/DisplayFor';
 import HiddenFor from '../../formElements/HiddenFor';
 import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import AppointmentFooter from './AppointmentFooter';
+import moment from 'moment';
 
 class AppointmentForm extends Component {
   containerName = 'appointmentForm';
@@ -72,9 +73,15 @@ class AppointmentForm extends Component {
   };
 
   deleteHandler = () => {
-    const date = this.props.form.getFieldValue('date');
     const id = this.props.form.getFieldValue('id');
-    this.props.deleteAppointment(id, date);
+    const date = this.props.form.getFieldValue('date');
+    const startTime = this.props.form.getFieldValue('startTime');
+    const clients = this.props.form.getFieldValue('clients');
+    if (moment(getISODateTime(date, startTime)).local().isBefore(moment().local())) {
+      this.props.deleteAppointmentFromPast(id, date, clients);
+    } else {
+      this.props.deleteAppointment(id, date);
+    }
     this.props.onCancel();
   };
 
@@ -198,7 +205,8 @@ AppointmentForm.propTypes = {
   clients: PropTypes.array,
   appointmentTypes: PropTypes.array,
   times: PropTypes.array,
-  buttons: PropTypes.array
+  buttons: PropTypes.array,
+  deleteAppointmentFromPast: PropTypes.func
 };
 
 export default Form.create({mapPropsToFields: (props) => ({...props.model})})(AppointmentForm);

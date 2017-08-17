@@ -10,6 +10,7 @@ module.exports = function(invariant) {
       enitityName since it's a date but the date prop is utc`
     );
     return {
+      commandName: 'cancelAppointment',
       appointmentId,
       entityName
     };

@@ -8,7 +8,8 @@ import { appointmentModel, updateAppointmentModel } from './../../selectors/appo
 import { scheduleAppointment,
   updateAppointment,
   fetchAppointmentAction,
-  deleteAppointment } from './../../modules/appointmentModule';
+  deleteAppointment,
+  deleteAppointmentFromPast} from './../../modules/appointmentModule';
 
 const mapStateToProps = (state, ownProps) => {
   const isAdmin = state.auth.user.role === 'admin';
@@ -37,9 +38,9 @@ const mapStateToProps = (state, ownProps) => {
 
   let buttons;
   if (ownProps.args.apptId && !ownProps.isCopy && !ownProps.isEdit) {
-    buttons = ['copy', 'cancel'];
+    buttons = ['copy', 'delete', 'cancel'];
     if (canUpdate) {
-      buttons.splice(1, 0, 'delete', 'edit');
+      buttons.splice(1, 0, 'edit');
     }
   } else {
     buttons = ['submit', 'cancel'];
@@ -68,5 +69,6 @@ export default connect(mapStateToProps, {
   updateAppointment,
   fetchAppointmentAction,
   notifications,
-  deleteAppointment
+  deleteAppointment,
+  deleteAppointmentFromPast
 })(AppointmentForm);

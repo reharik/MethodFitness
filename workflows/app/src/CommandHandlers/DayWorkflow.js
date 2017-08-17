@@ -26,6 +26,18 @@ module.exports = function(eventRepository, logger, Day) {
       return { appointmentId: cmd.appointmentId };
     }
 
+    async function removeAppointmentFromPast(cmd, continuationId) {
+      logger.info(`calling ${cmd.commandName} on Day`);
+      let day = await eventRepository.getById(Day, cmd.entityName);
+      day.removeAppointmentFromPast(cmd);
+
+      logger.info('saving Day');
+      logger.trace(day._id);
+
+      await eventRepository.save(day, { continuationId });
+      return { appointmentId: cmd.appointmentId };
+    }
+
     async function cancelAppointment(cmd, continuationId) {
       logger.info(`calling ${cmd.commandName} on Day`);
       let day = await eventRepository.getById(Day, cmd.entityName);
@@ -81,7 +93,8 @@ module.exports = function(eventRepository, logger, Day) {
       scheduleAppointment,
       rescheduleAppointment,
       cancelAppointment,
-      updateAppointment
+      updateAppointment,
+      removeAppointmentFromPast
     };
   };
 };

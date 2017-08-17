@@ -121,6 +121,21 @@ module.exports = function(eventRepository, logger, Client) {
       return { clientId: client._id };
     }
 
+    async function removeAppointmentFromPast(cmd, continuationId) {
+      logger.info(`calling ${cmd.commandName} on Client`);
+      for (let c of cmd.clients) {
+        let client = await eventRepository.getById(Client, c);
+        client.returnSessionFromPast(cmd.appointmentId);
+
+        logger.info('saving Client');
+        logger.trace(client._id);
+
+        await eventRepository.save(client, {continuationId});
+      }
+      return { appointmentId: cmd.appointmentId };
+    }
+
+
     return {
       handlerName: 'ClientWorkflow',
       addClient,
@@ -132,7 +147,8 @@ module.exports = function(eventRepository, logger, Client) {
       unArchiveClient,
       clientAttendsAppointment,
       purchase,
-      refundSessions
+      refundSessions,
+      removeAppointmentFromPast
     };
   };
 };

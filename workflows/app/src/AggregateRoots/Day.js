@@ -50,6 +50,12 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
         this.raiseEvent(esEvents.appointmentCanceledEvent(cmdClone));
       }.bind(this);
 
+      const _removeAppointmentFromPast = function(cmd) {
+        //TODO put lots of business logic here!
+        let cmdClone = Object.assign({}, cmd);
+        this.raiseEvent(esEvents.pastAppointmentRemovedEvent(cmdClone));
+      }.bind(this);
+
       return {
         scheduleAppointment(cmd) {
           scheduleAppointment(cmd);
@@ -59,6 +65,9 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
         },
         cancelAppointment(cmd) {
           _cancelAppointment(cmd);
+        },
+        removeAppointmentFromPast(cmd) {
+          _removeAppointmentFromPast(cmd);
         }
       };
     }
@@ -94,6 +103,10 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
         this.appointments = this.appointments.filter(x => x.id !== event.id);
       }.bind(this);
 
+      const _pastAppointmentRemoved = function(event) {
+        this.appointments = this.appointments.filter(x => x.id !== event.id);
+      }.bind(this);
+
       return {
         appointmentMovedFromDifferentDay(event) {
           _appointmentScheduled(event);
@@ -106,6 +119,9 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
         },
         appointmentCanceled(event) {
           _appointmentCanceled(event);
+        },
+        pastAppointmentRemoved(event) {
+          _pastAppointmentRemoved(event);
         },
         appointmentUpdated(event) {
           appointmentUpdated(event);

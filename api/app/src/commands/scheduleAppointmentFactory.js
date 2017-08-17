@@ -46,7 +46,7 @@ module.exports = function(invariant) {
     if (commandName !== 'scheduleAppointment') {
       result.appointmentId = appointmentId;
     }
-    if (commandName === 'rescheduleAppointmen') {
+    if (commandName === 'rescheduleAppointment') {
       result.originalEntityName = originalEntityName;
     }
     return result;

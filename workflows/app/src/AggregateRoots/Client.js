@@ -61,6 +61,7 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
               x.sessionId = session.sessionId;
               x.purchasePrice = session.purchasePrice;
               session.used = true;
+              session.appointmentId = x.appointmentId;
               fundedAppointments.push(x);
             }
           });
@@ -89,6 +90,15 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
           let cmdClone = Object.assign({}, cmd);
           this.expectSessionsExist(cmdClone);
           this.raiseEvent(esEvents.sessionsRefundedEvent(cmdClone));
+        },
+
+        returnSessionFromPast(appointmentId) {
+          const session = this.clientInventory.getUsedSessionByAppointmentId(appointmentId);
+          const event = esEvents.sessionReturnedFromPastAppointmentEvent({
+            appointmentId,
+            sessionId: session.sessionId,
+            clientId: this._id});
+          this.raiseEvent(event);
         }
       };
     }
@@ -109,7 +119,7 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
           this.clientInventory.addSessionsToInventory(event);
         }.bind(this),
         appointmentAttendedByClient: function(event) {
-          this.clientInventory.removeSession(event.sessionId);
+          this.clientInventory.removeSession(event.sessionId, event.appointmentId);
         }.bind(this),
         unfundedAppointmentAttendedByClient: function(event) {
           this.unfundedAppointments.push(event);
@@ -120,6 +130,11 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
         unfundedAppointmentFundedByClient: function(event) {
           this.unfundedAppointments = this.unfundedAppointments
             .filter(u => u.appointmentId !== event.appointmentId);
+        }.bind(this),
+        sessionReturnedFromPastAppointment: function(event) {
+          this.unfundedAppointments = this.unfundedAppointments
+            .filter(u => u.appointmentId !== event.appointmentId);
+          this.clientInventory.replaceSession(event);
         }.bind(this)
       };
     }

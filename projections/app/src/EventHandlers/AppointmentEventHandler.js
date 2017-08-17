@@ -25,6 +25,13 @@ module.exports = function(rsRepository, logger) {
       return await rsRepository.saveQuery(sql);
     }
 
+    async function pastAppointmentRemoved(event) {
+      logger.info('handling pastAppointmentRemoved event');
+
+      let sql = `DELETE FROM "appointment" where "id" = '${event.id}'`;
+      return await rsRepository.saveQuery(sql);
+    }
+
     async function appointmentUpdated(event) {
       let sql = `update "appointment" set
             "date" = '${event.entityName}',
@@ -41,6 +48,7 @@ module.exports = function(rsRepository, logger) {
     async function appointmentAttendedByClient(event) {
       let appointment = await rsRepository.getById(event.appointmentId, 'appointment');
       appointment.completed = true;
+      appointment.sessionId = event.sessionId;
       let sql = `update "appointment" set
             "date" = '${appointment.entityName}',
             "trainer" = '${appointment.trainerId}',
@@ -55,7 +63,8 @@ module.exports = function(rsRepository, logger) {
       appointmentCanceled,
       appointmentUpdated,
       appointmentAttendedByClient,
-      unfundedAppointmentAttendedByClient
+      unfundedAppointmentAttendedByClient,
+      pastAppointmentRemoved
     };
   };
 };

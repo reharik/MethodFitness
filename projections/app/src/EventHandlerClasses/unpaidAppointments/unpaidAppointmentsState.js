@@ -5,11 +5,10 @@ module.exports = function(invariant) {
       clients: state.clients || [],
       trainers: state.trainers || [],
       appointments: state.appointments || [],
-      sessions: [],
+      sessions: state.sessions || [],
       unfundedAppointments: state.unfundedAppointments || [],
       unpaidAppointments: state.unpaidAppointments || []
     };
-
     const addTRC = (trainerId, item) => {
       let trainer = innerState.trainers.find(x => x.id === trainerId);
       invariant(trainer, `Unable to find trainer with ID: ${trainerId}`);
@@ -157,6 +156,24 @@ module.exports = function(invariant) {
       innerState.sessions = innerState.sessions.filter(x => !event.refundSessions.find(y => y === x.sessionId));
     };
 
+    const pastAppointmentRemoved = event => {
+      let trainerId;
+      innerState.appointments = innerState.appointments.filter(x => x.id !== event.id);
+      let appt = innerState.unpaidAppointments.find(x => x.appointmentId === event.id);
+      if (appt) {
+        trainerId = appt.trainerId;
+      }
+      appt = innerState.unfundedAppointments.find(x => x.appointmentId === event.id);
+      if (appt) {
+        trainerId = appt.trainerId;
+      }
+      innerState.unpaidAppointments = innerState.unpaidAppointments
+        .filter(x => x.appointmentId !== event.id);
+      innerState.unfundedAppointments = innerState.unfundedAppointments
+        .filter(x => x.appointmentId !== event.id);
+      return trainerId;
+    };
+
     return {
       innerState,
       createUnfundedAppointment,
@@ -170,7 +187,8 @@ module.exports = function(invariant) {
       removeTCR,
       updateTCR,
       addTRC,
-      refundSessions
+      refundSessions,
+      pastAppointmentRemoved
     };
   };
 };

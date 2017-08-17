@@ -83,6 +83,11 @@ module.exports = function(unpaidAppointmentsPersistence,
       return await persistence.saveState(state);
     }
 
+    async function pastAppointmentRemoved(event) {
+      const trainerId = state.pastAppointmentRemoved(event);
+      return await persistence.saveState(state, trainerId);
+    }
+
     // beginning to try and reconcile a past appointment update. not done obviously
     async function pastAppointmentUpdated(event) {
       logger.info(`handling appointmentUpdated event in unpaidAppointmentsEventHandler`);
@@ -121,7 +126,8 @@ module.exports = function(unpaidAppointmentsPersistence,
       trainersNewClientRateSet,
       trainerPaid,
       sessionsRefunded,
-      pastAppointmentUpdated
+      pastAppointmentUpdated,
+      pastAppointmentRemoved
     };
 
     return Object.assign(output,

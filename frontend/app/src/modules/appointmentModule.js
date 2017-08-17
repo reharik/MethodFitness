@@ -8,6 +8,7 @@ import selectn from 'selectn';
 export const FETCH_APPOINTMENTS = requestStates('fetch_appointments', 'appointments');
 export const SCHEDULE_APPOINTMENT = requestStates('schedule_appointment', 'appointments');
 export const UPDATE_APPOINTMENT = requestStates('update_appointment', 'appointments');
+export const DELETE_APPOINTMENT_FROM_PAST = requestStates('delete_appointment_from_past', 'appointments');
 export const DELETE_APPOINTMENT = requestStates('delete_appointment', 'appointments');
 
 export default (state = [], action = {}) => {
@@ -32,6 +33,7 @@ export default (state = [], action = {}) => {
     case FETCH_APPOINTMENTS.SUCCESS: {
       return reducerMerge(state, action.response.appointments);
     }
+    case DELETE_APPOINTMENT_FROM_PAST.SUCCESS:
     case DELETE_APPOINTMENT.SUCCESS: {
       let response = selectn('response.payload', action);
       return state.filter(x => x.id !== response.appointmentId);
@@ -108,6 +110,28 @@ export function deleteAppointment(appointmentId, date) {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ appointmentId, entityName: moment(date).format('YYYYMMDD') })
+    }
+  };
+}
+
+
+export function deleteAppointmentFromPast(appointmentId, date, clients) {
+  moment.locale('en');
+  let apiUrl = `${config.apiBase}appointment/removeAppointmentFromPast`;
+  const body = { appointmentId,
+    clients,
+    entityName: moment(date).format('YYYYMMDD')
+  };
+
+  return {
+    type: DELETE_APPOINTMENT_FROM_PAST.REQUEST,
+    states: DELETE_APPOINTMENT_FROM_PAST,
+    url: apiUrl,
+    params: {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
     }
   };
 }

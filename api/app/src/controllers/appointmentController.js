@@ -92,11 +92,25 @@ module.exports = function(
     ctx.status = result.status;
   };
 
-  var processCommandMessage = async function(payload, commandName) {
+  let removeAppointmentFromPast = async function(ctx) {
+    logger.debug('arrived at appointment.removeAppointmentFromPast');
+    let body = ctx.request.body;
+    body.commandName = 'removeAppointmentFromPast';
+    console.log(`==========body=========`);
+    console.log(body);
+    console.log(`==========END body=========`);
+    const notification = await processCommandMessage(body, 'removeAppointmentFromPast');
+    const result = await notificationParser(notification);
+
+    ctx.body = result.body;
+    ctx.status = result.status;
+  };
+
+  let processCommandMessage = async function(payload, commandName) {
     return await processMessage(payload, commandName + 'Command', commandName);
   };
 
-  var processMessage = async function(payload, commandFactory, commandName) {
+  let processMessage = async function(payload, commandFactory, commandName) {
     logger.debug(`api: processing ${commandName}`);
     const continuationId = uuid.v4();
     let notificationPromise = await notificationListener(continuationId);
@@ -111,6 +125,7 @@ module.exports = function(
     updateAppointment,
     cancelAppointment,
     fetchAppointment,
-    fetchAppointments
+    fetchAppointments,
+    removeAppointmentFromPast
   };
 };
