@@ -11,11 +11,11 @@ module.exports = function(rsRepository,
 
     try {
       let sql = 'SELECT * from "unpaidAppointments" where';
-      if (ctx.state.user.role !== 'admin') {
-        sql += ` id = '${ctx.state.user.trainerId}'`;
-      } else {
-        sql += ` id <> '00000000-0000-0000-0000-000000000001'`;
-      }
+      // if (ctx.state.user.role !== 'admin') {
+      sql += ` id = '${ctx.state.user.trainerId}'`;
+      // } else {
+      //   sql += ` id <> '00000000-0000-0000-0000-000000000001'`;
+      // }
       const query = await rsRepository.query(sql);
       const result = query.reduce((ag, x) => ag.concat(x.unpaidAppointments), []);
       ctx.body = result.filter(x => !x.verified);
