@@ -8,7 +8,7 @@ module.exports = function(logger) {
       };
       logger.info(`handling clientAdded event in ${handlerName}`);
       const client = {
-        id: event.id,
+        clientId: event.clientId,
         firstName: sanitizeName(event.contact.firstName),
         lastName: sanitizeName(event.contact.lastName)
       };
@@ -20,13 +20,13 @@ module.exports = function(logger) {
     async function clientContactUpdated(event) {
       logger.info(`handling clientContactUpdated event in ${handlerName}`);
       const subEvent = {
-        id: event.id,
+        clientId: event.clientId,
         firstName: event.contact.firstName,
         lastName: event.contact.lastName
       };
 
       state.innerState.clients.map(x =>
-        x.id === subEvent.id
+        x.clientId === subEvent.clientId
           ? subEvent
           : x);
       await persistence.saveState(state);

@@ -79,7 +79,7 @@ function mapStateToProps(state, props) {
       appointmentStartTime: moment(x.appointmentStartTime).format('LT')
     }));
 
-  let trainer = state.trainers.find(x => x.id === props.params.trainerId);
+  let trainer = state.trainers.find(x => x.trainerId === props.params.trainerId);
   let trainerName = `${trainer.contact.firstName} ${trainer.contact.lastName}`;
 
   const gridConfig = {

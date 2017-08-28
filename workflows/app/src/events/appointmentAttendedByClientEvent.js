@@ -1,6 +1,5 @@
 module.exports = function(invariant) {
-  return function({id,
-                    clientId,
+  return function({ clientId,
                     appointmentId,
                     appointmentType,
                     sessionId
@@ -11,7 +10,6 @@ module.exports = function(invariant) {
     invariant(appointmentType, 'appointmentAttendedByClientEvent requires that you pass the sessionId');
     return {
       eventName: 'appointmentAttendedByClient',
-      id,
       clientId,
       appointmentId,
       appointmentType,

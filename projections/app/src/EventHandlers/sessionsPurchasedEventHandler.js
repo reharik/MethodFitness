@@ -14,7 +14,7 @@ module.exports = function(moment,
     async function sessionsPurchased(event) {
       logger.info('handling sessionsPurchased event in SessionsPurchasedEventHandler');
       state.sessionsPurchased(event);
-      const purchase = state.getPurchase(event.id);
+      const purchase = state.getPurchase(event.purchaseId);
       return await persistence.saveState(state, purchase);
     }
 
@@ -25,12 +25,14 @@ module.exports = function(moment,
       return await persistence.saveState(state, purchase);
     }
 
+/*
     async function unfundedAppointmentFundedByClient(event) {
       logger.info('handling unfundedAppointmentFundedByClient event in SessionsPurchasedEventHandler');
       const purchaseId = state.processFundedAppointment(event);
       const purchase = state.getPurchase(purchaseId);
       return await persistence.saveState(state, purchase);
     }
+*/
 
     async function sessionsRefunded(event) {
       logger.info('handling sessionsRefunded event in SessionsPurchasedEventHandler');
@@ -57,7 +59,6 @@ module.exports = function(moment,
     let output = {
       handlerType: 'sessionsPurchasedEventHandler',
       handlerName: 'sessionsPurchasedEventHandler',
-      unfundedAppointmentFundedByClient,
       appointmentAttendedByClient,
       sessionsPurchased,
       sessionsRefunded,

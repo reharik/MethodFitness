@@ -4,7 +4,7 @@ module.exports = function(logger) {
     async function trainerHired(event) {
       logger.info(`handling trainerHired event in ${handlerName}`);
       const trainer = {
-        id: event.id,
+        trainerId: event.trainerId,
         firstName: event.contact.firstName,
         lastName: event.contact.lastName,
         TCRS: []
@@ -17,13 +17,13 @@ module.exports = function(logger) {
     async function trainerContactUpdated(event) {
       logger.info(`handling trainerContactUpdated event in ${handlerName}`);
       const subEvent = {
-        id: event.id,
+        trainerId: event.trainerId,
         firstName: event.contact.firstName,
         lastName: event.contact.lastName
       };
 
       state.innerState.trainers.map(x =>
-        x.id === subEvent.id
+        x.trainerId === subEvent.trainerId
           ? subEvent
           : x);
       await persistence.saveState(state);

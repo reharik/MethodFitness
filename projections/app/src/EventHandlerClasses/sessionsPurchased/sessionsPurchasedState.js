@@ -21,7 +21,7 @@ module.exports = function() {
       return {
         purchaseTotal: item.purchaseTotal,
         purchaseDate: item.purchaseDate,
-        purchaseId: item.id,
+        purchaseId: item.purchaseId,
         clientId: item.clientId
       };
     };
@@ -29,7 +29,7 @@ module.exports = function() {
     const createSessions = item => {
       return item.sessions.map(x => ({
         sessionId: x.sessionId,
-        purchaseId: item.id,
+        purchaseId: item.purchaseId,
         appointmentId: x.appointmentId,
         appointmentType: x.appointmentType,
         purchasePrice: x.purchasePrice,
@@ -46,12 +46,12 @@ module.exports = function() {
     const sessionsPurchased = item => {
       const purchase = createPurchase(item);
       purchase.sessions = createSessions(item);
-      purchase.sessions.filter(x => x.appointmentId).forEach(x => {
-        const appt = innerState.appointments.find(a => a.id === x.appointmentId);
-        x.startTime = appt.startTime;
-        x.purchase.sessions = appt.date;
-        const trainer = innerState.trainers.find(t => t.trainerId === appt.trainerId);
-        x.trainer = `${trainer.firstName} ${trainer.lastName}`;
+      purchase.sessions.filter(x => x.appointmentId).forEach(session => {
+        const appointment = innerState.appointments.find(a => a.appointmentId === session.appointmentId);
+        const trainer = innerState.trainers.find(t => t.trainerId === appointment.trainerId);
+        session.appointmentDate = appointment.date;
+        session.startTime = appointment.startTime;
+        session.trainer = `${trainer.firstName} ${trainer.lastName}`;
       });
       innerState.purchases.push(purchase);
     };
@@ -60,10 +60,10 @@ module.exports = function() {
       let sessions = innerState.purchases.filter(x => x.clientId === event.clientId)
         .reduce((a, b) => a.concat(b.sessions), []);
       let session = sessions.find(x => x.sessionId === event.sessionId);
-      let appointment = innerState.appointments.find(x => x.id === event.appointmentId);
-      let trainer = innerState.trainers.find(x => x.id === appointment.trainerId);
+      let appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
+      let trainer = innerState.trainers.find(x => x.trainerId === appointment.trainerId);
 
-      session.appointmentId = appointment.id;
+      session.appointmentId = appointment.appointmentId;
       session.appointmentDate = appointment.date;
       session.startTime = appointment.startTime;
       session.trainer = `${trainer.firstName} ${trainer.lastName}`;
@@ -95,12 +95,12 @@ module.exports = function() {
       delete session.appointmentId;
       delete session.appointmentDate;
 
-      innerState.appointments.filter(x => x.id === event.appointmentId);
+      innerState.appointments.filter(x => x.appointmentId === event.appointmentId);
       return purchase.purchaseId;
     };
 
     const pastAppointmentRemoved = event => {
-      innerState.appointments = innerState.appointments.filter(x => x.id !== event.id);
+      innerState.appointments = innerState.appointments.filter(x => x.appointmentId !== event.appointmentId);
     };
 
     return {

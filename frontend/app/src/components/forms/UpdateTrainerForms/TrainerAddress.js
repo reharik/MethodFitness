@@ -25,7 +25,7 @@ const TrainerAddressInner = ({model,
   return (
     <Card title={'Trainer Address'}>
       <Form onSubmit={handleSubmit} layout={'vertical'}>
-        <EditableFor form={form} data={model.id} hidden={true} />
+        <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.street1} />
           <EditableFor editing={editing} form={form} data={model.street2} />

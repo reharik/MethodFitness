@@ -13,7 +13,7 @@ export default (state = [], action = {}) => {
     }
     case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
       let update = selectn('action.update', action);
-      let updated = update.clientRates.map(x => ({trainerId: update.id, clientId: x.id, rate: x.rate}));
+      let updated = update.clientRates.map(x => ({trainerId: update.trainerId, clientId: x.clientId, rate: x.rate}));
       return state.map(x => {
         const tcr = updated.find(t => t.trainerId === x.trainerId && t.clientId === x.clientId);
         if (tcr && tcr.rate !== x.rate) {
@@ -30,7 +30,7 @@ export default (state = [], action = {}) => {
 
 export function updateTrainersClientRate(data) {
   const item = {
-    id: data.id,
+    trainerId: data.trainerId,
     clientRates: data.clientRates
   };
 
@@ -48,8 +48,8 @@ export function updateTrainersClientRate(data) {
   };
 }
 
-export function getTrainerClientRates(id) {
-  let apiUrl = config.apiBase + 'trainer/gettrainerclientrates/' + id;
+export function getTrainerClientRates(trainerId) {
+  let apiUrl = config.apiBase + 'trainer/gettrainerclientrates/' + trainerId;
   return {
     type: GET_TRAINER_CLIENT_RATES.REQUEST,
     states: GET_TRAINER_CLIENT_RATES,

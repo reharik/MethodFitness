@@ -12,7 +12,7 @@ module.exports = function(rsRepository,
     try {
       let sql = 'SELECT * from "unpaidAppointments" where';
       if (ctx.state.user.role !== 'admin') {
-        sql += ` id = '${ctx.state.user.id}'`;
+        sql += ` id = '${ctx.state.user.trainerId}'`;
       } else {
         sql += ` id <> '00000000-0000-0000-0000-000000000001'`;
       }
@@ -32,7 +32,7 @@ module.exports = function(rsRepository,
       let payload = ctx.request.body;
       payload.commandName = 'verifyAppointments';
       payload.verifiedDate = moment().format('MM/DD/YYYY');
-      payload.trainerId = ctx.state.user.id;
+      payload.trainerId = ctx.state.user.trainerId;
       const continuationId = uuid.v4();
       let notificationPromise = await notificationListener(continuationId);
       const command = commands.verifyAppointmentsCommand(payload);

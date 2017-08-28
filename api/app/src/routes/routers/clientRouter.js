@@ -181,13 +181,13 @@ module.exports = function clientRouter(koarouter, controllers) {
     router.post('/client/updateclientaddress', controllers.clientController.updateClientAddress);
     /**
      * @swagger
-     * /client/getclient/{id}:
+     * /client/getclient/{clientId}:
      *   get:
      *     x-name: client
      *     description: retrieve single client by id
      *     operationId: client
      *     parameters:
-     *       - name: id
+     *       - name: clientId
      *         in: path
      *         required: true
      *         description: The client id
@@ -202,7 +202,7 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/client/getclient/:id', controllers.clientController.getClient);
+    router.get('/client/getclient/:clientId', controllers.clientController.getClient);
     /**
      * @swagger
      * /client/archiveclient:

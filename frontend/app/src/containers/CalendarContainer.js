@@ -3,8 +3,11 @@ import Calendar from '../components/Calendar';
 import { fetchAppointmentsAction, updateTaskViaDND } from './../modules';
 import { fetchClientsAction } from './../modules/clientModule';
 import { fetchTrainersAction } from './../modules/trainerModule';
+import { curriedPermissionToSetAppointment } from './../utilities/appointmentTimes';
 
 const mapStateToProps = function(state) {
+  const isAdmin = state.auth.user.role === 'admin';
+
   let config = {
     increment: 15,
     firstDayOfWeek: 0,
@@ -12,17 +15,19 @@ const mapStateToProps = function(state) {
     dataSource: 'appointments',
     defaultView: 'week',
     dayStartsAt: '5:00 AM',
-    dayEndsAt: '10:00 PM',
-    utcTime: true
+    dayEndsAt: '11:30 PM',
+    utcTime: true,
+    taskId: 'appointmentId'
   };
-  config.taskFilter = state.auth.user.role === 'admin'
-    ? (x, calState) => {
-      return calState.toggleTrainerListForCalendar.includes(x.trainerId);
-    }
-    : x => x.trainerId === state.auth.user.id;
+
+  config.canUpdate = curriedPermissionToSetAppointment(isAdmin);
+
+  config.taskFilter = isAdmin
+    ? (x, calState) => calState.toggleTrainerListForCalendar.includes(x.trainerId)
+    : x => x.trainerId === state.auth.user.trainerId;
 
   return {
-    isAdmin: state.auth.user.role === 'admin',
+    isAdmin,
     config
   };
 };

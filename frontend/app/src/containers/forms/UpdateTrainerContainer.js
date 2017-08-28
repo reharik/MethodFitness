@@ -20,13 +20,13 @@ const { notifClear } = notifActions;
 // isn't calling mapstate to props after trc changes cuz it's fucking nested.
 
 const mapStateToProps = (state, ownProps) => {
-  const trainer = {...state.trainers.find(x => x.id === ownProps.params.trainerId)};
+  const trainer = {...state.trainers.find(x => x.trainerId === ownProps.params.trainerId)};
   const clients = state.clients
     .filter(x => !x.archived)
-    .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));
+    .map(x => ({ value: x.clientId, display: `${x.contact.lastName} ${x.contact.firstName}` }));
 // possibly do this backwards in case a tcr hasn't been set for some reason
   if(trainer && clients) {
-    trainer.trainerClientRates = state.trainerClientRates.filter(x => x.trainerId === trainer.id).map(x => {
+    trainer.trainerClientRates = state.trainerClientRates.filter(x => x.trainerId === trainer.trainerId).map(x => {
       let client = clients.find(c => c.value === x.clientId);
       return {
         value: x.rate,

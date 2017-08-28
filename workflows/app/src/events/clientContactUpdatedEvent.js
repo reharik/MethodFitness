@@ -1,18 +1,18 @@
 module.exports = function(invariant) {
   return function({
-                    id,
+                    clientId,
                    contact
                   }) {
     const {
       secondaryPhone,
       mobilePhone,
       email} = contact;
-    invariant(id, 'clientContactUpdated requires that you pass the clients id');
+    invariant(clientId, 'clientContactUpdated requires that you pass the clients id');
     invariant(email, 'clientContactUpdated requires that you pass the clients email');
     invariant(mobilePhone, 'clientContactUpdated requires that you pass the clients mobilePhone');
     return {
       eventName: 'clientContactUpdated',
-      id,
+      clientId,
       contact: {
         secondaryPhone,
         mobilePhone,

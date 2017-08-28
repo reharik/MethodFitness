@@ -31,7 +31,7 @@ const InputFor = ({ data, selectOptions, onChange, form }) => {
         const _onChange = onChange ? {onChange} : {};
         const filter = (v, o) => o.props.children.toLowerCase().includes(v.toLowerCase());
         return (
-          <Select mode="multiple" filterOption={filter} {..._data} {..._onChange}>
+          <Select mode="multiple" filterOption={filter} placeholder={_data.placeholder} {..._onChange}>
             { selectOptions.map(x => (<Option key={x.value} value={x.value} >{x.display}</Option>)) }
           </Select>
         );

@@ -244,13 +244,13 @@ module.exports = function trainerRouter(koarouter, controllers) {
     router.post('/trainer/updatetrainersclientrates', controllers.trainerController.updateTrainersClientRates);
     /**
      * @swagger
-     * /trainer/gettrainer/{id}:
+     * /trainer/gettrainer/{trainerId}:
      *   get:
      *     x-name: trainer
      *     description: retrieve single trainer by id
      *     operationId: trainer
      *     parameters:
-     *       - name: id
+     *       - name: trainerId
      *         in: path
      *         required: true
      *         description: The trainers id
@@ -269,16 +269,16 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/trainer/gettrainer/:id', controllers.trainerController.getTrainer);
+    router.get('/trainer/gettrainer/:trainerId', controllers.trainerController.getTrainer);
     /**
      * @swagger
-     * /trainer/gettrainerclientrates/{id}:
+     * /trainer/gettrainerclientrates/{trainerId}:
      *   get:
      *     x-name: gettrainerclientrates
      *     description: retrieve trainer client rates by trianer id
      *     operationId: gettrainerclientrates
      *     parameters:
-     *       - name: id
+     *       - name: trainerId
      *         in: path
      *         required: true
      *         description: The trainers id
@@ -297,7 +297,7 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/trainer/gettrainerclientrates/:id', controllers.trainerController.getTrainerClientRates);
+    router.get('/trainer/gettrainerclientrates/:trainerId', controllers.trainerController.getTrainerClientRates);
     /**
      * @swagger
      * /trainer/archivetrainer:

@@ -24,12 +24,13 @@ module.exports = function(rsRepository, unpaidAppointmentsState, logger) {
           .concat(state.innerState.unfundedAppointments)
           .filter(x => x.trainerId === trainerId);
 
-        unpaidAppointments.id = trainerId;
+        unpaidAppointments.trainerId = trainerId;
       }
       return await rsRepository.saveAggregateView(
         'unpaidAppointments',
         state.innerState,
-        unpaidAppointments);
+        unpaidAppointments,
+      'trainerId');
     }
 
     return {

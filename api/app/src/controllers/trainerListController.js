@@ -5,7 +5,7 @@ module.exports = function(rsRepository, logger) {
     try {
       let sql = 'SELECT * from "trainer" where not "archived"';
       if (ctx.state.user.role !== 'admin') {
-        sql += ` and id = '${ctx.state.user.id}'`;
+        sql += ` and id = '${ctx.state.user.trainerId}'`;
       }
       const query = await rsRepository.query(sql);
       ctx.body = {trainers: query};

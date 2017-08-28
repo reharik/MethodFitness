@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import moment from 'moment';
 import AppointmentForm from '../../components/forms/Appointment/AppointmentForm';
 import { notifications } from './../../modules/notificationModule';
 import appointmentTypes from './../../constants/appointmentTypes';
@@ -10,36 +9,32 @@ import { scheduleAppointment,
   fetchAppointmentAction,
   deleteAppointment,
   deleteAppointmentFromPast} from './../../modules/appointmentModule';
+import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
+
 
 const mapStateToProps = (state, ownProps) => {
   const isAdmin = state.auth.user.role === 'admin';
-  let user = state.trainers.find(x => x.id === state.auth.user.id);
-
+  let user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
   const clients = state.clients
     .filter(x => !x.archived)
-    .filter(x => isAdmin || user.clients.includes(x.id))
-    .map(x => ({value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}`}));
+    .filter(x => isAdmin || user.clients.includes(x.clientId))
+    .map(x => ({value: x.clientId, display: `${x.contact.lastName} ${x.contact.firstName}`}));
 
   const trainers = state.trainers
     .filter(x => !x.archived)
-    .map(x => ({value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}`, color: x.color}));
+    .map(x => ({value: x.trainerId, display: `${x.contact.lastName} ${x.contact.firstName}`, color: x.color}));
 
   // please put this shit in a config somewhere
   const times = generateAllTimes(15, 7, 7);
 
-  const model = !ownProps.args.apptId
+  const model = !ownProps.args.appointmentId
     ? appointmentModel(state, ownProps.args)
     : updateAppointmentModel(state, ownProps.args, ownProps.isCopy);
 
-  const canUpdate = // isAdmin ||
-    (moment(model.date).isAfter(moment(), 'day')
-    || (moment(model.date).isSame(moment(), 'day')
-    && moment(model.startTime, 'h:mm A').isAfter(moment().utc().subtract(2, 'hours'))));
-
   let buttons;
-  if (ownProps.args.apptId && !ownProps.isCopy && !ownProps.isEdit) {
+  if (ownProps.args.appointmentId && !ownProps.isCopy && !ownProps.isEdit) {
     buttons = ['copy', 'delete', 'cancel'];
-    if (canUpdate) {
+    if (permissionToSetAppointment({date: model.date.value, startTime: model.startTime.value}, isAdmin)) {
       buttons.splice(1, 0, 'edit');
     }
   } else {
@@ -59,8 +54,8 @@ const mapStateToProps = (state, ownProps) => {
     onCopy: ownProps.onCopy,
     onEdit: ownProps.onEdit,
     buttons,
-    editing: !model.id.value || ownProps.isEdit,
-    trainerId: user.id
+    editing: !model.appointmentId.value || ownProps.isEdit,
+    trainerId: user.trainerId
   };
 };
 

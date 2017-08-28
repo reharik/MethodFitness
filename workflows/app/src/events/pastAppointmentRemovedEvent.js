@@ -3,7 +3,7 @@ module.exports = function() {
     return {
       eventName: 'pastAppointmentRemoved',
       clients,
-      id: appointmentId
+      appointmentId
     };
   };
 };

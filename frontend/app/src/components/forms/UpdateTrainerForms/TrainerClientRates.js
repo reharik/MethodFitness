@@ -16,10 +16,10 @@ const TrainerClientRatesInner = ({model,
     form.validateFields((err, values) => {
       if (!err) {
         const payload = {
-          id: model.id.value,
+          trainerId: model.trainerId.value,
           clientRates: Object.keys(values)
             .filter(x => values[x])
-            .map(x => ({id: x, rate: values[x]}))
+            .map(x => ({clientId: x, rate: values[x]}))
         };
         submit(payload);
         console.log('Received values of form: ', payload);
@@ -33,7 +33,7 @@ const TrainerClientRatesInner = ({model,
   return (
     <Card title={`Trainer's Client Rate`}>
       <Form layout="inline" onSubmit={handleSubmit}>
-        <EditableFor form={form} data={model.id} hidden={true} />
+        <EditableFor form={form} data={model.trainerId} hidden={true} />
         { model.trainerClientRates.listItems.map(x => {
           return (<Row type="flex" key={x.name}>
             <EditableFor

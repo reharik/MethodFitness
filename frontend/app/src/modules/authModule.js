@@ -18,7 +18,7 @@ export default (state = initialState, action = {}) => {
     case LOGIN.SUCCESS: {
       const user = selectn('response.user', action);
 
-      localStorage.setItem('id_token', user.id);
+      localStorage.setItem('id_token', user.trainerId);
       localStorage.setItem('user', JSON.stringify(user));
       return {
         user,

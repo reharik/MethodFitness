@@ -20,7 +20,7 @@ module.exports = function(uuid, invariant) {
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        id: uuid.v4()
+        clientId: uuid.v4()
       },
       {
         contact: {
@@ -41,7 +41,7 @@ module.exports = function(uuid, invariant) {
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        id: uuid.v4()
+        clientId: uuid.v4()
       },
       {
         contact: {
@@ -62,7 +62,7 @@ module.exports = function(uuid, invariant) {
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        id: uuid.v4()
+        clientId: uuid.v4()
       },
       {
         contact: {
@@ -83,7 +83,7 @@ module.exports = function(uuid, invariant) {
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        id: uuid.v4()
+        clientId: uuid.v4()
       },
       {
         contact: {
@@ -104,7 +104,7 @@ module.exports = function(uuid, invariant) {
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        id: uuid.v4()
+        clientId: uuid.v4()
       }],
 
     addClient: client => {

@@ -1,14 +1,14 @@
 module.exports = function(invariant) {
   return function({
-                    id,
+                    clientId,
                     source,
                     sourceNotes,
                     startDate
                   }) {
-    invariant(id, 'clientSourceUpdated requires that you pass the clients id');
+    invariant(clientId, 'clientSourceUpdated requires that you pass the clients id');
     return {
       eventName: 'clientSourceUpdated',
-      id,
+      clientId,
       source,
       sourceNotes,
       startDate

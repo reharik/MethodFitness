@@ -5,6 +5,7 @@ import ContentHeader from '../ContentHeader';
 import SubmissionFor from './../formElements/SubmissionFor';
 import { browserHistory } from 'react-router';
 import { Form, Card, Row, Col } from 'antd';
+import EditableFor from './../formElements/EditableFor';
 
 class TrainerForm extends Component {
   componentWillMount() { this.loadData();
@@ -21,6 +22,10 @@ class TrainerForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        // debugger; //eslint-disable-line
+        // console.log(`==========values=========`);
+        // console.log(values);
+        // console.log(`==========END values=========`);
         this.props.hireTrainer(values);
         console.log('Received values of form: ', values);
       }
@@ -30,6 +35,9 @@ class TrainerForm extends Component {
   render() {
     const model = this.props.model;
     const form = this.props.form;
+    // console.log(`==========model.clients=========`);
+    // console.log(model.clients);
+    // console.log(`==========END model.clients=========`);
     return (
       <div className="form">
         <ContentHeader>
@@ -113,7 +121,16 @@ class TrainerForm extends Component {
               <Col xl={10} lg={14} sm={24} >
                 <Card title="Trainer' Clients">
                   <Row type="flex">
-                    <SubmissionFor selectOptions={this.props.clients} form={form} data={model.clients} />
+                    <EditableFor
+                      editing={true}
+                      form={form}
+                      data={model.clients}
+                      onChange={(e) => {
+                        console.log(`==========e=========`);
+                        console.log(e);
+                        console.log(`==========END e=========`);
+                      }}
+                      selectOptions={this.props.clients} />
                   </Row>
                 </Card>
               </Col>
@@ -146,4 +163,4 @@ TrainerForm.propTypes = {
   clients: PropTypes.array
 };
 
-export default Form.create()(TrainerForm);
+export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerForm);

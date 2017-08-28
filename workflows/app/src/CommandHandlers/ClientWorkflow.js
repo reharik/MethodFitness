@@ -14,7 +14,7 @@ module.exports = function(eventRepository, logger, Client) {
 
     async function updateClientAddress(cmd, continuationId) {
       logger.info('calling updateClientAddress');
-      let client = await eventRepository.getById(Client, cmd.id);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.updateClientAddress(cmd);
 
       logger.info('saving client');
@@ -26,7 +26,7 @@ module.exports = function(eventRepository, logger, Client) {
 
     async function updateClientContact(cmd, continuationId) {
       logger.info('calling updateClientContact');
-      let client = await eventRepository.getById(Client, cmd.id);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.updateClientContact(cmd);
 
       logger.info('saving client');
@@ -38,7 +38,7 @@ module.exports = function(eventRepository, logger, Client) {
 
     async function updateClientInfo(cmd, continuationId) {
       logger.info('calling updateClientInfo');
-      let client = await eventRepository.getById(Client, cmd.id);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.updateClientInfo(cmd);
 
       logger.info('saving client');
@@ -50,7 +50,7 @@ module.exports = function(eventRepository, logger, Client) {
 
     async function updateClientSource(cmd, continuationId) {
       logger.info('calling updateClientSource');
-      let client = await eventRepository.getById(Client, cmd.id);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.updateClientSource(cmd);
 
       logger.info('saving client');
@@ -74,7 +74,7 @@ module.exports = function(eventRepository, logger, Client) {
 
     async function archiveClient(cmd, continuationId) {
       logger.info('calling archiveClient');
-      let client = await eventRepository.getById(Client, cmd.id);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.archiveClient(cmd);
 
       logger.info('saving client');
@@ -86,7 +86,7 @@ module.exports = function(eventRepository, logger, Client) {
 
     async function unArchiveClient(cmd, continuationId) {
       logger.info('calling unArchiveClient');
-      let client = await eventRepository.getById(Client, cmd.id);
+      let client = await eventRepository.getById(Client, cmd.clientId);
       client.unArchiveClient(cmd);
 
       logger.info('saving client');

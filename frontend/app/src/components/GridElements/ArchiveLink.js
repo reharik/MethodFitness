@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { message } from 'antd';
 
-const ArchiveLink = (action, loggedInUser) => {
+const ArchiveLink = (action, loggedInUser, idName = 'id') => {
   const link = (value, row) => {
-    const result = {id: row.id, archived: value};
+    const result = {id: row[idName], archived: value};
     const archiveClick = (result) => {
-      if (result.id === loggedInUser) {
+      if (result[idName] === loggedInUser) {
         message.info('You may not archive the currently logged in User', 8);
         return;
       }

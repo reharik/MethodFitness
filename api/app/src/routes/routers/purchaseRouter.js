@@ -61,13 +61,13 @@ module.exports = function purchasesRouter(koarouter, controllers) {
     router.post('/purchase/updatepurchase', controllers.purchaseController.updatePurchase);
     /**
      * @swagger
-     * /purchase/fetchpurchase/{id}:
+     * /purchase/fetchpurchase/{purchaseId}:
      *   get:
      *     x-name: trainer
      *     description: retrieve single trainer by id
-     *     operationId: purchase/fetchPurchase/{id}
+     *     operationId: purchase/fetchPurchase/{purchaseId}
      *     parameters:
-     *       - name: id
+     *       - name: purchaseId
      *         in: path
      *         required: true
      *         description: The id of the session purchase
@@ -86,7 +86,7 @@ module.exports = function purchasesRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/purchase/fetchpurchase/:id', controllers.purchaseController.fetchPurchase);
+    router.get('/purchase/fetchpurchase/:purchaseId', controllers.purchaseController.fetchPurchase);
     /**
      * @swagger
      * /purchaselist/fetchpurchases/{clientId}:

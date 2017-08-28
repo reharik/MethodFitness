@@ -3,7 +3,7 @@
     "updateTrainerInfo": {
       "title": "updateTrainerInfoRequest",
       "properties": {
-        "id": {
+        "trainerId": {
           "type": "string",
           "format": "uuid"
         },
@@ -25,7 +25,7 @@
     "updateTrainerContact": {
       "title": "updateTrainerContact",
       "properties": {
-        "id": {
+        "trainerId": {
           "type": "string",
           "format": "uuid"
         },
@@ -44,7 +44,7 @@
     "updateTrainerAddress": {
       "title": "updateTrainerAddress",
       "properties": {
-        "id": {
+        "trainerId": {
           "type": "string",
           "format": "uuid"
         },
@@ -68,7 +68,7 @@
     "updateTrainerPassword": {
       "title": "updateTrainerPassword",
       "properties": {
-        "id": {
+        "trainerId": {
           "type": "string",
           "format": "uuid"
         },
@@ -86,7 +86,7 @@
     "updateTrainersClients": {
       "title": "updateTrainersClients",
       "properties": {
-        "id": {
+        "trainerId": {
           "type": "string",
           "format": "uuid"
         },
@@ -103,7 +103,7 @@
     "updateTrainersClientRates": {
       "title": "updateTrainersClientRates",
       "properties": {
-        "id": {
+        "trainerId": {
           "type": "string",
           "format": "uuid"
         },
@@ -120,7 +120,7 @@
     "clientRate": {
       "title": "clientRate",
       "properties": {
-        "id": {
+        "clientId": {
           "type": "string",
           "format": "uuid"
         },
@@ -129,14 +129,14 @@
         }
       },
       "required": [
-        "id",
+        "clientId",
         "rate"
       ]
     },
     "updateClientInfo": {
       "title": "clientInfoRequest",
       "properties": {
-        "id": {
+        "clientId": {
           "type": "string",
           "format": "uuid"
         },
@@ -151,7 +151,7 @@
     "updateClientSource": {
       "title": "updateClientSource",
       "properties": {
-        "id": {
+        "clientId": {
           "type": "string",
           "format": "uuid"
         },
@@ -170,7 +170,7 @@
     "updateClientContact": {
       "title": "updateClientContact",
       "properties": {
-        "id": {
+        "clientId": {
           "type": "string",
           "format": "uuid"
         },
@@ -188,7 +188,7 @@
     "updateClientAddress": {
       "title": "updateClientAddress",
       "properties": {
-        "id": {
+        "clientId": {
           "type": "string",
           "format": "uuid"
         },
@@ -212,12 +212,9 @@
     "scheduleAppointment": {
       "title": "scheduleAppointment",
       "properties": {
-        "id": {
+        "appointmentId": {
           "type": "string",
           "format": "uuid"
-        },
-        "appointmentId": {
-          "type": "string"
         },
         "appointmentType": {
           "type": "string"
@@ -291,7 +288,7 @@
     "archiveClient": {
       "title": "archiveClient",
       "properties": {
-        "id": {
+        "clientId": {
           "type": "string",
           "format": "uuid"
         },
@@ -303,7 +300,7 @@
     "archiveTrainer": {
       "title": "archiveTrainer",
       "properties": {
-        "id": {
+        "trainerId": {
           "type": "string",
           "format": "uuid"
         },
@@ -315,7 +312,7 @@
     "purchase": {
       "title": "purchase",
       "properties": {
-        "id": {
+        "purchaseId": {
           "type": "string",
           "format": "uuid"
         },

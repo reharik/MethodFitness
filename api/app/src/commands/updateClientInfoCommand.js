@@ -1,15 +1,15 @@
 module.exports = function(invariant) {
   return function({
-                     id,
+                     clientId,
                      firstName,
                      lastName,
                      birthDate
                    }) {
-    invariant(id, 'updateClientInfo requires that you pass the trainers id');
+    invariant(clientId, 'updateClientInfo requires that you pass the trainers id');
     invariant(firstName, 'updateClientInfo requires that you pass the trainers first name');
     invariant(lastName, 'updateClientInfo requires that you pass the trainers last name');
     return {
-      id,
+      clientId,
       firstName,
       lastName,
       birthDate

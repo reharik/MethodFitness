@@ -20,7 +20,7 @@ module.exports = function(trainerPaymentDetailsPersistence,
       logger.info('handling trainersClientRatesUpdated event in trainerPaymentDetailsEventHandler');
       event.clientRates.forEach(x => state.updateTRC({
         trainerId: event.trainerId,
-        clientId: x.id,
+        clientId: x.clientId,
         rate: x.rate
       }));
 

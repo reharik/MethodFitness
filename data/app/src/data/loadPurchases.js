@@ -2,7 +2,7 @@ module.exports = function(invariant, loadTrainers, loadClients) {
   return {
     purchases: [
       {
-        clientId: loadClients.clients[0].id,
+        clientId: loadClients.clients[0].clientId,
         fullHour: 0,
         fullHourTenPack: 0,
         fullHourTenPackTotal: 0,
@@ -18,7 +18,7 @@ module.exports = function(invariant, loadTrainers, loadClients) {
         purchaseTotal: 350
       },
       {
-        clientId: loadClients.clients[2].id,
+        clientId: loadClients.clients[2].clientId,
         fullHour: 0,
         fullHourTenPack: 0,
         fullHourTenPackTotal: 0,

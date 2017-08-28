@@ -29,11 +29,11 @@ module.exports = function(rsRepository, notificationListener, notificationParser
   let archiveClient = async function(ctx) {
     logger.debug('arrived at client.archiveClient');
     let query = await rsRepository.query('SELECT * from "trainer";');
-    const id = ctx.request.body.id;
+    const clientId = ctx.request.body.clientId;
 
-    let trainerClients = query.filter(x => x.clients && x.clients.some(c => c === id)).map(x => {
-      x.clients.splice(x.clients.indexOf(id), 1);
-      return { id: x.id, clients: x.clients };
+    let trainerClients = query.filter(x => x.clients && x.clients.some(c => c === clientId)).map(x => {
+      x.clients.splice(x.clients.indexOf(clientId), 1);
+      return { trainerId: x.trainerId, clients: x.clients };
     });
 
     for (let payload of trainerClients) {
@@ -62,12 +62,12 @@ module.exports = function(rsRepository, notificationListener, notificationParser
   let getClient = async function(ctx) {
     let client;
     if (ctx.state.user.role !== 'admin') {
-      const trainer = await rsRepository.getById(ctx.state.user.id, 'trainer');
-      if (trainer.clients && !trainer.clients.some(x => x === ctx.params.id)) {
+      const trainer = await rsRepository.getById(ctx.state.user.trainerId, 'trainer');
+      if (trainer.clients && !trainer.clients.some(x => x === ctx.params.clientId)) {
         throw new Error('Attempt to access client not associated with current trainer');
       }
     }
-    client = await rsRepository.getById(ctx.params.id, 'client');
+    client = await rsRepository.getById(ctx.params.clientId, 'client');
 
     ctx.status = 200;
     ctx.body = client;

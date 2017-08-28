@@ -83,7 +83,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *     description: fetch Appointment by id
      *     operationId: fetchAppointment
      *     parameters:
-     *       - name: id
+     *       - name: appointmentId
      *         in: path
      *         required: true
      *         description: The appointment id
@@ -102,7 +102,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/fetchappointment/:id', controllers.appointmentController.fetchAppointment);
+    router.get('/fetchappointment/:appointmentId', controllers.appointmentController.fetchAppointment);
     /**
      * @swagger
      * /appointment/scheduleappointment:

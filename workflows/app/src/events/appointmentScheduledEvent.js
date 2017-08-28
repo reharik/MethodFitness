@@ -13,7 +13,7 @@ module.exports = function() {
                    }) {
     return {
       eventName: 'appointmentScheduled',
-      id: appointmentId,
+      appointmentId,
       appointmentType,
       date,
       startTime,

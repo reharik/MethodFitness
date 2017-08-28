@@ -1,5 +1,5 @@
 module.exports = function(invariant) {
-  return function({id,
+  return function({purchaseId,
                     clientId,
                     fullHour,
                     fullHourTenPack,
@@ -23,7 +23,7 @@ module.exports = function(invariant) {
                   }) {
 
     invariant(clientId, 'sessionsPurchased requires that you pass the clients Id');
-    invariant(id, 'sessionsPurchased requires that you pass the Id');
+    invariant(purchaseId, 'sessionsPurchased requires that you pass the Id');
     sessions.forEach(s => {
       invariant(s.clientId, 'A session purchased requires you pass the client id');
       invariant(s.sessionId, 'A session purchased requires you pass the session id');
@@ -34,7 +34,7 @@ module.exports = function(invariant) {
     });
     return {
       eventName: 'sessionsPurchased',
-      id,
+      purchaseId,
       clientId,
       fullHour,
       fullHourTenPack,

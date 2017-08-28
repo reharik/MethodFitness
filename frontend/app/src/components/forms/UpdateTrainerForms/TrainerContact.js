@@ -25,7 +25,7 @@ const TrainerContactInner = ({model,
   return (
     <Card title={'Trainer Contact'}>
       <Form onSubmit={handleSubmit} layout={'vertical'}>
-        <EditableFor form={form} data={model.id} hidden={true} />
+        <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.firstName} />
           <EditableFor editing={editing} form={form} data={model.lastName} />

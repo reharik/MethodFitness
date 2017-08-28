@@ -11,7 +11,7 @@ module.exports = function(rsRepository, logger) {
             "trainer",
             "document"
             ) VALUES (
-            '${event.id}',
+            '${event.appointmentId}',
             '${event.entityName}',
             '${event.trainerId}',
             '${JSON.stringify(event)}')`;
@@ -21,14 +21,14 @@ module.exports = function(rsRepository, logger) {
     async function appointmentCanceled(event) {
       logger.info('handling appointmentCanceled event');
 
-      let sql = `DELETE FROM "appointment" where "id" = '${event.id}'`;
+      let sql = `DELETE FROM "appointment" where "id" = '${event.appointmentId}'`;
       return await rsRepository.saveQuery(sql);
     }
 
     async function pastAppointmentRemoved(event) {
       logger.info('handling pastAppointmentRemoved event');
 
-      let sql = `DELETE FROM "appointment" where "id" = '${event.id}'`;
+      let sql = `DELETE FROM "appointment" where "id" = '${event.appointmentId}'`;
       return await rsRepository.saveQuery(sql);
     }
 
@@ -37,7 +37,7 @@ module.exports = function(rsRepository, logger) {
             "date" = '${event.entityName}',
             "trainer" = '${event.trainerId}',
             "document" = '${JSON.stringify(event)}'
-            where "id" = '${event.id}'`;
+            where "id" = '${event.appointmentId}'`;
       return await rsRepository.saveQuery(sql);
     }
 

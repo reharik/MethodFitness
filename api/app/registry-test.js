@@ -1,10 +1,14 @@
 let dagon = require('dagon');
 let path = require('path');
+const td = require('testdouble');
 
 module.exports = function(_options) {
   let options = _options || {};
   let container = dagon(options.dagon).container;
   let result;
+  let eventstore = td.object();
+
+
   try {
     result = container(x =>
         x.pathToRoot(path.join(__dirname, '/../'))
@@ -18,6 +22,7 @@ module.exports = function(_options) {
           .groupAllInDirectory('./app/src/schemas', 'schemas', true)
           .groupAllInDirectory('./app/src/routes/routers', 'routers_array')
           .groupAllInDirectory('./app/src/commands', 'commands')
+          .for('eventstore').subWith(eventstore)
           .complete(),
       x=>x.instantiate('eventstore').asFunc().withParameters(options.children || {})
           .instantiate('logger').asFunc().withParameters(options.logger || {})
@@ -29,3 +34,11 @@ module.exports = function(_options) {
   }
   return result;
 };
+
+
+
+// // set up mock for repo
+// repositoryStub = td.object(repository);
+//
+// // set up DIC and get instance of mut
+// const container = registry({repositoryStub});

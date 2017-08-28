@@ -23,15 +23,15 @@ export default (state = [], action = {}) => {
       return state;
     }
     case CLIENT.SUCCESS: {
-      return reducerMerge(state, action.response);
+      return reducerMerge(state, action.response, 'clientId');
     }
     case CLIENT_LIST.SUCCESS: {
-      return reducerMerge(state, action.response.clients);
+      return reducerMerge(state, action.response.clients, 'clientId');
     }
     case ADD_CLIENT.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
-      insertedItem.id = selectn('payload.result.handlerResult.clientId', action);
-      return insertedItem.id ? [...state, insertedItem] : state;
+      insertedItem.clientId = selectn('payload.result.handlerResult.clientId', action);
+      return insertedItem.clientId ? [...state, insertedItem] : state;
     }
     case UPDATE_CLIENT_INFO.FAILURE:
     case ADD_CLIENT.FAILURE: {
@@ -41,7 +41,7 @@ export default (state = [], action = {}) => {
     case ARCHIVE_CLIENT.SUCCESS: {
       let update = selectn('action.update', action);
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.clientId === update.clientId) {
           return {
             ...x,
             archived: !update.archived
@@ -55,7 +55,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.clientId === update.clientId) {
           return {
             ...x,
             contact: { ...x.contact, firstName: update.firstName, lastName: update.lastName },
@@ -70,7 +70,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.clientId === update.clientId) {
           return { ...x, source: update.source, sourceNotes: update.sourceNotes, startDate: update.startDate };
         }
         return x;
@@ -81,7 +81,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.clientId === update.clientId) {
           return {
             ...x,
             contact: {
@@ -100,7 +100,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.clientId === update.clientId) {
           return {
             ...x,
             contact: {
@@ -128,7 +128,7 @@ export default (state = [], action = {}) => {
 
 export function updateClientInfo(data) {
   const item = {
-    id: data.id,
+    clientId: data.clientId,
     firstName: data.firstName,
     lastName: data.lastName,
     birthDate: data.birthDate
@@ -149,7 +149,7 @@ export function updateClientInfo(data) {
 
 export function updateClientContact(data) {
   const item = {
-    id: data.id,
+    clientId: data.clientId,
     secondaryPhone: data.secondaryPhone,
     mobilePhone: data.mobilePhone,
     email: data.email
@@ -171,7 +171,7 @@ export function updateClientContact(data) {
 
 export function updateClientSource(data) {
   const item = {
-    id: data.id,
+    clientId: data.clientId,
     source: data.source,
     sourceNotes: data.sourceNotes,
     startDate: data.startDate
@@ -193,7 +193,7 @@ export function updateClientSource(data) {
 
 export function updateClientAddress(data) {
   const item = {
-    id: data.id,
+    clientId: data.clientId,
     street1: data.street1,
     street2: data.street2,
     city: data.city,
@@ -253,8 +253,8 @@ export function archiveClient(data) {
   };
 }
 
-export function fetchClientAction(id) {
-  let apiUrl = config.apiBase + 'client/getClient/' + id;
+export function fetchClientAction(clientId) {
+  let apiUrl = config.apiBase + 'client/getClient/' + clientId;
   return {
     type: CLIENT.REQUEST,
     states: CLIENT,

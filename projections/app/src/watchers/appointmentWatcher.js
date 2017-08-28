@@ -23,7 +23,7 @@ module.exports = function(logger) {
       delete subEvent.notes;
       delete subEvent.entityName;
       state.innerState.appointments = state.innerState.appointments.map(x =>
-        x.id === subEvent.id
+        x.appointmentId === subEvent.appointmentId
           ? subEvent
           : x);
       await persistence.saveState(state);
@@ -31,7 +31,8 @@ module.exports = function(logger) {
 
     async function appointmentCanceled(event) {
       logger.info(`handling appointmentCanceled event in ${handlerName}`);
-      state.innerState.appointments = state.innerState.appointments.filter(x => x.id !== event.id);
+      state.innerState.appointments = state.innerState.appointments
+        .filter(x => x.appointmentId !== event.appointmentId);
       await persistence.saveState(state);
     }
 

@@ -7,7 +7,7 @@
     "startLocalContainer": "nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
     "startRemoteContainer": "node app/index.js",
     "local": "NODE_CONFIG_DIR=./app/config nodemon --ignore app/src/swagger -V -w app/src -w node_modules",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
+    "test": "NODE_CONFIG_DIR=./app/config ./node_modules/.bin/mocha --reporter spec ./app/tests/*.js",
     "intTest": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/integrationTests/temp.js",
     "lint": "eslint -c ./../.eslintrc.json .",
     "validate": "npm ls"
@@ -48,14 +48,14 @@
     "node-eventstore-client": "^0.1.2",
     "ramda": "^0.24.1",
     "ramda-fantasy": "^0.8.0"
-
   },
   "devDependencies": {
     "eslint": "^3.6.0",
-    "precommit-hook-eslint": "^3.0.0",
     "mocha": "3.4.2",
     "must": "0.13.0-beta2",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "precommit-hook-eslint": "^3.0.0",
+    "testdouble": "^3.2.4"
   },
   "pre-commit": [
     "lint"

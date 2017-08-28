@@ -1,22 +1,5 @@
 module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
-  const seed = moment().local();
-  const convertLocalTimeToUtc = (time) => {
-    let hour = parseInt(time.substring(0, time.indexOf(':'))) + 5;
-    let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
-    let A = time.substring(time.indexOf(' ') + 1);
-    hour = A === 'AM' ? hour : hour + 12;
-    return {hour, min, A};
-  };
-
-  const getISODateTime = (date, time) => {
-    moment.locale('en');
-    if (!date || !time) {
-      return undefined;
-    }
-    let utcTime = convertLocalTimeToUtc(time);
-    const result = moment(date).hour(utcTime.hour).minute(utcTime.min);
-    return result.toISOString();
-  };
+  const seed = moment(moment().format('YYYYMMDD'));
 
   const trainer0 = loadTrainers.trainers[0];
   return {
@@ -24,37 +7,37 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
       {
         commandName: 'scheduleAppointment',
         appointmentType: 'halfHour',
-        clients: [loadClients.clients[0].id],
+        clients: [loadClients.clients[0].clientId],
         date: seed.toISOString(),
-        startTime: getISODateTime(seed, '9:00 AM'),
-        endTime: getISODateTime(seed, '9:30 AM'),
+        startTime: moment(seed).hour('9').minute('00').format(),
+        endTime: moment(seed).hour('9').minute('30').format(),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainerId: trainer0.id,
+        trainerId: trainer0.trainerId,
         color: trainer0.color
       },
       {
         commandName: 'scheduleAppointment',
         appointmentType: 'halfHour',
-        clients: [loadClients.clients[2].id],
+        clients: [loadClients.clients[2].clientId],
         date: seed.toISOString(),
-        startTime: getISODateTime(seed, '7:00 AM'),
-        endTime: getISODateTime(seed, '7:30 AM'),
+        startTime: moment(seed).hour('7').minute('00').format(),
+        endTime: moment(seed).hour('7').minute('30').format(),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainerId: trainer0.id,
+        trainerId: trainer0.trainerId,
         color: trainer0.color
       },
       {
         commandName: 'scheduleAppointment',
         appointmentType: 'halfHour',
-        clients: [loadClients.clients[1].id],
+        clients: [loadClients.clients[1].clientId],
         date: seed.toISOString(),
-        startTime: getISODateTime(seed, '8:00 AM'),
-        endTime: getISODateTime(seed, '8:30 AM'),
+        startTime: moment(seed).hour('8').minute('00').format(),
+        endTime: moment(seed).hour('8').minute('30').format(),
         entityName: seed.format('YYYYMMDD'),
         notes: 'hi mom',
-        trainerId: trainer0.id,
+        trainerId: trainer0.trainerId,
         color: trainer0.color
       }],
 

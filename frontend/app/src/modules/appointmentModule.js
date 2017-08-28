@@ -1,5 +1,5 @@
 import reducerMerge from './../utilities/reducerMerge';
-import { getISODateTime } from './../utilities/appointmentTimes';
+import { buildMomentFromDateAndTime } from './../utilities/appointmentTimes';
 import config from './../utilities/configValues';
 import moment from 'moment';
 import { requestStates } from '../sagas/requestSaga';
@@ -17,26 +17,26 @@ export default (state = [], action = {}) => {
       let response = selectn('response.payload', action);
       let newItem = selectn('action.upsertedItem', action);
       if (response.updateType === 'rescheduleAppointmentToNewDay') {
-        const newState = state.filter(x => x.id !== response.oldAppointmentId);
-        newItem.id = response.newAppointmentId;
-        return reducerMerge(newState, newItem);
+        const newState = state.filter(x => x.appointmentId !== response.oldAppointmentId);
+        newItem.appointmentId = response.newAppointmentId;
+        return reducerMerge(newState, newItem, 'appointmentId');
       } else {
-        return reducerMerge(state, newItem);
+        return reducerMerge(state, newItem, 'appointmentId');
       }
     }
     // fallback intentional for non new day updates
     case SCHEDULE_APPOINTMENT.SUCCESS: {
       let upsertedItem = selectn('action.upsertedItem', action);
-      upsertedItem.id = selectn('response.payload.appointmentId', action);
-      return reducerMerge(state, upsertedItem);
+      upsertedItem.appointmentId = selectn('response.payload.appointmentId', action);
+      return reducerMerge(state, upsertedItem, 'appointmentId');
     }
     case FETCH_APPOINTMENTS.SUCCESS: {
-      return reducerMerge(state, action.response.appointments);
+      return reducerMerge(state, action.response.appointments, 'appointmentId');
     }
     case DELETE_APPOINTMENT_FROM_PAST.SUCCESS:
     case DELETE_APPOINTMENT.SUCCESS: {
       let response = selectn('response.payload', action);
-      return state.filter(x => x.id !== response.appointmentId);
+      return state.filter(x => x.appointmentId !== response.appointmentId);
     }
     default:
       return state;
@@ -45,11 +45,10 @@ export default (state = [], action = {}) => {
 
 export function scheduleAppointment(data) {
   moment.locale('en');
-  const startTime = getISODateTime(data.date, data.startTime);
-  const endTime = getISODateTime(data.date, data.endTime);
+  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
+  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
   const formattedData = {
     ...data,
-    date: startTime,
     startTime,
     endTime,
     entityName: moment(data.date).format('YYYYMMDD')
@@ -70,8 +69,8 @@ export function scheduleAppointment(data) {
 
 export function updateAppointment(data) {
   moment.locale('en');
-  const startTime = getISODateTime(data.date, data.startTime);
-  const endTime = getISODateTime(data.date, data.endTime);
+  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
+  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
   const formattedData = {
     ...data,
     date: startTime,
@@ -94,6 +93,7 @@ export function updateAppointment(data) {
 }
 
 export function updateTaskViaDND(data) {
+  // debugger //eslint-disable-line
   const submitData = { ...data.orig, date: data.date, startTime: data.startTime, endTime: data.endTime };
   return updateAppointment(submitData);
 }

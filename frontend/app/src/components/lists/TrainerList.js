@@ -69,7 +69,7 @@ class TrainerList extends Component {
             columns={this.props.gridConfig.columns(this.props.archiveTrainer, this.props.loggedInUser)}
             dataSource={this.state.dataSource}
             pagination={false}
-            rowKey="id"
+            rowKey="trainerId"
             scroll={{y: '100%'}}
             size="small"
           />
