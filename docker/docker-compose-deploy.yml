@@ -57,6 +57,7 @@ services:
     env_file:
       - ./.env
     environment:
+      TZ: "America/Chicago"
       APPLICATION_NAME: data
 
   postgres:
