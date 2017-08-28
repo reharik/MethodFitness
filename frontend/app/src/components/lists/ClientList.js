@@ -85,7 +85,7 @@ class ClientList extends Component {
             columns={this.props.gridConfig.columns(this.props.archiveClient)}
             dataSource={this.state.dataSource}
             pagination={false}
-            rowKey="id"
+            rowKey="clientId"
             scroll={{y: '100%'}}
             size="small"
           />

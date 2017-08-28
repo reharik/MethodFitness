@@ -89,7 +89,7 @@ const webpackConfig = {
       //   include: [path.resolve(__dirname, 'src/css')],
       //   loader: 'style!css-loader?sourceMap=1&modules&importLoaders=1&localIdentName=[local]!postcss-loader'
       // },
-      {
+      {func
         test: /\.json$/, include: [path.resolve(__dirname), 'src'],
         loader: "json-loader"
       },

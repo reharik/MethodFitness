@@ -24,25 +24,29 @@ export function generateAllTimes(inc, start, end) {
   return iterateTimes(inc, 'AM', start).concat(iterateTimes(inc, 'PM', 1, end));
 }
 
-const convertoHoursAndMin = (time) => {
+const convertToHoursAndMin = (time) => {
   let hour = parseInt(time.substring(0, time.indexOf(':')));
   let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
   let A = time.substring(time.indexOf(' ') + 1);
-  hour = A === 'AM' ? hour : hour + 12;
+  hour = A === 'AM' || hour === 12 ? hour : hour + 12;
   return {hour, min, A};
 };
 
-export function getISODateTime(date, time) {
+export function buildMomentFromDateAndTime(date, time) {
   moment.locale('en');
   if (!date || !time) {
     return undefined;
   }
-  date = moment(date);
-  let _date = date.isUTC()
-    ? moment(date).local().add(Math.abs(moment(date).local().utcOffset()), 'minutes')
-    : moment(date);
-  let hourMin = convertoHoursAndMin(time);
-  return _date.hour(hourMin.hour).minute(hourMin.min).toISOString();
+  let normalizedTime = time;
+  if(moment.isMoment(time)) {
+    normalizedTime = time.format('HH:mm A');
+  } else if (time.length > 8) {
+    normalizedTime = moment(time).format('HH:mm A');
+  }
+
+  let hourMin = convertToHoursAndMin(normalizedTime);
+
+  return moment(date).hour(hourMin.hour).minute(hourMin.min);
 }
 
 export function syncApptTypeAndTime(apptType, startTime) {
@@ -56,4 +60,24 @@ export function syncApptTypeAndTime(apptType, startTime) {
     endTime = time.add(60, 'm');
   }
   return endTime.format('h:mm A');
+}
+
+export function curriedPermissionToSetAppointment(isAdmin) {
+  return (data) => permissionToSetAppointment(data, isAdmin);
+}
+
+export function permissionToSetAppointment({date, startTime}, isAdmin) {
+  const targetDate = moment(date);
+  const cutOffDateTime = moment();
+  const sameDay = (targetDate, cuttOffDateTime) => {
+    let target = moment.isMoment(startTime)
+      ? startTime
+      : buildMomentFromDateAndTime(targetDate, startTime);
+
+    return targetDate.isSame(cuttOffDateTime, 'day')
+      && target.isAfter(moment(cuttOffDateTime).add(2, 'hours'));
+  };
+  return isAdmin ||
+    targetDate.isAfter(cutOffDateTime, 'day')
+    || sameDay(targetDate, cutOffDateTime);
 }

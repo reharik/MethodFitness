@@ -44,7 +44,7 @@ const columns = [
 
 function mapStateToProps(state) {
   moment.locale('en');
-  let trainerPayment = state.trainerPayment.find(x => x.id === state.auth.user.id);
+  let trainerPayment = state.trainerPayment.find(x => x.trainerId === state.auth.user.trainerId);
   let dataSource = trainerPayment ? trainerPayment.payments
     .map(x => ({
       paymentId: x.paymentId,

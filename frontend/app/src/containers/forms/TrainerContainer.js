@@ -11,7 +11,7 @@ const { notifClear } = notifActions;
 const mapStateToProps = (state) => {
   const clients = state.clients
     .filter(x => !x.archived)
-    .map(x => ({ value: x.id, display: `${x.contact.lastName} ${x.contact.firstName}` }));
+    .map(x => ({ value: x.clientId, display: `${x.contact.lastName} ${x.contact.firstName}` }));
   let model = normalizeModel(state.schema.definitions.trainer);
   model.confirmPassword = { ...model.password };
   model.confirmPassword.name = 'confirmPassword';

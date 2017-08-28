@@ -33,7 +33,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
           password: createPassword('123123'),
           role: 'admin'
         },
-        id: uuid.v4()
+        trainerId: uuid.v4()
       },
       {
         birthDate: new Date('1/5/1972'),
@@ -56,7 +56,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
           password: createPassword('345345'),
           role: 'admin'
         },
-        id: uuid.v4()
+        trainerId: uuid.v4()
       },
       {
         birthDate: new Date('1/5/1972'),
@@ -79,7 +79,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
           password: createPassword('234234'),
           role: 'trainer'
         },
-        id: uuid.v4()
+        trainerId: uuid.v4()
       }],
 
     addTrainer: trainer => {

@@ -26,7 +26,7 @@ module.exports = function(eventRepository, logger, Trainer) {
 
     async function updateTrainerAddress(cmd, continuationId) {
       logger.info('calling updateTrainerAddress');
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.updateTrainerAddress(cmd);
 
       logger.info('saving trainer');
@@ -38,7 +38,7 @@ module.exports = function(eventRepository, logger, Trainer) {
 
     async function updateTrainerContact(cmd, continuationId) {
       logger.info('calling updateTrainerContact');
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.updateTrainerContact(cmd);
 
       logger.info('saving trainer');
@@ -50,7 +50,7 @@ module.exports = function(eventRepository, logger, Trainer) {
 
     async function updateTrainerPassword(cmd, continuationId) {
       logger.info('calling updateTrainerPassword');
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.updateTrainerPassword(cmd);
 
       logger.info('saving trainer');
@@ -63,7 +63,7 @@ module.exports = function(eventRepository, logger, Trainer) {
     async function updateTrainerInfo(cmd, continuationId) {
       logger.info('calling updateTrainerInfo');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.updateTrainerInfo(cmd);
 
       logger.info('saving trainer');
@@ -76,7 +76,7 @@ module.exports = function(eventRepository, logger, Trainer) {
     async function updateTrainersClients(cmd, continuationId) {
       logger.info('calling updateTrainersClients');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.updateTrainersClients(cmd);
 
       logger.info('saving trainer');
@@ -89,7 +89,7 @@ module.exports = function(eventRepository, logger, Trainer) {
     async function updateTrainersClientRates(cmd, continuationId) {
       logger.info('calling updateTrainersClientRates');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.updateTrainersClientRates(cmd);
 
       logger.info('saving trainer');
@@ -102,7 +102,7 @@ module.exports = function(eventRepository, logger, Trainer) {
     async function archiveTrainer(cmd, continuationId) {
       logger.info('calling archiveTrainer');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.archiveTrainer(cmd);
 
       logger.info('saving trainer');
@@ -115,7 +115,7 @@ module.exports = function(eventRepository, logger, Trainer) {
     async function unArchiveTrainer(cmd, continuationId) {
       logger.info('calling unArchiveTrainer');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.id);
+      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
       trainer.unArchiveTrainer(cmd);
 
       logger.info('saving trainer');

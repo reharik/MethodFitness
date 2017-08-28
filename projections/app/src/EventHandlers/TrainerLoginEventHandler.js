@@ -10,11 +10,11 @@ module.exports = function(rsRepository, logger) {
     async function trainerLoggedIn(event) {
       let trainerLoggedIn = {
         userName: event.userName,
-        id: event.id,
+        trainerId: event.trainerId,
         token: event.token,
         date: event.date
       };
-      return await rsRepository.save('trainerLoggedIn', trainerLoggedIn);
+      return await rsRepository.save('trainerLoggedIn', trainerLoggedIn, trainerLoggedIn.trainerId);
     }
     return {
       handlerName: 'TrainerLoggedInEventHandler',

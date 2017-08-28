@@ -1,6 +1,6 @@
 module.exports = function(invariant) {
   return function({
-                    id,
+                    trainerId,
                     address
                   }) {
     const {
@@ -10,10 +10,10 @@ module.exports = function(invariant) {
       state,
       zipCode
     } = address;
-    invariant(id, 'trainerAddressUpdated requires that you pass the trainers id');
+    invariant(trainerId, 'trainerAddressUpdated requires that you pass the trainers id');
     return {
       eventName: 'trainerAddressUpdated',
-      id,
+      trainerId,
       address: {
         street1,
         street2,

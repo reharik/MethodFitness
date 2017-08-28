@@ -25,16 +25,16 @@ export default (state = [], action = {}) => {
       return state;
     }
     case TRAINER.SUCCESS: {
-      return reducerMerge(state, action.response);
+      return reducerMerge(state, action.response, 'trainerId');
     }
     case TRAINER_LIST.SUCCESS: {
-      return reducerMerge(state, action.response.trainers);
+      return reducerMerge(state, action.response.trainers, 'trainerId');
     }
     case HIRE_TRAINER.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
-      insertedItem.id = selectn('payload.result.handlerResult.trainerId', action);
+      insertedItem.trainerId = selectn('payload.result.handlerResult.trainerId', action);
 
-      return insertedItem.id ? [...state, insertedItem] : state;
+      return insertedItem.trainerId ? [...state, insertedItem] : state;
     }
     case UPDATE_TRAINER_INFO.FAILURE:
     case HIRE_TRAINER.FAILURE: {
@@ -43,7 +43,7 @@ export default (state = [], action = {}) => {
     case ARCHIVE_TRAINER.SUCCESS: {
       let update = selectn('action.update', action);
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.trainerId === update.trainerId) {
           return {
             ...x,
             archived: !x.archived
@@ -56,7 +56,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.trainerId === update.trainerId) {
           return {
             ...x,
             color: update.color,
@@ -76,7 +76,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.trainerId === update.trainerId) {
           return {
             ...x,
             contact: {
@@ -97,7 +97,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.trainerId === update.trainerId) {
           return {
             ...x,
             contact: {
@@ -121,7 +121,7 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
 
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.trainerId === update.trainerId) {
           return { ...x, clients: update.clients };
         }
         return x;
@@ -131,7 +131,7 @@ export default (state = [], action = {}) => {
     case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
       let update = selectn('action.update', action);
       return state.map(x => {
-        if (x.id === update.id) {
+        if (x.trainerId === update.trainerId) {
           return { ...x, trainerClientRates: update.clientRates };
         }
         return x;
@@ -146,7 +146,7 @@ export default (state = [], action = {}) => {
 
 export function updateTrainerInfo(data) {
   const item = {
-    id: data.id,
+    trainerId: data.trainerId,
     birthDate: data.birthDate,
     color: data.color
   };
@@ -167,7 +167,7 @@ export function updateTrainerInfo(data) {
 
 export function updateTrainerPassword(data) {
   const item = {
-    id: data.id,
+    trainerId: data.trainerId,
     password: data.password
   };
   return {
@@ -185,7 +185,7 @@ export function updateTrainerPassword(data) {
 
 export function updateTrainerContact(data) {
   const item = {
-    id: data.id,
+    trainerId: data.trainerId,
     secondaryPhone: data.secondaryPhone,
     mobilePhone: data.mobilePhone,
     email: data.email,
@@ -208,7 +208,7 @@ export function updateTrainerContact(data) {
 
 export function updateTrainerAddress(data) {
   const item = {
-    id: data.id,
+    trainerId: data.trainerId,
     street1: data.street1,
     street2: data.street2,
     city: data.city,
@@ -231,7 +231,7 @@ export function updateTrainerAddress(data) {
 
 export function updateTrainersClientRate(data) {
   const item = {
-    id: data.id,
+    trainerId: data.trainerId,
     clientRates: data.clientRates
   };
 
@@ -251,7 +251,7 @@ export function updateTrainersClientRate(data) {
 
 export function updateTrainersClients(data) {
   const item = {
-    id: data.id,
+    trainerId: data.trainerId,
     clients: data.clients
   };
 
@@ -308,8 +308,8 @@ export function archiveTrainer(data) {
   };
 }
 
-export function fetchTrainerAction(id) {
-  let apiUrl = config.apiBase + 'trainer/getTrainer/' + id;
+export function fetchTrainerAction(trainerId) {
+  let apiUrl = config.apiBase + 'trainer/getTrainer/' + trainerId;
   return {
     type: TRAINER.REQUEST,
     states: TRAINER,

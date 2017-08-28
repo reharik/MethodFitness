@@ -4,9 +4,9 @@
 
 
 module.exports = function(invariant) {
-  return function(id, userName) {
-    invariant(id, 'loginTrainer requires that you pass the trainers Id');
+  return function(trainerId, userName) {
+    invariant(trainerId, 'loginTrainer requires that you pass the trainers Id');
     invariant(userName, 'loginTrainer requires that you pass the trainers userName');
-    return { id, userName };
+    return { trainerId, userName };
   };
 };

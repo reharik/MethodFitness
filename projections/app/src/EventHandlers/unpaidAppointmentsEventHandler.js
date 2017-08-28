@@ -27,7 +27,7 @@ module.exports = function(unpaidAppointmentsPersistence,
       logger.info('handling trainersClientRatesUpdated event in trainerPaymentDetailsEventHandler');
       event.clientRates.forEach(x => state.updateTRC({
         trainerId: event.trainerId,
-        clientId: x.id,
+        clientId: x.clientId,
         rate: x.rate
       }));
 
@@ -97,15 +97,15 @@ module.exports = function(unpaidAppointmentsPersistence,
       delete subEvent.notes;
       delete subEvent.entityName;
       state.innerState.appointments = state.innerState.appointments.map(x =>
-        x.id === subEvent.id
+        x.appointmentId === subEvent.appointmentId
           ? subEvent
           : x);
       state.innerState.unpaidAppointments = state.innerState.unpaidAppointments.map(x =>
-        x.id === subEvent.id
+        x.appointmentId === subEvent.appointmentId
           ? subEvent
           : x);
       state.innerState.unfundedAppointments = state.innerState.unfundedAppointments.map(x =>
-        x.id === subEvent.id
+        x.appointmentId === subEvent.appointmentId
           ? subEvent
           : x);
       await persistence.saveState(state, event.trainerId);

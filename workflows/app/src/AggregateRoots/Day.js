@@ -14,7 +14,7 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
       let item = this.appointments.find(
         x => x.startTime === startTime && x.endTime === endTime && x.trainerId === trainerId
       );
-      return item ? item.id : undefined;
+      return item ? item.appointmentId : undefined;
     }
 
     commandHandlers() {
@@ -78,7 +78,7 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
           this._id = event.entityName;
         }
         this.appointments.push({
-          id: event.id,
+          appointmentId: event.appointmentId,
           appointmentType: event.appointmentType,
           startTime: event.startTime,
           endTime: event.endTime,
@@ -89,7 +89,7 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
 
       const appointmentUpdated = function(event) {
         this.appointments.forEach(x => {
-          if (x.id === event.id) {
+          if (x.appointmentId === event.appointmentId) {
             x.appointmentType = event.appointmentType;
             x.startTime = event.startTime;
             x.endTime = event.endTime;
@@ -100,11 +100,11 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
       }.bind(this);
 
       const _appointmentCanceled = function(event) {
-        this.appointments = this.appointments.filter(x => x.id !== event.id);
+        this.appointments = this.appointments.filter(x => x.appointmentId !== event.appointmentId);
       }.bind(this);
 
       const _pastAppointmentRemoved = function(event) {
-        this.appointments = this.appointments.filter(x => x.id !== event.id);
+        this.appointments = this.appointments.filter(x => x.appointmentId !== event.appointmentId);
       }.bind(this);
 
       return {
@@ -187,16 +187,18 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
       let trainerConflict = this.appointments
         .filter(
           x =>
-          (x.id &&
-          x.id !== cmd.appointmentId &&
+          (x.appointmentId &&
+          x.appointmentId !== cmd.appointmentId &&
           moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
-          (x.id && x.id !== cmd.appointmentId && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')),
+          (x.appointmentId
+            && x.appointmentId !== cmd.appointmentId
+            && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')),
           '[]'
         )
         .filter(x => x.trainerId === cmd.trainerId);
       invariant(
         trainerConflict.length <= 0,
-        `New Appointment conflicts with this Appointment: ${trainerConflict[0] && trainerConflict[0].id} 
+        `New Appointment conflicts with this Appointment: ${trainerConflict[0] && trainerConflict[0].appointmentId} 
                 for this trainerId: ${cmd.trainerId}.`
       );
     }
@@ -205,17 +207,17 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
       let clientConflicts = this.appointments
         .filter(
           x =>
-          (x.id &&
-          x.id !== cmd.appointmentId &&
+          (x.appointmentId &&
+          x.appointmentId !== cmd.appointmentId &&
           moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
-          (x.id &&
-          x.id !== cmd.appointmentId &&
+          (x.appointmentId &&
+          x.appointmentId !== cmd.appointmentId &&
           moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]'))
         )
-        .filter(x => x.clients.includes(c => cmd.clients.includes(c2 => c.id === c2.id)));
+        .filter(x => x.clients.includes(c => cmd.clients.includes(c2 => c.clientId === c2.clientId)));
       invariant(
         clientConflicts.length <= 0,
-        `New Appointment conflicts with this Appointment: ${clientConflicts[0] && clientConflicts[0].id} 
+        `New Appointment conflicts with this Appointment: ${clientConflicts[0] && clientConflicts[0].clientId}
                 for at least one client.`
       );
     }

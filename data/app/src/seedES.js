@@ -33,21 +33,21 @@ console.log('==========END config=========');
       }
 
       const addClientsToTrainer1 = {
-        id: loadTrainers.trainers[0].id,
+        trainerId: loadTrainers.trainers[0].trainerId,
         clients: [
-          loadClients.clients[0].id,
-          loadClients.clients[1].id,
-          loadClients.clients[2].id]
+          loadClients.clients[0].clientId,
+          loadClients.clients[1].clientId,
+          loadClients.clients[2].clientId]
       };
 
       await processCommands(addClientsToTrainer1, 'updateTrainersClients');
 
       const addClientsToTrainer2 = {
-        id: loadTrainers.trainers[2].id,
+        trainerId: loadTrainers.trainers[2].trainerId,
         clients: [
-          loadClients.clients[0].id,
-          loadClients.clients[1].id,
-          loadClients.clients[2].id]
+          loadClients.clients[0].clientId,
+          loadClients.clients[1].clientId,
+          loadClients.clients[2].clientId]
       };
 
       await processCommands(addClientsToTrainer2, 'updateTrainersClients');

@@ -48,7 +48,7 @@ function mapStateToProps(state) {
   const isAdmin = state.auth.user.role === 'admin';
 
   let dataSource = state.clients
-    .filter(x => isAdmin || state.auth.user.clients.includes(x.id))
+    .filter(x => isAdmin || state.auth.user.clients.includes(x.clientId))
     .sort(sortBy('contact.lastName'));
 
   const gridConfig = {

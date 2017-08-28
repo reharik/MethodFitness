@@ -19,7 +19,7 @@ const TrainerPaymentList = ({ gridConfig }) => {
         <Table
           {...gridConfig}
           pagination={false}
-          rowKey="id"
+          rowKey="paymentId"
           scroll={{ y: '100%' }}
           size="small"
         />

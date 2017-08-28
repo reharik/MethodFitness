@@ -11,7 +11,6 @@ const TrainerClientsInner = ({model,
                                editing,
                               clients
                              }) => {
-
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields((err, values) => {
@@ -26,7 +25,7 @@ const TrainerClientsInner = ({model,
   return (
     <Card title={`Trainer's Clients`}>
       <Form onSubmit={handleSubmit} layout={'vertical'}>
-        <EditableFor form={form} data={model.id} hidden={true} />
+        <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
           <EditableFor
             editing={editing}

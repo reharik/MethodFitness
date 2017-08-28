@@ -38,7 +38,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
   };
 
   let fetchPurchase = async function(ctx) {
-    let _purchase = await rsRepository.getById(ctx.params.id, 'purchase');
+    let _purchase = await rsRepository.getById(ctx.params.purchaseId, 'purchase');
 
     ctx.status = 200;
     ctx.body = _purchase;

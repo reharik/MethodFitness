@@ -8,7 +8,7 @@ export default (size) => {
       return () => [
         {
           render: (column, row) => {
-            return cellLink('trainer')(column, row);
+            return cellLink('trainer')(column, row, 'trainerId');
           },
           dataIndex: 'contact.lastName',
           title: 'Last Name',
@@ -22,7 +22,7 @@ export default (size) => {
         },
         {
           render: ( value, row ) => { // eslint-disable-line no-unused-vars
-            return cellLink(`payTrainer`)( '$$$', row );
+            return cellLink(`payTrainer`)( '$$$', row, 'trainerId' );
           },
           title: '$',
           width: '10%'
@@ -33,7 +33,7 @@ export default (size) => {
       return (archiveTrainer, loggedInUser) => [
         {
           render: (column, row) => {
-            return cellLink('trainer')(column, row);
+            return cellLink('trainer', 'trainerId')(column, row);
           },
           dataIndex: 'contact.lastName',
           title: 'Last Name',
@@ -58,7 +58,7 @@ export default (size) => {
         },
         {
           render: (column, row) => {
-            return archiveLink(archiveTrainer, loggedInUser)(column, row);
+            return archiveLink(archiveTrainer, loggedInUser, 'trainerId')(column, row);
           },
           dataIndex: 'archived',
           title: 'Archived',
@@ -66,7 +66,7 @@ export default (size) => {
         },
         {
           render: ( value, row ) => { // eslint-disable-line no-unused-vars
-            return cellLink(`payTrainer`)( '$$$', row );
+            return cellLink(`payTrainer`, 'trainerId')( '$$$', row );
           },
           title: '$',
           width: '10%'

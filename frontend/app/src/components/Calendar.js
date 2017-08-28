@@ -4,6 +4,7 @@ import ContentHeader from './ContentHeader';
 import AppointmentModal from './AppointmentModal';
 import { Calendar } from 'redux-task-calendar';
 import ToggleTrainerListForCalendarContainer from './../containers/ToggleTrainerListContainer';
+import { permissionToSetAppointment } from './../utilities/appointmentTimes';
 import { Row, Col } from 'antd';
 import moment from 'moment';
 import Breakjs from 'breakjs';
@@ -26,7 +27,6 @@ class MFCalendar extends Component {
   componentWillMount() {
     this.props.fetchClientsAction();
     this.props.fetchTrainersAction();
-
     this.config = {
       ...this.props.config,
       retrieveDataAction: this.props.retrieveDataAction,
@@ -50,7 +50,7 @@ class MFCalendar extends Component {
 
   copyAppointment = args => {
     let apptArgs = {
-      apptId: args.apptId,
+      appointmentId: args.appointmentId,
       isCopy: true
     };
     this.setState({
@@ -61,7 +61,7 @@ class MFCalendar extends Component {
 
   editAppointment = args => {
     let apptArgs = {
-      apptId: args.apptId,
+      appointmentId: args.appointmentId,
       isEdit: true
     };
     this.setState({
@@ -70,30 +70,23 @@ class MFCalendar extends Component {
     });
   };
 
-  taskClickedEvent = (id, task, calendarName) => {
-    let apptArgs = {apptId: id, task, calendarName};
+  taskClickedEvent = (appointmentId, task, calendarName) => {
+    let apptArgs = {appointmentId, task, calendarName};
     this.setState({
       isOpen: true,
       apptArgs
     });
   };
 
-  permissionToSetAppointment(task) { //, isAdmin) {
-    // return isAdmin || // waiting to I finish past appointment editing
-    return (moment(task.day).isAfter(moment(), 'day') ||
-      (moment(task.day).isSame(moment(), 'day') && moment(task.startTime, 'h:mm A').isAfter(moment().utc().subtract(2, 'hours'))));
-  }
-
   openSpaceClickedEvent = (task, calendarName) => {
-    if (!this.permissionToSetAppointment(task, this.props.isAdmin)) {
+    if (!permissionToSetAppointment({...task, date: task.day}, this.props.isAdmin)) {
       warning({
         title: `You can not set an appointment in the past`,
         okText: 'OK'
       });
       return;
     }
-
-    const formattedTime = moment(task.startTime).format('hh:mm A');
+    const formattedTime = moment(task.startTime).local().format('hh:mm A');
     let apptArgs = {day: task.day, startTime: formattedTime, calendarName};
     this.setState({
       isOpen: true,

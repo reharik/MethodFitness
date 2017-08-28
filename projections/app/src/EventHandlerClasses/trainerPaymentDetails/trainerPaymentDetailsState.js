@@ -10,14 +10,14 @@ module.exports = function(moment, invariant) {
     };
 
     const addTRC = (trainerId, item) => {
-      let trainer = innerState.trainers.find(x => x.id === trainerId);
+      let trainer = innerState.trainers.find(x => x.trainerId === trainerId);
       invariant(trainer, `Unable to find trainer with ID: ${trainerId}`);
       trainer.TCRS.push(item);
     };
 
     const updateTCR = item => {
       innerState.trainers = innerState.trainers.map(x => {
-        if (x.id === item.trainerId) {
+        if (x.trainerId === item.trainerId) {
           x.TCRS.map(c => c.clientId === item.clientId ? Object.assign(c, {rate: item.rate}) : c);
           return x;
         }
@@ -27,7 +27,7 @@ module.exports = function(moment, invariant) {
 
     const removeTCR = item => {
       innerState.trainers = innerState.trainers.map(x => {
-        if (x.id === item.trainerId) {
+        if (x.trainerId === item.trainerId) {
           x.TCRS.filter(c => c.clientId !== item.clientId);
           return x;
         }
@@ -41,14 +41,14 @@ module.exports = function(moment, invariant) {
 
     const cleanUp = () => {
       innerState.paidAppointments.forEach(x => {
-        let appointment = innerState.appointments.find(a => a.id === x.appointmentId);
+        let appointment = innerState.appointments.find(a => a.appointmentId === x.appointmentId);
         // remove appointment
         if (appointment.appointmentType !== 'pair' || appointment.clients.length === 1) {
-          innerState.appointments = innerState.appointments.filter(a => a.id !== appointment.id);
+          innerState.appointments = innerState.appointments.filter(a => a.appointmentId !== appointment.id);
         }
         // remove paid client from pair
         if (appointment.appointmentType === 'pair') {
-          appointment.clients = appointment.clients.filter(c => c.id !== x.clientId);
+          appointment.clients = appointment.clients.filter(c => c.clientId !== x.clientId);
         }
         innerState.sessions = innerState.sessions.filter(s => s.sessionId !== x.sessionId);
       });
@@ -70,24 +70,24 @@ module.exports = function(moment, invariant) {
     };
 
     const createPaidAppointment = item => {
-      let appointment = innerState.appointments.find(x => x.id === item.appointmentId);
+      let appointment = innerState.appointments.find(x => x.appointmentId === item.appointmentId);
       let session = innerState.sessions.find(s => s.sessionId === item.sessionId);
 
-      let client = innerState.clients.find(c => c.id === session.clientId);
+      let client = innerState.clients.find(c => c.clientId === session.clientId);
 
-      let trainer = innerState.trainers.find(x => x.id === appointment.trainerId);
+      let trainer = innerState.trainers.find(x => x.trainerId === appointment.trainerId);
 
-      let TCR = trainer.TCRS.find(tcr => tcr.clientId === client.id);
+      let TCR = trainer.TCRS.find(tcr => tcr.clientId === client.clientId);
       let TR = 0;
       if (session && TCR) {
         TR = session.purchasePrice * (TCR.rate * .01);
       }
 
       return {
-        trainerId: trainer.id,
-        clientId: client.id,
+        trainerId: trainer.trainerId,
+        clientId: client.clientId,
         clientName: `${client.firstName} ${client.lastName}`,
-        appointmentId: appointment.id,
+        appointmentId: appointment.appointmentId,
         appointmentDate: appointment.date,
         appointmentStartTime: appointment.startTime,
         appointmentType: appointment.appointmentType,

@@ -52,7 +52,7 @@ function mapStateToProps(state) {
   };
   return {
     gridConfig,
-    loggedInUser: state.auth.user.id
+    loggedInUser: state.auth.user.trainerId
   };
 }
 

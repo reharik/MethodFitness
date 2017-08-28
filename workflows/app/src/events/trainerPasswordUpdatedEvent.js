@@ -1,10 +1,10 @@
 module.exports = function(invariant) {
-  return function({ id, credentials }) {
+  return function({ trainerId, credentials }) {
     const { password, role } = credentials;
-    invariant(id, 'trainerPasswordUpdated requires that you pass the trainers id');
+    invariant(trainerId, 'trainerPasswordUpdated requires that you pass the trainers id');
     return {
       eventName: 'trainerPasswordUpdated',
-      id,
+      trainerId,
       credentials: {
         password,
         role

@@ -1,13 +1,13 @@
 module.exports = function(invariant) {
   return function({
-                     id,
+                    clientId,
                      source,
                      sourceNotes,
                      startDate
                    }) {
-    invariant(id, 'updateClientSource requires that you pass the clients id');
+    invariant(clientId, 'updateClientSource requires that you pass the clients id');
     return {
-      id,
+      clientId,
       source,
       sourceNotes,
       startDate

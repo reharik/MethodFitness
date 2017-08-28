@@ -1,4 +1,9 @@
-module.exports = function(rsRepository, eventstore, moment, uuid, commands, logger) {
+module.exports = function(rsRepository,
+                          eventstore,
+                          moment,
+                          uuid,
+                          commands,
+                          logger) {
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
 
@@ -11,6 +16,9 @@ module.exports = function(rsRepository, eventstore, moment, uuid, commands, logg
     let _commands = [];
 
     appointments.filter(x => {
+      console.log(`==========moment().toString()=========`);
+      console.log(moment(moment().subtract(5, 'hours').format('L')).toString());
+      console.log(`==========END moment().toString()=========`);
       const before = moment(x.endTime).isBefore(moment(), 'minute');
       const notCompleted = !x.completed;
       return before && notCompleted;
@@ -18,7 +26,7 @@ module.exports = function(rsRepository, eventstore, moment, uuid, commands, logg
       x.clients.forEach(y =>
         _commands.push(commands.clientAttendsAppointmentCommand({
           clientId: y,
-          appointmentId: x.id,
+          appointmentId: x.appointmentId,
           appointmentType: x.appointmentType
         })))
     );

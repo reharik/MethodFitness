@@ -29,8 +29,8 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
       let sessionsPurchased = {};
       if (purchase) {
         sessionsPurchased = await rsRepository.getById(purchase.clientId, 'sessionsPurchased');
-        if (!sessionsPurchased.id) {
-          sessionsPurchased = {id: purchase.clientId, purchases: []};
+        if (!sessionsPurchased.clientId) {
+          sessionsPurchased = {clientId: purchase.clientId, purchases: []};
         }
         //remove the specific purchase and then re-add the newly amended one
         sessionsPurchased.purchases = sessionsPurchased.purchases.filter(x => x.purchaseId !== purchase.purchaseId);
@@ -40,7 +40,8 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
       return await rsRepository.saveAggregateView(
         'sessionsPurchased',
         state.innerState,
-        sessionsPurchased);
+        sessionsPurchased,
+      'clientId');
     }
     // beginning to try and reconcile a past appointment update. not done obviously
     // async function saveUpdatedAppointment(state, appointmentId) {

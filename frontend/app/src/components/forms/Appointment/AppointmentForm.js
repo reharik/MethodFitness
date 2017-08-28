@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { syncApptTypeAndTime, getISODateTime } from '../../../utilities/appointmentTimes';
+import { syncApptTypeAndTime,
+  buildMomentFromDateAndTime,
+  permissionToSetAppointment } from '../../../utilities/appointmentTimes';
 import DisplayFor from '../../formElements/DisplayFor';
 import HiddenFor from '../../formElements/HiddenFor';
 import EditableFor from '../../formElements/EditableFor';
@@ -27,21 +29,30 @@ class AppointmentForm extends Component {
     }
   };
 
+  validateSave = (data) => {
+    return {success: permissionToSetAppointment(data, this.props.isAdmin) };
+  };
+
   onSubmitHandler = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.color = this.props.trainers.find(x => x.value === values.trainerId).color;
-        if(!values.trainerId) {
-          values.trainerId = this.props.trainerId;
-        }
-        if (values.id) {
-          this.props.updateAppointment(values);
+        const secondVal = this.validateSave(values);
+        if (secondVal.success) {
+          values.color = this.props.trainers.find(x => x.value === values.trainerId).color;
+          if (!values.trainerId) {
+            values.trainerId = this.props.trainerId;
+          }
+          if (values.appointmentId) {
+            this.props.updateAppointment(values);
+          } else {
+            this.props.scheduleAppointment(values);
+          }
+          this.props.onCancel();
+          console.log('Received values of form: ', values);
         } else {
-          this.props.scheduleAppointment(values);
+          // throw an alert up
         }
-        this.props.onCancel();
-        console.log('Received values of form: ', values);
       }
     });
   };
@@ -73,25 +84,25 @@ class AppointmentForm extends Component {
   };
 
   deleteHandler = () => {
-    const id = this.props.form.getFieldValue('id');
+    const appointmentId = this.props.form.getFieldValue('appointmentId');
     const date = this.props.form.getFieldValue('date');
     const startTime = this.props.form.getFieldValue('startTime');
     const clients = this.props.form.getFieldValue('clients');
-    if (moment(getISODateTime(date, startTime)).local().isBefore(moment().local())) {
-      this.props.deleteAppointmentFromPast(id, date, clients);
+    if (buildMomentFromDateAndTime(date, startTime).isBefore(moment().local())) {
+      this.props.deleteAppointmentFromPast(appointmentId, date, clients);
     } else {
-      this.props.deleteAppointment(id, date);
+      this.props.deleteAppointment(appointmentId, date);
     }
     this.props.onCancel();
   };
 
   copyHandler = () => {
-    const apptId = this.props.form.getFieldValue('id');
-    this.props.onCopy({apptId});
+    const appointmentId = this.props.form.getFieldValue('appointmentId');
+    this.props.onCopy({appointmentId});
   };
 
   editHandler = () => {
-    const apptId = this.props.form.getFieldValue('id');
+    const apptId = this.props.form.getFieldValue('appointmentId');
     this.props.onEdit({apptId});
   };
 
@@ -102,11 +113,14 @@ class AppointmentForm extends Component {
     };
     const model = this.props.model;
     const form = this.props.form;
+    console.log(`==========model.clients=========`);
+    console.log(model.clients);
+    console.log(`==========END model.clients=========`);
     return (
       <Card title={this.props.title}>
         <Form onSubmit={this.onSubmitHandler} layout="horizontal">
           <Row type="flex">
-            <HiddenFor form={form} data={model.id} />
+            <HiddenFor form={form} data={model.appointmentId} />
           </Row>
           <Row type="flex">
             {this.props.isAdmin

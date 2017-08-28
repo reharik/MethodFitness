@@ -26,7 +26,7 @@ const ClientSourceInner = ({model,
   return (
     <Card title={'Source Info'}>
       <Form onSubmit={handleSubmit}>
-        <EditableFor form={form} data={model.id} hidden={true} />
+        <EditableFor form={form} data={model.clientId} hidden={true} />
         <Row type="flex">
           <EditableFor
             editing={editing}

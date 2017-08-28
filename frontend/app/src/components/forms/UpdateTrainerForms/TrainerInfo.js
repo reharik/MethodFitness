@@ -25,11 +25,10 @@ const TrainerInfoInner = ({model,
   return (
     <Card title={'Trainer Info'} style={{overflow: 'visible'}} >
       <Form onSubmit={handleSubmit} layout={'vertical'} >
-        <EditableFor form={form} data={model.id} hidden={true} />
+        <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.birthDate} />
           <EditableFor editing={editing} form={form} data={model.color} />
-          <EditableFor editing={editing} form={form} data={model.firstName} />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />
       </Form>

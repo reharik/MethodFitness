@@ -69,11 +69,11 @@ export function refundSessions(data) {
   };
 }
 
-export function getPurchases(id) {
+export function getPurchases(purchaseId) {
   return {
     type: GET_PURCHASES.REQUEST,
     states: GET_PURCHASES,
-    url: `${config.apiBase}purchaselist/fetchpurchases/${id}`,
+    url: `${config.apiBase}purchaselist/fetchpurchases/${purchaseId}`,
     params: {
       method: 'GET',
       credentials: 'include'

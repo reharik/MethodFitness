@@ -1,5 +1,5 @@
 module.exports = function(invariant) {
-  return function({id,
+  return function({clientId,
                     source,
                     startDate,
                     sourceNotes,
@@ -32,7 +32,7 @@ module.exports = function(invariant) {
 
     return {
       eventName: 'clientAdded',
-      id,
+      clientId,
       source,
       startDate,
       sourceNotes,

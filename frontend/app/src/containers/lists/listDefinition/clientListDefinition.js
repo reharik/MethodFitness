@@ -8,7 +8,7 @@ export default (size) => {
       return () => [
         {
           render: (value, row) => { // eslint-disable-line no-unused-vars
-            return cellLink('client')(value, row);
+            return cellLink('client', 'clientId')(value, row);
           },
           dataIndex: 'contact.lastName',
           title: 'Last Name',
@@ -21,7 +21,7 @@ export default (size) => {
         },
         {
           render: (value, row) => { // eslint-disable-line no-unused-vars
-            return cellLink(`purchases`)('$$$', row);
+            return cellLink(`purchases`, 'clientId')('$$$', row);
           },
           title: '$',
           width: '10%'
@@ -32,7 +32,7 @@ export default (size) => {
       return archiveClient => [
         {
           render: (value, row) => { // eslint-disable-line no-unused-vars
-            return cellLink('client')(value, row);
+            return cellLink('client', 'clientId')(value, row);
           },
           dataIndex: 'contact.lastName',
           title: 'Last Name',
@@ -56,7 +56,7 @@ export default (size) => {
         },
         {
           render: (value, row) => { // eslint-disable-line no-unused-vars
-            return archiveLink(archiveClient)(value, row);
+            return archiveLink(archiveClient, 'clientId')(value, row);
           },
           dataIndex: 'archived',
           title: 'Archived',
@@ -64,7 +64,7 @@ export default (size) => {
         },
         {
           render: (value, row) => { // eslint-disable-line no-unused-vars
-            return cellLink(`purchases`)('$$$', row);
+            return cellLink(`purchases`, 'clientId')('$$$', row);
           },
           title: '$',
           width: '10%'

@@ -1,6 +1,6 @@
 module.exports = function(invariant) {
-  return function({ id }) {
-    invariant(id, 'unArchiveTrainer requires that you pass the trainers id');
-    return { id };
+  return function({ trainerId }) {
+    invariant(trainerId, 'unArchiveTrainer requires that you pass the trainers id');
+    return { trainerId };
   };
 };

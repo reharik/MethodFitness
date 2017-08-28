@@ -16,7 +16,7 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
       return {
         addClient(cmd) {
           let cmdClone = Object.assign({}, cmd);
-          cmdClone.id = cmdClone.id || uuid.v4();
+          cmdClone.clientId = cmdClone.clientId || uuid.v4();
           this.raiseEvent(esEvents.clientAddedEvent(cmdClone));
         },
         updateClientInfo(cmd) {
@@ -51,7 +51,7 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
         },
         purchase(cmd) {
           let cmdClone = Object.assign({}, cmd);
-          cmdClone.id = cmdClone.id || uuid.v4();
+          cmdClone.purchaseId = cmdClone.purchaseId || uuid.v4();
           let sessions = this.generateSessions(cmdClone);
           let fundedAppointments = [];
           logger.debug(`unfundedAppointments: ${JSON.stringify(this.unfundedAppointments)}`);
@@ -75,7 +75,6 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
         clientAttendsAppointment(cmd) {
           let cmdClone = Object.assign({}, cmd);
           let event;
-          cmdClone.id = cmdClone.id || uuid.v4();
           const session = this.clientInventory.consumeSession(cmdClone);
           if (session) {
             cmdClone.sessionId = session.sessionId;
@@ -106,7 +105,7 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
     applyEventHandlers() {
       return {
         clientAdded: function(event) {
-          this._id = event.id;
+          this._id = event.clientId;
         }.bind(this),
 
         clientArchived: function() {
@@ -151,7 +150,7 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
         clientId: this._id,
         sessionId: uuid.v4(),
         appointmentType: type,
-        purchaseId: cmd.id,
+        purchaseId: cmd.purchaseId,
         purchasePrice,
         createdDate: cmd.createDate
       };

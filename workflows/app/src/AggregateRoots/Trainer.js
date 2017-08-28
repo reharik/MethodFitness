@@ -18,7 +18,7 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid) {
       return {
         hireTrainer(cmd) {
           let cmdClone = Object.assign({}, cmd);
-          cmdClone.id = cmdClone.id || uuid.v4();
+          cmdClone.trainerId = cmdClone.trainerId || uuid.v4();
           this.raiseEvent(esEvents.trainerHiredEvent(cmdClone));
         },
         updateTrainerInfo(cmd) {
@@ -82,7 +82,7 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid) {
           let cmdClone = Object.assign({}, cmd);
           this.expectNotArchived();
 
-          this.trainerClientRates.filter(x => cmdClone.clientRates.find(y => x.clientId === y.id).rate !== x.rate)
+          this.trainerClientRates.filter(x => cmdClone.clientRates.find(y => x.clientId === y.clientId).rate !== x.rate)
             .map(x => ({
               trainerId: this._id,
               clientId: x.clientId,
@@ -127,7 +127,7 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid) {
       return {
         trainerHired: function(event) {
           this._password = event.credentials.password;
-          this._id = event.id;
+          this._id = event.trainerId;
         }.bind(this),
 
         trainerPasswordUpdated: function(event) {

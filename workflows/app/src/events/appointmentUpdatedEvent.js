@@ -12,7 +12,7 @@ module.exports = function() {
                    }) {
     return {
       eventName: 'appointmentUpdated',
-      id: appointmentId,
+      appointmentId,
       appointmentType,
       date,
       startTime,

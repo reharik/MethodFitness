@@ -21,8 +21,8 @@ module.exports = function(rsRepository, trainerPaymentDetailsState, logger) {
       let trainerPayments = {};
       if (trainerId) {
         trainerPayments = await rsRepository.getById(trainerId, 'trainerPaymentDetails');
-        if (!trainerPayments.id) {
-          trainerPayments = {id: trainerId, payments: []};
+        if (!trainerPayments.trainerId) {
+          trainerPayments = {trainerId, payments: []};
         }
         trainerPayments.payments.push(payment);
       }
@@ -30,7 +30,8 @@ module.exports = function(rsRepository, trainerPaymentDetailsState, logger) {
       return await rsRepository.saveAggregateView(
         'trainerPaymentDetails',
         state.innerState,
-        trainerPayments);
+        trainerPayments,
+      'trainerId');
     }
 
     return {

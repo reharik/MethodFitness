@@ -96,17 +96,17 @@ module.exports = function(
   };
 
   let getTrainer = async function(ctx) {
-    const trainer = await rsRepository.getById(ctx.params.id, 'trainer');
+    const trainer = await rsRepository.getById(ctx.params.trainerId, 'trainer');
     ctx.status = 200;
     ctx.body = trainer;
   };
 
 
   let getTrainerClientRates = async function(ctx) {
-    const trainer = await rsRepository.getById(ctx.params.id, 'trainer');
+    const trainer = await rsRepository.getById(ctx.params.trainerId, 'trainer');
     ctx.status = 200;
     ctx.body = trainer.trainerClientRates
-      ? trainer.trainerClientRates.map(x => ({trainerId: trainer.id, clientId: x.clientId, rate: x.rate}))
+      ? trainer.trainerClientRates.map(x => ({trainerId: trainer.trainerId, clientId: x.clientId, rate: x.rate}))
       : [];
   };
 
