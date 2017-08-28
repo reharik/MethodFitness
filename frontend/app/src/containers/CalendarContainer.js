@@ -17,7 +17,8 @@ const mapStateToProps = function(state) {
     dayStartsAt: '5:00 AM',
     dayEndsAt: '11:30 PM',
     utcTime: true,
-    taskId: 'appointmentId'
+    taskId: 'appointmentId',
+    dayDisplayFormat: 'ddd MM/DD'
   };
 
   config.canUpdate = curriedPermissionToSetAppointment(isAdmin);
