@@ -15,7 +15,7 @@ module.exports = function(bcryptjs, rsRepository) {
 
   let getClientsForTrainer = async user => {
     let trainer = await rsRepository.query(
-      `select * from "trainer" where id = '${user.id}'`
+      `select * from "trainer" where id = '${user.trainerId}'`
     );
     return trainer[0] ? Object.assign({}, user, {clients: trainer[0].clients}) : user;
   };

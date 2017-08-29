@@ -14,7 +14,10 @@ module.exports = function(rsRepository, moment, logger) {
         contact: event.contact,
         birthDate: event.birthDate,
         color: event.color,
-        clients: event.clients
+        clients: event.clients,
+        account: {
+          role: event.credentials.role
+        }
       };
 
       return await rsRepository.save('trainer', trainer, trainer.trainerId);

@@ -6,8 +6,7 @@ module.exports = function(rsRepository,
                           logger) {
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
-
-    let date = moment().format('YYYY-MM-DD');
+    let date = moment().weekday(0).format('YYYY-MM-DD');
     let sql = `select * from appointment 
     where date<='${date}' and date>'${moment().subtract(1, 'month').format('YYYY-MM-DD')}';`;
     const appointments = await rsRepository.query(sql);
@@ -16,9 +15,6 @@ module.exports = function(rsRepository,
     let _commands = [];
 
     appointments.filter(x => {
-      console.log(`==========moment().toString()=========`);
-      console.log(moment(moment().subtract(5, 'hours').format('L')).toString());
-      console.log(`==========END moment().toString()=========`);
       const before = moment(x.endTime).isBefore(moment(), 'minute');
       const notCompleted = !x.completed;
       return before && notCompleted;

@@ -1,5 +1,6 @@
 module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
-  const seed = moment(moment().format('YYYYMMDD'));
+  const seed = moment(moment().weekday(-1 * moment().day()).format('YYYYMMDD'));
+  const seed2 = moment(moment().format('YYYYMMDD'));
 
   const trainer0 = loadTrainers.trainers[0];
   return {
@@ -36,6 +37,42 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         startTime: moment(seed).hour('8').minute('00').format(),
         endTime: moment(seed).hour('8').minute('30').format(),
         entityName: seed.format('YYYYMMDD'),
+        notes: 'hi mom',
+        trainerId: trainer0.trainerId,
+        color: trainer0.color
+      },
+      {
+        commandName: 'scheduleAppointment',
+        appointmentType: 'halfHour',
+        clients: [loadClients.clients[0].clientId],
+        date: seed2.toISOString(),
+        startTime: moment(seed2).hour('9').minute('00').format(),
+        endTime: moment(seed2).hour('9').minute('30').format(),
+        entityName: seed2.format('YYYYMMDD'),
+        notes: 'hi mom',
+        trainerId: trainer0.trainerId,
+        color: trainer0.color
+      },
+      {
+        commandName: 'scheduleAppointment',
+        appointmentType: 'halfHour',
+        clients: [loadClients.clients[2].clientId],
+        date: seed2.toISOString(),
+        startTime: moment(seed2).hour('7').minute('00').format(),
+        endTime: moment(seed2).hour('7').minute('30').format(),
+        entityName: seed2.format('YYYYMMDD'),
+        notes: 'hi mom',
+        trainerId: trainer0.trainerId,
+        color: trainer0.color
+      },
+      {
+        commandName: 'scheduleAppointment',
+        appointmentType: 'halfHour',
+        clients: [loadClients.clients[1].clientId],
+        date: seed2.toISOString(),
+        startTime: moment(seed2).hour('8').minute('00').format(),
+        endTime: moment(seed2).hour('8').minute('30').format(),
+        entityName: seed2.format('YYYYMMDD'),
         notes: 'hi mom',
         trainerId: trainer0.trainerId,
         color: trainer0.color

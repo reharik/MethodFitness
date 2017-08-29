@@ -22,6 +22,9 @@ const TrainerPasswordInner = ({model,
       }
     });
   };
+  console.log(`==========model.role=========`);
+  console.log(model.role);
+  console.log(`==========END model.role=========`);
 
   return (
     <Card title={'Trainer Password'}>
@@ -38,8 +41,7 @@ const TrainerPasswordInner = ({model,
             editing={editing}
             form={form}
             data={model.role}
-            selectOptions={roles}
-            noDisplay={true} />
+            selectOptions={roles} />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />
       </Form>
