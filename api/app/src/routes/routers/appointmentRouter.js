@@ -161,6 +161,34 @@ module.exports = function appointmentRouter(koarouter, controllers) {
     router.post('/appointment/updateappointment', controllers.appointmentController.updateAppointment);
     /**
      * @swagger
+     * /appointment/updateappointmentfrompast:
+     *   post:
+     *     x-name: /appointment/updateAppointmentfrompast
+     *     description: update Appointment from past
+     *     operationId: /appointment/updateAppointmentfrompast
+     *     parameters:
+     *       - name: body
+     *         in: body
+     *         required: true
+     *         schema:
+     *           $ref: "#/definitions/scheduleAppointment"
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *             $ref: "#/definitions/standardSuccessResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.post('/appointment/updateappointmentfrompast', controllers.appointmentController.updateAppointmentFromPast);
+    /**
+     * @swagger
      * /appointment/cancelappointment:
      *   post:
      *     x-name: /appointment/cancelAppointment

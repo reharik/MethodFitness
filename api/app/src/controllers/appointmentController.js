@@ -79,6 +79,59 @@ module.exports = function(
     }
   };
 
+  let getWhatChangedOnAppointment = (orig, update, clientSame) => {
+    let changes = {};
+    if (orig.appointmentType !== update.appointmentType) {
+      changes.appointmentType = true;
+    }
+    if (!clientSame) {
+      changes.clients = true;
+    }
+    if (orig.trainerId !== update.trainerId) {
+      changes.trainer = true;
+    }
+    return changes;
+  };
+
+  let updateAppointmentFromPast = async function(ctx) {
+    try {
+      logger.debug('arrived at appointment.updateAppointmentFromPast');
+      let body = ctx.request.body;
+      let notification;
+      let commandName = '';
+      const appointment = await rsRepository.getById(body.appointmentId, 'appointment');
+      let clientsSame = appointment.clients.length === body.clients.length
+       && body.clients.every(x => !!appointment.clients.find(y => x === y));
+
+      if (
+        moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD') ||
+        !moment(appointment.startTime).isSame(moment(body.startTime))
+      ) {
+        commandName += 'rescheduleAppointmentFromPast';
+        body.originalEntityName = appointment.entityName;
+      } else if (
+        appointment.appointmentType !== body.appointmentType ||
+        !clientsSame ||
+        appointment.trainerId !== body.trainerId ||
+        appointment.notes !== body.notes
+      ) {
+        commandName += 'updateAppointmentFromPast';
+      } else {
+        throw new Error('UpdateAppointmentFromPast called but no change in appointment');
+      }
+      body.commandName = commandName;
+      body.changes = getWhatChangedOnAppointment(appointment, body, clientsSame);
+      notification = await processMessage(body, 'scheduleAppointmentFactory', commandName);
+      const result = await notificationParser(notification);
+
+      ctx.body = result.body;
+      ctx.status = result.status;
+    } catch (ex) {
+      ctx.body = { success: false, error: ex.message };
+      ctx.status = 500;
+    }
+  };
+
   let cancelAppointment = async function(ctx) {
     logger.debug('arrived at appointment.cancelAppointment');
     let body = ctx.request.body;
@@ -121,6 +174,7 @@ module.exports = function(
     cancelAppointment,
     fetchAppointment,
     fetchAppointments,
-    removeAppointmentFromPast
+    removeAppointmentFromPast,
+    updateAppointmentFromPast
   };
 };

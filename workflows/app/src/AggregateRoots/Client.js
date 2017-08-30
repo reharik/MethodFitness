@@ -76,8 +76,10 @@ module.exports = function(AggregateRootBase, ClientInventory, esEvents, invarian
           let cmdClone = Object.assign({}, cmd);
           let event;
           const session = this.clientInventory.consumeSession(cmdClone);
+          cmdClone.clientId = this._id;
           if (session) {
             cmdClone.sessionId = session.sessionId;
+            // in case this is an update of an appointment in the past
             event = esEvents.appointmentAttendedByClientEvent(cmdClone);
           } else {
             event = esEvents.unfundedAppointmentAttendedByClientEvent(cmdClone);

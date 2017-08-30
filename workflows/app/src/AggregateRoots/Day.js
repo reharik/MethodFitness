@@ -44,30 +44,26 @@ module.exports = function(AggregateRootBase, esEvents, invariant, uuid, moment) 
         this.raiseEvent(esEvents.appointmentScheduledEvent(cmdClone));
       }.bind(this);
 
-      const _cancelAppointment = function(cmd) {
+      const cancelAppointment = function(cmd) {
         //TODO put lots of business logic here!
         let cmdClone = Object.assign({}, cmd);
         this.raiseEvent(esEvents.appointmentCanceledEvent(cmdClone));
       }.bind(this);
 
-      const _removeAppointmentFromPast = function(cmd) {
+      const removeAppointmentFromPast = function(cmd) {
         //TODO put lots of business logic here!
         let cmdClone = Object.assign({}, cmd);
         this.raiseEvent(esEvents.pastAppointmentRemovedEvent(cmdClone));
       }.bind(this);
 
+
       return {
-        scheduleAppointment(cmd) {
-          scheduleAppointment(cmd);
-        },
-        updateAppointment(cmd) {
-          updateAppointment(cmd);
-        },
-        cancelAppointment(cmd) {
-          _cancelAppointment(cmd);
-        },
-        removeAppointmentFromPast(cmd) {
-          _removeAppointmentFromPast(cmd);
+        scheduleAppointment,
+        updateAppointment,
+        cancelAppointment,
+        removeAppointmentFromPast,
+        getAppointment(appointmentId) {
+          return this.appointments.find(x => x.appointmentId === appointmentId);
         }
       };
     }
