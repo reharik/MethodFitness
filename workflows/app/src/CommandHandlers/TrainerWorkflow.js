@@ -1,151 +1,146 @@
-/**
- * Created by parallels on 7/16/15.
- */
-
-
-module.exports = function(eventRepository, logger, Trainer) {
+module.exports = function(eventRepository, logger, trainer) {
   return function TrainerWorkflow() {
     // async function loginTrainer(cmd, continuationId ) {
     //   throw new Error('yo! wtf!');
-    //     var trainer = await eventRepository.getById(Trainer, cmd.id, 5);
+    //     var trainer = await eventRepository.getById(trainer, cmd.id, 5);
     //     trainer.loginTrainer(cmd);
     //     return await eventRepository.save(trainer, { continuationId });
     // }
 
     async function hireTrainer(cmd, continuationId) {
       logger.info('calling hiretrainer');
-      let trainer = new Trainer();
-      trainer.hireTrainer(cmd);
+      let trainerInstance = trainer();
+      trainerInstance.hireTrainer(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function updateTrainerAddress(cmd, continuationId) {
       logger.info('calling updateTrainerAddress');
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.updateTrainerAddress(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.updateTrainerAddress(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function updateTrainerContact(cmd, continuationId) {
       logger.info('calling updateTrainerContact');
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.updateTrainerContact(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.updateTrainerContact(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function updateTrainerPassword(cmd, continuationId) {
       logger.info('calling updateTrainerPassword');
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.updateTrainerPassword(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.updateTrainerPassword(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function updateTrainerInfo(cmd, continuationId) {
       logger.info('calling updateTrainerInfo');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.updateTrainerInfo(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.updateTrainerInfo(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function updateTrainersClients(cmd, continuationId) {
       logger.info('calling updateTrainersClients');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.updateTrainersClients(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.updateTrainersClients(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function updateTrainersClientRates(cmd, continuationId) {
       logger.info('calling updateTrainersClientRates');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.updateTrainersClientRates(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.updateTrainersClientRates(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function archiveTrainer(cmd, continuationId) {
       logger.info('calling archiveTrainer');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.archiveTrainer(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.archiveTrainer(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function unArchiveTrainer(cmd, continuationId) {
       logger.info('calling unArchiveTrainer');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.unArchiveTrainer(cmd);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.unArchiveTrainer(cmd);
 
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function verifyAppointments(cmd, continuationId) {
       logger.info('verifying Appointments');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.verifyAppointments(cmd);
-      logger.info('saving trainer');
-      logger.trace(trainer);
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.verifyAppointments(cmd);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
 
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     async function payTrainer(cmd, continuationId) {
-      logger.info('Paying Trainer');
+      logger.info('Paying trainerInstance');
 
-      let trainer = await eventRepository.getById(Trainer, cmd.trainerId);
-      trainer.payTrainer(cmd);
-      logger.info('saving trainer');
-      logger.trace(trainer);
-      await eventRepository.save(trainer, { continuationId });
-      return { trainerId: trainer._id };
+      let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
+      trainerInstance.payTrainer(cmd);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
     }
 
     return {
