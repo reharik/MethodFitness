@@ -35,9 +35,12 @@ module.exports = function() {
       },
 
       sessionReturnedFromPastAppointment: event => {
+        state.clientInventory.replaceSession(event);
+      },
+
+      unfundedAppointmentRemoveForClient: event => {
         state.unfundedAppointments = state.unfundedAppointments
           .filter(u => u.appointmentId !== event.appointmentId);
-        state.clientInventory.replaceSession(event);
       }
     };
   };

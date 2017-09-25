@@ -5,7 +5,6 @@ module.exports = function(rsRepository, trainerPaymentDetailsState, logger) {
       logger.info('Initializing state in trainerPaymentDetailsPersistence');
       let state = await rsRepository
         .getAggregateViewMeta('trainerPaymentDetails', '00000000-0000-0000-0000-000000000001');
-
       if (!state.trainers) {
         state = trainerPaymentDetailsState();
 
@@ -40,3 +39,4 @@ module.exports = function(rsRepository, trainerPaymentDetailsState, logger) {
     };
   };
 };
+

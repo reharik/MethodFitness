@@ -47,13 +47,21 @@ module.exports = function(moment,
       logger.info('handling sessionReturnedFromPastAppointment event in SessionsPurchasedEventHandler');
       const purchase = await persistence.getPreviousPurchase(event.clientId, event.sessionId);
       //mutating state of purchase
-      state.refundSessionsFromPastAppointment(event, purchase);
+      state.returnSessionsFromPastAppointment(event.sessionId, purchase);
       await persistence.saveState(state, purchase);
     }
 
     async function pastAppointmentRemoved(event) {
-      state.pastAppointmentRemoved(event);
-      return await persistence.saveState(state);
+      logger.info('handling pastAppointmentRemoved event in SessionsPurchasedEventHandler');
+      const appointment = state.appointments.find(x => x.appoitmentId === event.appointmentId);
+      state.appointments = state.appointments.filter(x => x.appointmentId !== event.appointmentId);
+      const sessions = state.sessions.filter(x => x.appointmentId === appointment.appointmentId);
+      for (let session of sessions) {
+        let purchase = await persistence.getPreviousPurchase(event.clientId, event.sessionId);
+        //mutating state of purchase
+        state.returnSessionsFromPastAppointment(session.sessionId, purchase);
+        await persistence.saveState(state, purchase);
+      }
     }
 
     let output = {

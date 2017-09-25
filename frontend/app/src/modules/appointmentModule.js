@@ -14,6 +14,7 @@ export const DELETE_APPOINTMENT = requestStates('delete_appointment', 'appointme
 
 export default (state = [], action = {}) => {
   switch (action.type) {
+    case UPDATE_APPOINTMENT_FROM_PAST.SUCCESS:
     case UPDATE_APPOINTMENT.SUCCESS: {
       let response = selectn('response.payload', action);
       let newItem = selectn('action.upsertedItem', action);

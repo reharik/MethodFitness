@@ -2,6 +2,12 @@ module.exports = function(rsRepository, logger) {
   return function AppointmentEventHandler() {
     logger.info('AppointmentEventHandler started up');
 
+    async function appointmentScheduledInPast(event) {
+      logger.info('handling appointmentScheduledInPast event');
+      logger.info('passing appointmentScheduledInPast to appointmentScheduled');
+      return await appointmentScheduled(event);
+    }
+
     async function appointmentScheduled(event) {
       logger.info('handling appointmentScheduled event');
 
@@ -30,6 +36,12 @@ module.exports = function(rsRepository, logger) {
 
       let sql = `DELETE FROM "appointment" where "id" = '${event.appointmentId}'`;
       return await rsRepository.saveQuery(sql);
+    }
+
+    async function pastAppointmentUpdated(event) {
+      logger.info('handling pastAppointmentUpdated event');
+      logger.info('passing pastAppointmentUpdated to appointmentUpdated');
+      return await appointmentUpdated(event);
     }
 
     async function appointmentUpdated(event) {
@@ -64,7 +76,9 @@ module.exports = function(rsRepository, logger) {
       appointmentUpdated,
       appointmentAttendedByClient,
       unfundedAppointmentAttendedByClient,
-      pastAppointmentRemoved
+      appointmentScheduledInPast,
+      pastAppointmentRemoved,
+      pastAppointmentUpdated
     };
   };
 };

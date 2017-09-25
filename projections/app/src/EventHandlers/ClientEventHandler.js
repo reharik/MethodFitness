@@ -104,7 +104,17 @@ where id = '${event.clientId}'`;
     async function sessionsRefunded(event) {
       logger.info('handling sessionsRefunded event in ClientEventHandler');
       let client = await rsRepository.getById(event.clientId, 'client');
-      event.refundSessions.forEach(x => client.inventory[x.appointmentType] = client.inventory[x.appointmentType] - 1);
+      event.refundSessions.forEach(x => client.inventory[x.appointmentType] = client.inventory[x.appointmentType] + 1);
+      return await rsRepository.save('client', client, client.clientId);
+    }
+
+    async function unfundedAppointmentRemoveForClient(event) {
+      return await sessionReturnedFromPastAppointment(event);
+    }
+    async function sessionReturnedFromPastAppointment(event) {
+      logger.info('handling sessionReturnedFromPastAppointment event in ClientEventHandler');
+      let client = await rsRepository.getById(event.clientId, 'client');
+      client.inventory[event.appointmentType] = client.inventory[event.appointmentType] + 1;
       return await rsRepository.save('client', client, client.clientId);
     }
 
@@ -120,7 +130,9 @@ where id = '${event.clientId}'`;
       sessionsPurchased,
       appointmentAttendedByClient,
       unfundedAppointmentAttendedByClient,
-      sessionsRefunded
+      sessionsRefunded,
+      sessionReturnedFromPastAppointment,
+      unfundedAppointmentRemoveForClient
     };
   };
 };

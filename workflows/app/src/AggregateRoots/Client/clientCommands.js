@@ -119,14 +119,17 @@ module.exports = function(clientInvariants, esEvents, uuid, logger) {
         raiseEvent(esEvents.sessionsRefundedEvent(cmdClone));
       },
 
-      returnSessionFromPast: appointmentId => {
+      returnSessionFromPast: (appointmentId, appointmentType) => {
         const session = state.clientInventory.getUsedSessionByAppointmentId(appointmentId);
-        const event = esEvents.sessionReturnedFromPastAppointmentEvent({
-          appointmentId,
-          sessionId: session.sessionId,
-          clientId: state._id
-        });
-        raiseEvent(event);
+        if (session) {
+          const event = esEvents.sessionReturnedFromPastAppointmentEvent({
+            appointmentId,
+            sessionId: session.sessionId,
+            clientId: state._id,
+            appointmentType
+          });
+          raiseEvent(event);
+        }
       }
     };
   };
