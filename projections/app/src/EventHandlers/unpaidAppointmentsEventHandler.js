@@ -59,6 +59,13 @@ module.exports = function(unpaidAppointmentsPersistence,
       return await persistence.saveState(state, trainerId);
     }
 
+    async function sessionReturnedFromPastAppointment(event) {
+      logger.info('handling sessionReturnedFromPastAppointment event in unpaidAppointmentsEventHandler');
+      // remove this session from unpaid appointments since it's clearly been returned
+      const trainerId = state.removeFundedAppointmentForClient(event);
+      return await persistence.saveState(state, trainerId);
+    }
+
     async function unfundedAppointmentFundedByClient(event) {
       logger.info('handling unfundedAppointmentFundedByClient event in unpaidAppointmentsEventHandler');
       const trainerId = state.processNewlyFundedAppointment(event);
@@ -84,34 +91,14 @@ module.exports = function(unpaidAppointmentsPersistence,
     }
 
     async function pastAppointmentRemoved(event) {
-      const trainerId = state.pastAppointmentRemoved(event);
+      logger.info(`handling pastAppointmentRemoved event in unpaidAppointmentsEventHandler`);
+      const trainerId = state.pastAppointmentRemoved(event.appointmentId);
       return await persistence.saveState(state, trainerId);
     }
 
-    // beginning to try and reconcile a past appointment update. not done obviously
-    async function pastAppointmentUpdated(event) {
-      logger.info(`handling appointmentUpdated event in unpaidAppointmentsEventHandler`);
-      const subEvent = Object.assign({}, event);
-      delete subEvent.eventName;
-      delete subEvent.endTime;
-      delete subEvent.notes;
-      delete subEvent.entityName;
-      state.innerState.appointments = state.innerState.appointments.map(x =>
-        x.appointmentId === subEvent.appointmentId
-          ? subEvent
-          : x);
-      state.innerState.unpaidAppointments = state.innerState.unpaidAppointments.map(x =>
-        x.appointmentId === subEvent.appointmentId
-          ? subEvent
-          : x);
-      state.innerState.unfundedAppointments = state.innerState.unfundedAppointments.map(x =>
-        x.appointmentId === subEvent.appointmentId
-          ? subEvent
-          : x);
-      await persistence.saveState(state, event.trainerId);
-    }
-
-
+    // we don't need to handle sessionReturnedFromPastAppointment because we don't do anything with
+    // the sessions when used. We just need to clean up the unpaid and unfunded appointments
+    // and the appointmentRemovedFromThePast will do that
     let output = {
       handlerType: 'unpaidAppointmentsEventHandler',
       handlerName: 'unpaidAppointmentsEventHandler',
@@ -126,8 +113,8 @@ module.exports = function(unpaidAppointmentsPersistence,
       trainersNewClientRateSet,
       trainerPaid,
       sessionsRefunded,
-      pastAppointmentUpdated,
-      pastAppointmentRemoved
+      pastAppointmentRemoved,
+      sessionReturnedFromPastAppointment
     };
 
     return Object.assign(output,

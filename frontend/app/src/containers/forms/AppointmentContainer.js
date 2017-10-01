@@ -6,6 +6,7 @@ import { generateAllTimes } from './../../utilities/appointmentTimes';
 import { appointmentModel, updateAppointmentModel } from './../../selectors/appointmentModelSelector';
 import { scheduleAppointment,
   updateAppointment,
+  updateAppointmentFromPast,
   fetchAppointmentAction,
   deleteAppointment,
   deleteAppointmentFromPast} from './../../modules/appointmentModule';
@@ -65,5 +66,6 @@ export default connect(mapStateToProps, {
   fetchAppointmentAction,
   notifications,
   deleteAppointment,
-  deleteAppointmentFromPast
+  deleteAppointmentFromPast,
+  updateAppointmentFromPast
 })(AppointmentForm);

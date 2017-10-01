@@ -44,7 +44,11 @@ class AppointmentForm extends Component {
             values.trainerId = this.props.trainerId;
           }
           if (values.appointmentId) {
-            this.props.updateAppointment(values);
+            if(buildMomentFromDateAndTime(values.date, values.startTime).isBefore(moment())) {
+              this.props.updateAppointmentFromPast(values);
+            } else {
+              this.props.updateAppointment(values);
+            }
           } else {
             this.props.scheduleAppointment(values);
           }
@@ -88,7 +92,7 @@ class AppointmentForm extends Component {
     const date = this.props.form.getFieldValue('date');
     const startTime = this.props.form.getFieldValue('startTime');
     const clients = this.props.form.getFieldValue('clients');
-    if (buildMomentFromDateAndTime(date, startTime).isBefore(moment().local())) {
+    if (buildMomentFromDateAndTime(date, startTime).isBefore(moment())) {
       this.props.deleteAppointmentFromPast(appointmentId, date, clients);
     } else {
       this.props.deleteAppointment(appointmentId, date);
@@ -102,8 +106,8 @@ class AppointmentForm extends Component {
   };
 
   editHandler = () => {
-    const apptId = this.props.form.getFieldValue('appointmentId');
-    this.props.onEdit({apptId});
+    const appointmentId = this.props.form.getFieldValue('appointmentId');
+    this.props.onEdit({appointmentId});
   };
 
   render() {
@@ -220,7 +224,8 @@ AppointmentForm.propTypes = {
   appointmentTypes: PropTypes.array,
   times: PropTypes.array,
   buttons: PropTypes.array,
-  deleteAppointmentFromPast: PropTypes.func
+  deleteAppointmentFromPast: PropTypes.func,
+  updateAppointmentFromPast: PropTypes.func
 };
 
 export default Form.create({mapPropsToFields: (props) => ({...props.model})})(AppointmentForm);

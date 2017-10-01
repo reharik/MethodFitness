@@ -84,23 +84,18 @@ module.exports = function() {
       return purchaseIds;
     };
 
-    const refundSessionsFromPastAppointment = (event, purchase) => {
+    const returnSessionsFromPastAppointment = (sessionId, purchase) => {
       // purchase coming in is from db row.
       // so if it's been purged, let's re-add it, We'll filter first in case;
       innerState.purchases = innerState.purchases.filter(x => x.purchaseId !== purchase.purchaseId);
       innerState.purchases.push(purchase);
-      let session = purchase.sessions.find(x => x.sessionId === event.sessionId);
+      let session = purchase.sessions.find(x => x.sessionId === sessionId);
       delete session.trainer;
       delete session.startTime;
       delete session.appointmentId;
       delete session.appointmentDate;
 
-      innerState.appointments.filter(x => x.appointmentId === event.appointmentId);
       return purchase.purchaseId;
-    };
-
-    const pastAppointmentRemoved = event => {
-      innerState.appointments = innerState.appointments.filter(x => x.appointmentId !== event.appointmentId);
     };
 
     return {
@@ -111,8 +106,7 @@ module.exports = function() {
       processFundedAppointment,
       sessionsPurchased,
       refundSessions,
-      refundSessionsFromPastAppointment,
-      pastAppointmentRemoved,
+      returnSessionsFromPastAppointment,
       innerState
     };
   };

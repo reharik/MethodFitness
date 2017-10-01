@@ -8,11 +8,13 @@ import selectn from 'selectn';
 export const FETCH_APPOINTMENTS = requestStates('fetch_appointments', 'appointments');
 export const SCHEDULE_APPOINTMENT = requestStates('schedule_appointment', 'appointments');
 export const UPDATE_APPOINTMENT = requestStates('update_appointment', 'appointments');
+export const UPDATE_APPOINTMENT_FROM_PAST = requestStates('update_appointment_from_past', 'appointments');
 export const DELETE_APPOINTMENT_FROM_PAST = requestStates('delete_appointment_from_past', 'appointments');
 export const DELETE_APPOINTMENT = requestStates('delete_appointment', 'appointments');
 
 export default (state = [], action = {}) => {
   switch (action.type) {
+    case UPDATE_APPOINTMENT_FROM_PAST.SUCCESS:
     case UPDATE_APPOINTMENT.SUCCESS: {
       let response = selectn('response.payload', action);
       let newItem = selectn('action.upsertedItem', action);
@@ -82,6 +84,31 @@ export function updateAppointment(data) {
     type: UPDATE_APPOINTMENT.REQUEST,
     states: UPDATE_APPOINTMENT,
     url: config.apiBase + 'appointment/updateAppointment',
+    upsertedItem: formattedData,
+    params: {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formattedData)
+    }
+  };
+}
+
+export function updateAppointmentFromPast(data) {
+  moment.locale('en');
+  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
+  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
+  const formattedData = {
+    ...data,
+    date: startTime,
+    startTime,
+    endTime,
+    entityName: moment(data.date).format('YYYYMMDD')
+  };
+  return {
+    type: UPDATE_APPOINTMENT_FROM_PAST.REQUEST,
+    states: UPDATE_APPOINTMENT_FROM_PAST,
+    url: config.apiBase + 'appointment/updateAppointmentFromPast',
     upsertedItem: formattedData,
     params: {
       method: 'POST',

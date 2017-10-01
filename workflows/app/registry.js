@@ -15,6 +15,8 @@ module.exports = function(_options) {
       x=> x.pathToRoot(path.join(__dirname, '/../'))
         .requireDirectoryRecursively('./app/src')
         .groupAllInDirectory('./app/src/CommandHandlers', 'CommandHandlers_array')
+        .groupAllInDirectory('./app/src/AggregateRoots/Day/pastAppointmentStrategies',
+          'pastAppointmentStrategies_array')
         .requiredModuleRegistires(['ges-eventsourcing'])
         .for('corelogger').renameTo('logger')
         .for('ramda').renameTo('R')

@@ -67,8 +67,32 @@ module.exports = function(invariant) {
       if (!appointment || appointment.length <= 0) {
         return undefined;
       }
-
+      // first clean up previously processed appt
+      removeProcessedAppointment(event.appointmentId, event.clientId);
+      // then create new unpaid appointment
       innerState.unpaidAppointments.push(createUnpaidAppointment(appointment, event));
+      return appointment.trainerId;
+    };
+
+    const removeProcessedAppointment = (appointmentId, clientId) => {
+      const predicate = clientId
+        // this was a bit tricky because there were two conditions you can't do the negative
+        ? x => !(x.appointmentId === appointmentId && x.clientId === clientId)
+        : x => x.appointmentId !== appointmentId;
+      innerState.unfundedAppointments = innerState.unfundedAppointments
+        .filter(predicate);
+      innerState.unpaidAppointments = innerState.unpaidAppointments
+        .filter(predicate);
+    };
+
+    const removeFundedAppointmentForClient = event => {
+      let appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
+      if (!appointment || appointment.length <= 0) {
+        return undefined;
+      }
+
+      innerState.unpaidAppointments = innerState.unpaidAppointments
+        .filter(x => x.sessionId !== event.sessionId);
       return appointment.trainerId;
     };
 
@@ -78,6 +102,7 @@ module.exports = function(invariant) {
         return undefined;
       }
 
+      // create new unfunded appointment
       innerState.unfundedAppointments.push(createUnfundedAppointment(appointment, event));
       return appointment.trainerId;
     };
@@ -158,21 +183,15 @@ module.exports = function(invariant) {
     };
 
     const pastAppointmentRemoved = event => {
-      let trainerId;
-      innerState.appointments = innerState.appointments.filter(x => x.appointmentId !== event.appointmentId);
-      let appt = innerState.unpaidAppointments.find(x => x.appointmentId === event.appointmentId);
-      if (appt) {
-        trainerId = appt.trainerId;
-      }
-      appt = innerState.unfundedAppointments.find(x => x.appointmentId === event.appointmentId);
-      if (appt) {
-        trainerId = appt.trainerId;
-      }
-      innerState.unpaidAppointments = innerState.unpaidAppointments
+      // first we have to find the appointment so we can get the trainer Id
+      const appointment = state.innerState.appointments = state.innerState.appointments
+        .find(x => x.appointmentId !== event.appointmentId);
+
+      state.innerState.appointments = state.innerState.appointments
         .filter(x => x.appointmentId !== event.appointmentId);
-      innerState.unfundedAppointments = innerState.unfundedAppointments
-        .filter(x => x.appointmentId !== event.appointmentId);
-      return trainerId;
+
+      removeProcessedAppointment(event.appointmentId);
+      return appointment.trainerId;
     };
 
     return {
@@ -189,7 +208,8 @@ module.exports = function(invariant) {
       updateTCR,
       addTRC,
       refundSessions,
-      pastAppointmentRemoved
+      pastAppointmentRemoved,
+      removeFundedAppointmentForClient
     };
   };
 };

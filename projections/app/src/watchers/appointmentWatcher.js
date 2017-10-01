@@ -36,10 +36,47 @@ module.exports = function(logger) {
       await persistence.saveState(state);
     }
 
+    async function appointmentScheduledInPast(event) {
+      // const {eventName, endTime, notes, entityName, ...subEvent} = event; //eslint-disable-line no-unused-vars
+      logger.info(`handling appointmentScheduledInPast event in ${handlerName}`);
+      const subEvent = Object.assign({}, event);
+      delete subEvent.eventName;
+      delete subEvent.endTime;
+      delete subEvent.notes;
+      delete subEvent.entityName;
+      state.innerState.appointments.push(subEvent);
+      await persistence.saveState(state);
+    }
+
+    async function pastAppointmentUpdated(event) {
+      // const {eventName, endTime, notes, entityName, ...subEvent} = event; //eslint-disable-line no-unused-vars
+
+      logger.info(`handling pastAppointmentUpdated event in ${handlerName}`);
+      const subEvent = Object.assign({}, event);
+      delete subEvent.eventName;
+      delete subEvent.endTime;
+      delete subEvent.notes;
+      delete subEvent.entityName;
+      state.innerState.appointments = state.innerState.appointments.map(x =>
+        x.appointmentId === subEvent.appointmentId
+          ? subEvent
+          : x);
+      await persistence.saveState(state);
+    }
+
+    async function pastAppointmentRemoved(event) {
+      logger.info(`handling pastAppointmentRemoved event in ${handlerName}`);
+      state.innerState.appointments = state.innerState.appointments
+        .filter(x => x.appointmentId !== event.appointmentId);
+    }
+
     return {
       appointmentScheduled,
       appointmentUpdated,
-      appointmentCanceled
+      appointmentCanceled,
+      appointmentScheduledInPast,
+      pastAppointmentUpdated,
+      pastAppointmentRemoved
     };
   };
 };
