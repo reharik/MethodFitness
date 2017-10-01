@@ -59,6 +59,13 @@ module.exports = function(unpaidAppointmentsPersistence,
       return await persistence.saveState(state, trainerId);
     }
 
+    async function sessionReturnedFromPastAppointment(event) {
+      logger.info('handling sessionReturnedFromPastAppointment event in unpaidAppointmentsEventHandler');
+      // remove this session from unpaid appointments since it's clearly been returned
+      const trainerId = state.removeFundedAppointmentForClient(event);
+      return await persistence.saveState(state, trainerId);
+    }
+
     async function unfundedAppointmentFundedByClient(event) {
       logger.info('handling unfundedAppointmentFundedByClient event in unpaidAppointmentsEventHandler');
       const trainerId = state.processNewlyFundedAppointment(event);
@@ -106,7 +113,8 @@ module.exports = function(unpaidAppointmentsPersistence,
       trainersNewClientRateSet,
       trainerPaid,
       sessionsRefunded,
-      pastAppointmentRemoved
+      pastAppointmentRemoved,
+      sessionReturnedFromPastAppointment
     };
 
     return Object.assign(output,
