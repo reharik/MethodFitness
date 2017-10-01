@@ -85,7 +85,7 @@ module.exports = function(invariant) {
         .filter(predicate);
     };
 
-    const removeFundedAppointmentForClient = (event) => {
+    const removeFundedAppointmentForClient = event => {
       let appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
       if (!appointment || appointment.length <= 0) {
         return undefined;
