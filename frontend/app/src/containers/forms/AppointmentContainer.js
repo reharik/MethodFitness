@@ -5,6 +5,7 @@ import appointmentTypes from './../../constants/appointmentTypes';
 import { generateAllTimes } from './../../utilities/appointmentTimes';
 import { appointmentModel, updateAppointmentModel } from './../../selectors/appointmentModelSelector';
 import { scheduleAppointment,
+  scheduleAppointmentInPast,
   updateAppointment,
   updateAppointmentFromPast,
   fetchAppointmentAction,
@@ -62,6 +63,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
   scheduleAppointment,
+  scheduleAppointmentInPast,
   updateAppointment,
   fetchAppointmentAction,
   notifications,

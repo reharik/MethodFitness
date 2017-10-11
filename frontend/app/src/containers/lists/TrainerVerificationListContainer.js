@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TrainerVerificationList from '../../components/lists/TrainerVerificationList';
 import moment from 'moment';
+import sortBy from 'sort-by';
 import { fetchUnverifiedAppointments, verifyAppointments } from '../../modules/sessionVerificationModule';
 
 class TrainerVerificationListContainer extends Component {
@@ -35,7 +36,7 @@ function mapStateToProps(state) {
       ...x,
       appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
-    }));
+    })).sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));
 
   const gridConfig = {
     dataSource

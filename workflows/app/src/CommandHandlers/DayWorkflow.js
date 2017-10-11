@@ -44,7 +44,7 @@ module.exports = function(eventRepository, changeAppointmentFromPast, logger, da
     async function rescheduleAppointmentToNewDay(cmd, continuationId) {
       cmd.commandName = 'rescheduleAppointmentToNewDay';
       let dayInstance = await scheduleAppointmentBase(cmd);
-      let oldDay = await eventRepository.getById(dayInstance, cmd.originalEntityName);
+      let oldDay = await eventRepository.getById(day, cmd.originalEntityName);
       oldDay.cancelAppointment(cmd);
       let newAppointmentId = dayInstance.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainerId);
 

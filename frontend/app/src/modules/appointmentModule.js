@@ -7,6 +7,7 @@ import selectn from 'selectn';
 
 export const FETCH_APPOINTMENTS = requestStates('fetch_appointments', 'appointments');
 export const SCHEDULE_APPOINTMENT = requestStates('schedule_appointment', 'appointments');
+export const SCHEDULE_APPOINTMENT_IN_PAST = requestStates('schedule_appointment_in_past', 'appointments');
 export const UPDATE_APPOINTMENT = requestStates('update_appointment', 'appointments');
 export const UPDATE_APPOINTMENT_FROM_PAST = requestStates('update_appointment_from_past', 'appointments');
 export const DELETE_APPOINTMENT_FROM_PAST = requestStates('delete_appointment_from_past', 'appointments');
@@ -59,6 +60,30 @@ export function scheduleAppointment(data) {
     type: SCHEDULE_APPOINTMENT.REQUEST,
     states: SCHEDULE_APPOINTMENT,
     url: config.apiBase + 'appointment/scheduleAppointment',
+    upsertedItem: formattedData,
+    params: {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formattedData)
+    }
+  };
+}
+
+export function scheduleAppointmentInPast(data) {
+  moment.locale('en');
+  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
+  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
+  const formattedData = {
+    ...data,
+    startTime,
+    endTime,
+    entityName: moment(data.date).format('YYYYMMDD')
+  };
+  return {
+    type: SCHEDULE_APPOINTMENT_IN_PAST.REQUEST,
+    states: SCHEDULE_APPOINTMENT_IN_PAST,
+    url: config.apiBase + 'appointment/scheduleAppointmentInPast',
     upsertedItem: formattedData,
     params: {
       method: 'POST',

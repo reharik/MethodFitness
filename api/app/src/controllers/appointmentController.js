@@ -38,6 +38,17 @@ module.exports = function(
     ctx.status = result.status;
   };
 
+  let scheduleAppointmentInPast = async function(ctx) {
+    logger.debug('arrived at appointment.scheduleAppointmentInPast');
+    let payload = ctx.request.body;
+    payload.commandName = 'scheduleAppointmentInPast';
+    const notification = await processMessage(payload, 'scheduleAppointmentFactory', 'scheduleAppointmentInPast');
+    const result = await notificationParser(notification);
+
+    ctx.body = result.body;
+    ctx.status = result.status;
+  };
+
   let updateAppointment = async function(ctx) {
     try {
       logger.debug('arrived at appointment.updateAppointment');
@@ -174,6 +185,7 @@ module.exports = function(
     cancelAppointment,
     fetchAppointment,
     fetchAppointments,
+    scheduleAppointmentInPast,
     removeAppointmentFromPast,
     updateAppointmentFromPast
   };

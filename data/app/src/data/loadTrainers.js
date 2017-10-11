@@ -16,7 +16,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
         birthDate: new Date('1/5/1972'),
         color: '#4286f4',
         contact: {
-          firstName: 'Raif',
+          firstName: 'Amahl',
           lastName: 'Harik',
           email: 'admin',
           mobilePhone: '666.666.6666',
@@ -62,7 +62,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
         birthDate: new Date('1/5/1972'),
         color: '#4286f4',
         contact: {
-          firstName: 'Amahl',
+          firstName: 'Raif',
           lastName: 'Harik',
           email: 'trainer',
           mobilePhone: '666.666.6666',

@@ -14,8 +14,8 @@ module.exports = function(invariant) {
                      entityName,
                     changes
                    }) {
-    if (commandName !== 'scheduleAppointment') {
-      invariant(appointmentId, `scheduleAppointment requires that you pass the appointmentId`);
+    if (commandName !== 'scheduleAppointment' && commandName !== 'scheduleAppointmentInPast') {
+      invariant(appointmentId, `This command requires that you pass the appointmentId`);
     }
     if (commandName === 'rescheduleAppointment') {
       invariant(originalEntityName, `rescheduleAppointment requires that you pass in the originalEntityName`);
@@ -45,7 +45,7 @@ module.exports = function(invariant) {
       originalEntityName,
       changes
     };
-    if (commandName !== 'scheduleAppointment') {
+    if (commandName !== 'scheduleAppointment' && commandName !== 'scheduleAppointmentInPast') {
       result.appointmentId = appointmentId;
     }
     if (commandName === 'rescheduleAppointment' || commandName === 'rescheduleAppointmentFromPast') {

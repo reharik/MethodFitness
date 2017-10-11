@@ -50,7 +50,11 @@ class AppointmentForm extends Component {
               this.props.updateAppointment(values);
             }
           } else {
-            this.props.scheduleAppointment(values);
+            if(buildMomentFromDateAndTime(values.date, values.startTime).isBefore(moment())) {
+              this.props.scheduleAppointmentInPast(values);
+            } else {
+              this.props.scheduleAppointment(values);
+            }
           }
           this.props.onCancel();
           console.log('Received values of form: ', values);
@@ -210,6 +214,7 @@ AppointmentForm.propTypes = {
   model: PropTypes.object,
   form: PropTypes.object,
   scheduleAppointment: PropTypes.func,
+  scheduleAppointmentInPast: PropTypes.func,
   updateAppointment: PropTypes.func,
   deleteAppointment: PropTypes.func,
   onCancel: PropTypes.func,
