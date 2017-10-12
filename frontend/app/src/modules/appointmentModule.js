@@ -28,6 +28,7 @@ export default (state = [], action = {}) => {
       }
     }
     // fallback intentional for non new day updates
+    case SCHEDULE_APPOINTMENT_IN_PAST.SUCCESS:
     case SCHEDULE_APPOINTMENT.SUCCESS: {
       let upsertedItem = selectn('action.upsertedItem', action);
       upsertedItem.appointmentId = selectn('response.payload.appointmentId', action);

@@ -16,6 +16,20 @@ module.exports = function() {
         });
       },
 
+      appointmentScheduledInPast(event) {
+        if (!state._id) {
+          state._id = event.entityName;
+        }
+        state.appointments.push({
+          appointmentId: event.appointmentId,
+          appointmentType: event.appointmentType,
+          startTime: event.startTime,
+          endTime: event.endTime,
+          trainerId: event.trainerId,
+          clients: event.clients
+        });
+      },
+
       appointmentUpdated(event) {
         state.appointments.forEach(x => {
           if (x.appointmentId === event.appointmentId) {
