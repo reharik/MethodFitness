@@ -35,6 +35,10 @@ module.exports = function(logger) {
 
       aggregateName: () => {
         return state.type;
+      },
+
+      debug: () => {
+        return state;
       }
     };
   };

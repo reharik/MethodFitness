@@ -42,6 +42,18 @@ module.exports = function() {
         });
       },
 
+      pastAppointmentUpdated(event) {
+        state.appointments.forEach(x => {
+          if (x.appointmentId === event.appointmentId) {
+            x.appointmentType = event.appointmentType;
+            x.startTime = event.startTime;
+            x.endTime = event.endTime;
+            x.trainerId = event.trainerId;
+            x.clients = event.clients;
+          }
+        });
+      },
+
       appointmentCanceled(event) {
         state.appointments = state.appointments.filter(x => x.appointmentId !== event.appointmentId);
       },

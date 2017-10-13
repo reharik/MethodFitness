@@ -56,6 +56,30 @@ module.exports = function() {
       innerState.purchases.push(purchase);
     };
 
+    const pastAppointmentUpdated = event => {
+      let purchaseIds = [];
+      console.log(`=========="hewre"=========`);
+      console.log("hewre");
+      console.log(`==========END "hewre"=========`);
+      
+      event.clients.forEach(c => {
+        let session = innerState.purchases
+          .filter(x => x.clientId === c)
+          .reduce((a, b) => a.concat(b.sessions), [])
+          .find(x => x.appointmentId === event.appointmentId);
+        if (session
+          && (session.trainerId !== event.trainerId)
+          || session.date !== event.date
+          || session.startTime !== event.startTime) {
+          session.trainerId = event.trainerId;
+          session.date = event.date;
+          session.startTime = event.startTime;
+          purchaseIds.push(session.purchaseId);
+        }
+      });
+      return purchaseIds;
+    };
+
     const processFundedAppointment = event => {
       let sessions = innerState.purchases.filter(x => x.clientId === event.clientId)
         .reduce((a, b) => a.concat(b.sessions), []);
@@ -107,6 +131,7 @@ module.exports = function() {
       sessionsPurchased,
       refundSessions,
       returnSessionsFromPastAppointment,
+      pastAppointmentUpdated,
       innerState
     };
   };

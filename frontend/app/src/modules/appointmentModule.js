@@ -147,8 +147,11 @@ export function updateAppointmentFromPast(data) {
 
 export function updateTaskViaDND(data) {
   // debugger //eslint-disable-line
+  const startTime = buildMomentFromDateAndTime(data.date, data.startTime);
   const submitData = { ...data.orig, date: data.date, startTime: data.startTime, endTime: data.endTime };
-  return updateAppointment(submitData);
+  return startTime.isBefore(moment.now())
+    ? updateAppointmentFromPast(submitData)
+    : updateAppointment(submitData);
 }
 
 export function deleteAppointment(appointmentId, date) {
