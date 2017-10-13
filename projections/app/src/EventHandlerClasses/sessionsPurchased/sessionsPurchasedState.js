@@ -59,9 +59,9 @@ module.exports = function() {
     const pastAppointmentUpdated = event => {
       let purchaseIds = [];
       console.log(`=========="hewre"=========`);
-      console.log("hewre");
+      console.log('hewre');
       console.log(`==========END "hewre"=========`);
-      
+
       event.clients.forEach(c => {
         let session = innerState.purchases
           .filter(x => x.clientId === c)
