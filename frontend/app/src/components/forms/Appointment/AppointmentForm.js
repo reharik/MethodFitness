@@ -39,10 +39,10 @@ class AppointmentForm extends Component {
       if (!err) {
         const secondVal = this.validateSave(values);
         if (secondVal.success) {
-          values.color = this.props.trainers.find(x => x.value === values.trainerId).color;
           if (!values.trainerId) {
             values.trainerId = this.props.trainerId;
           }
+          values.color = this.props.trainers.find(x => x.value === values.trainerId).color;
           if (values.appointmentId) {
             if(buildMomentFromDateAndTime(values.date, values.startTime).isBefore(moment())) {
               this.props.updateAppointmentFromPast(values);
