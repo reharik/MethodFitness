@@ -1,4 +1,10 @@
-module.exports = function(eventRepository, changeAppointmentFromPast, logger, day, client) {
+module.exports = function(eventRepository,
+                          changeAppointmentFromPast,
+                          logger,
+                          day,
+                          client,
+                          notificationListener,
+                          notificationParser) {
   return function DayWorkflow() {
     async function scheduleAppointment(cmd, continuationId) {
       let dayInstance = await scheduleAppointmentBase(cmd);
@@ -77,22 +83,25 @@ module.exports = function(eventRepository, changeAppointmentFromPast, logger, da
       logger.info('saving dayInstance');
       logger.trace(dayInstance.state._id);
       let newAppointmentId = dayInstance.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainerId);
+
+      let notificationPromise = await notificationListener(continuationId);
       await eventRepository.save(dayInstance, { continuationId });
-      const cmdClone = Object.assign({}, cmd, { appointmentId: newAppointmentId });
-      for (let clientId of cmdClone.clients) {
+      await notificationParser(notificationPromise);
+
+      const newCmd = Object.assign({}, cmd, { appointmentId: newAppointmentId } );
+      for (let clientId of newCmd.clients) {
         let c = await eventRepository.getById(client, clientId);
         logger.debug('associating client with appointment from past');
-        c.clientAttendsAppointment(cmdClone);
+        c.clientAttendsAppointment(newCmd);
         logger.info('saving client');
         await eventRepository.save(c, { continuationId });
       }
-
       return { appointmentId: newAppointmentId };
     }
 
-    async function rescheduleAppointmentFromPast(cmd) {
+    async function rescheduleAppointmentFromPast(cmd, continuationId) {
       logger.info(`calling rescheduleAppointmentFromPast on Day`);
-      // const appointmentId = await changeAppointmentFromPast(cmd, continuationId);
+      await changeAppointmentFromPast(cmd, continuationId);
       return {
         updateType: cmd.originalEntityName !== cmd.entityName
           ? 'rescheduleAppointmentToNewDay'
@@ -141,3 +150,4 @@ module.exports = function(eventRepository, changeAppointmentFromPast, logger, da
     };
   };
 };
+

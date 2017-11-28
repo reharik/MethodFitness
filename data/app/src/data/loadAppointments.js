@@ -92,7 +92,8 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
                             trainerId,
                             clients,
                             notes,
-                            entityName
+                            entityName,
+                            color
                           }) => {
       invariant(appointmentType, `scheduleAppointment requires that you pass the appointmentType`);
       invariant(trainerId, `scheduleAppointment requires that you pass trainer`);
@@ -114,7 +115,8 @@ module.exports = function(uuid, moment, invariant, loadTrainers, loadClients) {
         trainerId,
         clients,
         notes,
-        entityName
+        entityName,
+        color
       };
     }
   };

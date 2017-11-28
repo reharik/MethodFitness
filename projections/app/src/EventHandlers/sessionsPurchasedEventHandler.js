@@ -51,6 +51,15 @@ module.exports = function(moment,
       await persistence.saveState(state, purchase);
     }
 
+    async function pastAppointmentUpdated(event) {
+      logger.info('handling pastAppointmentUpdated event in SessionsPurchasedEventHandler');
+      const purchaseIds = state.pastAppointmentUpdated(event);
+      const purchases = purchaseIds.map(x => state.getPurchase(x));
+      for (let p of purchases) {
+        await persistence.saveState(state, p);
+      }
+    }
+
     async function pastAppointmentRemoved(event) {
       logger.info('handling pastAppointmentRemoved event in SessionsPurchasedEventHandler');
       const appointment = state.appointments.find(x => x.appoitmentId === event.appointmentId);
@@ -71,12 +80,15 @@ module.exports = function(moment,
       sessionsPurchased,
       sessionsRefunded,
       sessionReturnedFromPastAppointment,
-      pastAppointmentRemoved
+      pastAppointmentRemoved,
+      pastAppointmentUpdated
     };
 
-    return Object.assign(output,
+    return Object.assign(
       appointmentWatcher(state, persistence, output.handlerName),
       clientWatcher(state, persistence, output.handlerName),
-      trainerWatcher(state, persistence, output.handlerName));
+      trainerWatcher(state, persistence, output.handlerName),
+      output
+    );
   };
 };

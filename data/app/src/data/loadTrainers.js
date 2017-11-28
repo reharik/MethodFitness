@@ -14,7 +14,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
     trainers: [
       {
         birthDate: new Date('1/5/1972'),
-        color: '#4286f4',
+        color: '#ec42f5',
         contact: {
           firstName: 'Amahl',
           lastName: 'Harik',
@@ -60,7 +60,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
       },
       {
         birthDate: new Date('1/5/1972'),
-        color: '#4286f4',
+        color: '#f59242',
         contact: {
           firstName: 'Raif',
           lastName: 'Harik',

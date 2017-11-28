@@ -25,7 +25,7 @@ const mapStateToProps = (state, ownProps) => {
     .map(x => ({value: x.trainerId, display: `${x.contact.lastName} ${x.contact.firstName}`, color: x.color}));
 
   // please put this shit in a config somewhere
-  const times = generateAllTimes(15, 7, 7);
+  const times = generateAllTimes(15, 5, 11);
 
   const model = !ownProps.args.appointmentId
     ? appointmentModel(state, ownProps.args)

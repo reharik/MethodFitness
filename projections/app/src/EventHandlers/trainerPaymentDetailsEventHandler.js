@@ -71,9 +71,11 @@ module.exports = function(trainerPaymentDetailsPersistence,
       sessionsRefunded
     };
 
-    return Object.assign(output,
+    return Object.assign(
       appointmentWatcher(state, persistence, output.handlerName),
       trainerWatcher(state, persistence, output.handlerName),
-      clientWatcher(state, persistence, output.handlerName));
+      clientWatcher(state, persistence, output.handlerName),
+      output
+    );
   };
 };

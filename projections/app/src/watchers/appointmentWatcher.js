@@ -50,7 +50,6 @@ module.exports = function(logger) {
 
     async function pastAppointmentUpdated(event) {
       // const {eventName, endTime, notes, entityName, ...subEvent} = event; //eslint-disable-line no-unused-vars
-
       logger.info(`handling pastAppointmentUpdated event in ${handlerName}`);
       const subEvent = Object.assign({}, event);
       delete subEvent.eventName;
