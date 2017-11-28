@@ -73,6 +73,7 @@ module.exports = function() {
       this.customValidators.push({name, validator: validatorFunction});
       return true;
     }
+    return false;
   };
 
   Validator.prototype.getFieldValidators = function(name) {

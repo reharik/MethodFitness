@@ -34,6 +34,18 @@ module.exports = function() {
 
       pastAppointmentRemoved(event) {
         state.appointments = state.appointments.filter(x => x.appointmentId !== event.appointmentId);
+      },
+
+      appointmentScheduledInPast(event) {
+        this.appointmentScheduled(event);
+      },
+
+      pastAppointmentUpdated(event) {
+        if (event.rescheduled) {
+          this.appointmentScheduled(event);
+        } else {
+          this.appointmentUpdated(event);
+        }
       }
     };
   };

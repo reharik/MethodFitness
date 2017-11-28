@@ -108,3 +108,45 @@ build:
 
 ecr-login:
 	$(shell aws ecr get-login --no-include-email --region us-east-2)
+
+####################
+
+removeBuildAndPushNode:
+	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node)
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:lastest
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
+
+removeBuildAndPushFirstParty:
+	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty)
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h)
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
+
+removeBuildAndPushThirdParty:
+	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty)
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h)
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
+
+removeBuildAndPushFrontEnd:
+	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend)
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h)
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
+
+removeBuildAndPushAll:
+	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend)
+	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty)
+	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty)
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:lastest
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node::$$(git show -s --format=%h)
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h)
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h)
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest
+	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h)
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend

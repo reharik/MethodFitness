@@ -1,4 +1,4 @@
-FROM node:8.1
+FROM node:latest
 
 MAINTAINER Raif Harik<reharik@gmail.com>
 

@@ -5,9 +5,7 @@ import appointmentTypes from './../../constants/appointmentTypes';
 import { generateAllTimes } from './../../utilities/appointmentTimes';
 import { appointmentModel, updateAppointmentModel } from './../../selectors/appointmentModelSelector';
 import { scheduleAppointment,
-  scheduleAppointmentInPast,
   updateAppointment,
-  updateAppointmentFromPast,
   fetchAppointmentAction,
   deleteAppointment,
   deleteAppointmentFromPast} from './../../modules/appointmentModule';
@@ -63,11 +61,9 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
   scheduleAppointment,
-  scheduleAppointmentInPast,
   updateAppointment,
   fetchAppointmentAction,
   notifications,
   deleteAppointment,
-  deleteAppointmentFromPast,
-  updateAppointmentFromPast
+  deleteAppointmentFromPast
 })(AppointmentForm);

@@ -63,21 +63,20 @@ export function syncApptTypeAndTime(apptType, startTime) {
 }
 
 export function curriedPermissionToSetAppointment(isAdmin) {
-  return (data) => permissionToSetAppointment(data, isAdmin);
+  return (data, orig) => permissionToSetAppointment(data, isAdmin, orig);
 }
 
+// eslint-disable-next-line no-unused-vars
 export function permissionToSetAppointment({date, startTime}, isAdmin) {
-  const targetDate = moment(date);
+  const targetDateTime = buildMomentFromDateAndTime(date, startTime);
   const cutOffDateTime = moment();
-  const sameDay = (targetDate, cuttOffDateTime) => {
-    let target = moment.isMoment(startTime)
-      ? startTime
-      : buildMomentFromDateAndTime(targetDate, startTime);
 
-    return targetDate.isSame(cuttOffDateTime, 'day')
-      && target.isAfter(moment(cuttOffDateTime).add(2, 'hours'));
+  const sameDayAsCutOff = (targetDate, cutOffDateTime) => {
+    return targetDateTime.isSame(cutOffDateTime, 'day')
+      && targetDateTime.isAfter(moment(cutOffDateTime).add(2, 'hours'));
   };
-  return isAdmin ||
-    targetDate.isAfter(cutOffDateTime, 'day')
-    || sameDay(targetDate, cutOffDateTime);
+
+  return isAdmin
+      || targetDateTime.isAfter(cutOffDateTime, 'day')
+      || sameDayAsCutOff(targetDateTime, cutOffDateTime);
 }

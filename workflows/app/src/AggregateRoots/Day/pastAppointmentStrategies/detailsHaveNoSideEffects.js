@@ -1,8 +1,9 @@
 module.exports = function(eventRepository, day, logger) {
   return {
-    evaluate: cmd => cmd.originalEntityName === cmd.entityName
-        && !cmd.changes.clients
-        && !cmd.changes.appointmentType,
+    evaluate: cmd => !cmd.isPastToFuture
+      && cmd.originalEntityName === cmd.entityName
+      && !cmd.changes.clients
+      && !cmd.changes.appointmentType,
 
     execute: async cmd => {
       logger.debug('detailsHaveNoSideEffects strategy chosen');

@@ -6,6 +6,7 @@ module.exports = function(uuidvalidate) {
         if (field.type === 'string' && field.format === 'uuid' && !!value && !uuidvalidate(value)) {
           return { property: name, message: `${name} is not a valid uuid` };
         }
+        return undefined;
       }
     }
   ];

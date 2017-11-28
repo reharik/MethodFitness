@@ -19,6 +19,17 @@ export function requestStates(entity, reducerName) {
   };
 }
 
+const handleSuccess = function* request(success, action, payload) {
+  const successAction = success(action, payload);
+  if (Array.isArray(successAction)) {
+    for (let a of successAction) {
+      yield put(a);
+    }
+  } else {
+    yield put(successAction);
+  }
+};
+
 function* request(action) {
   let response;
   let payload;
@@ -39,8 +50,7 @@ function* request(action) {
     }
     const success = action.successFunction ? action.successFunction : standardSuccessResponse;
     if (response.status === 204) {
-      yield put(success(action, payload));
-      return;
+      yield* handleSuccess(success, action);
     }
 
     payload = yield response.headers.get('content-type').includes('json') ? response.json() : undefined;
@@ -52,7 +62,7 @@ function* request(action) {
       throw new Error('Server was unable to complete the request');
     }
 
-    yield put(success(action, payload));
+    yield* handleSuccess(success, action, payload);
 
     if (action.subsequentAction) {
       yield put(action.subsequentAction);

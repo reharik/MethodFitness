@@ -7,3 +7,17 @@
 - more/better logging
 - handle past appointments being updated and what that does to the stateful eventhandlers.  it should probably be
 handled by the Workflow handler
+
+scheduling appointment to new day, both past and future, I schedule new appt, and cancel old. if I keep same id there
+is race condition.  so I need to always change id but does that affect state is some weird way?
+
+
+ok so now, reschedule appt in past to new day keeps the same apptId which I believe is correct
+to avoid race condition of delete and schedule. however, drag and drop in past uses reschedule appt
+in future logic so appointment now has new id. so either the future should also keep same id or the
+  drag and drop should detect the time and react appropriately. make sure to check the appointment reducers as
+  they are involved in this shit.
+
+
+
+need to look at payments process, and update appointments to say paid:true so we can prevent updating of paid appointmnets

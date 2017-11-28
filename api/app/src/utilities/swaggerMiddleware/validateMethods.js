@@ -19,14 +19,14 @@ module.exports = function() {
 
   function request(compiledPath, method, query, body, headers) {
     if (compiledPath === undefined) {
-      return;
+      return undefined;
     }
 
     // get operation object for path and method
     let operation = compiledPath.path[method.toLowerCase()];
     if (operation === undefined) {
       // operation not defined, return 405 (method not allowed)
-      return;
+      return undefined;
     }
     let parameters = operation.resolvedParameters;
     let validationResult = { success: true, errors: [], where: [] };

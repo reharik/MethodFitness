@@ -8,7 +8,7 @@ module.exports = function(_options) {
   let container = dagon(options.dagon);
   let result;
   try {
-    result = new container(x=> x.pathToRoot(path.join(__dirname, '..'))
+    result = new container(x=> x.pathToRoot(path.join(__dirname, '..')) // eslint-disable-line new-cap
             .requireDirectoryRecursively('./app/src')
             .groupAllInDirectory('./app/src/CommandHandlers', 'CommandHandlers')
             .for('eventmodels').instantiate(i=>i.asFunc())

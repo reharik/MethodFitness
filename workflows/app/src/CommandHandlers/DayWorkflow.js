@@ -78,11 +78,11 @@ module.exports = function(eventRepository, changeAppointmentFromPast, logger, da
       logger.trace(dayInstance.state._id);
       let newAppointmentId = dayInstance.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainerId);
       await eventRepository.save(dayInstance, { continuationId });
-
-      for (let clientId of cmd.clients) {
+      const cmdClone = Object.assign({}, cmd, { appointmentId: newAppointmentId });
+      for (let clientId of cmdClone.clients) {
         let c = await eventRepository.getById(client, clientId);
         logger.debug('associating client with appointment from past');
-        c.clientAttendsAppointment(cmd);
+        c.clientAttendsAppointment(cmdClone);
         logger.info('saving client');
         await eventRepository.save(c, { continuationId });
       }
@@ -90,9 +90,9 @@ module.exports = function(eventRepository, changeAppointmentFromPast, logger, da
       return { appointmentId: newAppointmentId };
     }
 
-    async function rescheduleAppointmentFromPast(cmd, continuationId) {
+    async function rescheduleAppointmentFromPast(cmd) {
       logger.info(`calling rescheduleAppointmentFromPast on Day`);
-      await changeAppointmentFromPast(cmd, continuationId);
+      // const appointmentId = await changeAppointmentFromPast(cmd, continuationId);
       return {
         updateType: cmd.originalEntityName !== cmd.entityName
           ? 'rescheduleAppointmentToNewDay'
@@ -121,7 +121,7 @@ module.exports = function(eventRepository, changeAppointmentFromPast, logger, da
       for (let clientId of appointment.clients) {
         let c = await eventRepository.getById(client, clientId);
         logger.debug('refunding client for appointment in past');
-        c.returnSessionFromPast(cmd);
+        c.returnSessionFromPast(appointment.appointmentId);
         logger.info('saving client');
         await eventRepository.save(c, { continuationId });
       }

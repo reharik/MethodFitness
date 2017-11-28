@@ -6,7 +6,8 @@ module.exports = function(
   commands,
   moment,
   logger,
-  uuid
+  uuid,
+  R
 ) {
   let fetchAppointment = async function(ctx) {
     logger.debug('arrived at appointment.fetchAppointment');
@@ -56,12 +57,15 @@ module.exports = function(
       let notification;
       let commandName = '';
       const appointment = await rsRepository.getById(body.appointmentId, 'appointment');
-      let clientsSame = true;
-      for (let i = 0; i < body.clients.length; i++) {
-        if (body.clients[i] !== appointment.clients[i]) {
-          clientsSame = false;
-        }
-      }
+      console.log(`==========body=========`);
+      console.log(body);
+      console.log(`==========END body=========`);
+      console.log(appointment);
+      console.log(`==========END appoinment=========`);
+      let clientsSame = R.symmetricDifference(body.clients, appointment.clients).length <= 0;
+      console.log(`==========clientSame=========`);
+      console.log(clientsSame);
+      console.log(`==========END clientSame=========`);
       if (
         moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD') ||
         !moment(appointment.startTime).isSame(moment(body.startTime))
@@ -111,9 +115,7 @@ module.exports = function(
       let notification;
       let commandName = '';
       const appointment = await rsRepository.getById(body.appointmentId, 'appointment');
-      let clientsSame = appointment.clients.length === body.clients.length
-       && body.clients.every(x => !!appointment.clients.find(y => x === y));
-
+      let clientsSame = R.symmetricDifference(body.clients, appointment.clients).length <= 0;
       if (
         moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD') ||
         !moment(appointment.startTime).isSame(moment(body.startTime))
@@ -121,10 +123,10 @@ module.exports = function(
         commandName += 'rescheduleAppointmentFromPast';
         body.originalEntityName = appointment.entityName;
       } else if (
-        appointment.appointmentType !== body.appointmentType ||
-        !clientsSame ||
-        appointment.trainerId !== body.trainerId ||
-        appointment.notes !== body.notes
+        appointment.appointmentType !== body.appointmentType
+        || !clientsSame
+        || appointment.trainerId !== body.trainerId
+        || appointment.notes !== body.notes
       ) {
         commandName += 'updateAppointmentFromPast';
       } else {
@@ -175,7 +177,6 @@ module.exports = function(
     let notificationPromise = await notificationListener(continuationId);
     const command = commands[commandFactory](payload);
     await eventstore.commandPoster(command, commandName, continuationId);
-
     return notificationPromise;
   };
 

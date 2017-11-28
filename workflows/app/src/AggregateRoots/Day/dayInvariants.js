@@ -55,13 +55,15 @@ module.exports = function(invariant, moment) {
         }
       },
 
+      // isBetween default is exclusivity '()' which is what we want
+      // so that starttime and endtime don't conflict
       expectTrainerNotConflicting(cmd) {
         let trainerConflict = state.appointments
           .filter(
             x =>
             (x.appointmentId &&
             x.appointmentId !== cmd.appointmentId &&
-            moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
+            moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')) ||
             (x.appointmentId
             && x.appointmentId !== cmd.appointmentId
             && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')),
@@ -81,10 +83,10 @@ module.exports = function(invariant, moment) {
             x =>
             (x.appointmentId &&
             x.appointmentId !== cmd.appointmentId &&
-            moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]')) ||
+            moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes')) ||
             (x.appointmentId &&
             x.appointmentId !== cmd.appointmentId &&
-            moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[]'))
+            moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes'))
           )
           .filter(x => x.clients.includes(c => cmd.clients.includes(c2 => c.clientId === c2.clientId)));
         invariant(

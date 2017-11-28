@@ -9,10 +9,14 @@ module.exports = function(dayInvariants, esEvents, uuid) {
         invariants.expectCorrectNumberOfClients(cmdClone);
         invariants.expectTrainerNotConflicting(cmdClone);
         invariants.expectClientsNotConflicting(cmdClone);
-        cmdClone.appointmentId = cmdClone.commandName === 'scheduleAppointment'
-          ? uuid.v4()
+        cmdClone.appointmentId = uuid.v4();
+        // not sure when or why we would keep same id. I thought maybe the past but
+        // certainly not the future?
+          //cmdClone.commandName === 'scheduleAppointment'
+          // || cmdClone.commandName === 'rescheduleAppointmentToNewDay'
+          // ? uuid.v4()
           // if  cmdClone.commandName === 'rescheduleAppointmentToNewDay' use same id
-          : cmdClone.appointmentId;
+          // : cmdClone.appointmentId;
 
         raiseEvent(esEvents.appointmentScheduledEvent(cmdClone));
       },
@@ -54,6 +58,18 @@ module.exports = function(dayInvariants, esEvents, uuid) {
         invariants.expectTrainerNotConflicting(cmdClone);
         invariants.expectClientsNotConflicting(cmdClone);
 
+        raiseEvent(esEvents.pastAppointmentUpdatedEvent(cmdClone));
+      },
+      // this is for when we have changed days, and need to add appt to new AR
+      // but it's an existing appt so we don't give it a new uuid but we have to use
+      // the pastAppointmentUpdatedEvent
+      rescheduleAppointmentInPast(cmd) {
+        let cmdClone = Object.assign({}, cmd, {rescheduled: true});
+        invariants.expectEndTimeAfterStart(cmdClone);
+        invariants.expectAppointmentDurationCorrect(cmdClone);
+        invariants.expectCorrectNumberOfClients(cmdClone);
+        invariants.expectTrainerNotConflicting(cmdClone);
+        invariants.expectClientsNotConflicting(cmdClone);
         raiseEvent(esEvents.pastAppointmentUpdatedEvent(cmdClone));
       },
 

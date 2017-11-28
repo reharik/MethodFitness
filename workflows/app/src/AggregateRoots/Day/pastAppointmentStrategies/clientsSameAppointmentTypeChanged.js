@@ -14,7 +14,7 @@ module.exports = function(eventRepository, day, client, logger) {
       for (let clientId of origAppointment.clients) {
         let c = await eventRepository.getById(client, clientId);
         logger.debug('returning session to client');
-        c.returnSessionFromPast(cmd.appointmentId, cmd.appointmentType);
+        c.returnSessionFromPast(cmd.appointmentId);
         result.push({type: 'client', instance: c});
       }
       // update appointment so now we have correct appointmentType

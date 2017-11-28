@@ -86,14 +86,14 @@ module.exports = function(invariant) {
     };
 
     const removeFundedAppointmentForClient = event => {
-      let appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
-      if (!appointment || appointment.length <= 0) {
+      let unpaidAppointments = innerState.unpaidAppointments.find(x => x.appointmentId === event.appointmentId);
+      if (!unpaidAppointments || unpaidAppointments.length <= 0) {
         return undefined;
       }
 
       innerState.unpaidAppointments = innerState.unpaidAppointments
         .filter(x => x.sessionId !== event.sessionId);
-      return appointment.trainerId;
+      return unpaidAppointments.trainerId;
     };
 
     const processUnfundedAppointment = event => {

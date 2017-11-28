@@ -37,9 +37,11 @@ module.exports = function(pg, config, promiseretry) {
 
                 return rej(endErr);
               }
+              return undefined;
             });
             return res(dbExists);
           });
+        return rej('fell through');
       });
     });
   };

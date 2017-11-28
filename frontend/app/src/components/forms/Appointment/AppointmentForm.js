@@ -30,31 +30,27 @@ class AppointmentForm extends Component {
   };
 
   validateSave = (data) => {
-    return {success: permissionToSetAppointment(data, this.props.isAdmin) };
+    let success = true;
+    if (!permissionToSetAppointment(data, this.props.isAdmin)) {
+      success = false;
+    }
+    return { success };
   };
 
   onSubmitHandler = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const secondVal = this.validateSave(values);
+        const secondVal = this.validateSave(values, this.props.model);
         if (secondVal.success) {
           values.color = this.props.trainers.find(x => x.value === values.trainerId).color;
           if (!values.trainerId) {
             values.trainerId = this.props.trainerId;
           }
           if (values.appointmentId) {
-            if(buildMomentFromDateAndTime(values.date, values.startTime).isBefore(moment())) {
-              this.props.updateAppointmentFromPast(values);
-            } else {
-              this.props.updateAppointment(values);
-            }
+            this.props.updateAppointment(values, this.props.model.date.value, this.props.model.startTime.value);
           } else {
-            if(buildMomentFromDateAndTime(values.date, values.startTime).isBefore(moment())) {
-              this.props.scheduleAppointmentInPast(values);
-            } else {
-              this.props.scheduleAppointment(values);
-            }
+            this.props.scheduleAppointment(values);
           }
           this.props.onCancel();
           console.log('Received values of form: ', values);
@@ -214,9 +210,9 @@ AppointmentForm.propTypes = {
   model: PropTypes.object,
   form: PropTypes.object,
   scheduleAppointment: PropTypes.func,
-  scheduleAppointmentInPast: PropTypes.func,
   updateAppointment: PropTypes.func,
   deleteAppointment: PropTypes.func,
+  deleteAppointmentFromPast: PropTypes.func,
   onCancel: PropTypes.func,
   onCopy: PropTypes.func,
   onEdit: PropTypes.func,
@@ -228,9 +224,7 @@ AppointmentForm.propTypes = {
   clients: PropTypes.array,
   appointmentTypes: PropTypes.array,
   times: PropTypes.array,
-  buttons: PropTypes.array,
-  deleteAppointmentFromPast: PropTypes.func,
-  updateAppointmentFromPast: PropTypes.func
+  buttons: PropTypes.array
 };
 
 export default Form.create({mapPropsToFields: (props) => ({...props.model})})(AppointmentForm);

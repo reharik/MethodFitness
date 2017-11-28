@@ -40,8 +40,13 @@ module.exports = function(rsRepository, logger) {
 
     async function pastAppointmentUpdated(event) {
       logger.info('handling pastAppointmentUpdated event');
-      logger.info('passing pastAppointmentUpdated to appointmentUpdated');
-      return await appointmentUpdated(event);
+      if (event.rescheduled) {
+        logger.info('passing pastAppointmentUpdated to appointmentScheduled');
+        return await appointmentScheduled(event);
+      } else {
+        logger.info('passing pastAppointmentUpdated to appointmentUpdated');
+        return await appointmentUpdated(event);
+      }
     }
 
     async function appointmentUpdated(event) {
@@ -69,6 +74,21 @@ module.exports = function(rsRepository, logger) {
       return await rsRepository.saveQuery(sql);
     }
 
+    async function trainerPaid(event) {
+      const appointmentIds = event.paidAppointments.map(x => `'${x.appointmentId}'`);
+      let appointments = await rsRepository.getByIds(appointmentIds, 'appointment');
+      const query = (doc) => {
+        return `UPDATE SET document = '${rsRepository.sanitizeDocument(document)}'
+        WHERE "id" = '${doc.appointmentId}'`;
+      };
+      // this looks bad because it doesn't wait for any of the responses,
+      // but I don't need em so it's actually better.  Unless it throws, which could be bad
+      appointments.forEach(async x => {
+        x.paid = true;
+        await rsRepository.query(query(x));
+      });
+    }
+
     return {
       handlerName: 'AppointmentEventHandler',
       appointmentScheduled,
@@ -78,7 +98,8 @@ module.exports = function(rsRepository, logger) {
       unfundedAppointmentAttendedByClient,
       appointmentScheduledInPast,
       pastAppointmentRemoved,
-      pastAppointmentUpdated
+      pastAppointmentUpdated,
+      trainerPaid
     };
   };
 };

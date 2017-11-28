@@ -14,7 +14,7 @@ module.exports = function(eventRepository, day, client, logger) {
       for (let clientId of origAppointment.clients.filter(x => !cmd.clients.find(y => y === x))) {
         let c = await eventRepository.getById(client, clientId);
         logger.debug('returning session to client');
-        c.returnSessionFromPast(cmd.appointmentId, cmd.appointmentType);
+        c.returnSessionFromPast(cmd.appointmentId);
         result.push({type: 'client', instance: c});
       }
 

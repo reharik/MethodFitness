@@ -4,6 +4,7 @@ import config from './../utilities/configValues';
 import moment from 'moment';
 import { requestStates } from '../sagas/requestSaga';
 import selectn from 'selectn';
+import { fetchUnverifiedAppointments } from './sessionVerificationModule';
 
 export const FETCH_APPOINTMENTS = requestStates('fetch_appointments', 'appointments');
 export const SCHEDULE_APPOINTMENT = requestStates('schedule_appointment', 'appointments');
@@ -17,18 +18,19 @@ export default (state = [], action = {}) => {
   switch (action.type) {
     case UPDATE_APPOINTMENT_FROM_PAST.SUCCESS:
     case UPDATE_APPOINTMENT.SUCCESS: {
-      let response = selectn('response.payload', action);
+      // let response = selectn('response.payload', action);
       let newItem = selectn('action.upsertedItem', action);
-      if (response.updateType === 'rescheduleAppointmentToNewDay') {
-        const newState = state.filter(x => x.appointmentId !== response.oldAppointmentId);
-        newItem.appointmentId = response.newAppointmentId;
-        return reducerMerge(newState, newItem, 'appointmentId');
-      } else {
-        return reducerMerge(state, newItem, 'appointmentId');
-      }
+      // if (response.updateType === 'rescheduleAppointmentToNewDay') {
+      //   const newState = state.filter(x => x.appointmentId !== response.oldAppointmentId);
+      //   newItem.appointmentId = response.newAppointmentId;
+      //   return reducerMerge(newState, newItem, 'appointmentId');
+      // } else {
+      return reducerMerge(state, newItem, 'appointmentId');
+      // }
     }
     // fallback intentional for non new day updates
-    case SCHEDULE_APPOINTMENT.SUCCESS: {
+    case SCHEDULE_APPOINTMENT.SUCCESS:
+    case SCHEDULE_APPOINTMENT_IN_PAST.SUCCESS: {
       let upsertedItem = selectn('action.upsertedItem', action);
       upsertedItem.appointmentId = selectn('response.payload.appointmentId', action);
       return reducerMerge(state, upsertedItem, 'appointmentId');
@@ -46,16 +48,27 @@ export default (state = [], action = {}) => {
   }
 };
 
-export function scheduleAppointment(data) {
+function formatAppointmentData(data) {
   moment.locale('en');
   const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
   const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
-  const formattedData = {
+  return {
     ...data,
     startTime,
     endTime,
     entityName: moment(data.date).format('YYYYMMDD')
   };
+}
+
+export function scheduleAppointment(data) {
+  const formattedData = formatAppointmentData(data);
+  const startTimeIsInPast = buildMomentFromDateAndTime(data.date, data.startTime).isBefore(moment());
+  return startTimeIsInPast
+    ? scheduleAppointmentInPast(formattedData)
+    : scheduleAppointmentInFuture(formattedData);
+}
+
+function scheduleAppointmentInFuture(formattedData) {
   return {
     type: SCHEDULE_APPOINTMENT.REQUEST,
     states: SCHEDULE_APPOINTMENT,
@@ -70,16 +83,7 @@ export function scheduleAppointment(data) {
   };
 }
 
-export function scheduleAppointmentInPast(data) {
-  moment.locale('en');
-  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
-  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
-  const formattedData = {
-    ...data,
-    startTime,
-    endTime,
-    entityName: moment(data.date).format('YYYYMMDD')
-  };
+function scheduleAppointmentInPast(formattedData) {
   return {
     type: SCHEDULE_APPOINTMENT_IN_PAST.REQUEST,
     states: SCHEDULE_APPOINTMENT_IN_PAST,
@@ -94,17 +98,17 @@ export function scheduleAppointmentInPast(data) {
   };
 }
 
-export function updateAppointment(data) {
-  moment.locale('en');
-  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
-  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
-  const formattedData = {
-    ...data,
-    date: startTime,
-    startTime,
-    endTime,
-    entityName: moment(data.date).format('YYYYMMDD')
-  };
+export function updateAppointment(data, origDate, origStartTime) {
+  const startTimeIsInPast = buildMomentFromDateAndTime(data.date, data.startTime).isBefore(moment());
+  const origStartTimeIsInPast = buildMomentFromDateAndTime(origDate, origStartTime).isBefore(moment());
+  let formattedData = formatAppointmentData(data);
+  formattedData.isPastToFuture = !startTimeIsInPast && origStartTimeIsInPast;
+  return startTimeIsInPast || formattedData.isPastToFuture
+    ? updateAppointmentFromPast(formattedData)
+    : updateAppointmentInFuture(formattedData);
+}
+
+function updateAppointmentInFuture(formattedData) {
   return {
     type: UPDATE_APPOINTMENT.REQUEST,
     states: UPDATE_APPOINTMENT,
@@ -119,22 +123,20 @@ export function updateAppointment(data) {
   };
 }
 
-export function updateAppointmentFromPast(data) {
-  moment.locale('en');
-  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
-  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
-  const formattedData = {
-    ...data,
-    date: startTime,
-    startTime,
-    endTime,
-    entityName: moment(data.date).format('YYYYMMDD')
-  };
+const successFunction = (action, payload) => {
+  return [
+    { type: action.states.SUCCESS, action, payload },
+    fetchUnverifiedAppointments()
+  ];
+};
+
+function updateAppointmentFromPast(formattedData) {
   return {
     type: UPDATE_APPOINTMENT_FROM_PAST.REQUEST,
     states: UPDATE_APPOINTMENT_FROM_PAST,
     url: config.apiBase + 'appointment/updateAppointmentFromPast',
     upsertedItem: formattedData,
+    successFunction,
     params: {
       method: 'POST',
       credentials: 'include',
@@ -145,9 +147,8 @@ export function updateAppointmentFromPast(data) {
 }
 
 export function updateTaskViaDND(data) {
-  // debugger //eslint-disable-line
   const submitData = { ...data.orig, date: data.date, startTime: data.startTime, endTime: data.endTime };
-  return updateAppointment(submitData);
+  return updateAppointment(submitData, data.orig.date, data.orig.startTime);
 }
 
 export function deleteAppointment(appointmentId, date) {

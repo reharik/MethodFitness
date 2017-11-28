@@ -44,7 +44,7 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     await processMessage(ctx, ctx.request.body.archived ? 'unArchiveClient' : 'archiveClient');
   };
 
-  var processMessage = async function(ctx, commandName) {
+  const processMessage = async function(ctx, commandName) {
     logger.debug(`api: processing ${commandName}`);
     const payload = ctx.request.body;
     const continuationId = uuid.v4();

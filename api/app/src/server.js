@@ -8,7 +8,7 @@ module.exports = function(koa, config, papersConfig, koaConfig, routes, logger) 
     logger.info('approot ' + __dirname);
     logger.info('appTitle ' + config.app.title);
 
-    let app = new koa();
+    let app = new koa(); // eslint-disable-line new-cap
     koaConfig(app, papersConfig);
     routes(app);
 

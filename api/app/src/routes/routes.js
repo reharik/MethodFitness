@@ -1,4 +1,4 @@
-module.exports = function(koarouter, routers_array, controllers, logger) {
+module.exports = function(koarouter, routers_array, controllers, logger) { // eslint-disable-line camelcase
   // let secured = async function(next) {
   //   if (this.isAuthenticated()) {
   //     await next;
@@ -15,7 +15,7 @@ module.exports = function(koarouter, routers_array, controllers, logger) {
       app.use(router.routes());
       app.use(router.allowedMethods());
 
-      routers_array.forEach(x => x(router));
+      routers_array.forEach(x => x(router)); // eslint-disable-line camelcase
     } catch (ex) {
       logger.error(ex);
     }

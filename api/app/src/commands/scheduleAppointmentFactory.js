@@ -12,7 +12,8 @@ module.exports = function(invariant) {
                      notes,
                      originalEntityName,
                      entityName,
-                    changes
+                    changes,
+                    isPastToFuture
                    }) {
     if (commandName !== 'scheduleAppointment' && commandName !== 'scheduleAppointmentInPast') {
       invariant(appointmentId, `This command requires that you pass the appointmentId`);
@@ -50,6 +51,7 @@ module.exports = function(invariant) {
     }
     if (commandName === 'rescheduleAppointment' || commandName === 'rescheduleAppointmentFromPast') {
       result.originalEntityName = originalEntityName;
+      result.isPastToFuture = isPastToFuture;
     }
     return result;
   };
