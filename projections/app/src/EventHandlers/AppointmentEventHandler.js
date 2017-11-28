@@ -77,7 +77,7 @@ module.exports = function(rsRepository, logger) {
     async function trainerPaid(event) {
       const appointmentIds = event.paidAppointments.map(x => `'${x.appointmentId}'`);
       let appointments = await rsRepository.getByIds(appointmentIds, 'appointment');
-      const query = (doc) => {
+      const query = doc => {
         return `UPDATE SET document = '${rsRepository.sanitizeDocument(document)}'
         WHERE "id" = '${doc.appointmentId}'`;
       };
