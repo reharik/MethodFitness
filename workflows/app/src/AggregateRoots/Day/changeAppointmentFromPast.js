@@ -1,5 +1,5 @@
 // eslint-disable-next-line camelcase
-module.exports = function(eventRepository, pastAppointmentStrategies_array, day, sortby, logger) {
+module.exports = function(eventRepository, pastAppointmentStrategies_array, day, client, sortby, logger) {
   return async function changeAppointmentFromPast(cmd, continuationId) {
 
     // if orig is not set set it to entityName so equalities will work
@@ -10,9 +10,16 @@ module.exports = function(eventRepository, pastAppointmentStrategies_array, day,
       let oldDay = await eventRepository.getById(day, cmd.originalEntityName);
       origAppointment = Object.assign({}, oldDay.getAppointment(cmd.appointmentId));
       oldDay.removeAppointmentFromPast(cmd);
-      await eventRepository.save(oldDay, { continuationId });
-    }
 
+      for (let clientId of origAppointment.clients) {
+        let c = await eventRepository.getById(client, clientId);
+        logger.debug('refunding client for appointment in past');
+        c.returnSessionFromPast(origAppointment.appointmentId);
+        logger.info('saving client');
+        await eventRepository.save(c, {continuationId});
+      }
+      await eventRepository.save(oldDay, {continuationId});
+    }
     let result = [];
     for (let strategy of pastAppointmentStrategies_array) { // eslint-disable-line camelcase
       if (strategy.evaluate(cmd)) {

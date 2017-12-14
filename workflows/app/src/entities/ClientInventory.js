@@ -27,7 +27,7 @@ module.exports = function(sortby, logger) {
     }
 
     sessionsExists(cmd) {
-      return !cmd.refundSessions.find(x => !this.sessions.some(y => y.sessionId === x));
+      return !cmd.refundSessions.find(x => !this.sessions.some(y => y.sessionId === x.sessionId));
     }
 
     replaceSession(event) {
@@ -42,6 +42,13 @@ module.exports = function(sortby, logger) {
 
     getUsedSessionByAppointmentId(appointmentId) {
       return this.consumedSessions.find(x => x.appointmentId === appointmentId);
+    }
+
+    modifyConsumedSession(event) {
+      this.consumedSessions.map(x =>
+        x.sessionId === event.sessionId
+          ? Object.assign({}, x, { appointmentId: event.appointmentId })
+          : x);
     }
   };
 };

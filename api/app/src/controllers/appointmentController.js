@@ -136,7 +136,6 @@ module.exports = function(
       body.changes = getWhatChangedOnAppointment(appointment, body, clientsSame);
       notification = await processMessage(body, 'scheduleAppointmentFactory', commandName);
       const result = await notificationParser(notification);
-
       ctx.body = result.body;
       ctx.status = result.status;
     } catch (ex) {

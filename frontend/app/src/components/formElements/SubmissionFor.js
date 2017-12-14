@@ -13,7 +13,7 @@ const SubmissionFor = ({data,
 }) => {
   let input = InputFor({data, selectOptions, onChange, form});
   return (
-    <Col lg={span || 12} sm={span || 12} xs={24} >
+    <Col lg={span || 12} sm={span || 12} xs={24} data-id={`${data.name}-container`} >
       <FormItem {...formItemLayout} label={data.label} style={{padding: '0 8px'}}>
         {form.getFieldDecorator(data.name, {rules: data.rules})(input)}
       </FormItem>

@@ -11,18 +11,25 @@ import { scheduleAppointment,
   deleteAppointmentFromPast} from './../../modules/appointmentModule';
 import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
 
-
 const mapStateToProps = (state, ownProps) => {
   const isAdmin = state.auth.user.role === 'admin';
-  let user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
-  const clients = state.clients
-    .filter(x => !x.archived)
-    .filter(x => isAdmin || user.clients.includes(x.clientId))
-    .map(x => ({value: x.clientId, display: `${x.contact.lastName} ${x.contact.firstName}`}));
+  // if trainers and clients aren't loaded yet don't render the whole thing
+  // in functional component render check for trainer and clients
+  let user;
+  let trainers;
+  let clients;
+  if(state.trainers && state.clients) {
+    user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
 
-  const trainers = state.trainers
-    .filter(x => !x.archived)
-    .map(x => ({value: x.trainerId, display: `${x.contact.lastName} ${x.contact.firstName}`, color: x.color}));
+    clients = state.clients
+      .filter(x => !x.archived)
+      .filter(x => isAdmin || user.clients.includes(x.clientId))
+      .map(x => ({value: x.clientId, display: `${x.contact.lastName} ${x.contact.firstName}`}));
+
+    trainers = state.trainers
+      .filter(x => !x.archived)
+      .map(x => ({value: x.trainerId, display: `${x.contact.lastName} ${x.contact.firstName}`, color: x.color}));
+  }
 
   // please put this shit in a config somewhere
   const times = generateAllTimes(15, 5, 11);
@@ -55,7 +62,7 @@ const mapStateToProps = (state, ownProps) => {
     onEdit: ownProps.onEdit,
     buttons,
     editing: !model.appointmentId.value || ownProps.isEdit,
-    trainerId: user.trainerId
+    trainerId: user ? user.trainerId : ''
   };
 };
 

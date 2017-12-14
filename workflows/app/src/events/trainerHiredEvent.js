@@ -1,12 +1,12 @@
 module.exports = function(invariant) {
   return function({ trainerId,
-                    color,
-                    birthDate,
-                    archived,
-                    contact,
-                    credentials,
-                    clients
-                  }) {
+    color,
+    birthDate,
+    archived,
+    contact,
+    credentials,
+    clients
+  }) {
     const {
       firstName,
       lastName,

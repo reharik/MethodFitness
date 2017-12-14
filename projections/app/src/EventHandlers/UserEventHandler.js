@@ -1,9 +1,4 @@
-/**
- * Created by parallels on 7/16/15.
- */
-
-
-module.exports = function(rsRepository, logger) {
+module.exports = function(rsRepository, metaLogger, logger) {
   return function UserEventHandler() {
     logger.info('UserEventHandler started up');
 
@@ -49,13 +44,13 @@ module.exports = function(rsRepository, logger) {
       return await rsRepository.save('user', user, user.trainerId);
     }
 
-    return {
+    return metaLogger({
       handlerName: 'UserEventHandler',
       trainerHired,
       trainerArchived,
       trainerUnArchived,
       trainerContactUpdated,
       trainerPasswordUpdated
-    };
+    }, 'UserEventHandler');
   };
 };

@@ -9,9 +9,19 @@ const UserProfileHeader = ({ userName, logoutUser }) => {
   };
   return (
     <div className="mainHeader__profile__links">
-      <Link className="mainHeader__profile__links__link" to="profile">{userName}</Link>
-      <a href="" className="mainHeader__profile__links__link" onClick={logout} >
-        {' '}Sign out{' '}
+      <Link
+        id="userName"
+        data-id={'userName'}
+        className="mainHeader__profile__links__link"
+        to="profile">
+        {userName}
+      </Link>
+      <a
+        href=""
+        data-id={'signOut'}
+        className="mainHeader__profile__links__link"
+        onClick={logout} >
+        &nbsp;Sign out&nbsp;
       </a>
     </div>
   );

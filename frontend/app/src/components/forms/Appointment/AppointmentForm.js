@@ -111,15 +111,15 @@ class AppointmentForm extends Component {
   };
 
   render() {
+    if (!this.props.clients || !this.props.trainers) {
+      return null;
+    }
     const formItemLayout = {
       labelCol: {span: 8},
       wrapperCol: {span: 16}
     };
     const model = this.props.model;
     const form = this.props.form;
-    console.log(`==========model.clients=========`);
-    console.log(model.clients);
-    console.log(`==========END model.clients=========`);
     return (
       <Card title={this.props.title}>
         <Form onSubmit={this.onSubmitHandler} layout="horizontal">

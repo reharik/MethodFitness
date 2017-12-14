@@ -1,7 +1,7 @@
 module.exports = function(aggregateRootBase,
-                          clientCommands,
-                          ClientInventory,
-                          clientEventHandlers) {
+  clientCommands,
+  ClientInventory,
+  clientEventHandlers) {
   return function client() {
     const state = {
       _isArchived: false,

@@ -1,7 +1,7 @@
-module.exports = function(trainerInvariants, esEvents, uuid) {
+module.exports = function(trainerInvariants, esEvents, metaLogger, uuid) {
   return (raiseEvent, state) => {
     const invariants = trainerInvariants(state);
-    return {
+    return metaLogger({
       hireTrainer(cmd) {
         let cmdClone = Object.assign({}, cmd);
         cmdClone.trainerId = cmdClone.trainerId || uuid.v4();
@@ -115,6 +115,6 @@ module.exports = function(trainerInvariants, esEvents, uuid) {
 
         raiseEvent(esEvents.trainersClientsUpdatedEvent(cmdClone));
       }
-    };
+    }, 'TrainerCommands');
   };
 };

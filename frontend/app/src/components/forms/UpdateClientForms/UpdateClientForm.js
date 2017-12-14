@@ -20,6 +20,9 @@ class UpdateClientForm extends Component {
     }
   }
   render() {
+    console.log(`==========this.props.clientId=xxxxxx========`);
+    console.log(this.props.clientId); // eslint-disable-line quotes
+    console.log(`==========END this.props.clientId=========`);
     let model = this.props.model;
     return (
       <div className="form">
@@ -47,7 +50,7 @@ class UpdateClientForm extends Component {
               <ClientSource model={model} submit={this.props.updateClientSource} sources={this.props.sources} />
             </Col>
             <Col xl={6} lg={10} sm={24}>
-              <ClientInventory inventory={this.props.inventory} />
+              <ClientInventory clientId={this.props.clientId} inventory={this.props.inventory} />
             </Col>
           </Row>
         </div>

@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function(metaLogger) {
   return function sessionsPurchasedState(state = {}) {
     let innerState = {
       id: state.id || '00000000-0000-0000-0000-000000000001',
@@ -58,19 +58,15 @@ module.exports = function() {
 
     const pastAppointmentUpdated = event => {
       let purchaseIds = [];
-      console.log(`=========="hewre"=========`);
-      console.log('hewre');
-      console.log(`==========END "hewre"=========`);
-
       event.clients.forEach(c => {
         let session = innerState.purchases
           .filter(x => x.clientId === c)
           .reduce((a, b) => a.concat(b.sessions), [])
           .find(x => x.appointmentId === event.appointmentId);
         if (session
-          && (session.trainerId !== event.trainerId)
+          && (session.trainerId !== event.trainerId
           || session.date !== event.date
-          || session.startTime !== event.startTime) {
+          || session.startTime !== event.startTime)) {
           session.trainerId = event.trainerId;
           session.date = event.date;
           session.startTime = event.startTime;
@@ -99,7 +95,7 @@ module.exports = function() {
         .reduce((a, b) => a.concat(b.sessions), []);
       let purchaseIds = [];
       event.refundSessions.map(x => {
-        let session = sessions.find(y => y.sessionId === x);
+        let session = sessions.find(y => y.sessionId === x.sessionId);
         session.refunded = true;
         if (!purchaseIds.includes(session.purchaseId)) {
           purchaseIds.push(session.purchaseId);
@@ -122,7 +118,24 @@ module.exports = function() {
       return purchase.purchaseId;
     };
 
-    return {
+    const transferSessionFromPastAppointment = (event, purchase) => {
+      // purchase coming in is from db row.
+      // so if it's been purged, let's re-add it, We'll filter first in case;
+      innerState.purchases = innerState.purchases.filter(x => x.purchaseId !== purchase.purchaseId);
+      const appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
+      purchase.sessions = purchase.sessions.map(x => {
+        if (x.sessionId === event.sessionId) {
+          x.trainer = appointment.trainer;
+          x.startTime = appointment.startTime;
+          x.appointmentId = event.appointmentId;
+          x.appointmentDate = appointment.appointmentDate;
+        }
+        return x;
+      });
+      innerState.purchases.push(purchase);
+    };
+
+    return metaLogger({
       getPurchase,
       createSessions,
       createPurchase,
@@ -132,8 +145,9 @@ module.exports = function() {
       refundSessions,
       returnSessionsFromPastAppointment,
       pastAppointmentUpdated,
+      transferSessionFromPastAppointment,
       innerState
-    };
+    }, 'sessionsPurchasedState');
   };
 };
 

@@ -5,19 +5,15 @@ module.exports = function(config,
                           loadTrainers,
                           loadPurchases,
                           loadAppointments) {
-  return function () {
-console.log('==========config=========');
-console.log(config.configs.children.eventstore);
-console.log('==========END config=========');
-
-    const processCommands = async function (command, commandName) {
+  return function() {
+    const processCommands = async function(command, commandName) {
       await eventstore.commandPoster(
         command,
         commandName,
         uuid.v4());
     };
 
-    const populateES = async function () {
+    const populateES = async function() {
       console.log('=========="begin seed"=========');
       console.log("begin seed");
       console.log('==========END "begin seed"=========');
@@ -38,8 +34,8 @@ console.log('==========END config=========');
           loadClients.clients[0].clientId,
           loadClients.clients[1].clientId,
           loadClients.clients[2].clientId,
-        loadClients.clients[3].clientId,
-      loadClients.clients[4].clientId]
+          loadClients.clients[3].clientId,
+          loadClients.clients[4].clientId]
       };
 
       await processCommands(addClientsToTrainer1, 'updateTrainersClients');
@@ -52,7 +48,7 @@ console.log('==========END config=========');
           loadClients.clients[2].clientId,
           loadClients.clients[3].clientId,
           loadClients.clients[4].clientId]
-    };
+      };
       await processCommands(addClientsToTrainer2, 'updateTrainersClients');
 
       const addClientsToTrainer3 = {
@@ -61,10 +57,9 @@ console.log('==========END config=========');
           loadClients.clients[0].clientId,
           loadClients.clients[1].clientId,
           loadClients.clients[2].clientId,
-        loadClients.clients[3].clientId,
-      loadClients.clients[4].clientId]
-    };
-
+          loadClients.clients[3].clientId,
+          loadClients.clients[4].clientId]
+      };
 
       await processCommands(addClientsToTrainer3, 'updateTrainersClients');
 
@@ -84,7 +79,7 @@ console.log('==========END config=========');
 
     };
 
-    const begin = async function () {
+    const begin = async function() {
       return await populateES();
     };
 

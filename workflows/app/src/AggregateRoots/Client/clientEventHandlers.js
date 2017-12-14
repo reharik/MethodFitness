@@ -41,6 +41,12 @@ module.exports = function() {
       unfundedAppointmentRemoveForClient: event => {
         state.unfundedAppointments = state.unfundedAppointments
           .filter(u => u.appointmentId !== event.appointmentId);
+      },
+
+      sessionTransferredFromRemovedAppointmentToUnfundedAppointment: event => {
+        state.unfundedAppointments = state.unfundedAppointments
+          .filter(u => u.appointmentId !== event.appointmentId);
+        state.clientInventory.modifyConsumedSession(event);
       }
     };
   };

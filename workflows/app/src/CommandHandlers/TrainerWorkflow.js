@@ -1,4 +1,4 @@
-module.exports = function(eventRepository, logger, trainer) {
+module.exports = function(eventRepository, logger, metaLogger, trainer) {
   return function TrainerWorkflow() {
     // async function loginTrainer(cmd, continuationId ) {
     //   throw new Error('yo! wtf!');
@@ -8,7 +8,6 @@ module.exports = function(eventRepository, logger, trainer) {
     // }
 
     async function hireTrainer(cmd, continuationId) {
-      logger.info('calling hiretrainer');
       let trainerInstance = trainer();
       trainerInstance.hireTrainer(cmd);
 
@@ -20,7 +19,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function updateTrainerAddress(cmd, continuationId) {
-      logger.info('calling updateTrainerAddress');
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.updateTrainerAddress(cmd);
 
@@ -32,7 +30,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function updateTrainerContact(cmd, continuationId) {
-      logger.info('calling updateTrainerContact');
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.updateTrainerContact(cmd);
 
@@ -44,7 +41,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function updateTrainerPassword(cmd, continuationId) {
-      logger.info('calling updateTrainerPassword');
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.updateTrainerPassword(cmd);
 
@@ -56,8 +52,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function updateTrainerInfo(cmd, continuationId) {
-      logger.info('calling updateTrainerInfo');
-
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.updateTrainerInfo(cmd);
 
@@ -69,8 +63,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function updateTrainersClients(cmd, continuationId) {
-      logger.info('calling updateTrainersClients');
-
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.updateTrainersClients(cmd);
 
@@ -82,8 +74,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function updateTrainersClientRates(cmd, continuationId) {
-      logger.info('calling updateTrainersClientRates');
-
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.updateTrainersClientRates(cmd);
 
@@ -95,8 +85,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function archiveTrainer(cmd, continuationId) {
-      logger.info('calling archiveTrainer');
-
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.archiveTrainer(cmd);
 
@@ -108,8 +96,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function unArchiveTrainer(cmd, continuationId) {
-      logger.info('calling unArchiveTrainer');
-
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.unArchiveTrainer(cmd);
 
@@ -121,8 +107,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function verifyAppointments(cmd, continuationId) {
-      logger.info('verifying Appointments');
-
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.verifyAppointments(cmd);
       logger.info('saving trainerInstance');
@@ -133,8 +117,6 @@ module.exports = function(eventRepository, logger, trainer) {
     }
 
     async function payTrainer(cmd, continuationId) {
-      logger.info('Paying trainerInstance');
-
       let trainerInstance = await eventRepository.getById(trainer, cmd.trainerId);
       trainerInstance.payTrainer(cmd);
       logger.info('saving trainerInstance');
@@ -143,7 +125,7 @@ module.exports = function(eventRepository, logger, trainer) {
       return { trainerId: trainerInstance.state._id };
     }
 
-    return {
+    return metaLogger({
       handlerName: 'TrainerWorkflow',
       hireTrainer,
       updateTrainerInfo,
@@ -156,6 +138,6 @@ module.exports = function(eventRepository, logger, trainer) {
       unArchiveTrainer,
       verifyAppointments,
       payTrainer
-    };
+    }, 'TrainerWorkflow');
   };
 };

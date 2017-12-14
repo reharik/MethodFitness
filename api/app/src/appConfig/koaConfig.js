@@ -44,7 +44,7 @@ module.exports = function(
       credentials: true }));
 
     app.use(koabodyparser());
-    app.use(koagenericsession());
+    app.use(koagenericsession({key: 'MethodFitness.sid'}));
 
     app.use(koaconvert(papersMiddleware));
     app.use(koacompress());

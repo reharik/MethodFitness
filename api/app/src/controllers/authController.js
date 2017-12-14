@@ -1,5 +1,5 @@
 module.exports = function(commands, eventstore, logger) {
-  let signIn = function(ctx) {
+  let signIn = async function(ctx) {
     logger.debug('arrived at login');
     if (!ctx.state.user) {
       ctx.status = 401;
@@ -7,20 +7,20 @@ module.exports = function(commands, eventstore, logger) {
     } else {
       let user = ctx.state.user;
       let cmd = commands.loginTrainerCommand(user.trainerId, user.userName);
-      eventstore.commandPoster(cmd, 'loginTrainer');
+      await eventstore.commandPoster(cmd, 'loginTrainer');
       delete user.password;
       ctx.body = { success: true, user };
     }
   };
-  //
-  // var  checkAuth = async function () {
-  //     if (this.passport.user) {
-  //         this.body = {user: this.passport.user};
-  //         this.status = 200;
-  //     } else{
-  //         this.status = 401;
-  //     }
-  // };
+
+  const checkAuth = async function(ctx) {
+    if (ctx.state.user) {
+      ctx.status = 200;
+      ctx.body = { success: true, user: ctx.state.user };
+    } else {
+      ctx.status = 401;
+    }
+  };
 
   let signOut = async function(ctx) {
     ctx.user = null;
@@ -32,7 +32,7 @@ module.exports = function(commands, eventstore, logger) {
 
   return {
     signIn,
-    signOut
-    // checkAuth:checkAuth
+    signOut,
+    checkAuth
   };
 };

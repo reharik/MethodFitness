@@ -5,7 +5,7 @@ module.exports = function(eventRepository, day, client, logger) {
         && !cmd.changes.appointmentType,
 
     // caller (changeAppointmentFromPast) removes the appointment, we handle the new day fixing any sessions
-    execute: async (cmd, origAppointment) => {
+    execute: async(cmd, origAppointment) => {
       logger.debug('dayAndClientsChangedAppointmentTypeSame strategy chosen');
       let dayInstance = await eventRepository.getById(day, cmd.entityName) || day();
       let result = [];

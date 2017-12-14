@@ -1,9 +1,8 @@
-module.exports = function(rsRepository, moment, logger) {
+module.exports = function(rsRepository, moment, metaLogger, logger) {
   return function TrainerPaymentEventHandler() {
     logger.info('TrainerPaymentsEventHandler started up');
 
     async function trainerPaid(event) {
-      logger.info('handling trainerPaid event');
       let trainerPayments = await rsRepository.getById(event.trainerId, 'trainerPayments');
       trainerPayments = trainerPayments.payments ? trainerPayments : {trainerId: event.trainerId, payments: []};
       trainerPayments.payments.push({
@@ -15,9 +14,9 @@ module.exports = function(rsRepository, moment, logger) {
       return await rsRepository.save('trainerPayments', trainerPayments, trainerPayments.trainerId);
     }
 
-    return {
+    return metaLogger({
       handlerName: 'TrainerPaymentEventHandler',
       trainerPaid
-    };
+    }, 'TrainerPaymentEventHandler');
   };
 };

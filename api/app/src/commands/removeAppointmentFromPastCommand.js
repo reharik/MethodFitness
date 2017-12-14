@@ -5,6 +5,7 @@ module.exports = function(invariant) {
                      entityName
                    }) {
     invariant(appointmentId, `Remove Appointment From Past requires that you pass the AppointmentId`);
+    invariant(clients, `Remove Appointment From Past requires that you pass the clients associated with appointment`);
     invariant(
       entityName,
       `Remove Appointment From Past requires that you pass the 

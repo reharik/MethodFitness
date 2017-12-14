@@ -49,3 +49,8 @@
 .contentHeader__button:active {
   background: url("./images/button-save-bg-active.png") repeat-x scroll 0 0 #CCCCCC;
 }
+
+.contentHeader__anchor {
+  padding: 5px 10px;
+  margin-left:5px;
+}

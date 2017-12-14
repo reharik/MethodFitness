@@ -431,8 +431,8 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "type": "string",
-            "format": "uuid"
+            "type": "object",
+            "$ref": "#/definitions/refundSession"
           },
           "uniqueItems": true
         },
