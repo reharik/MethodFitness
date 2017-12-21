@@ -68,7 +68,8 @@ module.exports = function(invariant) {
         return undefined;
       }
       // first clean up previously processed appt
-      removeProcessedAppointment(event.appointmentId, event.clientId);
+      innerState.unfundedAppointments = innerState.unfundedAppointments
+        .filter(!(x.appointmentId === appointmentId && x.clientId === clientId);
       // then create new unpaid appointment
       innerState.unpaidAppointments.push(createUnpaidAppointment(appointment, event));
       return appointment.trainerId;
