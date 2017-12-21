@@ -1,7 +1,7 @@
-module.exports = function(dayInvariants, esEvents, uuid) {
+module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
   return (raiseEvent, state) => {
     const invariants = dayInvariants(state);
-    return {
+    return metaLogger({
       scheduleAppointment(cmd) {
         let cmdClone = Object.assign({}, cmd);
         invariants.expectEndTimeAfterStart(cmdClone);
@@ -12,11 +12,11 @@ module.exports = function(dayInvariants, esEvents, uuid) {
         cmdClone.appointmentId = uuid.v4();
         // not sure when or why we would keep same id. I thought maybe the past but
         // certainly not the future?
-          //cmdClone.commandName === 'scheduleAppointment'
-          // || cmdClone.commandName === 'rescheduleAppointmentToNewDay'
-          // ? uuid.v4()
-          // if  cmdClone.commandName === 'rescheduleAppointmentToNewDay' use same id
-          // : cmdClone.appointmentId;
+        //cmdClone.commandName === 'scheduleAppointment'
+        // || cmdClone.commandName === 'rescheduleAppointmentToNewDay'
+        // ? uuid.v4()
+        // if  cmdClone.commandName === 'rescheduleAppointmentToNewDay' use same id
+        // : cmdClone.appointmentId;
 
         raiseEvent(esEvents.appointmentScheduledEvent(cmdClone));
       },
@@ -89,6 +89,6 @@ module.exports = function(dayInvariants, esEvents, uuid) {
       getAppointment(appointmentId) {
         return state.appointments.find(x => x.appointmentId === appointmentId);
       }
-    };
+    }, 'dayCommands');
   };
 };

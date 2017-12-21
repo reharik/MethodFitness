@@ -1,7 +1,7 @@
 module.exports = function(aggregateRootBase,
-                          dayCommands,
-                          ClientInventory,
-                          dayEventHandlers) {
+  dayCommands,
+  ClientInventory,
+  dayEventHandlers) {
   return function day() {
     const state = {
       _isArchived: false,

@@ -1,0 +1,8 @@
+export default {
+  fullHour: 65.5,
+  fullHourTenPack: 600,
+  halfHour: 38,
+  halfHourTenPack: 350,
+  pair: 45,
+  pairTenPack: 400
+};

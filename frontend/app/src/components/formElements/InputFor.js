@@ -12,7 +12,7 @@ const InputFor = ({ data, selectOptions, onChange, form }) => {
       case 'date-time': {
         const _onChange = onChange ? {onChange} : {};
         return (
-          <DatePicker style={{width: '100%'}} {..._onChange} format={'MM/DD/YYYY'} />
+          <DatePicker id={data.name} style={{width: '100%'}} {..._onChange} format={'MM/DD/YYYY'} />
         );
       }
       case 'color-picker': {

@@ -3,6 +3,7 @@ module.exports = function(moment,
                           appointmentWatcher,
                           trainerWatcher,
                           clientWatcher,
+                          metaLogger,
                           logger) {
 
   return async function sessionsPurchasedEventHandler() {
@@ -12,14 +13,12 @@ module.exports = function(moment,
     logger.info('SessionsPurchasedEventHandler started up');
 
     async function sessionsPurchased(event) {
-      logger.info('handling sessionsPurchased event in SessionsPurchasedEventHandler');
       state.sessionsPurchased(event);
       const purchase = state.getPurchase(event.purchaseId);
       return await persistence.saveState(state, purchase);
     }
 
     async function appointmentAttendedByClient(event) {
-      logger.info('handling appointmentAttendedByClient event in SessionsPurchasedEventHandler');
       const purchaseId = state.processFundedAppointment(event);
       const purchase = state.getPurchase(purchaseId);
       return await persistence.saveState(state, purchase);
@@ -35,7 +34,6 @@ module.exports = function(moment,
 */
 
     async function sessionsRefunded(event) {
-      logger.info('handling sessionsRefunded event in SessionsPurchasedEventHandler');
       const purchaseIds = state.refundSessions(event);
       const purchases = purchaseIds.map(x => state.getPurchase(x));
       for (let p of purchases) {
@@ -44,15 +42,20 @@ module.exports = function(moment,
     }
 
     async function sessionReturnedFromPastAppointment(event) {
-      logger.info('handling sessionReturnedFromPastAppointment event in SessionsPurchasedEventHandler');
       const purchase = await persistence.getPreviousPurchase(event.clientId, event.sessionId);
       //mutating state of purchase
       state.returnSessionsFromPastAppointment(event.sessionId, purchase);
       await persistence.saveState(state, purchase);
     }
 
+    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
+      const purchase = await persistence.getPreviousPurchase(event.clientId, event.sessionId);
+      //mutating state of purchase
+      state.transferSessionFromPastAppointment(event, purchase);
+      await persistence.saveState(state, purchase);
+    }
+
     async function pastAppointmentUpdated(event) {
-      logger.info('handling pastAppointmentUpdated event in SessionsPurchasedEventHandler');
       const purchaseIds = state.pastAppointmentUpdated(event);
       const purchases = purchaseIds.map(x => state.getPurchase(x));
       for (let p of purchases) {
@@ -61,28 +64,21 @@ module.exports = function(moment,
     }
 
     async function pastAppointmentRemoved(event) {
-      logger.info('handling pastAppointmentRemoved event in SessionsPurchasedEventHandler');
-      const appointment = state.appointments.find(x => x.appoitmentId === event.appointmentId);
-      state.appointments = state.appointments.filter(x => x.appointmentId !== event.appointmentId);
-      const sessions = state.sessions.filter(x => x.appointmentId === appointment.appointmentId);
-      for (let session of sessions) {
-        let purchase = await persistence.getPreviousPurchase(event.clientId, event.sessionId);
-        //mutating state of purchase
-        state.returnSessionsFromPastAppointment(session.sessionId, purchase);
-        await persistence.saveState(state, purchase);
-      }
+      state.innerState.appointments = state.innerState.appointments
+        .filter(x => x.appointmentId !== event.appointmentId);
     }
 
-    let output = {
+    let output = metaLogger({
       handlerType: 'sessionsPurchasedEventHandler',
       handlerName: 'sessionsPurchasedEventHandler',
       appointmentAttendedByClient,
       sessionsPurchased,
       sessionsRefunded,
       sessionReturnedFromPastAppointment,
+      sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
       pastAppointmentRemoved,
       pastAppointmentUpdated
-    };
+    }, 'sessionPurchasedEventHandler');
 
     return Object.assign(
       appointmentWatcher(state, persistence, output.handlerName),

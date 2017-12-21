@@ -26,7 +26,10 @@ module.exports = function() {
       },
 
       sessionsRefunded: event => {
-        event.refundSessions.forEach(x => state.clientInventory.removeSession(x));
+        event.refundSessions.forEach(x => state.clientInventory.removeSession(x.sessionId));
+        console.log(`==========state.clientInventory=========`);
+        console.log(JSON.stringify(state.clientInventory)); // eslint-disable-line quotes
+        console.log(`==========END state.clientInventory=========`);
       },
 
       unfundedAppointmentFundedByClient: event => {
@@ -38,9 +41,15 @@ module.exports = function() {
         state.clientInventory.replaceSession(event);
       },
 
-      unfundedAppointmentRemoveForClient: event => {
+      unfundedAppointmentRemovedForClient: event => {
         state.unfundedAppointments = state.unfundedAppointments
           .filter(u => u.appointmentId !== event.appointmentId);
+      },
+
+      sessionTransferredFromRemovedAppointmentToUnfundedAppointment: event => {
+        state.unfundedAppointments = state.unfundedAppointments
+          .filter(u => u.appointmentId !== event.appointmentId);
+        state.clientInventory.modifyConsumedSession(event);
       }
     };
   };

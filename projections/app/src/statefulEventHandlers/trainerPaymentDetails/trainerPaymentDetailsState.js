@@ -1,4 +1,4 @@
-module.exports = function(moment, invariant, logger) {
+module.exports = function(moment, invariant, metaLogger) {
   return function(state = {}) {
     let innerState = {
       id: state.id || '00000000-0000-0000-0000-000000000001',
@@ -70,16 +70,10 @@ module.exports = function(moment, invariant, logger) {
     };
 
     const createPaidAppointment = item => {
-      logger.debug(`paidAppointment: ${JSON.stringify(item)}`);
       let appointment = innerState.appointments.find(x => x.appointmentId === item.appointmentId);
-      logger.debug(`appointment: ${JSON.stringify(appointment)}`);
       let session = innerState.sessions.find(s => s.sessionId === item.sessionId);
-      logger.debug(`session: ${JSON.stringify(innerState.sessions)}`);
-      logger.debug(`session: ${JSON.stringify(session)}`);
       let client = innerState.clients.find(c => c.clientId === session.clientId);
-      logger.debug(`client: ${JSON.stringify(client)}`);
       let trainer = innerState.trainers.find(x => x.trainerId === appointment.trainerId);
-      logger.debug(`trainer: ${JSON.stringify(trainer)}`);
 
       let TCR = trainer.TCRS.find(tcr => tcr.clientId === client.clientId);
       let TR = 0;
@@ -104,10 +98,12 @@ module.exports = function(moment, invariant, logger) {
     };
 
     const refundSessions = event => {
-      innerState.sessions = innerState.sessions.filter(x => !event.refundSessions.some(y => y === x.sessionId));
+      innerState.sessions = innerState
+        .sessions
+        .filter(x => !event.refundSessions.some(y => y.sessionId === x.sessionId));
     };
 
-    return {
+    return metaLogger({
       innerState,
       createPaidAppointment,
       processPaidAppointments,
@@ -116,6 +112,6 @@ module.exports = function(moment, invariant, logger) {
       updateTCR,
       addTRC,
       refundSessions
-    };
+    }, 'trainerPaymentDetailsState');
   };
 };

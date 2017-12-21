@@ -1,10 +1,9 @@
 import { requestStates } from '../sagas/requestSaga';
 import configValues from './../utilities/configValues';
 import selectn from 'selectn';
-// import { actions as notifActions } from 'redux-notifications';
-// const { notifSend } = notifActions;
 export const LOGIN = requestStates('login', 'auth');
 export const LOGOUT = requestStates('logout', 'auth');
+export const CHECK_AUTHENTICATION = requestStates('checkAuth', 'auth');
 import { browserHistory } from 'react-router';
 
 const initialState = {
@@ -15,6 +14,7 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
+    case CHECK_AUTHENTICATION.SUCCESS:
     case LOGIN.SUCCESS: {
       const user = selectn('response.user', action);
 
@@ -26,7 +26,8 @@ export default (state = initialState, action = {}) => {
         errorMessage: ''
       };
     }
-    case LOGOUT.SUCCESS: {
+    case LOGOUT.SUCCESS:
+    case CHECK_AUTHENTICATION.FAILURE: {
       return Object.assign({}, state, {
         isAuthenticated: false
       });
@@ -79,6 +80,20 @@ export function loginUser(data) {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
+    }
+  };
+}
+
+export function checkAuth() {
+  return {
+    type: CHECK_AUTHENTICATION.REQUEST,
+    states: CHECK_AUTHENTICATION,
+    url: configValues.apiBase + 'checkAuth',
+    containerName: 'signIn',
+    params: {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
     }
   };
 }

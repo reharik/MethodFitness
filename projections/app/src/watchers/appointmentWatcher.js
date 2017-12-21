@@ -1,9 +1,8 @@
-module.exports = function(logger) {
+module.exports = function(metaLogger) {
   return function(state, persistence, handlerName) {
 
     async function appointmentScheduled(event) {
       // const {eventName, endTime, notes, entityName, ...subEvent} = event; //eslint-disable-line no-unused-vars
-      logger.info(`handling appointmentScheduled event in ${handlerName}`);
       const subEvent = Object.assign({}, event);
       delete subEvent.eventName;
       delete subEvent.endTime;
@@ -15,8 +14,6 @@ module.exports = function(logger) {
 
     async function appointmentUpdated(event) {
       // const {eventName, endTime, notes, entityName, ...subEvent} = event; //eslint-disable-line no-unused-vars
-
-      logger.info(`handling appointmentUpdated event in ${handlerName}`);
       const subEvent = Object.assign({}, event);
       delete subEvent.eventName;
       delete subEvent.endTime;
@@ -30,7 +27,6 @@ module.exports = function(logger) {
     }
 
     async function appointmentCanceled(event) {
-      logger.info(`handling appointmentCanceled event in ${handlerName}`);
       state.innerState.appointments = state.innerState.appointments
         .filter(x => x.appointmentId !== event.appointmentId);
       await persistence.saveState(state);
@@ -38,7 +34,6 @@ module.exports = function(logger) {
 
     async function appointmentScheduledInPast(event) {
       // const {eventName, endTime, notes, entityName, ...subEvent} = event; //eslint-disable-line no-unused-vars
-      logger.info(`handling appointmentScheduledInPast event in ${handlerName}`);
       const subEvent = Object.assign({}, event);
       delete subEvent.eventName;
       delete subEvent.endTime;
@@ -50,7 +45,6 @@ module.exports = function(logger) {
 
     async function pastAppointmentUpdated(event) {
       // const {eventName, endTime, notes, entityName, ...subEvent} = event; //eslint-disable-line no-unused-vars
-      logger.info(`handling pastAppointmentUpdated event in ${handlerName}`);
       const subEvent = Object.assign({}, event);
       delete subEvent.eventName;
       delete subEvent.endTime;
@@ -64,18 +58,17 @@ module.exports = function(logger) {
     }
 
     async function pastAppointmentRemoved(event) {
-      logger.info(`handling pastAppointmentRemoved event in ${handlerName}`);
       state.innerState.appointments = state.innerState.appointments
         .filter(x => x.appointmentId !== event.appointmentId);
     }
 
-    return {
+    return metaLogger({
       appointmentScheduled,
       appointmentUpdated,
       appointmentCanceled,
       appointmentScheduledInPast,
       pastAppointmentUpdated,
       pastAppointmentRemoved
-    };
+    }, handlerName);
   };
 };

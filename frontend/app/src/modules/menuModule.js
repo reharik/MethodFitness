@@ -13,7 +13,7 @@ const item = localStorage.getItem('menu_data');
 const data = item
   ? JSON.parse(item)
   : {
-    menuItems: [],
+    menuItems: getMenuItems(),
     path: [],
     breadCrumbItems: ['Home'],
     currentItem: ''
@@ -39,8 +39,7 @@ export default (state = data, action = {}) => {
       });
     }
     case LOGIN.SUCCESS: {
-      const user = selectn('response.user', action);
-      const role = user.role;
+      const role = selectn('response.user.role', action);
       const menuItems = getMenuItems(role);
       const menuData = {...state, menuItems};
       localStorage.setItem('menu_data', JSON.stringify(menuData));

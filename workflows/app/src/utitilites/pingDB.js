@@ -5,7 +5,7 @@ module.exports = function(pg, config, promiseretry) {
     const client = new pg.Client(configs);
     return new Promise((res, rej) => {
       // connect to our database
-      return client.connect(connError => {
+      return client.connect(connError => { // eslint-disable-line consistent-return
         if (connError) {
           console.log('==========connError=========');
           console.log(connError);
@@ -41,7 +41,6 @@ module.exports = function(pg, config, promiseretry) {
             });
             return res(dbExists);
           });
-        return rej('fell through');
       });
     });
   };

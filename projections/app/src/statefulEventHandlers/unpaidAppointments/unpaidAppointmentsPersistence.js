@@ -19,7 +19,10 @@ module.exports = function(rsRepository, unpaidAppointmentsState, logger) {
     async function saveState(state, trainerId) {
       logger.info('Saving state in unpaidAppointmentsPersistence');
       let unpaidAppointments = {};
-      if (trainerId) {
+      if (trainerId)
+      // have to find out why this is not working
+
+        {
         unpaidAppointments.unpaidAppointments = state.innerState.unpaidAppointments
           .concat(state.innerState.unfundedAppointments)
           .filter(x => x.trainerId === trainerId);

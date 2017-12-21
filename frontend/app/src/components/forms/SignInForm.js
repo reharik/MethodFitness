@@ -31,7 +31,7 @@ class SignInForm extends Component {
     // const userNameError = isFieldTouched('userName') && getFieldError('userName');
     // const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
-      <div className="signIn">
+      <div data-id={'signInContainer'} className="signIn">
         <div className="signIn__outer">
           <div className="signIn__header" />
           <div className="signIn__content">

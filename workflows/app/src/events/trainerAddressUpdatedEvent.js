@@ -1,8 +1,8 @@
 module.exports = function(invariant) {
   return function({
-                    trainerId,
-                    address
-                  }) {
+    trainerId,
+    address
+  }) {
     const {
       street1,
       street2,

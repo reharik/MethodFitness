@@ -1,8 +1,7 @@
-module.exports = function(logger) {
+module.exports = function(metaLogger) {
   return function(state, persistence, handlerName) {
 
     async function trainerHired(event) {
-      logger.info(`handling trainerHired event in ${handlerName}`);
       const trainer = {
         trainerId: event.trainerId,
         firstName: event.contact.firstName,
@@ -15,7 +14,6 @@ module.exports = function(logger) {
     }
 
     async function trainerContactUpdated(event) {
-      logger.info(`handling trainerContactUpdated event in ${handlerName}`);
       const subEvent = {
         trainerId: event.trainerId,
         firstName: event.contact.firstName,
@@ -29,9 +27,9 @@ module.exports = function(logger) {
       await persistence.saveState(state);
     }
 
-    return {
+    return metaLogger({
       trainerHired,
       trainerContactUpdated
-    };
+    }, handlerName);
   };
 };

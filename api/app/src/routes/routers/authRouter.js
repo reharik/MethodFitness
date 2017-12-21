@@ -57,6 +57,22 @@ module.exports = function clientRouter(koarouter, controllers) {
      *           additionalProperties: {}
      */
     router.get('/swagger', controllers.swaggerController.swagger);
+    /**
+     * @swagger
+     * /checkauth:
+     *   post:
+     *     x-name: checkauth
+     *     description: check authentication
+     *     operationId: checkauth
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *             $ref: "#/definitions/auth"
+     *       401:
+     *         description: Failure
+     */
+    router.all('/checkauth', controllers.authController.checkAuth);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

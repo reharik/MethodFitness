@@ -1,4 +1,4 @@
-module.exports = function(logger) {
+module.exports = function(metaLogger) {
   return function(state, persistence, handlerName) {
 
     async function clientAdded(event) {
@@ -6,7 +6,6 @@ module.exports = function(logger) {
         let _name = name.replace(`'`, `\'`);
         return _name.trim();
       };
-      logger.info(`handling clientAdded event in ${handlerName}`);
       const client = {
         clientId: event.clientId,
         firstName: sanitizeName(event.contact.firstName),
@@ -18,7 +17,6 @@ module.exports = function(logger) {
     }
 
     async function clientContactUpdated(event) {
-      logger.info(`handling clientContactUpdated event in ${handlerName}`);
       const subEvent = {
         clientId: event.clientId,
         firstName: event.contact.firstName,
@@ -32,9 +30,9 @@ module.exports = function(logger) {
       await persistence.saveState(state);
     }
 
-    return {
+    return metaLogger({
       clientAdded,
       clientContactUpdated
-    };
+    }, handlerName);
   };
 };

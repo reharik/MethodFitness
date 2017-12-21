@@ -55,7 +55,8 @@ const mapStateToProps = (state, props) => {
     model,
     states,
     sources,
-    inventory: client ? client.inventory : null
+    inventory: client ? client.inventory : null,
+    clientId: client ? client.clientId : null
   };
 };
 

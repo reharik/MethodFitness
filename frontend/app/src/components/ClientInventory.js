@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DisplayFor from './formElements/DisplayFor';
+import { browserHistory } from 'react-router';
 import { Card, Row } from 'antd';
 
-const ClientInventory = ({ inventory }) => {
+const ClientInventory = ({ inventory, clientId }) => {
   if (!inventory) {
     return null;
   }
+  console.log(`==========clientId=========`);
+  console.log(clientId); // eslint-disable-line quotes
+  console.log(`==========END clientId=========`);
   const invModel = {
     fullHour: {
       name: 'fullHour',
@@ -29,7 +33,15 @@ const ClientInventory = ({ inventory }) => {
   };
 
   return (
-    <Card title="Current Client Inventory">
+    <Card
+      title="Current Client Inventory"
+      data-id={'clientInventory'}
+      extra={<a
+        data-id={'purchases'}
+        onClick={() => browserHistory.push(`/purchases/${clientId}`)}>
+        Purchases
+      </a>
+      } >
       <Row type="flex">
         <DisplayFor data={invModel.fullHour} />
       </Row>
@@ -44,6 +56,7 @@ const ClientInventory = ({ inventory }) => {
 };
 
 ClientInventory.propTypes = {
+  clientId: PropTypes.string,
   inventory: PropTypes.object
 };
 

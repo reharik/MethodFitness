@@ -1,10 +1,9 @@
 module.exports = function(eventRepository,
-                          changeAppointmentFromPast,
-                          logger,
-                          day,
-                          client,
-                          notificationListener,
-                          notificationParser) {
+  changeAppointmentFromPast,
+  logger,
+  day,
+  client,
+  metaLogger) {
   return function DayWorkflow() {
     async function scheduleAppointment(cmd, continuationId) {
       let dayInstance = await scheduleAppointmentBase(cmd);
@@ -17,7 +16,6 @@ module.exports = function(eventRepository,
     }
 
     async function updateAppointment(cmd, continuationId) {
-      logger.info(`calling updateAppointment on Day`);
       let dayInstance = await eventRepository.getById(day, cmd.entityName);
       dayInstance.updateAppointment(cmd);
 
@@ -29,7 +27,6 @@ module.exports = function(eventRepository,
     }
 
     async function cancelAppointment(cmd, continuationId) {
-      logger.info(`calling ${cmd.commandName} on Day`);
       let dayInstance = await eventRepository.getById(day, cmd.entityName);
       dayInstance.cancelAppointment(cmd);
 
@@ -48,7 +45,6 @@ module.exports = function(eventRepository,
     }
 
     async function rescheduleAppointmentToNewDay(cmd, continuationId) {
-      cmd.commandName = 'rescheduleAppointmentToNewDay';
       let dayInstance = await scheduleAppointmentBase(cmd);
       let oldDay = await eventRepository.getById(day, cmd.originalEntityName);
       oldDay.cancelAppointment(cmd);
@@ -69,7 +65,6 @@ module.exports = function(eventRepository,
     }
 
     async function scheduleAppointmentBase(cmd) {
-      logger.info(`calling ${cmd.commandName} on Day`);
       let dayInstance = await eventRepository.getById(day, cmd.entityName) || day();
       dayInstance.scheduleAppointment(cmd);
       return dayInstance;
@@ -79,14 +74,11 @@ module.exports = function(eventRepository,
       logger.info(`calling ${cmd.commandName} on Day`);
       let dayInstance = await eventRepository.getById(day, cmd.entityName) || day();
       dayInstance.scheduleAppointmentInPast(cmd);
+      let newAppointmentId = dayInstance.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainerId);
 
       logger.info('saving dayInstance');
       logger.trace(dayInstance.state._id);
-      let newAppointmentId = dayInstance.getNewAppointmentId(cmd.startTime, cmd.endTime, cmd.trainerId);
-
-      let notificationPromise = await notificationListener(continuationId);
       await eventRepository.save(dayInstance, { continuationId });
-      await notificationParser(notificationPromise);
 
       const newCmd = Object.assign({}, cmd, { appointmentId: newAppointmentId } );
       for (let clientId of newCmd.clients) {
@@ -100,7 +92,6 @@ module.exports = function(eventRepository,
     }
 
     async function rescheduleAppointmentFromPast(cmd, continuationId) {
-      logger.info(`calling rescheduleAppointmentFromPast on Day`);
       await changeAppointmentFromPast(cmd, continuationId);
       return {
         updateType: cmd.originalEntityName !== cmd.entityName
@@ -111,13 +102,11 @@ module.exports = function(eventRepository,
     }
 
     async function updateAppointmentFromPast(cmd, continuationId) {
-      logger.info(`calling updateAppointmentFromPast on Day`);
       await changeAppointmentFromPast(cmd, continuationId);
       return {appointmentId: cmd.appointmentId};
     }
 
     async function removeAppointmentFromPast(cmd, continuationId) {
-      logger.info(`calling ${cmd.commandName} on Day`);
       let dayInstance = await eventRepository.getById(day, cmd.entityName);
       // first get the appointment so we can refund the client
       const appointment = dayInstance.getAppointment(cmd.appointmentId);
@@ -131,13 +120,14 @@ module.exports = function(eventRepository,
         let c = await eventRepository.getById(client, clientId);
         logger.debug('refunding client for appointment in past');
         c.returnSessionFromPast(appointment.appointmentId);
+        c.removeAppointmentForClient(appointment.appointmentId);
         logger.info('saving client');
         await eventRepository.save(c, { continuationId });
       }
       return { appointmentId: cmd.appointmentId };
     }
 
-    return {
+    return metaLogger({
       handlerName: 'DayWorkflow',
       scheduleAppointment,
       rescheduleAppointment,
@@ -147,7 +137,7 @@ module.exports = function(eventRepository,
       removeAppointmentFromPast,
       rescheduleAppointmentFromPast,
       updateAppointmentFromPast
-    };
+    }, 'DayWorkflow');
   };
 };
 

@@ -36,7 +36,15 @@ class PurchaseList extends Component {
     if (refund > 0) {
       let refundSessions = [];
       Object.keys(this.state.purchases).forEach(x => {
-        refundSessions = refundSessions.concat(this.state.purchases[x].selectedRowKeys);
+        const sourceSessions = this.props.gridConfig.dataSource.find(s => s.purchaseId === x).sessions;
+        const selectedRowKeys = this.state.purchases[x].selectedRowKeys;
+        refundSessions = selectedRowKeys.map(k => {
+          let session = sourceSessions.find(ss => ss.sessionId === k);
+          return {
+            sessionId: session.sessionId,
+            appointmentType: session.appointmentType
+          };
+        }).concat(refundSessions);
       });
       confirm({
         title: 'Are you sure you would like to Refund?',
@@ -169,6 +177,12 @@ class PurchaseList extends Component {
               {hasRefundableItems
                 ? <button className="contentHeader__button" onClick={this.submitVerification} >Submit Refund</button>
                   : null }
+              <a
+                className="contentHeader__anchor"
+                data-id={'returnToClient'}
+                onClick={() => browserHistory.push(`/client/${this.props.clientId}`)}>
+                Return to client
+              </a>
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">Purchases</div>

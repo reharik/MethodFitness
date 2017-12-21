@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createLogger from 'redux-logger';
-import rootReducer from '../reducers';
+import rootReducer from '../modules/rootReducer';
 import DevTools from '../containers/DevTools';
 //thunk used for notif
 import thunk from 'redux-thunk';

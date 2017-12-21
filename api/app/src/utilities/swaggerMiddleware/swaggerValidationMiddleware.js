@@ -15,6 +15,7 @@ module.exports = function(compiler, validateMethods) {
         ctx.status = 404;
         return;
       }
+
       // check the request matches the swagger schema
       let validationErrors = validateMethods.request(compiledPath, ctx.method, ctx.query, ctx.request.body);
 

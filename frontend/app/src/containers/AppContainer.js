@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Layout from '../components/layout/Layout';
 import { getJsonSchema } from './../modules/schemaModule';
-import { fetchAllClientsAction } from './../modules/clientModule';
-import { fetchAllTrainersAction } from './../modules/trainerModule';
+import { checkAuth } from './../modules/authModule';
 import SignInContainer from './forms/SignInContainer';
 
 class LayoutContainer extends Component {
@@ -13,24 +12,17 @@ class LayoutContainer extends Component {
   }
 
   loadData() {
-    this.props.getJsonSchema();
-    if (this.props.isAuthenticated) {
-      this.props.fetchAllClientsAction();
-      this.props.fetchAllTrainersAction();
+    if(!this.props.isAuthenticated) {
+      this.props.checkAuth();
     }
+    this.props.getJsonSchema();
   }
 
   render() {
-    if (this.props.isFetching) {
-      return <p style={{ 'padding-top': '100px' }}> Loading... </p>;
+    if (this.props.isAuthenticated) {
+      return <Layout {...this.props} />;
     }
-    if (this.props.errorMessage) {
-      return <p style={{ 'padding-top': '100px' }}>ERROR! -&gt; {this.props.errorMessage}</p>;
-    }
-    if (!this.props.isAuthenticated) {
-      return <SignInContainer />;
-    }
-    return <Layout {...this.props} />;
+    return <SignInContainer />;
   }
 }
 
@@ -38,6 +30,7 @@ LayoutContainer.propTypes = {
   getJsonSchema: PropTypes.func,
   fetchAllTrainersAction: PropTypes.func,
   fetchAllClientsAction: PropTypes.func,
+  checkAuth: PropTypes.func,
   isFetching: PropTypes.bool,
   errorMessage: PropTypes.string,
   isAuthenticated: PropTypes.bool
@@ -54,6 +47,5 @@ function mapStateToProps(state = []) {
 
 export default connect(mapStateToProps, {
   getJsonSchema,
-  fetchAllClientsAction,
-  fetchAllTrainersAction
+  checkAuth
 })(LayoutContainer);

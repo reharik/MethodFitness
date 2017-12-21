@@ -1,26 +1,26 @@
 module.exports = function(invariant) {
   return function({purchaseId,
-                    clientId,
-                    fullHour,
-                    fullHourTenPack,
-                    halfHour,
-                    halfHourTenPack,
-                    pair,
-                    pairTenPack,
-                    notes,
-                    fullHourTotal,
-                    fullHourTenPackTotal,
-                    halfHourTotal,
-                    halfHourTenPackTotal,
-                    pairTotal,
-                    pairTenPackTotal,
-                    purchaseTotal,
-                    totalFullHours,
-                    totalHalfHours,
-                    totalPairs,
-                    createDate,
-                   sessions
-                  }) {
+    clientId,
+    fullHour,
+    fullHourTenPack,
+    halfHour,
+    halfHourTenPack,
+    pair,
+    pairTenPack,
+    notes,
+    fullHourTotal,
+    fullHourTenPackTotal,
+    halfHourTotal,
+    halfHourTenPackTotal,
+    pairTotal,
+    pairTenPackTotal,
+    purchaseTotal,
+    totalFullHours,
+    totalHalfHours,
+    totalPairs,
+    createDate,
+    sessions
+  }) {
 
     invariant(clientId, 'sessionsPurchased requires that you pass the clients Id');
     invariant(purchaseId, 'sessionsPurchased requires that you pass the Id');

@@ -10,14 +10,14 @@ const DisplayFor = ({ data, selectOptions, span }) => {
     switch (data['x-input'] || data.type) {
       case 'color-picker': {
         return (
-          <span className="display__container__value__color"
+          <span data-id={data.name} className="display__container__value__color"
             style={{ backgroundColor: data.value }}>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </span>
         );
       }
       case 'date-time': {
-        return <span>{moment(data.value).format('L')}</span>;
+        return <span data-id={data.name}>{moment(data.value).format('L')}</span>;
       }
       case 'select': {
         if (!data.value) {
@@ -25,7 +25,7 @@ const DisplayFor = ({ data, selectOptions, span }) => {
         }
         const find = selectOptions.find(y => y.value === data.value);
         const textValue = find && find.display;
-        return <span>{textValue}</span>;
+        return <span data-id={data.name}>{textValue}</span>;
       }
       case 'multi-select': {
         if (!data.value || selectOptions.length <= 0) {
@@ -34,7 +34,7 @@ const DisplayFor = ({ data, selectOptions, span }) => {
         // thought about being defensive here but decided if it's not in the values then fuck it throw.
         const textValues = data.value.map(x => selectOptions.find(y => y.value === x).display);
         return (
-          <ul>
+          <ul data-id={data.name}>
             {textValues.map((x, i) => <li key={i}>{x}</li>)}
           </ul>
         );
@@ -43,7 +43,7 @@ const DisplayFor = ({ data, selectOptions, span }) => {
         return (<ListItemValueDisplayFor data={data} />);
       }
       default: {
-        return <span>{data.value.display || data.value.id || data.value}</span>;
+        return <span data-id={data.name}>{data.value.display || data.value.id || data.value}</span>;
       }
     }
   };

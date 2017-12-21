@@ -1,7 +1,9 @@
 module.exports = function(unpaidAppointmentsPersistence,
                           appointmentWatcher,
                           trainerWatcher,
-                          clientWatcher, logger) {
+                          clientWatcher,
+                          metaLogger,
+                          logger) {
 
   return async function unpaidAppointmentsEventHandler() {
 
@@ -10,21 +12,18 @@ module.exports = function(unpaidAppointmentsPersistence,
     logger.info('unpaidAppointmentsEventHandler started up');
 
     async function trainersNewClientRateSet(event) {
-      logger.info('handling trainersNewClientRateSet event in unpaidAppointmentsEventHandler');
       state.addTRC(event.trainerId, {clientId: event.clientId, rate: event.rate});
 
       return await persistence.saveState(state);
     }
 
     async function trainersClientRateChanged(event) {
-      logger.info('handling trainersClientRateChanged event in unpaidAppointmentsEventHandler');
       state.updateTCR(event);
 
       return await persistence.saveState(state);
     }
 
     async function trainersClientRatesUpdated(event) {
-      logger.info('handling trainersClientRatesUpdated event in trainerPaymentDetailsEventHandler');
       event.clientRates.forEach(x => state.updateTRC({
         trainerId: event.trainerId,
         clientId: x.clientId,
@@ -35,71 +34,66 @@ module.exports = function(unpaidAppointmentsPersistence,
     }
 
     async function trainerClientRemoved(event) {
-      logger.info('handling trainerClientRemoved event in unpaidAppointmentsEventHandler');
       state.removeTCR(event);
 
       return await persistence.saveState(state);
     }
 
     async function sessionsPurchased(event) {
-      logger.info('handling sessionsPurchased event in unpaidAppointmentsEventHandler');
       event.sessions.forEach(e => state.addSession(e));
       return await persistence.saveState(state);
     }
 
     async function appointmentAttendedByClient(event) {
-      logger.info('handling appointmentAttendedByClient event in unpaidAppointmentsEventHandler');
-      const trainerId = state.processFundedAppointment(event);
+      const trainerId = state.processAttendedFundedAppointment(event);
       return await persistence.saveState(state, trainerId);
     }
 
     async function unfundedAppointmentAttendedByClient(event) {
-      logger.info('handling unfundedAppointmentAttendedByClient event in unpaidAppointmentsEventHandler');
-      const trainerId = state.processUnfundedAppointment(event);
+      const trainerId = state.processAttendedUnfundedAppointment(event);
       return await persistence.saveState(state, trainerId);
     }
 
     async function sessionReturnedFromPastAppointment(event) {
-      logger.info('handling sessionReturnedFromPastAppointment event in unpaidAppointmentsEventHandler');
       // remove this session from unpaid appointments since it's clearly been returned
-      const trainerId = state.removeFundedAppointmentForClient(event);
+      const trainerId = state.removeFundedAppointment(event);
       return await persistence.saveState(state, trainerId);
     }
 
     async function unfundedAppointmentFundedByClient(event) {
-      logger.info('handling unfundedAppointmentFundedByClient event in unpaidAppointmentsEventHandler');
       const trainerId = state.processNewlyFundedAppointment(event);
       return await persistence.saveState(state, trainerId);
     }
 
     async function trainerVerifiedAppointments(event) {
-      logger.info('handling trainerVerifiedAppointments event in unpaidAppointmentsEventHandler');
       state.sessionsVerified(event.sessionIds);
       return await persistence.saveState(state, event.trainerId);
     }
 
     async function trainerPaid(event) {
-      logger.info('handling trainerPaid event in unpaidAppointmentsEventHandler');
       state.trainerPaid(event.paidAppointments);
       return await persistence.saveState(state, event.trainerId);
     }
 
     async function sessionsRefunded(event) {
-      logger.info('handling sessionsRefunded event in unpaidAppointmentsEventHandler');
       state.refundSessions(event);
       return await persistence.saveState(state);
     }
 
     async function pastAppointmentRemoved(event) {
-      logger.info(`handling pastAppointmentRemoved event in unpaidAppointmentsEventHandler`);
       const trainerId = state.pastAppointmentRemoved(event.appointmentId);
+      return await persistence.saveState(state, trainerId);
+    }
+
+    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
+      const trainerId = state.transferSession(event);
       return await persistence.saveState(state, trainerId);
     }
 
     // we don't need to handle sessionReturnedFromPastAppointment because we don't do anything with
     // the sessions when used. We just need to clean up the unpaid and unfunded appointments
     // and the appointmentRemovedFromThePast will do that
-    let output = {
+    let output = metaLogger({
       handlerType: 'unpaidAppointmentsEventHandler',
       handlerName: 'unpaidAppointmentsEventHandler',
       trainerVerifiedAppointments,
@@ -114,8 +108,9 @@ module.exports = function(unpaidAppointmentsPersistence,
       trainerPaid,
       sessionsRefunded,
       pastAppointmentRemoved,
-      sessionReturnedFromPastAppointment
-    };
+      sessionReturnedFromPastAppointment,
+      sessionTransferredFromRemovedAppointmentToUnfundedAppointment
+    }, 'unpaidAppointmentsEventHandler');
 
     return Object.assign(
       appointmentWatcher(state, persistence, output.handlerName),

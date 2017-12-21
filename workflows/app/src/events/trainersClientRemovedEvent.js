@@ -1,8 +1,8 @@
 module.exports = function() {
   return function({
-                     trainerId,
-                     clientId
-                   }) {
+    trainerId,
+    clientId
+  }) {
     return {
       eventName: 'trainerClientRemoved',
       trainerId,

@@ -1,12 +1,12 @@
 module.exports = function(invariant) {
   return function({clientId,
-                    source,
-                    startDate,
-                    sourceNotes,
-                    birthDate,
-                    archived,
-                    contact
-                  }) {
+    source,
+    startDate,
+    sourceNotes,
+    birthDate,
+    archived,
+    contact
+  }) {
     const {
       firstName,
       lastName,

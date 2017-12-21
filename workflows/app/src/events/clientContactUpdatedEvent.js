@@ -1,8 +1,8 @@
 module.exports = function(invariant) {
   return function({
-                    clientId,
-                   contact
-                  }) {
+    clientId,
+    contact
+  }) {
     const {
       secondaryPhone,
       mobilePhone,

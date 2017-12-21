@@ -4,6 +4,7 @@ import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
 import SubmissionFor from './../formElements/SubmissionFor';
 import { Form, Card, Row, Col } from 'antd';
+import prices from './../../utilities/prices';
 
 class PurchaseForm extends Component {
   componentWillMount() {
@@ -45,14 +46,13 @@ class PurchaseForm extends Component {
     });
 
   purchasePrice = fields => {
-    // this sucks of course, at least move the prices into a constant
     let purchase = {
-      fullHourTotal: (fields.fullHour || 0) * 65.5,
-      fullHourTenPackTotal: (fields.fullHourTenPack || 0) * 600,
-      halfHourTotal: (fields.halfHour || 0) * 38,
-      halfHourTenPackTotal: (fields.halfHourTenPack || 0) * 350,
-      pairTotal: (fields.pair || 0) * 45,
-      pairTenPackTotal: (fields.pairTenPack || 0) * 400
+      fullHourTotal: (fields.fullHour || 0) * prices.fullHour,
+      fullHourTenPackTotal: (fields.fullHourTenPack || 0) * prices.fullHourTenPack,
+      halfHourTotal: (fields.halfHour || 0) * prices.halfHour,
+      halfHourTenPackTotal: (fields.halfHourTenPack || 0) * prices.halfHourTenPack,
+      pairTotal: (fields.pair || 0) * prices.pair,
+      pairTenPackTotal: (fields.pairTenPack || 0) * prices.pairTenPack
     };
     purchase.purchaseTotal = purchase.fullHourTotal +
       purchase.fullHourTenPackTotal +
@@ -139,7 +139,7 @@ class PurchaseForm extends Component {
             </Row>
             <Row type="flex">
               <Col xl={10} lg={14} sm={24} >
-                <Card title={`Purchase Total: $${this.state.purchaseTotal.toFixed(2)}`}>
+                <Card data-id={'purchaseTotal'} title={`Purchase Total: $${this.state.purchaseTotal.toFixed(2)}`}>
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.notes} />
                   </Row>

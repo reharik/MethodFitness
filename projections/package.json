@@ -40,10 +40,10 @@
     "promise-retry": "^1.1.1",
     "ramda": "^0.24.1",
     "ramda-fantasy": "^0.8.0",
+    "selectn": "^1.1.2",
     "uuid": "^3.0.1"
   },
   "pre-commit": [
     "lint"
   ]
 }
-

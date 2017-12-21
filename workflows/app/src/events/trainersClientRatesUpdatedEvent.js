@@ -1,9 +1,9 @@
 module.exports = function() {
   return function({
-                    trainerId,
-                    clientId,
-                    rate
-                  }) {
+    trainerId,
+    clientId,
+    rate
+  }) {
     return {
       eventName: 'trainersClientRateChanged',
       trainerId,

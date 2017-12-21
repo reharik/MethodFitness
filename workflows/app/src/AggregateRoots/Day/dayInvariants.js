@@ -56,10 +56,21 @@ module.exports = function(invariant, moment) {
       },
 
       expectTrainerNotConflicting(cmd) {
+        console.log('in invariant');
+        console.log(`==========cmd=========`);
+        console.log(cmd); // eslint-disable-line quotes
+        console.log(`==========END cmd=========`);
+        state.appointments.forEach(x => {
+          console.log(`==========x=========`);
+          console.log(x); // eslint-disable-line quotes
+          console.log(`==========END x=========`);
+        });
+        console.log('end in invariant');
+
         let trainerConflict = state.appointments
           .filter(
             x =>
-            (x.appointmentId
+              (x.appointmentId
             && x.appointmentId !== cmd.appointmentId
             && moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[)'))
             || (x.appointmentId
@@ -67,6 +78,10 @@ module.exports = function(invariant, moment) {
             && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '(]'))
           )
           .filter(x => x.trainerId === cmd.trainerId);
+
+        console.log(`==========trainerConflict=========`);
+        console.log(trainerConflict); // eslint-disable-line quotes
+        console.log(`==========END trainerConflict=========`);
         invariant(
           trainerConflict.length <= 0,
           `New Appointment conflicts with state Appointment: ${trainerConflict[0] && trainerConflict[0].appointmentId}
@@ -78,7 +93,7 @@ module.exports = function(invariant, moment) {
         let clientConflicts = state.appointments
           .filter(
             x =>
-            (x.appointmentId &&
+              (x.appointmentId &&
             x.appointmentId !== cmd.appointmentId &&
             moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[)')) ||
             (x.appointmentId &&

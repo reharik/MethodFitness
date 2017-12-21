@@ -1,4 +1,4 @@
-module.exports = function(clientInvariants, esEvents, uuid, logger) {
+module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
   return (raiseEvent, state) => {
     const invariants = clientInvariants(state);
     const generateSessions = cmd => {
@@ -32,7 +32,7 @@ module.exports = function(clientInvariants, esEvents, uuid, logger) {
       return sessions;
     };
 
-    return {
+    return metaLogger({
       addClient: cmd => {
         let cmdClone = Object.assign({}, cmd);
         cmdClone.clientId = cmdClone.clientId || uuid.v4();
@@ -80,7 +80,6 @@ module.exports = function(clientInvariants, esEvents, uuid, logger) {
         cmdClone.purchaseId = cmdClone.purchaseId || uuid.v4();
         let sessions = generateSessions(cmdClone);
         let fundedAppointments = [];
-        logger.debug(`unfundedAppointments: ${JSON.stringify(state.unfundedAppointments)}`);
         state.unfundedAppointments.forEach(x => {
           let session = sessions.find(s => s.appointmentType === x.appointmentType && !s.used);
           if (session) {
@@ -91,13 +90,14 @@ module.exports = function(clientInvariants, esEvents, uuid, logger) {
             fundedAppointments.push(x);
           }
         });
-        logger.debug(`newlyFundedAppointments: ${JSON.stringify(fundedAppointments)}`);
 
         cmdClone.sessions = sessions;
         raiseEvent(esEvents.sessionsPurchasedEvent(cmdClone));
         fundedAppointments.forEach(e => raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e)));
       },
 
+
+      //TODO I THINK CONSUMESESSION IS FINDING THESE REFUNDED SESSIONS
       clientAttendsAppointment: cmd => {
         let cmdClone = Object.assign({}, cmd);
         let event;
@@ -119,18 +119,41 @@ module.exports = function(clientInvariants, esEvents, uuid, logger) {
         raiseEvent(esEvents.sessionsRefundedEvent(cmdClone));
       },
 
+      removeAppointmentForClient: appointmentId=> {
+        if (state.unfundedAppointments.find(u => u.appointmentId !== appointmentId)) {
+          raiseEvent(esEvents.unfundedAppointmentRemovedForClientEvent({
+            appointmentId,
+            clientId: state._id
+          }));
+        }
+      },
+
       returnSessionFromPast: appointmentId => {
         const session = state.clientInventory.getUsedSessionByAppointmentId(appointmentId);
-        if (session) {
-          const event = esEvents.sessionReturnedFromPastAppointmentEvent({
+        if (!session) {
+          return;
+        }
+
+        let event;
+        const unfundedAppointment = state.unfundedAppointments
+          .find(x => x.appointmentType === session.appointmentType);
+
+        if (unfundedAppointment) {
+          event = esEvents.sessionTransferredFromRemovedAppointmentToUnfundedAppointment({
+            clientId: state._id,
+            sessionId: session.sessionId,
+            appointmentId: unfundedAppointment.appointmentId
+          });
+        } else {
+          event = esEvents.sessionReturnedFromPastAppointmentEvent({
             appointmentId,
             sessionId: session.sessionId,
             clientId: state._id,
             appointmentType: session.appointmentType
           });
-          raiseEvent(event);
         }
+        raiseEvent(event);
       }
-    };
+    }, 'ClientCommands');
   };
 };

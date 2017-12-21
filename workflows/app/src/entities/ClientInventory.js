@@ -22,12 +22,12 @@ module.exports = function(sortby, logger) {
         logger.debug(`addding session to consumedSession with appointmentId: ${appointmentId} in clientInventory`);
         this.consumedSessions.push(Object.assign({}, session, {appointmentId}));
       }
-      logger.debug(`removing session from sessions in clientInventory`);
+      logger.debug(`removing session ${sessionId} from sessions in clientInventory`);
       this.sessions = this.sessions.filter(x => x.sessionId !== sessionId);
     }
 
     sessionsExists(cmd) {
-      return !cmd.refundSessions.find(x => !this.sessions.some(y => y.sessionId === x));
+      return !cmd.refundSessions.find(x => !this.sessions.some(y => y.sessionId === x.sessionId));
     }
 
     replaceSession(event) {
@@ -42,6 +42,13 @@ module.exports = function(sortby, logger) {
 
     getUsedSessionByAppointmentId(appointmentId) {
       return this.consumedSessions.find(x => x.appointmentId === appointmentId);
+    }
+
+    modifyConsumedSession(event) {
+      this.consumedSessions.map(x =>
+        x.sessionId === event.sessionId
+          ? Object.assign({}, x, { appointmentId: event.appointmentId })
+          : x);
     }
   };
 };

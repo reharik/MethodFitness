@@ -10,9 +10,11 @@ export const FETCH_TRAINER_PAYABLES = requestStates('fetch_trainer_payables', 's
 
 export default (state = [], action = {}) => {
   switch (action.type) {
-    case FETCH_TRAINER_PAYABLES.SUCCESS:
-    case FETCH_TRAINER_VERIFICATION.SUCCESS: {
+    case FETCH_TRAINER_PAYABLES.SUCCESS: {
       return reducerMerge(state, action.response, ['appointmentId', 'clientId']);
+    }
+    case FETCH_TRAINER_VERIFICATION.SUCCESS: {
+      return action.response;
     }
     case SUBMIT_TRAINER_VERIFICATION.SUCCESS: {
       let ids = JSON.parse(selectn('action.params.body', action)).sessionIds;
