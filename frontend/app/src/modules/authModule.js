@@ -1,8 +1,6 @@
 import { requestStates } from '../sagas/requestSaga';
 import configValues from './../utilities/configValues';
 import selectn from 'selectn';
-// import { actions as notifActions } from 'redux-notifications';
-// const { notifSend } = notifActions;
 export const LOGIN = requestStates('login', 'auth');
 export const LOGOUT = requestStates('logout', 'auth');
 export const CHECK_AUTHENTICATION = requestStates('checkAuth', 'auth');
@@ -28,11 +26,7 @@ export default (state = initialState, action = {}) => {
         errorMessage: ''
       };
     }
-    case LOGOUT.SUCCESS: {
-      return Object.assign({}, state, {
-        isAuthenticated: false
-      });
-    }
+    case LOGOUT.SUCCESS:
     case CHECK_AUTHENTICATION.FAILURE: {
       return Object.assign({}, state, {
         isAuthenticated: false

@@ -22,7 +22,7 @@ module.exports = function(sortby, logger) {
         logger.debug(`addding session to consumedSession with appointmentId: ${appointmentId} in clientInventory`);
         this.consumedSessions.push(Object.assign({}, session, {appointmentId}));
       }
-      logger.debug(`removing session from sessions in clientInventory`);
+      logger.debug(`removing session ${sessionId} from sessions in clientInventory`);
       this.sessions = this.sessions.filter(x => x.sessionId !== sessionId);
     }
 

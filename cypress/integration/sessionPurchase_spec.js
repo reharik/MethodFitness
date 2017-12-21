@@ -171,7 +171,7 @@ describe('Session Purchase', () => {
         cy.log('-----CHECK_FOR_USED_SESSION-----');
         // cy gets all rows (or all tds wtfe) and the looks and can't find.
         // needs to wait till all rows (or tds) arrive before initial get.
-        cy.wait(1000);
+        cy.wait(2000);
         cy
           .get('tr.ant-table-row-level-0')
           .find('td')

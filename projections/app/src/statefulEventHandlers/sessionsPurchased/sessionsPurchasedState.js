@@ -46,7 +46,7 @@ module.exports = function(metaLogger) {
     const sessionsPurchased = item => {
       const purchase = createPurchase(item);
       purchase.sessions = createSessions(item);
-      purchase.sessions.filter(x => x.appointmentId).forEach(session => {
+      purchase.sessions.filter(x => !!x.appointmentId).forEach(session => {
         const appointment = innerState.appointments.find(a => a.appointmentId === session.appointmentId);
         const trainer = innerState.trainers.find(t => t.trainerId === appointment.trainerId);
         session.appointmentDate = appointment.date;

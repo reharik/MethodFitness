@@ -67,14 +67,14 @@ module.exports = function(invariant, metaLogger) {
         .filter(predicate);
     };
 
-    const removeFundedAppointment = event => {
-      let unpaidAppointment = innerState.unpaidAppointments.find(x => x.appointmentId === event.appointmentId);
+    const removeFundedAppointment = appointmentId => {
+      let unpaidAppointment = innerState.unpaidAppointments.find(x => x.appointmentId === appointmentId);
       if (!unpaidAppointment || unpaidAppointment.length <= 0) {
         return undefined;
       }
 
       innerState.unpaidAppointments = innerState.unpaidAppointments
-        .filter(x => x.sessionId !== event.sessionId);
+        .filter(x => x.sessionId !== unpaidAppointment.sessionId);
 
       return unpaidAppointment.trainerId;
     };
@@ -209,7 +209,9 @@ module.exports = function(invariant, metaLogger) {
 
       innerState.appointments = innerState.appointments.filter(x => x.appointmentId !== appointmentId);
 
+      // try them both, they both check for null
       removeUnfundedAppointment(appointmentId);
+      removeFundedAppointment(appointmentId);
       return trainerId;
     };
 

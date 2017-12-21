@@ -64,7 +64,10 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function trainerPaid(event) {
-      const appointmentIds = event.paidAppointments.map(x => `'${x.appointmentId}'`);
+      const appointmentIds = event.paidAppointments.map(x => `${x.appointmentId}`).join(',').toString();
+      console.log(`==========appointmentIds=========`);
+      console.log(appointmentIds); // eslint-disable-line quotes
+      console.log(`==========END appointmentIds=========`);
       let appointments = await rsRepository.getByIds(appointmentIds, 'appointment');
       const query = doc => {
         return `UPDATE SET document = '${rsRepository.sanitizeDocument(document)}'

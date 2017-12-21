@@ -156,7 +156,7 @@ removeBuildAndPushAll:
 integrationTests:  kill-data-tests
 	docker-compose -f docker/docker-compose.yml -p methodfittests up -d
 	-npx cypress run
-	docker-compose -f docker/docker-compose.yml -p methodfittests down --rmi local --remove-orphans
+	#docker-compose -f docker/docker-compose.yml -p methodfittests down --rmi local --remove-orphans
 
 intTestsDown:
 	docker-compose -f docker/docker-compose.yml -p methodfittests down --rmi local --remove-orphans

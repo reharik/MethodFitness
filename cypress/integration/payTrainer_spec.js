@@ -60,6 +60,7 @@ describe('Pay Trainer', () => {
       cy.get('.ant-table-row td:first').contains('Hanna Abelow');
 
       cy.log('-----CHECK_APPOINTMENT_CANT_BE_CHANGED-----');
+      cy.navTo('Calendar');
       cy.clickOnAppointment(aDT.appointmentDate, aDT.time);
       cy.get(`.form__footer__button`).contains('Delete').should('not.exist');
       cy.get(`.form__footer__button`).contains('Edit').should('not.exist');

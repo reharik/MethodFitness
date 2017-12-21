@@ -99,6 +99,7 @@ Cypress.Commands.add('deleteAllAppointments', () => {
           cy.get(`.form__footer__button`).contains('Delete').click();
         });
     }
+    cy.wait(1000);
     cy.get(`.redux__task__calendar__task__item`).should('not.exist');
   });
 });
