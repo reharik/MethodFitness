@@ -31,3 +31,6 @@ dist
 artifacts
 
 yarn.lock
+
+cypress/screenshots
+cypress/videos
