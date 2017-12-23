@@ -45,18 +45,12 @@ module.exports = function(unpaidAppointmentsPersistence,
     }
 
     async function appointmentAttendedByClient(event) {
-      const trainerId = state.processAttendedFundedAppointment(event);
+      const trainerId = state.appointmentAttendedByClient(event);
       return await persistence.saveState(state, trainerId);
     }
 
     async function unfundedAppointmentAttendedByClient(event) {
       const trainerId = state.processAttendedUnfundedAppointment(event);
-      return await persistence.saveState(state, trainerId);
-    }
-
-    async function sessionReturnedFromPastAppointment(event) {
-      // remove this session from unpaid appointments since it's clearly been returned
-      const trainerId = state.removeFundedAppointment(event);
       return await persistence.saveState(state, trainerId);
     }
 
@@ -90,7 +84,11 @@ module.exports = function(unpaidAppointmentsPersistence,
       return await persistence.saveState(state, trainerId);
     }
 
-    // we don't need to handle sessionReturnedFromPastAppointment because we don't do anything with
+    async function sessionReturnedFromPastAppointment(event) {
+      const trainerId = state.sessionReturnedFromPastAppointment(event);
+      return await persistence.saveState(state, trainerId);
+    }
+      // we don't need to handle sessionReturnedFromPastAppointment because we don't do anything with
     // the sessions when used. We just need to clean up the unpaid and unfunded appointments
     // and the appointmentRemovedFromThePast will do that
     let output = metaLogger({

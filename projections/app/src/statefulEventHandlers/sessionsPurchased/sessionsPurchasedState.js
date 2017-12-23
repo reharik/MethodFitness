@@ -9,7 +9,7 @@ module.exports = function(metaLogger) {
     };
 
     const cleanUp = purchase => {
-      if (purchase.sessions.every(x => !!x.appointmentId || x.refunded)) {
+      if (purchase.sessions.every(x => !!x.appointmentId && !!x.trainerPaid)) {
         purchase.sessions.forEach(x => {
           innerState.appointments = innerState.appointments.filter(a => a.appointmentId !== x.appointmentId);
         });
@@ -135,6 +135,20 @@ module.exports = function(metaLogger) {
       innerState.purchases.push(purchase);
     };
 
+    const trainerPaid = event => {
+      let sessions = innerState.purchases.filter(x => x.clientId === event.clientId)
+        .reduce((a, b) => a.concat(b.sessions), []);
+      let purchaseIds = [];
+      event.paidSessions.map(x => {
+        let session = sessions.find(y => y.sessionId === x.sessionId);
+        session.trainerPaid = true;
+        if (!purchaseIds.includes(session.purchaseId)) {
+          purchaseIds.push(session.purchaseId);
+        }
+      });
+      return purchaseIds;
+    };
+
     return metaLogger({
       getPurchase,
       createSessions,
@@ -146,6 +160,7 @@ module.exports = function(metaLogger) {
       returnSessionsFromPastAppointment,
       pastAppointmentUpdated,
       transferSessionFromPastAppointment,
+      trainerPaid,
       innerState
     }, 'sessionsPurchasedState');
   };

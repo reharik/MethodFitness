@@ -103,6 +103,30 @@ module.exports = function(moment, invariant, metaLogger) {
         .filter(x => !event.refundSessions.some(y => y.sessionId === x.sessionId));
     };
 
+    const sessionReturnedFromPastAppointment = event => {
+      innerState.sessions = innerState
+        .sessions
+        .map(x => {
+          if (x.appointmentId === event.appointmentId && x.sessionId === event.sessionId) {
+            let newSession = Object.assign({}, x, {used: false} );
+            delete newSession.appointmentId;
+            return newSession;
+          }
+          return x;
+        });
+    };
+
+    const appointmentAttendedByClient = event => {
+      innerState.sessions = innerState
+        .sessions
+        .map(x => {
+          if (x.sessionId === event.sessionId) {
+            return Object.assign({}, x, { used: true, appointmentId: event.appointmentId });
+          }
+          return x;
+        });
+    };
+
     return metaLogger({
       innerState,
       createPaidAppointment,
@@ -111,7 +135,9 @@ module.exports = function(moment, invariant, metaLogger) {
       removeTCR,
       updateTCR,
       addTRC,
-      refundSessions
+      refundSessions,
+      sessionReturnedFromPastAppointment,
+      appointmentAttendedByClient
     }, 'trainerPaymentDetailsState');
   };
 };

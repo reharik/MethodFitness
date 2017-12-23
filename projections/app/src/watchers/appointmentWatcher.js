@@ -60,6 +60,7 @@ module.exports = function(metaLogger) {
     async function pastAppointmentRemoved(event) {
       state.innerState.appointments = state.innerState.appointments
         .filter(x => x.appointmentId !== event.appointmentId);
+      await persistence.saveState(state);
     }
 
     return metaLogger({

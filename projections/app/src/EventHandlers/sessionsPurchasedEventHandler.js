@@ -24,6 +24,12 @@ module.exports = function(moment,
       return await persistence.saveState(state, purchase);
     }
 
+    async function trainerPaid(event) {
+      const purchaseId = state.trainerPaid(event);
+      const purchase = state.getPurchase(purchaseId);
+      return await persistence.saveState(state, purchase);
+    }
+
 /*
     async function unfundedAppointmentFundedByClient(event) {
       logger.info('handling unfundedAppointmentFundedByClient event in SessionsPurchasedEventHandler');
@@ -77,7 +83,8 @@ module.exports = function(moment,
       sessionReturnedFromPastAppointment,
       sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
       pastAppointmentRemoved,
-      pastAppointmentUpdated
+      pastAppointmentUpdated,
+      trainerPaid
     }, 'sessionPurchasedEventHandler');
 
     return Object.assign(

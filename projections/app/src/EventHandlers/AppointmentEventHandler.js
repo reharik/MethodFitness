@@ -82,14 +82,14 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function trainerInfoUpdated(event) {
-      let sql = `select * FROM "appointment" where "trainer" = '${event.trainerId}'`;
-      let appointments = await rsRepository.query(sql);
+      let selectSql = `select * FROM "appointment" where "trainer" = '${event.trainerId}'`;
+      let appointments = await rsRepository.query(selectSql);
       let updatedAppointments = appointments.map(x => Object.assign({}, x, { color: event.color }));
       for (let a of updatedAppointments) {
-        let sql = `update "appointment" set
+        let updateSql = `update "appointment" set
             "document" = '${JSON.stringify(a)}'
             where "id" = '${a.appointmentId}'`;
-        await rsRepository.saveQuery(sql);
+        await rsRepository.saveQuery(updateSql);
       }
     }
 

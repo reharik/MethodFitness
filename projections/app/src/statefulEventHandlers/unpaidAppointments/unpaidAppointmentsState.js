@@ -130,6 +130,16 @@ module.exports = function(invariant, metaLogger) {
 
       // then clean up previously processed unfunded appt
       removeUnfundedAppointment(event.appointmentId, event.clientId);
+
+      // then we update the session
+      innerState.sessions = innerState
+        .sessions
+        .map(x => {
+          if (x.sessionId === event.sessionId) {
+            return Object.assign({}, x, { used: true, appointmentId: event.appointmentId });
+          }
+          return x;
+        });
       return appointment.trainerId;
     };
 
@@ -215,6 +225,18 @@ module.exports = function(invariant, metaLogger) {
       return trainerId;
     };
 
+    const sessionReturnedFromPastAppointment = event => {
+      let session = innerState
+        .sessions
+        .find(x => x.appointmentId === event.appointmentId && x.sessionId === event.sessionId);
+      if (session) {
+        session.used = false;
+        delete session.appointmentId;
+        return session.trainerId;
+      }
+      return undefined;
+    };
+
     return metaLogger({
       innerState,
       createUnfundedAppointment,
@@ -231,7 +253,8 @@ module.exports = function(invariant, metaLogger) {
       refundSessions,
       pastAppointmentRemoved,
       removeFundedAppointment,
-      transferSession
+      transferSession,
+      sessionReturnedFromPastAppointment
     }, 'unpaidAppointmentState');
   };
 };

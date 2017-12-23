@@ -15,8 +15,8 @@ module.exports = function(_options) {
       logger.trace(metaLogger
       .iterateArguments(args, `${key} called with ${args.length <= 0 ? 'no ' : ''}arguments \n`));
     },
-    afterExecution: (logger, key, name, result) => {
-      logger.trace(`${key} result:\n ${metaLogger.itemToString(result)}`);
+    afterExecution: (logger, key, name, executionResult) => {
+      logger.trace(`${key} result:\n ${metaLogger.itemToString(executionResult)}`);
     }
   };
   try {

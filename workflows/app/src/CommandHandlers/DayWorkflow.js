@@ -115,7 +115,8 @@ module.exports = function(eventRepository,
       logger.info('saving dayInstance');
       logger.trace(dayInstance.state._id);
       await eventRepository.save(dayInstance, { continuationId });
-
+      //TODO I think this can safely be moved to ClientWorkflow provided the projections are
+      //TODO given enough info that they don't need the appt to do the session work
       for (let clientId of appointment.clients) {
         let c = await eventRepository.getById(client, clientId);
         logger.debug('refunding client for appointment in past');

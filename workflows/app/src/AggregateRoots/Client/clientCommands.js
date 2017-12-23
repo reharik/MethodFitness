@@ -87,6 +87,7 @@ module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
             x.purchasePrice = session.purchasePrice;
             session.used = true;
             session.appointmentId = x.appointmentId;
+            session.trainerId = x.trainerId;
             fundedAppointments.push(x);
           }
         });
@@ -96,8 +97,6 @@ module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
         fundedAppointments.forEach(e => raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e)));
       },
 
-
-      //TODO I THINK CONSUMESESSION IS FINDING THESE REFUNDED SESSIONS
       clientAttendsAppointment: cmd => {
         let cmdClone = Object.assign({}, cmd);
         let event;
@@ -120,7 +119,7 @@ module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
       },
 
       removeAppointmentForClient: appointmentId=> {
-        if (state.unfundedAppointments.find(u => u.appointmentId !== appointmentId)) {
+        if (state.unfundedAppointments.find(u => u.appointmentId === appointmentId)) {
           raiseEvent(esEvents.unfundedAppointmentRemovedForClientEvent({
             appointmentId,
             clientId: state._id

@@ -1,5 +1,5 @@
 module.exports = function(eventDispatcher,
-                          EventHandlers_array,
+                          EventHandlers_array, //eslint-disable-line camelcase
                           eventReceiver,
                           pingDB,
                           logger) {

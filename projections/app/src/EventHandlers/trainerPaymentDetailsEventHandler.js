@@ -54,6 +54,16 @@ module.exports = function(trainerPaymentDetailsPersistence,
       return await persistence.saveState(state);
     }
 
+    async function sessionReturnedFromPastAppointment(event) {
+      state.sessionReturnedFromPastAppointment(event);
+      await persistence.saveState(state);
+    }
+
+    async function appointmentAttendedByClient(event) {
+      state.appointmentAttendedByClient(event);
+      await persistence.saveState(state);
+    }
+
     let output = metaLogger({
       handlerType: 'trainerPaymentDetailsEventHandler',
       handlerName: 'trainerPaymentDetailsEventHandler',
@@ -63,7 +73,9 @@ module.exports = function(trainerPaymentDetailsPersistence,
       trainersClientRateChanged,
       trainersNewClientRateSet,
       trainersClientRatesUpdated,
-      sessionsRefunded
+      sessionsRefunded,
+      sessionReturnedFromPastAppointment,
+      appointmentAttendedByClient
     }, 'trainerPaymentDetailsEventHandler');
 
     return Object.assign(
