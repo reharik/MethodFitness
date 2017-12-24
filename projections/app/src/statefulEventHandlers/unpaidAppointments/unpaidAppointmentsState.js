@@ -9,33 +9,6 @@ module.exports = function(invariant, metaLogger) {
       unfundedAppointments: state.unfundedAppointments || [],
       unpaidAppointments: state.unpaidAppointments || []
     };
-    const addTRC = (trainerId, item) => {
-      let trainer = innerState.trainers.find(x => x.trainerId === trainerId);
-      invariant(trainer, `Unable to find trainer with ID: ${trainerId}`);
-      trainer.TCRS.push(item);
-    };
-
-    const updateTCR = item => {
-      innerState.trainers = innerState.trainers.map(x => {
-        if (x.trainerId === item.trainerId) {
-          x.TCRS.map(c => c.clientId === item.clientId ? Object.assign(c, {rate: item.rate}) : c);
-          return x;
-        }
-        return x;
-      });
-    };
-
-    const removeTCR = item => {
-      innerState.trainers = innerState.trainers.map(x => {
-        if (x.trainerId === item.trainerId) {
-          x.TCRS.filter(c => c.clientId !== item.clientId);
-          return x;
-        }
-        return x;
-      });
-    };
-
-    const addSession = item => innerState.sessions.push(item);
 
     const sessionsVerified = sessions => {
       innerState.unpaidAppointments = innerState.unpaidAppointments

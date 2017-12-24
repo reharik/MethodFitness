@@ -60,6 +60,15 @@ module.exports = function(trainerPaymentDetailsPersistence,
     }
 
     async function appointmentAttendedByClient(event) {
+      state.sessions = state
+        .sessions
+        .map(x => {
+          if (x.sessionId === event.sessionId) {
+            return Object.assign({}, x, { used: true, appointmentId: event.appointmentId });
+          }
+          return x;
+        });
+
       state.appointmentAttendedByClient(event);
       await persistence.saveState(state);
     }

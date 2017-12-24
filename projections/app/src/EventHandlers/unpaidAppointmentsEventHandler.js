@@ -3,40 +3,38 @@ module.exports = function(unpaidAppointmentsPersistence,
                           trainerWatcher,
                           clientWatcher,
                           metaLogger,
+                          statefulEventHandler,
                           logger) {
 
   return async function unpaidAppointmentsEventHandler() {
 
     const persistence = unpaidAppointmentsPersistence();
     let state = await persistence.initializeState();
+    let stateMethods = statefulEventHandler(state, 'unpaidAppointmentsEventHandler');
     logger.info('unpaidAppointmentsEventHandler started up');
 
     async function trainersNewClientRateSet(event) {
-      state.addTRC(event.trainerId, {clientId: event.clientId, rate: event.rate});
+      let newState = stateMethods.trainersNewClientRateSet(event);
 
-      return await persistence.saveState(state);
+      return await persistence.saveState(newState);
     }
 
     async function trainersClientRateChanged(event) {
-      state.updateTCR(event);
+      let newState = stateMethods.trainersClientRateChanged(event);
 
-      return await persistence.saveState(state);
+      return await persistence.saveState(newState);
     }
 
     async function trainersClientRatesUpdated(event) {
-      event.clientRates.forEach(x => state.updateTRC({
-        trainerId: event.trainerId,
-        clientId: x.clientId,
-        rate: x.rate
-      }));
+      let newState = stateMethods.trainersClientRatesUpdated(event);
 
-      return await persistence.saveState(state);
+      return await persistence.saveState(newState);
     }
 
     async function trainerClientRemoved(event) {
-      state.removeTCR(event);
+      let newState = stateMethods.trainerClientRemoved(event);
 
-      return await persistence.saveState(state);
+      return await persistence.saveState(newState);
     }
 
     async function sessionsPurchased(event) {
