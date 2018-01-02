@@ -150,7 +150,7 @@ module.exports = function(moment,
         return await persistence.saveState(state);
       }
 
-      async function transferSessionFromPastAppointment(event) {
+      async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
         let session = state.innerState.sessions.find(x => x.sessionId === event.sessionId);
         session.appointmentId = event.appointmentId;
 
@@ -172,7 +172,7 @@ module.exports = function(moment,
         trainersNewClientRateSet,
         trainerPaid,
         trainerVerifiedAppointments,
-        transferSessionFromPastAppointment
+        sessionTransferredFromRemovedAppointmentToUnfundedAppointment
       }, handlerName);
 
       return Object.assign(

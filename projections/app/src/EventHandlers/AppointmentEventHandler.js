@@ -64,7 +64,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function trainerPaid(event) {
-      const appointmentIds = event.paidAppointments.map(x => `${x.appointmentId}`).join(',').toString();
+      const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
       console.log(`==========appointmentIds=========`);
       console.log(appointmentIds); // eslint-disable-line quotes
       console.log(`==========END appointmentIds=========`);

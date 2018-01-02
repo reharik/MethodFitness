@@ -29,7 +29,10 @@ module.exports = function(unpaidAppointmentsPersistence,
 
     async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
       const trainerId = state.transferSession(event);
-      return await persistence.saveState(state, trainerId);
+      if (trainerId) {
+        return await persistence.saveState(state, trainerId);
+      }
+      return undefined;
     }
 
     async function trainerPaid(event) {

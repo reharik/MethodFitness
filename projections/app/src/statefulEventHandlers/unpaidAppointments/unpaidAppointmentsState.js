@@ -1,4 +1,4 @@
-module.exports = function(invariant, metaLogger) {
+module.exports = function(invariant, logger, metaLogger) {
   return function UnpaidAppointments(innerState) {
 // internal methods
     // from processAttendedUnfundedAppointment
@@ -119,18 +119,17 @@ module.exports = function(invariant, metaLogger) {
     };
 
     const transferSession = event => {
-      let unpaidAppointment = innerState.unpaidAppointments.find(x => x.sessionId === event.sessionId);
       let unfundedAppointment = innerState.unfundedAppointments.find(x => x.appointmentId === event.appointmentId);
-      if (!unpaidAppointment || !unfundedAppointment) {
+      if (!unfundedAppointment) {
         return undefined;
       }
       const session = innerState.sessions.find(x => x.sessionId === event.sessionId);
+      // a bit weird but were piggy backing on fundUnfundedAppointment
       const updatedEvent = Object.assign({}, event, { purchasePrice: session.purchasePrice });
-      innerState.unpaidAppointments = innerState.unpaidAppointments.filter(x => x.sessionId !== updatedEvent.sessionId);
       innerState.unpaidAppointments.push(fundUnfundedAppointment(updatedEvent, unfundedAppointment.trainerId));
       removeUnfundedAppointment(updatedEvent.appointmentId, updatedEvent.clientId);
 
-      return unpaidAppointment.trainerId;
+      return unfundedAppointment.trainerId;
     };
 
     const unfundedAppointmentAttendedByClient = event => {

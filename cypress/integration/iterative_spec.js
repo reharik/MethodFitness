@@ -29,6 +29,10 @@ describe('Pay Trainer', () => {
       cy.createAppointment(aDT.appointmentDate, aDT.time, clientName, 'Full Hour');
       cy.createAppointment(aDT.appointmentDate, aDT.setTime(2), clientName, 'Full Hour');
 
+      // should have one paid and one unpaid
+      // delete paid, should have one paid
+      cy.deleteAppointment(aDT.day, aDT.time);
+
     });
   });
 });

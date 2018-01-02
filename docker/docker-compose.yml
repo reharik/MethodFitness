@@ -94,5 +94,4 @@ services:
       - ext-http-prefixes=http://*:2113/
       - ext-ip="0.0.0.0"
       - log=/data/logs
-      - stats-period-sec=3000
-
+      - stats-period-sec=400000
