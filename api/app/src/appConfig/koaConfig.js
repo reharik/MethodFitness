@@ -63,3 +63,4 @@ module.exports = function(
     app.use(koa2responsetime.responseTime());
   };
 };
+

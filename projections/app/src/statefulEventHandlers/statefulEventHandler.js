@@ -145,7 +145,7 @@ module.exports = function(moment,
 
       async function trainerVerifiedAppointments(event) {
         state.innerState.appointments = state.innerState.appointments
-          .map(x => event.sessionsIds.some(y => x.sessionId === y) ? Object.assign(x, { verified: true }) : x);
+          .map(x => event.sessionIds.some(y => x.sessionId === y) ? Object.assign(x, { verified: true }) : x);
 
         return await persistence.saveState(state);
       }

@@ -70,11 +70,16 @@ module.exports = function(rsRepository, metaLogger, logger) {
       console.log(`==========END appointmentIds=========`);
       let appointments = await rsRepository.getByIds(appointmentIds, 'appointment');
       const query = doc => {
-        return `UPDATE SET document = '${rsRepository.sanitizeDocument(document)}'
+        return `UPDATE "appointment" SET document = '${rsRepository.sanitizeDocument(doc)}'
         WHERE "id" = '${doc.appointmentId}'`;
       };
       // this looks bad because it doesn't wait for any of the responses,
       // but I don't need em so it's actually better.  Unless it throws, which could be bad
+      appointments = Array.isArray(appointments) ? appointments : [appointments];
+      console.log(`==========appointments=========`);
+      console.log(appointments); // eslint-disable-line quotes
+      console.log(`==========END appointments=========`);
+
       appointments.forEach(async x => {
         x.paid = true;
         await rsRepository.query(query(x));
