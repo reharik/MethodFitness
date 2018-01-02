@@ -7,8 +7,10 @@ module.exports = function(moment,
   return async function sessionsPurchasedEventHandler() {
 
     const persistence = sessionsPurchasedPersistence();
-    let state = await persistence.initializeState();
-    const baseHandler = statefulEventHandler(state.innerState, persistence, 'SessionsPurchasedEventHandler');
+    let initialState = statefulEventHandler.getInitialState({ purchases: [] });
+    let state = await persistence.initializeState(initialState);
+
+    const baseHandler = statefulEventHandler.baseHandler(state, persistence, 'SessionsPurchasedBaseHandler');
     logger.info('SessionsPurchasedEventHandler started up');
 
     async function fundedAppointmentAttendedByClient(event) {

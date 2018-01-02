@@ -1,15 +1,6 @@
 module.exports = function(moment, invariant, metaLogger) {
-  return function(state = {}) {
-    let innerState = {
-      id: state.id || '00000000-0000-0000-0000-000000000001',
-      clients: state.clients || [],
-      trainers: state.trainers || [],
-      appointments: state.appointments || [],
-      sessions: [],
-      paidAppointments: state.paidAppointments || []
-    };
-
-    const processPaidAppointments = event => {
+  return function(innerState) {
+    const trainerPaid = event => {
       let paidAppointments = event.paidAppointments.map(x => createPaidAppointment(x));
       return {
         paymentId: event.paymentId,
@@ -49,7 +40,7 @@ module.exports = function(moment, invariant, metaLogger) {
 
     return metaLogger({
       innerState,
-      processPaidAppointments
+      trainerPaid
     }, 'trainerPaymentDetailsState');
   };
 };

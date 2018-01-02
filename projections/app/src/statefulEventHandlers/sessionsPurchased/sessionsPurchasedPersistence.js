@@ -1,19 +1,16 @@
 module.exports = function(rsRepository, sessionsPurchasedState, logger) {
 
   return function() {
-    async function initializeState() {
+    async function initializeState(initialState) {
       logger.info('Initializing state in sessionsPurchasedPersistence');
       let state = await rsRepository
         .getAggregateViewMeta('sessionsPurchased', '00000000-0000-0000-0000-000000000001');
 
-      if (!state.purchases) {
-        state = sessionsPurchasedState();
+      if (!state.trainers) {
+        state = initialState;
 
-        await rsRepository.insertAggregateMeta('sessionsPurchased', state.innerState);
-      } else {
-        state = sessionsPurchasedState(state);
-      }
-      return state;
+        await rsRepository.insertAggregateMeta('sessionsPurchased', state);
+      } return sessionsPurchasedState(state);
     }
 
     async function saveState(state, purchase) {

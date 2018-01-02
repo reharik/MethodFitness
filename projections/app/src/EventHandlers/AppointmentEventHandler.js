@@ -48,10 +48,10 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function unfundedAppointmentAttendedByClient(event) {
-      return await appointmentAttendedByClient(event);
+      return await fundedAppointmentAttendedByClient(event);
     }
 
-    async function appointmentAttendedByClient(event) {
+    async function fundedAppointmentAttendedByClient(event) {
       let appointment = await rsRepository.getById(event.appointmentId, 'appointment');
       appointment.completed = true;
       appointment.sessionId = event.sessionId;
@@ -98,7 +98,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
       appointmentScheduled,
       appointmentCanceled,
       appointmentUpdated,
-      appointmentAttendedByClient,
+      fundedAppointmentAttendedByClient,
       unfundedAppointmentAttendedByClient,
       appointmentScheduledInPast,
       pastAppointmentRemoved,

@@ -1,13 +1,5 @@
 module.exports = function(metaLogger) {
-  return function sessionsPurchasedState(state = {}) {
-    let innerState = {
-      id: state.id || '00000000-0000-0000-0000-000000000001',
-      clients: state.clients || [],
-      trainers: state.trainers || [],
-      appointments: state.appointments || [],
-      purchases: state.purchases || []
-    };
-
+  return function sessionsPurchasedState(innerState) {
     const createPurchase = item => {
       return {
         purchaseTotal: item.purchaseTotal,
@@ -41,7 +33,7 @@ module.exports = function(metaLogger) {
     const pastAppointmentUpdated = event => {
       let purchaseIds = [];
       event.clients.forEach(c => {
-        let session = state.sessions
+        let session = innerState.sessions
           .find(x =>
           x.appointmentId === event.appointmentId
           && x.clientId === c.clientId);
@@ -64,7 +56,7 @@ module.exports = function(metaLogger) {
           purchaseIds.push(session.purchaseId);
         }
       });
-      return purchaseIds.map(x => state.getPurchase(x));
+      return purchaseIds.map(x => getPurchase(x));
     };
 
     const returnSessionsFromPastAppointment = event => {

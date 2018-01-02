@@ -6,12 +6,16 @@ module.exports = function(trainerPaymentDetailsPersistence,
   return async function trainerPaymentDetailsEventHandler() {
 
     const persistence = trainerPaymentDetailsPersistence();
-    let state = await persistence.initializeState();
-    const baseHandler = statefulEventHandler(state.innerState, persistence, 'trainerPaymentDetailsEventHandler');
+    let initialState = statefulEventHandler.getInitialState({
+      paidAppointments: []
+    });
+    let state = await persistence.initializeState(initialState);
+    const baseHandler = statefulEventHandler.baseHandler(state, persistence, 'trainerPaymentDetailsBaseHandler');
+
     logger.info('trainerPaymentDetailsEventHandler started up');
 
     async function trainerPaid(event) {
-      const payment = state.processPaidAppointments(event);
+      const payment = state.trainerPaid(event);
       return await persistence.saveState(state, payment, event.trainerId);
     }
 

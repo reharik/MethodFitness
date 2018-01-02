@@ -1,15 +1,5 @@
 module.exports = function(invariant, metaLogger) {
-  return function UnpaidAppointments(state = {}) {
-    let innerState = {
-      id: state.id || '00000000-0000-0000-0000-000000000001',
-      clients: state.clients || [],
-      trainers: state.trainers || [],
-      appointments: state.appointments || [],
-      sessions: state.sessions || [],
-      unfundedAppointments: state.unfundedAppointments || [],
-      unpaidAppointments: state.unpaidAppointments || []
-    };
-
+  return function UnpaidAppointments(innerState) {
 // internal methods
     // from processAttendedUnfundedAppointment
     const createUnfundedAppointment = (appointment, event) => {
@@ -111,8 +101,9 @@ module.exports = function(invariant, metaLogger) {
 
     const pastAppointmentRemoved = appointmentId => {
       // first we have to find the appointment so we can get the trainer Id
+      // but appointment already removed so look in processed appointments
       const trainerId = innerState
-        .appointments
+        .unpaidAppointments
         .filter(x => x.appointmentId === appointmentId)
         .map(x => x.trainerId);
 

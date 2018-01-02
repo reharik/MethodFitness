@@ -6,8 +6,13 @@ module.exports = function(unpaidAppointmentsPersistence,
   return async function unpaidAppointmentsEventHandler() {
 
     const persistence = unpaidAppointmentsPersistence();
-    let state = await persistence.initializeState();
-    const baseHandler = statefulEventHandler(state.innerState, persistence, 'unpaidAppointmentsEventHandler');
+    let initialState = statefulEventHandler.getInitialState({
+      unfundedAppointments: [],
+      unpaidAppointments: []
+    });
+    let state = await persistence.initializeState(initialState);
+
+    const baseHandler = statefulEventHandler.baseHandler(state, persistence, 'unpaidAppointmentsBaseHandler');
     logger.info('unpaidAppointmentsEventHandler started up');
 
     async function fundedAppointmentAttendedByClient(event) {
