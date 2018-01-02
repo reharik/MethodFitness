@@ -25,7 +25,6 @@ module.exports = function(rsRepository, trainerPaymentDetailsState, logger) {
         }
         trainerPayments.payments.push(payment);
       }
-      state.paidAppointments = [];
       return await rsRepository.saveAggregateView(
         'trainerPaymentDetails',
         state.innerState,

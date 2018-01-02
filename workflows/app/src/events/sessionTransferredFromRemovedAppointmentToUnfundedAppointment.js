@@ -1,5 +1,6 @@
 module.exports = function(invariant) {
-  return function({ appointmentId,
+  return function({
+    appointmentId,
     sessionId,
     clientId
   }) {

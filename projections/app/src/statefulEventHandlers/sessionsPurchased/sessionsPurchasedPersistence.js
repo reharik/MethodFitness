@@ -16,14 +16,6 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
       return state;
     }
 
-    async function getPreviousPurchase(clientId, sessionId) {
-      logger.info('retrieving previous purchase in sessionsPurchasedPersistence');
-      let sessionsPurchased = await rsRepository.getById(clientId, 'sessionsPurchased');
-      let sessions = sessionsPurchased.purchases.reduce((a, b) => a.concat(b.sessions), []);
-      const session = sessions.find(x => x.sessionId === sessionId);
-      return sessionsPurchased.purchases.find(x => x.purchaseId === session.purchaseId);
-    }
-
     async function saveState(state, purchase) {
       logger.info('Saving state in sessionsPurchasedPersistence');
       let sessionsPurchased = {};
@@ -46,7 +38,6 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
 
     return {
       initializeState,
-      getPreviousPurchase,
       saveState
     };
   };

@@ -8,6 +8,10 @@ module.exports = function(invariant) {
     invariant(paidAppointments.length > 0, 'trainerPaid requires that you pass at least one session id');
     return {
       eventName: 'trainerPaid',
-      paymentId, trainerId, paidAppointments, paymentTotal, datePaid};
+      paymentId,
+      trainerId,
+      paidAppointments,
+      paymentTotal,
+      datePaid};
   };
 };

@@ -122,18 +122,9 @@ module.exports = function(invariant, metaLogger) {
       return trainerId;
     };
 
-    const trainerPaid = sessions => {
-      // const paidAppointments = innerState.unpaidAppointments
-      //   .filter(x => sessions.some(y => x.sessionId === y.sessionId));
-
+    const trainerPaid = event => {
       innerState.unpaidAppointments = innerState.unpaidAppointments
-        .filter(x => !sessions.some(y => x.sessionId === y.sessionId));
-
-      // paidAppointments.filter(x =>
-      // !innerState.unpaidAppointments.some(y => x.appointmentId === y.appointmentId)
-      // && !innerState.unfundedAppointments.some(y => x.appointmentId === y.appointmentId))
-      //   .forEach(a => innerState.appointments = innerState.appointments
-      //     .filter(y => y.appointmentId !== a.appointmentId));
+        .filter(x => !event.paidAppointments.some(y => x.sessionId === y.sessionId));
     };
 
     const transferSession = event => {
