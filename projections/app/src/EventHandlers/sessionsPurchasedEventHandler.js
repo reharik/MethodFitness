@@ -1,33 +1,56 @@
 module.exports = function(moment,
                           sessionsPurchasedPersistence,
-                          appointmentWatcher,
-                          trainerWatcher,
-                          clientWatcher,
+                          statefulEventHandler,
                           metaLogger,
                           logger) {
 
   return async function sessionsPurchasedEventHandler() {
 
     const persistence = sessionsPurchasedPersistence();
-    let state = await persistence.initializeState();
+    let initialState = statefulEventHandler.getInitialState({ purchases: [] });
+    let state = await persistence.initializeState(initialState);
+
+    const baseHandler = statefulEventHandler.baseHandler(state, persistence, 'SessionsPurchasedBaseHandler');
     logger.info('SessionsPurchasedEventHandler started up');
 
+    async function fundedAppointmentAttendedByClient(event) {
+      const purchase = state.fundedAppointmentAttendedByClient(event);
+      return await persistence.saveState(state, purchase);
+    }
+
+    async function pastAppointmentUpdated(event) {
+      const purchaseIds = state.pastAppointmentUpdated(event);
+      const purchases = purchaseIds.map(x => state.getPurchase(x));
+      for (let p of purchases) {
+        await persistence.saveState(state, p);
+      }
+    }
+
     async function sessionsPurchased(event) {
-      state.sessionsPurchased(event);
-      const purchase = state.getPurchase(event.purchaseId);
+      const purchase = state.sessionsPurchased(event);
       return await persistence.saveState(state, purchase);
     }
 
-    async function appointmentAttendedByClient(event) {
-      const purchaseId = state.processFundedAppointment(event);
-      const purchase = state.getPurchase(purchaseId);
-      return await persistence.saveState(state, purchase);
+    async function sessionsRefunded(event) {
+      const purchases = state.refundSessions(event);
+      for (let p of purchases) {
+        await persistence.saveState(state, p);
+      }
     }
 
-    async function trainerPaid(event) {
-      const purchaseId = state.trainerPaid(event);
-      const purchase = state.getPurchase(purchaseId);
-      return await persistence.saveState(state, purchase);
+    async function sessionReturnedFromPastAppointment(event) {
+      const purchase = state.returnSessionsFromPastAppointment(event);
+      await persistence.saveState(state, purchase);
+    }
+
+    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
+      let purchase = state.transferSessionFromPastAppointment(event);
+      await persistence.saveState(state, purchase);
+    }
+
+    async function trainerPaid() {
+      state.trainerPaid();
+      return await persistence.saveState(state);
     }
 
 /*
@@ -39,59 +62,18 @@ module.exports = function(moment,
     }
 */
 
-    async function sessionsRefunded(event) {
-      const purchaseIds = state.refundSessions(event);
-      const purchases = purchaseIds.map(x => state.getPurchase(x));
-      for (let p of purchases) {
-        await persistence.saveState(state, p);
-      }
-    }
-
-    async function sessionReturnedFromPastAppointment(event) {
-      const purchase = await persistence.getPreviousPurchase(event.clientId, event.sessionId);
-      //mutating state of purchase
-      state.returnSessionsFromPastAppointment(event.sessionId, purchase);
-      await persistence.saveState(state, purchase);
-    }
-
-    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
-      const purchase = await persistence.getPreviousPurchase(event.clientId, event.sessionId);
-      //mutating state of purchase
-      state.transferSessionFromPastAppointment(event, purchase);
-      await persistence.saveState(state, purchase);
-    }
-
-    async function pastAppointmentUpdated(event) {
-      const purchaseIds = state.pastAppointmentUpdated(event);
-      const purchases = purchaseIds.map(x => state.getPurchase(x));
-      for (let p of purchases) {
-        await persistence.saveState(state, p);
-      }
-    }
-
-    async function pastAppointmentRemoved(event) {
-      state.innerState.appointments = state.innerState.appointments
-        .filter(x => x.appointmentId !== event.appointmentId);
-    }
-
-    let output = metaLogger({
+    return metaLogger({
       handlerType: 'sessionsPurchasedEventHandler',
       handlerName: 'sessionsPurchasedEventHandler',
-      appointmentAttendedByClient,
+      baseHandlerName: 'sessionsPurchasedBaseStateEventHandler',
+      baseHandler,
+      fundedAppointmentAttendedByClient,
+      pastAppointmentUpdated,
       sessionsPurchased,
       sessionsRefunded,
       sessionReturnedFromPastAppointment,
       sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
-      pastAppointmentRemoved,
-      pastAppointmentUpdated,
       trainerPaid
     }, 'sessionPurchasedEventHandler');
-
-    return Object.assign(
-      appointmentWatcher(state, persistence, output.handlerName),
-      clientWatcher(state, persistence, output.handlerName),
-      trainerWatcher(state, persistence, output.handlerName),
-      output
-    );
   };
 };

@@ -82,10 +82,10 @@ where id = '${event.clientId}'`;
     }
 
     async function unfundedAppointmentAttendedByClient(event) {
-      return await appointmentAttendedByClient(event);
+      return await fundedAppointmentAttendedByClient(event);
     }
 
-    async function appointmentAttendedByClient(event) {
+    async function fundedAppointmentAttendedByClient(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
       client.inventory[event.appointmentType] = client.inventory[event.appointmentType] - 1;
       return await rsRepository.save('client', client, client.clientId);
@@ -116,7 +116,7 @@ where id = '${event.clientId}'`;
       clientInfoUpdated,
       clientSourceUpdated,
       sessionsPurchased,
-      appointmentAttendedByClient,
+      fundedAppointmentAttendedByClient,
       unfundedAppointmentAttendedByClient,
       sessionsRefunded,
       sessionReturnedFromPastAppointment,

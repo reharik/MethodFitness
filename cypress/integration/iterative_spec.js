@@ -25,8 +25,13 @@ describe('Pay Trainer', () => {
       cy.deleteAppointment(aDT.day, aDT.time);
       cy.wait(1000);
 
-      // create new appointment in past
+      // create two new appointments in past
       cy.createAppointment(aDT.appointmentDate, aDT.time, clientName, 'Full Hour');
+      cy.createAppointment(aDT.appointmentDate, aDT.setTime(2), clientName, 'Full Hour');
+
+      // should have one paid and one unpaid
+      // delete paid, should have one paid
+      cy.deleteAppointment(aDT.day, aDT.time);
 
     });
   });

@@ -105,7 +105,7 @@ module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
         if (session) {
           cmdClone.sessionId = session.sessionId;
           // in case this is an update of an appointment in the past
-          event = esEvents.appointmentAttendedByClientEvent(cmdClone);
+          event = esEvents.fundedAppointmentAttendedByClient(cmdClone);
         } else {
           event = esEvents.unfundedAppointmentAttendedByClientEvent(cmdClone);
         }

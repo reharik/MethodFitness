@@ -1,27 +1,16 @@
 module.exports = function(rsRepository, sessionsPurchasedState, logger) {
 
   return function() {
-    async function initializeState() {
+    async function initializeState(initialState) {
       logger.info('Initializing state in sessionsPurchasedPersistence');
       let state = await rsRepository
         .getAggregateViewMeta('sessionsPurchased', '00000000-0000-0000-0000-000000000001');
 
-      if (!state.purchases) {
-        state = sessionsPurchasedState();
+      if (!state.trainers) {
+        state = initialState;
 
-        await rsRepository.insertAggregateMeta('sessionsPurchased', state.innerState);
-      } else {
-        state = sessionsPurchasedState(state);
-      }
-      return state;
-    }
-
-    async function getPreviousPurchase(clientId, sessionId) {
-      logger.info('retrieving previous purchase in sessionsPurchasedPersistence');
-      let sessionsPurchased = await rsRepository.getById(clientId, 'sessionsPurchased');
-      let sessions = sessionsPurchased.purchases.reduce((a, b) => a.concat(b.sessions), []);
-      const session = sessions.find(x => x.sessionId === sessionId);
-      return sessionsPurchased.purchases.find(x => x.purchaseId === session.purchaseId);
+        await rsRepository.insertAggregateMeta('sessionsPurchased', state);
+      } return sessionsPurchasedState(state);
     }
 
     async function saveState(state, purchase) {
@@ -46,7 +35,6 @@ module.exports = function(rsRepository, sessionsPurchasedState, logger) {
 
     return {
       initializeState,
-      getPreviousPurchase,
       saveState
     };
   };

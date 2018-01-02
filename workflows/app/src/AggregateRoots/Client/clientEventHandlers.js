@@ -17,7 +17,7 @@ module.exports = function() {
         state.clientInventory.addSessionsToInventory(event);
       },
 
-      appointmentAttendedByClient: event => {
+      fundedAppointmentAttendedByClient: event => {
         state.clientInventory.removeSession(event.sessionId, event.appointmentId);
       },
 
