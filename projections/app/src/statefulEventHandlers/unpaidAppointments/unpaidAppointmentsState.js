@@ -1,6 +1,24 @@
-module.exports = function(invariant, logger, metaLogger) {
+module.exports = function(invariant, R, logger, metaLogger) {
   return function UnpaidAppointments(innerState) {
 // internal methods
+    const cleanUp = (event) => {
+      // remove paid appointments
+      const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
+      innerState.appointments = innerState.appointments.filter(x => !appointmentIds.includes(x.appointmentId));
+
+      const purchaseIds = R.uniqBy(x => x.purchaseId, innerState.sessions).map(x => x.purchaseId);
+      purchaseIds.forEach(x => {
+        if (innerState.sessions.filter(s => s.purchaseId === x).every(s => s.trainerPaid || s.refunded)) {
+          // remove sessions when the entire purchase is used
+          innerState.sessions = innerState.sessions.filter(s => s.purchaseId !== x);
+        }
+      });
+      
+      console.log(`==========innerState.appointments=========`);
+      console.log(innerState.appointments); // eslint-disable-line quotes
+      console.log(`==========END innerState.appointments=========`);
+    };
+
     // from processAttendedUnfundedAppointment
     const createUnfundedAppointment = (appointment, event) => {
       let client = innerState.clients.find(c => c.clientId === event.clientId);
@@ -116,6 +134,7 @@ module.exports = function(invariant, logger, metaLogger) {
     const trainerPaid = event => {
       innerState.unpaidAppointments = innerState.unpaidAppointments
         .filter(x => !event.paidAppointments.some(y => x.sessionId === y.sessionId));
+      cleanUp(event);
     };
 
     const transferSession = event => {

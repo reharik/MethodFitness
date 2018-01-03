@@ -1,9 +1,10 @@
 module.exports = function(moment,
-                          appointmentWatcher,
-                          clientWatcher,
-                          trainerWatcher,
-                          invariant,
-                          metaLogger) {
+  appointmentWatcher,
+  clientWatcher,
+  trainerWatcher,
+  R,
+  invariant,
+  metaLogger) {
   return {
     getInitialState: extraState => {
       return Object.assign({}, {
@@ -13,10 +14,11 @@ module.exports = function(moment,
         appointments: [],
         sessions: []
       },
-        extraState
+      extraState
       );
     },
     baseHandler: (state, persistence, handlerName) => {
+
       async function fundedAppointmentAttendedByClient(event) {
         state.innerState.sessions = state.innerState.sessions.map(x => {
           if (x.sessionId === event.sessionId) {
@@ -40,7 +42,7 @@ module.exports = function(moment,
       async function pastAppointmentUpdated(event) {
         event.clients.forEach(c => {
           let session = state.innerState.sessions.find(x =>
-          x.appointmentId === event.appointmentId
+            x.appointmentId === event.appointmentId
           && x.clientId === c.clientId);
           if (session && session.trainerId !== event.trainerId) {
             session.trainerId = event.trainerId;
@@ -134,11 +136,9 @@ module.exports = function(moment,
       async function trainerPaid(event) {
         state.innerState.sessions = state.innerState.sessions.map(x =>
           event.paidAppointments.some(y => x.sessionId === y.sessionId)
-            ? Object.assign(x, { verified: true })
+            ? Object.assign(x, { trainerPaid: true })
             : x
         );
-        state.innerState.appointments = state.innerState.appointments
-          .filter(x => !event.paidAppointments.some(y => x.sessionId === y.sessionId));
 
         return await persistence.saveState(state);
       }

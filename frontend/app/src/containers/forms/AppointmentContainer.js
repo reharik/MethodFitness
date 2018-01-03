@@ -11,7 +11,7 @@ import { scheduleAppointment,
   deleteAppointmentFromPast} from './../../modules/appointmentModule';
 import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, props) => {
   const isAdmin = state.auth.user.role === 'admin';
   // if trainers and clients aren't loaded yet don't render the whole thing
   // in functional component render check for trainer and clients
@@ -34,14 +34,17 @@ const mapStateToProps = (state, ownProps) => {
   // please put this shit in a config somewhere
   const times = generateAllTimes(15, 5, 11);
 
-  const model = !ownProps.args.appointmentId
-    ? appointmentModel(state, ownProps.args)
-    : updateAppointmentModel(state, ownProps.args, ownProps.isCopy);
+  const model = !props.args.appointmentId
+    ? appointmentModel(state, props.args)
+    : updateAppointmentModel(state, props.args, props.isCopy);
 
   let buttons;
-  if (ownProps.args.appointmentId && !ownProps.isCopy && !ownProps.isEdit) {
+  if (props.args.appointmentId && !props.isCopy && !props.isEdit) {
     buttons = ['copy', 'delete', 'cancel'];
-    if (permissionToSetAppointment({date: model.date.value, startTime: model.startTime.value}, isAdmin)) {
+    const appointment = state.appointments.filter(x => x.appointmentId === props.args.appointmentId)[0];
+    if(appointment && appointment.paid) {
+      buttons = ['copy', 'cancel'];
+    } else if (permissionToSetAppointment({date: model.date.value, startTime: model.startTime.value}, isAdmin)) {
       buttons.splice(1, 0, 'edit');
     }
   } else {
@@ -57,11 +60,11 @@ const mapStateToProps = (state, ownProps) => {
     trainers,
     appointmentTypes,
     times,
-    onCancel: ownProps.onCancel,
-    onCopy: ownProps.onCopy,
-    onEdit: ownProps.onEdit,
+    onCancel: props.onCancel,
+    onCopy: props.onCopy,
+    onEdit: props.onEdit,
     buttons,
-    editing: !model.appointmentId.value || ownProps.isEdit,
+    editing: !model.appointmentId.value || props.isEdit,
     trainerId: user ? user.trainerId : ''
   };
 };

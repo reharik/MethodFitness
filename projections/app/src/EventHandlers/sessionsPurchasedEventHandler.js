@@ -48,8 +48,8 @@ module.exports = function(moment,
       await persistence.saveState(state, purchase);
     }
 
-    async function trainerPaid() {
-      state.trainerPaid();
+    async function trainerPaid(event) {
+      state.cleanUp(event);
       return await persistence.saveState(state);
     }
 

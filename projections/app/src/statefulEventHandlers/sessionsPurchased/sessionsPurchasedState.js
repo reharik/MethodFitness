@@ -1,5 +1,28 @@
-module.exports = function(metaLogger) {
+module.exports = function(R, metaLogger) {
   return function sessionsPurchasedState(innerState) {
+
+    const cleanUp = (event) => {
+      // remove paid appointments
+      const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
+      innerState.appointments = innerState.appointments.filter(x => !appointmentIds.includes(x.appointmentId));
+
+      const purchaseIds = R.uniqBy(x => x.purchaseId, innerState.sessions).map(x => x.purchaseId);
+      console.log(`==========purchaseIds=========`);
+      console.log(purchaseIds); // eslint-disable-line quotes
+      console.log(`==========END purchaseIds=========`);
+      purchaseIds.forEach(x => {
+        console.log(`==========x=========`);
+        console.log(x); // eslint-disable-line quotes
+        console.log(`==========END x=========`);
+        if (innerState.sessions.filter(s => s.purchaseId === x).every(s => s.trainerPaid || s.refunded)) {
+          // remove sessions when the entire purchase is used
+          innerState.sessions = innerState.sessions.filter(s => s.purchaseId !== x);
+          // remove purchase when all sessions are used;
+          innerState.purchases = innerState.purchases.filter(p => p.purchaseId !== x);
+        }
+      });
+    };
+
     const createPurchase = item => {
       return {
         purchaseTotal: item.purchaseTotal,
@@ -35,7 +58,7 @@ module.exports = function(metaLogger) {
       event.clients.forEach(c => {
         let session = innerState.sessions
           .find(x =>
-          x.appointmentId === event.appointmentId
+            x.appointmentId === event.appointmentId
           && x.clientId === c.clientId);
         if (session
           && (session.date !== event.date
@@ -85,9 +108,6 @@ module.exports = function(metaLogger) {
       return purchase;
     };
 
-    const trainerPaid = () => {
-      innerState.purchases = innerState.purchases.filter(x => !x.sessions.every(s => s.trainerPaid));
-    };
 
     const transferSessionFromPastAppointment = event => {
       let session = innerState.sessions.find(x => x.sessionId === event.sessionId);
@@ -101,13 +121,13 @@ module.exports = function(metaLogger) {
     };
 
     return metaLogger({
+      cleanUp,
       fundedAppointmentAttendedByClient,
       getPurchase,
       pastAppointmentUpdated,
       refundSessions,
       returnSessionsFromPastAppointment,
       sessionsPurchased,
-      trainerPaid,
       transferSessionFromPastAppointment,
       innerState
     }, 'sessionsPurchasedState');

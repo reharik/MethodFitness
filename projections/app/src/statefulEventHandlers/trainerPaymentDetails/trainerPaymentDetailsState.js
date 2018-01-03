@@ -1,7 +1,23 @@
-module.exports = function(moment, invariant, metaLogger) {
+module.exports = function(moment, R, invariant, metaLogger) {
   return function(innerState) {
+
+    const cleanUp = (event) => {
+      // remove paid appointments
+      const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
+      innerState.appointments = innerState.appointments.filter(x => !appointmentIds.includes(x.appointmentId));
+
+      const purchaseIds = R.uniqBy(x => x.purchaseId, innerState.sessions).map(x => x.purchaseId);
+      purchaseIds.forEach(x => {
+        if (innerState.sessions.filter(s => s.purchaseId === x).every(s => s.trainerPaid || s.refunded)) {
+          // remove sessions when the entire purchase is used
+          innerState.sessions = innerState.sessions.filter(s => s.purchaseId !== x);
+        }
+      });
+    };
+
     const trainerPaid = event => {
       let paidAppointments = event.paidAppointments.map(x => createPaidAppointment(x));
+      cleanUp(event);
       return {
         paymentId: event.paymentId,
         paymentDate: moment().toISOString(),
