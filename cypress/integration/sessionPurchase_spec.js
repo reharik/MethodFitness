@@ -37,7 +37,7 @@ describe('Session Purchase', () => {
       });
     });
 
-    describe('When entering new items to purchase', () => {
+    describe.only('When entering new items to purchase', () => {
       it('Should add up the total correctly and submit successfully', function() {
         const total = (
           this.prices.fullHour

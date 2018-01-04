@@ -1,7 +1,7 @@
 module.exports = function(invariant, R, logger, metaLogger) {
   return function UnpaidAppointments(innerState) {
 // internal methods
-    const cleanUp = (event) => {
+    const cleanUp = event => {
       // remove paid appointments
       const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
       innerState.appointments = innerState.appointments.filter(x => !appointmentIds.includes(x.appointmentId));
@@ -13,7 +13,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
           innerState.sessions = innerState.sessions.filter(s => s.purchaseId !== x);
         }
       });
-      
+
       console.log(`==========innerState.appointments=========`);
       console.log(innerState.appointments); // eslint-disable-line quotes
       console.log(`==========END innerState.appointments=========`);

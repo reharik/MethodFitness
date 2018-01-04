@@ -37,11 +37,11 @@ Cypress.Commands.add('clickOnAppointment', (day, time) => {
 
 Cypress.Commands.add('createAppointment', (day, time, client, type) => {
   Cypress.log();
-  // cy.server();
-  // cy.route({
-  //   method: 'POST',
-  //   url: '/appointment/scheduleAppointmentInPast'
-  // }).as('appointments');
+  cy.server();
+  cy.route({
+    method: 'POST',
+    url: '/appointment/scheduleAppointmentInPast'
+  }).as('appointments');
   cy.log('-----CREATE_APPOINTMENT-----');
   cy.clickEmptySlot(day, time);
   cy.get('#clients', { log: false }).click({ log: false });

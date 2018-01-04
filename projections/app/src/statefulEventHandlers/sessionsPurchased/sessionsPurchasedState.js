@@ -1,7 +1,7 @@
 module.exports = function(R, metaLogger) {
   return function sessionsPurchasedState(innerState) {
 
-    const cleanUp = (event) => {
+    const cleanUp = event => {
       // remove paid appointments
       const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
       innerState.appointments = innerState.appointments.filter(x => !appointmentIds.includes(x.appointmentId));
@@ -97,6 +97,9 @@ module.exports = function(R, metaLogger) {
     const sessionsPurchased = item => {
       const purchase = createPurchase(item);
       purchase.sessions = innerState.sessions.filter(x => x.purchaseId === item.purchaseId);
+      console.log(`==========purchase.sessions=========`);
+      console.log(purchase.sessions); // eslint-disable-line quotes
+      console.log(`==========END purchase.sessions=========`);
       purchase.sessions.filter(x => !!x.appointmentId).forEach(session => {
         const appointment = innerState.appointments.find(a => a.appointmentId === session.appointmentId);
         const trainer = innerState.trainers.find(t => t.trainerId === appointment.trainerId);
@@ -104,6 +107,9 @@ module.exports = function(R, metaLogger) {
         session.startTime = appointment.startTime;
         session.trainer = `${trainer.firstName} ${trainer.lastName}`;
       });
+      console.log(`==========purchase=========`);
+      console.log(purchase); // eslint-disable-line quotes
+      console.log(`==========END purchase=========`);
       innerState.purchases.push(purchase);
       return purchase;
     };

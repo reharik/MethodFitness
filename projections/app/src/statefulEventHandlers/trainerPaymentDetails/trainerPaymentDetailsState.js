@@ -1,7 +1,7 @@
 module.exports = function(moment, R, invariant, metaLogger) {
   return function(innerState) {
 
-    const cleanUp = (event) => {
+    const cleanUp = event => {
       // remove paid appointments
       const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
       innerState.appointments = innerState.appointments.filter(x => !appointmentIds.includes(x.appointmentId));

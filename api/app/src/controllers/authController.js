@@ -6,6 +6,9 @@ module.exports = function(commands, eventstore, logger) {
       ctx.body = { success: false, errors: ['Invalid credentials provided'] };
     } else {
       let user = ctx.state.user;
+      console.log(`==========eventStore=========`);
+      console.log(eventstore); // eslint-disable-line quotes
+      console.log(`==========END eventStore=========`);
       let cmd = commands.loginTrainerCommand(user.trainerId, user.userName);
       await eventstore.commandPoster(cmd, 'loginTrainer');
       delete user.password;
