@@ -18,7 +18,7 @@ module.exports = function() {
       },
 
       fundedAppointmentAttendedByClient: event => {
-        state.clientInventory.removeSession(event.sessionId, event.appointmentId);
+        state.clientInventory.sessionConsumed(event.sessionId, event.appointmentId);
       },
 
       unfundedAppointmentAttendedByClient: event => {
@@ -26,7 +26,7 @@ module.exports = function() {
       },
 
       sessionsRefunded: event => {
-        event.refundSessions.forEach(x => state.clientInventory.removeSession(x.sessionId));
+        event.refundSessions.forEach(x => state.clientInventory.sessionConsumed(x.sessionId));
         console.log(`==========state.clientInventory=========`);
         console.log(JSON.stringify(state.clientInventory)); // eslint-disable-line quotes
         console.log(`==========END state.clientInventory=========`);

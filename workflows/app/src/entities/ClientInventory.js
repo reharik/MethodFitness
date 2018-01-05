@@ -16,7 +16,7 @@ module.exports = function(sortby, logger) {
         .sort(sortby('createdDate'))[0];
     }
 
-    removeSession(sessionId, appointmentId) {
+    sessionConsumed(sessionId, appointmentId) {
       if (appointmentId) {
         let session = this.sessions.find(x => x.sessionId === sessionId);
         logger.debug(`addding session to consumedSession with appointmentId: ${appointmentId} in clientInventory`);

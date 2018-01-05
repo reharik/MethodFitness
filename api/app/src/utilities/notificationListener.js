@@ -5,7 +5,7 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
     let mAndF = mapAndFilterStream();
     let ef = applicationFunctions.eventFunctions;
 
-    const connection = eventstore.gesConnection();
+    const connection = await eventstore.gesConnection;
     let subscription = connection.subscribeToStream(
       'notification',
       false,
