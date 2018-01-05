@@ -100,6 +100,10 @@ where id = '${event.clientId}'`;
     async function unfundedAppointmentRemoveForClient(event) {
       return await sessionReturnedFromPastAppointment(event);
     }
+
+    // this is basically fundedAppointmentRemoved and session wasn't transfered
+    // seems like it should just catch the 'fundedAppointmentRemoveForClient' event
+    // but not all of those cause the refund of the session
     async function sessionReturnedFromPastAppointment(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
       client.inventory[event.appointmentType] = client.inventory[event.appointmentType] + 1;

@@ -121,7 +121,7 @@ module.exports = function(eventRepository,
         let c = await eventRepository.getById(client, clientId);
         logger.debug('refunding client for appointment in past');
         c.returnSessionFromPast(appointment.appointmentId);
-        c.removeAppointmentForClient(appointment.appointmentId);
+        c.removePastAppointmentForClient(appointment.appointmentId);
         logger.info('saving client');
         await eventRepository.save(c, { continuationId });
       }

@@ -11,13 +11,6 @@ module.exports = function(eventRepository, pastAppointmentStrategies_array, day,
       origAppointment = Object.assign({}, oldDay.getAppointment(cmd.appointmentId));
       oldDay.removeAppointmentFromPast(cmd);
 
-      for (let clientId of origAppointment.clients) {
-        let c = await eventRepository.getById(client, clientId);
-        logger.debug('refunding client for appointment in past');
-        c.returnSessionFromPast(origAppointment.appointmentId);
-        logger.info('saving client');
-        await eventRepository.save(c, {continuationId});
-      }
       await eventRepository.save(oldDay, {continuationId});
     }
     let result = [];

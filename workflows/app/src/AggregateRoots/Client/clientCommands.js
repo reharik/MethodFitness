@@ -118,10 +118,13 @@ module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
         raiseEvent(esEvents.sessionsRefundedEvent(cmdClone));
       },
 
-      removeAppointmentForClient: appointmentId => {
-        if (state.unfundedAppointments.find(u => u.appointmentId === appointmentId)) {
+      removePastAppointmentForClient: appointmentId => {
+
+        const unfundedAppointment = state.unfundedAppointments.find(u => u.appointmentId === appointmentId);
+        if (unfundedAppointment) {
           raiseEvent(esEvents.unfundedAppointmentRemovedForClientEvent({
             appointmentId,
+            appointmentType: unfundedAppointment.appointmentType,
             clientId: state._id
           }));
         } else if (state.clientInventory.getUsedSessionByAppointmentId(appointmentId)) {
