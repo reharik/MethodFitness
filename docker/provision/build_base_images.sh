@@ -18,7 +18,7 @@ echo "Removing old images"
 echo "--------------------------------------"
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-     docker rmi $(docker images -f "label=cleanMe" -q)
+     docker rmi $(docker images -f "label=cleanMe" -q) 2>/dev/null || echo "No more images to remove."
 
 #     docker images | grep "/base_mf" | awk '{print $3}' | xargs -r docker rmi -f
 
