@@ -29,8 +29,8 @@ echo "--------------------------------------"
 #         docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty)
 #         cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest
 #         -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
-         docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
-         cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
+#         docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
+#         cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
          docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
          cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
          docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
