@@ -97,7 +97,7 @@ where id = '${event.clientId}'`;
       return await rsRepository.save('client', client, client.clientId);
     }
 
-    async function unfundedAppointmentRemoveForClient(event) {
+    async function unfundedAppointmentRemovedForClient(event) {
       return await sessionReturnedFromPastAppointment(event);
     }
 
@@ -124,7 +124,7 @@ where id = '${event.clientId}'`;
       unfundedAppointmentAttendedByClient,
       sessionsRefunded,
       sessionReturnedFromPastAppointment,
-      unfundedAppointmentRemoveForClient
+      unfundedAppointmentRemovedForClient
     }, 'ClientEventHandler');
   };
 };

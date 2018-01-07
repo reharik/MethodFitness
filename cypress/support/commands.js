@@ -88,7 +88,7 @@ Cypress.Commands.add('deleteAppointment', (day, time) => {
 
 Cypress.Commands.add('deleteAllAppointments', () => {
   cy.visit('/', { log: false });
-  cy.wait(1750, { log: false }).then(() => {
+  cy.wait(2000, { log: false }).then(() => {
     const appointments = Cypress.$(`.redux__task__calendar__task__item`);
     if (appointments.length > 0) {
       cy.wrap(appointments)

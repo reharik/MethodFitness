@@ -34,7 +34,6 @@ module.exports = function(R, metaLogger) {
 
     const fundedAppointmentAttendedByClient = event => {
       let session = innerState.sessions.find(x => x.sessionId === event.sessionId);
-      let purchase = innerState.purchases.find(x => x.purchaseId === session.purchaseId);
       let appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
       let trainer = innerState.trainers.find(x => x.trainerId === appointment.trainerId);
 
@@ -43,12 +42,19 @@ module.exports = function(R, metaLogger) {
       session.startTime = appointment.startTime;
       session.trainer = `${trainer.firstName} ${trainer.lastName}`;
 
-      purchase.sessions = innerState.sessions.filter(x => x.purchaseId === purchase.purchaseId);
-      return purchase;
+      return getPurchase(session.purchaseId);
     };
 
     const getPurchase = purchaseId => {
-      return innerState.purchases.find(x => x.purchaseId === purchaseId);
+      let purchase = innerState.purchases.find(x => x.purchaseId === purchaseId);
+      if (purchase) {
+        const sessions = innerState.sessions.filter(s => s.purchaseId === purchaseId);
+        console.log(`==========sessions=========`);
+        console.log(sessions); // eslint-disable-line quotes
+        console.log(`==========END sessions=========`);
+        return Object.assign({}, purchase, { sessions });
+      }
+      return undefined;
     };
 
     // this is probably fubar. I feel like I need to remove sessions and stuff but maybe that's taken care of
@@ -68,18 +74,19 @@ module.exports = function(R, metaLogger) {
           purchaseIds.push(session.purchaseId);
         }
       });
-      return purchaseIds;
+      return purchaseIds.map(getPurchase);
     };
 
     const refundSessions = event => {
       let purchaseIds = [];
+      // stateful eventhandler handles the refund this is just to rebuild the purchases
       event.refundSessions.map(x => {
         let session = innerState.sessions.find(y => y.sessionId === x.sessionId);
         if (!purchaseIds.includes(session.purchaseId)) {
           purchaseIds.push(session.purchaseId);
         }
       });
-      return purchaseIds.map(x => getPurchase(x));
+      return purchaseIds.map(getPurchase);
     };
 
     const returnSessionsFromPastAppointment = event => {
@@ -87,43 +94,36 @@ module.exports = function(R, metaLogger) {
       delete session.trainer;
       delete session.startTime;
       delete session.appointmentDate;
-      // not sure if this is needed need to figure out if purchase.sessions are just references
-      let purchase = innerState.purchases.find(x => x.purchaseId === session.purchaseId);
-      purchase.sessions = innerState.sessions.filter(x => x.purchaseId === purchase.purchaseId);
 
-      return purchase;
+      return getPurchase(session.purchaseId);
     };
 
     const sessionsPurchased = item => {
       const purchase = createPurchase(item);
-      purchase.sessions = innerState.sessions.filter(x => x.purchaseId === item.purchaseId);
-      console.log(`==========purchase.sessions=========`);
-      console.log(purchase.sessions); // eslint-disable-line quotes
-      console.log(`==========END purchase.sessions=========`);
-      purchase.sessions.filter(x => !!x.appointmentId).forEach(session => {
-        const appointment = innerState.appointments.find(a => a.appointmentId === session.appointmentId);
-        const trainer = innerState.trainers.find(t => t.trainerId === appointment.trainerId);
-        session.appointmentDate = appointment.date;
-        session.startTime = appointment.startTime;
-        session.trainer = `${trainer.firstName} ${trainer.lastName}`;
-      });
-      console.log(`==========purchase=========`);
-      console.log(purchase); // eslint-disable-line quotes
-      console.log(`==========END purchase=========`);
+      innerState.sessions
+        .filter(x => x.purchaseId === purchase.purchaseId && !!x.appointmentId)
+        .forEach(session => {
+          const appointment = innerState.appointments.find(a => a.appointmentId === session.appointmentId);
+          const trainer = innerState.trainers.find(t => t.trainerId === appointment.trainerId);
+          session.appointmentDate = appointment.date;
+          session.startTime = appointment.startTime;
+          session.trainer = `${trainer.firstName} ${trainer.lastName}`;
+        });
       innerState.purchases.push(purchase);
-      return purchase;
+      const purchase2 = getPurchase(purchase.purchaseId);
+      console.log(`==========purchase2=========`);
+      console.log(purchase2); // eslint-disable-line quotes
+      console.log(`==========END purchase2=========`);
+      return purchase2;
     };
-
 
     const transferSessionFromPastAppointment = event => {
       let session = innerState.sessions.find(x => x.sessionId === event.sessionId);
-      let purchase = innerState.purchases.find(x => x.purchaseId === session.purchaseId);
       const appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
       session.trainer = appointment.trainer;
       session.startTime = appointment.startTime;
       session.appointmentDate = appointment.appointmentDate;
-      purchase.sessions = innerState.sessions.filter(x => x.purchaseId === purchase.purchaseId);
-      return purchase;
+      return getPurchase(session.purchaseId);
     };
 
     return metaLogger({

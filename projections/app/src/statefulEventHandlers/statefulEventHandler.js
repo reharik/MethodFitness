@@ -40,14 +40,14 @@ module.exports = function(moment,
       }
 
       async function pastAppointmentUpdated(event) {
-        event.clients.forEach(c => {
-          let session = state.innerState.sessions.find(x =>
-            x.appointmentId === event.appointmentId
-          && x.clientId === c.clientId);
-          if (session && session.trainerId !== event.trainerId) {
-            session.trainerId = event.trainerId;
-          }
-        });
+        let appointment = state.innerState.appointments.find(x => x.appointmentId === event.appointmentId);
+        appointment.appointmentType = event.appointmentType;
+        appointment.date = event.date;
+        appointment.startTime = event.startTime;
+        appointment.endTime = event.endTime;
+        appointment.trainerId = event.trainerId;
+        appointment.clients = event.clients;
+        appointment.notes = event.notes;
 
         return await persistence.saveState(state);
       }
