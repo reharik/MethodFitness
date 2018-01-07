@@ -94,7 +94,8 @@ describe('Session Purchase', () => {
         cy.log('-----CHECK_PURCHASE_TOTAL-----');
         cy.dataId('purchaseTotal', 'div').find('h3').contains(total);
         cy.get('form').submit();
-        cy.location('pathname').should('contain', '/purchase/');
+        cy.wait(2000);
+        cy.location('pathname').should('contain', '/purchases/');
 
         cy.log('-----CHECK_PURCHASE_ROW_IN_TABLE-----');
         cy
