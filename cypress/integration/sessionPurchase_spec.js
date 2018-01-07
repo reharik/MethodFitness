@@ -98,6 +98,8 @@ describe('Session Purchase', () => {
         cy.location('pathname').should('contain', '/purchases/');
 
         cy.log('-----CHECK_PURCHASE_ROW_IN_TABLE-----');
+        cy.wait(10000);
+
         cy
           .get('tr.ant-table-row-level-0:last')
           .find('td')
