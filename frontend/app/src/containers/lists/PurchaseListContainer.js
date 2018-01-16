@@ -7,7 +7,7 @@ import moment from 'moment';
 import { getPurchases, refundSessions } from './../../modules/purchaseModule';
 
 class PurchaseListContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.loadData();
   }
 

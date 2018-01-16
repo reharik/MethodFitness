@@ -5,6 +5,8 @@ import { requestStates } from '../sagas/requestSaga';
 import { fetchClientAction } from './clientModule';
 import selectn from 'selectn';
 
+import { delay } from 'redux-saga';
+
 export const PURCHASE_SESSIONS = requestStates('purchase_sessions', 'purchase_sessions');
 export const SESSIONS_REFUND = requestStates('SESSIONS_REFUND', 'sessions_refund');
 export const GET_PURCHASES = requestStates('get_purchases', 'purchase_sessions');
@@ -33,8 +35,11 @@ export default (state = [], action = {}) => {
 };
 
 const successFunction = (action, payload) => {
-  browserHistory.push(`/purchases/${payload.payload.clientId}`);
-  return { type: action.states.SUCCESS, action, payload };
+  return delay(1000, {action, payload})
+    .then(({ action, payload }) => {
+      browserHistory.push(`/purchases/${payload.payload.clientId}`);
+      return { type: action.states.SUCCESS, action, payload };
+    });
 };
 
 export function purchase(data) {

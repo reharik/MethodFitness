@@ -43,7 +43,13 @@ dockerLoggingDown:
 dockerDataDown:
 	docker-compose -f docker/docker-compose-data.yml -p methodfit down
 
-dockerUp:  kill-data
+dockerLocalBuild:  kill-data
+	set START=`date`
+	docker-compose -f docker/docker-compose.yml -p methodfit build
+	echo $@: ${START}
+	echo $@: `date`
+
+dockerUp: dockerLocalBuild
 	docker-compose -f docker/docker-compose.yml -p methodfit up
 
 dockerDeployUp:
@@ -59,6 +65,9 @@ dockerListServices:
 	@docker-compose -f docker/docker-compose-build.yml -p methodfit config --services
 
 dockerBuild:
+	docker-compose -f docker/docker-compose-deploy.yml build
+
+rebuildAll: dockerDown removeBaseImagesNotNode dockerUp
 	docker-compose -f docker/docker-compose-deploy.yml build
 
 prettyLint:
@@ -149,6 +158,8 @@ removeBuildAndPushAll: dockerDown
 	 cd ../docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 
+removeBaseImagesNotNode:
+	 docker rmi $(docker images -f "label=cleanMe" -q) 2>/dev/null || echo "No more images to remove."
 
 ####TESTS####
 

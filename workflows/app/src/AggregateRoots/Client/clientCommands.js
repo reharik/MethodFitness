@@ -1,4 +1,10 @@
-module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
+module.exports = function(
+  clientInvariants,
+  esEvents,
+  uuid,
+  logger,
+  metaLogger
+) {
   return (raiseEvent, state) => {
     const invariants = clientInvariants(state);
     const generateSessions = cmd => {
@@ -138,6 +144,7 @@ module.exports = function(clientInvariants, esEvents, uuid, metaLogger) {
       returnSessionFromPast: appointmentId => {
         const session = state.clientInventory.getUsedSessionByAppointmentId(appointmentId);
         if (!session) {
+          logger.debug(`No session associated with appointment Id: ${appointmentId} found!`);
           return;
         }
 

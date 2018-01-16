@@ -20,6 +20,7 @@ module.exports = function(_options) {
         .groupAllInDirectory('./app/src/commands', 'commands')
         .complete(),
       x => x.instantiate('eventstore').asFunc().withParameters(options.children || {})
+        .instantiate('eventRepository').asFunc().withParameters(options.children || {})
         .instantiate('logger').asFunc().withParameters(options.logger || {})
         .instantiate('rsRepository').asFunc().withParameters(options.children && options.children.postgres.config || {})
         .complete());

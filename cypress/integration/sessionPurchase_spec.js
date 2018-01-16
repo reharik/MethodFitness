@@ -37,7 +37,7 @@ describe('Session Purchase', () => {
       });
     });
 
-    describe.only('When entering new items to purchase', () => {
+    describe('When entering new items to purchase', () => {
       it('Should add up the total correctly and submit successfully', function() {
         const total = (
           this.prices.fullHour
@@ -52,18 +52,18 @@ describe('Session Purchase', () => {
         cy.log('-----FULL_HOUR-----');
         cy.dataId('fullHour-container', 'div').find('input').type(2);
         cy.dataId('fullHour-container', 'div').next('div').contains(this.prices.fullHour * 2);
-        cy.dataId('purchaseTotal', 'div').find('h3').contains(this.prices.fullHour * 2);
+        cy.dataId('purchaseTotal', 'div').find('div.ant-card-head-title').contains(this.prices.fullHour * 2);
         cy.log('-----FULL_HOUR_TEN_PACK-----');
         cy.dataId('fullHourTenPack-container', 'div').find('input').type(2);
         cy.dataId('fullHourTenPack-container', 'div').next('div').contains(this.prices.fullHourTenPack * 2);
-        cy.dataId('purchaseTotal', 'div').find('h3').contains((
+        cy.dataId('purchaseTotal', 'div').find('div.ant-card-head-title').contains((
           this.prices.fullHour
           + this.prices.fullHourTenPack)
           * 2);
         cy.log('-----HALF_HOUR-----');
         cy.dataId('halfHour-container', 'div').find('input').type(2);
         cy.dataId('halfHour-container', 'div').next('div').contains(this.prices.halfHour * 2);
-        cy.dataId('purchaseTotal', 'div').find('h3').contains(
+        cy.dataId('purchaseTotal', 'div').find('div.ant-card-head-title').contains(
           (this.prices.fullHour
           + this.prices.fullHourTenPack
           + this.prices.halfHour)
@@ -71,7 +71,7 @@ describe('Session Purchase', () => {
         cy.log('-----HALF_HOUR_TEN_PACK-----');
         cy.dataId('halfHourTenPack-container', 'div').find('input').type(2);
         cy.dataId('halfHourTenPack-container', 'div').next('div').contains(this.prices.halfHourTenPack * 2);
-        cy.dataId('purchaseTotal', 'div').find('h3').contains((
+        cy.dataId('purchaseTotal', 'div').find('div.ant-card-head-title').contains((
           this.prices.fullHour
           + this.prices.fullHourTenPack
           + this.prices.halfHour
@@ -80,7 +80,7 @@ describe('Session Purchase', () => {
         cy.log('-----PAIR-----');
         cy.dataId('pair-container', 'div').find('input').type(2);
         cy.dataId('pair-container', 'div').next('div').contains(this.prices.pair * 2);
-        cy.dataId('purchaseTotal', 'div').find('h3').contains((
+        cy.dataId('purchaseTotal', 'div').find('div.ant-card-head-title').contains((
           this.prices.fullHour
           + this.prices.fullHourTenPack
           + this.prices.halfHour
@@ -92,13 +92,13 @@ describe('Session Purchase', () => {
         cy.dataId('pairTenPack-container', 'div').next('div').contains(this.prices.pairTenPack * 2);
 
         cy.log('-----CHECK_PURCHASE_TOTAL-----');
-        cy.dataId('purchaseTotal', 'div').find('h3').contains(total);
+        cy.dataId('purchaseTotal', 'div').find('div.ant-card-head-title').contains(total);
         cy.get('form').submit();
         cy.wait(2000);
         cy.location('pathname').should('contain', '/purchases/');
 
         cy.log('-----CHECK_PURCHASE_ROW_IN_TABLE-----');
-        cy.wait(10000);
+        cy.wait(5000);
 
         cy
           .get('tr.ant-table-row-level-0:last')
@@ -127,7 +127,7 @@ describe('Session Purchase', () => {
 
         cy.log('-----CONFIRMATION_BOX-----');
         cy.get('div.ant-confirm-content').contains(`66 Sessions for $${total}.00`);
-        cy.get('button').contains('OK').click();
+        cy.get('button').contains('OK').click({force: true});
 
         cy.log('-----CHECK_CLIENT_INVENTORY_SECOND_TIME-----');
         cy.get('span.menu__item__leaf__link').contains('Clients').click();

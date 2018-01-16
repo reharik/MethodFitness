@@ -8,9 +8,6 @@ const ClientInventory = ({ inventory, clientId }) => {
   if (!inventory) {
     return null;
   }
-  console.log(`==========clientId=========`);
-  console.log(clientId); // eslint-disable-line quotes
-  console.log(`==========END clientId=========`);
   const invModel = {
     fullHour: {
       name: 'fullHour',

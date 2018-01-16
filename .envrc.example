@@ -17,4 +17,5 @@ SWAGGER_UI_URL=http://localhost:4666
 EVENTSTORE_HOST=eventstore
 EVENTSTORE_USER=admin
 EVENTSTORE_PASSWORD=changeit
+EVENTSTORE_HTTP=http://eventstore:2113
 NODE_CONFIG_DIR=./app/config

@@ -10,6 +10,11 @@
 //
 //
 // -- This is a parent command --
+
+Cypress.on("window:before:load", win => {
+  win.fetch = null;
+});
+
 Cypress.Commands.add('loginAdmin', () => {
   cy.fixture('users').then((users) => {
     const {userName, password} = users.admin;
@@ -35,12 +40,13 @@ Cypress.Commands.add('clickOnAppointment', (day, time) => {
   appointment.click();
 });
 
-Cypress.Commands.add('createAppointment', (day, time, client, type) => {
+Cypress.Commands.add('createAppointment', (day, time, client, type, future) => {
   Cypress.log();
+  const url = future ? '/appointment/scheduleAppointment' : '/appointment/scheduleAppointmentInPast';
   cy.server();
   cy.route({
     method: 'POST',
-    url: '/appointment/scheduleAppointmentInPast'
+    url
   }).as('appointments');
   cy.log('-----CREATE_APPOINTMENT-----');
   cy.clickEmptySlot(day, time);
@@ -58,13 +64,12 @@ Cypress.Commands.add('createAppointment', (day, time, client, type) => {
   }
   cy.get('#notes', { log: false }).type('Hi! Everybody!', { log: false });
   cy.get('form').submit();
-  cy.wait(1000);
-  // cy.wait('@appointments');
+  // cy.wait(1000);
+  cy.wait('@appointments');
   cy.get('#mainCalendar').should('exist');
   cy
     .get(`ol[data-id='${day}'] li[data-id='${time}'] div.redux__task__calendar__task__item`)
     .should('exist');
-
 });
 
 Cypress.Commands.add('logout', () => {
@@ -88,7 +93,13 @@ Cypress.Commands.add('deleteAppointment', (day, time) => {
 
 Cypress.Commands.add('deleteAllAppointments', () => {
   cy.visit('/', { log: false });
-  cy.wait(2000, { log: false }).then(() => {
+  cy.server();
+  cy.route({
+    method: 'POST',
+    url: '/fetchAppointments/*/*'
+  }).as('fetchAppointments');
+  cy.wait('@fetchAppointments');
+  cy.wait(500, { log: false }).then(() => {
     const appointments = Cypress.$(`.redux__task__calendar__task__item`);
     if (appointments.length > 0) {
       cy.wrap(appointments)
@@ -99,7 +110,7 @@ Cypress.Commands.add('deleteAllAppointments', () => {
           cy.get(`.form__footer__button`).contains('Delete').click();
         });
     }
-    cy.wait(1000);
+    // cy.wait(1000);
     cy.get(`.redux__task__calendar__task__item`).should('not.exist');
   });
 });
@@ -107,9 +118,15 @@ Cypress.Commands.add('deleteAllAppointments', () => {
 Cypress.Commands.add('goToPurchasesList', clientLastName => {
   Cypress.log();
   cy.log('-----GO_TO_PURCHASE_LIST-----');
+  cy.server();
+  cy.route({
+    method: 'GET',
+    url: '/fetchAllClients'
+  }).as('fetchAllClients');
   cy.get('span.menu__item__leaf__link').contains('Clients').click();
+  cy.wait('@fetchAllClients');
   const row = cy.get('.ant-table-row-level-0').find('span').contains(clientLastName).closest('tr');
-  row.find('td:last div.list__cell__link').click();
+  row.find('td:last div.list__cell__link span').click();
 });
 
 Cypress.Commands.add('goToPurchaseSessionForm', (clientLastName) => {

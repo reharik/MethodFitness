@@ -1,5 +1,4 @@
-module.exports = function(eventRepository,
-  changeAppointmentFromPast,
+module.exports = function(eventRepository, changeAppointmentFromPast,
   logger,
   day,
   client,

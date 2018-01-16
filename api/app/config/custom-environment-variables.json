@@ -15,6 +15,7 @@
     "children": {
       "eventstore": {
         "host": "EVENTSTORE_HOST",
+        "http": "EVENTSTORE_HTTP",
         "systemUsers": {
           "admin": "EVENTSTORE_USER",
           "adminPassword": "EVENTSTORE_PASSWORD"

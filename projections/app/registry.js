@@ -35,8 +35,8 @@ module.exports = function(_options) {
         .instantiate('logger').asFunc().withParameters(options.logger || {})
         .instantiate('rsRepository').asFunc().withParameters(selectn('children.postgres.config', options) || {})
         .instantiate('metaLogger')
-          .initializeWithMethod('wrapper')
-          .withInitParameters(metaLoggerConfig)
+        .initializeWithMethod('wrapper')
+        .withInitParameters(metaLoggerConfig)
         .complete());
   } catch (ex) {
     console.log(ex);

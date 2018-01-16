@@ -2,6 +2,7 @@
   "configs": {
     "children": {
       "eventstore": {
+        "http": "EVENTSTORE_HTTP",
         "host": "EVENTSTORE_HOST",
         "systemUsers": {
           "admin": "EVENTSTORE_USER",

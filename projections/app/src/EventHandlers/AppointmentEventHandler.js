@@ -26,6 +26,9 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function pastAppointmentRemoved(event) {
+      if (event.rescheduled) {
+        return undefined;
+      }
       let sql = `DELETE FROM "appointment" where "id" = '${event.appointmentId}'`;
       return await rsRepository.saveQuery(sql);
     }

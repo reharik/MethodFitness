@@ -30,28 +30,6 @@ module.exports = function(moment,
         return await persistence.saveState(state);
       }
 
-      async function pastAppointmentRemoved(event) {
-        state.innerState.appointments = state
-          .innerState
-          .appointments
-          .filter(x => x.appointmentId !== event.appointmentId);
-
-        return state;
-      }
-
-      async function pastAppointmentUpdated(event) {
-        let appointment = state.innerState.appointments.find(x => x.appointmentId === event.appointmentId);
-        appointment.appointmentType = event.appointmentType;
-        appointment.date = event.date;
-        appointment.startTime = event.startTime;
-        appointment.endTime = event.endTime;
-        appointment.trainerId = event.trainerId;
-        appointment.clients = event.clients;
-        appointment.notes = event.notes;
-
-        return await persistence.saveState(state);
-      }
-
       async function sessionsPurchased(event) {
         let sessions = event.sessions.map(x => ({
           used: !!x.appointmentId,
@@ -161,8 +139,6 @@ module.exports = function(moment,
         handlerType: handlerName,
         handlerName,
         fundedAppointmentAttendedByClient,
-        pastAppointmentRemoved,
-        pastAppointmentUpdated,
         sessionsPurchased,
         sessionsRefunded,
         sessionReturnedFromPastAppointment,

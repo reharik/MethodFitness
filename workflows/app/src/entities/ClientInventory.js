@@ -37,7 +37,7 @@ module.exports = function(sortby, logger) {
       delete session.used;
       delete session.appointmentId;
       this.sessions.push(session);
-      this.consumedSessions.slice(idx, 1);
+      this.consumedSessions.splice(idx, 1);
     }
 
     getUsedSessionByAppointmentId(appointmentId) {

@@ -15,8 +15,8 @@ module.exports = (moment, _time, past) => {
   const time = setTime(null, _time);
   if (past) {
     if (today.day() === 1) {
-    day = moment();
-  } else {
+      day = moment();
+    } else {
       day = moment().subtract(1, 'day');
     }
   } else {

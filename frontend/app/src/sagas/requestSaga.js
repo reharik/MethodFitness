@@ -26,7 +26,8 @@ const handleSuccess = function* request(success, action, payload) {
       yield put(a);
     }
   } else {
-    yield put(successAction);
+    const newAction = yield successAction;
+    yield put(newAction);
   }
 };
 

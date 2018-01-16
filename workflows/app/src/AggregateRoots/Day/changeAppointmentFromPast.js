@@ -9,7 +9,8 @@ module.exports = function(eventRepository, pastAppointmentStrategies_array, day,
     if (cmd.originalEntityName !== cmd.entityName || cmd.isPastToFuture) {
       let oldDay = await eventRepository.getById(day, cmd.originalEntityName);
       origAppointment = Object.assign({}, oldDay.getAppointment(cmd.appointmentId));
-      oldDay.removeAppointmentFromPast(cmd);
+      // need to add "rescheduled" to this event
+      oldDay.removeAppointmentFromPast(cmd, true);
 
       await eventRepository.save(oldDay, {continuationId});
     }

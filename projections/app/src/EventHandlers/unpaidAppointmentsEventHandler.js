@@ -29,6 +29,10 @@ module.exports = function(
       return await persistence.saveState(state, trainerId);
     }
 
+    async function sessionReturnedFromPastAppointment(event) {
+      const trainerId = state.sessionReturnedFromPastAppointment(event);
+      await persistence.saveState(state, trainerId);
+    }
     async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
       const trainerId = state.transferSession(event);
       if (trainerId) {
@@ -67,6 +71,7 @@ module.exports = function(
       baseHandler,
       fundedAppointmentAttendedByClient,
       fundedAppointmentRemovedForClient,
+      sessionReturnedFromPastAppointment,
       sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
       trainerPaid,
       unfundedAppointmentFundedByClient,

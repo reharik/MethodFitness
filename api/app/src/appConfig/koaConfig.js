@@ -26,6 +26,7 @@ module.exports = function(
     if (config.app.env !== 'test') {
       app.use(koalogger());
     }
+
     app.use(koaErrorHandler());
     app.use(koa2cors({
       origin: ctx => {
@@ -63,5 +64,4 @@ module.exports = function(
     app.use(koa2responsetime.responseTime());
   };
 };
-
 

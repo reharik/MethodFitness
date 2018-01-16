@@ -73,10 +73,10 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
         raiseEvent(esEvents.pastAppointmentUpdatedEvent(cmdClone));
       },
 
-      removeAppointmentFromPast(cmd) {
+      removeAppointmentFromPast(cmd, rescheduled) {
         //TODO put lots of business logic here!
         let cmdClone = Object.assign({}, cmd);
-        raiseEvent(esEvents.pastAppointmentRemovedEvent(cmdClone));
+        raiseEvent(esEvents.pastAppointmentRemovedEvent(cmdClone, rescheduled));
       },
 
       getNewAppointmentId(startTime, endTime, trainerId) {

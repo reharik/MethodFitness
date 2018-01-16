@@ -122,17 +122,21 @@ module.exports = function(invariant, R, logger, metaLogger) {
     //TODO ok for updated appt client we can create
     //TODO the new appointment but because there is no unfunded one I can't get teh trainerId
     //TODO and the whole thing doesn't get persisted
-
-
     const fundedAppointmentAttendedByClient = event => {
       // first we create new unpaid appointment
       innerState.unpaidAppointments.push(createUnpaidAppointment(event.appointment, event));
 
+      // not sure why I was ever doing this but it was breaking for updateAppointment client change
       // then clean up previously processed unfunded appt
-      return removeUnfundedAppointment(event.appointmentId, event.clientId);
+      // return removeUnfundedAppointment(event.appointmentId, event.clientId);
     };
 
     const fundedAppointmentRemovedForClient = event => {
+      return removeFundedAppointment(event.appointmentId);
+    };
+
+    // this means either appointment client or type changed
+    const sessionReturnedFromPastAppointment = event => {
       return removeFundedAppointment(event.appointmentId);
     };
 
@@ -187,6 +191,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
       innerState,
       fundedAppointmentAttendedByClient,
       fundedAppointmentRemovedForClient,
+      sessionReturnedFromPastAppointment,
       trainerPaid,
       transferSession,
       unfundedAppointmentAttendedByClient,

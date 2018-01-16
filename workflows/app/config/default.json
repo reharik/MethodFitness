@@ -3,6 +3,7 @@
     "children": {
       "eventstore": {
         "host": "localhost",
+        "http": "localhost:2113",
         "systemUsers": {
           "admin": "admin",
           "adminPassword": "changeit"
