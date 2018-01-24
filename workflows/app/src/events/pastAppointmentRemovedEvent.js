@@ -1,13 +1,10 @@
 module.exports = function() {
   return function({ appointmentId, clients }, rescheduled) {
-    const event = {
+    return {
       eventName: 'pastAppointmentRemoved',
       clients,
-      appointmentId
+      appointmentId,
+      rescheduled
     };
-    if (rescheduled) {
-      event.rescheduled = true;
-    }
-    return event;
   };
 };

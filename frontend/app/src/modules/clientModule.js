@@ -16,13 +16,14 @@ export const CLIENT = requestStates('client');
 
 export default (state = [], action = {}) => {
   switch (action.type) {
-    case ADD_CLIENT.REQUEST:
-    case CLIENT.REQUEST:
-    case CLIENT_LIST.REQUEST: {
+    case CLIENT.REQUEST: {
       console.log('ADD_CLIENT_REQUEST');
       return state;
     }
     case CLIENT.SUCCESS: {
+      console.log(`=========="client.success reducer"=========`);
+      console.log("client.success reducer"); // eslint-disable-line quotes
+      console.log(`==========END "client.success reducer"=========`);
       return reducerMerge(state, action.response, 'clientId');
     }
     case CLIENT_LIST.SUCCESS: {
@@ -254,6 +255,9 @@ export function archiveClient(data) {
 }
 
 export function fetchClientAction(clientId) {
+  console.log(`=========="fetchClientsAction"=========`);
+  console.log("fetchClientsAction"); // eslint-disable-line quotes
+  console.log(`==========END "fetchClientsAction"=========`);
   let apiUrl = config.apiBase + 'client/getClient/' + clientId;
   return {
     type: CLIENT.REQUEST,

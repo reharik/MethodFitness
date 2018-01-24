@@ -15,7 +15,7 @@ const AppointmentFooter = ({ buttons,
     copy: (<button type="reset" key="copy" onClick={copyHandler} className="form__footer__button">Copy</button>)
   };
   return (
-    <Col span={24}>
+    <Col span={24} data-id="appointmentFooter">
       {
         buttons.map(x => buttonCollection[x])
       }

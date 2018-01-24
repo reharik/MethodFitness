@@ -75,6 +75,9 @@ export function refundSessions(data) {
 }
 
 export function getPurchases(purchaseId) {
+  console.log(`=========="getPUrchases action"=========`);
+  console.log("getPUrchases action"); // eslint-disable-line quotes
+  console.log(`==========END "getPUrchases action"=========`);
   return {
     type: GET_PURCHASES.REQUEST,
     states: GET_PURCHASES,

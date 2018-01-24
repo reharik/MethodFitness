@@ -8,7 +8,7 @@ module.exports = function(eventRepository, day, logger) {
     execute: async cmd => {
       logger.debug('detailsHaveNoSideEffects strategy chosen');
       let dayInstance = await eventRepository.getById(day, cmd.entityName);
-      dayInstance.updateAppointmentFromPast(cmd);
+      dayInstance.updateAppointmentFromPast(cmd, false, true);
       return [{type: 'day', instance: dayInstance}];
     }
   };

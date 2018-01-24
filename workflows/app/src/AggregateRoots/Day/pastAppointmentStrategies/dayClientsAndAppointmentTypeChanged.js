@@ -20,7 +20,7 @@ module.exports = function(eventRepository, day, client, logger) {
       }
 
       // update appointment so now we have correct clients and correct appointmentType
-      dayInstance.rescheduleAppointmentInPast(cmd);
+      dayInstance.updateAppointmentFromPast(cmd, true);
 
       // charge all final clients for new appointment type
       for (let clientId of cmd.clients) {

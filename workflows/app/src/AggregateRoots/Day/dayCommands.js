@@ -50,7 +50,7 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
         raiseEvent(esEvents.appointmentScheduledInPastEvent(cmdClone));
       },
 
-      updateAppointmentFromPast(cmd) {
+      updateAppointmentFromPast(cmd, rescheduled, updateDayOnly) {
         let cmdClone = Object.assign({}, cmd);
         invariants.expectEndTimeAfterStart(cmdClone);
         invariants.expectAppointmentDurationCorrect(cmdClone);
@@ -58,19 +58,7 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
         invariants.expectTrainerNotConflicting(cmdClone);
         invariants.expectClientsNotConflicting(cmdClone);
 
-        raiseEvent(esEvents.pastAppointmentUpdatedEvent(cmdClone));
-      },
-      // this is for when we have changed days, and need to add appt to new AR
-      // but it's an existing appt so we don't give it a new uuid but we have to use
-      // the pastAppointmentUpdatedEvent
-      rescheduleAppointmentInPast(cmd) {
-        let cmdClone = Object.assign({}, cmd, {rescheduled: true});
-        invariants.expectEndTimeAfterStart(cmdClone);
-        invariants.expectAppointmentDurationCorrect(cmdClone);
-        invariants.expectCorrectNumberOfClients(cmdClone);
-        invariants.expectTrainerNotConflicting(cmdClone);
-        invariants.expectClientsNotConflicting(cmdClone);
-        raiseEvent(esEvents.pastAppointmentUpdatedEvent(cmdClone));
+        raiseEvent(esEvents.pastAppointmentUpdatedEvent(cmdClone, rescheduled, updateDayOnly));
       },
 
       removeAppointmentFromPast(cmd, rescheduled) {

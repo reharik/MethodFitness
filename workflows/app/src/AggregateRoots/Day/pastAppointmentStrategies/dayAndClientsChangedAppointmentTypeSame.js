@@ -25,7 +25,7 @@ module.exports = function(eventRepository, day, client, logger) {
         result.push({type: 'client', instance: c});
       }
 
-      dayInstance.rescheduleAppointmentInPast(cmd);
+      dayInstance.updateAppointmentFromPast(cmd, true);
       result.push({type: 'day', instance: dayInstance});
 
       return result;

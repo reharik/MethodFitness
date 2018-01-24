@@ -26,49 +26,67 @@ Cypress.Commands.add('loginAdmin', () => {
   });
 });
 
-Cypress.Commands.add('clickEmptySlot', (day, time) => {
+const navToAppropriateWeek = (date) => {
+  cy.get('.redux__task__calendar__week input[data-id="startOfWeek"]').invoke('val').as('sowValue');
+  cy.get('@sowValue').then(sow => {
+    const startOfWeek = Cypress.moment(sow).add(1, 'day').startOf('day');
+    if (date.isBefore(startOfWeek)) {
+      cy.log(`======navigate one week back======`);
+      cy.get('.redux__task__calendar__header__date__nav > :nth-child(1)').click();
+      cy.wait('@fetchAppointments');
+    }
+  });
+
+  cy.get('.redux__task__calendar__week input[data-id="endOfWeek"]').invoke('val').as('eowValue');
+  cy.get('@eowValue').then(eow => {
+    const endOfWeek = Cypress.moment(eow).add(1, 'day').endOf('day');
+    if (date.isAfter(endOfWeek)) {
+      cy.log(`======navigate one week forward======`);
+      cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)').click();
+      cy.wait('@fetchAppointments');
+    }
+  });
+};
+
+Cypress.Commands.add('clickEmptySlot', (date, time) => {
   Cypress.log();
   cy.log('-----CLICK_EMPTY_SLOT-----');
-  const timeSlot = cy.get(`ol[data-id='${day}'] li[data-id='${time}']`);
+  navToAppropriateWeek(date);
+  const timeSlot = cy.get(`ol[data-id='${date.format('ddd MM/DD')}'] li[data-id='${time}']`);
   timeSlot.click();
 });
 
-Cypress.Commands.add('clickOnAppointment', (day, time) => {
+Cypress.Commands.add('clickOnAppointment', (date, time) => {
   Cypress.log();
   cy.log('-----CLICK_ON_APPOINTMENT-----');
-  const appointment = cy.get(`ol[data-id='${day}'] li[data-id='${time}'] .redux__task__calendar__task__item`);
+  navToAppropriateWeek(date);
+  const appointment = cy.get(`ol[data-id='${date.format('ddd MM/DD')}'] li[data-id='${time}'] .redux__task__calendar__task__item`);
   appointment.click();
 });
 
 Cypress.Commands.add('createAppointment', (day, time, client, type, future) => {
   Cypress.log();
-  const url = future ? '/appointment/scheduleAppointment' : '/appointment/scheduleAppointmentInPast';
-  cy.server();
-  cy.route({
-    method: 'POST',
-    url
-  }).as('appointments');
   cy.log('-----CREATE_APPOINTMENT-----');
   cy.clickEmptySlot(day, time);
-  cy.get('#clients', { log: false }).click({ log: false });
+  cy.get('#clients').click();
   cy
-    .get('.ant-select-dropdown-menu-item', { log: false })
-    .contains(client, { log: false })
-    .click({ log: false });
+    .get('.ant-select-dropdown-menu-item')
+    .contains(client.LNF)
+    .click();
   if (type) {
-    cy.get('#appointmentType', { log: false }).focus({ log: false }).click({ log: false, force: true});
+    cy.get('#appointmentType').focus({ log: false }).click({ force: true});
     cy
-      .get('.ant-select-dropdown-menu-item', { log: false })
-      .contains(type, { log: false })
+      .get('.ant-select-dropdown-menu-item')
+      .contains(type)
       .click({ log: false });
   }
-  cy.get('#notes', { log: false }).type('Hi! Everybody!', { log: false });
+  cy.get('#notes').type('Hi! Everybody!');
   cy.get('form').submit();
   // cy.wait(1000);
-  cy.wait('@appointments');
+  cy.wait(future ? '@scheduleAppointment' : '@scheduleAppointmentInPast');
   cy.get('#mainCalendar').should('exist');
   cy
-    .get(`ol[data-id='${day}'] li[data-id='${time}'] div.redux__task__calendar__task__item`)
+    .get(`ol[data-id='${day.format('ddd MM/DD')}'] li[data-id='${time}'] div.redux__task__calendar__task__item`)
     .should('exist');
 });
 
@@ -86,53 +104,51 @@ Cypress.Commands.add('dataId', (id, elType) => {
 Cypress.Commands.add('deleteAppointment', (day, time) => {
   Cypress.log();
   cy.log('-----DELETE_APPOINTMENT-----');
-  cy.get('span.menu__item__leaf__link').contains('Calendar').click();
-  cy.clickOnAppointment(day.format('ddd MM/DD'), time);
+  cy.navTo('Calendar');
+  cy.clickOnAppointment(day, time);
   cy.get(`.form__footer__button`).contains('Delete').click();
+  cy.wait('@deletePastAppointment');
 });
 
 Cypress.Commands.add('deleteAllAppointments', () => {
-  cy.visit('/', { log: false });
-  cy.server();
-  cy.route({
-    method: 'POST',
-    url: '/fetchAppointments/*/*'
-  }).as('fetchAppointments');
-  cy.wait('@fetchAppointments');
-  cy.wait(500, { log: false }).then(() => {
-    const appointments = Cypress.$(`.redux__task__calendar__task__item`);
-    if (appointments.length > 0) {
-      cy.wrap(appointments)
-        .each(y => {
-          let x = cy.wrap(y);
-          x.should('exist');
-          x.click();
-          cy.get(`.form__footer__button`).contains('Delete').click();
-        });
-    }
-    // cy.wait(1000);
-    cy.get(`.redux__task__calendar__task__item`).should('not.exist');
-  });
+  cy.wait('@fetchAppointments')
+    .wait(500)
+    .then(() => {
+      const appointments = Cypress.$(`.redux__task__calendar__task__item`);
+      if (appointments.length > 0) {
+        cy.wrap(appointments)
+          .each(y => {
+            let x = cy.wrap(y);
+            x.should('exist');
+            x.click();
+            cy.get('div[data-id=appointmentFooter]').then(x => {
+              const button = x.find(':nth-child(3)');
+              if (button.length > 0) {
+                cy.wrap(button).click();
+                cy.wait('@deletePastAppointment');
+              } else {
+                cy.get('div[data-id=appointmentFooter] :nth-child(2)').click();
+              }
+            });
+          });
+      }
+    });
 });
 
-Cypress.Commands.add('goToPurchasesList', clientLastName => {
+Cypress.Commands.add('goToPurchasesList', client => {
   Cypress.log();
   cy.log('-----GO_TO_PURCHASE_LIST-----');
-  cy.server();
-  cy.route({
-    method: 'GET',
-    url: '/fetchAllClients'
-  }).as('fetchAllClients');
   cy.get('span.menu__item__leaf__link').contains('Clients').click();
   cy.wait('@fetchAllClients');
-  const row = cy.get('.ant-table-row-level-0').find('span').contains(clientLastName).closest('tr');
-  row.find('td:last div.list__cell__link span').click();
+  const row = cy.get('.ant-table-row-level-0').find('span').contains(client.LN).closest('tr');
+  row.find('td:last a.list__cell__link span').click();
+  cy.wait('@fetchpurchases').wait(500);
 });
 
-Cypress.Commands.add('goToPurchaseSessionForm', (clientLastName) => {
+Cypress.Commands.add('goToPurchaseSessionForm', (client) => {
   Cypress.log();
   cy.log('-----GO_TO_PURCHASE_SESSIONS_FORM-----');
-  cy.goToPurchasesList(clientLastName);
+  cy.goToPurchasesList(client.LN);
   cy.get('.contentHeader__button__new').click();
 });
 

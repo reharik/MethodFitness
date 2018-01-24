@@ -34,11 +34,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function pastAppointmentUpdated(event) {
-      if (event.rescheduled) {
-        return await appointmentScheduled(event);
-      } else {
-        return await appointmentUpdated(event);
-      }
+      return await appointmentUpdated(event);
     }
 
     async function appointmentUpdated(event) {

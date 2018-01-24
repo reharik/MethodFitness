@@ -22,10 +22,10 @@ const routes = (
     <Route path="/calendar" component={Calendar} />
     <Route path="/trainers" component={TrainersList} />
     <Route path="/trainer" component={TrainerContainer} />
-    <Route path="/trainer(/:trainerId)" component={UpdateTrainerContainer} />
+    <Route path="/trainer/:trainerId" component={UpdateTrainerContainer} />
     <Route path="/clients" component={ClientList} />
+    <Route path="/client/:clientId" component={UpdateClientContainer} />
     <Route path="/client" component={ClientContainer} />
-    <Route path="/client(/:clientId)" component={UpdateClientContainer} />
     <Route path="/purchase(/:clientId)" component={PurchaseContainer} />
     <Route path="/purchases(/:clientId)" component={PurchaseListContainer} />
     <Route path="/verification" component={TrainerVerificationListContainer} />

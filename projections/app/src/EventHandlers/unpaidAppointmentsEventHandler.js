@@ -29,6 +29,11 @@ module.exports = function(
       return await persistence.saveState(state, trainerId);
     }
 
+    async function pastAppointmentUpdated(event) {
+      const trainerId = state.pastAppointmentUpdated(event);
+      return await persistence.saveState(state, trainerId);
+    }
+
     async function sessionReturnedFromPastAppointment(event) {
       const trainerId = state.sessionReturnedFromPastAppointment(event);
       await persistence.saveState(state, trainerId);
@@ -64,6 +69,7 @@ module.exports = function(
       const trainerId = state.unfundedAppointmentRemovedForClient(event);
       return await persistence.saveState(state, trainerId);
     }
+
     return metaLogger({
       handlerType: 'unpaidAppointmentsEventHandler',
       handlerName: 'unpaidAppointmentsEventHandler',
@@ -71,6 +77,7 @@ module.exports = function(
       baseHandler,
       fundedAppointmentAttendedByClient,
       fundedAppointmentRemovedForClient,
+      pastAppointmentUpdated,
       sessionReturnedFromPastAppointment,
       sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
       trainerPaid,

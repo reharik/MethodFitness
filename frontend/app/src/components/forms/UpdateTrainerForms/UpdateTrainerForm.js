@@ -11,7 +11,7 @@ import TrainerClients from './TrainerClients';
 import { Row, Col } from 'antd';
 
 class UpdateTrainerForm extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.loadData();
   }
 

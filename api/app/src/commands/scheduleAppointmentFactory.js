@@ -44,15 +44,13 @@ module.exports = function(invariant) {
       notes,
       entityName,
       originalEntityName,
-      changes
+      changes,
+      isPastToFuture
     };
     if (commandName !== 'scheduleAppointment' && commandName !== 'scheduleAppointmentInPast') {
       result.appointmentId = appointmentId;
     }
-    if (commandName === 'rescheduleAppointment' || commandName === 'rescheduleAppointmentFromPast') {
-      result.originalEntityName = originalEntityName;
-      result.isPastToFuture = isPastToFuture;
-    }
+
     return result;
   };
 };

@@ -79,6 +79,9 @@ module.exports = function(eventRepository, changeAppointmentFromPast,
       logger.trace(dayInstance.state._id);
       await eventRepository.save(dayInstance, { continuationId });
 
+      // this is ok because it's not updating existing info just adding it. ... I think
+      // possible that eventhandlerbase not called on client because this is day, so that could be problem
+      // but should still probably be moved to client
       const newCmd = Object.assign({}, cmd, { appointmentId: newAppointmentId } );
       for (let clientId of newCmd.clients) {
         let c = await eventRepository.getById(client, clientId);
@@ -90,7 +93,7 @@ module.exports = function(eventRepository, changeAppointmentFromPast,
       return { appointmentId: newAppointmentId };
     }
 
-    async function rescheduleAppointmentFromPast(cmd, continuationId) {
+    async function updateAppointmentFromPast(cmd, continuationId) {
       await changeAppointmentFromPast(cmd, continuationId);
       return {
         updateType: cmd.originalEntityName !== cmd.entityName
@@ -100,30 +103,14 @@ module.exports = function(eventRepository, changeAppointmentFromPast,
       };
     }
 
-    async function updateAppointmentFromPast(cmd, continuationId) {
-      await changeAppointmentFromPast(cmd, continuationId);
-      return {appointmentId: cmd.appointmentId};
-    }
-
     async function removeAppointmentFromPast(cmd, continuationId) {
       let dayInstance = await eventRepository.getById(day, cmd.entityName);
-      // first get the appointment so we can refund the client
-      const appointment = dayInstance.getAppointment(cmd.appointmentId);
       dayInstance.removeAppointmentFromPast(cmd);
 
       logger.info('saving dayInstance');
       logger.trace(dayInstance.state._id);
       await eventRepository.save(dayInstance, { continuationId });
-      //TODO I think this can safely be moved to ClientWorkflow provided the projections are
-      //TODO given enough info that they don't need the appt to do the session work
-      for (let clientId of appointment.clients) {
-        let c = await eventRepository.getById(client, clientId);
-        logger.debug('refunding client for appointment in past');
-        c.returnSessionFromPast(appointment.appointmentId);
-        c.removePastAppointmentForClient(appointment.appointmentId);
-        logger.info('saving client');
-        await eventRepository.save(c, { continuationId });
-      }
+
       return { appointmentId: cmd.appointmentId };
     }
 
@@ -135,7 +122,6 @@ module.exports = function(eventRepository, changeAppointmentFromPast,
       updateAppointment,
       scheduleAppointmentInPast,
       removeAppointmentFromPast,
-      rescheduleAppointmentFromPast,
       updateAppointmentFromPast
     }, 'DayWorkflow');
   };

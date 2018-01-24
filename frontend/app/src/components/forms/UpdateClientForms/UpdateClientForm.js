@@ -10,15 +10,6 @@ import ClientSource from './ClientSource';
 import { Row, Col } from 'antd';
 
 class UpdateClientForm extends Component {
-  componentWillMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    if (this.props.clientId) {
-      this.props.fetchClientAction(this.props.clientId);
-    }
-  }
   render() {
     console.log(`==========this.props.clientId=xxxxxx========`);
     console.log(this.props.clientId); // eslint-disable-line quotes

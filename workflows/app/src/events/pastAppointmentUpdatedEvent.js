@@ -8,9 +8,10 @@ module.exports = function() {
     trainerId,
     clients,
     notes,
-    entityName,
-    rescheduled
-  }) {
+    entityName
+  },
+  rescheduled,
+  updateDayOnly) {
     return {
       eventName: 'pastAppointmentUpdated',
       appointmentId,
@@ -22,7 +23,8 @@ module.exports = function() {
       clients,
       notes,
       entityName,
-      rescheduled
+      rescheduled,
+      updateDayOnly
     };
   };
 };

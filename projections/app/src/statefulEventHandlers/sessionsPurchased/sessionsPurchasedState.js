@@ -49,27 +49,22 @@ module.exports = function(R, metaLogger) {
       let purchase = innerState.purchases.find(x => x.purchaseId === purchaseId);
       if (purchase) {
         const sessions = innerState.sessions.filter(s => s.purchaseId === purchaseId);
-        console.log(`==========sessions=========`);
-        console.log(sessions); // eslint-disable-line quotes
-        console.log(`==========END sessions=========`);
         return Object.assign({}, purchase, { sessions });
       }
       return undefined;
     };
 
-    // this is probably fubar. I feel like I need to remove sessions and stuff but maybe that's taken care of
-    // by other events
     const pastAppointmentUpdated = event => {
       let purchaseIds = [];
       event.clients.forEach(c => {
         let session = innerState.sessions
           .find(x =>
             x.appointmentId === event.appointmentId
-          && x.clientId === c.clientId);
+          && x.clientId === c);
         if (session
-          && (session.date !== event.date
+          && (session.appointmentDate !== event.date
           || session.startTime !== event.startTime)) {
-          session.date = event.date;
+          session.appointmentDate = event.date;
           session.startTime = event.startTime;
           purchaseIds.push(session.purchaseId);
         }

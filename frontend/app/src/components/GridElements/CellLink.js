@@ -1,4 +1,4 @@
-import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,9 +6,9 @@ const CellLink = (route, idName = 'id') => {
   const link = ( value, row ) => {
     const fullRoute = route + '/' + (row ? row[idName] : 0);
     return (
-      <div onClick={() => browserHistory.push(fullRoute)} className="list__cell__link">
+      <Link to={fullRoute} className="list__cell__link">
         <span>{value}</span>
-      </div>
+      </Link>
     );
   };
   link.propTypes = {

@@ -57,15 +57,7 @@ module.exports = function(
       let notification;
       let commandName = '';
       const appointment = await rsRepository.getById(body.appointmentId, 'appointment');
-      console.log(`==========body=========`);
-      console.log(body);
-      console.log(`==========END body=========`);
-      console.log(appointment);
-      console.log(`==========END appoinment=========`);
       let clientsSame = R.symmetricDifference(body.clients, appointment.clients).length <= 0;
-      console.log(`==========clientSame=========`);
-      console.log(clientsSame);
-      console.log(`==========END clientSame=========`);
       if (
         moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD') ||
         !moment(appointment.startTime).isSame(moment(body.startTime))
@@ -113,28 +105,22 @@ module.exports = function(
       logger.debug('arrived at appointment.updateAppointmentFromPast');
       let body = ctx.request.body;
       let notification;
-      let commandName = '';
       const appointment = await rsRepository.getById(body.appointmentId, 'appointment');
       let clientsSame = R.symmetricDifference(body.clients, appointment.clients).length <= 0;
       if (
-        moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD') ||
-        !moment(appointment.startTime).isSame(moment(body.startTime))
+        moment(appointment.date).format('YYYYMMDD') === moment(body.date).format('YYYYMMDD')
+        && moment(appointment.startTime).isSame(moment(body.startTime))
+        && appointment.appointmentType === body.appointmentType
+        && clientsSame
+        && appointment.trainerId === body.trainerId
+        && appointment.notes === body.notes
       ) {
-        commandName += 'rescheduleAppointmentFromPast';
-        body.originalEntityName = appointment.entityName;
-      } else if (
-        appointment.appointmentType !== body.appointmentType
-        || !clientsSame
-        || appointment.trainerId !== body.trainerId
-        || appointment.notes !== body.notes
-      ) {
-        commandName += 'updateAppointmentFromPast';
-      } else {
         throw new Error('UpdateAppointmentFromPast called but no change in appointment');
       }
-      body.commandName = commandName;
+      body.commandName = 'updateAppointmentFromPast';
+      body.originalEntityName = appointment.entityName;
       body.changes = getWhatChangedOnAppointment(appointment, body, clientsSame);
-      notification = await processMessage(body, 'scheduleAppointmentFactory', commandName);
+      notification = await processMessage(body, 'scheduleAppointmentFactory', 'updateAppointmentFromPast');
       const result = await notificationParser(notification);
       ctx.body = result.body;
       ctx.status = result.status;

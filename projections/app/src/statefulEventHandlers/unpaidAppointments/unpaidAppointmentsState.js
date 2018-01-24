@@ -26,7 +26,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
       return {
         trainerId: trainer.trainerId,
         clientId: client.clientId,
-        clientName: `${client.firstName} ${client.lastName}`,
+        clientName: `${client.lastName}, ${client.firstName}`,
         appointmentId: appointment.appointmentId,
         appointmentDate: appointment.date,
         appointmentStartTime: appointment.startTime,
@@ -50,7 +50,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
       return {
         trainerId: trainer.trainerId,
         clientId: client.clientId,
-        clientName: `${client.firstName} ${client.lastName}`,
+        clientName: `${client.lastName}, ${client.firstName}`,
         appointmentId: appointment.appointmentId,
         appointmentDate: appointment.date,
         appointmentStartTime: appointment.startTime,
@@ -63,9 +63,6 @@ module.exports = function(invariant, R, logger, metaLogger) {
         verified: false
       };
     };
-
-
-
 
     // from unfundedAppointmentFundedByClient or removeFundedAppointment
     const fundUnfundedAppointment = (event, trainerId) => {
@@ -124,8 +121,9 @@ module.exports = function(invariant, R, logger, metaLogger) {
     //TODO and the whole thing doesn't get persisted
     const fundedAppointmentAttendedByClient = event => {
       // first we create new unpaid appointment
-      innerState.unpaidAppointments.push(createUnpaidAppointment(event.appointment, event));
-
+      const appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
+      innerState.unpaidAppointments.push(createUnpaidAppointment(appointment, event));
+      return appointment.trainerId;
       // not sure why I was ever doing this but it was breaking for updateAppointment client change
       // then clean up previously processed unfunded appt
       // return removeUnfundedAppointment(event.appointmentId, event.clientId);
@@ -133,6 +131,26 @@ module.exports = function(invariant, R, logger, metaLogger) {
 
     const fundedAppointmentRemovedForClient = event => {
       return removeFundedAppointment(event.appointmentId);
+    };
+
+    const updateAppointmentMap = (appointment, event) =>
+      appointment.appointmentId === event.appointmentId
+        ? Object.assign({}, appointment, {
+          appointmentDate: event.date,
+          appointmentStartTime: event.startTime
+        })
+        : appointment;
+
+    // man this is ass ugly I hope at least it fucking works
+    const pastAppointmentUpdated = event => {
+      if (event.updateDayOnly) {
+        innerState.unfundedAppointments = innerState.unfundedAppointments
+          .map(x => updateAppointmentMap(x, event));
+        innerState.unpaidAppointments = innerState.unpaidAppointments
+          .map(x => updateAppointmentMap(x, event));
+        return event.trainerId;
+      }
+      return undefined;
     };
 
     // this means either appointment client or type changed
@@ -191,6 +209,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
       innerState,
       fundedAppointmentAttendedByClient,
       fundedAppointmentRemovedForClient,
+      pastAppointmentUpdated,
       sessionReturnedFromPastAppointment,
       trainerPaid,
       transferSession,

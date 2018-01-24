@@ -31,44 +31,92 @@ killModules:
 	cd ../projections && rm -rf node_modules yarn.lock && \
 	cd ../workflows && rm -rf node_modules yarn.lock
 
+####LOCAL####
+
+dockerUp: kill-data
+	docker-compose -f docker/docker-compose.yml -p methodfit up
+
 dockerDown:
 	docker-compose -f docker/docker-compose.yml -p methodfit down --rmi local --remove-orphans
 
-dockerDeployDown:
-	docker-compose -f docker/docker-compose-build.yml -p methodfit down --rmi local --remove-orphans
+####END LOCAL####
 
-dockerLoggingDown:
-	docker-compose -f docker/docker-compose-logging.yml -p methodfit down --rmi local --remove-orphans
-
-dockerDataDown:
-	docker-compose -f docker/docker-compose-data.yml -p methodfit down
-
-dockerLocalBuild:  kill-data
-	set START=`date`
-	docker-compose -f docker/docker-compose.yml -p methodfit build
-	echo $@: ${START}
-	echo $@: `date`
-
-dockerUp: dockerLocalBuild
-	docker-compose -f docker/docker-compose.yml -p methodfit up
+####DEPLOY####
 
 dockerDeployUp:
 	docker-compose -f docker/docker-compose-build.yml -p methodfit up
 
-dockerDataUp:
-	docker-compose -f docker/docker-compose-data.yml -p methodfit up
-
-dockerLoggingUp:
-	docker-compose -f docker/docker-compose-logging.yml -p methodfit up -d
-
-dockerListServices:
-	@docker-compose -f docker/docker-compose-build.yml -p methodfit config --services
+dockerDeployDown:
+	docker-compose -f docker/docker-compose-build.yml -p methodfit down --rmi local --remove-orphans
 
 dockerBuild:
 	docker-compose -f docker/docker-compose-deploy.yml build
 
+####END DEPLOY####
+
+####LOGGING####
+
+dockerLoggingUp:
+	docker-compose -f docker/docker-compose-logging.yml -p methodfit up -d
+
+dockerLoggingDown:
+	docker-compose -f docker/docker-compose-logging.yml -p methodfit down --rmi local --remove-orphans
+
+####END LOGGING####
+
+####NO VOLUME####
+
+dockerUpNoVolume: kill-data-no-volume
+	docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume up
+
+commitNoVolume:
+	docker commit methodfitnovolume_postgres_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests2
+	docker commit methodfitnovolume_eventstore_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests2
+
+pushNoVolume:
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests
+
+dockerDownNoVolume:
+	docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume down
+
+kill-eventstore-no-volume:
+	- docker rm -f methodfitnovolume_eventstore_1 || echo "No more containers to remove."
+
+kill-postgres-no-volume:
+	- docker rm -v -f methodfitnovolume_postgres_1  || echo "No more containers to remove."
+
+kill-data-no-volume: kill-eventstore-no-volume kill-postgres-no-volume
+####END NO VOLUME####
+
+####TEST BUILD####
+
+dockerUpTests: kill-data-test
+	docker-compose -f docker/docker-compose-tests.yml -p methodfittests up
+
+dockerDownTests:
+	docker-compose -f docker/docker-compose-tests.yml -p methodfittests down
+
+kill-eventstore-test:
+	- docker rm -f methodfittests_eventstore_1 || echo "No more containers to remove."
+
+kill-postgres-test:
+	- docker rm -v -f methodfittests_postgres_1  || echo "No more containers to remove."
+
+kill-data-test: kill-eventstore-test kill-postgres-test
+
+####END TEST BUILD####
+
+dockerListServices:
+	@docker-compose -f docker/docker-compose-build.yml -p methodfit config --services
+
 rebuildAll: dockerDown removeBaseImagesNotNode dockerUp
 	docker-compose -f docker/docker-compose-deploy.yml build
+
+killAndRestartData:
+	docker-compose -f docker/docker-compose-deploy.yml -p methodfit eventstore stop
+	docker-compose -f docker/docker-compose-deploy.yml -p methodfit postgress stop
+
 
 prettyLint:
 	 echo "lint api" && \
@@ -91,9 +139,9 @@ exec:
 
 kill-all-but-node:
 	- docker rm -vf $$(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-	- docker rmi $$(docker images | grep -v -e ^mf_node | awk '{print $3}' | sed -n '1!p') 2>/dev/null || echo "No more containers to remove."
-	- docker rmi -f $$(docker images | grep "<none>" | awk "{print \$$3}")
-	- docker volume rm docker_eventstore
+#	- docker rmi $$(docker images | grep -v -e ^mf_node | awk '{print $3}' | sed -n '1!p') 2>/dev/null || echo "No more containers to remove."
+	- docker rmi $$(docker images -aq) 2>/dev/null || echo "No more containers to remove."
+	- docker volume rm $$(docker volume ls) 2>/dev/null || echo "No more volumes to remove."
 
 kill-eventstore:
 	- docker rm -v -f methodfit_eventstore_1 || echo "No more containers to remove."
@@ -102,6 +150,8 @@ kill-postgres:
 	- docker rm -v -f methodfit_postgres_1  || echo "No more containers to remove."
 
 kill-data: kill-eventstore kill-postgres
+
+
 
 seedES:
 	- cd data && make seedES
@@ -163,19 +213,19 @@ removeBaseImagesNotNode:
 
 ####TESTS####
 
-integrationTests:  kill-data-tests
-	docker-compose -f docker/docker-compose.yml -p methodfittests up -d
-	-npx cypress run
-	#docker-compose -f docker/docker-compose.yml -p methodfittests down --rmi local --remove-orphans
+#integrationTests:  kill-data-tests
+#	docker-compose -f docker/docker-compose.yml -p methodfittests up -d
+#	-npx cypress run
+#	#docker-compose -f docker/docker-compose.yml -p methodfittests down --rmi local --remove-orphans
+#
+#intTestsDown:
+#	docker-compose -f docker/docker-compose.yml -p methodfittests down --rmi local --remove-orphans
 
-intTestsDown:
-	docker-compose -f docker/docker-compose.yml -p methodfittests down --rmi local --remove-orphans
+#kill-eventstore-tests:
+#	- docker rm -v -f methodfittests_eventstore_1 || echo "No more containers to remove."
 
-kill-eventstore-tests:
-	- docker rm -v -f methodfittests_eventstore_1 || echo "No more containers to remove."
+#kill-postgres-tests:
+#	- docker rm -v -f methodfittests_postgres_1  || echo "No more containers to remove."
 
-kill-postgres-tests:
-	- docker rm -v -f methodfittests_postgres_1  || echo "No more containers to remove."
-
-kill-data-tests: kill-eventstore-tests kill-postgres-tests
+#kill-data-tests: kill-eventstore-tests kill-postgres-tests
 

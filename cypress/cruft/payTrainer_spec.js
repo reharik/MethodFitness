@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-describe('Pay Trainer', () => {
+describe.skip('Pay Trainer', () => {
   const aDT = require('./../fixtures/appointments')(Cypress.moment, '8:00 AM', true);
 
   beforeEach(() => {

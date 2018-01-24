@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import TrainerPaymentDetailsList from '../../components/lists/TrainerPaymentDetailsList';
 import moment from 'moment';
 import {fetchTrainerPaymentDetails} from './../../modules/trainerPaymentDetailModule';
+import decamelize from 'decamelize';
 
 class TrainerPaymentDetailsListContainer extends Component {
   componentWillMount() {
@@ -74,6 +75,10 @@ function mapStateToProps(state, props) {
     dataSource = payment ? payment.paidAppointments : [];
     dataSource = dataSource.map(x => ({
       ...x,
+      appointmentType: decamelize(x.appointmentType, ' ')
+        .split(' ')
+        .map(x => x[0].toUpperCase() + x.slice(1))
+        .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
     }));

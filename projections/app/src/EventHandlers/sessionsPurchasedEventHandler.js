@@ -19,8 +19,10 @@ module.exports = function(moment,
     }
 
     async function pastAppointmentUpdated(event) {
-      const purchaseIds = state.pastAppointmentUpdated(event);
-      const purchases = purchaseIds.map(x => state.getPurchase(x));
+      const purchases = state.pastAppointmentUpdated(event);
+      console.log(`==========JSON.stringify(purchases, null, 4)=========`);
+      console.log(JSON.stringify(purchases, null, 4)); // eslint-disable-line quotes
+      console.log(`==========END JSON.stringify(purchases, null, 4)=========`);
       for (let p of purchases) {
         await persistence.saveState(state, p);
       }

@@ -7,17 +7,6 @@ import SubmissionFor from './../formElements/SubmissionFor';
 import { Form, Card, Row, Col } from 'antd';
 
 class ClientForm extends Component {
-
-  componentWillMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    if (this.props.params.clientId) {
-      this.props.fetchClientAction(this.props.params.clientId);
-    }
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

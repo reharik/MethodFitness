@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-describe('Trainer Verification', () => {
+describe.skip('Trainer Verification', () => {
   const aDT = require('./../fixtures/appointments')(Cypress.moment, undefined, true);
 
   beforeEach(() => {

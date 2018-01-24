@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-describe('Appointment Modal For Future Appointments Admin', () => {
+describe.skip('Appointment Modal For Future Appointments Admin', () => {
   const aDT = require('./../fixtures/appointments')(Cypress.moment);
   const newDay = Cypress.moment(aDT.day).add(1, 'day');
   const newDayString = newDay.format('ddd MM/DD');

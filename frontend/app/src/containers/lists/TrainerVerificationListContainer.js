@@ -5,6 +5,7 @@ import TrainerVerificationList from '../../components/lists/TrainerVerificationL
 import moment from 'moment';
 import sortBy from 'sort-by';
 import { fetchUnverifiedAppointments, verifyAppointments } from '../../modules/sessionVerificationModule';
+import decamelize from 'decamelize';
 
 class TrainerVerificationListContainer extends Component {
   componentWillMount() {
@@ -34,6 +35,10 @@ function mapStateToProps(state) {
     .filter(x => !x.verified)
     .map(x => ({
       ...x,
+      appointmentType: decamelize(x.appointmentType, ' ')
+        .split(' ')
+        .map(x => x[0].toUpperCase() + x.slice(1))
+        .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
     })).sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));

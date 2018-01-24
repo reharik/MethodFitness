@@ -8,6 +8,9 @@ import { getPurchases, refundSessions } from './../../modules/purchaseModule';
 
 class PurchaseListContainer extends Component {
   componentDidMount() {
+    console.log(`=========="purchaselist did mount"=========`);
+    console.log("purchaselist did mount"); // eslint-disable-line quotes
+    console.log(`==========END "purchaselist did mount"=========`);
     this.loadData();
   }
 

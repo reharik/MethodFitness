@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DisplayFor from './formElements/DisplayFor';
-import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import { Card, Row } from 'antd';
 
 const ClientInventory = ({ inventory, clientId }) => {
@@ -33,11 +33,11 @@ const ClientInventory = ({ inventory, clientId }) => {
     <Card
       title="Current Client Inventory"
       data-id={'clientInventory'}
-      extra={<a
+      extra={<Link
         data-id={'purchases'}
-        onClick={() => browserHistory.push(`/purchases/${clientId}`)}>
+        to={`/purchases/${clientId}` }>
         Purchases
-      </a>
+      </Link>
       } >
       <Row type="flex">
         <DisplayFor data={invModel.fullHour} />

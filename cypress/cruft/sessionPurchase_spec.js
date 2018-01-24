@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
-describe('Session Purchase', () => {
+describe.skip('Session Purchase', () => {
+  const setupRoutes = require('./../helpers/setupRoutes');
+
   const aDT = require('./../fixtures/appointments')(Cypress.moment, '1:00 PM', true);
     before(() => {
       // cy.on('window:before:load', (win) => {
@@ -12,10 +14,13 @@ describe('Session Purchase', () => {
     })
 
     beforeEach(() => {
+      setupRoutes(cy);
       cy.loginAdmin();
+      cy.visit('/');
       cy.deleteAllAppointments();
       cy.visit('/');
       cy.fixture('prices').as('prices');
+      cy.fixture('clients').as('clients');
     });
 
     describe('When clicking on purchases for a client row', () => {
@@ -37,7 +42,7 @@ describe('Session Purchase', () => {
       });
     });
 
-    describe('When entering new items to purchase', () => {
+    describe.only('When entering new items to purchase', () => {
       it('Should add up the total correctly and submit successfully', function() {
         const total = (
           this.prices.fullHour
@@ -47,6 +52,9 @@ describe('Session Purchase', () => {
           + this.prices.pair
           + this.prices.pairTenPack)
           * 2;
+        console.log(`==========this.prices=========`);
+        console.log(this.clients); // eslint-disable-line quotes
+        console.log(`==========END this.prices=========`);
         const clientName = 'Barr';
         cy.goToPurchaseSessionForm(clientName);
         cy.log('-----FULL_HOUR-----');

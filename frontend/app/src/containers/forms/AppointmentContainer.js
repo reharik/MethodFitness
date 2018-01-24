@@ -24,11 +24,11 @@ const mapStateToProps = (state, props) => {
     clients = state.clients
       .filter(x => !x.archived)
       .filter(x => isAdmin || user.clients.includes(x.clientId))
-      .map(x => ({value: x.clientId, display: `${x.contact.lastName} ${x.contact.firstName}`}));
+      .map(x => ({value: x.clientId, display: `${x.contact.lastName}, ${x.contact.firstName}`}));
 
     trainers = state.trainers
       .filter(x => !x.archived)
-      .map(x => ({value: x.trainerId, display: `${x.contact.lastName} ${x.contact.firstName}`, color: x.color}));
+      .map(x => ({value: x.trainerId, display: `${x.contact.lastName}, ${x.contact.firstName}`, color: x.color}));
   }
 
   // please put this shit in a config somewhere

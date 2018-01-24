@@ -1,0 +1,83 @@
+version: "3.0"
+services:
+  frontend:
+    depends_on:
+      - api
+    build:
+      context: ../frontend
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../frontend/app:/home/current/app
+    command: npm run start2 #top -b #
+    environment:
+      APPLICATION_NAME: frontend
+    ports:
+      - "8888:8888"
+    env_file:
+      - ./../.envrc.example
+
+  workflows:
+    build:
+      context: ../workflows
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+      - eventstore
+    volumes:
+      - ./../workflows/app:/home/current/app
+    command: npm run startLocalContainer #top -b #
+    env_file:
+      - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: workflows
+      LOGGING_LEVEL: silly
+
+  projections:
+    build:
+      context: ../projections
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+      - eventstore
+    volumes:
+      - ./../projections/app:/home/current/app
+    command: npm run startLocalContainer #top -b #
+    env_file:
+      - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: projections
+#      LOGGING_LEVEL: error
+
+  api:
+    build:
+      context: ../api
+      dockerfile: docker/Dockerfile
+    depends_on:
+    - eventstore
+    volumes:
+      - ./../api/app:/home/current/app
+    command: npm run startLocalContainer #top -b #
+    ports:
+      - 3666:3000
+    env_file:
+      - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: api
+
+  postgres:
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests
+    ports:
+      - 5400:5432
+    env_file:
+      - ./../.envrc.example
+
+  eventstore:
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests
+    ports:
+      - 2113:2113
+      - 1113:1113
+    environment:
+      - ext-http-prefixes=http://*:2113/
+      - ext-ip="0.0.0.0"
+      - log=/data/logs
+      - stats-period-sec=400000

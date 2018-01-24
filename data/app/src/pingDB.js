@@ -50,6 +50,6 @@ module.exports = function(pg, config, promiseretry) {
     return promiseretry(function (retry, number) {
       console.log('attempt number', number);
       return ping().catch(retry);
-    }, {retries: 4});
+    }, {retries: 10});
   };
 };

@@ -41,7 +41,7 @@ module.exports = function(moment, R, invariant, metaLogger) {
       return {
         trainerId: trainer.trainerId,
         clientId: client.clientId,
-        clientName: `${client.firstName} ${client.lastName}`,
+        clientName: `${client.lastName}, ${client.firstName}`,
         appointmentId: appointment.appointmentId,
         appointmentDate: appointment.date,
         appointmentStartTime: appointment.startTime,

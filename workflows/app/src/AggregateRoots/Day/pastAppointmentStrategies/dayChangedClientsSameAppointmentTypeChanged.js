@@ -19,7 +19,7 @@ module.exports = function(eventRepository, day, client, logger) {
         result.push({type: 'client', instance: c});
       }
       // update appointment so now we have correct appointmentType
-      dayInstance.rescheduleAppointmentInPast(cmd);
+      dayInstance.updateAppointmentFromPast(cmd, true);
 
       // charge all clients for new appointment type
       result.map(x => x.instance).forEach(clientInstance => {
