@@ -70,6 +70,23 @@ module.exports = (cy) => {
     method: 'POST',
     url: '/purchase/purchase'
   }).as('purchase');
+
+  cy.route({
+    method: 'POST',
+    url: '/appointment/cancelappointment'
+  }).as('cancelappointment');
+
+  cy.route({
+    method: 'GET',
+    url: '/fetchappointment/*'
+  }).as('fetchappointment');
+
+  cy.route({
+    method: 'POST',
+    url: '/appointment/cleanalltestdata'
+  }).as('cleanalltestdata');
 };
+
+
 
 

@@ -1,6 +1,7 @@
-const _routines = require('./../helpers/routines');
-const setupRoutes = require('./../helpers/setupRoutes');
-const _aDT = require('./../fixtures/appointments');
+const _routines = require('./../../helpers/routines');
+const setupRoutes = require('./../../helpers/setupRoutes');
+const _aDT = require('./../../fixtures/appointments');
+const appTimes = require('./../../helpers/appointmentTimes');
 let aDT;
 let appointmentValues;
 
@@ -9,17 +10,10 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
 
   beforeEach(() => {
     setupRoutes(cy);
-    routines = _routines(cy, Cypress.moment);
+    routines = _routines(cy, Cypress, Cypress.moment);
 
     cy.loginAdmin();
-    cy.visit('/');
-    cy.deleteAllAppointments();
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(1)').click();
-    cy.deleteAllAppointments();
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)').click();
-    cy.wait(500);
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)').click();
-    cy.deleteAllAppointments();
+    routines.deleteAllAppointments();
     cy.visit('/');
     cy.fixture('prices').as('prices');
     cy.fixture('clients').as('clients');
@@ -28,8 +22,13 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
 
   describe('When changing apointmentType before funded', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '9:00 AM', true);
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      aDT = _aDT(Cypress.moment, appTimes.time10, true);
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       appointmentValues = {
         index: 2,
@@ -48,7 +47,7 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
 
       routines.checkVerification({
         index: 4,
-        inarearsCount: 1,
+        inarrearsCount: 1,
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
@@ -109,26 +108,25 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
 
       routines.checkTrainerPayment({
         index: 12,
-        client: this.clients.client1,
         appointmentCount: 1,
         appointmentValues: {
+          client: this.clients.client1,
           date: aDT.date,
           appointmentType: 'Half Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 13,
-        client: this.clients.client1
-      });
-
     });
   });
 
   describe('When changing apointmentType after funded for first AT to unfunded', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '10:00 AM', true);
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      aDT = _aDT(Cypress.moment, appTimes.time11, true);
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       routines.purchaseSessions({
         index: 1,
@@ -140,7 +138,7 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
         index: 2,
         date: aDT.date,
         time: aDT.time,
-        appointmentType: 'Half Hour',
+        appointmentType: 'Half Hour'
       };
       routines.changeAppointment(appointmentValues);
 
@@ -166,19 +164,18 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
           appointmentType: 'Half Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 6,
-        client: this.clients.client1
-      });
-
     });
   });
 
   describe('When changing apointmentType after funded for first AT to funded', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '10:00 AM', true);
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      aDT = _aDT(Cypress.moment, appTimes.time11, true);
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       routines.purchaseSessions({
         index: 1,
@@ -232,26 +229,25 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
 
       routines.checkTrainerPayment({
         index: 8,
-        client: this.clients.client1,
         appointmentCount: 1,
         appointmentValues: {
+          client: this.clients.client1,
           date: aDT.date,
           appointmentType: 'Half Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 9,
-        client: this.clients.client1
-      });
-
     });
   });
 
   describe('When changing apointmentType after verification', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '11:00 AM', true);
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      aDT = _aDT(Cypress.moment, appTimes.time12, true);
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       routines.purchaseSessions({
         index: 1,
@@ -344,19 +340,13 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
 
       routines.checkTrainerPayment({
         index: 13,
-        client: this.clients.client1,
         appointmentCount: 1,
         appointmentValues: {
+          client: this.clients.client1,
           date: aDT.date,
           appointmentType: 'Half Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 14,
-        client: this.clients.client1
-      });
-
     });
   });
 

@@ -27,9 +27,6 @@ module.exports = function() {
 
       sessionsRefunded: event => {
         event.refundSessions.forEach(x => state.clientInventory.sessionConsumed(x.sessionId));
-        console.log(`==========state.clientInventory=========`);
-        console.log(JSON.stringify(state.clientInventory)); // eslint-disable-line quotes
-        console.log(`==========END state.clientInventory=========`);
       },
 
       unfundedAppointmentFundedByClient: event => {
@@ -50,6 +47,24 @@ module.exports = function() {
         state.unfundedAppointments = state.unfundedAppointments
           .filter(u => u.appointmentId !== event.appointmentId);
         state.clientInventory.modifyConsumedSession(event);
+      },
+
+      clientInternalStateUpdated: event => {
+        state.unfundedAppointments = state.unfundedAppointments
+          .map(x => x.appointmentId === event.appointmentId
+            ? Object.assign(
+              {},
+              x,
+              {
+                trainerId: event.trainerId,
+                appointmentType: event.appointmentType,
+                clients: event.clients,
+                date: event.date,
+                startTime: event.startTime,
+                endTime: event.endTime
+              })
+            : x
+          );
       }
     };
   };

@@ -57,7 +57,10 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
         invariants.expectCorrectNumberOfClients(cmdClone);
         invariants.expectTrainerNotConflicting(cmdClone);
         invariants.expectClientsNotConflicting(cmdClone);
-
+        const appointment = state.appointments.find(x => x.appointmentId === cmdClone.appointmentId);
+        if (appointment && appointment.trainerId !== cmdClone.trainerId) {
+          cmdClone.oldTrainerId = appointment.trainerId;
+        }
         raiseEvent(esEvents.pastAppointmentUpdatedEvent(cmdClone, rescheduled, updateDayOnly));
       },
 

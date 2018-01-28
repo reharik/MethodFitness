@@ -32,7 +32,7 @@ TrainerVerificationListContainer.propTypes = {
 function mapStateToProps(state) {
   moment.locale('en');
   let dataSource = state.sessionVerification
-    .filter(x => !x.verified)
+    .filter(x => !x.verified && x.trainerId === state.auth.user.trainerId)
     .map(x => ({
       ...x,
       appointmentType: decamelize(x.appointmentType, ' ')

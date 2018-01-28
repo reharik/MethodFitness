@@ -110,30 +110,6 @@ Cypress.Commands.add('deleteAppointment', (day, time) => {
   cy.wait('@deletePastAppointment');
 });
 
-Cypress.Commands.add('deleteAllAppointments', () => {
-  cy.wait('@fetchAppointments')
-    .wait(500)
-    .then(() => {
-      const appointments = Cypress.$(`.redux__task__calendar__task__item`);
-      if (appointments.length > 0) {
-        cy.wrap(appointments)
-          .each(y => {
-            let x = cy.wrap(y);
-            x.should('exist');
-            x.click();
-            cy.get('div[data-id=appointmentFooter]').then(x => {
-              const button = x.find(':nth-child(3)');
-              if (button.length > 0) {
-                cy.wrap(button).click();
-                cy.wait('@deletePastAppointment');
-              } else {
-                cy.get('div[data-id=appointmentFooter] :nth-child(2)').click();
-              }
-            });
-          });
-      }
-    });
-});
 
 Cypress.Commands.add('goToPurchasesList', client => {
   Cypress.log();

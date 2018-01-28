@@ -1,6 +1,7 @@
-const _routines = require('./../helpers/routines');
-const setupRoutes = require('./../helpers/setupRoutes');
-const _aDT = require('./../fixtures/appointments');
+const _routines = require('./../../helpers/routines');
+const setupRoutes = require('./../../helpers/setupRoutes');
+const _aDT = require('./../../fixtures/appointments');
+const appTimes = require('./../../helpers/appointmentTimes');
 let aDT;
 let appointmentValues;
 
@@ -9,17 +10,10 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
 
   beforeEach(() => {
     setupRoutes(cy);
-    routines = _routines(cy, Cypress.moment);
+    routines = _routines(cy, Cypress, Cypress.moment);
 
     cy.loginAdmin();
-    cy.visit('/');
-    cy.deleteAllAppointments();
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(1)').click();
-    cy.deleteAllAppointments();
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)').click();
-    cy.wait(500);
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)').click();
-    cy.deleteAllAppointments();
+    routines.deleteAllAppointments();
     cy.visit('/');
     cy.fixture('prices').as('prices');
     cy.fixture('clients').as('clients');
@@ -28,8 +22,13 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
 
   describe('When changing from unfunded client to unfunded client', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '12:00 PM', true);
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      aDT = _aDT(Cypress.moment, appTimes.time1, true);
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       appointmentValues = {
         index: 1,
@@ -55,7 +54,7 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
 
       routines.checkVerification({
         index: 4,
-        inarearsCount: 1,
+        inarrearsCount: 1,
         inarrearsItemValues: {
           client: this.clients.client2,
           date: aDT.date,
@@ -68,7 +67,7 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
 
   describe('When changing from unfunded client to funded client', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '12:00 PM', true);
+      aDT = _aDT(Cypress.moment, appTimes.time1, true);
       cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
 
       routines.purchaseSessions({
@@ -129,25 +128,19 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
 
       routines.checkTrainerPayment({
         index: 9,
-        client: this.clients.client2,
         appointmentCount: 1,
         appointmentValues: {
+          client: this.clients.client2,
           date: aDT.date,
           appointmentType: 'Full Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 10,
-        client: this.clients.client2
-      });
-
     });
   });
 
   describe('When changing from funded client to unfunded client', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '1:00 PM', true);
+      aDT = _aDT(Cypress.moment, appTimes.time2, true);
 
       routines.purchaseSessions({
         index: 1,
@@ -158,7 +151,12 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       appointmentValues = {
         index: 2,
@@ -184,25 +182,19 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
 
       routines.checkVerification({
         index: 5,
-        inarearsCount: 1,
+        inarrearsCount: 1,
         inarrearsItemValues: {
           client: this.clients.client2,
           date: aDT.date,
           appointmentType: 'Full Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 11,
-        client: this.clients.client1
-      });
-
     });
   });
 
   describe('When changing from funded client to funded client', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '1:00 PM', true);
+      aDT = _aDT(Cypress.moment, appTimes.time2, true);
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
@@ -218,7 +210,12 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       appointmentValues = {
         index: 3,
@@ -271,24 +268,13 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
 
       routines.checkTrainerPayment({
         index: 10,
-        client: this.clients.client2,
         appointmentCount: 1,
         appointmentValues: {
+          client: this.clients.client2,
           date: aDT.date,
           appointmentType: 'Full Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 11,
-        client: this.clients.client1
-      });
-
-      routines.refundSessions({
-        index: 12,
-        client: this.clients.client2
-      });
-
     });
   });
 

@@ -1,8 +1,9 @@
-module.exports = function(moment,
-                          sessionsPurchasedPersistence,
-                          statefulEventHandler,
-                          metaLogger,
-                          logger) {
+module.exports = function(
+  moment,
+  sessionsPurchasedPersistence,
+  statefulEventHandler,
+  metaLogger,
+  logger) {
 
   return async function sessionsPurchasedEventHandler() {
 
@@ -20,9 +21,6 @@ module.exports = function(moment,
 
     async function pastAppointmentUpdated(event) {
       const purchases = state.pastAppointmentUpdated(event);
-      console.log(`==========JSON.stringify(purchases, null, 4)=========`);
-      console.log(JSON.stringify(purchases, null, 4)); // eslint-disable-line quotes
-      console.log(`==========END JSON.stringify(purchases, null, 4)=========`);
       for (let p of purchases) {
         await persistence.saveState(state, p);
       }
@@ -41,7 +39,7 @@ module.exports = function(moment,
     }
 
     async function sessionReturnedFromPastAppointment(event) {
-      const purchase = state.returnSessionsFromPastAppointment(event);
+      const purchase = state.sessionReturnedFromPastAppointment(event);
       await persistence.saveState(state, purchase);
     }
 

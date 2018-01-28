@@ -125,15 +125,15 @@ module.exports = function(
       },
 
       removePastAppointmentForClient: appointmentId => {
-
         const unfundedAppointment = state.unfundedAppointments.find(u => u.appointmentId === appointmentId);
         if (unfundedAppointment) {
           raiseEvent(esEvents.unfundedAppointmentRemovedForClientEvent({
             appointmentId,
+            trainerId: unfundedAppointment.trainerId,
             appointmentType: unfundedAppointment.appointmentType,
             clientId: state._id
           }));
-        } else if (state.clientInventory.getUsedSessionByAppointmentId(appointmentId)) {
+        } else {
           raiseEvent(esEvents.fundedAppointmentRemovedForClientEvent({
             appointmentId,
             clientId: state._id
@@ -167,7 +167,16 @@ module.exports = function(
           });
         }
         raiseEvent(event);
+      },
+
+      updateAppointmentFromPast: cmd => {
+        const unfundedAppointment = state.unfundedAppointments
+          .find(x => x.appointmentId === cmd.appointmentId);
+        if (unfundedAppointment) {
+          raiseEvent(esEvents.clientInternalStateUpdatedEvent(cmd));
+        }
       }
+
     }, 'ClientCommands');
   };
 };

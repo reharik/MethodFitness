@@ -1,6 +1,7 @@
-const _routines = require('./../helpers/routines');
-const setupRoutes = require('./../helpers/setupRoutes');
-const _aDT = require('./../fixtures/appointments');
+const _routines = require('./../../helpers/routines');
+const setupRoutes = require('./../../helpers/setupRoutes');
+const _aDT = require('./../../fixtures/appointments');
+const appTimes = require('./../../helpers/appointmentTimes');
 let aDT;
 let appointmentValues;
 
@@ -9,17 +10,10 @@ describe('Creating an Appointment in the Past Changing Date', () => {
 
   beforeEach(() => {
     setupRoutes(cy);
-    routines = _routines(cy, Cypress.moment);
+    routines = _routines(cy, Cypress, Cypress.moment);
 
     cy.loginAdmin();
-    cy.visit('/');
-    cy.deleteAllAppointments();
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(1)').click();
-    cy.deleteAllAppointments();
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)').click();
-    cy.wait(500);
-    cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)').click();
-    cy.deleteAllAppointments();
+    routines.deleteAllAppointments();
     cy.visit('/');
     cy.fixture('prices').as('prices');
     cy.fixture('clients').as('clients');
@@ -28,8 +22,14 @@ describe('Creating an Appointment in the Past Changing Date', () => {
 
   describe('When changing date on unfunded', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '2:00 PM', true);
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      aDT = _aDT(Cypress.moment, appTimes.time9, true);
+
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
       appointmentValues = {
@@ -48,7 +48,7 @@ describe('Creating an Appointment in the Past Changing Date', () => {
 
       routines.checkVerification({
         index: 3,
-        inarearsCount: 1,
+        inarrearsCount: 1,
         inarrearsItemValues: {
           client: this.clients.client1,
           date: newDate,
@@ -62,7 +62,7 @@ describe('Creating an Appointment in the Past Changing Date', () => {
 
   describe('When changing date on funded', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, '2:00 PM', true);
+      aDT = _aDT(Cypress.moment, appTimes.time9, true);
 
       routines.purchaseSessions({
         index: 1,
@@ -73,7 +73,12 @@ describe('Creating an Appointment in the Past Changing Date', () => {
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      routines.createAppointment({
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        appointmentType: 'Full Hour'
+      });
 
       const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
       appointmentValues = {
@@ -128,19 +133,13 @@ describe('Creating an Appointment in the Past Changing Date', () => {
 
       routines.checkTrainerPayment({
         index: 9,
-        client: this.clients.client1,
         appointmentCount: 1,
         appointmentValues: {
+          client: this.clients.client1,
           date: newDate,
           appointmentType: 'Full Hour'
         }
       });
-
-      routines.refundSessions({
-        index: 10,
-        client: this.clients.client1
-      });
-
     });
   });
 });

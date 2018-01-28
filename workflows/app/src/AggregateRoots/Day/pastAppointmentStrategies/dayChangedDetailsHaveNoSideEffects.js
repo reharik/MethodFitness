@@ -1,4 +1,4 @@
-module.exports = function(eventRepository, day, logger) {
+module.exports = function(eventRepository, day, client, logger) {
   return {
     evaluate: cmd => !cmd.isPastToFuture
         && cmd.originalEntityName !== cmd.entityName
@@ -6,11 +6,18 @@ module.exports = function(eventRepository, day, logger) {
         && !cmd.changes.appointmentType,
 
     // caller (changeAppointmentFromPast) removes the appointment, we handle the new day fixing any sessions
-    execute: async cmd => {
+    execute: async(cmd, origAppointment) => {
       logger.debug('dayChangedDetailsHaveNoSideEffects strategy chosen');
+      let result = [];
+      for (let clientId of origAppointment.clients) {
+        let c = await eventRepository.getById(client, clientId);
+        c.updateAppointmentFromPast(cmd);
+        result.push({type: 'client', instance: c});
+      }
       let dayInstance = await eventRepository.getById(day, cmd.entityName) || day();
       dayInstance.updateAppointmentFromPast(cmd, true, true);
-      return [{type: 'day', instance: dayInstance}];
+      result.push({type: 'day', instance: dayInstance});
+      return result;
     }
   };
 };

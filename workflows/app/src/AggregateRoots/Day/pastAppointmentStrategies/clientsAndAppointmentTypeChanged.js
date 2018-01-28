@@ -25,8 +25,9 @@ module.exports = function(eventRepository, day, client, logger) {
       // charge all final clients for new appointment type
       for (let clientId of cmd.clients) {
         let cFromRepo;
-        //TODO check if this x.instance has an _id or if it's like state._id
-        let c = result.find(x => x.type === 'client' && x.instance._id === clientId);
+        let c = result
+          .filter(x => x.type === 'client' && x.instance.state._id === clientId)
+          .map(x => x.instance)[0];
         if (!c) {
           cFromRepo = true;
           c = await eventRepository.getById(client, clientId);

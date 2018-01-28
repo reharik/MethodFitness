@@ -98,6 +98,10 @@ module.exports = function() {
     }
 
     if (!target) {
+      console.log(`==========name=========`);
+      console.log(name); // eslint-disable-line quotes
+      console.log(swaggerModel); // eslint-disable-line quotes
+      console.log(`==========END name=========`);
       return createReturnObject({message: 'Unable to validate an undefined value.'});
     } else if (allowBlankTargets !== true && isEmptyObject(target)) {
       return createReturnObject({message: 'Unable to validate an empty value.'});

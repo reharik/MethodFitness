@@ -103,6 +103,7 @@ export function updateAppointment(data, origDate, origStartTime) {
   const origStartTimeIsInPast = buildMomentFromDateAndTime(origDate, origStartTime).isBefore(moment());
   let formattedData = formatAppointmentData(data);
   formattedData.isPastToFuture = !startTimeIsInPast && origStartTimeIsInPast;
+  formattedData.isFutureToPast = startTimeIsInPast && !origStartTimeIsInPast;
   return startTimeIsInPast || formattedData.isPastToFuture
     ? updateAppointmentFromPast(formattedData)
     : updateAppointmentInFuture(formattedData);

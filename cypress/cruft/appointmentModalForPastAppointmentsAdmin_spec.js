@@ -20,7 +20,7 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
 
   beforeEach(() => {
     setupRoutes(cy);
-    routines = _routines(cy, Cypress.moment);
+    routines = _routines(cy, Cypress, Cypress.moment);
 
     cy.loginAdmin();
     cy.visit('/');

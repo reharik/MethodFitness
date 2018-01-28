@@ -13,10 +13,6 @@ module.exports = function(invariant, R, logger, metaLogger) {
           innerState.sessions = innerState.sessions.filter(s => s.purchaseId !== x);
         }
       });
-
-      console.log(`==========innerState.appointments=========`);
-      console.log(innerState.appointments); // eslint-disable-line quotes
-      console.log(`==========END innerState.appointments=========`);
     };
 
     // from processAttendedUnfundedAppointment
@@ -66,53 +62,53 @@ module.exports = function(invariant, R, logger, metaLogger) {
 
     // from unfundedAppointmentFundedByClient or removeFundedAppointment
     const fundUnfundedAppointment = (event, trainerId) => {
-      let unfunded = innerState.unfundedAppointments
+      const unfunded = innerState.unfundedAppointments
         .find(x => x.appointmentId === event.appointmentId && x.clientId === event.clientId);
       let trainer = innerState.trainers.find(x => x.trainerId === trainerId);
       let TCR = trainer.TCRS.find(tcr => tcr.clientId === event.clientId);
       let TR = TCR ? event.purchasePrice * (TCR.rate * .01) : 0;
-      unfunded.sessionId = event.sessionId;
-      unfunded.pricePerSession = event.purchasePrice;
-      //possibly set this to default TCR if 0
-      unfunded.trainerPercentage = TCR ? TCR.rate : 0;
-      unfunded.trainerPay = TR;
-      unfunded.verified = false;
-      return unfunded;
+      let funded = Object.assign(
+        {},
+        unfunded,
+        {
+          sessionId: event.sessionId,
+          pricePerSession: event.purchasePrice,
+          //possibly set this to default TCR if 0
+          trainerPercentage: TCR ? TCR.rate : 0,
+          trainerPay: TR,
+          verified: false
+        }
+      );
+
+      innerState.unpaidAppointments.push(funded);
+      innerState.unfundedAppointments =
+        innerState
+          .unfundedAppointments
+          .filter(x => !(x.appointmentId === event.appointmentId && x.clientId === event.clientId));
     };
 
-    const removeFundedAppointment = appointmentId => {
-      let unpaidAppointment = innerState.unpaidAppointments.find(x => x.appointmentId === appointmentId);
+    // both fundedAppointmentRemovedForClient and sessionReturnedFromPastAppointment
+    // call this. they are both always emtted together. But they both need to update different stuff
+    // elsewhere.  but I'm afraid that if I remove this for one of them things will change and this
+    // wont be updated. maybe they should be combined into one event.
+    const removeFundedAppointment = event => {
+      let unpaidAppointment = innerState
+        .unpaidAppointments.find(x =>
+          x.appointmentId === event.appointmentId
+          && x.clientId === event.clientId);
+
       if (!unpaidAppointment || unpaidAppointment.length <= 0) {
         return undefined;
       }
 
       innerState.unpaidAppointments = innerState.unpaidAppointments
-        .filter(x => x.sessionId !== unpaidAppointment.sessionId);
+        .filter(x => !(x.appointmentId === event.appointmentId
+        && x.clientId === event.clientId));
 
       return unpaidAppointment.trainerId;
     };
 
-    const removeUnfundedAppointment = (appointmentId, clientId) => {
-      const filterPredicate = clientId
-        // this was a bit tricky because there were two conditions you can't do the negative
-        ? x => !(x.appointmentId === appointmentId && x.clientId === clientId)
-        : x => x.appointmentId !== appointmentId;
-
-      const findPredicate = clientId
-        ? x => x.appointmentId === appointmentId && x.clientId === clientId
-        : x => x.appointmentId === appointmentId;
-
-      let unfundedAppointment = innerState.unfundedAppointments.find(findPredicate);
-      if (!unfundedAppointment || unfundedAppointment.length <= 0) {
-        return undefined;
-      }
-
-      innerState.unfundedAppointments = innerState.unfundedAppointments.filter(filterPredicate);
-
-      return unfundedAppointment.trainerId;
-    };
-
-// external methods
+    // external methods
     // someone attended an appointment and had a session
 
 
@@ -124,18 +120,16 @@ module.exports = function(invariant, R, logger, metaLogger) {
       const appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
       innerState.unpaidAppointments.push(createUnpaidAppointment(appointment, event));
       return appointment.trainerId;
-      // not sure why I was ever doing this but it was breaking for updateAppointment client change
-      // then clean up previously processed unfunded appt
-      // return removeUnfundedAppointment(event.appointmentId, event.clientId);
     };
 
     const fundedAppointmentRemovedForClient = event => {
-      return removeFundedAppointment(event.appointmentId);
+      return removeFundedAppointment(event);
     };
 
     const updateAppointmentMap = (appointment, event) =>
       appointment.appointmentId === event.appointmentId
         ? Object.assign({}, appointment, {
+          trainerId: event.trainerId,
           appointmentDate: event.date,
           appointmentStartTime: event.startTime
         })
@@ -155,7 +149,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
 
     // this means either appointment client or type changed
     const sessionReturnedFromPastAppointment = event => {
-      return removeFundedAppointment(event.appointmentId);
+      return removeFundedAppointment(event);
     };
 
     const trainerPaid = event => {
@@ -172,7 +166,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
       const session = innerState.sessions.find(x => x.sessionId === event.sessionId);
       // a bit weird but were piggy backing on fundUnfundedAppointment
       const updatedEvent = Object.assign({}, event, { purchasePrice: session.purchasePrice });
-      innerState.unpaidAppointments.push(fundUnfundedAppointment(updatedEvent, unfundedAppointment.trainerId));
+      fundUnfundedAppointment(updatedEvent, unfundedAppointment.trainerId);
 
       return unfundedAppointment.trainerId;
     };
@@ -194,15 +188,18 @@ module.exports = function(invariant, R, logger, metaLogger) {
       if (!appointment || appointment.length <= 0) {
         return undefined;
       }
-
-      innerState.unpaidAppointments.push(fundUnfundedAppointment(event, appointment.trainerId));
-      removeUnfundedAppointment(event.appointmentId, event.clientId);
+      fundUnfundedAppointment(event, appointment.trainerId);
 
       return appointment.trainerId;
     };
 
     const unfundedAppointmentRemovedForClient = event => {
-      return removeUnfundedAppointment(event.appointmentId);
+      innerState.unfundedAppointments = innerState
+        .unfundedAppointments
+        // this was a bit tricky because there were two conditions you can't do the negative
+        .filter(x => !(x.appointmentId === event.appointmentId && x.clientId === event.clientId));
+
+      return event.trainerId;
     };
 
     return metaLogger({

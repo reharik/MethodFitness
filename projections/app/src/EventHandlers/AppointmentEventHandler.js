@@ -38,10 +38,24 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function appointmentUpdated(event) {
+      let appointment = await rsRepository.getById(event.appointmentId, 'appointment');
+      let update = Object.assign(
+        {},
+        appointment,
+        {
+          appointmentType: event.appointmentType,
+          date: event.date,
+          startTime: event.startTime,
+          endTime: event.endTime,
+          trainerId: event.trainerId,
+          clients: event.clients,
+          notes: event.notes,
+        }
+      );
       let sql = `update "appointment" set
             "date" = '${event.entityName}',
             "trainer" = '${event.trainerId}',
-            "document" = '${JSON.stringify(event)}'
+            "document" = '${JSON.stringify(update)}'
             where "id" = '${event.appointmentId}'`;
       return await rsRepository.saveQuery(sql);
     }

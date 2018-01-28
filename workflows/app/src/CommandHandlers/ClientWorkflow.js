@@ -122,7 +122,6 @@ module.exports = function(eventRepository, metaLogger, logger, client) {
       }
     }
 
-
     return metaLogger({
       handlerName: 'ClientWorkflow',
       addClient,

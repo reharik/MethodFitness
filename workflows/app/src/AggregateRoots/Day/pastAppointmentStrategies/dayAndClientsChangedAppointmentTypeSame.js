@@ -4,17 +4,22 @@ module.exports = function(eventRepository, day, client, logger) {
         && cmd.changes.clients
         && !cmd.changes.appointmentType,
 
-    // caller (changeAppointmentFromPast) removes the appointment, we handle the new day fixing any sessions
     execute: async(cmd, origAppointment) => {
       logger.debug('dayAndClientsChangedAppointmentTypeSame strategy chosen');
       let dayInstance = await eventRepository.getById(day, cmd.entityName) || day();
       let result = [];
+
       // if a client is no longer on the appointment refund the session
-      for (let clientId of origAppointment.clients.filter(x => !cmd.clients.find(y => y === x))) {
+      // if they are still on then update them
+      for (let clientId of origAppointment.clients) {
         let c = await eventRepository.getById(client, clientId);
-        logger.debug('returning session to client');
-        c.returnSessionFromPast(cmd.appointmentId);
-        c.removePastAppointmentForClient(cmd.appointmentId);
+        if (!cmd.clients.any(y => y === clientId)) {
+          logger.debug('returning session to client');
+          c.returnSessionFromPast(cmd.appointmentId);
+          c.removePastAppointmentForClient(cmd.appointmentId);
+        } else {
+          c.updateAppointmentFromPast(cmd);
+        }
         result.push({type: 'client', instance: c});
       }
       // if a new client is on appointment associate a session with them

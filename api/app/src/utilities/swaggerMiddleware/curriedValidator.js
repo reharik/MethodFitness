@@ -1,5 +1,6 @@
 module.exports = function(swaggermodelvalidator) {
   return function(document, customValidators) {
+    // eslint-disable new-cap
     const validator = new swaggermodelvalidator(document); // eslint-disable-line camelcase new-cap
     if (customValidators) {
       if (!Array.isArray(customValidators)) {
