@@ -1,22 +1,26 @@
 module.exports = function(eventRepository, day, client, logger) {
   return {
-    evaluate: cmd => cmd.originalEntityName === cmd.entityName
-        && cmd.changes.clients
-        && cmd.changes.appointmentType,
+    evaluate: cmd => (
+      !cmd.isPastToFuture
+      && !cmd.isFutureToPast
+    )
+    && (
+      cmd.changes.clients
+      || cmd.changes.appointmentType
+    ),
 
-    execute: async cmd => {
-      logger.debug('clientsAndAppointmentTypeChanged strategy chosen');
-      let dayInstance = await eventRepository.getById(day, cmd.entityName);
-      const origAppointment = dayInstance.getAppointment(cmd.appointmentId);
+    execute: async(cmd, dayInstance, origAppointment) => {
+      logger.debug('appointmentUpdatedWITHSideEffects strategy chosen');
       let result = [];
 
       // refund session for all client on appointment
       for (let clientId of origAppointment.clients) {
         let c = await eventRepository.getById(client, clientId);
-        logger.debug('returning session to client');
+
+        logger.debug(`removing session from past for appointmentId: ${cmd.appointmentId} for clientId: ${clientId}`);
         c.returnSessionFromPast(cmd.appointmentId);
         c.removePastAppointmentForClient(cmd.appointmentId);
-        result.push({type: 'client', instance: c});
+        result.push(c);
       }
 
       // update appointment so now we have correct clients and correct appointmentType
@@ -26,20 +30,18 @@ module.exports = function(eventRepository, day, client, logger) {
       for (let clientId of cmd.clients) {
         let cFromRepo;
         let c = result
-          .filter(x => x.type === 'client' && x.instance.state._id === clientId)
-          .map(x => x.instance)[0];
+          .filter(x => x.state._id === clientId)[0];
         if (!c) {
           cFromRepo = true;
           c = await eventRepository.getById(client, clientId);
         }
-        logger.debug('associating client with updated appointment from past');
+        logger.debug(`adding session to past for appointmentId: ${cmd.appointmentId} for clientId: ${clientId}`);
         c.clientAttendsAppointment(cmd);
         if (cFromRepo) {
-          result.push({type: 'client', instance: c});
+          result.push(c);
         }
       }
 
-      result.push({type: 'day', instance: dayInstance});
       return result;
     }
   };

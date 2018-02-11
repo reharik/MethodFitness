@@ -49,7 +49,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
           endTime: event.endTime,
           trainerId: event.trainerId,
           clients: event.clients,
-          notes: event.notes,
+          notes: event.notes
         }
       );
       let sql = `update "appointment" set

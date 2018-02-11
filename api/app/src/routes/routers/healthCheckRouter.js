@@ -13,6 +13,8 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *     responses:
      *       200:
      *         description: Success
+     *         schema:
+*                type: string
      *       422:
      *         description: Failure
      *       500:
@@ -32,10 +34,14 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *     responses:
      *       200:
      *         description: Success
+     *         schema:
+*                type: string
      *       422:
      *         description: Failure
      *       500:
      *         description: Failure
+     *         schema:
+     *           type: string
      */
     router.get(
       '/healthcheck/systemsup',

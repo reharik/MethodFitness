@@ -102,6 +102,9 @@ module.exports = function() {
 
     let validationResult = { success: true, errors: [], where: [] };
     let res = operation.responses[status];
+    console.log(`==========res=========`);
+    console.log(res.validator.toString()); // eslint-disable-line quotes
+    console.log(`==========END res=========`);
     if (res && !res.schema && !body) {
       return validationResult;
     }

@@ -106,7 +106,9 @@ module.exports = function() {
     } else if (allowBlankTargets !== true && isEmptyObject(target)) {
       return createReturnObject({message: 'Unable to validate an empty value.'});
     }
-
+console.log(`==========swaggerModel=========`);
+console.log(swaggerModel); // eslint-disable-line quotes
+console.log(`==========END swaggerModel=========`);
     if (!swaggerModel) {
       return createReturnObject({message: 'Unable to validate against an undefined model.'});
     }

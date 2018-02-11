@@ -46,7 +46,7 @@ services:
       - ./../.envrc.example
     environment:
       APPLICATION_NAME: projections
-#      LOGGING_LEVEL: error
+      LOGGING_LEVEL: silly
 
   api:
     build:

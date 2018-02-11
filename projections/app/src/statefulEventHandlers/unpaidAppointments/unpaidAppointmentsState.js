@@ -21,12 +21,12 @@ module.exports = function(invariant, R, logger, metaLogger) {
       let trainer = innerState.trainers.find(x => x.trainerId === appointment.trainerId);
       return {
         trainerId: trainer.trainerId,
-        clientId: client.clientId,
+        clientId: event.clientId,
         clientName: `${client.lastName}, ${client.firstName}`,
         appointmentId: appointment.appointmentId,
         appointmentDate: appointment.date,
         appointmentStartTime: appointment.startTime,
-        appointmentType: appointment.appointmentType
+        appointmentType: event.appointmentType
       };
     };
 
@@ -130,13 +130,15 @@ module.exports = function(invariant, R, logger, metaLogger) {
       appointment.appointmentId === event.appointmentId
         ? Object.assign({}, appointment, {
           trainerId: event.trainerId,
-          appointmentDate: event.date,
-          appointmentStartTime: event.startTime
+          startTime: event.startTime,
+          endTime: event.endTime,
+          notes: event.notes
         })
         : appointment;
 
     // man this is ass ugly I hope at least it fucking works
     const pastAppointmentUpdated = event => {
+      // this prop should be updatedWithNoSideEffects
       if (event.updateDayOnly) {
         innerState.unfundedAppointments = innerState.unfundedAppointments
           .map(x => updateAppointmentMap(x, event));
@@ -147,7 +149,6 @@ module.exports = function(invariant, R, logger, metaLogger) {
       return undefined;
     };
 
-    // this means either appointment client or type changed
     const sessionReturnedFromPastAppointment = event => {
       return removeFundedAppointment(event);
     };
