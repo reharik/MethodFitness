@@ -101,16 +101,13 @@ module.exports = function() {
     // check the res matches the swagger schema
 
     let validationResult = { success: true, errors: [], where: [] };
-    let res = operation.responses[status];
-    console.log(`==========res=========`);
-    console.log(res.validator.toString()); // eslint-disable-line quotes
-    console.log(`==========END res=========`);
-    if (res && !res.schema && !body) {
+    let responseDefinition = operation.responses[status];
+    if (responseDefinition && !responseDefinition.schema && !body) {
       return validationResult;
     }
     let result = {};
-    if (res) {
-      result = validate(body, res);
+    if (responseDefinition) {
+      result = validate(body, responseDefinition);
     } else {
       result.valid = false;
       result.errors = [{ message: `No response provided in schema for status: ${status}` }];

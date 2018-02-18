@@ -1,4 +1,4 @@
-module.exports = function(eventstore, config, metaLogger, logger) {
+module.exports = function(eventstore, config, metaLogger, uuid, logger) {
   return function healthcheckWorkflow() {
     async function healthcheck(cmd) {
       logger.info(`posting healthcheck: ${cmd.healthcheck}`);
@@ -20,7 +20,7 @@ module.exports = function(eventstore, config, metaLogger, logger) {
 
       await connection.appendToStream(
         'event',
-        evntstore.expectedVersion.any,
+        eventstore.expectedVersion.any,
         [event],
         credentialsForAllEventsStream);
     }
