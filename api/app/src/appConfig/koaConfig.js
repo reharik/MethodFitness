@@ -28,6 +28,7 @@ module.exports = function(
     }
 
     app.use(koaErrorHandler());
+
     app.use(koa2cors({
       origin: ctx => {
         const origin1 = `http://${config.app.frontEndHost}:${config.app.frontEndPort}`;

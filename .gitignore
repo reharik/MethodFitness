@@ -34,3 +34,5 @@ yarn.lock
 
 cypress/screenshots
 cypress/videos
+frontend/app/tests/cypress/videos/
+

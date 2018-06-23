@@ -19,11 +19,11 @@ class ClientListContainer extends Component {
   componentDidMount() {
     this.setState({layout: layout.current()});
     this.loadData();
-    layout.addChangeListener(layout => this.setState({layout}));
+    layout.addChangeListener(l => this.setState({layout: l}));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({layout}));
+    layout.removeChangeListener(l => this.setState({layout: l}));
   }
 
   loadData() {
@@ -31,7 +31,7 @@ class ClientListContainer extends Component {
   }
 
   render() {
-    let columns = clientListDefinition(this.state.layout);
+    let columns = clientListDefinition(this.state.layout, this.props.isAdmin);
     this.gridConfig = {...this.props.gridConfig, columns };
     return (<ClientList gridConfig={this.gridConfig} archiveClient={this.props.archiveClient} />);
   }
@@ -41,7 +41,8 @@ ClientListContainer.propTypes = {
   gridConfig: PropTypes.object,
   archiveClient: PropTypes.func,
   fetchAllClientsAction: PropTypes.func,
-  containerWidth: PropTypes.number
+  containerWidth: PropTypes.number,
+  isAdmin: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -55,6 +56,7 @@ function mapStateToProps(state) {
     dataSource
   };
   return {
+    isAdmin,
     gridConfig
   };
 }

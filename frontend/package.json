@@ -22,7 +22,9 @@
     "testOnce": "NODE_ENV=test mocha --recursive --compilers js:babel-core/register ./app/tests/**",
     "lint": "eslint -c ./../.eslintrc-react.json .",
     "validate": "npm ls",
-    "esw": "esw -w --color"
+    "esw": "esw -w --color",
+    "cypressRun": "cypress run",
+    "cypressOpen": "cypress open"
   },
   "license": "MIT",
   "engines": {
@@ -63,6 +65,7 @@
     "case-sensitive-paths-webpack-plugin": "^2.1.1",
     "chalk": "1.1.3",
     "css-loader": "0.28.1",
+    "cypress": "^3.0.1",
     "eslint": "3.6.0",
     "eslint-loader": "1.7.1",
     "eslint-plugin-flowtype": "2.33.0",

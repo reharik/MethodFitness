@@ -16,8 +16,9 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === LOGOUT.SUCCESS) {
-    const { routing, schema } = state;
-    state = { routing, schema };
+    // const { routing, schema } = state;
+    // state = { routing, schema };
+    return state;
   }
 
   return appReducer(state, action);

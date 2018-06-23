@@ -5,7 +5,7 @@ import { fetchClientsAction } from './../modules/clientModule';
 import { fetchTrainersAction } from './../modules/trainerModule';
 import { curriedPermissionToSetAppointment } from './../utilities/appointmentTimes';
 
-const mapStateToProps = function(state) {
+const mapStateToProps = (state) => {
   const isAdmin = state.auth.user.role === 'admin';
 
   let config = {

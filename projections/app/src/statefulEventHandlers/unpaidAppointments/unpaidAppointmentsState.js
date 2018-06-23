@@ -60,22 +60,28 @@ module.exports = function(invariant, R, logger, metaLogger) {
       };
     };
 
+    const calculateTrainerRateAndPay = (trainerId, clientId, sessionPrice) => {
+      let trainer = innerState.trainers.find(x => x.trainerId === trainerId);
+      let TCR = trainer.TCRS.find(tcr => tcr.clientId === clientId);
+      let TR = TCR ? sessionPrice * (TCR.rate * .01) : 0;
+
+      //probably set this to default TCR if 0
+      return {rate: TCR ? TCR.rate : 0, pay: TR};
+    };
+
     // from unfundedAppointmentFundedByClient or removeFundedAppointment
     const fundUnfundedAppointment = (event, trainerId) => {
       const unfunded = innerState.unfundedAppointments
         .find(x => x.appointmentId === event.appointmentId && x.clientId === event.clientId);
-      let trainer = innerState.trainers.find(x => x.trainerId === trainerId);
-      let TCR = trainer.TCRS.find(tcr => tcr.clientId === event.clientId);
-      let TR = TCR ? event.purchasePrice * (TCR.rate * .01) : 0;
+      const trainerRateAndPay = calculateTrainerRateAndPay(trainerId, event.clientId, event.purchasePrice);
       let funded = Object.assign(
         {},
         unfunded,
         {
           sessionId: event.sessionId,
           pricePerSession: event.purchasePrice,
-          //possibly set this to default TCR if 0
-          trainerPercentage: TCR ? TCR.rate : 0,
-          trainerPay: TR,
+          trainerPercentage: trainerRateAndPay.rate,
+          trainerPay: trainerRateAndPay.pay,
           verified: false
         }
       );
@@ -126,8 +132,8 @@ module.exports = function(invariant, R, logger, metaLogger) {
       return removeFundedAppointment(event);
     };
 
-    const updateAppointmentMap = (appointment, event) =>
-      appointment.appointmentId === event.appointmentId
+    const updateAppointmentMap = (appointment, event) => {
+      const result = appointment.appointmentId === event.appointmentId
         ? Object.assign({}, appointment, {
           trainerId: event.trainerId,
           startTime: event.startTime,
@@ -135,10 +141,20 @@ module.exports = function(invariant, R, logger, metaLogger) {
           notes: event.notes
         })
         : appointment;
+      if (event.oldTrainerId && event.oldTrainerId !== event.trainerId) {
+        const trainerRateAndPay = calculateTrainerRateAndPay(
+          event.trainerId,
+          appointment.clientId,
+          appointment.pricePerSession);
+        result.trainerPercentage = trainerRateAndPay.rate;
+        result.trainerPay = trainerRateAndPay.pay;
+      }
+      return result;
+    };
 
     // man this is ass ugly I hope at least it fucking works
     const pastAppointmentUpdated = event => {
-      // this prop should be updatedWithNoSideEffects
+      // this prop should be renamed updatedWithNoSideEffects
       if (event.updateDayOnly) {
         innerState.unfundedAppointments = innerState.unfundedAppointments
           .map(x => updateAppointmentMap(x, event));

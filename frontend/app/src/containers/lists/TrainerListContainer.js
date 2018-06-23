@@ -18,11 +18,11 @@ class TrainerListContainer extends Component {
 
   componentDidMount() {
     this.loadData();
-    layout.addChangeListener(layout => this.setState({layout}));
+    layout.addChangeListener(l => this.setState({layout: l}));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({layout}));
+    layout.removeChangeListener(l => this.setState({layout: l}));
   }
 
   loadData() {

@@ -10,6 +10,7 @@ import { scheduleAppointment,
   deleteAppointment,
   deleteAppointmentFromPast} from './../../modules/appointmentModule';
 import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
+import moment from 'moment';
 
 const mapStateToProps = (state, props) => {
   const isAdmin = state.auth.user.role === 'admin';
@@ -31,12 +32,17 @@ const mapStateToProps = (state, props) => {
       .map(x => ({value: x.trainerId, display: `${x.contact.lastName}, ${x.contact.firstName}`, color: x.color}));
   }
 
-  // please put this shit in a config somewhere
-  const times = generateAllTimes(15, 5, 11);
-
   const model = !props.args.appointmentId
     ? appointmentModel(state, props.args)
     : updateAppointmentModel(state, props.args, props.isCopy);
+
+  // please put this shit in a config somewhere
+  let startTime = 5;
+  if(!isAdmin && model.date.value.dayOfYear() === moment().dayOfYear()) {
+    startTime = moment().hour() + 1;
+  }
+
+  const times = generateAllTimes(15, startTime, 11);
 
   let buttons;
   if (props.args.appointmentId && !props.isCopy && !props.isEdit) {

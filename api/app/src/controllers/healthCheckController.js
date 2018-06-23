@@ -19,6 +19,7 @@ module.exports = function(eventstore, moment, commands, uuid, pingHealthCheck) {
     // if ping fails it throws, so 500
     ctx.body = `api is up ${moment(result).toString()}`;
     ctx.status = 200;
+    return ctx;
   };
 
   return {

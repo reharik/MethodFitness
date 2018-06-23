@@ -8,7 +8,7 @@ module.exports = function(logger) {
         }
       } catch (err) {
         logger.error(err);
-        ctx.status = err.statusCode || err.status || 500;
+        ctx.status = ctx.response.status || err.statusCode || err.status || 500;
 
         // application
         ctx.app.emit('error', err, this);

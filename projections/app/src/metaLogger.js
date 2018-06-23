@@ -19,12 +19,12 @@ module.exports = function(logger) {
   };
 
   const defaultConfig = {
-    beforeExecution: (logger, key, name, args) => {
+    beforeExecution: (loggerInstance, key, name, args) => {
       let resolvedName = name || 'anonymous function';
-      logger.debug(`${key} called in ${resolvedName}`);
-      logger.trace(iterateArguments(args, `${key} called with ${args.length <= 0 ? 'no ' : ''}arguments \n`));
+      loggerInstance.debug(`${key} called in ${resolvedName}`);
+      loggerInstance.trace(iterateArguments(args, `${key} called with ${args.length <= 0 ? 'no ' : ''}arguments \n`));
     },
-    afterExecution: (logger, key, name, result) => {
+    afterExecution: (loggerInstance, key, name, result) => {
       logger.trace(`${key} result:\n ${itemToString(result)}`);
     }
   };

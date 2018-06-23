@@ -210,7 +210,7 @@ DROP TABLE IF EXISTS "healthcheck";
 CREATE TABLE "healthcheck"
 (
   id uuid PRIMARY KEY,
-  healthcheck nvarchar(100)
+  healthcheck text
 )
 WITH (
   OIDS=FALSE

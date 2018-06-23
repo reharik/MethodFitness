@@ -37,6 +37,7 @@ function mapStateToProps(state) {
       ...x,
       appointmentType: decamelize(x.appointmentType, ' ')
         .split(' ')
+        // WTF??
         .map(x => x[0].toUpperCase() + x.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),

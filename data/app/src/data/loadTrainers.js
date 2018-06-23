@@ -41,7 +41,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
         contact: {
           firstName: 'Someone',
           lastName: 'Else',
-          email: 'admin2',
+          email: 'trainer1',
           mobilePhone: '666.666.6666',
           secondaryPhone: '777.777.7777',
           address: {
@@ -54,7 +54,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
         },
         credentials: {
           password: createPassword('345345'),
-          role: 'admin'
+          role: 'trainer'
         },
         trainerId: uuid.v4()
       },
@@ -64,7 +64,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
         contact: {
           firstName: 'Raif',
           lastName: 'Harik',
-          email: 'trainer',
+          email: 'trainer2',
           mobilePhone: '666.666.6666',
           secondaryPhone: '777.777.7777',
           address: {

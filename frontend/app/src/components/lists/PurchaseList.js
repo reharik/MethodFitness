@@ -154,7 +154,7 @@ class PurchaseList extends Component {
         rowKey="sessionId"
         rowClassName={getRowClass}
         dataSource={data.sessions}
-        rowSelection={rowSelection}
+        rowSelection={this.props.isAdmin ? rowSelection : null}
         pagination={false}
       />
     );
@@ -174,7 +174,7 @@ class PurchaseList extends Component {
                 title="New"
                 onClick={() => browserHistory.push(`/purchase/${this.props.clientId}`)}
               />
-              {hasRefundableItems
+              {hasRefundableItems && this.props.isAdmin
                 ? <button className="contentHeader__button" onClick={this.submitVerification} >Submit Refund</button>
                   : null }
               <a
@@ -208,7 +208,8 @@ class PurchaseList extends Component {
 PurchaseList.propTypes = {
   gridConfig: PropTypes.object,
   clientId: PropTypes.string,
-  refundSessions: PropTypes.func
+  refundSessions: PropTypes.func,
+  isAdmin: PropTypes.bool
 };
 
 export default PurchaseList;
