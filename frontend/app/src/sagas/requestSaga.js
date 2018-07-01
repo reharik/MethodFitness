@@ -53,8 +53,8 @@ function* request(action) {
     if (response.status === 204) {
       yield* handleSuccess(success, action);
     }
-
-    payload = yield response.headers.get('content-type').includes('json') ? response.json() : undefined;
+    const contentType = response.headers.get('content-type');
+    payload = yield contentType && contentType.includes('json') ? response.json() : undefined;
 
     if (!response.ok) {
       throw new Error(response);

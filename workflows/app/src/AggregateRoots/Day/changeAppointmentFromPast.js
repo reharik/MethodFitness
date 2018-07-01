@@ -6,25 +6,32 @@ module.exports = function(eventRepository, pastAppointmentStrategies_array, day,
     cmd.originalEntityName = cmd.originalEntityName || cmd.entityName;
 
     let origAppointment;
+    const dayInstance = await eventRepository.getById(day, cmd.entityName);
+
     if (cmd.originalEntityName !== cmd.entityName || cmd.isPastToFuture) {
       let oldDay = await eventRepository.getById(day, cmd.originalEntityName);
       origAppointment = Object.assign({}, oldDay.getAppointment(cmd.appointmentId));
-      // need to add "rescheduled" to this event
       oldDay.removeAppointmentFromPast(cmd, true);
 
       await eventRepository.save(oldDay, {continuationId});
+    } else {
+      origAppointment = dayInstance.getAppointment(cmd.appointmentId);
     }
+
     let result = [];
     for (let strategy of pastAppointmentStrategies_array) { // eslint-disable-line camelcase
       if (strategy.evaluate(cmd)) {
-        result = await strategy.execute(cmd, origAppointment);
+        result = await strategy.execute(cmd, dayInstance, origAppointment);
         break;
       }
     }
-    for (let r of result.sort(sortby('-type'))) {
-      logger.info(`saving ${r.type}`);
-      logger.trace(r.instance.state._id);
-      await eventRepository.save(r.instance, { continuationId });
+
+    await eventRepository.save(dayInstance, {continuationId});
+
+    for (const c of result) {
+      logger.info(`saving client`);
+      logger.trace(c.state._id);
+      await eventRepository.save(c, {continuationId});
     }
   };
 };

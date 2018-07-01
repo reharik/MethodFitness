@@ -110,6 +110,10 @@ class AppointmentForm extends Component {
     this.props.onEdit({appointmentId});
   };
 
+  disabledDate = (current) => {
+    return current < moment().startOf('day');
+  };
+
   render() {
     if (!this.props.clients || !this.props.trainers) {
       return null;
@@ -164,6 +168,7 @@ class AppointmentForm extends Component {
               form={form}
               data={model.date}
               formItemLayout={formItemLayout}
+              extraFunc={!this.props.isAdmin ? this.disabledDate : null }
               span={24} />
           </Row>
           <Row type="flex">

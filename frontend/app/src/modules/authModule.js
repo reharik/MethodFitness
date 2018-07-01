@@ -26,8 +26,14 @@ export default (state = initialState, action = {}) => {
         errorMessage: ''
       };
     }
-    case LOGOUT.SUCCESS:
-    case CHECK_AUTHENTICATION.FAILURE: {
+    case CHECK_AUTHENTICATION.FAILURE:
+    case LOGOUT.SUCCESS: {
+      // this hits for check_auth.failure, but not logout.success
+      console.log(`=========='wtf why doesnt this action hit the reducer?'==========`);
+      console.log('wtf');
+      console.log(action);
+      console.log(`==========END 'wtf'==========`);
+
       return Object.assign({}, state, {
         isAuthenticated: false
       });
@@ -35,6 +41,11 @@ export default (state = initialState, action = {}) => {
     default:
       return state;
   }
+};
+
+const successFunction = (action, response) => {
+  browserHistory.push('/');
+  return { type: action.states.SUCCESS, action, response };
 };
 
 export function logoutUser() {
@@ -62,10 +73,6 @@ export function logoutUser() {
 //     kind: 'danger'
 //   });
 // };
-const successFunction = (action, response) => {
-  browserHistory.push('/');
-  return { type: action.states.SUCCESS, action, response };
-};
 
 export function loginUser(data) {
   return {

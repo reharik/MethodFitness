@@ -20,9 +20,18 @@ module.exports = function(moment,
     baseHandler: (state, persistence, handlerName) => {
 
       async function fundedAppointmentAttendedByClient(event) {
+        const appointment = state.innerState.appointments.find(x => x.appointmentId === event.appointmentId);
         state.innerState.sessions = state.innerState.sessions.map(x => {
           if (x.sessionId === event.sessionId) {
-            return Object.assign({}, x, { used: true, appointmentId: event.appointmentId });
+            return Object.assign(
+              {},
+              x,
+              {
+                used: true,
+                appointmentId: event.appointmentId,
+                appointmentDate: appointment.appointmentDate,
+                startTime: appointment.startTime
+              });
           }
           return x;
         });

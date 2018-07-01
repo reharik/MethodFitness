@@ -10,6 +10,7 @@ module.exports = function() {
     this.customValidators = [];
     this.swagger = swagger;
     if (swagger) {
+      // this adds the validate funtion to all the internal models
       swagger.validateModel = function(modelName, obj, allowBlankTarget, disallowExtraProperties) {
         // this is now going to run in the scope of swagger...
         // Find the list of all Models from the allModels property or the definition property
@@ -69,7 +70,7 @@ module.exports = function() {
       throw new Error('ValidatorFunction is not a function');
     }
 
-    if (!this.customValidators.find(x=>x.name === name)) {
+    if (!this.customValidators.find(x => x.name === name)) {
       this.customValidators.push({name, validator: validatorFunction});
       return true;
     }
@@ -80,7 +81,7 @@ module.exports = function() {
     if (!name || !this.customValidators) {
       return null;
     }
-    return this.customValidators.find(x=>x.name === name);
+    return this.customValidators.find(x => x.name === name);
   };
 
   function validate(name,
@@ -98,11 +99,13 @@ module.exports = function() {
     }
 
     if (!target) {
+      // this usually means that the body passed to validate was undefined.
+      // the problem is this is called recursively. validateSpec -> validateType -> validate
+      // so wtf knows where it's shitting the bed
       return createReturnObject({message: 'Unable to validate an undefined value.'});
     } else if (allowBlankTargets !== true && isEmptyObject(target)) {
       return createReturnObject({message: 'Unable to validate an empty value.'});
     }
-
     if (!swaggerModel) {
       return createReturnObject({message: 'Unable to validate against an undefined model.'});
     }
@@ -145,10 +148,14 @@ module.exports = function() {
 
   function isEmptyObject(target) {
     //Abort if target is not an object, otherwise isEmptyObject(1) === true and we don't want that.
-    if (typeof target !== 'object') { return false; }
+    if (typeof target !== 'object') {
+      return false;
+    }
 
     //Abort if target is an array, otherwise isEmptyObject([]) === true and we don't want that.
-    if (Array.isArray(target)) { return false; }
+    if (Array.isArray(target)) {
+      return false;
+    }
 
     for (let p in target) {
       if (target[p] !== target.constructor.prototype[p]) {
@@ -177,7 +184,7 @@ module.exports = function() {
         return this.errors.map(x => x.message);
       };
       result.getFormattedErrors = function(formatter) {
-        return this.errors.map(x=> Object.assign({}, x, {message: formatter(x.message)}));
+        return this.errors.map(x => Object.assign({}, x, {message: formatter(x.message)}));
       };
     }
 
@@ -340,7 +347,9 @@ module.exports = function() {
       if (field['x-validatedType'] === 'string') {
         if (field.minLength > 0 || field.maxLength > 0) {
           let err1 = validateMinMaxLength(key, value, field.minLength, field.maxLength);
-          if (err1) { errors.push(err1); }
+          if (err1) {
+            errors.push(err1);
+          }
         }
       }
       if (field.type === 'integer'
@@ -349,7 +358,9 @@ module.exports = function() {
         || field['x-validatedType'] === 'date-time') {
         if (field.minimum || field.maximum || field.minimum === 0 || field.maximum === 0) {
           let err2 = validateMinMaxValue(key, value, field.minimum, field.maximum);
-          if (err2) { errors.push(err2); }
+          if (err2) {
+            errors.push(err2);
+          }
         }
 
         if (field.exclusiveMinimum || field.exclusiveMaximum) {
@@ -362,17 +373,27 @@ module.exports = function() {
             maximum = field.exclusiveMaximum - 1;
           }
           if (field['x-validatedType'] === 'date' || field['x-validatedType'] === 'date-time') {
-            if (field.exclusiveMinimum) { minimum = incrementDateString(field.exclusiveMinimum, 1); }
-            if (field.exclusiveMaximum) { maximum = incrementDateString(field.exclusiveMaximum, -1); }
+            if (field.exclusiveMinimum) {
+              minimum = incrementDateString(field.exclusiveMinimum, 1);
+            }
+            if (field.exclusiveMaximum) {
+              maximum = incrementDateString(field.exclusiveMaximum, -1);
+            }
             value = new Date(value).toISOString();
           } else if (field.type === 'number'
             || field['x-validatedType'] === 'float'
             || field['x-validatedType'] === 'double') {
-            if (field.exclusiveMinimum) { minimum = field.exclusiveMinimum + 0.00000000001; }
-            if (field.exclusiveMaximum) { maximum = field.exclusiveMaximum - 0.00000000001; }
+            if (field.exclusiveMinimum) {
+              minimum = field.exclusiveMinimum + 0.00000000001;
+            }
+            if (field.exclusiveMaximum) {
+              maximum = field.exclusiveMaximum - 0.00000000001;
+            }
           }
           let err3 = validateMinMaxValue(key, value, minimum, maximum, true);
-          if (err3) { errors.push(err3); }
+          if (err3) {
+            errors.push(err3);
+          }
         }
       }
 
@@ -382,7 +403,9 @@ module.exports = function() {
 
       if (field.enum) {
         let err = validateEnums(key, value, field.enum);
-        if (err) { errors.push(err); }
+        if (err) {
+          errors.push(err);
+        }
       }
     }
 
@@ -684,7 +707,7 @@ module.exports = function() {
         if (!object.hasOwnProperty(property)
           || object[property] === ''
           || (object[property] === null
-          && !modelFields[property]['x-nullable'])) {
+            && !modelFields[property]['x-nullable'])) {
           errors.push({property, message: property + ' is a required field'});
         }
       } catch (e) {
@@ -820,5 +843,6 @@ module.exports = function() {
 
     return outModel;
   }
+
   return Validator;
 };

@@ -8,7 +8,8 @@ module.exports = function() {
     trainerId,
     clients,
     notes,
-    entityName
+    entityName,
+    oldTrainerId
   },
   rescheduled,
   updateDayOnly) {
@@ -24,7 +25,8 @@ module.exports = function() {
       notes,
       entityName,
       rescheduled,
-      updateDayOnly
+      updateDayOnly,
+      oldTrainerId
     };
   };
 };

@@ -5,9 +5,9 @@ import TrainerList from '../../components/lists/TrainerList';
 import { fetchAllTrainersAction, archiveTrainer } from './../../modules/trainerModule';
 import trainerListDefinition from './listDefinition/trainerListDefinition';
 import sortBy from 'sort-by';
-import Breakjs from 'breakjs';
+import breakjs from 'breakjs';
 
-const layout = Breakjs({
+const layout = breakjs({
   mobile: 0,
   tablet: 768,
   laptop: 1201
@@ -18,11 +18,11 @@ class TrainerListContainer extends Component {
 
   componentDidMount() {
     this.loadData();
-    layout.addChangeListener(layout => this.setState({layout}));
+    layout.addChangeListener(l => this.setState({layout: l}));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({layout}));
+    layout.removeChangeListener(l => this.setState({layout: l}));
   }
 
   loadData() {

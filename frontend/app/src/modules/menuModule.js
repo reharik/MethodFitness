@@ -9,6 +9,7 @@ export const NAV_TO = 'methodFit/menu/NAV_TO';
 //Menu items are imported above from utilities/menuItems
 //Menu items are imported above from utilities/menuItems
 //Menu items are imported above from utilities/menuItems
+//We must pre populate because if there's an f5 we still need the ites.
 const item = localStorage.getItem('menu_data');
 const data = item
   ? JSON.parse(item)

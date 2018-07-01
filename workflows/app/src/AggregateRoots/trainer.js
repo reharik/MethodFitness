@@ -1,6 +1,5 @@
 module.exports = function(aggregateRootBase,
   trainerCommands,
-  ClientInventory,
   trainerEventHandlers) {
   return function trainer() {
     const state = {

@@ -8,9 +8,6 @@ import { getPurchases, refundSessions } from './../../modules/purchaseModule';
 
 class PurchaseListContainer extends Component {
   componentDidMount() {
-    console.log(`=========="purchaselist did mount"=========`);
-    console.log("purchaselist did mount"); // eslint-disable-line quotes
-    console.log(`==========END "purchaselist did mount"=========`);
     this.loadData();
   }
 
@@ -26,7 +23,8 @@ class PurchaseListContainer extends Component {
 PurchaseListContainer.propTypes = {
   gridConfig: PropTypes.object,
   getPurchases: PropTypes.func,
-  clientId: PropTypes.string
+  clientId: PropTypes.string,
+  isAdmin: PropTypes.bool
 };
 
 
@@ -45,6 +43,7 @@ const columns = [
 
 function mapStateToProps(state, props) {
   moment.locale('en');
+  const isAdmin = state.auth.user.role === 'admin';
   const dataSource = state.purchases
     .filter(x => x.clientId === props.params.clientId);
 
@@ -53,6 +52,7 @@ function mapStateToProps(state, props) {
     dataSource
   };
   return {
+    isAdmin,
     gridConfig,
     clientId: props.params.clientId
   };

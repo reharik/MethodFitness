@@ -46,7 +46,7 @@ services:
       - ./../.envrc.example
     environment:
       APPLICATION_NAME: projections
-#      LOGGING_LEVEL: error
+      LOGGING_LEVEL: silly
 
   api:
     build:
@@ -65,14 +65,14 @@ services:
       APPLICATION_NAME: api
 
   postgres:
-    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests:latest
     ports:
       - 5400:5432
     env_file:
       - ./../.envrc.example
 
   eventstore:
-    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests:latest
     ports:
       - 2113:2113
       - 1113:1113

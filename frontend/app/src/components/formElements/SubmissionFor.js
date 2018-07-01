@@ -9,9 +9,10 @@ const SubmissionFor = ({data,
                          form,
                          span,
                          onChange,
-                         formItemLayout
+                         formItemLayout,
+                          extraFunc
 }) => {
-  let input = InputFor({data, selectOptions, onChange, form});
+  let input = InputFor({data, selectOptions, onChange, form, extraFunc});
   return (
     <Col lg={span || 12} sm={span || 12} xs={24} data-id={`${data.name}-container`} >
       <FormItem {...formItemLayout} label={data.label} style={{padding: '0 8px'}}>
@@ -26,7 +27,8 @@ SubmissionFor.propTypes = {
   span: PropTypes.number,
   onChange: PropTypes.func,
   formItemLayout: PropTypes.object,
-  selectOptions: PropTypes.array
+  selectOptions: PropTypes.array,
+  extraFunc: PropTypes.func
 };
 
 export default SubmissionFor;

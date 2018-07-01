@@ -46,11 +46,19 @@ module.exports = function(rsRepository, notificationListener, notificationParser
 
   const processMessage = async function(ctx, commandName) {
     logger.debug(`api: processing ${commandName}`);
+    console.log(`==========ctx.request.body==========`);
+    console.log(ctx.request.body);
+    console.log(`==========END ctx.request.body==========`);
+
     const payload = ctx.request.body;
     const continuationId = uuid.v4();
 
     let notificationPromise = await notificationListener(continuationId);
     const command = commands[commandName + 'Command'](payload);
+    console.log(`==========command==========`);
+    console.log(command);
+    console.log(`==========END command==========`);
+
     await eventstore.commandPoster(command, commandName, continuationId);
     const result = await notificationParser(notificationPromise);
 

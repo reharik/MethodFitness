@@ -47,7 +47,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
     async function trainerArchived(event) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.archived = true;
-      trainer.archivedDate = moment().format();
+      trainer.archivedDate = event.date;
       let sql = `UPDATE "trainer" SET "archived" = 'true', document = '${JSON.stringify(trainer)}' 
 where id = '${event.trainerId}'`;
       return await rsRepository.saveQuery(sql);
@@ -56,7 +56,7 @@ where id = '${event.trainerId}'`;
     async function trainerUnArchived(event) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.archived = false;
-      trainer.archivedDate = moment().format();
+      trainer.archivedDate = event.date;
       let sql = `UPDATE "trainer" SET "archived" = 'false', document = '${JSON.stringify(trainer)}' 
 where id = '${event.trainerId}'`;
       return await rsRepository.saveQuery(sql);

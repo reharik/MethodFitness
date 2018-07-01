@@ -5,14 +5,16 @@ import InputColor from 'react-input-color';
 const Option = Select.Option;
 
 
-const InputFor = ({ data, selectOptions, onChange, form }) => {
+const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
   const {value, ..._data} = data; //eslint-disable-line no-unused-vars
   const input = function() {
     switch (_data['x-input'] || _data.type) {
       case 'date-time': {
         const _onChange = onChange ? {onChange} : {};
+        // used so you can't set appointments in past
+        const disabledDate = extraFunc ? {disabledDate: extraFunc} : {};
         return (
-          <DatePicker id={data.name} style={{width: '100%'}} {..._onChange} format={'MM/DD/YYYY'} />
+          <DatePicker id={data.name} style={{width: '100%'}} {...disabledDate} {..._onChange} format={'MM/DD/YYYY'} />
         );
       }
       case 'color-picker': {

@@ -24,7 +24,8 @@ EditableFor.propTypes = {
   noDisplay: PropTypes.bool,
   hidden: PropTypes.bool,
   editing: PropTypes.bool,
-  formItemLayout: PropTypes.object
+  formItemLayout: PropTypes.object,
+  extraFunc: PropTypes.func
 };
 
 export default EditableFor;

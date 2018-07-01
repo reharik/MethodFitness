@@ -1,9 +1,9 @@
 module.exports = function(invariant) {
   return function({
-                    appointmentId,
-                    clients,
-                     entityName
-                   }) {
+    appointmentId,
+    clients,
+    entityName
+  }) {
     invariant(appointmentId, `Remove Appointment From Past requires that you pass the AppointmentId`);
     invariant(clients, `Remove Appointment From Past requires that you pass the clients associated with appointment`);
     invariant(

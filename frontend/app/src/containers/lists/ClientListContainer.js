@@ -5,9 +5,9 @@ import ClientList from '../../components/lists/ClientList';
 import clientListDefinition from './listDefinition/clientListDefinition';
 import { fetchAllClientsAction, archiveClient } from './../../modules/clientModule';
 import sortBy from 'sort-by';
-import Breakjs from 'breakjs';
+import breakjs from 'breakjs';
 
-const layout = Breakjs({
+const layout = breakjs({
   mobile: 0,
   tablet: 768,
   laptop: 1201
@@ -19,11 +19,11 @@ class ClientListContainer extends Component {
   componentDidMount() {
     this.setState({layout: layout.current()});
     this.loadData();
-    layout.addChangeListener(layout => this.setState({layout}));
+    layout.addChangeListener(l => this.setState({layout: l}));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({layout}));
+    layout.removeChangeListener(l => this.setState({layout: l}));
   }
 
   loadData() {
@@ -31,9 +31,14 @@ class ClientListContainer extends Component {
   }
 
   render() {
-    let columns = clientListDefinition(this.state.layout);
+    let columns = clientListDefinition(this.state.layout, this.props.isAdmin);
     this.gridConfig = {...this.props.gridConfig, columns };
-    return (<ClientList gridConfig={this.gridConfig} archiveClient={this.props.archiveClient} />);
+    return (
+      <ClientList
+        gridConfig={this.gridConfig}
+        archiveClient={this.props.archiveClient}
+        isAdmin={this.props.isAdmin}
+      />);
   }
 }
 
@@ -41,7 +46,8 @@ ClientListContainer.propTypes = {
   gridConfig: PropTypes.object,
   archiveClient: PropTypes.func,
   fetchAllClientsAction: PropTypes.func,
-  containerWidth: PropTypes.number
+  containerWidth: PropTypes.number,
+  isAdmin: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -55,6 +61,7 @@ function mapStateToProps(state) {
     dataSource
   };
   return {
+    isAdmin,
     gridConfig
   };
 }

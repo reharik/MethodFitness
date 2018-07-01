@@ -71,11 +71,11 @@ class ClientList extends Component {
               <div className="list__header__center__title">Clients</div>
             </div>
             <div className="list__header__right" >
-              <RadioGroup defaultValue="active" size="small" onChange={this.onChange} >
+              {this.props.isAdmin ? (<RadioGroup defaultValue="active" size="small" onChange={this.onChange} >
                 <RadioButton value="active">Active</RadioButton>
                 <RadioButton value="archived">Archived</RadioButton>
                 <RadioButton value="showAll">Show All</RadioButton>
-              </RadioGroup>
+              </RadioGroup>) : null }
               <ContentHeaderSearch search={this.search} />
             </div>
           </div>
@@ -98,7 +98,8 @@ class ClientList extends Component {
 ClientList.propTypes = {
   gridConfig: PropTypes.object,
   columns: PropTypes.func,
-  archiveClient: PropTypes.func
+  archiveClient: PropTypes.func,
+  isAdmin: PropTypes.bool
 };
 
 export default ClientList;

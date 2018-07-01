@@ -165,6 +165,45 @@ module.exports = function(
     return notificationPromise;
   };
 
+  let cleanAllTestData = async function(ctx) {
+    const appointments = await rsRepository.query('select * from appointment');
+    const sessionsPurchasedMeta = await rsRepository.saveQuery('select meta from "sessionsPurchased"');
+    const sessions = sessionsPurchasedMeta.rows.find(x => x.meta).meta.sessions;
+    const sessionsPerClient = sessions
+      .reduce(
+        (a, b) => {
+          if (a[b.clientId]) {
+            a[b.clientId].push(b);
+          } else {
+            a[b.clientId] = [b];
+          }
+          return a;
+        }, {}
+      );
+    for (const x of appointments) {
+      let payload = {
+        appointmentId: x.appointmentId,
+        clients: x.clients,
+        entityName: moment(x.date).format('YYYYMMDD')
+      };
+      if (x.completed) {
+        await processMessage(payload, 'removeAppointmentFromPastCommand', 'removeAppointmentFromPast');
+      } else {
+        await processMessage(payload, 'cancelAppointmentCommand', 'cancelAppointment');
+      }
+    }
+    for (const clientId of Object.keys(sessionsPerClient)) {
+      await processMessage({
+        clientId,
+        refundSessions: sessionsPerClient[clientId]
+          .filter(x => !x.refunded)
+          .map(x => ({sessionId: x.sessionId, appointmentType: x.appointmentType}))
+      }, 'refundSessionsCommand', 'refundSessions');
+    }
+    ctx.status = 200;
+    return ctx;
+  };
+
   return {
     scheduleAppointment,
     updateAppointment,
@@ -173,6 +212,7 @@ module.exports = function(
     fetchAppointments,
     scheduleAppointmentInPast,
     removeAppointmentFromPast,
-    updateAppointmentFromPast
+    updateAppointmentFromPast,
+    cleanAllTestData
   };
 };

@@ -31,7 +31,11 @@ module.exports = function(
 
     async function pastAppointmentUpdated(event) {
       const trainerId = state.pastAppointmentUpdated(event);
-      return await persistence.saveState(state, trainerId);
+      const result = await persistence.saveState(state, trainerId);
+      if (event.oldTrainerId) {
+        await persistence.saveTrainer(state, event.oldTrainerId);
+      }
+      return result;
     }
 
     async function sessionReturnedFromPastAppointment(event) {

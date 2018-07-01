@@ -7,13 +7,7 @@ module.exports = function(R, metaLogger) {
       innerState.appointments = innerState.appointments.filter(x => !appointmentIds.includes(x.appointmentId));
 
       const purchaseIds = R.uniqBy(x => x.purchaseId, innerState.sessions).map(x => x.purchaseId);
-      console.log(`==========purchaseIds=========`);
-      console.log(purchaseIds); // eslint-disable-line quotes
-      console.log(`==========END purchaseIds=========`);
       purchaseIds.forEach(x => {
-        console.log(`==========x=========`);
-        console.log(x); // eslint-disable-line quotes
-        console.log(`==========END x=========`);
         if (innerState.sessions.filter(s => s.purchaseId === x).every(s => s.trainerPaid || s.refunded)) {
           // remove sessions when the entire purchase is used
           innerState.sessions = innerState.sessions.filter(s => s.purchaseId !== x);
@@ -63,7 +57,12 @@ module.exports = function(R, metaLogger) {
           && x.clientId === c);
         if (session
           && (session.appointmentDate !== event.date
-          || session.startTime !== event.startTime)) {
+          || session.startTime !== event.startTime
+          || session.trainerId !== event.trainerId)) {
+          if (session.trainerId !== event.trainerId) {
+            const trainer = innerState.trainers.find(t => t.trainerId === event.trainerId);
+            session.trainer = `${trainer.firstName} ${trainer.lastName}`;
+          }
           session.appointmentDate = event.date;
           session.startTime = event.startTime;
           purchaseIds.push(session.purchaseId);
@@ -84,7 +83,7 @@ module.exports = function(R, metaLogger) {
       return purchaseIds.map(getPurchase);
     };
 
-    const returnSessionsFromPastAppointment = event => {
+    const sessionReturnedFromPastAppointment = event => {
       let session = innerState.sessions.find(x => x.sessionId === event.sessionId);
       delete session.trainer;
       delete session.startTime;
@@ -105,17 +104,14 @@ module.exports = function(R, metaLogger) {
           session.trainer = `${trainer.firstName} ${trainer.lastName}`;
         });
       innerState.purchases.push(purchase);
-      const purchase2 = getPurchase(purchase.purchaseId);
-      console.log(`==========purchase2=========`);
-      console.log(purchase2); // eslint-disable-line quotes
-      console.log(`==========END purchase2=========`);
-      return purchase2;
+      return getPurchase(purchase.purchaseId);
     };
 
     const transferSessionFromPastAppointment = event => {
       let session = innerState.sessions.find(x => x.sessionId === event.sessionId);
       const appointment = innerState.appointments.find(x => x.appointmentId === event.appointmentId);
-      session.trainer = appointment.trainer;
+      const trainer = innerState.trainers.find(t => t.trainerId === appointment.trainerId);
+      session.trainer = `${trainer.firstName} ${trainer.lastName}`;
       session.startTime = appointment.startTime;
       session.appointmentDate = appointment.appointmentDate;
       return getPurchase(session.purchaseId);
@@ -127,7 +123,7 @@ module.exports = function(R, metaLogger) {
       getPurchase,
       pastAppointmentUpdated,
       refundSessions,
-      returnSessionsFromPastAppointment,
+      sessionReturnedFromPastAppointment,
       sessionsPurchased,
       transferSessionFromPastAppointment,
       innerState

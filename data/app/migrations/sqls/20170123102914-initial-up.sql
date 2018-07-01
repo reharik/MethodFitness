@@ -202,3 +202,19 @@ WITH (
 
 ALTER TABLE "sessionsPurchased"
   OWNER TO methodfitness;
+
+-- Table: "healthcheck"
+
+DROP TABLE IF EXISTS "healthcheck";
+
+CREATE TABLE "healthcheck"
+(
+  id uuid PRIMARY KEY,
+  healthcheck text
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "healthcheck"
+  OWNER TO methodfitness;

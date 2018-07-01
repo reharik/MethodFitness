@@ -271,6 +271,26 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *             $ref: "#/definitions/standardFailureResponse"
      */
     router.post('/appointment/removeappointmentfrompast', controllers.appointmentController.removeAppointmentFromPast);
+    /**
+     * @swagger
+     * /cleanalltestdata:
+     *   post:
+     *     x-name: cleanAllTestData
+     *     description: cleanAllTestData
+     *     operationId: cleanAllTestData
+     *     responses:
+     *       200:
+     *         description: Success
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.post('/appointment/cleanalltestdata', controllers.appointmentController.cleanAllTestData);
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

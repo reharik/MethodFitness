@@ -3,11 +3,7 @@ SHELL:=/bin/bash
 
 .PHONY: deps
 yarnUp: \
-	api/yarn.lock \
-	data/yarn.lock \
-	frontend/yarn.lock \
-	projections/yarn.lock \
-	workflows/yarn.lock
+
 	cd api && yarn && \
 	cd ../data && yarn && \
 	cd ../frontend && yarn && \
@@ -70,8 +66,8 @@ dockerUpNoVolume: kill-data-no-volume
 	docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume up
 
 commitNoVolume:
-	docker commit methodfitnovolume_postgres_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests2
-	docker commit methodfitnovolume_eventstore_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests2
+	docker commit methodfitnovolume_postgres_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests
+	docker commit methodfitnovolume_eventstore_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests
 
 pushNoVolume:
 	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests
