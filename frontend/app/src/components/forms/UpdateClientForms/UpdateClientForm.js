@@ -34,14 +34,28 @@ class UpdateClientForm extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Row type="flex">
-            <Col xl={10} lg={14} sm={24} >
+            <Col xl={10} lg={14} sm={24}>
               <ClientInfo model={model} submit={this.props.updateClientInfo} />
-              <ClientContact model={model} submit={this.props.updateClientContact} />
-              <ClientAddress model={model} submit={this.props.updateClientAddress} states={this.props.states} />
-              <ClientSource model={model} submit={this.props.updateClientSource} sources={this.props.sources} />
+              <ClientContact
+                model={model}
+                submit={this.props.updateClientContact}
+              />
+              <ClientAddress
+                model={model}
+                submit={this.props.updateClientAddress}
+                states={this.props.states}
+              />
+              <ClientSource
+                model={model}
+                submit={this.props.updateClientSource}
+                sources={this.props.sources}
+              />
             </Col>
             <Col xl={6} lg={10} sm={24}>
-              <ClientInventory clientId={this.props.clientId} inventory={this.props.inventory} />
+              <ClientInventory
+                clientId={this.props.clientId}
+                inventory={this.props.inventory}
+              />
             </Col>
           </Row>
         </div>
@@ -61,7 +75,7 @@ UpdateClientForm.propTypes = {
   updateClientSource: PropTypes.func,
   updateClientInfo: PropTypes.func,
   updateClientContact: PropTypes.func,
-  updateClientAddress: PropTypes.func
+  updateClientAddress: PropTypes.func,
 };
 
 export default UpdateClientForm;

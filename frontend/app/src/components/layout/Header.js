@@ -11,7 +11,7 @@ const Header = ({ userName, logoutUser }) => (
 
 Header.propTypes = {
   userName: PropTypes.string,
-  logoutUser: PropTypes.func
+  logoutUser: PropTypes.func,
 };
 
 export default Header;

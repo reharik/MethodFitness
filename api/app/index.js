@@ -2,11 +2,11 @@ let config = require('config');
 
 process.env.ALLOW_CONFIG_MUTATIONS = true;
 
-module.exports = function(_options) {
+module.exports = (function(_options) {
   let options = {
     dagon: {
-      application: 'api'
-    }
+      application: 'api',
+    },
   };
 
   Object.assign(options, config.get('configs') || {}, _options || {});
@@ -22,6 +22,4 @@ module.exports = function(_options) {
     console.log(ex);
     console.log(ex.stack);
   }
-}();
-
-
+})();

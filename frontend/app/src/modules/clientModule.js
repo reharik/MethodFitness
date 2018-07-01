@@ -6,10 +6,19 @@ import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
 
 export const ADD_CLIENT = requestStates('add_client', 'client');
-export const UPDATE_CLIENT_CONTACT = requestStates('update_client_contact', 'client');
-export const UPDATE_CLIENT_ADDRESS = requestStates('update_client_address', 'client');
+export const UPDATE_CLIENT_CONTACT = requestStates(
+  'update_client_contact',
+  'client',
+);
+export const UPDATE_CLIENT_ADDRESS = requestStates(
+  'update_client_address',
+  'client',
+);
 export const UPDATE_CLIENT_INFO = requestStates('update_client_info', 'client');
-export const UPDATE_CLIENT_SOURCE = requestStates('update_client_Source', 'client');
+export const UPDATE_CLIENT_SOURCE = requestStates(
+  'update_client_Source',
+  'client',
+);
 export const ARCHIVE_CLIENT = requestStates('archive_client', 'client');
 export const CLIENT_LIST = requestStates('client_list', 'client');
 export const CLIENT = requestStates('client');
@@ -22,7 +31,7 @@ export default (state = [], action = {}) => {
     }
     case CLIENT.SUCCESS: {
       console.log(`=========="client.success reducer"=========`);
-      console.log("client.success reducer"); // eslint-disable-line quotes
+      console.log('client.success reducer'); // eslint-disable-line quotes
       console.log(`==========END "client.success reducer"=========`);
       return reducerMerge(state, action.response, 'clientId');
     }
@@ -31,7 +40,10 @@ export default (state = [], action = {}) => {
     }
     case ADD_CLIENT.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
-      insertedItem.clientId = selectn('payload.result.handlerResult.clientId', action);
+      insertedItem.clientId = selectn(
+        'payload.result.handlerResult.clientId',
+        action,
+      );
       return insertedItem.clientId ? [...state, insertedItem] : state;
     }
     case UPDATE_CLIENT_INFO.FAILURE:
@@ -45,7 +57,7 @@ export default (state = [], action = {}) => {
         if (x.clientId === update.clientId) {
           return {
             ...x,
-            archived: !update.archived
+            archived: !update.archived,
           };
         }
         return x;
@@ -59,8 +71,12 @@ export default (state = [], action = {}) => {
         if (x.clientId === update.clientId) {
           return {
             ...x,
-            contact: { ...x.contact, firstName: update.firstName, lastName: update.lastName },
-            birthDate: update.birthDate
+            contact: {
+              ...x.contact,
+              firstName: update.firstName,
+              lastName: update.lastName,
+            },
+            birthDate: update.birthDate,
           };
         }
         return x;
@@ -72,7 +88,12 @@ export default (state = [], action = {}) => {
 
       return state.map(x => {
         if (x.clientId === update.clientId) {
-          return { ...x, source: update.source, sourceNotes: update.sourceNotes, startDate: update.startDate };
+          return {
+            ...x,
+            source: update.source,
+            sourceNotes: update.sourceNotes,
+            startDate: update.startDate,
+          };
         }
         return x;
       });
@@ -89,8 +110,8 @@ export default (state = [], action = {}) => {
               ...x.contact,
               secondaryPhone: update.secondaryPhone,
               mobilePhone: update.mobilePhone,
-              email: update.email
-            }
+              email: update.email,
+            },
           };
         }
         return x;
@@ -112,9 +133,9 @@ export default (state = [], action = {}) => {
                 street2: update.street2,
                 city: update.city,
                 state: update.state,
-                zipCode: update.zipCode
-              }
-            }
+                zipCode: update.zipCode,
+              },
+            },
           };
         }
         return x;
@@ -132,7 +153,7 @@ export function updateClientInfo(data) {
     clientId: data.clientId,
     firstName: data.firstName,
     lastName: data.lastName,
-    birthDate: data.birthDate
+    birthDate: data.birthDate,
   };
   return {
     type: UPDATE_CLIENT_INFO.REQUEST,
@@ -142,9 +163,11 @@ export function updateClientInfo(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
@@ -153,7 +176,7 @@ export function updateClientContact(data) {
     clientId: data.clientId,
     secondaryPhone: data.secondaryPhone,
     mobilePhone: data.mobilePhone,
-    email: data.email
+    email: data.email,
   };
 
   return {
@@ -164,9 +187,11 @@ export function updateClientContact(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
@@ -175,7 +200,7 @@ export function updateClientSource(data) {
     clientId: data.clientId,
     source: data.source,
     sourceNotes: data.sourceNotes,
-    startDate: data.startDate
+    startDate: data.startDate,
   };
 
   return {
@@ -186,9 +211,11 @@ export function updateClientSource(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
@@ -199,7 +226,7 @@ export function updateClientAddress(data) {
     street2: data.street2,
     city: data.city,
     state: data.state ? data.state.value : undefined,
-    zipCode: data.zipCode
+    zipCode: data.zipCode,
   };
   return {
     type: UPDATE_CLIENT_ADDRESS.REQUEST,
@@ -209,15 +236,21 @@ export function updateClientAddress(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
 const successFunction = (action, payload) => {
   browserHistory.push('/clients');
-  return { type: action.states.SUCCESS, action, payload };
+  return {
+    type: action.states.SUCCESS,
+    action,
+    payload,
+  };
 };
 
 export function addClient(data) {
@@ -233,9 +266,11 @@ export function addClient(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(client)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(client),
+    },
   };
 }
 
@@ -248,9 +283,11 @@ export function archiveClient(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    },
   };
 }
 
@@ -262,8 +299,8 @@ export function fetchClientAction(clientId) {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }
 
@@ -275,8 +312,8 @@ export function fetchAllClientsAction() {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }
 
@@ -288,7 +325,7 @@ export function fetchClientsAction() {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }

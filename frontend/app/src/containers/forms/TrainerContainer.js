@@ -8,10 +8,11 @@ import roles from './../../constants/roles';
 import { actions as notifActions } from 'redux-notifications';
 const { notifClear } = notifActions;
 
-const mapStateToProps = (state) => {
-  const clients = state.clients
-    .filter(x => !x.archived)
-    .map(x => ({ value: x.clientId, display: `${x.contact.lastName} ${x.contact.firstName}` }));
+const mapStateToProps = state => {
+  const clients = state.clients.filter(x => !x.archived).map(x => ({
+    value: x.clientId,
+    display: `${x.contact.lastName} ${x.contact.firstName}`,
+  }));
   let model = normalizeModel(state.schema.definitions.trainer);
   model.confirmPassword = { ...model.password };
   model.confirmPassword.name = 'confirmPassword';
@@ -20,13 +21,16 @@ const mapStateToProps = (state) => {
     model,
     states,
     clients,
-    roles
+    roles,
   };
 };
 
-export default connect(mapStateToProps, {
-  hireTrainer,
-  fetchTrainerAction,
-  fetchClientsAction,
-  notifClear
-})(TrainerForm);
+export default connect(
+  mapStateToProps,
+  {
+    hireTrainer,
+    fetchTrainerAction,
+    fetchClientsAction,
+    notifClear,
+  },
+)(TrainerForm);

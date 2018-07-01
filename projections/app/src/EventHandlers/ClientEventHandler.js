@@ -2,7 +2,6 @@
  * Created by parallels on 7/16/15.
  */
 
-
 module.exports = function(rsRepository, moment, metaLogger, logger) {
   return function ClientEventHandler() {
     logger.info('ClientEventHandler started up');
@@ -17,8 +16,8 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
         inventory: {
           fullHour: 0,
           halfHour: 0,
-          pair: 0
-        }
+          pair: 0,
+        },
       };
       return await rsRepository.save('client', client, client.clientId);
     }
@@ -57,7 +56,9 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
       let client = await rsRepository.getById(event.clientId, 'client');
       client.archived = true;
       client.archivedDate = event.date;
-      let sql = `UPDATE "client" SET "archived" = 'true', document = '${JSON.stringify(client)}' 
+      let sql = `UPDATE "client" SET "archived" = 'true', document = '${JSON.stringify(
+        client,
+      )}' 
 where id = '${event.clientId}'`;
       return await rsRepository.saveQuery(sql);
     }
@@ -66,7 +67,9 @@ where id = '${event.clientId}'`;
       let client = await rsRepository.getById(event.clientId, 'client');
       client.archived = false;
       client.archivedDate = event.date;
-      let sql = `UPDATE "client" SET "archived" = 'false', document = '${JSON.stringify(client)}' 
+      let sql = `UPDATE "client" SET "archived" = 'false', document = '${JSON.stringify(
+        client,
+      )}' 
 where id = '${event.clientId}'`;
       return await rsRepository.saveQuery(sql);
     }
@@ -74,9 +77,16 @@ where id = '${event.clientId}'`;
     async function sessionsPurchased(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
       client.inventory = {
-        fullHour: (client.inventory.fullHour || 0) + (event.fullHourTenPack * 10) + event.fullHour,
-        halfHour: (client.inventory.halfHour || 0) + (event.halfHourTenPack * 10) + event.halfHour,
-        pair: (client.inventory.pair || 0) + (event.pairTenPack * 10) + event.pair
+        fullHour:
+          (client.inventory.fullHour || 0) +
+          event.fullHourTenPack * 10 +
+          event.fullHour,
+        halfHour:
+          (client.inventory.halfHour || 0) +
+          event.halfHourTenPack * 10 +
+          event.halfHour,
+        pair:
+          (client.inventory.pair || 0) + event.pairTenPack * 10 + event.pair,
       };
       return await rsRepository.save('client', client, client.clientId);
     }
@@ -87,13 +97,18 @@ where id = '${event.clientId}'`;
 
     async function fundedAppointmentAttendedByClient(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
-      client.inventory[event.appointmentType] = client.inventory[event.appointmentType] - 1;
+      client.inventory[event.appointmentType] =
+        client.inventory[event.appointmentType] - 1;
       return await rsRepository.save('client', client, client.clientId);
     }
 
     async function sessionsRefunded(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
-      event.refundSessions.forEach(x => client.inventory[x.appointmentType] = client.inventory[x.appointmentType] - 1);
+      event.refundSessions.forEach(
+        x =>
+          (client.inventory[x.appointmentType] =
+            client.inventory[x.appointmentType] - 1),
+      );
       return await rsRepository.save('client', client, client.clientId);
     }
 
@@ -107,25 +122,29 @@ where id = '${event.clientId}'`;
     // but not all of those cause the refund of the session
     async function sessionReturnedFromPastAppointment(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
-      client.inventory[event.appointmentType] = client.inventory[event.appointmentType] + 1;
+      client.inventory[event.appointmentType] =
+        client.inventory[event.appointmentType] + 1;
       return await rsRepository.save('client', client, client.clientId);
     }
 
-    return metaLogger({
-      handlerName: 'ClientEventHandler',
-      clientAdded,
-      clientArchived,
-      clientUnarchived,
-      clientContactUpdated,
-      clientAddressUpdated,
-      clientInfoUpdated,
-      clientSourceUpdated,
-      sessionsPurchased,
-      fundedAppointmentAttendedByClient,
-      unfundedAppointmentAttendedByClient,
-      sessionsRefunded,
-      sessionReturnedFromPastAppointment,
-      unfundedAppointmentRemovedForClient
-    }, 'ClientEventHandler');
+    return metaLogger(
+      {
+        handlerName: 'ClientEventHandler',
+        clientAdded,
+        clientArchived,
+        clientUnarchived,
+        clientContactUpdated,
+        clientAddressUpdated,
+        clientInfoUpdated,
+        clientSourceUpdated,
+        sessionsPurchased,
+        fundedAppointmentAttendedByClient,
+        unfundedAppointmentAttendedByClient,
+        sessionsRefunded,
+        sessionReturnedFromPastAppointment,
+        unfundedAppointmentRemovedForClient,
+      },
+      'ClientEventHandler',
+    );
   };
 };

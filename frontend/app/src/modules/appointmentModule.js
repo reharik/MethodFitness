@@ -6,13 +6,34 @@ import { requestStates } from '../sagas/requestSaga';
 import selectn from 'selectn';
 import { fetchUnverifiedAppointments } from './sessionVerificationModule';
 
-export const FETCH_APPOINTMENTS = requestStates('fetch_appointments', 'appointments');
-export const SCHEDULE_APPOINTMENT = requestStates('schedule_appointment', 'appointments');
-export const SCHEDULE_APPOINTMENT_IN_PAST = requestStates('schedule_appointment_in_past', 'appointments');
-export const UPDATE_APPOINTMENT = requestStates('update_appointment', 'appointments');
-export const UPDATE_APPOINTMENT_FROM_PAST = requestStates('update_appointment_from_past', 'appointments');
-export const DELETE_APPOINTMENT_FROM_PAST = requestStates('delete_appointment_from_past', 'appointments');
-export const DELETE_APPOINTMENT = requestStates('delete_appointment', 'appointments');
+export const FETCH_APPOINTMENTS = requestStates(
+  'fetch_appointments',
+  'appointments',
+);
+export const SCHEDULE_APPOINTMENT = requestStates(
+  'schedule_appointment',
+  'appointments',
+);
+export const SCHEDULE_APPOINTMENT_IN_PAST = requestStates(
+  'schedule_appointment_in_past',
+  'appointments',
+);
+export const UPDATE_APPOINTMENT = requestStates(
+  'update_appointment',
+  'appointments',
+);
+export const UPDATE_APPOINTMENT_FROM_PAST = requestStates(
+  'update_appointment_from_past',
+  'appointments',
+);
+export const DELETE_APPOINTMENT_FROM_PAST = requestStates(
+  'delete_appointment_from_past',
+  'appointments',
+);
+export const DELETE_APPOINTMENT = requestStates(
+  'delete_appointment',
+  'appointments',
+);
 
 export default (state = [], action = {}) => {
   switch (action.type) {
@@ -32,7 +53,10 @@ export default (state = [], action = {}) => {
     case SCHEDULE_APPOINTMENT.SUCCESS:
     case SCHEDULE_APPOINTMENT_IN_PAST.SUCCESS: {
       let upsertedItem = selectn('action.upsertedItem', action);
-      upsertedItem.appointmentId = selectn('response.payload.appointmentId', action);
+      upsertedItem.appointmentId = selectn(
+        'response.payload.appointmentId',
+        action,
+      );
       return reducerMerge(state, upsertedItem, 'appointmentId');
     }
     case FETCH_APPOINTMENTS.SUCCESS: {
@@ -50,19 +74,25 @@ export default (state = [], action = {}) => {
 
 function formatAppointmentData(data) {
   moment.locale('en');
-  const startTime = buildMomentFromDateAndTime(data.date, data.startTime).format();
+  const startTime = buildMomentFromDateAndTime(
+    data.date,
+    data.startTime,
+  ).format();
   const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
   return {
     ...data,
     startTime,
     endTime,
-    entityName: moment(data.date).format('YYYYMMDD')
+    entityName: moment(data.date).format('YYYYMMDD'),
   };
 }
 
 export function scheduleAppointment(data) {
   const formattedData = formatAppointmentData(data);
-  const startTimeIsInPast = buildMomentFromDateAndTime(data.date, data.startTime).isBefore(moment());
+  const startTimeIsInPast = buildMomentFromDateAndTime(
+    data.date,
+    data.startTime,
+  ).isBefore(moment());
   return startTimeIsInPast
     ? scheduleAppointmentInPast(formattedData)
     : scheduleAppointmentInFuture(formattedData);
@@ -77,9 +107,11 @@ function scheduleAppointmentInFuture(formattedData) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formattedData)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formattedData),
+    },
   };
 }
 
@@ -92,15 +124,23 @@ function scheduleAppointmentInPast(formattedData) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formattedData)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formattedData),
+    },
   };
 }
 
 export function updateAppointment(data, origDate, origStartTime) {
-  const startTimeIsInPast = buildMomentFromDateAndTime(data.date, data.startTime).isBefore(moment());
-  const origStartTimeIsInPast = buildMomentFromDateAndTime(origDate, origStartTime).isBefore(moment());
+  const startTimeIsInPast = buildMomentFromDateAndTime(
+    data.date,
+    data.startTime,
+  ).isBefore(moment());
+  const origStartTimeIsInPast = buildMomentFromDateAndTime(
+    origDate,
+    origStartTime,
+  ).isBefore(moment());
   let formattedData = formatAppointmentData(data);
   formattedData.isPastToFuture = !startTimeIsInPast && origStartTimeIsInPast;
   formattedData.isFutureToPast = startTimeIsInPast && !origStartTimeIsInPast;
@@ -118,16 +158,22 @@ function updateAppointmentInFuture(formattedData) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formattedData)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formattedData),
+    },
   };
 }
 
 const successFunction = (action, payload) => {
   return [
-    { type: action.states.SUCCESS, action, payload },
-    fetchUnverifiedAppointments()
+    {
+      type: action.states.SUCCESS,
+      action,
+      payload,
+    },
+    fetchUnverifiedAppointments(),
   ];
 };
 
@@ -141,14 +187,21 @@ function updateAppointmentFromPast(formattedData) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formattedData)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formattedData),
+    },
   };
 }
 
 export function updateTaskViaDND(data) {
-  const submitData = { ...data.orig, date: data.date, startTime: data.startTime, endTime: data.endTime };
+  const submitData = {
+    ...data.orig,
+    date: data.date,
+    startTime: data.startTime,
+    endTime: data.endTime,
+  };
   return updateAppointment(submitData, data.orig.date, data.orig.startTime);
 }
 
@@ -162,19 +215,24 @@ export function deleteAppointment(appointmentId, date) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ appointmentId, entityName: moment(date).format('YYYYMMDD') })
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        appointmentId,
+        entityName: moment(date).format('YYYYMMDD'),
+      }),
+    },
   };
 }
-
 
 export function deleteAppointmentFromPast(appointmentId, date, clients) {
   moment.locale('en');
   let apiUrl = `${config.apiBase}appointment/removeAppointmentFromPast`;
-  const body = { appointmentId,
+  const body = {
+    appointmentId,
     clients,
-    entityName: moment(date).format('YYYYMMDD')
+    entityName: moment(date).format('YYYYMMDD'),
   };
 
   return {
@@ -184,9 +242,11 @@ export function deleteAppointmentFromPast(appointmentId, date, clients) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
   };
 }
 
@@ -198,15 +258,15 @@ export function fetchAppointmentAction(appointmentId) {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }
 
 export function fetchAppointmentsAction(
   startDate = moment().startOf('month'),
   endDate = moment().endOf('month'),
-  trainerId
+  trainerId,
 ) {
   moment.locale('en');
   const start = moment(startDate).format('YYYY-MM-DD');
@@ -220,7 +280,7 @@ export function fetchAppointmentsAction(
     params: {
       method: 'POST',
       body: { trainerIds: trainerId },
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }

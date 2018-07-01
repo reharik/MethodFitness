@@ -4,14 +4,8 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-const ClientContactInner = ({model,
-                              form,
-                              toggleEdit,
-                              submit,
-                              editing
-                            }) => {
-
-  const handleSubmit = (e) => {
+const ClientContactInner = ({ model, form, toggleEdit, submit, editing }) => {
+  const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
@@ -28,7 +22,11 @@ const ClientContactInner = ({model,
         <EditableFor form={form} data={model.clientId} hidden={true} />
         <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.mobilePhone} />
-          <EditableFor editing={editing} form={form} data={model.secondaryPhone} />
+          <EditableFor
+            editing={editing}
+            form={form}
+            data={model.secondaryPhone}
+          />
         </Row>
         <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.email} />
@@ -44,28 +42,39 @@ ClientContactInner.propTypes = {
   model: PropTypes.object,
   submit: PropTypes.func,
   editing: PropTypes.bool,
-  toggleEdit: PropTypes.func
+  toggleEdit: PropTypes.func,
 };
 
-
 class ClientContact extends Component {
-  state = {editing: false};
+  state = { editing: false };
 
-  toggleEdit = (e) => {
+  toggleEdit = e => {
     e.preventDefault();
-    this.setState({editing: !this.state.editing});
+    this.setState({
+      editing: !this.state.editing,
+    });
   };
 
   render() {
-    let Inner = Form.create({mapPropsToFields: (props) => ({...props.model})})(ClientContactInner);
-    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
+    let Inner = Form.create({
+      mapPropsToFields: props => ({
+        ...props.model,
+      }),
+    })(ClientContactInner);
+    return (
+      <Inner
+        {...this.props}
+        editing={this.state.editing}
+        toggleEdit={this.toggleEdit}
+      />
+    );
   }
 }
 
 ClientContact.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
-  submit: PropTypes.func
+  submit: PropTypes.func,
 };
 
 export default ClientContact;

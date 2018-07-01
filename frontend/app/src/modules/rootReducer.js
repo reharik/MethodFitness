@@ -11,7 +11,7 @@ const appReducer = combineReducers({
   appointments,
   notifs,
   ...local,
-  routing
+  routing,
 });
 
 const rootReducer = (state, action) => {

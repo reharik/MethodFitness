@@ -2,7 +2,6 @@
  * Created by reharik on 7/25/15.
  */
 
-
 module.exports = function(authentication, paperslocal, koapapers) {
   let serialize = function(user) {
     return user;
@@ -22,12 +21,13 @@ module.exports = function(authentication, paperslocal, koapapers) {
     useSession: true,
     serializers: [serialize],
     deserializers: [deserialize],
-    whiteList: [{ url: '/swagger', method: 'GET' },
+    whiteList: [
+      { url: '/swagger', method: 'GET' },
       { url: '/signout', method: 'POST' },
       { url: '/scheduledjobs/appointmentstatusupdate', method: 'POST' },
       { url: '/healthcheck/heartbeat', method: 'GET' },
-      { url: '/healthcheck/systemsup', method: 'GET' }]
-
+      { url: '/healthcheck/systemsup', method: 'GET' },
+    ],
   };
 
   return koapapers().registerMiddleware(config);

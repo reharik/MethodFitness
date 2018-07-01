@@ -1,21 +1,20 @@
-module.exports = function(config,
-                          uuid,
-                          eventstore,
-                          loadClients,
-                          loadTrainers,
-                          loadPurchases,
-                          loadAppointments) {
+module.exports = function(
+  config,
+  uuid,
+  eventstore,
+  loadClients,
+  loadTrainers,
+  loadPurchases,
+  loadAppointments,
+) {
   return function() {
     const processCommands = async function(command, commandName) {
-      await eventstore.commandPoster(
-        command,
-        commandName,
-        uuid.v4());
+      await eventstore.commandPoster(command, commandName, uuid.v4());
     };
 
     const populateES = async function() {
       console.log('=========="begin seed"=========');
-      console.log("begin seed");
+      console.log('begin seed');
       console.log('==========END "begin seed"=========');
 
       for (let x of loadClients.clients) {
@@ -35,7 +34,8 @@ module.exports = function(config,
           loadClients.clients[1].clientId,
           loadClients.clients[2].clientId,
           loadClients.clients[3].clientId,
-          loadClients.clients[4].clientId]
+          loadClients.clients[4].clientId,
+        ],
       };
 
       await processCommands(addClientsToTrainer1, 'updateTrainersClients');
@@ -45,7 +45,8 @@ module.exports = function(config,
         clients: [
           loadClients.clients[0].clientId,
           loadClients.clients[1].clientId,
-          loadClients.clients[2].clientId]
+          loadClients.clients[2].clientId,
+        ],
       };
       await processCommands(addClientsToTrainer2, 'updateTrainersClients');
 
@@ -54,7 +55,8 @@ module.exports = function(config,
         clients: [
           loadClients.clients[2].clientId,
           loadClients.clients[3].clientId,
-          loadClients.clients[4].clientId]
+          loadClients.clients[4].clientId,
+        ],
       };
 
       await processCommands(addClientsToTrainer3, 'updateTrainersClients');
@@ -70,9 +72,8 @@ module.exports = function(config,
       // }
 
       console.log('=========="End Seed"=========');
-      console.log("End Seed");
+      console.log('End Seed');
       console.log('==========END "End Seed"=========');
-
     };
 
     const begin = async function() {

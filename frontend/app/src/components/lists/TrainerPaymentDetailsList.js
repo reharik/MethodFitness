@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table } from 'antd';
 
-const TrainerPaymentDetailsList = ({gridConfig, paymentTotal, paymentDate}) => (
+const TrainerPaymentDetailsList = ({
+  gridConfig,
+  paymentTotal,
+  paymentDate,
+}) => (
   <div id="trainerVerificationList">
     <ContentHeader>
       <div className="list__header">
@@ -11,8 +15,10 @@ const TrainerPaymentDetailsList = ({gridConfig, paymentTotal, paymentDate}) => (
           {/*put trainer pay total in here*/}
         </div>
         <div className="list__header__center">
-          <div className="list__header__center__title" >
-            Payment Date: {paymentDate} - Payment Total: ${paymentTotal.toFixed(2)}
+          <div className="list__header__center__title">
+            Payment Date: {paymentDate} - Payment Total: ${paymentTotal.toFixed(
+              2,
+            )}
           </div>
         </div>
         <div className="list__header__right" />
@@ -22,8 +28,8 @@ const TrainerPaymentDetailsList = ({gridConfig, paymentTotal, paymentDate}) => (
       <Table
         {...gridConfig}
         pagination={false}
-        rowKey={(row) => `${row.appointmentId}---${row.clientId}`}
-        scroll={{y: '100%'}}
+        rowKey={row => `${row.appointmentId}---${row.clientId}`}
+        scroll={{ y: '100%' }}
         size="small"
       />
     </div>
@@ -33,7 +39,7 @@ const TrainerPaymentDetailsList = ({gridConfig, paymentTotal, paymentDate}) => (
 TrainerPaymentDetailsList.propTypes = {
   gridConfig: PropTypes.object,
   paymentDate: PropTypes.string,
-  paymentTotal: PropTypes.number
+  paymentTotal: PropTypes.number,
 };
 
 export default TrainerPaymentDetailsList;

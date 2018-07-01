@@ -9,20 +9,20 @@ const RadioGroup = Radio.Group;
 class TrainerList extends Component {
   state = {
     view: 'active',
-    dataSource: this.props.gridConfig.dataSource
+    dataSource: this.props.gridConfig.dataSource,
   };
 
   componentWillReceiveProps(newProps) {
     this.changeView(newProps.gridConfig.dataSource, this.state.view);
   }
 
-  onChange = (e) => {
+  onChange = e => {
     let dataSource = this.props.gridConfig.dataSource;
     this.changeView(dataSource, e.target.value);
   };
 
   changeView = (dataSource, view) => {
-    switch(view) {
+    switch (view) {
       case 'archived': {
         view = 'archived';
         dataSource = dataSource.filter(x => x.archived);
@@ -37,7 +37,7 @@ class TrainerList extends Component {
         dataSource = dataSource.filter(x => !x.archived);
       }
     }
-    this.setState({view, dataSource});
+    this.setState({ view, dataSource });
   };
 
   render() {
@@ -56,7 +56,11 @@ class TrainerList extends Component {
               <div className="list__header__center__title">Trainers</div>
             </div>
             <div className="list__header__right">
-              <RadioGroup defaultValue="active" size="small" onChange={this.onChange} >
+              <RadioGroup
+                defaultValue="active"
+                size="small"
+                onChange={this.onChange}
+              >
                 <RadioButton value="active">Active</RadioButton>
                 <RadioButton value="archived">Archived</RadioButton>
                 <RadioButton value="showAll">Show All</RadioButton>
@@ -66,11 +70,14 @@ class TrainerList extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Table
-            columns={this.props.gridConfig.columns(this.props.archiveTrainer, this.props.loggedInUser)}
+            columns={this.props.gridConfig.columns(
+              this.props.archiveTrainer,
+              this.props.loggedInUser,
+            )}
             dataSource={this.state.dataSource}
             pagination={false}
             rowKey="trainerId"
-            scroll={{y: '100%'}}
+            scroll={{ y: '100%' }}
             size="small"
           />
         </div>
@@ -82,7 +89,7 @@ class TrainerList extends Component {
 TrainerList.propTypes = {
   gridConfig: PropTypes.object,
   loggedInUser: PropTypes.string,
-  archiveTrainer: PropTypes.func
+  archiveTrainer: PropTypes.func,
 };
 
 export default TrainerList;

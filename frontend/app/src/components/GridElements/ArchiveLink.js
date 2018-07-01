@@ -8,9 +8,9 @@ const ArchiveLink = (action, loggedInUser, idName = 'id') => {
     const result = {
       [idName]: row[idName],
       archived: value,
-      date: moment().toISOString()
+      date: moment().toISOString(),
     };
-    const archiveClick = (result) => {
+    const archiveClick = result => {
       if (result[idName] === loggedInUser) {
         message.info('You may not archive the currently logged in User', 8);
         return;
@@ -27,7 +27,7 @@ const ArchiveLink = (action, loggedInUser, idName = 'id') => {
 
   link.propTypes = {
     value: PropTypes.string,
-    row: PropTypes.object
+    row: PropTypes.object,
   };
 
   return link;
@@ -35,7 +35,7 @@ const ArchiveLink = (action, loggedInUser, idName = 'id') => {
 
 ArchiveLink.propTypes = {
   action: PropTypes.func,
-  loggedInUser: PropTypes.string
+  loggedInUser: PropTypes.string,
 };
 
 export default ArchiveLink;

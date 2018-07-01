@@ -6,12 +6,30 @@ import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
 
 export const HIRE_TRAINER = requestStates('hire_trainer', 'trainer');
-export const UPDATE_TRAINER_PASSWORD = requestStates('update_trainer_password', 'trainer');
-export const UPDATE_TRAINER_CONTACT = requestStates('update_trainer_contact', 'trainer');
-export const UPDATE_TRAINER_ADDRESS = requestStates('update_trainer_address', 'trainer');
-export const UPDATE_TRAINER_CLIENTS = requestStates('update_trainer_clients', 'trainer');
-export const UPDATE_TRAINER_CLIENT_RATES = requestStates('update_trainer_client_rates', 'trainer');
-export const UPDATE_TRAINER_INFO = requestStates('update_trainer_info', 'trainer');
+export const UPDATE_TRAINER_PASSWORD = requestStates(
+  'update_trainer_password',
+  'trainer',
+);
+export const UPDATE_TRAINER_CONTACT = requestStates(
+  'update_trainer_contact',
+  'trainer',
+);
+export const UPDATE_TRAINER_ADDRESS = requestStates(
+  'update_trainer_address',
+  'trainer',
+);
+export const UPDATE_TRAINER_CLIENTS = requestStates(
+  'update_trainer_clients',
+  'trainer',
+);
+export const UPDATE_TRAINER_CLIENT_RATES = requestStates(
+  'update_trainer_client_rates',
+  'trainer',
+);
+export const UPDATE_TRAINER_INFO = requestStates(
+  'update_trainer_info',
+  'trainer',
+);
 export const TRAINER_LIST = requestStates('trainer_list', 'trainer');
 export const ARCHIVE_TRAINER = requestStates('archive_trainer', 'trainer');
 export const TRAINER = requestStates('trainer');
@@ -32,7 +50,10 @@ export default (state = [], action = {}) => {
     }
     case HIRE_TRAINER.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
-      insertedItem.trainerId = selectn('payload.result.handlerResult.trainerId', action);
+      insertedItem.trainerId = selectn(
+        'payload.result.handlerResult.trainerId',
+        action,
+      );
 
       return insertedItem.trainerId ? [...state, insertedItem] : state;
     }
@@ -46,7 +67,7 @@ export default (state = [], action = {}) => {
         if (x.trainerId === update.trainerId) {
           return {
             ...x,
-            archived: !x.archived
+            archived: !x.archived,
           };
         }
         return x;
@@ -60,7 +81,7 @@ export default (state = [], action = {}) => {
           return {
             ...x,
             color: update.color,
-            birthDate: update.birthDate
+            birthDate: update.birthDate,
           };
         }
         return x;
@@ -85,8 +106,8 @@ export default (state = [], action = {}) => {
               mobilePhone: update.mobilePhone,
               email: update.email,
               firstName: update.firstName,
-              lastName: update.lastName
-            }
+              lastName: update.lastName,
+            },
           };
         }
         return x;
@@ -108,9 +129,9 @@ export default (state = [], action = {}) => {
                 street2: update.street2,
                 city: update.city,
                 state: update.state,
-                zipCode: update.zipCode
-              }
-            }
+                zipCode: update.zipCode,
+              },
+            },
           };
         }
         return x;
@@ -122,7 +143,10 @@ export default (state = [], action = {}) => {
 
       return state.map(x => {
         if (x.trainerId === update.trainerId) {
-          return { ...x, clients: update.clients };
+          return {
+            ...x,
+            clients: update.clients,
+          };
         }
         return x;
       });
@@ -132,7 +156,10 @@ export default (state = [], action = {}) => {
       let update = selectn('action.update', action);
       return state.map(x => {
         if (x.trainerId === update.trainerId) {
-          return { ...x, trainerClientRates: update.clientRates };
+          return {
+            ...x,
+            trainerClientRates: update.clientRates,
+          };
         }
         return x;
       });
@@ -148,7 +175,7 @@ export function updateTrainerInfo(data) {
   const item = {
     trainerId: data.trainerId,
     birthDate: data.birthDate,
-    color: data.color
+    color: data.color,
   };
 
   return {
@@ -159,16 +186,18 @@ export function updateTrainerInfo(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
 export function updateTrainerPassword(data) {
   const item = {
     trainerId: data.trainerId,
-    password: data.password
+    password: data.password,
   };
   return {
     type: UPDATE_TRAINER_PASSWORD.REQUEST,
@@ -177,9 +206,11 @@ export function updateTrainerPassword(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
@@ -190,7 +221,7 @@ export function updateTrainerContact(data) {
     mobilePhone: data.mobilePhone,
     email: data.email,
     firstName: data.firstName,
-    lastName: data.lastName
+    lastName: data.lastName,
   };
   return {
     type: UPDATE_TRAINER_CONTACT.REQUEST,
@@ -200,9 +231,11 @@ export function updateTrainerContact(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
@@ -213,7 +246,7 @@ export function updateTrainerAddress(data) {
     street2: data.street2,
     city: data.city,
     state: data.state ? data.state.value : undefined,
-    zipCode: data.zipCode
+    zipCode: data.zipCode,
   };
   return {
     type: UPDATE_TRAINER_ADDRESS.REQUEST,
@@ -223,16 +256,18 @@ export function updateTrainerAddress(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
 export function updateTrainersClientRate(data) {
   const item = {
     trainerId: data.trainerId,
-    clientRates: data.clientRates
+    clientRates: data.clientRates,
   };
 
   return {
@@ -243,16 +278,18 @@ export function updateTrainersClientRate(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
 export function updateTrainersClients(data) {
   const item = {
     trainerId: data.trainerId,
-    clients: data.clients
+    clients: data.clients,
   };
 
   return {
@@ -263,15 +300,21 @@ export function updateTrainersClients(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
 const successFunction = (action, payload) => {
   browserHistory.push('/trainers');
-  return { type: action.states.SUCCESS, action, payload };
+  return {
+    type: action.states.SUCCESS,
+    action,
+    payload,
+  };
 };
 
 export function hireTrainer(data) {
@@ -287,9 +330,11 @@ export function hireTrainer(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(trainer)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(trainer),
+    },
   };
 }
 
@@ -302,9 +347,11 @@ export function archiveTrainer(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    },
   };
 }
 
@@ -316,8 +363,8 @@ export function fetchTrainerAction(trainerId) {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }
 // put paging sorting etc params here
@@ -329,8 +376,8 @@ export function fetchAllTrainersAction() {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }
 
@@ -342,7 +389,7 @@ export function fetchTrainersAction() {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }

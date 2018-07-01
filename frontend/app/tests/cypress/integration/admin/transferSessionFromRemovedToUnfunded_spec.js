@@ -26,7 +26,7 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '1'
+        fullHourCount: '1',
       });
 
       cy.navTo('Calendar');
@@ -37,7 +37,7 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.createAppointment({
@@ -45,7 +45,7 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
         date: aDT.date,
         time: appTimes.time16,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
@@ -55,15 +55,15 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
           client: this.clients.client1,
           date: aDT.date,
           startTime: aDT.time,
-          appointmentType: 'Full Hour'
+          appointmentType: 'Full Hour',
         },
         inarrearsCount: 1,
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
           startTime: appTimes.time16,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkSessions({
@@ -73,14 +73,14 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
         usedItemValues: {
           date: aDT.date,
           startTime: aDT.time,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.deleteAppointment({
         index: 6,
         date: aDT.date,
-        time: aDT.time
+        time: aDT.time,
       });
 
       routines.checkVerification({
@@ -90,9 +90,9 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
           client: this.clients.client1,
           date: aDT.date,
           startTime: appTimes.time16,
-          appointmentType: 'Full Hour'
+          appointmentType: 'Full Hour',
         },
-        noInarrears: true
+        noInarrears: true,
       });
 
       routines.checkSessions({
@@ -102,23 +102,23 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
         usedItemValues: {
           date: aDT.date,
           startTime: appTimes.time16,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.verifyAppointments({
-        index: 9
+        index: 9,
       });
 
       routines.checkPayTrainer({
         index: 10,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 11,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -128,10 +128,9 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
           client: this.clients.client1,
           date: aDT.date,
           startTime: appTimes.time16,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
     });
   });
-
 });

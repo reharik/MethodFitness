@@ -3,7 +3,10 @@ import config from './../utilities/configValues';
 import { requestStates } from '../sagas/requestSaga';
 // import selectn from 'selectn';
 
-export const FETCH_TRAINER_PAYMENT_DETAILS = requestStates('fetch_trainer_payment_details', 'trainerPaymentDetails');
+export const FETCH_TRAINER_PAYMENT_DETAILS = requestStates(
+  'fetch_trainer_payment_details',
+  'trainerPaymentDetails',
+);
 
 export default (state = [], action = {}) => {
   switch (action.type) {
@@ -22,7 +25,7 @@ export function fetchTrainerPaymentDetails(paymentId) {
     url: `${config.apiBase}trainerPaymentDetails/${paymentId}`,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }

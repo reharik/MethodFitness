@@ -74,7 +74,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      */
     router.post(
       '/fetchappointments/:startDate/:endDate/:trainerId?',
-      controllers.appointmentController.fetchAppointments
+      controllers.appointmentController.fetchAppointments,
     );
     /**
      * /fetchappointment:
@@ -102,7 +102,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/fetchappointment/:appointmentId', controllers.appointmentController.fetchAppointment);
+    router.get(
+      '/fetchappointment/:appointmentId',
+      controllers.appointmentController.fetchAppointment,
+    );
     /**
      * @swagger
      * /appointment/scheduleappointment:
@@ -130,7 +133,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/scheduleappointment', controllers.appointmentController.scheduleAppointment);
+    router.post(
+      '/appointment/scheduleappointment',
+      controllers.appointmentController.scheduleAppointment,
+    );
     /**
      * @swagger
      * /appointment/scheduleappointmentinpast:
@@ -158,7 +164,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/scheduleappointmentinpast', controllers.appointmentController.scheduleAppointmentInPast);
+    router.post(
+      '/appointment/scheduleappointmentinpast',
+      controllers.appointmentController.scheduleAppointmentInPast,
+    );
     /**
      * @swagger
      * /appointment/updateappointment:
@@ -186,7 +195,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/updateappointment', controllers.appointmentController.updateAppointment);
+    router.post(
+      '/appointment/updateappointment',
+      controllers.appointmentController.updateAppointment,
+    );
     /**
      * @swagger
      * /appointment/updateappointmentfrompast:
@@ -214,7 +226,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/updateappointmentfrompast', controllers.appointmentController.updateAppointmentFromPast);
+    router.post(
+      '/appointment/updateappointmentfrompast',
+      controllers.appointmentController.updateAppointmentFromPast,
+    );
     /**
      * @swagger
      * /appointment/cancelappointment:
@@ -242,7 +257,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/cancelappointment', controllers.appointmentController.cancelAppointment);
+    router.post(
+      '/appointment/cancelappointment',
+      controllers.appointmentController.cancelAppointment,
+    );
     /**
      * @swagger
      * /appointment/removeappointmentfrompast:
@@ -270,7 +288,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/removeappointmentfrompast', controllers.appointmentController.removeAppointmentFromPast);
+    router.post(
+      '/appointment/removeappointmentfrompast',
+      controllers.appointmentController.removeAppointmentFromPast,
+    );
     /**
      * @swagger
      * /cleanalltestdata:
@@ -290,7 +311,10 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/appointment/cleanalltestdata', controllers.appointmentController.cleanAllTestData);
+    router.post(
+      '/appointment/cleanalltestdata',
+      controllers.appointmentController.cleanAllTestData,
+    );
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

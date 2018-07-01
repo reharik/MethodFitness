@@ -16,7 +16,5 @@ module.exports = {
   time15: '7:00 PM',
   time16: '8:00 PM',
   time17: '9:00 PM',
-  time18: '10:00 PM'
+  time18: '10:00 PM',
 };
-
-

@@ -3,8 +3,14 @@ import config from './../utilities/configValues';
 import { requestStates } from '../sagas/requestSaga';
 // import selectn from 'selectn';
 
-export const SUBMIT_TRAINER_PAYMENT = requestStates('submit_trainer_payment', 'trainerPayment');
-export const FETCH_TRAINER_PAYMENTS = requestStates('fetch_trainer_payments', 'trainerPayment');
+export const SUBMIT_TRAINER_PAYMENT = requestStates(
+  'submit_trainer_payment',
+  'trainerPayment',
+);
+export const FETCH_TRAINER_PAYMENTS = requestStates(
+  'fetch_trainer_payments',
+  'trainerPayment',
+);
 
 export default (state = [], action = {}) => {
   switch (action.type) {
@@ -23,8 +29,8 @@ export function fetchTrainerPayments() {
     url: `${config.apiBase}trainerPayments`,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }
 
@@ -36,8 +42,10 @@ export function submitTrainerPayment(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: data
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: data,
+    },
   };
 }

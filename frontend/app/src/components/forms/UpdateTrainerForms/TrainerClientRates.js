@@ -4,14 +4,14 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-const TrainerClientRatesInner = ({model,
-                       form,
-                       toggleEdit,
-                       submit,
-                       editing
-                     }) => {
-
-  const handleSubmit = (e) => {
+const TrainerClientRatesInner = ({
+  model,
+  form,
+  toggleEdit,
+  submit,
+  editing,
+}) => {
+  const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
@@ -19,7 +19,10 @@ const TrainerClientRatesInner = ({model,
           trainerId: model.trainerId.value,
           clientRates: Object.keys(values)
             .filter(x => values[x])
-            .map(x => ({clientId: x, rate: values[x]}))
+            .map(x => ({
+              clientId: x,
+              rate: values[x],
+            })),
         };
         submit(payload);
         console.log('Received values of form: ', payload);
@@ -28,23 +31,29 @@ const TrainerClientRatesInner = ({model,
     });
   };
 
-  const formItemLayout = {labelCol: {span: 16, pull: 6}, wrapperCol: {span: 6, push: 1}};
+  const formItemLayout = {
+    labelCol: { span: 16, pull: 6 },
+    wrapperCol: { span: 6, push: 1 },
+  };
 
   return (
     <Card title={`Trainer's Client Rate`}>
       <Form layout="inline" onSubmit={handleSubmit}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
-        { model.trainerClientRates.listItems.map(x => {
-          return (<Row type="flex" key={x.name}>
-            <EditableFor
-              formItemLayout={formItemLayout}
-              key={x.name}
-              editing={editing}
-              form={form}
-              data={x}
-              span={16} /></Row>);
-        })
-        }
+        {model.trainerClientRates.listItems.map(x => {
+          return (
+            <Row type="flex" key={x.name}>
+              <EditableFor
+                formItemLayout={formItemLayout}
+                key={x.name}
+                editing={editing}
+                form={form}
+                data={x}
+                span={16}
+              />
+            </Row>
+          );
+        })}
         <EDFooter editing={editing} toggleEdit={toggleEdit} />
       </Form>
     </Card>
@@ -56,36 +65,45 @@ TrainerClientRatesInner.propTypes = {
   model: PropTypes.object,
   submit: PropTypes.func,
   editing: PropTypes.bool,
-  toggleEdit: PropTypes.func
+  toggleEdit: PropTypes.func,
 };
 
-
 class TrainerClientRates extends Component {
-  state = {editing: false};
+  state = { editing: false };
 
-  toggleEdit = (e) => {
+  toggleEdit = e => {
     e.preventDefault();
-    this.setState({editing: !this.state.editing});
+    this.setState({
+      editing: !this.state.editing,
+    });
   };
 
-  mapPropsToFields = (props) => {
+  mapPropsToFields = props => {
     let data = {};
     if (props.model.trainerClientRates.listItems) {
-      props.model.trainerClientRates.listItems.forEach(x => data[x.name] = x);
+      props.model.trainerClientRates.listItems.forEach(x => (data[x.name] = x));
     }
     return data;
   };
 
   render() {
-    let Inner = Form.create({mapPropsToFields: this.mapPropsToFields})(TrainerClientRatesInner);
-    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
+    let Inner = Form.create({
+      mapPropsToFields: this.mapPropsToFields,
+    })(TrainerClientRatesInner);
+    return (
+      <Inner
+        {...this.props}
+        editing={this.state.editing}
+        toggleEdit={this.toggleEdit}
+      />
+    );
   }
 }
 
 TrainerClientRates.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
-  submit: PropTypes.func
+  submit: PropTypes.func,
 };
 
 export default TrainerClientRates;

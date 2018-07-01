@@ -4,15 +4,15 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-const TrainerPasswordInner = ({model,
-                           form,
-                           toggleEdit,
-                           submit,
-                           editing,
-                           roles
-                         }) => {
-
-  const handleSubmit = (e) => {
+const TrainerPasswordInner = ({
+  model,
+  form,
+  toggleEdit,
+  submit,
+  editing,
+  roles,
+}) => {
+  const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
@@ -31,17 +31,28 @@ const TrainerPasswordInner = ({model,
       <Form onSubmit={handleSubmit} layout={'vertical'}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
-          <EditableFor editing={editing} form={form} data={model.password} noDisplay={true} />
+          <EditableFor
+            editing={editing}
+            form={form}
+            data={model.password}
+            noDisplay={true}
+          />
         </Row>
         <Row type="flex">
-          <EditableFor editing={editing} form={form} data={model.confirmPassword} noDisplay={true} />
+          <EditableFor
+            editing={editing}
+            form={form}
+            data={model.confirmPassword}
+            noDisplay={true}
+          />
         </Row>
         <Row type="flex">
           <EditableFor
             editing={editing}
             form={form}
             data={model.role}
-            selectOptions={roles} />
+            selectOptions={roles}
+          />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />
       </Form>
@@ -55,28 +66,39 @@ TrainerPasswordInner.propTypes = {
   submit: PropTypes.func,
   roles: PropTypes.array,
   editing: PropTypes.bool,
-  toggleEdit: PropTypes.func
+  toggleEdit: PropTypes.func,
 };
 
-
 class TrainerPassword extends Component {
-  state = {editing: false};
+  state = { editing: false };
 
-  toggleEdit = (e) => {
+  toggleEdit = e => {
     e.preventDefault();
-    this.setState({editing: !this.state.editing});
+    this.setState({
+      editing: !this.state.editing,
+    });
   };
 
   render() {
-    let Inner = Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerPasswordInner);
-    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
+    let Inner = Form.create({
+      mapPropsToFields: props => ({
+        ...props.model,
+      }),
+    })(TrainerPasswordInner);
+    return (
+      <Inner
+        {...this.props}
+        editing={this.state.editing}
+        toggleEdit={this.toggleEdit}
+      />
+    );
   }
 }
 
 TrainerPassword.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
-  submit: PropTypes.func
+  submit: PropTypes.func,
 };
 
 export default TrainerPassword;

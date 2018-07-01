@@ -4,12 +4,21 @@ module.exports = (moment, _time, past) => {
 
   const setTime = (number, time) => {
     if (past && today.day() === 1) {
-      return moment().subtract(number || 2, 'hour').startOf('hour').format('h:mm A');
+      return moment()
+        .subtract(number || 2, 'hour')
+        .startOf('hour')
+        .format('h:mm A');
+    } else if (!past && today.day() === 7) {
+      return moment()
+        .add(2, 'hour')
+        .startOf('hour')
+        .format('h:mm A');
     }
-    else if (!past && today.day() === 7) {
-      return moment().add(2, 'hour').startOf('hour').format('h:mm A');
-    }
-    return number ? moment('3:30 PM', 'h:mm A').add(number, 'hour').format('h:mm A') : time || '3:30 PM';
+    return number
+      ? moment('3:30 PM', 'h:mm A')
+          .add(number, 'hour')
+          .format('h:mm A')
+      : time || '3:30 PM';
   };
 
   const time = setTime(null, _time);
@@ -30,6 +39,6 @@ module.exports = (moment, _time, past) => {
   return {
     date,
     time,
-    setTime
+    setTime,
   };
 };

@@ -8,7 +8,8 @@ import { Form, Card, Row, Col } from 'antd';
 import EditableFor from './../formElements/EditableFor';
 
 class TrainerForm extends Component {
-  componentWillMount() { this.loadData();
+  componentWillMount() {
+    this.loadData();
   }
 
   loadData() {
@@ -18,7 +19,7 @@ class TrainerForm extends Component {
     this.props.fetchClientsAction();
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -43,7 +44,6 @@ class TrainerForm extends Component {
         <ContentHeader>
           <div className="form__header">
             <div className="form__header__left">
-
               <button
                 className="contentHeader__button__new"
                 title="New"
@@ -61,9 +61,13 @@ class TrainerForm extends Component {
         </ContentHeader>
         <Notifs containerName="trainerForm" />
         <div className="form-scroll-inner">
-          <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
+          <Form
+            onSubmit={this.handleSubmit}
+            className="form__content"
+            layout="vertical"
+          >
             <Row type="flex">
-              <Col xl={10} lg={14} sm={24} >
+              <Col xl={10} lg={14} sm={24}>
                 <Card title="Contact Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.firstName} />
@@ -84,7 +88,8 @@ class TrainerForm extends Component {
                     <SubmissionFor form={form} data={model.city} />
                     <SubmissionFor
                       selectOptions={this.props.states}
-                      form={form} data={model.state}
+                      form={form}
+                      data={model.state}
                       span={8}
                     />
                     <SubmissionFor form={form} data={model.zipCode} span={4} />
@@ -93,7 +98,7 @@ class TrainerForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col xl={10} lg={14} sm={24} >
+              <Col xl={10} lg={14} sm={24}>
                 <Card title="Trainer Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.birthDate} />
@@ -104,33 +109,40 @@ class TrainerForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col xl={10} lg={14} sm={24} >
+              <Col xl={10} lg={14} sm={24}>
                 <Card title="Trainer Credentials">
-                  <Row type="flex"> <SubmissionFor form={form} data={model.password} />
+                  <Row type="flex">
+                    {' '}
+                    <SubmissionFor form={form} data={model.password} />
                   </Row>
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.confirmPassword} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor selectOptions={this.props.roles} form={form} data={model.role} />
+                    <SubmissionFor
+                      selectOptions={this.props.roles}
+                      form={form}
+                      data={model.role}
+                    />
                   </Row>
                 </Card>
               </Col>
             </Row>
             <Row type="flex">
-              <Col xl={10} lg={14} sm={24} >
+              <Col xl={10} lg={14} sm={24}>
                 <Card title="Trainer' Clients">
                   <Row type="flex">
                     <EditableFor
                       editing={true}
                       form={form}
                       data={model.clients}
-                      onChange={(e) => {
+                      onChange={e => {
                         console.log(`==========e=========`);
                         console.log(e);
                         console.log(`==========END e=========`);
                       }}
-                      selectOptions={this.props.clients} />
+                      selectOptions={this.props.clients}
+                    />
                   </Row>
                 </Card>
               </Col>
@@ -140,14 +152,19 @@ class TrainerForm extends Component {
                 <button type="submit" className="form__footer__button">
                   Submit
                 </button>
-                <button type="reset" onClick={this.formReset} className="form__footer__button">
+                <button
+                  type="reset"
+                  onClick={this.formReset}
+                  className="form__footer__button"
+                >
                   Cancel
                 </button>
               </div>
             </Row>
           </Form>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -160,7 +177,9 @@ TrainerForm.propTypes = {
   hireTrainer: PropTypes.func,
   states: PropTypes.array,
   roles: PropTypes.array,
-  clients: PropTypes.array
+  clients: PropTypes.array,
 };
 
-export default Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerForm);
+export default Form.create({
+  mapPropsToFields: props => ({ ...props.model }),
+})(TrainerForm);

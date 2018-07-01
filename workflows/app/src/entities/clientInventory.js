@@ -5,7 +5,9 @@ module.exports = function(sortby, metaLogger, logger) {
 
     const addSessionsToInventory = event => {
       sessions = sessions.concat(event.sessions.filter(x => !x.used));
-      consumedSessions = consumedSessions.concat(event.sessions.filter(x => x.used));
+      consumedSessions = consumedSessions.concat(
+        event.sessions.filter(x => x.used),
+      );
     };
 
     const consumeSession = cmd => {
@@ -19,16 +21,22 @@ module.exports = function(sortby, metaLogger, logger) {
     };
 
     const modifyConsumedSession = event => {
-      consumedSessions.map(x =>
-        x.sessionId === event.sessionId
-          ? Object.assign({}, x, { appointmentId: event.appointmentId })
-          : x);
+      consumedSessions.map(
+        x =>
+          x.sessionId === event.sessionId
+            ? Object.assign({}, x, { appointmentId: event.appointmentId })
+            : x,
+      );
     };
 
     const replaceSession = event => {
-      const idx = consumedSessions.findIndex(x => x.sessionId === event.sessionId);
+      const idx = consumedSessions.findIndex(
+        x => x.sessionId === event.sessionId,
+      );
       const session = Object.assign({}, consumedSessions[idx]);
-      logger.debug(`moving session from consumedSessions back into sessions. ${session}`);
+      logger.debug(
+        `moving session from consumedSessions back into sessions. ${session}`,
+      );
       delete session.used;
       delete session.appointmentId;
       sessions.push(session);
@@ -38,15 +46,21 @@ module.exports = function(sortby, metaLogger, logger) {
     const sessionConsumed = (sessionId, appointmentId) => {
       if (appointmentId) {
         let session = sessions.find(x => x.sessionId === sessionId);
-        logger.debug(`addding session to consumedSession with appointmentId: ${appointmentId} in clientInventory`);
-        consumedSessions.push(Object.assign({}, session, {appointmentId}));
+        logger.debug(
+          `addding session to consumedSession with appointmentId: ${appointmentId} in clientInventory`,
+        );
+        consumedSessions.push(Object.assign({}, session, { appointmentId }));
       }
-      logger.debug(`removing session ${sessionId} from sessions in clientInventory`);
+      logger.debug(
+        `removing session ${sessionId} from sessions in clientInventory`,
+      );
       sessions = sessions.filter(x => x.sessionId !== sessionId);
     };
 
     const sessionsExists = cmd => {
-      return cmd.refundSessions.every(x => sessions.some(y => y.sessionId === x.sessionId));
+      return cmd.refundSessions.every(x =>
+        sessions.some(y => y.sessionId === x.sessionId),
+      );
     };
 
     return metaLogger({
@@ -56,7 +70,7 @@ module.exports = function(sortby, metaLogger, logger) {
       modifyConsumedSession,
       replaceSession,
       sessionConsumed,
-      sessionsExists
+      sessionsExists,
     });
   };
 };

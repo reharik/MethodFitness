@@ -27,7 +27,7 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       appointmentValues = {
@@ -36,20 +36,19 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         time: aDT.time,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '0'
+        fullHourCount: '0',
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        fullHourCount: '-1'
+        fullHourCount: '-1',
       });
 
       routines.checkVerification({
@@ -58,22 +57,26 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         inarrearsItemValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
-
     });
   });
 
   describe('When changing from unfunded client to funded client', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
-      cy.createAppointment(aDT.date, aDT.time, this.clients.client1, 'Full Hour');
+      cy.createAppointment(
+        aDT.date,
+        aDT.time,
+        this.clients.client1,
+        'Full Hour',
+      );
 
       routines.purchaseSessions({
-        index:1,
+        index: 1,
         client: this.clients.client2,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       appointmentValues = {
@@ -82,20 +85,19 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         time: aDT.time,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '0'
+        fullHourCount: '0',
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        fullHourCount: '1'
+        fullHourCount: '1',
       });
 
       routines.checkVerification({
@@ -104,26 +106,26 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         availableItemValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
       routines.verifyAppointments({
-        index: 6
+        index: 6,
       });
 
       routines.checkPayTrainer({
         index: 7,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 8,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -132,8 +134,8 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         appointmentValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
     });
   });
@@ -145,7 +147,7 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -155,7 +157,7 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       appointmentValues = {
@@ -164,20 +166,19 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         time: aDT.time,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       routines.checkClientInventory({
         index: 4,
         client: this.clients.client2,
-        fullHourCount: '-1'
+        fullHourCount: '-1',
       });
 
       routines.checkVerification({
@@ -186,8 +187,8 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         inarrearsItemValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
     });
   });
@@ -198,13 +199,13 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       routines.purchaseSessions({
         index: 2,
         client: this.clients.client2,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -214,7 +215,7 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       appointmentValues = {
@@ -222,20 +223,20 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         date: aDT.date,
         time: aDT.time,
         currentClient: this.clients.client1,
-        newClient: this.clients.client2
+        newClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 4,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       routines.checkClientInventory({
         index: 5,
         client: this.clients.client2,
-        fullHourCount: '1'
+        fullHourCount: '1',
       });
 
       routines.checkVerification({
@@ -244,26 +245,26 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         availableItemValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
       routines.verifyAppointments({
-        index: 7
+        index: 7,
       });
 
       routines.checkPayTrainer({
         index: 8,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 9,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -272,10 +273,9 @@ describe('Creating an Appointment in the Past Changing Appointment Client', () =
         appointmentValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
     });
   });
-
 });

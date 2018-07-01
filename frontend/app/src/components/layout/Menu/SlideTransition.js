@@ -12,16 +12,14 @@ const SlideTransition = ({ direction, children }) => (
       component="div"
       transitionName={direction}
     >
-      <div className="slider-inner-wrapper">
-        {children}
-      </div>
+      <div className="slider-inner-wrapper">{children}</div>
     </CSSTransitionGroup>
   </div>
 );
 
 SlideTransition.propTypes = {
   direction: PropTypes.string,
-  children: PropTypes.array
+  children: PropTypes.array,
 };
 
 export default SlideTransition;

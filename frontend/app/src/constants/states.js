@@ -48,5 +48,5 @@ export default [
   { value: 'WA', display: 'Washington' },
   { value: 'WV', display: 'West Virginia' },
   { value: 'WI', display: 'Wisconsin' },
-  { value: 'WY', display: 'Wyoming' }
+  { value: 'WY', display: 'Wyoming' },
 ];

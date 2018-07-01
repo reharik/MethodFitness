@@ -7,9 +7,18 @@ import selectn from 'selectn';
 
 import { delay } from 'redux-saga';
 
-export const PURCHASE_SESSIONS = requestStates('purchase_sessions', 'purchase_sessions');
-export const SESSIONS_REFUND = requestStates('SESSIONS_REFUND', 'sessions_refund');
-export const GET_PURCHASES = requestStates('get_purchases', 'purchase_sessions');
+export const PURCHASE_SESSIONS = requestStates(
+  'purchase_sessions',
+  'purchase_sessions',
+);
+export const SESSIONS_REFUND = requestStates(
+  'SESSIONS_REFUND',
+  'sessions_refund',
+);
+export const GET_PURCHASES = requestStates(
+  'get_purchases',
+  'purchase_sessions',
+);
 
 export default (state = [], action = {}) => {
   switch (action.type) {
@@ -17,13 +26,14 @@ export default (state = [], action = {}) => {
       return reducerMerge(state, action.response, 'purchaseId');
     }
     case SESSIONS_REFUND.SUCCESS: {
-      let selectedIds = JSON.stringify(selectn('action.params.body', action)) || [];
+      let selectedIds =
+        JSON.stringify(selectn('action.params.body', action)) || [];
 
       return state.map(x => {
-        let _x = {...x};
+        let _x = { ...x };
         _x.sessions = _x.sessions.map(y => {
           return selectedIds.includes(y.sessionId)
-            ? {...y, refunded: true}
+            ? { ...y, refunded: true }
             : y;
         });
         return _x;
@@ -35,11 +45,14 @@ export default (state = [], action = {}) => {
 };
 
 const successFunction = (action, payload) => {
-  return delay(1000, {action, payload})
-    .then(({ action, payload }) => {
-      browserHistory.push(`/purchases/${payload.payload.clientId}`);
-      return { type: action.states.SUCCESS, action, payload };
-    });
+  return delay(1000, { action, payload }).then(({ action, payload }) => {
+    browserHistory.push(`/purchases/${payload.payload.clientId}`);
+    return {
+      type: action.states.SUCCESS,
+      action,
+      payload,
+    };
+  });
 };
 
 export function purchase(data) {
@@ -53,9 +66,11 @@ export function purchase(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    },
   };
 }
 
@@ -68,9 +83,11 @@ export function refundSessions(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    },
   };
 }
 
@@ -81,7 +98,7 @@ export function getPurchases(purchaseId) {
     url: `${config.apiBase}purchaselist/fetchpurchases/${purchaseId}`,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }

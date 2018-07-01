@@ -25,7 +25,7 @@ const NavBreadCrumb = ({ breadCrumbItems, navBreadCrumbClicked }) => (
 
 NavBreadCrumb.propTypes = {
   breadCrumbItems: PropTypes.array,
-  navBreadCrumbClicked: PropTypes.func
+  navBreadCrumbClicked: PropTypes.func,
 };
 
 export default NavBreadCrumb;

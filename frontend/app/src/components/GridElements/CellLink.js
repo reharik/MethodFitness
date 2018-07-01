@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CellLink = (route, idName = 'id') => {
-  const link = ( value, row ) => {
+  const link = (value, row) => {
     const fullRoute = route + '/' + (row ? row[idName] : 0);
     return (
       <Link to={fullRoute} className="list__cell__link">
@@ -13,14 +13,14 @@ const CellLink = (route, idName = 'id') => {
   };
   link.propTypes = {
     value: PropTypes.string,
-    row: PropTypes.object
+    row: PropTypes.object,
   };
 
   return link;
 };
 
 CellLink.propTypes = {
-  route: PropTypes.string
+  route: PropTypes.string,
 };
 
 export default CellLink;

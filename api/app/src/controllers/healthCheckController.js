@@ -24,6 +24,6 @@ module.exports = function(eventstore, moment, commands, uuid, pingHealthCheck) {
 
   return {
     heartBeat,
-    systemsUp
+    systemsUp,
   };
 };

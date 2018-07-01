@@ -4,7 +4,7 @@ module.exports = function(invariant, moment) {
       expectEndTimeAfterStart(cmd) {
         invariant(
           moment(cmd.endTime).isAfter(moment(cmd.startTime)),
-          'Appointment End Time must be after Appointment Start Time'
+          'Appointment End Time must be after Appointment Start Time',
         );
       },
 
@@ -14,21 +14,21 @@ module.exports = function(invariant, moment) {
           case 'halfHour': {
             invariant(
               diff === 30,
-              'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time'
+              'Given the Appointment Type of Half Hour the start time must be 30 minutes after the end time',
             );
             break;
           }
           case 'fullHour': {
             invariant(
               diff === 60,
-              'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time'
+              'Given the Appointment Type of Full Hour the start time must be 60 minutes after the end time',
             );
             break;
           }
           case 'pair': {
             invariant(
               diff === 60,
-              'Given the Appointment Type of Pair the start time must be 60 minutes after the end time'
+              'Given the Appointment Type of Pair the start time must be 60 minutes after the end time',
             );
             break;
           }
@@ -41,14 +41,16 @@ module.exports = function(invariant, moment) {
           case 'fullHour': {
             invariant(
               cmd.clients && cmd.clients.length === 1,
-              `Given the Appointment Type of ${cmd.appointmentType} you must have 1 and only 1 client assigned`
+              `Given the Appointment Type of ${
+                cmd.appointmentType
+              } you must have 1 and only 1 client assigned`,
             );
             break;
           }
           case 'pair': {
             invariant(
               cmd.clients && cmd.clients.length >= 2,
-              `Given the Appointment Type of Pair you must have 2 or more clients assigned`
+              `Given the Appointment Type of Pair you must have 2 or more clients assigned`,
             );
             break;
           }
@@ -59,18 +61,29 @@ module.exports = function(invariant, moment) {
         let trainerConflict = state.appointments
           .filter(
             x =>
-              (x.appointmentId
-            && x.appointmentId !== cmd.appointmentId
-            && moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[)'))
-            || (x.appointmentId
-            && x.appointmentId !== cmd.appointmentId
-            && moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '(]'))
+              (x.appointmentId &&
+                x.appointmentId !== cmd.appointmentId &&
+                moment(x.startTime).isBetween(
+                  cmd.startTime,
+                  cmd.endTime,
+                  'minutes',
+                  '[)',
+                )) ||
+              (x.appointmentId &&
+                x.appointmentId !== cmd.appointmentId &&
+                moment(x.endTime).isBetween(
+                  cmd.startTime,
+                  cmd.endTime,
+                  'minutes',
+                  '(]',
+                )),
           )
           .filter(x => x.trainerId === cmd.trainerId);
         invariant(
           trainerConflict.length <= 0,
-          `New Appointment conflicts with state Appointment: ${trainerConflict[0] && trainerConflict[0].appointmentId}
- for state trainerId: ${cmd.trainerId}.`
+          `New Appointment conflicts with state Appointment: ${trainerConflict[0] &&
+            trainerConflict[0].appointmentId}
+ for state trainerId: ${cmd.trainerId}.`,
         );
       },
 
@@ -79,19 +92,34 @@ module.exports = function(invariant, moment) {
           .filter(
             x =>
               (x.appointmentId &&
-            x.appointmentId !== cmd.appointmentId &&
-            moment(x.startTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '[)')) ||
-            (x.appointmentId &&
-            x.appointmentId !== cmd.appointmentId &&
-            moment(x.endTime).isBetween(cmd.startTime, cmd.endTime, 'minutes', '(]'))
+                x.appointmentId !== cmd.appointmentId &&
+                moment(x.startTime).isBetween(
+                  cmd.startTime,
+                  cmd.endTime,
+                  'minutes',
+                  '[)',
+                )) ||
+              (x.appointmentId &&
+                x.appointmentId !== cmd.appointmentId &&
+                moment(x.endTime).isBetween(
+                  cmd.startTime,
+                  cmd.endTime,
+                  'minutes',
+                  '(]',
+                )),
           )
-          .filter(x => x.clients.includes(c => cmd.clients.includes(c2 => c.clientId === c2.clientId)));
+          .filter(x =>
+            x.clients.includes(c =>
+              cmd.clients.includes(c2 => c.clientId === c2.clientId),
+            ),
+          );
         invariant(
           clientConflicts.length <= 0,
-          `New Appointment conflicts with state Appointment: ${clientConflicts[0] && clientConflicts[0].clientId}
-                for at least one client.`
+          `New Appointment conflicts with state Appointment: ${clientConflicts[0] &&
+            clientConflicts[0].clientId}
+                for at least one client.`,
         );
-      }
+      },
     };
   };
 };

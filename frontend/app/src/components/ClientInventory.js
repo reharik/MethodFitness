@@ -13,32 +13,32 @@ const ClientInventory = ({ inventory, clientId }) => {
       name: 'fullHour',
       type: 'number',
       value: inventory.fullHour || 0,
-      label: 'Full Hour'
+      label: 'Full Hour',
     },
     halfHour: {
       name: 'halfHour',
       type: 'number',
       value: inventory.halfHour || 0,
-      label: 'Half Hour'
+      label: 'Half Hour',
     },
     pair: {
       name: 'pair',
       type: 'number',
       value: inventory.pair || 0,
-      label: 'Pair'
-    }
+      label: 'Pair',
+    },
   };
 
   return (
     <Card
       title="Current Client Inventory"
       data-id={'clientInventory'}
-      extra={<Link
-        data-id={'purchases'}
-        to={`/purchases/${clientId}` }>
-        Purchases
-      </Link>
-      } >
+      extra={
+        <Link data-id={'purchases'} to={`/purchases/${clientId}`}>
+          Purchases
+        </Link>
+      }
+    >
       <Row type="flex">
         <DisplayFor data={invModel.fullHour} />
       </Row>
@@ -54,7 +54,7 @@ const ClientInventory = ({ inventory, clientId }) => {
 
 ClientInventory.propTypes = {
   clientId: PropTypes.string,
-  inventory: PropTypes.object
+  inventory: PropTypes.object,
 };
 
 export default ClientInventory;

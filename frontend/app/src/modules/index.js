@@ -17,7 +17,7 @@ export {
   scheduleAppointment,
   fetchAppointmentAction,
   fetchAppointmentsAction,
-  updateTaskViaDND
+  updateTaskViaDND,
 } from './appointmentModule';
 
 export default {
@@ -32,5 +32,5 @@ export default {
   sessionVerification,
   trainerPaymentDetail,
   notifications,
-  trainerClientRates
+  trainerClientRates,
 };

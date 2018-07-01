@@ -10,8 +10,8 @@ export function denormalizeContact(flat) {
       street2: flat.street2,
       city: flat.flat,
       state: flat.state,
-      zipCode: flat.zipCode
-    }
+      zipCode: flat.zipCode,
+    },
   };
 }
 
@@ -23,8 +23,8 @@ export function denormalizeTrainer(flat) {
     clients: flat.clients,
     credentials: {
       password: flat.password,
-      role: flat.role
-    }
+      role: flat.role,
+    },
   };
 }
 
@@ -34,6 +34,6 @@ export function denormalizeClient(flat) {
     sourceNotes: flat.sourceNotes,
     startDate: flat.startDate,
     birthDate: flat.birthDate,
-    contact: denormalizeContact(flat)
+    contact: denormalizeContact(flat),
   };
 }

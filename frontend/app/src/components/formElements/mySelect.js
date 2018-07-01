@@ -26,7 +26,7 @@ export default class Select extends React.Component {
     prefixCls: 'ant-select',
     showSearch: false,
     transitionName: 'slide-up',
-    choiceTransitionName: 'zoom'
+    choiceTransitionName: 'zoom',
   };
 
   static propTypes = {
@@ -42,11 +42,11 @@ export default class Select extends React.Component {
     mode: PropTypes.string,
     multiple: PropTypes.bool,
     tags: PropTypes.bool,
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
   };
 
   static contextTypes = {
-    antLocale: PropTypes.object
+    antLocale: PropTypes.object,
   };
 
   getLocale() {
@@ -55,7 +55,7 @@ export default class Select extends React.Component {
       return antLocale.Select;
     }
     return {
-      notFoundContent: '无匹配结果'
+      notFoundContent: '无匹配结果',
     };
   }
 
@@ -72,13 +72,19 @@ export default class Select extends React.Component {
       ...restProps
     } = this.props;
 
-    const cls = classNames({
-      [`${prefixCls}-lg`]: size === 'large',
-      [`${prefixCls}-sm`]: size === 'small'
-    }, className);
+    const cls = classNames(
+      {
+        [`${prefixCls}-lg`]: size === 'large',
+        [`${prefixCls}-sm`]: size === 'small',
+      },
+      className,
+    );
 
     const locale = this.getLocale();
-    let { notFoundContent = locale.notFoundContent, optionLabelProp } = this.props;
+    let {
+      notFoundContent = locale.notFoundContent,
+      optionLabelProp,
+    } = this.props;
     const isCombobox = mode === 'combobox' || combobox;
     if (isCombobox) {
       notFoundContent = null;
@@ -89,7 +95,7 @@ export default class Select extends React.Component {
     const modeConfig = {
       multiple: mode === 'multiple' || multiple,
       tags: mode === 'tags' || tags,
-      combobox: isCombobox
+      combobox: isCombobox,
     };
 
     // console.log(`==========this.props.autoFocus=========`);

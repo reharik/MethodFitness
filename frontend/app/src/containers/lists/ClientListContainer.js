@@ -3,27 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ClientList from '../../components/lists/ClientList';
 import clientListDefinition from './listDefinition/clientListDefinition';
-import { fetchAllClientsAction, archiveClient } from './../../modules/clientModule';
+import {
+  fetchAllClientsAction,
+  archiveClient,
+} from './../../modules/clientModule';
 import sortBy from 'sort-by';
 import breakjs from 'breakjs';
 
 const layout = breakjs({
   mobile: 0,
   tablet: 768,
-  laptop: 1201
+  laptop: 1201,
 });
 
 class ClientListContainer extends Component {
-  state = {layout: layout.current()};
+  state = { layout: layout.current() };
 
   componentDidMount() {
-    this.setState({layout: layout.current()});
+    this.setState({ layout: layout.current() });
     this.loadData();
-    layout.addChangeListener(l => this.setState({layout: l}));
+    layout.addChangeListener(l => this.setState({ layout: l }));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(l => this.setState({layout: l}));
+    layout.removeChangeListener(l => this.setState({ layout: l }));
   }
 
   loadData() {
@@ -32,13 +35,17 @@ class ClientListContainer extends Component {
 
   render() {
     let columns = clientListDefinition(this.state.layout, this.props.isAdmin);
-    this.gridConfig = {...this.props.gridConfig, columns };
+    this.gridConfig = {
+      ...this.props.gridConfig,
+      columns,
+    };
     return (
       <ClientList
         gridConfig={this.gridConfig}
         archiveClient={this.props.archiveClient}
         isAdmin={this.props.isAdmin}
-      />);
+      />
+    );
   }
 }
 
@@ -47,7 +54,7 @@ ClientListContainer.propTypes = {
   archiveClient: PropTypes.func,
   fetchAllClientsAction: PropTypes.func,
   containerWidth: PropTypes.number,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -58,15 +65,18 @@ function mapStateToProps(state) {
     .sort(sortBy('contact.lastName'));
 
   const gridConfig = {
-    dataSource
+    dataSource,
   };
   return {
     isAdmin,
-    gridConfig
+    gridConfig,
   };
 }
 
-export default connect(mapStateToProps, {
-  archiveClient,
-  fetchAllClientsAction
-})(ClientListContainer);
+export default connect(
+  mapStateToProps,
+  {
+    archiveClient,
+    fetchAllClientsAction,
+  },
+)(ClientListContainer);

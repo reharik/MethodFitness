@@ -4,14 +4,15 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-const TrainerClientsInner = ({model,
-                               form,
-                               toggleEdit,
-                               submit,
-                               editing,
-                              clients
-                             }) => {
-  const handleSubmit = (e) => {
+const TrainerClientsInner = ({
+  model,
+  form,
+  toggleEdit,
+  submit,
+  editing,
+  clients,
+}) => {
+  const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
@@ -31,7 +32,8 @@ const TrainerClientsInner = ({model,
             editing={editing}
             form={form}
             data={model.clients}
-            selectOptions={clients} />
+            selectOptions={clients}
+          />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />
       </Form>
@@ -45,28 +47,39 @@ TrainerClientsInner.propTypes = {
   clients: PropTypes.array,
   submit: PropTypes.func,
   editing: PropTypes.bool,
-  toggleEdit: PropTypes.func
+  toggleEdit: PropTypes.func,
 };
 
-
 class TrainerClients extends Component {
-  state = {editing: false};
+  state = { editing: false };
 
-  toggleEdit = (e) => {
+  toggleEdit = e => {
     e.preventDefault();
-    this.setState({editing: !this.state.editing});
+    this.setState({
+      editing: !this.state.editing,
+    });
   };
 
   render() {
-    let Inner = Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerClientsInner);
-    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
+    let Inner = Form.create({
+      mapPropsToFields: props => ({
+        ...props.model,
+      }),
+    })(TrainerClientsInner);
+    return (
+      <Inner
+        {...this.props}
+        editing={this.state.editing}
+        toggleEdit={this.toggleEdit}
+      />
+    );
   }
 }
 
 TrainerClients.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
-  submit: PropTypes.func
+  submit: PropTypes.func,
 };
 
 export default TrainerClients;

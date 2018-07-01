@@ -16,18 +16,14 @@ const envVariables = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PUBLIC_URL: process.env.PUBLIC_URL || '',
   NODE_PATH: process.env.NODE_PATH || '',
-  API_BASE_URL: process.env.API_BASE_URL
+  API_BASE_URL: process.env.API_BASE_URL,
 };
 const stringifiedEnvVariables = {
-  'process.env': Object.keys(envVariables).reduce(
-    (env, key) => {
-      env[key] = JSON.stringify(envVariables[key]);
-      return env;
-    },
-    {}
-  )
+  'process.env': Object.keys(envVariables).reduce((env, key) => {
+    env[key] = JSON.stringify(envVariables[key]);
+    return env;
+  }, {}),
 };
-
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -133,7 +129,7 @@ module.exports = {
         use: [
           {
             options: {
-              formatter: eslintFormatter
+              formatter: eslintFormatter,
             },
             loader: require.resolve('eslint-loader'),
           },
@@ -182,9 +178,7 @@ module.exports = {
         include: paths.appSrc,
         loader: require.resolve('babel-loader'),
         options: {
-          plugins: [
-            ['import', {libraryName: 'antd', style: 'css'}],
-          ],
+          plugins: [['import', { libraryName: 'antd', style: 'css' }]],
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
@@ -214,11 +208,11 @@ module.exports = {
               plugins: () => [
                 require('postcss-import')({
                   addDependencyTo: webpack,
-                  path: [ 'css' ],
+                  path: ['css'],
                   root: path.resolve(__dirname, '/'),
-                  skipDuplicates: true
+                  skipDuplicates: true,
                 }),
-                require('postcss-cssnext')()
+                require('postcss-cssnext')(),
               ],
             },
           },

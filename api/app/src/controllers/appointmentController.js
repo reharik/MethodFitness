@@ -7,11 +7,14 @@ module.exports = function(
   moment,
   logger,
   uuid,
-  R
+  R,
 ) {
   let fetchAppointment = async function(ctx) {
     logger.debug('arrived at appointment.fetchAppointment');
-    const appointments = await rsRepository.getById(ctx.params.appointmentId, 'appointment');
+    const appointments = await rsRepository.getById(
+      ctx.params.appointmentId,
+      'appointment',
+    );
     ctx.status = 200;
     ctx.body = appointments;
   };
@@ -32,7 +35,11 @@ module.exports = function(
     logger.debug('arrived at appointment.scheduleAppointment');
     let payload = ctx.request.body;
     payload.commandName = 'scheduleAppointment';
-    const notification = await processMessage(payload, 'scheduleAppointmentFactory', 'scheduleAppointment');
+    const notification = await processMessage(
+      payload,
+      'scheduleAppointmentFactory',
+      'scheduleAppointment',
+    );
     const result = await notificationParser(notification);
 
     ctx.body = result.body;
@@ -43,7 +50,11 @@ module.exports = function(
     logger.debug('arrived at appointment.scheduleAppointmentInPast');
     let payload = ctx.request.body;
     payload.commandName = 'scheduleAppointmentInPast';
-    const notification = await processMessage(payload, 'scheduleAppointmentFactory', 'scheduleAppointmentInPast');
+    const notification = await processMessage(
+      payload,
+      'scheduleAppointmentFactory',
+      'scheduleAppointmentInPast',
+    );
     const result = await notificationParser(notification);
 
     ctx.body = result.body;
@@ -56,10 +67,15 @@ module.exports = function(
       let body = ctx.request.body;
       let notification;
       let commandName = '';
-      const appointment = await rsRepository.getById(body.appointmentId, 'appointment');
-      let clientsSame = R.symmetricDifference(body.clients, appointment.clients).length <= 0;
+      const appointment = await rsRepository.getById(
+        body.appointmentId,
+        'appointment',
+      );
+      let clientsSame =
+        R.symmetricDifference(body.clients, appointment.clients).length <= 0;
       if (
-        moment(appointment.date).format('YYYYMMDD') !== moment(body.date).format('YYYYMMDD') ||
+        moment(appointment.date).format('YYYYMMDD') !==
+          moment(body.date).format('YYYYMMDD') ||
         !moment(appointment.startTime).isSame(moment(body.startTime))
       ) {
         commandName += 'rescheduleAppointment';
@@ -72,10 +88,16 @@ module.exports = function(
       ) {
         commandName += 'updateAppointment';
       } else {
-        throw new Error('UpdateAppointment called but no change in appointment');
+        throw new Error(
+          'UpdateAppointment called but no change in appointment',
+        );
       }
       body.commandName = commandName;
-      notification = await processMessage(body, 'scheduleAppointmentFactory', commandName);
+      notification = await processMessage(
+        body,
+        'scheduleAppointmentFactory',
+        commandName,
+      );
       const result = await notificationParser(notification);
 
       ctx.body = result.body;
@@ -105,22 +127,37 @@ module.exports = function(
       logger.debug('arrived at appointment.updateAppointmentFromPast');
       let body = ctx.request.body;
       let notification;
-      const appointment = await rsRepository.getById(body.appointmentId, 'appointment');
-      let clientsSame = R.symmetricDifference(body.clients, appointment.clients).length <= 0;
+      const appointment = await rsRepository.getById(
+        body.appointmentId,
+        'appointment',
+      );
+      let clientsSame =
+        R.symmetricDifference(body.clients, appointment.clients).length <= 0;
       if (
-        moment(appointment.date).format('YYYYMMDD') === moment(body.date).format('YYYYMMDD')
-        && moment(appointment.startTime).isSame(moment(body.startTime))
-        && appointment.appointmentType === body.appointmentType
-        && clientsSame
-        && appointment.trainerId === body.trainerId
-        && appointment.notes === body.notes
+        moment(appointment.date).format('YYYYMMDD') ===
+          moment(body.date).format('YYYYMMDD') &&
+        moment(appointment.startTime).isSame(moment(body.startTime)) &&
+        appointment.appointmentType === body.appointmentType &&
+        clientsSame &&
+        appointment.trainerId === body.trainerId &&
+        appointment.notes === body.notes
       ) {
-        throw new Error('UpdateAppointmentFromPast called but no change in appointment');
+        throw new Error(
+          'UpdateAppointmentFromPast called but no change in appointment',
+        );
       }
       body.commandName = 'updateAppointmentFromPast';
       body.originalEntityName = appointment.entityName;
-      body.changes = getWhatChangedOnAppointment(appointment, body, clientsSame);
-      notification = await processMessage(body, 'scheduleAppointmentFactory', 'updateAppointmentFromPast');
+      body.changes = getWhatChangedOnAppointment(
+        appointment,
+        body,
+        clientsSame,
+      );
+      notification = await processMessage(
+        body,
+        'scheduleAppointmentFactory',
+        'updateAppointmentFromPast',
+      );
       const result = await notificationParser(notification);
       ctx.body = result.body;
       ctx.status = result.status;
@@ -145,7 +182,10 @@ module.exports = function(
     logger.debug('arrived at appointment.removeAppointmentFromPast');
     let body = ctx.request.body;
     body.commandName = 'removeAppointmentFromPast';
-    const notification = await processCommandMessage(body, 'removeAppointmentFromPast');
+    const notification = await processCommandMessage(
+      body,
+      'removeAppointmentFromPast',
+    );
     const result = await notificationParser(notification);
 
     ctx.body = result.body;
@@ -167,38 +207,52 @@ module.exports = function(
 
   let cleanAllTestData = async function(ctx) {
     const appointments = await rsRepository.query('select * from appointment');
-    const sessionsPurchasedMeta = await rsRepository.saveQuery('select meta from "sessionsPurchased"');
+    const sessionsPurchasedMeta = await rsRepository.saveQuery(
+      'select meta from "sessionsPurchased"',
+    );
     const sessions = sessionsPurchasedMeta.rows.find(x => x.meta).meta.sessions;
-    const sessionsPerClient = sessions
-      .reduce(
-        (a, b) => {
-          if (a[b.clientId]) {
-            a[b.clientId].push(b);
-          } else {
-            a[b.clientId] = [b];
-          }
-          return a;
-        }, {}
-      );
+    const sessionsPerClient = sessions.reduce((a, b) => {
+      if (a[b.clientId]) {
+        a[b.clientId].push(b);
+      } else {
+        a[b.clientId] = [b];
+      }
+      return a;
+    }, {});
     for (const x of appointments) {
       let payload = {
         appointmentId: x.appointmentId,
         clients: x.clients,
-        entityName: moment(x.date).format('YYYYMMDD')
+        entityName: moment(x.date).format('YYYYMMDD'),
       };
       if (x.completed) {
-        await processMessage(payload, 'removeAppointmentFromPastCommand', 'removeAppointmentFromPast');
+        await processMessage(
+          payload,
+          'removeAppointmentFromPastCommand',
+          'removeAppointmentFromPast',
+        );
       } else {
-        await processMessage(payload, 'cancelAppointmentCommand', 'cancelAppointment');
+        await processMessage(
+          payload,
+          'cancelAppointmentCommand',
+          'cancelAppointment',
+        );
       }
     }
     for (const clientId of Object.keys(sessionsPerClient)) {
-      await processMessage({
-        clientId,
-        refundSessions: sessionsPerClient[clientId]
-          .filter(x => !x.refunded)
-          .map(x => ({sessionId: x.sessionId, appointmentType: x.appointmentType}))
-      }, 'refundSessionsCommand', 'refundSessions');
+      await processMessage(
+        {
+          clientId,
+          refundSessions: sessionsPerClient[clientId]
+            .filter(x => !x.refunded)
+            .map(x => ({
+              sessionId: x.sessionId,
+              appointmentType: x.appointmentType,
+            })),
+        },
+        'refundSessionsCommand',
+        'refundSessions',
+      );
     }
     ctx.status = 200;
     return ctx;
@@ -213,6 +267,6 @@ module.exports = function(
     scheduleAppointmentInPast,
     removeAppointmentFromPast,
     updateAppointmentFromPast,
-    cleanAllTestData
+    cleanAllTestData,
   };
 };

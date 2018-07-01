@@ -41,8 +41,8 @@ export const plugins = {
     sortable: {
       enabled: true,
       method: 'remote',
-      sortingSource: 'http://react-redux-grid.herokuapp.com/getfakeData'
-    }
+      sortingSource: 'http://react-redux-grid.herokuapp.com/getfakeData',
+    },
   },
   //PAGER: {
   //    enabled: true,
@@ -50,19 +50,19 @@ export const plugins = {
   //    pagingSource: 'http://react-redux-grid.herokuapp.com/getFakedPagedData'
   //},
   LOADER: {
-    enabled: true
+    enabled: true,
   },
   SELECTION_MODEL: {
     mode: 'checkbox-multi',
     enabled: true,
     allowDeselect: true,
     activeCls: 'active',
-    selectionEvent: 'singleclick'
+    selectionEvent: 'singleclick',
   },
   ERROR_HANDLER: {
     defaultErrorMessage: 'AN ERROR OCURRED',
-    enabled: true
-  } //,
+    enabled: true,
+  }, //,
   //BULK_ACTIONS: {
   //    enabled: true,
   //    actions: [

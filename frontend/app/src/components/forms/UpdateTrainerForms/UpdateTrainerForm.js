@@ -30,7 +30,6 @@ class UpdateTrainerForm extends Component {
         <ContentHeader>
           <div className="form__header">
             <div className="form__header__left">
-
               <button
                 className="contentHeader__button__new"
                 title="New"
@@ -45,17 +44,39 @@ class UpdateTrainerForm extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Row type="flex">
-            <Col xl={10} lg={18} sm={24} >
-              <TrainerContact model={model} submit={this.props.updateTrainerContact} />
-              <TrainerInfo model={model} submit={this.props.updateTrainerInfo} />
-              <TrainerAddress model={model} submit={this.props.updateTrainerAddress} states={this.props.states} />
-              <TrainerPassword model={model} submit={this.props.updateTrainerPassword} roles={this.props.roles} />
-              <TrainerClients model={model} submit={this.props.updateTrainersClients} clients={this.props.clients} />
-              <TrainerClientRates model={model} submit={this.props.updateTrainersClientRate} />
+            <Col xl={10} lg={18} sm={24}>
+              <TrainerContact
+                model={model}
+                submit={this.props.updateTrainerContact}
+              />
+              <TrainerInfo
+                model={model}
+                submit={this.props.updateTrainerInfo}
+              />
+              <TrainerAddress
+                model={model}
+                submit={this.props.updateTrainerAddress}
+                states={this.props.states}
+              />
+              <TrainerPassword
+                model={model}
+                submit={this.props.updateTrainerPassword}
+                roles={this.props.roles}
+              />
+              <TrainerClients
+                model={model}
+                submit={this.props.updateTrainersClients}
+                clients={this.props.clients}
+              />
+              <TrainerClientRates
+                model={model}
+                submit={this.props.updateTrainersClientRate}
+              />
             </Col>
           </Row>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -73,7 +94,7 @@ UpdateTrainerForm.propTypes = {
   updateTrainerContact: PropTypes.func,
   updateTrainerAddress: PropTypes.func,
   updateTrainerPassword: PropTypes.func,
-  getTrainerClientRates: PropTypes.func
+  getTrainerClientRates: PropTypes.func,
 };
 
 export default UpdateTrainerForm;

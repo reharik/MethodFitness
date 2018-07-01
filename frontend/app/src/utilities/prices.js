@@ -4,5 +4,5 @@ export default {
   halfHour: 38,
   halfHourTenPack: 350,
   pair: 45,
-  pairTenPack: 400
+  pairTenPack: 400,
 };

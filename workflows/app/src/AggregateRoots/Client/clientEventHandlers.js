@@ -18,7 +18,10 @@ module.exports = function() {
       },
 
       fundedAppointmentAttendedByClient: event => {
-        state.clientInventory.sessionConsumed(event.sessionId, event.appointmentId);
+        state.clientInventory.sessionConsumed(
+          event.sessionId,
+          event.appointmentId,
+        );
       },
 
       unfundedAppointmentAttendedByClient: event => {
@@ -26,12 +29,15 @@ module.exports = function() {
       },
 
       sessionsRefunded: event => {
-        event.refundSessions.forEach(x => state.clientInventory.sessionConsumed(x.sessionId));
+        event.refundSessions.forEach(x =>
+          state.clientInventory.sessionConsumed(x.sessionId),
+        );
       },
 
       unfundedAppointmentFundedByClient: event => {
-        state.unfundedAppointments = state.unfundedAppointments
-          .filter(u => u.appointmentId !== event.appointmentId);
+        state.unfundedAppointments = state.unfundedAppointments.filter(
+          u => u.appointmentId !== event.appointmentId,
+        );
       },
 
       sessionReturnedFromPastAppointment: event => {
@@ -39,33 +45,33 @@ module.exports = function() {
       },
 
       unfundedAppointmentRemovedForClient: event => {
-        state.unfundedAppointments = state.unfundedAppointments
-          .filter(u => u.appointmentId !== event.appointmentId);
+        state.unfundedAppointments = state.unfundedAppointments.filter(
+          u => u.appointmentId !== event.appointmentId,
+        );
       },
 
       sessionTransferredFromRemovedAppointmentToUnfundedAppointment: event => {
-        state.unfundedAppointments = state.unfundedAppointments
-          .filter(u => u.appointmentId !== event.appointmentId);
+        state.unfundedAppointments = state.unfundedAppointments.filter(
+          u => u.appointmentId !== event.appointmentId,
+        );
         state.clientInventory.modifyConsumedSession(event);
       },
 
       clientInternalStateUpdated: event => {
-        state.unfundedAppointments = state.unfundedAppointments
-          .map(x => x.appointmentId === event.appointmentId
-            ? Object.assign(
-              {},
-              x,
-              {
-                trainerId: event.trainerId,
-                appointmentType: event.appointmentType,
-                clients: event.clients,
-                date: event.date,
-                startTime: event.startTime,
-                endTime: event.endTime
-              })
-            : x
-          );
-      }
+        state.unfundedAppointments = state.unfundedAppointments.map(
+          x =>
+            x.appointmentId === event.appointmentId
+              ? Object.assign({}, x, {
+                  trainerId: event.trainerId,
+                  appointmentType: event.appointmentType,
+                  clients: event.clients,
+                  date: event.date,
+                  startTime: event.startTime,
+                  endTime: event.endTime,
+                })
+              : x,
+        );
+      },
     };
   };
 };

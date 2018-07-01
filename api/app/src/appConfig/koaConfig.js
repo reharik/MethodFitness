@@ -15,7 +15,7 @@ module.exports = function(
   koa2cors,
   swaggerSpec,
   customValidators,
-  swaggerValidationMiddleware
+  swaggerValidationMiddleware,
 ) {
   return function(app, papersMiddleware) {
     if (!config.app.keys) {
@@ -29,24 +29,33 @@ module.exports = function(
 
     app.use(koaErrorHandler());
 
-    app.use(koa2cors({
-      origin: ctx => {
-        const origin1 = `http://${config.app.frontEndHost}:${config.app.frontEndPort}`;
-        const origin2 = `http://${config.app.frontEndHostAlt}:${config.app.frontEndPort}`;
-        const origin3 = `http://${config.app.frontEndHost}`;
-        const origin4 = `http://${config.app.frontEndHostAlt}`;
-        if (ctx.header.origin === origin1
-          || ctx.header.origin === origin2
-          || ctx.header.origin === origin3
-          || ctx.header.origin === origin4) {
-          return ctx.header.origin;
-        }
-        return false;
-      },
-      credentials: true }));
+    app.use(
+      koa2cors({
+        origin: ctx => {
+          const origin1 = `http://${config.app.frontEndHost}:${
+            config.app.frontEndPort
+          }`;
+          const origin2 = `http://${config.app.frontEndHostAlt}:${
+            config.app.frontEndPort
+          }`;
+          const origin3 = `http://${config.app.frontEndHost}`;
+          const origin4 = `http://${config.app.frontEndHostAlt}`;
+          if (
+            ctx.header.origin === origin1 ||
+            ctx.header.origin === origin2 ||
+            ctx.header.origin === origin3 ||
+            ctx.header.origin === origin4
+          ) {
+            return ctx.header.origin;
+          }
+          return false;
+        },
+        credentials: true,
+      }),
+    );
 
     app.use(koabodyparser());
-    app.use(koagenericsession({key: 'MethodFitness.sid'}));
+    app.use(koagenericsession({ key: 'MethodFitness.sid' }));
 
     app.use(koaconvert(papersMiddleware));
     app.use(koacompress());
@@ -56,7 +65,7 @@ module.exports = function(
 
     app.use(async function(ctx, next) {
       ctx.render = coviews(config.app.root + '/app/src/views', {
-        map: { html: 'swig' } //,
+        map: { html: 'swig' }, //,
         // cache: config.app.env === "development" ? "memory" : false
       });
       await next();
@@ -65,4 +74,3 @@ module.exports = function(
     app.use(koa2responsetime.responseTime());
   };
 };
-

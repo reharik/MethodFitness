@@ -16,51 +16,58 @@ class TrainerPaymentListContainer extends Component {
   }
 
   render() {
-    return (<TrainerPaymentList {...this.props} />);
+    return <TrainerPaymentList {...this.props} />;
   }
 }
 
 TrainerPaymentListContainer.propTypes = {
   gridConfig: PropTypes.object,
-  fetchTrainerPayments: PropTypes.func
+  fetchTrainerPayments: PropTypes.func,
 };
 
 const columns = [
   {
-    render: (value, row) => { // eslint-disable-line no-unused-vars
+    render: (value, row) => {
+      // eslint-disable-line no-unused-vars
       return cellLink('trainerPayment', 'paymentId')(value, row);
     },
     dataIndex: 'date',
     title: 'Payment Date',
-    width: '20%'
+    width: '20%',
   },
   {
-    render: val => val ? `$${val}` : '',
+    render: val => (val ? `$${val}` : ''),
     dataIndex: 'paymentTotal',
     title: 'Payment Total',
-    width: '10%'
-  }
+    width: '10%',
+  },
 ];
 
 function mapStateToProps(state) {
   moment.locale('en');
-  let trainerPayment = state.trainerPayment.find(x => x.trainerId === state.auth.user.trainerId);
-  let dataSource = trainerPayment ? trainerPayment.payments
-    .map(x => ({
-      paymentId: x.paymentId,
-      paymentTotal: x.paymentTotal,
-      date: moment(x.date).format('L')
-    })) : [];
+  let trainerPayment = state.trainerPayment.find(
+    x => x.trainerId === state.auth.user.trainerId,
+  );
+  let dataSource = trainerPayment
+    ? trainerPayment.payments.map(x => ({
+        paymentId: x.paymentId,
+        paymentTotal: x.paymentTotal,
+        date: moment(x.date).format('L'),
+      }))
+    : [];
 
   const gridConfig = {
     columns,
-    dataSource
+    dataSource,
   };
   return {
-    gridConfig
+    gridConfig,
   };
 }
 
-export default connect(mapStateToProps, {
-  fetchTrainerPayments
-})(TrainerPaymentListContainer);
+export default connect(
+  mapStateToProps,
+  {
+    fetchTrainerPayments,
+  },
+)(TrainerPaymentListContainer);

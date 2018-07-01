@@ -1,6 +1,5 @@
 module.exports = function() {
   function Validator(swagger) {
-
     if (!(this instanceof Validator)) {
       return new Validator(swagger);
     }
@@ -11,7 +10,12 @@ module.exports = function() {
     this.swagger = swagger;
     if (swagger) {
       // this adds the validate funtion to all the internal models
-      swagger.validateModel = function(modelName, obj, allowBlankTarget, disallowExtraProperties) {
+      swagger.validateModel = function(
+        modelName,
+        obj,
+        allowBlankTarget,
+        disallowExtraProperties,
+      ) {
         // this is now going to run in the scope of swagger...
         // Find the list of all Models from the allModels property or the definition property
         // This supports Swagger 1.2 and Swagger 2.0
@@ -32,29 +36,35 @@ module.exports = function() {
         //     model = models[subModelName];
         // }
 
-        return validate(modelName,
+        return validate(
+          modelName,
           obj,
           model,
           models,
           allowBlankTarget,
           disallowExtraProperties,
-          self.customValidators);
+          self.customValidators,
+        );
       };
     }
   }
 
-  Validator.prototype.validate = function(target,
-                                           swaggerModel,
-                                           swaggerModels,
-                                           allowBlankTarget,
-                                           disallowExtraProperties) {
-    return validate('rootModel',
+  Validator.prototype.validate = function(
+    target,
+    swaggerModel,
+    swaggerModels,
+    allowBlankTarget,
+    disallowExtraProperties,
+  ) {
+    return validate(
+      'rootModel',
       target,
       swaggerModel,
       swaggerModels,
       allowBlankTarget,
       disallowExtraProperties,
-      this.customValidators);
+      this.customValidators,
+    );
   };
 
   Validator.prototype.addFieldValidator = function(name, validatorFunction) {
@@ -71,7 +81,7 @@ module.exports = function() {
     }
 
     if (!this.customValidators.find(x => x.name === name)) {
-      this.customValidators.push({name, validator: validatorFunction});
+      this.customValidators.push({ name, validator: validatorFunction });
       return true;
     }
     return false;
@@ -84,13 +94,15 @@ module.exports = function() {
     return this.customValidators.find(x => x.name === name);
   };
 
-  function validate(name,
-                    target,
-                    swaggerModel,
-                    swaggerModels,
-                    allowBlankTargets,
-                    disallowExtraProperties,
-                    customValidators) {
+  function validate(
+    name,
+    target,
+    swaggerModel,
+    swaggerModels,
+    allowBlankTargets,
+    disallowExtraProperties,
+    customValidators,
+  ) {
     if (swaggerModels === true && allowBlankTargets === undefined) {
       allowBlankTargets = true;
       swaggerModels = undefined;
@@ -102,12 +114,18 @@ module.exports = function() {
       // this usually means that the body passed to validate was undefined.
       // the problem is this is called recursively. validateSpec -> validateType -> validate
       // so wtf knows where it's shitting the bed
-      return createReturnObject({message: 'Unable to validate an undefined value.'});
+      return createReturnObject({
+        message: 'Unable to validate an undefined value.',
+      });
     } else if (allowBlankTargets !== true && isEmptyObject(target)) {
-      return createReturnObject({message: 'Unable to validate an empty value.'});
+      return createReturnObject({
+        message: 'Unable to validate an empty value.',
+      });
     }
     if (!swaggerModel) {
-      return createReturnObject({message: 'Unable to validate against an undefined model.'});
+      return createReturnObject({
+        message: 'Unable to validate against an undefined model.',
+      });
     }
 
     const targetType = typeof target;
@@ -115,7 +133,11 @@ module.exports = function() {
 
     if (targetType !== 'object' && targetType !== modelType) {
       return createReturnObject({
-        message: 'Unable to validate a model with an type: ' + targetType + ', expected: ' + modelType
+        message:
+          'Unable to validate a model with an type: ' +
+          targetType +
+          ', expected: ' +
+          modelType,
       });
     }
 
@@ -125,19 +147,25 @@ module.exports = function() {
     model = getDiscriminatedModel(target, model, swaggerModels);
 
     if (model.required && model.required.length > 0) {
-      requireFieldErrs = validateRequiredFields(target, model.required, model.properties);
+      requireFieldErrs = validateRequiredFields(
+        target,
+        model.required,
+        model.properties,
+      );
       if (requireFieldErrs) {
         return createReturnObject(requireFieldErrs);
       }
     }
 
-    let validationErrs = validateSpec(name,
+    let validationErrs = validateSpec(
+      name,
       target,
       model,
       swaggerModels,
       allowBlankTargets,
       disallowExtraProperties,
-      customValidators);
+      customValidators,
+    );
 
     if (validationErrs) {
       return createReturnObject(validationErrs, model.id || name);
@@ -184,7 +212,9 @@ module.exports = function() {
         return this.errors.map(x => x.message);
       };
       result.getFormattedErrors = function(formatter) {
-        return this.errors.map(x => Object.assign({}, x, {message: formatter(x.message)}));
+        return this.errors.map(x =>
+          Object.assign({}, x, { message: formatter(x.message) }),
+        );
       };
     }
 
@@ -205,7 +235,11 @@ module.exports = function() {
     if (targetProperties) {
       for (let key in targetProperties) {
         if (!refModel.properties[targetProperties[key]]) {
-          errors.push({message: `Target property '${targetProperties[key]}' is not in the model`});
+          errors.push({
+            message: `Target property '${
+              targetProperties[key]
+            }' is not in the model`,
+          });
         }
       }
     }
@@ -213,19 +247,29 @@ module.exports = function() {
     return errors.length > 0 ? errors : null;
   }
 
-  function validateSpec(name, target, model, models, allowBlankTargets, disallowExtraProperties, customValidators) {
+  function validateSpec(
+    name,
+    target,
+    model,
+    models,
+    allowBlankTargets,
+    disallowExtraProperties,
+    customValidators,
+  ) {
     let properties = model.properties;
     let errors = [];
 
     // if there is a $ref property, it's a ref to other model
     if (model.$ref) {
-      let refErrors = validateType(name,
+      let refErrors = validateType(
+        name,
         target,
         model,
         models,
         allowBlankTargets,
         disallowExtraProperties,
-        customValidators);
+        customValidators,
+      );
       if (!refErrors.valid) {
         errors = refErrors.errors;
       }
@@ -236,27 +280,37 @@ module.exports = function() {
         return null;
       }
 
-      let singleValueErrors = validateValue(name, model, target, models, customValidators);
+      let singleValueErrors = validateValue(
+        name,
+        model,
+        target,
+        models,
+        customValidators,
+      );
       if (singleValueErrors) {
         singleValueErrors.forEach(function(error) {
           errors.push(error);
         });
       }
-    }
-
-    else {
+    } else {
       if (disallowExtraProperties && !Array.isArray(target)) {
         errors = validateProperties(target, model, models) || [];
         if (model.discriminator && errors.length >= 1) {
-          if (errors.length === 1
-            && errors[0].message === `Target property '${model.discriminator}' is not in the model`) {
+          if (
+            errors.length === 1 &&
+            errors[0].message ===
+              `Target property '${model.discriminator}' is not in the model`
+          ) {
             // remove discriminator if it is the only error.
             errors = [];
           } else {
             let tempErrors = errors;
             errors = [];
             tempErrors.forEach(function(error) {
-              if (error.message !== `Target property '${model.discriminator}' is not in the model`) {
+              if (
+                error.message !==
+                `Target property '${model.discriminator}' is not in the model`
+              ) {
                 errors.push(error);
               }
             });
@@ -270,15 +324,16 @@ module.exports = function() {
           let value = target[key];
 
           if (value !== undefined) {
-            let valueErrors = validateValue(key,
+            let valueErrors = validateValue(
+              key,
               field,
               value,
               models,
               allowBlankTargets,
               disallowExtraProperties,
-              customValidators);
+              customValidators,
+            );
             if (!valueErrors) {
-
               valueErrors = validateCustom(field, key, value, customValidators);
             }
 
@@ -320,16 +375,26 @@ module.exports = function() {
     return errors.length > 0 ? errors : null;
   }
 
-  function validateValue(key, field, value, models, allowBlankTargets, disallowExtraProperties, customValidators) {
+  function validateValue(
+    key,
+    field,
+    value,
+    models,
+    allowBlankTargets,
+    disallowExtraProperties,
+    customValidators,
+  ) {
     let errors = [];
     if (value !== undefined) {
-      let typeErr = validateType(key,
+      let typeErr = validateType(
+        key,
         value,
         field,
         models,
         allowBlankTargets,
         disallowExtraProperties,
-        customValidators);
+        customValidators,
+      );
       if (typeErr) {
         if (typeErr.valid === undefined) {
           errors.push(typeErr);
@@ -346,18 +411,35 @@ module.exports = function() {
 
       if (field['x-validatedType'] === 'string') {
         if (field.minLength > 0 || field.maxLength > 0) {
-          let err1 = validateMinMaxLength(key, value, field.minLength, field.maxLength);
+          let err1 = validateMinMaxLength(
+            key,
+            value,
+            field.minLength,
+            field.maxLength,
+          );
           if (err1) {
             errors.push(err1);
           }
         }
       }
-      if (field.type === 'integer'
-        || field.type === 'number'
-        || field['x-validatedType'] === 'date'
-        || field['x-validatedType'] === 'date-time') {
-        if (field.minimum || field.maximum || field.minimum === 0 || field.maximum === 0) {
-          let err2 = validateMinMaxValue(key, value, field.minimum, field.maximum);
+      if (
+        field.type === 'integer' ||
+        field.type === 'number' ||
+        field['x-validatedType'] === 'date' ||
+        field['x-validatedType'] === 'date-time'
+      ) {
+        if (
+          field.minimum ||
+          field.maximum ||
+          field.minimum === 0 ||
+          field.maximum === 0
+        ) {
+          let err2 = validateMinMaxValue(
+            key,
+            value,
+            field.minimum,
+            field.maximum,
+          );
           if (err2) {
             errors.push(err2);
           }
@@ -372,7 +454,10 @@ module.exports = function() {
           if (field.exclusiveMaximum || field.exclusiveMaximum === 0) {
             maximum = field.exclusiveMaximum - 1;
           }
-          if (field['x-validatedType'] === 'date' || field['x-validatedType'] === 'date-time') {
+          if (
+            field['x-validatedType'] === 'date' ||
+            field['x-validatedType'] === 'date-time'
+          ) {
             if (field.exclusiveMinimum) {
               minimum = incrementDateString(field.exclusiveMinimum, 1);
             }
@@ -380,9 +465,11 @@ module.exports = function() {
               maximum = incrementDateString(field.exclusiveMaximum, -1);
             }
             value = new Date(value).toISOString();
-          } else if (field.type === 'number'
-            || field['x-validatedType'] === 'float'
-            || field['x-validatedType'] === 'double') {
+          } else if (
+            field.type === 'number' ||
+            field['x-validatedType'] === 'float' ||
+            field['x-validatedType'] === 'double'
+          ) {
             if (field.exclusiveMinimum) {
               minimum = field.exclusiveMinimum + 0.00000000001;
             }
@@ -412,19 +499,28 @@ module.exports = function() {
     return errors.length > 0 ? errors : null;
   }
 
-  function validateType(name, property, field, models, allowBlankTargets, disallowExtraProperties, customValidators) {
-
+  function validateType(
+    name,
+    property,
+    field,
+    models,
+    allowBlankTargets,
+    disallowExtraProperties,
+    customValidators,
+  ) {
     let expectedType = field.type;
     if (!expectedType) {
       if (models && field.$ref) {
         let fieldRef1 = field.$ref.replace('#/definitions/', '');
-        return validate(name,
+        return validate(
+          name,
           property,
           models[fieldRef1],
           models,
           allowBlankTargets,
           disallowExtraProperties,
-          customValidators);
+          customValidators,
+        );
       } else {
         return null;
       }
@@ -437,7 +533,15 @@ module.exports = function() {
     // asking any further questions of it.
     if (expectedType === 'object') {
       if (field.properties) {
-        return validate(name, property, field, models, allowBlankTargets, disallowExtraProperties, customValidators);
+        return validate(
+          name,
+          property,
+          field,
+          models,
+          allowBlankTargets,
+          disallowExtraProperties,
+          customValidators,
+        );
       } else {
         return null;
       }
@@ -445,7 +549,10 @@ module.exports = function() {
 
     if (expectedType === 'array') {
       if (!Array.isArray(property)) {
-        return {property: name, message: name + ' is not an array. An array is expected.'};
+        return {
+          property: name,
+          message: name + ' is not an array. An array is expected.',
+        };
       }
 
       if (field.items && field.items.type) {
@@ -454,13 +561,15 @@ module.exports = function() {
         let count = 0;
         let arrayErrors1 = [];
         property.forEach(function(value) {
-          let errors1 = validateValue(name + count.toString(),
+          let errors1 = validateValue(
+            name + count.toString(),
             field.items,
             value,
             models,
             allowBlankTargets,
             disallowExtraProperties,
-            customValidators);
+            customValidators,
+          );
           if (errors1) {
             errors1.forEach(function(error) {
               arrayErrors1.push(error);
@@ -470,7 +579,10 @@ module.exports = function() {
         });
 
         if (arrayErrors1.length > 0) {
-          return createReturnObject(arrayErrors1, `Array of '${fieldType}' ('${name}')`);
+          return createReturnObject(
+            arrayErrors1,
+            `Array of '${fieldType}' ('${name}')`,
+          );
         }
       } else if (models && field.items && field.items.$ref) {
         // These items are a referenced model
@@ -479,13 +591,15 @@ module.exports = function() {
         if (model) {
           let arrayErrors2 = [];
           property.forEach(function(value) {
-            let errors2 = validate(name,
+            let errors2 = validate(
+              name,
               value,
               model,
               models,
               allowBlankTargets,
               disallowExtraProperties,
-              customValidators);
+              customValidators,
+            );
             if (errors2 && !errors2.valid) {
               errors2.errors.forEach(function(error) {
                 arrayErrors2.push(error);
@@ -494,7 +608,10 @@ module.exports = function() {
           });
 
           if (arrayErrors2.length > 0) {
-            return createReturnObject(arrayErrors2, `Array of '${field.items.$ref}' ('${name}')`);
+            return createReturnObject(
+              arrayErrors2,
+              `Array of '${field.items.$ref}' ('${name}')`,
+            );
           }
         }
       }
@@ -535,7 +652,12 @@ module.exports = function() {
     //if(!format) {
     return {
       property: name,
-      message: name + ' (' + wrapNullProperty(property) + ') is not a type of ' + (format || expectedType)
+      message:
+        name +
+        ' (' +
+        wrapNullProperty(property) +
+        ') is not a type of ' +
+        (format || expectedType),
     };
     //} else {
     //    return new Error(name + ' (' + wrapNullProperty(property) + ') is not a type of ' + format)
@@ -570,7 +692,12 @@ module.exports = function() {
     } else if (format === 'int32') {
       let int32Max = Math.pow(2, 31) - 1;
       let value1 = parseInt(property);
-      if (!isNaN(value1) && isFinite(property) && value1 >= -(int32Max + 1) && value1 <= int32Max) {
+      if (
+        !isNaN(value1) &&
+        isFinite(property) &&
+        value1 >= -(int32Max + 1) &&
+        value1 <= int32Max
+      ) {
         return true;
       }
     } else if (format === 'int64') {
@@ -616,9 +743,16 @@ module.exports = function() {
     if (minLength > 0) {
       if (value.length < minLength) {
         if (minLength === 1) {
-          return {property: name, message: name + ' cannot be blank'};
+          return { property: name, message: name + ' cannot be blank' };
         }
-        return {property: name, message: name + ' must be at least ' + minLength.toString() + ' characters long'};
+        return {
+          property: name,
+          message:
+            name +
+            ' must be at least ' +
+            minLength.toString() +
+            ' characters long',
+        };
       }
     }
     return null;
@@ -627,7 +761,14 @@ module.exports = function() {
   function validateMaxLength(name, value, maxLength) {
     if (maxLength > 0) {
       if (value.length > maxLength) {
-        return {property: name, message: name + ' must be no more than ' + maxLength.toString() + ' characters long'};
+        return {
+          property: name,
+          message:
+            name +
+            ' must be no more than ' +
+            maxLength.toString() +
+            ' characters long',
+        };
       }
     }
     return null;
@@ -645,13 +786,22 @@ module.exports = function() {
       if (minLength === 1) {
         return {
           property: name,
-          message: name + ' cannot be blank and cannot be longer than ' + maxLength.toString() + ' characters long'
+          message:
+            name +
+            ' cannot be blank and cannot be longer than ' +
+            maxLength.toString() +
+            ' characters long',
         };
       }
       return {
         property: name,
-        message: name + ' must be at least ' + minLength.toString() + ' characters long and no more than '
-        + maxLength.toString() + ' characters long'
+        message:
+          name +
+          ' must be at least ' +
+          minLength.toString() +
+          ' characters long and no more than ' +
+          maxLength.toString() +
+          ' characters long',
       };
     }
     return null;
@@ -660,7 +810,10 @@ module.exports = function() {
   function validateMinValue(name, value, minValue) {
     if (minValue || minValue === 0) {
       if (value < minValue) {
-        return {property: name, message: name + ' must be at least ' + minValue.toString()};
+        return {
+          property: name,
+          message: name + ' must be at least ' + minValue.toString(),
+        };
       }
     }
     return null;
@@ -669,13 +822,17 @@ module.exports = function() {
   function validateMaxValue(name, value, maxValue) {
     if (maxValue || maxValue === 0) {
       if (value > maxValue) {
-        return {property: name, message: name + ' must be no more than ' + maxValue.toString()};
+        return {
+          property: name,
+          message: name + ' must be no more than ' + maxValue.toString(),
+        };
       }
     }
     return null;
   }
 
-  function validateMinMaxValue(name, value, minValue, maxValue) { //}, exclusive) {
+  function validateMinMaxValue(name, value, minValue, maxValue) {
+    //}, exclusive) {
     // if (exclusive) {
     // }
     if (!minValue && !maxValue && !minValue === 0 && !minValue === 0) {
@@ -689,7 +846,12 @@ module.exports = function() {
     if (value < minValue || value > maxValue) {
       return {
         property: name,
-        message: name + ' must be at least ' + minValue.toString() + ' and no more than ' + maxValue.toString()
+        message:
+          name +
+          ' must be at least ' +
+          minValue.toString() +
+          ' and no more than ' +
+          maxValue.toString(),
       };
     }
     return null;
@@ -704,14 +866,15 @@ module.exports = function() {
     for (let i = 0; i < fields.length; ++i) {
       let property = fields[i];
       try {
-        if (!object.hasOwnProperty(property)
-          || object[property] === ''
-          || (object[property] === null
-            && !modelFields[property]['x-nullable'])) {
-          errors.push({property, message: property + ' is a required field'});
+        if (
+          !object.hasOwnProperty(property) ||
+          object[property] === '' ||
+          (object[property] === null && !modelFields[property]['x-nullable'])
+        ) {
+          errors.push({ property, message: property + ' is a required field' });
         }
       } catch (e) {
-        errors.push({message: 'object does not have property ' + property});
+        errors.push({ message: 'object does not have property ' + property });
       }
     }
 
@@ -728,12 +891,17 @@ module.exports = function() {
       }
     }
 
-    return {property: name, message: name + ' is not set to an allowed value (see enum)'};
+    return {
+      property: name,
+      message: name + ' is not set to an allowed value (see enum)',
+    };
   }
 
   function incrementDateString(dateString, increment) {
     let incrementingDate = new Date(dateString);
-    incrementingDate.setMilliseconds(incrementingDate.getMilliseconds() + increment);
+    incrementingDate.setMilliseconds(
+      incrementingDate.getMilliseconds() + increment,
+    );
     return incrementingDate.toISOString();
   }
 
@@ -805,7 +973,6 @@ module.exports = function() {
           }
 
           merged = merge(merged, modelRef);
-
         } else {
           merged = merge(merged, item);
         }

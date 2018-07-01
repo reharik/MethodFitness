@@ -1,9 +1,11 @@
 // validate.js
 
-
 module.exports = function() {
   function isEmpty(value) {
-    return { valid: value === undefined || value === '' || Object.keys(value).length === 0 };
+    return {
+      valid:
+        value === undefined || value === '' || Object.keys(value).length === 0,
+    };
   }
 
   function validate(value, schema) {
@@ -11,7 +13,13 @@ module.exports = function() {
     if (schema === undefined) {
       return {
         success: false,
-        errors: [{ message: `can not validate: ${JSON.stringify(value)}, when there is no applicable schema` }]
+        errors: [
+          {
+            message: `can not validate: ${JSON.stringify(
+              value,
+            )}, when there is no applicable schema`,
+          },
+        ],
       };
     }
     return schema.validator(value);
@@ -37,13 +45,17 @@ module.exports = function() {
       let emptyBodyResult = validate(body, { validator: isEmpty });
       if (!emptyBodyResult.valid) {
         validationResult.success = false;
-        validationResult.errors.push(`Expected empty body but received ${body}`);
+        validationResult.errors.push(
+          `Expected empty body but received ${body}`,
+        );
         validationResult.where.push('body');
       }
 
       if (query !== undefined && Object.keys(query).length > 0) {
         validationResult.success = false;
-        validationResult.errors.push(`Expected empty query string but received ${JSON.stringify(query)}`);
+        validationResult.errors.push(
+          `Expected empty query string but received ${JSON.stringify(query)}`,
+        );
         validationResult.where.push('query');
       }
 
@@ -58,7 +70,9 @@ module.exports = function() {
           break;
         case 'path': {
           let actual = compiledPath.name.match(/[^\/]+/g);
-          let valueIndex = compiledPath.expected.indexOf('{' + parameter.name + '}');
+          let valueIndex = compiledPath.expected.indexOf(
+            '{' + parameter.name + '}',
+          );
           value = actual ? actual[valueIndex] : undefined;
           break;
         }
@@ -74,7 +88,9 @@ module.exports = function() {
       let paramResult = validate(value, parameter);
       if (!paramResult.valid) {
         validationResult.success = false;
-        validationResult.errors = validationResult.errors.concat(paramResult.errors);
+        validationResult.errors = validationResult.errors.concat(
+          paramResult.errors,
+        );
         validationResult.where.push(parameter.in);
       }
     });
@@ -84,7 +100,9 @@ module.exports = function() {
       if (!error.valid) {
         validationResult.success = false;
         validationResult.where.push('body');
-        validationResult.errors.push(`Expected empty body but received ${JSON.stringify(body)}`);
+        validationResult.errors.push(
+          `Expected empty body but received ${JSON.stringify(body)}`,
+        );
       }
     }
     return validationResult;
@@ -94,7 +112,7 @@ module.exports = function() {
     if (compiledPath === undefined) {
       return {
         actual: 'UNDEFINED_PATH',
-        expected: 'PATH'
+        expected: 'PATH',
       };
     }
     let operation = compiledPath.path[method.toLowerCase()];
@@ -110,7 +128,9 @@ module.exports = function() {
       result = validate(body, responseDefinition);
     } else {
       result.valid = false;
-      result.errors = [{ message: `No response provided in schema for status: ${status}` }];
+      result.errors = [
+        { message: `No response provided in schema for status: ${status}` },
+      ];
     }
 
     if (!result.valid) {
@@ -123,6 +143,6 @@ module.exports = function() {
 
   return {
     request,
-    response
+    response,
   };
 };

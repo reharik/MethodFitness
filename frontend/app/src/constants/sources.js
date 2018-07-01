@@ -4,5 +4,5 @@ export default [
   { value: 'webSearch', display: 'Web Search' },
   { value: 'printAd', display: 'Print Ad' },
   { value: 'network', display: 'Network' },
-  { value: 'other', display: 'Other' }
+  { value: 'other', display: 'Other' },
 ];

@@ -12,7 +12,7 @@ class LayoutContainer extends Component {
   }
 
   loadData() {
-    if(!this.props.isAuthenticated) {
+    if (!this.props.isAuthenticated) {
       this.props.checkAuth();
     }
     this.props.getJsonSchema();
@@ -33,19 +33,21 @@ LayoutContainer.propTypes = {
   checkAuth: PropTypes.func,
   isFetching: PropTypes.bool,
   errorMessage: PropTypes.string,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
-
 
 function mapStateToProps(state = []) {
   return {
     isReady: Object.keys(state.schema.definitions).length > 0,
     isAuthenticated: state.auth.isAuthenticated,
-    userName: state.auth.user.userName
+    userName: state.auth.user.userName,
   };
 }
 
-export default connect(mapStateToProps, {
-  getJsonSchema,
-  checkAuth
-})(LayoutContainer);
+export default connect(
+  mapStateToProps,
+  {
+    getJsonSchema,
+    checkAuth,
+  },
+)(LayoutContainer);

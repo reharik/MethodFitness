@@ -17,7 +17,7 @@ class PayTrainerListContainer extends Component {
   }
 
   render() {
-    return (<PayTrainerList {...this.props} />);
+    return <PayTrainerList {...this.props} />;
   }
 }
 
@@ -25,75 +25,78 @@ PayTrainerListContainer.propTypes = {
   gridConfig: PropTypes.object,
   fetchVerifiedAppointments: PropTypes.func,
   submitTrainerPayment: PropTypes.func,
-  trainerId: PropTypes.string
+  trainerId: PropTypes.string,
 };
 
 const columns = [
   {
     dataIndex: 'clientName',
     title: 'Client Name',
-    width: '20%'
+    width: '20%',
   },
   {
     dataIndex: 'appointmentDate',
     title: 'Date',
-    width: '20%'
+    width: '20%',
   },
   {
     dataIndex: 'appointmentStartTime',
     title: 'Start Time',
-    width: '15%'
+    width: '15%',
   },
   {
     dataIndex: 'appointmentType',
     title: 'Type',
-    width: '15%'
+    width: '15%',
   },
   {
-    render: val => val ? `$${val}` : val,
+    render: val => (val ? `$${val}` : val),
     dataIndex: 'pricePerSession',
     title: 'Cost',
-    width: '10%'
+    width: '10%',
   },
   {
-    render: val => val ? `${val}%` : val,
+    render: val => (val ? `${val}%` : val),
     dataIndex: 'trainerPercentage',
     title: 'Percent',
-    width: '10%'
+    width: '10%',
   },
   {
-    render: val => val ? `$${val}` : val,
+    render: val => (val ? `$${val}` : val),
     dataIndex: 'trainerPay',
     title: 'Pay',
-    width: '10%'
-  }
+    width: '10%',
+  },
 ];
 
 function mapStateToProps(state, props) {
   moment.locale('en');
-  let dataSource = state.sessionVerification
-    .filter(x => x.verified)
-    .map(x => ({
-      ...x,
-      appointmentDate: moment(x.appointmentDate).format('L'),
-      appointmentStartTime: moment(x.appointmentStartTime).format('LT')
-    }));
+  let dataSource = state.sessionVerification.filter(x => x.verified).map(x => ({
+    ...x,
+    appointmentDate: moment(x.appointmentDate).format('L'),
+    appointmentStartTime: moment(x.appointmentStartTime).format('LT'),
+  }));
 
-  let trainer = state.trainers.find(x => x.trainerId === props.params.trainerId);
+  let trainer = state.trainers.find(
+    x => x.trainerId === props.params.trainerId,
+  );
   let trainerName = `${trainer.contact.firstName} ${trainer.contact.lastName}`;
 
   const gridConfig = {
     columns,
-    dataSource
+    dataSource,
   };
   return {
     gridConfig,
     trainerName,
-    trainerId: props.params.trainerId
+    trainerId: props.params.trainerId,
   };
 }
 
-export default connect(mapStateToProps, {
-  fetchVerifiedAppointments,
-  submitTrainerPayment
-})(PayTrainerListContainer);
+export default connect(
+  mapStateToProps,
+  {
+    fetchVerifiedAppointments,
+    submitTrainerPayment,
+  },
+)(PayTrainerListContainer);

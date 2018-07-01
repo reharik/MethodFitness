@@ -1,92 +1,88 @@
-module.exports = (cy) => {
+module.exports = cy => {
   cy.server();
 
   cy.route({
     method: 'GET',
-    url: '/fetchAllClients'
+    url: '/fetchAllClients',
   }).as('fetchAllClients');
 
   cy.route({
     method: 'GET',
-    url: '/trainerVerification/fetchUnverifiedAppointments'
+    url: '/trainerVerification/fetchUnverifiedAppointments',
   }).as('fetchUnverifiedAppointments');
 
   cy.route({
     method: 'POST',
-    url: '/appointment/scheduleAppointment'
+    url: '/appointment/scheduleAppointment',
   }).as('scheduleAppointment');
 
   cy.route({
     method: 'POST',
-    url: '/appointment/scheduleAppointmentInPast'
+    url: '/appointment/scheduleAppointmentInPast',
   }).as('scheduleAppointmentInPast');
 
   cy.route({
     method: 'POST',
-    url: '/appointment/updateAppointmentFromPast'
+    url: '/appointment/updateAppointmentFromPast',
   }).as('updateAppointmentFromPast');
 
   cy.route({
     method: 'GET',
-    url: '/purchaselist/fetchpurchases/*'
+    url: '/purchaselist/fetchpurchases/*',
   }).as('fetchpurchases');
 
   cy.route({
     method: 'POST',
-    url: '/fetchAppointments/*/*'
+    url: '/fetchAppointments/*/*',
   }).as('fetchAppointments');
 
   cy.route({
     method: 'POST',
-    url: '/appointment/removeAppointmentFromPast'
+    url: '/appointment/removeAppointmentFromPast',
   }).as('deletePastAppointment');
 
   cy.route({
     method: 'GET',
-    url: '/client/getClient/*'
+    url: '/client/getClient/*',
   }).as('getClient');
 
   cy.route({
     method: 'POST',
-    url: '/trainerVerification/verifyappointments'
+    url: '/trainerVerification/verifyappointments',
   }).as('verifyappointments');
 
   cy.route({
     method: 'POST',
-    url: '/payTrainer/*'
+    url: '/payTrainer/*',
   }).as('paytrainer');
 
   cy.route({
     method: 'GET',
-    url: '/trainerPayments'
+    url: '/trainerPayments',
   }).as('trainerpayments');
 
   cy.route({
     method: 'GET',
-    url: '/trainerPaymentDetails/*'
+    url: '/trainerPaymentDetails/*',
   }).as('trainerpaymentdetails');
 
   cy.route({
     method: 'POST',
-    url: '/purchase/purchase'
+    url: '/purchase/purchase',
   }).as('purchase');
 
   cy.route({
     method: 'POST',
-    url: '/appointment/cancelappointment'
+    url: '/appointment/cancelappointment',
   }).as('cancelappointment');
 
   cy.route({
     method: 'GET',
-    url: '/fetchappointment/*'
+    url: '/fetchappointment/*',
   }).as('fetchappointment');
 
   cy.route({
     method: 'POST',
-    url: '/appointment/cleanalltestdata'
+    url: '/appointment/cleanalltestdata',
   }).as('cleanalltestdata');
 };
-
-
-
-
