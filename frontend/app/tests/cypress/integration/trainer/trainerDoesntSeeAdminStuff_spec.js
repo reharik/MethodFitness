@@ -64,13 +64,13 @@ describe('Trainer Can Not See Admin Stuff', () => {
 
       //test that start times begin now.
       cy.get(`ol[data-id='${Cypress.moment()
-        .format('ddd MM/DD')}'] li[data-id='${Cypress.moment().add(1, 'hour').startOf('hour').format('h:mm A')}']`)
+        .format('ddd MM/DD')}'] li[data-id='${Cypress.moment().add(4, 'hour').startOf('hour').format('h:mm A')}']`)
         .click();
 
       cy.dataId('startTime-container', 'div').click();
       cy.get('ul.ant-select-dropdown-menu').first('li.ant-select-dropdown-menu-item')
         .contains(Cypress.moment().add(1, 'hour').startOf('hour').format('h:mm A'));
-      cy.get('#startTime').blur();
+      cy.get('.ant-select-selection--single').blur();
 
       cy.get('button').contains('Cancel').click({force: true});
 
@@ -101,8 +101,8 @@ describe('Trainer Can Not See Admin Stuff', () => {
     });
   });
 
-  describe('when trainer is in clients view', () => {
-    it('should see the right stuff in list', function() {
+  describe.only('when trainer is in clients view', () => {
+    it('should see the right stuff in client list', function() {
 
       let trainer = this.trainers.trainer3;
       routines.loginTrainer({ index: 1, trainer });
@@ -127,12 +127,13 @@ describe('Trainer Can Not See Admin Stuff', () => {
         .contains(this.clients.client4.LN)
         .should('exist');
 
+      cy.get('span').contains('Show All').should('not.exist');
       cy.get('.ant-table-thead').contains('Archived').should('not.exist');
     });
   });
 
 
-  describe.only('when trainer is in purchase view', () => {
+  describe('when trainer is in purchase view', () => {
   it('should see the right stuff in list', function() {
 
     let trainer = this.trainers.trainer3;

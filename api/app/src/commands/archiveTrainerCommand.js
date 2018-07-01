@@ -1,6 +1,7 @@
 module.exports = function(invariant) {
-  return function({trainerId}) {
+  return function({trainerId, date}) {
     invariant(trainerId, 'archiveTrainer requires that you pass the trainerss id');
-    return {trainerId};
+    invariant(date, 'archiveTrainer requires that you pass the archived date');
+    return {trainerId, date};
   };
 };

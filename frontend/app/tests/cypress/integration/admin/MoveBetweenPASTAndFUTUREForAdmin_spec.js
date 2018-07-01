@@ -1,47 +1,60 @@
-const _routines = require('../../helpers/routines');
-const setupRoutes = require('../../helpers/setupRoutes');
-const _aDT = require('../../fixtures/appointments');
-const appTimes = require('../../helpers/appointmentTimes');
+const _routines = require("../../helpers/routines");
+const setupRoutes = require("../../helpers/setupRoutes");
+const _aDT = require("../../fixtures/appointments");
+const appTimes = require("../../helpers/appointmentTimes");
 let aDT;
 let appointmentValues;
 
-describe('Moving between past and future', () => {
+describe("Moving between past and future", () => {
   let routines;
 
   beforeEach(() => {
     setupRoutes(cy);
-    routines = _routines(cy, Cypress, Cypress.moment);
+    routines = _routines(
+      cy,
+      Cypress,
+      Cypress.moment
+    );
 
     routines.loginAdmin({});
     routines.deleteAllAppointments();
-    cy.visit('/');
-    cy.fixture('prices').as('prices');
-    cy.fixture('clients').as('clients');
-    cy.fixture('trainers').as('trainers');
+    cy.visit("/");
+    cy.fixture("prices").as("prices");
+    cy.fixture("clients").as("clients");
+    cy.fixture("trainers").as("trainers");
   });
 
-  describe('When moving unfunded from past to future', () => {
-    it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, appTimes.time15, true);
+  describe("When moving unfunded from past to future", () => {
+    it("should pass all steps", function() {
+      aDT = _aDT(
+        Cypress.moment,
+        appTimes.time15,
+        true
+      );
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: "Full Hour"
       });
-      const newDate = Cypress.moment(aDT.day).add(2, 'day');
+      const newDate = Cypress.moment(aDT.day).add(
+        2,
+        "day"
+      );
       appointmentValues = {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        newDate: newDate,
+        newDate: newDate
       };
-      routines.changeAppointment(appointmentValues);
+      routines.changeAppointment(
+        appointmentValues
+      );
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '0',
+        fullHourCount: "0"
       });
 
       routines.checkVerification({
@@ -51,39 +64,48 @@ describe('Moving between past and future', () => {
     });
   });
 
-  describe('When moving funded from past to future', () => {
-    it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, appTimes.time15, true);
+  describe("When moving funded from past to future", () => {
+    it("should pass all steps", function() {
+      aDT = _aDT(
+        Cypress.moment,
+        appTimes.time15,
+        true
+      );
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: "2"
       });
 
-      cy.navTo('Calendar');
-      cy.wait('@fetchAppointments');
+      cy.navTo("Calendar");
+      cy.wait("@fetchAppointments");
 
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: "Full Hour"
       });
 
-      const newDate = Cypress.moment(aDT.day).add(2, 'day');
+      const newDate = Cypress.moment(aDT.day).add(
+        2,
+        "day"
+      );
       appointmentValues = {
         index: 2,
         date: aDT.date,
         time: aDT.time,
         newDate
       };
-      routines.changeAppointment(appointmentValues);
+      routines.changeAppointment(
+        appointmentValues
+      );
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: "2"
       });
 
       routines.checkVerification({
@@ -99,43 +121,52 @@ describe('Moving between past and future', () => {
     });
   });
 
-  describe('When moving funded, verified from past to future', () => {
-    it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, appTimes.time15, true);
+  describe("When moving funded, verified from past to future", () => {
+    it("should pass all steps", function() {
+      aDT = _aDT(
+        Cypress.moment,
+        appTimes.time15,
+        true
+      );
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: "2"
       });
 
-      cy.navTo('Calendar');
-      cy.wait('@fetchAppointments');
+      cy.navTo("Calendar");
+      cy.wait("@fetchAppointments");
 
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: "Full Hour"
       });
 
       routines.verifyAppointments({
         index: 11
       });
 
-      const newDate = Cypress.moment(aDT.day).add(2, 'day');
+      const newDate = Cypress.moment(aDT.day).add(
+        2,
+        "day"
+      );
       appointmentValues = {
         index: 2,
         date: aDT.date,
         time: aDT.time,
         newDate
       };
-      routines.changeAppointment(appointmentValues);
+      routines.changeAppointment(
+        appointmentValues
+      );
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: "2"
       });
 
       routines.checkVerification({
@@ -151,22 +182,21 @@ describe('Moving between past and future', () => {
     });
   });
 
-
-  describe('When moving unfunded from future to past', () => {
-    it('should pass all steps', function() {
+  describe("When moving unfunded from future to past", () => {
+    it("should pass all steps", function() {
       aDT = _aDT(Cypress.moment, appTimes.time15);
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour',
+        appointmentType: "Full Hour",
         future: true
       });
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '0',
+        fullHourCount: "0"
       });
 
       routines.checkVerification({
@@ -174,19 +204,23 @@ describe('Moving between past and future', () => {
         noInarears: true
       });
 
-      const newDate = Cypress.moment(aDT.day).subtract(2, 'day');
+      const newDate = Cypress.moment(
+        aDT.day
+      ).subtract(2, "day");
       appointmentValues = {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        newDate: newDate,
+        newDate: newDate
       };
-      routines.changeAppointment(appointmentValues);
+      routines.changeAppointment(
+        appointmentValues
+      );
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '-1',
+        fullHourCount: "-1"
       });
 
       routines.checkVerification({
@@ -195,37 +229,37 @@ describe('Moving between past and future', () => {
         inarrearsItemValues: {
           client: this.clients.client1,
           date: newDate,
-          appointmentType: 'Full Hour'
+          appointmentType: "Full Hour"
         }
       });
     });
   });
 
-  describe('When moving funded from future to past', () => {
-    it('should pass all steps', function() {
+  describe("When moving funded from future to past", () => {
+    it("should pass all steps", function() {
       aDT = _aDT(Cypress.moment, appTimes.time15);
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: "2"
       });
 
-      cy.navTo('Calendar');
-      cy.wait('@fetchAppointments');
+      cy.navTo("Calendar");
+      cy.wait("@fetchAppointments");
 
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour',
+        appointmentType: "Full Hour",
         future: true
       });
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: "2"
       });
 
       routines.checkVerification({
@@ -233,19 +267,23 @@ describe('Moving between past and future', () => {
         noAvailable: true
       });
 
-      const newDate = Cypress.moment(aDT.day).subtract(2, 'day');
+      const newDate = Cypress.moment(
+        aDT.day
+      ).subtract(2, "day");
       appointmentValues = {
         index: 4,
         date: aDT.date,
         time: aDT.time,
-        newDate: newDate,
+        newDate: newDate
       };
-      routines.changeAppointment(appointmentValues);
+      routines.changeAppointment(
+        appointmentValues
+      );
 
       routines.checkClientInventory({
         index: 5,
         client: this.clients.client1,
-        fullHourCount: '1',
+        fullHourCount: "1"
       });
 
       routines.checkVerification({
@@ -254,12 +292,12 @@ describe('Moving between past and future', () => {
         availableItemValues: {
           client: this.clients.client1,
           date: newDate,
-          appointmentType: 'Full Hour'
+          appointmentType: "Full Hour"
         }
       });
 
-      cy.navTo('Calendar');
-      cy.wait('@fetchAppointments');
+      cy.navTo("Calendar");
+      cy.wait("@fetchAppointments");
 
       routines.verifyAppointments({
         index: 7
@@ -282,10 +320,9 @@ describe('Moving between past and future', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: newDate,
-          appointmentType: 'Full Hour'
+          appointmentType: "Full Hour"
         }
       });
     });
   });
-
 });

@@ -9,7 +9,7 @@ module.exports = function() {
         state._isArchived = true;
       },
 
-      clientUnArchived() {
+      clientUnarchived() {
         state._isArchived = false;
       },
 

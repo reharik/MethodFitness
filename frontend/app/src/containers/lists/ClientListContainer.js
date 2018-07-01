@@ -5,9 +5,9 @@ import ClientList from '../../components/lists/ClientList';
 import clientListDefinition from './listDefinition/clientListDefinition';
 import { fetchAllClientsAction, archiveClient } from './../../modules/clientModule';
 import sortBy from 'sort-by';
-import Breakjs from 'breakjs';
+import breakjs from 'breakjs';
 
-const layout = Breakjs({
+const layout = breakjs({
   mobile: 0,
   tablet: 768,
   laptop: 1201
@@ -33,7 +33,12 @@ class ClientListContainer extends Component {
   render() {
     let columns = clientListDefinition(this.state.layout, this.props.isAdmin);
     this.gridConfig = {...this.props.gridConfig, columns };
-    return (<ClientList gridConfig={this.gridConfig} archiveClient={this.props.archiveClient} />);
+    return (
+      <ClientList
+        gridConfig={this.gridConfig}
+        archiveClient={this.props.archiveClient}
+        isAdmin={this.props.isAdmin}
+      />);
   }
 }
 

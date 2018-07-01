@@ -1,7 +1,8 @@
 module.exports = function(invariant) {
-  return function({clientId}) {
+  return function({clientId, date}) {
     invariant(clientId, 'archiveClient requires that you pass the clients id');
-    return {clientId};
+    invariant(date, 'archiveClient requires that you pass the date');
+    return {clientId, date};
   };
 };
 

@@ -255,9 +255,6 @@ export function archiveClient(data) {
 }
 
 export function fetchClientAction(clientId) {
-  console.log(`=========="fetchClientsAction"=========`);
-  console.log("fetchClientsAction"); // eslint-disable-line quotes
-  console.log(`==========END "fetchClientsAction"=========`);
   let apiUrl = config.apiBase + 'client/getClient/' + clientId;
   return {
     type: CLIENT.REQUEST,

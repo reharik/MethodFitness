@@ -33,6 +33,7 @@ export default (size, isAdmin) => {
         return archiveClient => [
           {
             render: (value, row) => { // eslint-disable-line no-unused-vars
+
               return cellLink('client', 'clientId')(value, row);
             },
             dataIndex: 'contact.lastName',
@@ -57,7 +58,7 @@ export default (size, isAdmin) => {
           },
           {
             render: (value, row) => { // eslint-disable-line no-unused-vars
-              return archiveLink(archiveClient, 'clientId')(value, row);
+              return archiveLink(archiveClient, null, 'clientId')(value, row);
             },
             dataIndex: 'archived',
             title: 'Archived',

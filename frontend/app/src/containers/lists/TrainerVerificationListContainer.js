@@ -35,10 +35,11 @@ function mapStateToProps(state) {
     .filter(x => !x.verified && x.trainerId === state.auth.user.trainerId)
     .map(x => ({
       ...x,
+      // ok, looks like decamalize does not capitalize the first letter
+      // of each word so the second map does that.
       appointmentType: decamelize(x.appointmentType, ' ')
         .split(' ')
-        // WTF??
-        .map(x => x[0].toUpperCase() + x.slice(1))
+        .map(w => w[0].toUpperCase() + w.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')

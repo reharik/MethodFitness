@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { message } from 'antd';
 
 const ArchiveLink = (action, loggedInUser, idName = 'id') => {
   const link = (value, row) => {
-    const result = {id: row[idName], archived: value};
+    const result = {
+      [idName]: row[idName],
+      archived: value,
+      date: moment().toISOString()
+    };
     const archiveClick = (result) => {
       if (result[idName] === loggedInUser) {
         message.info('You may not archive the currently logged in User', 8);
@@ -15,7 +20,7 @@ const ArchiveLink = (action, loggedInUser, idName = 'id') => {
 
     return (
       <div onClick={() => archiveClick(result)} className="list__cell__link">
-        <span>{result.archived ? 'UnArchive' : 'Archive'}</span>
+        <span>{result.archived ? 'Unarchive' : 'Archive'}</span>
       </div>
     );
   };

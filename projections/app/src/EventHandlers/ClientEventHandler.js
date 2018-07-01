@@ -56,16 +56,16 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
     async function clientArchived(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
       client.archived = true;
-      client.archivedDate = moment().toISOString();
+      client.archivedDate = event.date;
       let sql = `UPDATE "client" SET "archived" = 'true', document = '${JSON.stringify(client)}' 
 where id = '${event.clientId}'`;
       return await rsRepository.saveQuery(sql);
     }
 
-    async function clientUnArchived(event) {
+    async function clientUnarchived(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
       client.archived = false;
-      client.archivedDate = moment().toISOString();
+      client.archivedDate = event.date;
       let sql = `UPDATE "client" SET "archived" = 'false', document = '${JSON.stringify(client)}' 
 where id = '${event.clientId}'`;
       return await rsRepository.saveQuery(sql);
@@ -93,9 +93,6 @@ where id = '${event.clientId}'`;
 
     async function sessionsRefunded(event) {
       let client = await rsRepository.getById(event.clientId, 'client');
-      console.log(`==========client=========`);
-      console.log(client); // eslint-disable-line quotes
-      console.log(`==========END client=========`);
       event.refundSessions.forEach(x => client.inventory[x.appointmentType] = client.inventory[x.appointmentType] - 1);
       return await rsRepository.save('client', client, client.clientId);
     }
@@ -118,7 +115,7 @@ where id = '${event.clientId}'`;
       handlerName: 'ClientEventHandler',
       clientAdded,
       clientArchived,
-      clientUnArchived,
+      clientUnarchived,
       clientContactUpdated,
       clientAddressUpdated,
       clientInfoUpdated,

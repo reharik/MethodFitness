@@ -138,7 +138,6 @@ class AppointmentForm extends Component {
                 data={model.trainerId}
                 selectOptions={this.props.trainers}
                 formItemLayout={formItemLayout}
-                extraFunc={!this.props.isAdmin ? this.disabledDate : '' }
                 span={24} />
               : <DisplayFor data={model.trainerId} selectOptions={this.props.trainers} />}
           </Row>
@@ -169,7 +168,7 @@ class AppointmentForm extends Component {
               form={form}
               data={model.date}
               formItemLayout={formItemLayout}
-              extraFunc={this.disabledDate}
+              extraFunc={!this.props.isAdmin ? this.disabledDate : null }
               span={24} />
           </Row>
           <Row type="flex">

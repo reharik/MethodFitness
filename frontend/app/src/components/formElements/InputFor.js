@@ -11,11 +11,8 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
     switch (_data['x-input'] || _data.type) {
       case 'date-time': {
         const _onChange = onChange ? {onChange} : {};
+        // used so you can't set appointments in past
         const disabledDate = extraFunc ? {disabledDate: extraFunc} : {};
-        console.log(`==========disabledDate==========`);
-        console.log(extraFunc);
-        console.log(`==========END disabledDate==========`);
-
         return (
           <DatePicker id={data.name} style={{width: '100%'}} {...disabledDate} {..._onChange} format={'MM/DD/YYYY'} />
         );

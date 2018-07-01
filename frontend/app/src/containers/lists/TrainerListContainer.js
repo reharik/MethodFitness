@@ -5,9 +5,9 @@ import TrainerList from '../../components/lists/TrainerList';
 import { fetchAllTrainersAction, archiveTrainer } from './../../modules/trainerModule';
 import trainerListDefinition from './listDefinition/trainerListDefinition';
 import sortBy from 'sort-by';
-import Breakjs from 'breakjs';
+import breakjs from 'breakjs';
 
-const layout = Breakjs({
+const layout = breakjs({
   mobile: 0,
   tablet: 768,
   laptop: 1201
