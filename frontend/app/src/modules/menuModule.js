@@ -14,35 +14,35 @@ const item = localStorage.getItem('menu_data');
 const data = item
   ? JSON.parse(item)
   : {
-    menuItems: getMenuItems(),
-    path: [],
-    breadCrumbItems: ['Home'],
-    currentItem: ''
-  };
+      menuItems: getMenuItems(),
+      path: [],
+      breadCrumbItems: ['Home'],
+      currentItem: '',
+    };
 
 export default (state = data, action = {}) => {
   switch (action.type) {
     case NAV_DOWN: {
       return Object.assign({}, state, {
         path: [...state.path, action.index],
-        breadCrumbItems: [...state.breadCrumbItems, action.text]
+        breadCrumbItems: [...state.breadCrumbItems, action.text],
       });
     }
     case NAV_SELECT: {
       return Object.assign({}, state, {
-        currentItem: action.text
+        currentItem: action.text,
       });
     }
     case NAV_TO: {
       return Object.assign({}, state, {
         path: state.path.slice(0, action.index),
-        breadCrumbItems: state.breadCrumbItems.slice(0, action.index + 1)
+        breadCrumbItems: state.breadCrumbItems.slice(0, action.index + 1),
       });
     }
     case LOGIN.SUCCESS: {
       const role = selectn('response.user.role', action);
       const menuItems = getMenuItems(role);
-      const menuData = {...state, menuItems};
+      const menuData = { ...state, menuItems };
       localStorage.setItem('menu_data', JSON.stringify(menuData));
 
       return menuData;
@@ -55,19 +55,19 @@ export default (state = data, action = {}) => {
 export const menuItemClicked = (index, text, isParent) => {
   return isParent
     ? {
-      type: NAV_DOWN,
-      index,
-      text
-    }
+        type: NAV_DOWN,
+        index,
+        text,
+      }
     : {
-      type: NAV_SELECT,
-      text
-    };
+        type: NAV_SELECT,
+        text,
+      };
 };
 
 export const navBreadCrumbClicked = index => {
   return {
     type: NAV_TO,
-    index
+    index,
   };
 };

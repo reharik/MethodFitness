@@ -8,12 +8,15 @@ import { LOGIN } from './../../modules/authModule';
 class SignInForm extends Component {
   containerName = 'signIn';
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.clearNotification();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let payload = {password: values.password.trim(), userName: values.userName.trim()};
+        let payload = {
+          password: values.password.trim(),
+          userName: values.userName.trim(),
+        };
         this.props.loginUser(payload);
       }
     });
@@ -38,7 +41,7 @@ class SignInForm extends Component {
             <Notification actionName={LOGIN.FAILURE} />
             <Form onSubmit={this.handleSubmit}>
               <Row type="flex" className="signIn__form__header">
-                <Col span={24} >
+                <Col span={24}>
                   <label className="signIn__form__header__label">Sign In</label>
                 </Col>
               </Row>
@@ -50,7 +53,11 @@ class SignInForm extends Component {
                 <SubmissionFor form={form} data={model.password} span={24} />
               </Row>
               <Row type="flex" className="signIn__form__footer">
-                <Button type="submit" htmlType="submit" className="signIn__form__footer__button">
+                <Button
+                  type="submit"
+                  htmlType="submit"
+                  className="signIn__form__footer__button"
+                >
                   Sign In
                 </Button>
               </Row>
@@ -67,7 +74,7 @@ SignInForm.propTypes = {
   loginUser: PropTypes.func,
   notifications: PropTypes.string,
   form: PropTypes.object,
-  clearNotification: PropTypes.func
+  clearNotification: PropTypes.func,
 };
 
 export default Form.create()(SignInForm);

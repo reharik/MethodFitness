@@ -1,10 +1,11 @@
 module.exports = function(rsRepository, unpaidAppointmentsState, logger) {
   return function() {
-
     async function initializeState(initialState) {
       logger.info('Initializing state in unpaidAppointmentsPersistence');
-      let state = await rsRepository
-        .getAggregateViewMeta('unpaidAppointments', '00000000-0000-0000-0000-000000000001');
+      let state = await rsRepository.getAggregateViewMeta(
+        'unpaidAppointments',
+        '00000000-0000-0000-0000-000000000001',
+      );
 
       if (!state.trainers) {
         state = initialState;
@@ -25,17 +26,23 @@ module.exports = function(rsRepository, unpaidAppointmentsState, logger) {
 
     async function saveTrainer(state, id) {
       console.log(`=========="here"=========`);
-      console.log("here"); // eslint-disable-line quotes
+      console.log('here'); // eslint-disable-line quotes
       console.log(`==========END "here"=========`);
       let document = buildUnpaidAppointments(state, id);
       console.log(`==========document=========`);
       console.log(document); // eslint-disable-line quotes
       console.log(`==========END document=========`);
-      const sql = `UPDATE "unpaidAppointments" SET document = '${rsRepository.sanitizeDocument(document)}' 
+      const sql = `UPDATE "unpaidAppointments" SET document = '${rsRepository.sanitizeDocument(
+        document,
+      )}' 
             where id = '${document.trainerId}';
         INSERT INTO "unpaidAppointments"
-        ("id", "document") SELECT '${document.trainerId}','${rsRepository.sanitizeDocument(document)}'
-        WHERE NOT EXISTS (SELECT 1 FROM "unpaidAppointments" WHERE id = '${document.trainerId}');`;
+        ("id", "document") SELECT '${
+          document.trainerId
+        }','${rsRepository.sanitizeDocument(document)}'
+        WHERE NOT EXISTS (SELECT 1 FROM "unpaidAppointments" WHERE id = '${
+          document.trainerId
+        }');`;
       console.log(`==========sql=========`);
       console.log(sql); // eslint-disable-line quotes
       console.log(`==========END sql=========`);
@@ -56,13 +63,14 @@ module.exports = function(rsRepository, unpaidAppointmentsState, logger) {
         'unpaidAppointments',
         state.innerState,
         unpaidAppointments,
-        'trainerId');
+        'trainerId',
+      );
     }
 
     return {
       initializeState,
       saveState,
-      saveTrainer
+      saveTrainer,
     };
   };
 };

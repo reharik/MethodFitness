@@ -27,19 +27,19 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pairs'
+        appointmentType: 'Pairs',
       });
 
       routines.checkClientInventory({
         index: 1,
         client: this.clients.client1,
-        pairsCount: '-1'
+        pairsCount: '-1',
       });
 
       routines.checkClientInventory({
         index: 1,
         client: this.clients.client2,
-        pairsCount: '-1'
+        pairsCount: '-1',
       });
 
       routines.checkVerification({
@@ -48,13 +48,13 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         inarrearsItemValues2: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
     });
   });
@@ -67,19 +67,19 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pairs'
+        appointmentType: 'Pairs',
       });
 
       routines.checkClientInventory({
         index: 1,
         client: this.clients.client1,
-        pairCount: '-1'
+        pairCount: '-1',
       });
 
       routines.checkClientInventory({
         index: 1,
         client: this.clients.client2,
-        pairCount: '-1'
+        pairCount: '-1',
       });
 
       routines.checkVerification({
@@ -88,37 +88,37 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         inarrearsItemValues2: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.purchaseSessions({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.purchaseSessions({
         index: 3,
         client: this.clients.client2,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client1,
-        pairHourCount: '1'
+        client: this.clients.client1,
+        pairHourCount: '1',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client2,
-        pairCount: '1'
+        client: this.clients.client2,
+        pairCount: '1',
       });
 
       routines.checkSessions({
@@ -128,8 +128,8 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.checkSessions({
@@ -139,8 +139,8 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.checkVerification({
@@ -149,31 +149,31 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         availableItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         availableItemValues2: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
       routines.verifyAppointments({
-        index: 7
+        index: 7,
       });
 
       routines.checkPayTrainer({
         index: 8,
         trainer: this.trainers.trainer1,
-        payableCount: 2
+        payableCount: 2,
       });
 
       routines.payTrainer({
         index: 9,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -182,13 +182,13 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         appointmentValues2: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
     });
   });
@@ -200,13 +200,13 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
       routines.purchaseSessions({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.purchaseSessions({
         index: 3,
         client: this.clients.client2,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -216,19 +216,19 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pairs'
+        appointmentType: 'Pairs',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client1,
-        pairHourCount: '1'
+        client: this.clients.client1,
+        pairHourCount: '1',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client2,
-        pairCount: '1'
+        client: this.clients.client2,
+        pairCount: '1',
       });
 
       routines.checkSessions({
@@ -238,8 +238,8 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.checkSessions({
@@ -249,8 +249,8 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.checkVerification({
@@ -259,31 +259,31 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         availableItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         availableItemValues2: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
       routines.verifyAppointments({
-        index: 7
+        index: 7,
       });
 
       routines.checkPayTrainer({
         index: 8,
         trainer: this.trainers.trainer1,
-        payableCount: 2
+        payableCount: 2,
       });
 
       routines.payTrainer({
         index: 9,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -292,13 +292,13 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         appointmentValues2: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
     });
   });
@@ -311,19 +311,19 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pairs'
+        appointmentType: 'Pairs',
       });
 
       routines.checkClientInventory({
         index: 1,
         client: this.clients.client1,
-        pairCount: '-1'
+        pairCount: '-1',
       });
 
       routines.checkClientInventory({
         index: 1,
         client: this.clients.client2,
-        pairCount: '-1'
+        pairCount: '-1',
       });
 
       routines.checkVerification({
@@ -332,31 +332,31 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         inarrearsItemValues2: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.purchaseSessions({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client1,
-        pairHourCount: '1'
+        client: this.clients.client1,
+        pairHourCount: '1',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client2,
-        pairCount: '-1'
+        client: this.clients.client2,
+        pairCount: '-1',
       });
 
       routines.checkSessions({
@@ -366,8 +366,8 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.checkVerification({
@@ -377,31 +377,31 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         availableItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
         inarrearsItemValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
       routines.verifyAppointments({
-        index: 7
+        index: 7,
       });
 
       routines.checkPayTrainer({
         index: 8,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 9,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -410,7 +410,7 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
+          appointmentType: 'Pair',
         },
       });
     });
@@ -423,7 +423,7 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
       routines.purchaseSessions({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -433,19 +433,19 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pairs'
+        appointmentType: 'Pairs',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client1,
-        pairHourCount: '1'
+        client: this.clients.client1,
+        pairHourCount: '1',
       });
 
       routines.checkClientInventory({
         index: 4,
-        client:this.clients.client2,
-        pairCount: '-1'
+        client: this.clients.client2,
+        pairCount: '-1',
       });
 
       routines.checkSessions({
@@ -455,8 +455,8 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       routines.checkVerification({
@@ -465,26 +465,26 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         availableItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
 
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
       routines.verifyAppointments({
-        index: 7
+        index: 7,
       });
 
       routines.checkPayTrainer({
         index: 8,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 9,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -493,13 +493,9 @@ describe('Creating a PAIRS Appointment in the Past For Admin', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Pair'
-        }
+          appointmentType: 'Pair',
+        },
       });
     });
   });
-
-
-
-
 });

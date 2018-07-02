@@ -14,7 +14,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *       200:
      *         description: Success
      *         schema:
-*                type: string
+     *                type: string
      *       422:
      *         description: Failure
      *       500:
@@ -22,7 +22,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      */
     router.get(
       '/healthcheck/heartbeat',
-      controllers.healthCheckController.heartBeat
+      controllers.healthCheckController.heartBeat,
     );
     /**
      * @swagger
@@ -35,7 +35,7 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      *       200:
      *         description: Success
      *         schema:
-*                type: string
+     *                type: string
      *       422:
      *         description: Failure
      *       500:
@@ -45,10 +45,9 @@ module.exports = function appointmentRouter(koarouter, controllers) {
      */
     router.get(
       '/healthcheck/systemsup',
-      controllers.healthCheckController.systemsUp
+      controllers.healthCheckController.systemsUp,
     );
 
     appRouter.use(router.routes(), router.allowedMethods());
   };
 };
-

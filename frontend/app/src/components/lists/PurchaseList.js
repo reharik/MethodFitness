@@ -10,21 +10,21 @@ const confirm = Modal.confirm;
 const layout = Breakjs({
   mobile: 0,
   tablet: 768,
-  laptop: 1201
+  laptop: 1201,
 });
 
 class PurchaseList extends Component {
   state = {
     purchases: {},
-    layout: layout.current()
+    layout: layout.current(),
   };
 
   componentWillMount() {
-    layout.addChangeListener(layout => this.setState({layout}));
+    layout.addChangeListener(layout => this.setState({ layout }));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({layout}));
+    layout.removeChangeListener(layout => this.setState({ layout }));
   }
 
   submitVerification = () => {
@@ -36,15 +36,19 @@ class PurchaseList extends Component {
     if (refund > 0) {
       let refundSessions = [];
       Object.keys(this.state.purchases).forEach(x => {
-        const sourceSessions = this.props.gridConfig.dataSource.find(s => s.purchaseId === x).sessions;
+        const sourceSessions = this.props.gridConfig.dataSource.find(
+          s => s.purchaseId === x,
+        ).sessions;
         const selectedRowKeys = this.state.purchases[x].selectedRowKeys;
-        refundSessions = selectedRowKeys.map(k => {
-          let session = sourceSessions.find(ss => ss.sessionId === k);
-          return {
-            sessionId: session.sessionId,
-            appointmentType: session.appointmentType
-          };
-        }).concat(refundSessions);
+        refundSessions = selectedRowKeys
+          .map(k => {
+            let session = sourceSessions.find(ss => ss.sessionId === k);
+            return {
+              sessionId: session.sessionId,
+              appointmentType: session.appointmentType,
+            };
+          })
+          .concat(refundSessions);
       });
       confirm({
         title: 'Are you sure you would like to Refund?',
@@ -54,29 +58,28 @@ class PurchaseList extends Component {
         onOk() {
           const payload = {
             clientId: that.props.clientId,
-            refundSessions
+            refundSessions,
           };
           that.props.refundSessions(payload);
           that.setState({
-            purchases: {}
+            purchases: {},
           });
         },
-        onCancel() {
-        }
+        onCancel() {},
       });
     }
   };
 
   updateSelectedRows = (purchaseId, selectedRows) => {
-    let selectedRowKeys = selectedRows
-      .map(x => x.sessionId);
-    let purchases = {...this.state.purchases,
+    let selectedRowKeys = selectedRows.map(x => x.sessionId);
+    let purchases = {
+      ...this.state.purchases,
       [purchaseId]: {
         selectedRowKeys,
-        refundTotal: selectedRows.reduce((a, b) => a + b.purchasePrice, 0)
-      }
+        refundTotal: selectedRows.reduce((a, b) => a + b.purchasePrice, 0),
+      },
     };
-    this.setState({purchases});
+    this.setState({ purchases });
   };
 
   onSelect = (record, selected, selectedRows) => {
@@ -89,60 +92,63 @@ class PurchaseList extends Component {
     this.updateSelectedRows(purchaseId, selectedRows);
   };
 
-  getCheckboxProps = record => ({ disabled: !!record.refunded || !!record.appointmentId });
+  getCheckboxProps = record => ({
+    disabled: !!record.refunded || !!record.appointmentId,
+  });
 
-  expandRowRender = (data) => {
+  expandRowRender = data => {
     const selectedRowKeys = this.state.purchases[data.purchaseId]
       ? this.state.purchases[data.purchaseId].selectedRowKeys
-        : [];
+      : [];
     let rowSelection = {
       selectedRowKeys,
       onSelect: this.onSelect,
       onSelectAll: this.onSelectAll,
-      getCheckboxProps: this.getCheckboxProps
+      getCheckboxProps: this.getCheckboxProps,
     };
 
     const columns = [
       {
-        render: val => val ? `${val.substring(0, 8)}` : val,
+        render: val => (val ? `${val.substring(0, 8)}` : val),
         dataIndex: 'sessionId',
-        title: 'Session Id'
+        title: 'Session Id',
       },
       {
         dataIndex: 'appointmentType',
-        title: 'Appointment Type'
+        title: 'Appointment Type',
       },
       {
-        render: val => val ? moment(val).format('L') : val,
+        render: val => (val ? moment(val).format('L') : val),
         dataIndex: 'appointmentDate',
-        title: 'Date'
+        title: 'Date',
       },
       {
-        render: val => val ? moment(val).format('LT') : val,
+        render: val => (val ? moment(val).format('LT') : val),
         dataIndex: 'startTime',
-        title: 'Start Time'
+        title: 'Start Time',
       },
       {
-        render: val => val ? `${val.substring(0, 8)}` : val,
+        render: val => (val ? `${val.substring(0, 8)}` : val),
         dataIndex: 'appointmentId',
-        title: 'Appointment Id'
+        title: 'Appointment Id',
       },
       {
-        render: val => val ? `Refunded` : val,
+        render: val => (val ? `Refunded` : val),
         dataIndex: 'refunded',
-        title: 'Refunded'
+        title: 'Refunded',
       },
       {
-        render: val => val ? `$${val}` : val,
+        render: val => (val ? `$${val}` : val),
         dataIndex: 'purchasePrice',
-        title: 'Total'
-      }];
+        title: 'Total',
+      },
+    ];
 
-    const getRowClass = (row) => {
-      if(row.appointmentId) {
+    const getRowClass = row => {
+      if (row.appointmentId) {
         return 'row-gray';
       }
-      if(row.refunded) {
+      if (row.refunded) {
         return 'row-salmon';
       }
       return '';
@@ -172,15 +178,25 @@ class PurchaseList extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push(`/purchase/${this.props.clientId}`)}
+                onClick={() =>
+                  browserHistory.push(`/purchase/${this.props.clientId}`)
+                }
               />
-              {hasRefundableItems && this.props.isAdmin
-                ? <button className="contentHeader__button" onClick={this.submitVerification} >Submit Refund</button>
-                  : null }
+              {hasRefundableItems && this.props.isAdmin ? (
+                <button
+                  className="contentHeader__button"
+                  onClick={this.submitVerification}
+                >
+                  Submit Refund
+                </button>
+              ) : null}
               <a
                 className="contentHeader__anchor"
                 data-id={'returnToClient'}
-                onClick={() => browserHistory.push(`/client/${this.props.clientId}`)}>
+                onClick={() =>
+                  browserHistory.push(`/client/${this.props.clientId}`)
+                }
+              >
                 Return to client
               </a>
             </div>
@@ -194,9 +210,11 @@ class PurchaseList extends Component {
           <Table
             {...this.props.gridConfig}
             pagination={false}
-            scroll={{y: '100%'}}
+            scroll={{ y: '100%' }}
             size="small"
-            expandedRowRender={this.state.layout !== 'mobile' ? this.expandRowRender : null}
+            expandedRowRender={
+              this.state.layout !== 'mobile' ? this.expandRowRender : null
+            }
             rowKey="purchaseId"
           />
         </div>
@@ -209,7 +227,7 @@ PurchaseList.propTypes = {
   gridConfig: PropTypes.object,
   clientId: PropTypes.string,
   refundSessions: PropTypes.func,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
 };
 
 export default PurchaseList;

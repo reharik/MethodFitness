@@ -6,7 +6,9 @@ module.exports = function(swaggermodelvalidator) {
       if (!Array.isArray(customValidators)) {
         customValidators = [customValidators];
       }
-      customValidators.forEach(x => validator.addFieldValidator(x.name, x.validator));
+      customValidators.forEach(x =>
+        validator.addFieldValidator(x.name, x.validator),
+      );
     }
     return function(schema) {
       return function(value) {

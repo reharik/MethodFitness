@@ -16,7 +16,7 @@ class PurchaseListContainer extends Component {
   }
 
   render() {
-    return (<PurchaseList {...this.props} />);
+    return <PurchaseList {...this.props} />;
   }
 }
 
@@ -24,38 +24,41 @@ PurchaseListContainer.propTypes = {
   gridConfig: PropTypes.object,
   getPurchases: PropTypes.func,
   clientId: PropTypes.string,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
 };
-
 
 const columns = [
   {
-    render: val => val ? moment(val).format('L') : val,
+    render: val => (val ? moment(val).format('L') : val),
     dataIndex: 'purchaseDate',
-    title: 'Purchase Date'
+    title: 'Purchase Date',
   },
   {
-    render: val => val ? `$${val}` : val,
+    render: val => (val ? `$${val}` : val),
     dataIndex: 'purchaseTotal',
-    title: 'Total'
-  }
+    title: 'Total',
+  },
 ];
 
 function mapStateToProps(state, props) {
   moment.locale('en');
   const isAdmin = state.auth.user.role === 'admin';
-  const dataSource = state.purchases
-    .filter(x => x.clientId === props.params.clientId);
+  const dataSource = state.purchases.filter(
+    x => x.clientId === props.params.clientId,
+  );
 
   const gridConfig = {
     columns,
-    dataSource
+    dataSource,
   };
   return {
     isAdmin,
     gridConfig,
-    clientId: props.params.clientId
+    clientId: props.params.clientId,
   };
 }
 
-export default connect(mapStateToProps, { getPurchases, refundSessions })(PurchaseListContainer);
+export default connect(
+  mapStateToProps,
+  { getPurchases, refundSessions },
+)(PurchaseListContainer);

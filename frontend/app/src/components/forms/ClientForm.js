@@ -7,7 +7,7 @@ import SubmissionFor from './../formElements/SubmissionFor';
 import { Form, Card, Row, Col } from 'antd';
 
 class ClientForm extends Component {
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -40,9 +40,13 @@ class ClientForm extends Component {
         </ContentHeader>
         <Notifs containerName="clientForm" />
         <div className="form-scroll-inner">
-          <Form onSubmit={this.handleSubmit} className="form__content" layout="vertical">
+          <Form
+            onSubmit={this.handleSubmit}
+            className="form__content"
+            layout="vertical"
+          >
             <Row type="flex">
-              <Col xl={10} lg={14} sm={24} >
+              <Col xl={10} lg={14} sm={24}>
                 <Card title="Client Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.firstName} />
@@ -52,7 +56,7 @@ class ClientForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col xl={10} lg={14} sm={24} >
+              <Col xl={10} lg={14} sm={24}>
                 <Card title="Contact Info">
                   <Row type="flex">
                     <SubmissionFor form={form} data={model.mobilePhone} />
@@ -63,12 +67,10 @@ class ClientForm extends Component {
                     <SubmissionFor form={form} data={model.birthDate} />
                   </Row>
                   <Row type="flex">
-
                     <SubmissionFor form={form} data={model.street1} />
                     <SubmissionFor form={form} data={model.street2} />
                   </Row>
                   <Row type="flex">
-
                     <SubmissionFor form={form} data={model.city} />
                     <SubmissionFor
                       span={8}
@@ -82,19 +84,27 @@ class ClientForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
-              <Col xl={10} lg={14} sm={24} >
+              <Col xl={10} lg={14} sm={24}>
                 <Card title="Source Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.source} selectOptions={this.props.sources} />
+                    <SubmissionFor
+                      form={form}
+                      data={model.source}
+                      selectOptions={this.props.sources}
+                    />
                     <SubmissionFor form={form} data={model.startDate} />
                   </Row>
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.sourceNotes} span={24} />
+                    <SubmissionFor
+                      form={form}
+                      data={model.sourceNotes}
+                      span={24}
+                    />
                   </Row>
                 </Card>
               </Col>
             </Row>
-            <Row type="flex" style={{margin: '24px 0'}}>
+            <Row type="flex" style={{ margin: '24px 0' }}>
               <Col span={4}>
                 <button type="submit" className="form__footer__button">
                   Submit
@@ -116,7 +126,7 @@ ClientForm.propTypes = {
   notifications: PropTypes.func,
   states: PropTypes.array,
   form: PropTypes.object,
-  sources: PropTypes.array
+  sources: PropTypes.array,
 };
 
 export default Form.create()(ClientForm);

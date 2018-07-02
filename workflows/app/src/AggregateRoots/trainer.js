@@ -1,6 +1,8 @@
-module.exports = function(aggregateRootBase,
+module.exports = function(
+  aggregateRootBase,
   trainerCommands,
-  trainerEventHandlers) {
+  trainerEventHandlers,
+) {
   return function trainer() {
     const state = {
       _isArchived: false,
@@ -8,11 +10,14 @@ module.exports = function(aggregateRootBase,
       trainerClients: [],
       _password: undefined,
       _defaultTrainerCientRate: 65,
-      trainerClientRates: []
+      trainerClientRates: [],
     };
     const aggFunctions = aggregateRootBase(state, trainerEventHandlers);
-    return Object.assign({},
-      aggFunctions, trainerCommands(aggFunctions.raiseEvent, state),
-      {state});
+    return Object.assign(
+      {},
+      aggFunctions,
+      trainerCommands(aggFunctions.raiseEvent, state),
+      { state },
+    );
   };
 };

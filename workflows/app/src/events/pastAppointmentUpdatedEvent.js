@@ -1,18 +1,20 @@
 module.exports = function() {
-  return function({
-    appointmentId,
-    appointmentType,
-    date,
-    startTime,
-    endTime,
-    trainerId,
-    clients,
-    notes,
-    entityName,
-    oldTrainerId
-  },
-  rescheduled,
-  updateDayOnly) {
+  return function(
+    {
+      appointmentId,
+      appointmentType,
+      date,
+      startTime,
+      endTime,
+      trainerId,
+      clients,
+      notes,
+      entityName,
+      oldTrainerId,
+    },
+    rescheduled,
+    updateDayOnly,
+  ) {
     return {
       eventName: 'pastAppointmentUpdated',
       appointmentId,
@@ -26,7 +28,7 @@ module.exports = function() {
       entityName,
       rescheduled,
       updateDayOnly,
-      oldTrainerId
+      oldTrainerId,
     };
   };
 };

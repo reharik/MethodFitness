@@ -10,22 +10,25 @@ const RadioGroup = Radio.Group;
 class ClientList extends Component {
   state = {
     view: 'active',
-    dataSource: this.props.gridConfig.dataSource
+    dataSource: this.props.gridConfig.dataSource,
   };
 
   componentWillReceiveProps(newProps) {
-    let newState = this.changeView(newProps.gridConfig.dataSource, this.state.view);
+    let newState = this.changeView(
+      newProps.gridConfig.dataSource,
+      this.state.view,
+    );
     this.setState(newState);
   }
 
-  onChange = (e) => {
+  onChange = e => {
     let dataSource = this.props.gridConfig.dataSource;
     let newState = this.changeView(dataSource, e.target.value);
     this.setState(newState);
   };
 
   changeView = (dataSource, view) => {
-    switch(view) {
+    switch (view) {
       case 'archived': {
         view = 'archived';
         dataSource = dataSource.filter(x => x.archived);
@@ -40,20 +43,25 @@ class ClientList extends Component {
         dataSource = dataSource.filter(x => !x.archived);
       }
     }
-    return {dataSource, view};
+    return { dataSource, view };
   };
 
-  search = (e) => {
+  search = e => {
     let tgt = e.target.value;
-    let freshDataSource = this.changeView(this.props.gridConfig.dataSource, this.state.view).dataSource;
+    let freshDataSource = this.changeView(
+      this.props.gridConfig.dataSource,
+      this.state.view,
+    ).dataSource;
 
     const filter = x =>
-      x.contact.lastName.toLowerCase().startsWith(tgt.toLowerCase())
-    || x.contact.firstName.toLowerCase().startsWith(tgt.toLowerCase());
+      x.contact.lastName.toLowerCase().startsWith(tgt.toLowerCase()) ||
+      x.contact.firstName.toLowerCase().startsWith(tgt.toLowerCase());
     const newDataSource = freshDataSource.filter(filter);
 
     let newState = this.changeView(newDataSource, this.state.view);
-    this.setState({dataSource: newState.dataSource});
+    this.setState({
+      dataSource: newState.dataSource,
+    });
   };
 
   render() {
@@ -65,17 +73,24 @@ class ClientList extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push('/client')} />
+                onClick={() => browserHistory.push('/client')}
+              />
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">Clients</div>
             </div>
-            <div className="list__header__right" >
-              {this.props.isAdmin ? (<RadioGroup defaultValue="active" size="small" onChange={this.onChange} >
-                <RadioButton value="active">Active</RadioButton>
-                <RadioButton value="archived">Archived</RadioButton>
-                <RadioButton value="showAll">Show All</RadioButton>
-              </RadioGroup>) : null }
+            <div className="list__header__right">
+              {this.props.isAdmin ? (
+                <RadioGroup
+                  defaultValue="active"
+                  size="small"
+                  onChange={this.onChange}
+                >
+                  <RadioButton value="active">Active</RadioButton>
+                  <RadioButton value="archived">Archived</RadioButton>
+                  <RadioButton value="showAll">Show All</RadioButton>
+                </RadioGroup>
+              ) : null}
               <ContentHeaderSearch search={this.search} />
             </div>
           </div>
@@ -86,7 +101,7 @@ class ClientList extends Component {
             dataSource={this.state.dataSource}
             pagination={false}
             rowKey="clientId"
-            scroll={{y: '100%'}}
+            scroll={{ y: '100%' }}
             size="small"
           />
         </div>
@@ -99,7 +114,7 @@ ClientList.propTypes = {
   gridConfig: PropTypes.object,
   columns: PropTypes.func,
   archiveClient: PropTypes.func,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
 };
 
 export default ClientList;

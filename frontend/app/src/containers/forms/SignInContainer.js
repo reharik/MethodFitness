@@ -7,10 +7,13 @@ import { clearNotification } from './../../modules/notificationModule';
 const mapStateToProps = state => {
   const model = normalizeModel(state.schema.definitions.signIn);
   return {
-    fields: model
+    fields: model,
   };
 };
 
-const SignInContainer = connect(mapStateToProps, { loginUser, clearNotification })(SignInForm);
+const SignInContainer = connect(
+  mapStateToProps,
+  { loginUser, clearNotification },
+)(SignInForm);
 
 export default SignInContainer;

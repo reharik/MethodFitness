@@ -13,7 +13,10 @@ export default function configureStore(initialState) {
   const store = createStore(
     rootReducer,
     initialState,
-    compose(applyMiddleware(thunk, sagaMiddleware, createLogger()), DevTools.instrument())
+    compose(
+      applyMiddleware(thunk, sagaMiddleware, createLogger()),
+      DevTools.instrument(),
+    ),
   );
 
   sagaMiddleware.run(rootSaga);

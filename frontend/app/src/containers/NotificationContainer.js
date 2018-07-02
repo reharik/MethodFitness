@@ -3,7 +3,7 @@ import Notification from './../components/Notification';
 
 const mapStateToProps = function(state, props) {
   return {
-    notification: state.notifications[props.actionName]
+    notification: state.notifications[props.actionName],
   };
 };
 

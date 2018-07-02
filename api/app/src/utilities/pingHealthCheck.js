@@ -13,9 +13,12 @@ module.exports = function(rsRepository, promiseretry) {
     });
   };
   return healthCheckId => {
-    return promiseretry((retry, number) => {
-      console.log('attempt number', number);
-      return ping(healthCheckId).catch(retry);
-    }, {retries: 4});
+    return promiseretry(
+      (retry, number) => {
+        console.log('attempt number', number);
+        return ping(healthCheckId).catch(retry);
+      },
+      { retries: 4 },
+    );
   };
 };

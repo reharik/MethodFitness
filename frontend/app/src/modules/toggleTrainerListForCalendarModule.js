@@ -1,4 +1,5 @@
-export const TOGGLE_TRAINERS_LIST_FOR_CALENDAR = 'methodFit/toggleTrainerList/TOGGLE_TRAINERS_LIST_FOR_CALENDAR';
+export const TOGGLE_TRAINERS_LIST_FOR_CALENDAR =
+  "methodFit/toggleTrainerList/TOGGLE_TRAINERS_LIST_FOR_CALENDAR";
 
 export default (state = [], action = {}) => {
   switch (action.type) {
@@ -11,7 +12,9 @@ export default (state = [], action = {}) => {
   }
 };
 
-export function toggleTrainerListForCalendar(data) {
+export function toggleTrainerListForCalendar(
+  data
+) {
   return {
     type: TOGGLE_TRAINERS_LIST_FOR_CALENDAR,
     selectedTrainers: data

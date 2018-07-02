@@ -10,7 +10,7 @@ import { Router } from 'react-router';
 const Root = ({ store, history }) => (
   <Provider store={store}>
     <LocaleProvider locale={enUS}>
-      <div style={{height: '100%'}}>
+      <div style={{ height: '100%' }}>
         <Router history={history} routes={routes} />
         <DevTools />
       </div>
@@ -20,7 +20,7 @@ const Root = ({ store, history }) => (
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 export default Root;

@@ -28,7 +28,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pair'
+        appointmentType: 'Pair',
       });
 
       appointmentValues = {
@@ -36,7 +36,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         date: aDT.date,
         time: aDT.time,
         appointmentType: 'Full Hour',
-        removeClient: this.clients.client2
+        removeClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
 
@@ -44,14 +44,14 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         index: 3,
         client: this.clients.client1,
         fullHourCount: '-1',
-        pairCount: '0'
+        pairCount: '0',
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
         fullHourCount: '0',
-        pairCount: '0'
+        pairCount: '0',
       });
 
       routines.checkVerification({
@@ -60,20 +60,20 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       routines.checkClientInventory({
         index: 6,
         client: this.clients.client1,
-        fullHourCount: '1'
+        fullHourCount: '1',
       });
 
       routines.checkSessions({
@@ -83,8 +83,8 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkVerification({
@@ -93,26 +93,26 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         availableItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments');
 
       routines.verifyAppointments({
-        index: 9
+        index: 9,
       });
 
       routines.checkPayTrainer({
         index: 10,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 11,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -121,8 +121,8 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
     });
   });
@@ -133,13 +133,13 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client1,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client2,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -150,7 +150,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pair'
+        appointmentType: 'Pair',
       });
 
       appointmentValues = {
@@ -158,7 +158,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         date: aDT.date,
         time: aDT.time,
         appointmentType: 'Full Hour',
-        removeClient: this.clients.client2
+        removeClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
 
@@ -166,14 +166,14 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         index: 3,
         client: this.clients.client1,
         fullHourCount: '-1',
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
         fullHourCount: '0',
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.checkVerification({
@@ -182,20 +182,20 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkSessions({
         index: 7,
         client: this.clients.client1,
-        availableCount: 2
+        availableCount: 2,
       });
 
       routines.checkSessions({
         index: 7,
         client: this.clients.client2,
-        availableCount: 2
+        availableCount: 2,
       });
     });
   });
@@ -207,13 +207,13 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         index: 5,
         client: this.clients.client1,
         pairCount: '2',
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client2,
-        pairCount: '2'
+        pairCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -224,7 +224,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pair'
+        appointmentType: 'Pair',
       });
 
       appointmentValues = {
@@ -232,7 +232,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         date: aDT.date,
         time: aDT.time,
         appointmentType: 'Full Hour',
-        removeClient: this.clients.client2
+        removeClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
 
@@ -240,14 +240,14 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         index: 3,
         client: this.clients.client1,
         fullHourCount: '1',
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
         fullHourCount: '0',
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.checkVerification({
@@ -256,35 +256,35 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         availableItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkSessions({
         index: 7,
         client: this.clients.client1,
-        availableCount: 3
+        availableCount: 3,
       });
 
       routines.checkSessions({
         index: 7,
         client: this.clients.client2,
-        availableCount: 2
+        availableCount: 2,
       });
 
       routines.verifyAppointments({
-        index: 9
+        index: 9,
       });
 
       routines.checkPayTrainer({
         index: 10,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 11,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -293,8 +293,8 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
     });
   });
@@ -306,7 +306,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         index: 5,
         client: this.clients.client1,
         pairCount: '2',
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -317,7 +317,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         time: aDT.time,
         client: this.clients.client1,
         client2: this.clients.client2,
-        appointmentType: 'Pair'
+        appointmentType: 'Pair',
       });
 
       appointmentValues = {
@@ -325,7 +325,7 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         date: aDT.date,
         time: aDT.time,
         appointmentType: 'Full Hour',
-        removeClient: this.clients.client2
+        removeClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
 
@@ -333,14 +333,14 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         index: 3,
         client: this.clients.client1,
         fullHourCount: '1',
-        pairCount: '2'
+        pairCount: '2',
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
         fullHourCount: '0',
-        pairCount: '0'
+        pairCount: '0',
       });
 
       routines.checkVerification({
@@ -349,29 +349,29 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         availableItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkSessions({
         index: 7,
         client: this.clients.client1,
-        availableCount: 3
+        availableCount: 3,
       });
 
       routines.verifyAppointments({
-        index: 9
+        index: 9,
       });
 
       routines.checkPayTrainer({
         index: 10,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 11,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -380,10 +380,9 @@ describe('Creating a Pairs Appointment in the Past Changing Appointment Type', (
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
     });
   });
-
 });

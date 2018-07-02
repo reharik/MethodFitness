@@ -12,7 +12,7 @@ const mapProperty = (parent, propertyName) => ({
   ...parent.properties[propertyName],
   name: propertyName,
   parent: parent.title,
-  rules: []
+  rules: [],
 });
 
 // here parent is so you can get the required off of it
@@ -32,7 +32,10 @@ export default function(schema, obj) {
   }
   const recurseProps = (parent, nestObj) => {
     return Object.keys(parent.properties).map(p => {
-      if (parent.properties[p].type !== 'object' && !parent.properties[p].properties) {
+      if (
+        parent.properties[p].type !== 'object' &&
+        !parent.properties[p].properties
+      ) {
         let val = mapRules(parent, mapProperty(parent, p));
         if (nestObj) {
           val.value = nestObj[p];
@@ -45,13 +48,18 @@ export default function(schema, obj) {
         }
         return val;
       }
-      return recurseProps(parent.properties[p], nestObj ? nestObj[p] : undefined);
+      return recurseProps(
+        parent.properties[p],
+        nestObj ? nestObj[p] : undefined,
+      );
     });
   };
-  return recurseProps(schema, obj).reduce(flat, []).reduce((prev, next) => {
-    prev[next.name] = next;
-    return prev;
-  }, {});
+  return recurseProps(schema, obj)
+    .reduce(flat, [])
+    .reduce((prev, next) => {
+      prev[next.name] = next;
+      return prev;
+    }, {});
 }
 
 /*
@@ -78,4 +86,3 @@ export default function(schema, obj) {
 
 
  */
-

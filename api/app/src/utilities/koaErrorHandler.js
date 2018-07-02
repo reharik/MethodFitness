@@ -4,7 +4,9 @@ module.exports = function(logger) {
       try {
         await next();
         if (ctx.response.status === 404 && !ctx.response.body) {
-          ctx.throw(`There is no endpoint that matches the url:${ctx.host}${ctx.url}`);
+          ctx.throw(
+            `There is no endpoint that matches the url:${ctx.host}${ctx.url}`,
+          );
         }
       } catch (err) {
         logger.error(err);
@@ -16,7 +18,7 @@ module.exports = function(logger) {
         ctx.body = {
           status: ctx.status,
           success: false,
-          errors: [{ message: err.message }]
+          errors: [{ message: err.message }],
         };
       }
     };

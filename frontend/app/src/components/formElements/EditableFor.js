@@ -5,7 +5,7 @@ import DisplayFor from './DisplayFor';
 import HiddenFor from './HiddenFor';
 
 const EditableFor = props => {
-  if(props.hidden) {
+  if (props.hidden) {
     return <HiddenFor {...props} />;
   }
   if (props.editing) {
@@ -18,14 +18,18 @@ const EditableFor = props => {
 };
 
 EditableFor.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
+  data: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array,
+  ]),
   displayStyle: PropTypes.string,
   selectOptions: PropTypes.array,
   noDisplay: PropTypes.bool,
   hidden: PropTypes.bool,
   editing: PropTypes.bool,
   formItemLayout: PropTypes.object,
-  extraFunc: PropTypes.func
+  extraFunc: PropTypes.func,
 };
 
 export default EditableFor;

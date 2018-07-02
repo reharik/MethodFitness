@@ -25,7 +25,7 @@ describe('Change Trainer on funded Appointment', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -37,21 +37,20 @@ describe('Change Trainer on funded Appointment', () => {
         time: aDT.time,
         client: this.clients.client1,
         trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
         index: 2,
         noInarrears: true,
-        noAvailable: true
+        noAvailable: true,
       });
 
       appointmentValues = {
         index: 3,
         date: aDT.date,
         time: aDT.time,
-        newTrainer: this.trainers.trainer1
-
+        newTrainer: this.trainers.trainer1,
       };
       routines.changeAppointment(appointmentValues);
 
@@ -61,8 +60,8 @@ describe('Change Trainer on funded Appointment', () => {
         availabaleItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkSessions({
@@ -72,23 +71,23 @@ describe('Change Trainer on funded Appointment', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.verifyAppointments({
-        index: 6
+        index: 6,
       });
 
       routines.checkPayTrainer({
         index: 7,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 8,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -97,10 +96,9 @@ describe('Change Trainer on funded Appointment', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
-
     });
   });
 
@@ -110,7 +108,7 @@ describe('Change Trainer on funded Appointment', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -122,13 +120,13 @@ describe('Change Trainer on funded Appointment', () => {
         time: aDT.time,
         client: this.clients.client1,
         trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
         index: 2,
         noInarrears: true,
-        noAvailable: true
+        noAvailable: true,
       });
 
       appointmentValues = {
@@ -136,7 +134,7 @@ describe('Change Trainer on funded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        appointmentType: 'Half Hour'
+        appointmentType: 'Half Hour',
       };
       routines.changeAppointment(appointmentValues);
 
@@ -146,14 +144,14 @@ describe('Change Trainer on funded Appointment', () => {
         inarrearsItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.checkSessions({
         index: 5,
         client: this.clients.client1,
-        availableCount: 2
+        availableCount: 2,
       });
     });
   });
@@ -165,7 +163,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         client: this.clients.client1,
         fullHourCount: '2',
-        halfHourCount: '2'
+        halfHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -177,13 +175,13 @@ describe('Change Trainer on funded Appointment', () => {
         time: aDT.time,
         client: this.clients.client1,
         trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
         index: 2,
         noInarrears: true,
-        noAvailable: true
+        noAvailable: true,
       });
 
       appointmentValues = {
@@ -191,7 +189,7 @@ describe('Change Trainer on funded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        appointmentType: 'Half Hour'
+        appointmentType: 'Half Hour',
       };
       routines.changeAppointment(appointmentValues);
 
@@ -201,8 +199,8 @@ describe('Change Trainer on funded Appointment', () => {
         availabaleItemValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.checkSessions({
@@ -212,23 +210,23 @@ describe('Change Trainer on funded Appointment', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.verifyAppointments({
-        index: 6
+        index: 6,
       });
 
       routines.checkPayTrainer({
         index: 7,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 8,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -237,8 +235,8 @@ describe('Change Trainer on funded Appointment', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
     });
   });
@@ -249,7 +247,7 @@ describe('Change Trainer on funded Appointment', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -261,168 +259,13 @@ describe('Change Trainer on funded Appointment', () => {
         time: aDT.time,
         client: this.clients.client1,
         trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
         index: 2,
         noInarrears: true,
-        noAvailable: true
-      });
-
-      appointmentValues = {
-        index: 3,
-        date: aDT.date,
-        time: aDT.time,
-        newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
-        newClient: this.clients.client2
-      };
-      routines.changeAppointment(appointmentValues);
-
-      routines.checkVerification({
-        index: 4,
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client2,
-          date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
-      });
-
-      routines.checkSessions({
-        index: 5,
-        client: this.clients.client1,
-        availableCount: 2
-      });
-
-    });
-  });
-
-  describe('When changing trainer and client from funded -> funded', () => {
-    it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, appTimes.time1, true);
-      routines.purchaseSessions({
-        index: 1,
-        client: this.clients.client1,
-        fullHourCount: '2'
-      });
-
-      routines.purchaseSessions({
-        index: 1,
-        client: this.clients.client2,
-        fullHourCount: '2'
-      });
-
-      cy.navTo('Calendar');
-      cy.wait('@fetchAppointments');
-
-      routines.createAppointment({
-        index: 1,
-        date: aDT.date,
-        time: aDT.time,
-        client: this.clients.client1,
-        trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
-      });
-
-      routines.checkVerification({
-        index: 2,
-        noInarrears: true,
-        noAvailable: true
-      });
-
-      appointmentValues = {
-        index: 3,
-        date: aDT.date,
-        time: aDT.time,
-        newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
-        newClient: this.clients.client2
-      };
-      routines.changeAppointment(appointmentValues);
-
-      routines.checkVerification({
-        index: 4,
-        availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client2,
-          date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
-      });
-
-      routines.checkSessions({
-        index: 5,
-        client: this.clients.client1,
-        availableCount: 2
-      });
-
-      routines.checkSessions({
-        index: 5,
-        client: this.clients.client2,
-        availableCount: 1,
-        usedCount: 1,
-        usedItemValues: {
-          date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
-      });
-
-      routines.verifyAppointments({
-        index: 6
-      });
-
-      routines.checkPayTrainer({
-        index: 7,
-        trainer: this.trainers.trainer1,
-        payableCount: 1
-      });
-
-      routines.payTrainer({
-        index: 8,
-        trainer: this.trainers.trainer1
-      });
-
-      routines.checkTrainerPayment({
-        index: 9,
-        appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client2,
-          date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
-      });
-
-    });
-  });
-
-
-  describe('When changing trainer and client and type on funded -> unfunded', () => {
-    it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, appTimes.time1, true);
-      routines.purchaseSessions({
-        index: 1,
-        client: this.clients.client1,
-        fullHourCount: '2'
-      });
-
-      cy.navTo('Calendar');
-      cy.wait('@fetchAppointments');
-
-      routines.createAppointment({
-        index: 1,
-        date: aDT.date,
-        time: aDT.time,
-        client: this.clients.client1,
-        trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
-      });
-
-      routines.checkVerification({
-        index: 2,
-        noInarrears: true,
-        noAvailable: true
+        noAvailable: true,
       });
 
       appointmentValues = {
@@ -432,7 +275,6 @@ describe('Change Trainer on funded Appointment', () => {
         newTrainer: this.trainers.trainer1,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-        appointmentType: 'Half Hour'
       };
       routines.changeAppointment(appointmentValues);
 
@@ -442,14 +284,167 @@ describe('Change Trainer on funded Appointment', () => {
         inarrearsItemValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkSessions({
         index: 5,
         client: this.clients.client1,
-        availableCount: 2
+        availableCount: 2,
+      });
+    });
+  });
+
+  describe('When changing trainer and client from funded -> funded', () => {
+    it('should pass all steps', function() {
+      aDT = _aDT(Cypress.moment, appTimes.time1, true);
+      routines.purchaseSessions({
+        index: 1,
+        client: this.clients.client1,
+        fullHourCount: '2',
+      });
+
+      routines.purchaseSessions({
+        index: 1,
+        client: this.clients.client2,
+        fullHourCount: '2',
+      });
+
+      cy.navTo('Calendar');
+      cy.wait('@fetchAppointments');
+
+      routines.createAppointment({
+        index: 1,
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        trainer: this.trainers.trainer2,
+        appointmentType: 'Full Hour',
+      });
+
+      routines.checkVerification({
+        index: 2,
+        noInarrears: true,
+        noAvailable: true,
+      });
+
+      appointmentValues = {
+        index: 3,
+        date: aDT.date,
+        time: aDT.time,
+        newTrainer: this.trainers.trainer1,
+        currentClient: this.clients.client1,
+        newClient: this.clients.client2,
+      };
+      routines.changeAppointment(appointmentValues);
+
+      routines.checkVerification({
+        index: 4,
+        availableCount: 1,
+        availableItemValues: {
+          client: this.clients.client2,
+          date: aDT.date,
+          appointmentType: 'Full Hour',
+        },
+      });
+
+      routines.checkSessions({
+        index: 5,
+        client: this.clients.client1,
+        availableCount: 2,
+      });
+
+      routines.checkSessions({
+        index: 5,
+        client: this.clients.client2,
+        availableCount: 1,
+        usedCount: 1,
+        usedItemValues: {
+          date: aDT.date,
+          appointmentType: 'Full Hour',
+        },
+      });
+
+      routines.verifyAppointments({
+        index: 6,
+      });
+
+      routines.checkPayTrainer({
+        index: 7,
+        trainer: this.trainers.trainer1,
+        payableCount: 1,
+      });
+
+      routines.payTrainer({
+        index: 8,
+        trainer: this.trainers.trainer1,
+      });
+
+      routines.checkTrainerPayment({
+        index: 9,
+        appointmentCount: 1,
+        appointmentValues: {
+          client: this.clients.client2,
+          date: aDT.date,
+          appointmentType: 'Full Hour',
+        },
+      });
+    });
+  });
+
+  describe('When changing trainer and client and type on funded -> unfunded', () => {
+    it('should pass all steps', function() {
+      aDT = _aDT(Cypress.moment, appTimes.time1, true);
+      routines.purchaseSessions({
+        index: 1,
+        client: this.clients.client1,
+        fullHourCount: '2',
+      });
+
+      cy.navTo('Calendar');
+      cy.wait('@fetchAppointments');
+
+      routines.createAppointment({
+        index: 1,
+        date: aDT.date,
+        time: aDT.time,
+        client: this.clients.client1,
+        trainer: this.trainers.trainer2,
+        appointmentType: 'Full Hour',
+      });
+
+      routines.checkVerification({
+        index: 2,
+        noInarrears: true,
+        noAvailable: true,
+      });
+
+      appointmentValues = {
+        index: 3,
+        date: aDT.date,
+        time: aDT.time,
+        newTrainer: this.trainers.trainer1,
+        currentClient: this.clients.client1,
+        newClient: this.clients.client2,
+        appointmentType: 'Half Hour',
+      };
+      routines.changeAppointment(appointmentValues);
+
+      routines.checkVerification({
+        index: 4,
+        inarrearsCount: 1,
+        inarrearsItemValues: {
+          client: this.clients.client2,
+          date: aDT.date,
+          appointmentType: 'Half Hour',
+        },
+      });
+
+      routines.checkSessions({
+        index: 5,
+        client: this.clients.client1,
+        availableCount: 2,
       });
     });
   });
@@ -460,13 +455,13 @@ describe('Change Trainer on funded Appointment', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client2,
-        halfHourCount: '2'
+        halfHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -478,13 +473,13 @@ describe('Change Trainer on funded Appointment', () => {
         time: aDT.time,
         client: this.clients.client1,
         trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
         index: 2,
         noInarrears: true,
-        noAvailable: true
+        noAvailable: true,
       });
 
       appointmentValues = {
@@ -494,7 +489,7 @@ describe('Change Trainer on funded Appointment', () => {
         newTrainer: this.trainers.trainer1,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-        appointmentType: 'Half Hour'
+        appointmentType: 'Half Hour',
       };
       routines.changeAppointment(appointmentValues);
 
@@ -508,15 +503,15 @@ describe('Change Trainer on funded Appointment', () => {
           usedCount: 1,
           usedItemValues: {
             date: aDT.date,
-            appointmentType: 'half Hour'
-          }
-        }
+            appointmentType: 'half Hour',
+          },
+        },
       });
 
       routines.checkSessions({
         index: 5,
         client: this.clients.client1,
-        availableCount: 2
+        availableCount: 2,
       });
 
       routines.checkSessions({
@@ -526,23 +521,23 @@ describe('Change Trainer on funded Appointment', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.verifyAppointments({
-        index: 6
+        index: 6,
       });
 
       routines.checkPayTrainer({
         index: 7,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 8,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -551,10 +546,9 @@ describe('Change Trainer on funded Appointment', () => {
         appointmentValues: {
           client: this.clients.client2,
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
-
     });
   });
 
@@ -564,7 +558,7 @@ describe('Change Trainer on funded Appointment', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -576,22 +570,22 @@ describe('Change Trainer on funded Appointment', () => {
         time: aDT.time,
         client: this.clients.client1,
         trainer: this.trainers.trainer2,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
         index: 2,
         noInarrears: true,
-        noAvailable: true
+        noAvailable: true,
       });
 
       const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
       appointmentValues = {
-        index:3,
+        index: 3,
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        newDate
+        newDate,
       };
       routines.changeAppointment(appointmentValues);
 
@@ -601,8 +595,8 @@ describe('Change Trainer on funded Appointment', () => {
         availableItemValues: {
           client: this.clients.client1,
           date: newDate,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkSessions({
@@ -612,23 +606,23 @@ describe('Change Trainer on funded Appointment', () => {
         usedCount: 1,
         usedItemValues: {
           date: newDate,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.verifyAppointments({
-        index: 6
+        index: 6,
       });
 
       routines.checkPayTrainer({
         index: 7,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 8,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -637,12 +631,9 @@ describe('Change Trainer on funded Appointment', () => {
         appointmentValues: {
           client: this.clients.client1,
           date: newDate,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
-
     });
   });
-
-
 });

@@ -1,8 +1,8 @@
 module.exports = function(logger) {
   const iterateArguments = (args, before, after) => {
     let result = before || '';
-    Object.keys(args).forEach(augKey =>
-      result += itemToString(args[augKey]) + '\n'
+    Object.keys(args).forEach(
+      augKey => (result += itemToString(args[augKey]) + '\n'),
     );
     result += after || '';
     return result;
@@ -22,11 +22,16 @@ module.exports = function(logger) {
     beforeExecution: (loggerInstance, key, name, args) => {
       let resolvedName = name || 'anonymous function';
       loggerInstance.debug(`${key} called in ${resolvedName}`);
-      loggerInstance.trace(iterateArguments(args, `${key} called with ${args.length <= 0 ? 'no ' : ''}arguments \n`));
+      loggerInstance.trace(
+        iterateArguments(
+          args,
+          `${key} called with ${args.length <= 0 ? 'no ' : ''}arguments \n`,
+        ),
+      );
     },
     afterExecution: (loggerInstance, key, name, result) => {
       logger.trace(`${key} result:\n ${itemToString(result)}`);
-    }
+    },
   };
 
   const wrapper = function(_config) {
@@ -41,7 +46,6 @@ module.exports = function(logger) {
         if (typeof obj[key] !== 'function') {
           decorated[key] = obj[key];
         } else {
-
           let wrapped = function() {
             config.beforeExecution(logger, key, name, arguments);
             let result = obj[key](...arguments);
@@ -62,6 +66,6 @@ module.exports = function(logger) {
   return {
     wrapper,
     iterateArguments,
-    itemToString
+    itemToString,
   };
 };

@@ -4,14 +4,8 @@ import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import EDFooter from './../EDFooter';
 
-const TrainerInfoInner = ({model,
-                           form,
-                            toggleEdit,
-                           submit,
-                           editing
-                         }) => {
-
-  const handleSubmit = (e) => {
+const TrainerInfoInner = ({ model, form, toggleEdit, submit, editing }) => {
+  const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
@@ -23,8 +17,8 @@ const TrainerInfoInner = ({model,
   };
 
   return (
-    <Card title={'Trainer Info'} style={{overflow: 'visible'}} >
-      <Form onSubmit={handleSubmit} layout={'vertical'} >
+    <Card title={'Trainer Info'} style={{ overflow: 'visible' }}>
+      <Form onSubmit={handleSubmit} layout={'vertical'}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.birthDate} />
@@ -36,34 +30,44 @@ const TrainerInfoInner = ({model,
   );
 };
 
-
 TrainerInfoInner.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
   submit: PropTypes.func,
   editing: PropTypes.bool,
-  toggleEdit: PropTypes.func
+  toggleEdit: PropTypes.func,
 };
 
-
 class TrainerInfo extends Component {
-  state = {editing: false};
+  state = { editing: false };
 
-  toggleEdit = (e) => {
+  toggleEdit = e => {
     e.preventDefault();
-    this.setState({editing: !this.state.editing});
+    this.setState({
+      editing: !this.state.editing,
+    });
   };
 
   render() {
-    let Inner = Form.create({mapPropsToFields: (props) => ({...props.model})})(TrainerInfoInner);
-    return (<Inner {...this.props} editing={this.state.editing} toggleEdit={this.toggleEdit} />);
+    let Inner = Form.create({
+      mapPropsToFields: props => ({
+        ...props.model,
+      }),
+    })(TrainerInfoInner);
+    return (
+      <Inner
+        {...this.props}
+        editing={this.state.editing}
+        toggleEdit={this.toggleEdit}
+      />
+    );
   }
 }
 
 TrainerInfo.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
-  submit: PropTypes.func
+  submit: PropTypes.func,
 };
 
 export default TrainerInfo;

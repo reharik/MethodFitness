@@ -1,5 +1,5 @@
 const constructId = (obj, id) => {
-  if(!Array.isArray(id)) {
+  if (!Array.isArray(id)) {
     return obj[id];
   }
   return `${obj[id[0]]}-${obj[id[1]]}`;
@@ -26,7 +26,7 @@ export default (currentItems = [], newItems, id = 'id') => {
 
   // create a new map by using the obj id for key and obj for value
   let m = new Map();
-  for(let obj of currentItems) {
+  for (let obj of currentItems) {
     let _id = constructId(obj, id);
     if (_id) {
       m.set(_id, obj);

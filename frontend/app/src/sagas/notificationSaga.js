@@ -4,12 +4,23 @@ import { actions as notifActions } from 'redux-notifications';
 const { notifSend, notifDismiss } = notifActions;
 
 function* notifiy(action) {
-  let messages = Array.isArray(action.messages) ? action.messages : action.messages ? [action.messages] : [];
+  let messages = Array.isArray(action.messages)
+    ? action.messages
+    : action.messages
+      ? [action.messages]
+      : [];
 
   let currentErrors = action.name
     ? yield select(state =>
-        state.notifs.filter(x => x.containerName === action.containerName && x.messageName === action.name))
-    : yield select(state => state.notifs.filter(x => x.containerName === action.containerName));
+        state.notifs.filter(
+          x =>
+            x.containerName === action.containerName &&
+            x.messageName === action.name,
+        ),
+      )
+    : yield select(state =>
+        state.notifs.filter(x => x.containerName === action.containerName),
+      );
   let newErrors = [];
 
   for (let x of messages) {
@@ -27,8 +38,8 @@ function* notifiy(action) {
           messageName,
           rule: x.rule,
           message: x.message,
-          kind: x.level || 'danger'
-        })
+          kind: x.level || 'danger',
+        }),
       );
     }
   }
@@ -38,9 +49,12 @@ function* notifiy(action) {
   }
 }
 
+// prettier-ignore
 export default function* () {
-  yield takeEvery(action => action.type && action.type === NOTIFICATION, notifiy);
+  yield takeEvery(
+    action => action.type && action.type === NOTIFICATION,
+    notifiy,
+  );
 }
 
 //TODO validate the action received by the request saga and dispatch an error if it's not valid
-

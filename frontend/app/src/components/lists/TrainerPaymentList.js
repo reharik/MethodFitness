@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
-import {Table} from 'antd';
+import { Table } from 'antd';
 
 const TrainerPaymentList = ({ gridConfig }) => {
   return (
@@ -29,7 +29,7 @@ const TrainerPaymentList = ({ gridConfig }) => {
 };
 
 TrainerPaymentList.propTypes = {
-  gridConfig: PropTypes.object
+  gridConfig: PropTypes.object,
 };
 
 export default TrainerPaymentList;

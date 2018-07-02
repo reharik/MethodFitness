@@ -4,7 +4,7 @@
 
 export const pageSize = 20;
 
-export const height = '400px';
+export const height = "400px";
 
 //export const events = {
 //    HANDLE_CELL_CLICK: (cell, reactEvent, id, browserEvent) => {
@@ -40,8 +40,9 @@ export const plugins = {
   COLUMN_MANAGER: {
     sortable: {
       enabled: true,
-      method: 'remote',
-      sortingSource: 'http://react-redux-grid.herokuapp.com/getfakeData'
+      method: "remote",
+      sortingSource:
+        "http://react-redux-grid.herokuapp.com/getfakeData"
     }
   },
   //PAGER: {
@@ -53,14 +54,14 @@ export const plugins = {
     enabled: true
   },
   SELECTION_MODEL: {
-    mode: 'checkbox-multi',
+    mode: "checkbox-multi",
     enabled: true,
     allowDeselect: true,
-    activeCls: 'active',
-    selectionEvent: 'singleclick'
+    activeCls: "active",
+    selectionEvent: "singleclick"
   },
   ERROR_HANDLER: {
-    defaultErrorMessage: 'AN ERROR OCURRED',
+    defaultErrorMessage: "AN ERROR OCURRED",
     enabled: true
   } //,
   //BULK_ACTIONS: {

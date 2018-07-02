@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 const UserProfileHeader = ({ userName, logoutUser }) => {
-  const logout = (e) => {
+  const logout = e => {
     e.preventDefault();
     logoutUser();
   };
@@ -13,14 +13,16 @@ const UserProfileHeader = ({ userName, logoutUser }) => {
         id="userName"
         data-id={'userName'}
         className="mainHeader__profile__links__link"
-        to="profile">
+        to="profile"
+      >
         {userName}
       </Link>
       <a
         href=""
         data-id={'signOut'}
         className="mainHeader__profile__links__link"
-        onClick={logout} >
+        onClick={logout}
+      >
         &nbsp;Sign out&nbsp;
       </a>
     </div>
@@ -29,7 +31,7 @@ const UserProfileHeader = ({ userName, logoutUser }) => {
 
 UserProfileHeader.propTypes = {
   userName: PropTypes.string,
-  logoutUser: PropTypes.func
+  logoutUser: PropTypes.func,
 };
 
 export default UserProfileHeader;

@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 import MFModal from './../components/mfModal/MFModal';
 import AppointmentContainer from './../containers/forms/AppointmentContainer';
 
-const AppointmentModal = ({ args,
-                            onClose,
-                            onCopy,
-                            onEdit,
-                            isCopy,
-                            isEdit,
-                            isOpen,
-                            title }) => {
+const AppointmentModal = ({
+  args,
+  onClose,
+  onCopy,
+  onEdit,
+  isCopy,
+  isEdit,
+  isOpen,
+  title,
+}) => {
   const titleBar = {
     className: 'heading',
     text: title,
-    enable: true
+    enable: true,
   };
   return (
     <MFModal titleBar={titleBar} isOpen={isOpen} closeModal={onClose}>
@@ -39,7 +41,7 @@ AppointmentModal.propTypes = {
   isCopy: PropTypes.bool,
   isEdit: PropTypes.bool,
   isOpen: PropTypes.bool,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default AppointmentModal;

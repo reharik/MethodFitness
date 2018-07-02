@@ -1,9 +1,15 @@
 module.exports = (cy, Cypress, moment) => {
   const getMomentForAppointment = () => {
     return cy.wait(1).then(() => {
-      cy.get('.display__container__value span[data-id="date"]').invoke('val').as('date');
-      cy.get('.display__container__value span[data-id="startTime"]').invoke('val').as('time');
-      const isPast = moment().isAfter(moment(`${cy.get('@date')} ${cy.get('@time')}`));
+      cy.get('.display__container__value span[data-id="date"]')
+        .invoke('val')
+        .as('date');
+      cy.get('.display__container__value span[data-id="startTime"]')
+        .invoke('val')
+        .as('time');
+      const isPast = moment().isAfter(
+        moment(`${cy.get('@date')} ${cy.get('@time')}`),
+      );
       return Cypress.Promise.resolve(isPast);
     });
   };
@@ -18,6 +24,6 @@ module.exports = (cy, Cypress, moment) => {
 
   return {
     getMomentForAppointment,
-    isAppointmentInPast
+    isAppointmentInPast,
   };
 };

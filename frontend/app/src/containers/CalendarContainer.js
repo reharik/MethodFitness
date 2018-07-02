@@ -5,7 +5,7 @@ import { fetchClientsAction } from './../modules/clientModule';
 import { fetchTrainersAction } from './../modules/trainerModule';
 import { curriedPermissionToSetAppointment } from './../utilities/appointmentTimes';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const isAdmin = state.auth.user.role === 'admin';
 
   let config = {
@@ -18,24 +18,28 @@ const mapStateToProps = (state) => {
     dayEndsAt: '11:30 PM',
     utcTime: true,
     taskId: 'appointmentId',
-    dayDisplayFormat: 'ddd MM/DD'
+    dayDisplayFormat: 'ddd MM/DD',
   };
 
   config.canUpdate = curriedPermissionToSetAppointment(isAdmin);
 
   config.taskFilter = isAdmin
-    ? (x, calState) => calState.toggleTrainerListForCalendar.includes(x.trainerId)
+    ? (x, calState) =>
+        calState.toggleTrainerListForCalendar.includes(x.trainerId)
     : x => x.trainerId === state.auth.user.trainerId;
 
   return {
     isAdmin,
-    config
+    config,
   };
 };
 
-export default connect(mapStateToProps, {
-  fetchClientsAction,
-  fetchTrainersAction,
-  retrieveDataAction: fetchAppointmentsAction,
-  updateTaskViaDND
-})(Calendar);
+export default connect(
+  mapStateToProps,
+  {
+    fetchClientsAction,
+    fetchTrainersAction,
+    retrieveDataAction: fetchAppointmentsAction,
+    updateTaskViaDND,
+  },
+)(Calendar);

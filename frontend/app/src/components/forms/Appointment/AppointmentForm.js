@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { syncApptTypeAndTime,
+import {
+  syncApptTypeAndTime,
   buildMomentFromDateAndTime,
-  permissionToSetAppointment } from '../../../utilities/appointmentTimes';
+  permissionToSetAppointment,
+} from '../../../utilities/appointmentTimes';
 import DisplayFor from '../../formElements/DisplayFor';
 import HiddenFor from '../../formElements/HiddenFor';
 import EditableFor from '../../formElements/EditableFor';
@@ -12,24 +14,26 @@ import moment from 'moment';
 
 class AppointmentForm extends Component {
   containerName = 'appointmentForm';
-  state = {editing: this.props.editing};
+  state = { editing: this.props.editing };
 
   componentWillReceiveProps(newProps) {
-    this.setState({editing: newProps.editing});
+    this.setState({ editing: newProps.editing });
   }
 
   toggleEdit = (e, rollBack) => {
     e.preventDefault();
     if (rollBack) {
-      this.setState({editing: !this.state.editing});
+      this.setState({
+        editing: !this.state.editing,
+      });
     } else {
       this.setState({
-        editing: !this.state.editing
+        editing: !this.state.editing,
       });
     }
   };
 
-  validateSave = (data) => {
+  validateSave = data => {
     let success = true;
     if (!permissionToSetAppointment(data, this.props.isAdmin)) {
       success = false;
@@ -46,9 +50,15 @@ class AppointmentForm extends Component {
           if (!values.trainerId) {
             values.trainerId = this.props.trainerId;
           }
-          values.color = this.props.trainers.find(x => x.value === values.trainerId).color;
+          values.color = this.props.trainers.find(
+            x => x.value === values.trainerId,
+          ).color;
           if (values.appointmentId) {
-            this.props.updateAppointment(values, this.props.model.date.value, this.props.model.startTime.value);
+            this.props.updateAppointment(
+              values,
+              this.props.model.date.value,
+              this.props.model.startTime.value,
+            );
           } else {
             this.props.scheduleAppointment(values);
           }
@@ -62,28 +72,51 @@ class AppointmentForm extends Component {
   };
 
   handleTimeChange = value => {
-    const endTime = syncApptTypeAndTime(this.props.form.getFieldValue('appointmentType'), value);
-    this.props.form.setFieldsValue({endTime});
+    const endTime = syncApptTypeAndTime(
+      this.props.form.getFieldValue('appointmentType'),
+      value,
+    );
+    this.props.form.setFieldsValue({ endTime });
   };
 
   handleAppointmentTypeChange = value => {
-    if (this.props.form.getFieldValue('clients').length > 1 && value !== 'pair') {
-      this.props.form.setFieldsValue({clients: []});
+    if (
+      this.props.form.getFieldValue('clients').length > 1 &&
+      value !== 'pair'
+    ) {
+      this.props.form.setFieldsValue({
+        clients: [],
+      });
     }
-    const endTime = syncApptTypeAndTime(value, this.props.form.getFieldValue('startTime'));
-    this.props.form.setFieldsValue({endTime});
+    const endTime = syncApptTypeAndTime(
+      value,
+      this.props.form.getFieldValue('startTime'),
+    );
+    this.props.form.setFieldsValue({ endTime });
   };
 
   handleClientChange = value => {
-    if (value.length > 1 && this.props.form.getFieldValue('appointmentType') !== 'pair') {
-
-      this.props.form.setFieldsValue({appointmentType: 'pair'});
-      const endTime = syncApptTypeAndTime('pair', this.props.form.getFieldValue('startTime'));
-      this.props.form.setFieldsValue({endTime});
+    if (
+      value.length > 1 &&
+      this.props.form.getFieldValue('appointmentType') !== 'pair'
+    ) {
+      this.props.form.setFieldsValue({
+        appointmentType: 'pair',
+      });
+      const endTime = syncApptTypeAndTime(
+        'pair',
+        this.props.form.getFieldValue('startTime'),
+      );
+      this.props.form.setFieldsValue({ endTime });
     }
 
-    if (value.length < 2 && this.props.form.getFieldValue('appointmentType') === 'pair') {
-      this.props.form.setFieldsValue({appointmentType: 'fullHour'});
+    if (
+      value.length < 2 &&
+      this.props.form.getFieldValue('appointmentType') === 'pair'
+    ) {
+      this.props.form.setFieldsValue({
+        appointmentType: 'fullHour',
+      });
     }
   };
 
@@ -102,15 +135,15 @@ class AppointmentForm extends Component {
 
   copyHandler = () => {
     const appointmentId = this.props.form.getFieldValue('appointmentId');
-    this.props.onCopy({appointmentId});
+    this.props.onCopy({ appointmentId });
   };
 
   editHandler = () => {
     const appointmentId = this.props.form.getFieldValue('appointmentId');
-    this.props.onEdit({appointmentId});
+    this.props.onEdit({ appointmentId });
   };
 
-  disabledDate = (current) => {
+  disabledDate = current => {
     return current < moment().startOf('day');
   };
 
@@ -119,8 +152,8 @@ class AppointmentForm extends Component {
       return null;
     }
     const formItemLayout = {
-      labelCol: {span: 8},
-      wrapperCol: {span: 16}
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
     };
     const model = this.props.model;
     const form = this.props.form;
@@ -131,20 +164,27 @@ class AppointmentForm extends Component {
             <HiddenFor form={form} data={model.appointmentId} />
           </Row>
           <Row type="flex">
-            {this.props.isAdmin
-              ? <EditableFor
+            {this.props.isAdmin ? (
+              <EditableFor
                 editing={this.state.editing}
                 form={form}
                 data={model.trainerId}
                 selectOptions={this.props.trainers}
                 formItemLayout={formItemLayout}
-                span={24} />
-              : <DisplayFor data={model.trainerId} selectOptions={this.props.trainers} />}
+                span={24}
+              />
+            ) : (
+              <DisplayFor
+                data={model.trainerId}
+                selectOptions={this.props.trainers}
+              />
+            )}
           </Row>
           <Row type="flex">
             <EditableFor
               editing={this.state.editing}
-              form={form} data={model.clients}
+              form={form}
+              data={model.clients}
               selectOptions={this.props.clients}
               onChange={this.handleClientChange}
               formItemLayout={formItemLayout}
@@ -154,7 +194,8 @@ class AppointmentForm extends Component {
           <Row type="flex">
             <EditableFor
               editing={this.state.editing}
-              form={form} data={model.appointmentType}
+              form={form}
+              data={model.appointmentType}
               selectOptions={this.props.appointmentTypes}
               onChange={this.handleAppointmentTypeChange}
               updateIfChanged={model.appointmentType.value}
@@ -168,8 +209,9 @@ class AppointmentForm extends Component {
               form={form}
               data={model.date}
               formItemLayout={formItemLayout}
-              extraFunc={!this.props.isAdmin ? this.disabledDate : null }
-              span={24} />
+              extraFunc={!this.props.isAdmin ? this.disabledDate : null}
+              span={24}
+            />
           </Row>
           <Row type="flex">
             <EditableFor
@@ -179,7 +221,8 @@ class AppointmentForm extends Component {
               selectOptions={this.props.times}
               onChange={this.handleTimeChange}
               formItemLayout={formItemLayout}
-              span={24} />
+              span={24}
+            />
           </Row>
           <Row type="flex">
             <EditableFor
@@ -187,7 +230,8 @@ class AppointmentForm extends Component {
               form={form}
               data={model.endTime}
               formItemLayout={formItemLayout}
-              span={24} />
+              span={24}
+            />
           </Row>
           <Row type="flex">
             <EditableFor
@@ -195,15 +239,17 @@ class AppointmentForm extends Component {
               form={form}
               data={model.notes}
               formItemLayout={formItemLayout}
-              span={24} />
+              span={24}
+            />
           </Row>
-          <Row type="flex" style={{margin: '24px 0'}}>
+          <Row type="flex" style={{ margin: '24px 0' }}>
             <AppointmentFooter
               buttons={this.props.buttons}
               cancelHandler={this.props.onCancel}
               deleteHandler={this.deleteHandler}
               editHandler={this.editHandler}
-              copyHandler={this.copyHandler} />
+              copyHandler={this.copyHandler}
+            />
           </Row>
         </Form>
       </Card>
@@ -229,7 +275,9 @@ AppointmentForm.propTypes = {
   clients: PropTypes.array,
   appointmentTypes: PropTypes.array,
   times: PropTypes.array,
-  buttons: PropTypes.array
+  buttons: PropTypes.array,
 };
 
-export default Form.create({mapPropsToFields: (props) => ({...props.model})})(AppointmentForm);
+export default Form.create({
+  mapPropsToFields: props => ({ ...props.model }),
+})(AppointmentForm);

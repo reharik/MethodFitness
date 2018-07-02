@@ -26,7 +26,7 @@ class MFModal extends Component {
     const defaultConfigs = {
       overlayOpacity: '.5',
       isOpen: false,
-      className: ''
+      className: '',
     };
 
     const defaultTitleBarConfigs = {
@@ -35,15 +35,25 @@ class MFModal extends Component {
       closeText: 'x',
       closeButtonClassName: '',
       closeButton: true,
-      enable: false
+      enable: false,
     };
-    const titleBarConfig = Object.assign({}, defaultTitleBarConfigs, this.props.titleBar);
+    const titleBarConfig = Object.assign(
+      {},
+      defaultTitleBarConfigs,
+      this.props.titleBar,
+    );
     this.configs = Object.assign({}, defaultConfigs, this.props);
     this.configs.titleBar = titleBarConfig;
   }
 
   renderTitleBar() {
-    const { className, text, closeText, closeButton, closeButtonClassName } = this.configs.titleBar;
+    const {
+      className,
+      text,
+      closeText,
+      closeButton,
+      closeButtonClassName,
+    } = this.configs.titleBar;
 
     const titleBarClass = {};
     if (className) {
@@ -53,10 +63,17 @@ class MFModal extends Component {
     return (
       <div className={classNames('mf__modal__titleBar', titleBarClass)}>
         <span>{text && text.length ? text : <br />}</span>
-        {closeButton &&
-          <button onClick={this.props.closeModal} className={classNames('mf__modal__btn__close', closeButtonClassName)}>
+        {closeButton && (
+          <button
+            onClick={this.props.closeModal}
+            className={classNames(
+              'mf__modal__btn__close',
+              closeButtonClassName,
+            )}
+          >
             {closeText}
-          </button>}
+          </button>
+        )}
       </div>
     );
   }
@@ -69,24 +86,35 @@ class MFModal extends Component {
       overlayOpacity,
       children,
       className,
-      position
+      position,
     } = this.configs;
-    return this.props.isOpen
-      ? <div data-id="MFModal" data-title={titleBar.enable ? titleBar.position : null} className={'mf__modal'}>
-        <div style={position} className={classNames('mf__modal__wrapper', className)}>
+    return this.props.isOpen ? (
+      <div
+        data-id="MFModal"
+        data-title={titleBar.enable ? titleBar.position : null}
+        className={'mf__modal'}
+      >
+        <div
+          style={position}
+          className={classNames('mf__modal__wrapper', className)}
+        >
           {titleBar.enable && this.renderTitleBar()}
           <div className={'mf__modal__content'}>{children}</div>
         </div>
-        <div className={'mf__modal__overlay'} style={{ opacity: overlayOpacity }} onClick={this.props.closeModal} />
+        <div
+          className={'mf__modal__overlay'}
+          style={{ opacity: overlayOpacity }}
+          onClick={this.props.closeModal}
+        />
       </div>
-      : null;
+    ) : null;
   }
 }
 
 MFModal.propTypes = {
   isOpen: PropTypes.bool,
   closeModal: PropTypes.func,
-  titleBar: PropTypes.object
+  titleBar: PropTypes.object,
 };
 
 export default MFModal;

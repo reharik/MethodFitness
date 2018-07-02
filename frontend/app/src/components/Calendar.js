@@ -14,14 +14,14 @@ const warning = Modal.warning;
 const layout = Breakjs({
   mobile: 0,
   tablet: 768,
-  laptop: 1201
+  laptop: 1201,
 });
 
 class MFCalendar extends Component {
   state = {
     isOpen: false,
     apptArgs: {},
-    layout: layout.current()
+    layout: layout.current(),
   };
 
   componentWillMount() {
@@ -32,72 +32,87 @@ class MFCalendar extends Component {
       retrieveDataAction: this.props.retrieveDataAction,
       updateTaskViaDND: this.props.updateTaskViaDND,
       taskClickedEvent: this.taskClickedEvent,
-      openSpaceClickedEvent: this.openSpaceClickedEvent
+      openSpaceClickedEvent: this.openSpaceClickedEvent,
     };
-    if(this.state.layout === 'mobile') {
+    if (this.state.layout === 'mobile') {
       this.config = {
         ...this.props.config,
         defaultView: 'day',
-        hideViewMenu: true
+        hideViewMenu: true,
       };
     }
-    layout.addChangeListener(layout => this.setState({layout}));
+    layout.addChangeListener(layout => this.setState({ layout }));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({layout}));
+    layout.removeChangeListener(layout => this.setState({ layout }));
   }
 
   copyAppointment = args => {
     let apptArgs = {
       appointmentId: args.appointmentId,
-      isCopy: true
+      isCopy: true,
     };
     this.setState({
       isOpen: true,
-      apptArgs
+      apptArgs,
     });
   };
 
   editAppointment = args => {
     let apptArgs = {
       appointmentId: args.appointmentId,
-      isEdit: true
+      isEdit: true,
     };
     this.setState({
       isOpen: true,
-      apptArgs
+      apptArgs,
     });
   };
 
   taskClickedEvent = (appointmentId, task, calendarName) => {
-    let apptArgs = {appointmentId, task, calendarName};
+    let apptArgs = {
+      appointmentId,
+      task,
+      calendarName,
+    };
     this.setState({
       isOpen: true,
-      apptArgs
+      apptArgs,
     });
   };
 
   openSpaceClickedEvent = (task, calendarName) => {
-    if (!permissionToSetAppointment({...task, date: task.day}, this.props.isAdmin)) {
+    if (
+      !permissionToSetAppointment(
+        { ...task, date: task.day },
+        this.props.isAdmin,
+      )
+    ) {
       warning({
         title: `You can not set an appointment in the past`,
-        okText: 'OK'
+        okText: 'OK',
       });
       return;
     }
-    const formattedTime = moment(task.startTime).local().format('hh:mm A');
-    let apptArgs = {day: task.day, startTime: formattedTime, calendarName};
+    const formattedTime = moment(task.startTime)
+      .local()
+      .format('hh:mm A');
+    let apptArgs = {
+      day: task.day,
+      startTime: formattedTime,
+      calendarName,
+    };
     this.setState({
       isOpen: true,
-      apptArgs
+      apptArgs,
     });
   };
 
   onClose = () => {
     this.setState({
       isOpen: false,
-      apptArgs: {}
+      apptArgs: {},
     });
   };
 
@@ -108,11 +123,23 @@ class MFCalendar extends Component {
         <ContentHeader />
         <div className="form-scroll-inner">
           <div className="mainCalendar__content__inner">
-            <Row type="flex" style={this.state.layout === 'laptop'
-              ? {width: '100%'}
-              : { flexDirection: 'column-reverse', width: '100%' }}>
-              {this.props.isAdmin ? <Col xl={3} lg={4} sm={24}><ToggleTrainerListForCalendarContainer /></Col> : null}
-              <Col xl={21} lg={20} sm={24} >
+            <Row
+              type="flex"
+              style={
+                this.state.layout === 'laptop'
+                  ? { width: '100%' }
+                  : {
+                      flexDirection: 'column-reverse',
+                      width: '100%',
+                    }
+              }
+            >
+              {this.props.isAdmin ? (
+                <Col xl={3} lg={4} sm={24}>
+                  <ToggleTrainerListForCalendarContainer />
+                </Col>
+              ) : null}
+              <Col xl={21} lg={20} sm={24}>
                 <Calendar config={this.config} />
               </Col>
             </Row>
@@ -141,7 +168,7 @@ MFCalendar.propTypes = {
   retrieveDataAction: PropTypes.func,
   updateTaskViaDND: PropTypes.func,
   title: PropTypes.string,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
 };
 
 export default MFCalendar;

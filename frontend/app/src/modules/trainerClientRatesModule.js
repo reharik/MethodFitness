@@ -3,8 +3,14 @@ import selectn from 'selectn';
 import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
 
-export const UPDATE_TRAINER_CLIENT_RATES = requestStates('update_trainer_client_rates', 'trainer');
-export const GET_TRAINER_CLIENT_RATES = requestStates('get_trainer_client_rates', 'trainer');
+export const UPDATE_TRAINER_CLIENT_RATES = requestStates(
+  'update_trainer_client_rates',
+  'trainer',
+);
+export const GET_TRAINER_CLIENT_RATES = requestStates(
+  'get_trainer_client_rates',
+  'trainer',
+);
 
 export default (state = [], action = {}) => {
   switch (action.type) {
@@ -13,9 +19,15 @@ export default (state = [], action = {}) => {
     }
     case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
       let update = selectn('action.update', action);
-      let updated = update.clientRates.map(x => ({trainerId: update.trainerId, clientId: x.clientId, rate: x.rate}));
+      let updated = update.clientRates.map(x => ({
+        trainerId: update.trainerId,
+        clientId: x.clientId,
+        rate: x.rate,
+      }));
       return state.map(x => {
-        const tcr = updated.find(t => t.trainerId === x.trainerId && t.clientId === x.clientId);
+        const tcr = updated.find(
+          t => t.trainerId === x.trainerId && t.clientId === x.clientId,
+        );
         if (tcr && tcr.rate !== x.rate) {
           return tcr;
         }
@@ -31,7 +43,7 @@ export default (state = [], action = {}) => {
 export function updateTrainersClientRate(data) {
   const item = {
     trainerId: data.trainerId,
-    clientRates: data.clientRates
+    clientRates: data.clientRates,
   };
 
   return {
@@ -42,9 +54,11 @@ export function updateTrainersClientRate(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
   };
 }
 
@@ -56,7 +70,7 @@ export function getTrainerClientRates(trainerId) {
     url: apiUrl,
     params: {
       method: 'GET',
-      credentials: 'include'
-    }
+      credentials: 'include',
+    },
   };
 }

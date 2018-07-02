@@ -122,19 +122,22 @@ module.exports = function(eventRepository, metaLogger, logger, client) {
       }
     }
 
-    return metaLogger({
-      handlerName: 'ClientWorkflow',
-      addClient,
-      updateClientInfo,
-      updateClientAddress,
-      updateClientContact,
-      updateClientSource,
-      archiveClient,
-      unArchiveClient,
-      clientAttendsAppointment,
-      purchase,
-      refundSessions,
-      removeAppointmentFromPast
-    }, 'ClientWorkflow');
+    return metaLogger(
+      {
+        handlerName: 'ClientWorkflow',
+        addClient,
+        updateClientInfo,
+        updateClientAddress,
+        updateClientContact,
+        updateClientSource,
+        archiveClient,
+        unArchiveClient,
+        clientAttendsAppointment,
+        purchase,
+        refundSessions,
+        removeAppointmentFromPast,
+      },
+      'ClientWorkflow',
+    );
   };
 };

@@ -21,7 +21,7 @@
     "co-views": "^2.1.0",
     "config": "^1.14.0",
     "corelogger": "reharik/core_logger",
-    "dagon": "1.3.4",
+    "dagon": "1.3.5",
     "deref": "^0.6.4",
     "ges-eventsourcing": "reharik/ges-eventsourcing",
     "invariant": "^2.1.0",
@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "eslint": "^3.6.0",
+    "eslint-config-prettier": "^2.9.0",
     "mocha": "3.4.2",
     "must": "0.13.0-beta2",
     "nodemon": "^1.11.0",

@@ -128,10 +128,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "clientId",
-        "rate"
-      ]
+      "required": ["clientId", "rate"]
     },
     "updateClientInfo": {
       "title": "clientInfoRequest",
@@ -386,9 +383,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "sessionIds"
-      ]
+      "required": ["sessionIds"]
     },
     "payTrainer": {
       "title": "payTrainer",
@@ -403,9 +398,7 @@
           "uniqueItems": true
         }
       },
-      "required": [
-        "paidAppointments"
-      ]
+      "required": ["paidAppointments"]
     },
     "paidAppointments": {
       "title": "paidAppointments",
@@ -419,10 +412,7 @@
           "format": "uuid"
         }
       },
-      "required": [
-        "appointmentId",
-        "sessionId"
-      ]
+      "required": ["appointmentId", "sessionId"]
     },
     "appointmentStatusUpdate": {
       "title": "appointmentStatusUpdate",
@@ -449,10 +439,7 @@
           "format": "uuid"
         }
       },
-      "required": [
-        "refundSessions",
-        "clientId"
-      ]
+      "required": ["refundSessions", "clientId"]
     },
     "refundSession": {
       "title": "refundSession",
@@ -463,11 +450,9 @@
         },
         "appointmentType": {
           "type": "string"
-        }},
-      "required": [
-        "sessionId",
-        "appointmentType"
-      ]
+        }
+      },
+      "required": ["sessionId", "appointmentType"]
     }
   }
 }

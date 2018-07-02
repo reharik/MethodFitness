@@ -1,17 +1,22 @@
-module.exports = function(aggregateRootBase,
+module.exports = function(
+  aggregateRootBase,
   clientCommands,
   clientInventory,
-  clientEventHandlers) {
+  clientEventHandlers,
+) {
   return function client() {
     const state = {
       _isArchived: false,
       type: 'Client',
       clientInventory: clientInventory(),
-      unfundedAppointments: []
+      unfundedAppointments: [],
     };
     const aggFunctions = aggregateRootBase(state, clientEventHandlers);
-    return Object.assign({},
-      aggFunctions, clientCommands(aggFunctions.raiseEvent, state),
-      {state});
+    return Object.assign(
+      {},
+      aggFunctions,
+      clientCommands(aggFunctions.raiseEvent, state),
+      { state },
+    );
   };
 };

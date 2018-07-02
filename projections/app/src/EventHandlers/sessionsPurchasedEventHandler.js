@@ -3,15 +3,18 @@ module.exports = function(
   sessionsPurchasedPersistence,
   statefulEventHandler,
   metaLogger,
-  logger) {
-
+  logger,
+) {
   return async function sessionsPurchasedEventHandler() {
-
     const persistence = sessionsPurchasedPersistence();
     let initialState = statefulEventHandler.getInitialState({ purchases: [] });
     let state = await persistence.initializeState(initialState);
 
-    const baseHandler = statefulEventHandler.baseHandler(state, persistence, 'SessionsPurchasedBaseHandler');
+    const baseHandler = statefulEventHandler.baseHandler(
+      state,
+      persistence,
+      'SessionsPurchasedBaseHandler',
+    );
     logger.info('SessionsPurchasedEventHandler started up');
 
     async function fundedAppointmentAttendedByClient(event) {
@@ -43,7 +46,9 @@ module.exports = function(
       await persistence.saveState(state, purchase);
     }
 
-    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
+    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(
+      event,
+    ) {
       let purchase = state.transferSessionFromPastAppointment(event);
       await persistence.saveState(state, purchase);
     }
@@ -53,7 +58,7 @@ module.exports = function(
       return await persistence.saveState(state);
     }
 
-/*
+    /*
     async function unfundedAppointmentFundedByClient(event) {
       logger.info('handling unfundedAppointmentFundedByClient event in SessionsPurchasedEventHandler');
       const purchaseId = state.processFundedAppointment(event);
@@ -62,18 +67,21 @@ module.exports = function(
     }
 */
 
-    return metaLogger({
-      handlerType: 'sessionsPurchasedEventHandler',
-      handlerName: 'sessionsPurchasedEventHandler',
-      baseHandlerName: 'sessionsPurchasedBaseStateEventHandler',
-      baseHandler,
-      fundedAppointmentAttendedByClient,
-      pastAppointmentUpdated,
-      sessionsPurchased,
-      sessionsRefunded,
-      sessionReturnedFromPastAppointment,
-      sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
-      trainerPaid
-    }, 'sessionPurchasedEventHandler');
+    return metaLogger(
+      {
+        handlerType: 'sessionsPurchasedEventHandler',
+        handlerName: 'sessionsPurchasedEventHandler',
+        baseHandlerName: 'sessionsPurchasedBaseStateEventHandler',
+        baseHandler,
+        fundedAppointmentAttendedByClient,
+        pastAppointmentUpdated,
+        sessionsPurchased,
+        sessionsRefunded,
+        sessionReturnedFromPastAppointment,
+        sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
+        trainerPaid,
+      },
+      'sessionPurchasedEventHandler',
+    );
   };
 };

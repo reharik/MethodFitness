@@ -27,7 +27,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
@@ -38,7 +38,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         newDate: newDate,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-        appointmentType: 'Half Hour'
+        appointmentType: 'Half Hour',
       };
       routines.changeAppointment(appointmentValues);
 
@@ -61,8 +61,8 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         inarrearsItemValues: {
           client: this.clients.client2,
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
     });
   });
@@ -74,7 +74,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client2,
-        halfHourCount: '2'
+        halfHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -84,7 +84,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
@@ -95,7 +95,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         newDate,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-        appointmentType: 'Half Hour'
+        appointmentType: 'Half Hour',
       };
       routines.changeAppointment(appointmentValues);
 
@@ -118,8 +118,8 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         availableItemValues: {
           client: this.clients.client2,
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.checkSessions({
@@ -129,23 +129,23 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         usedCount: 1,
         usedItemValues: {
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.verifyAppointments({
-        index: 6
+        index: 6,
       });
 
       routines.checkPayTrainer({
         index: 7,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 8,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -154,8 +154,8 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         appointmentValues: {
           client: this.clients.client2,
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
     });
   });
@@ -167,7 +167,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       cy.navTo('Calendar');
@@ -177,7 +177,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
@@ -188,7 +188,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         newDate: newDate,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-        appointmentType: 'Half Hour'
+        appointmentType: 'Half Hour',
       };
       routines.changeAppointment(appointmentValues);
 
@@ -196,13 +196,13 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         index: 2,
         client: this.clients.client1,
         fullHourCount: '2',
-        halfHourCount: '0'
+        halfHourCount: '0',
       });
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client2,
-        halfHourCount: '-1'
+        halfHourCount: '-1',
       });
 
       routines.checkVerification({
@@ -211,8 +211,8 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         inarrearsItemValues: {
           client: this.clients.client2,
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
     });
   });
@@ -240,7 +240,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         date: aDT.date,
         time: aDT.time,
         client: this.clients.client1,
-        appointmentType: 'Full Hour'
+        appointmentType: 'Full Hour',
       });
 
       const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
@@ -251,7 +251,7 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         newDate,
         currentClient: this.clients.client1,
         newClient: this.clients.client2,
-        appointmentType: 'Half Hour'
+        appointmentType: 'Half Hour',
       };
       routines.changeAppointment(appointmentValues);
 
@@ -274,14 +274,14 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         availableItemValues: {
           client: this.clients.client2,
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.checkSessions({
         index: 5,
         client: this.clients.client1,
-        availableCount: 2
+        availableCount: 2,
       });
 
       routines.checkSessions({
@@ -291,23 +291,23 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         usedCount: 1,
         usedItemValues: {
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       routines.verifyAppointments({
-        index: 6
+        index: 6,
       });
 
       routines.checkPayTrainer({
         index: 7,
         trainer: this.trainers.trainer1,
-        payableCount: 1
+        payableCount: 1,
       });
 
       routines.payTrainer({
         index: 8,
-        trainer: this.trainers.trainer1
+        trainer: this.trainers.trainer1,
       });
 
       routines.checkTrainerPayment({
@@ -316,8 +316,8 @@ describe('Creating an Appointment in the Past Changing Date, Client and Type', (
         appointmentValues: {
           client: this.clients.client2,
           date: newDate,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
     });
   });

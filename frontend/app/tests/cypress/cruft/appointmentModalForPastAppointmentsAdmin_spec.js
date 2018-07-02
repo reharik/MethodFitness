@@ -4,18 +4,22 @@ const setupRoutes = require('./../helpers/setupRoutes');
 
 describe.skip('Appointment Modal For Past Appointments Admin', () => {
   let routines;
-  const aDT = require('./../fixtures/appointments')(Cypress.moment, undefined, true);
+  const aDT = require('./../fixtures/appointments')(
+    Cypress.moment,
+    undefined,
+    true,
+  );
   const client1 = {
     LNF: 'Barr, Sarah',
-    LN: 'Barr'
+    LN: 'Barr',
   };
   const client2 = {
     LNF: 'Ahern, Jessica',
-    LN: 'Ahern'
+    LN: 'Ahern',
   };
   const client3 = {
     LNF: 'Avedissian, Amanda',
-    LN: 'Avedissian'
+    LN: 'Avedissian',
   };
 
   beforeEach(() => {
@@ -52,23 +56,29 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         currentClient: client1,
         newClient: client2,
         appointmentType: 'Full Hour',
-        notes: 'By! Everybody!'
+        notes: 'By! Everybody!',
       };
       routines.changeAppointment(appointmentValues);
 
       cy.log('2=======verify changes persisted=======');
       cy.clickOnAppointment(appointmentValues.date, appointmentValues.time);
-      cy.get('ul[data-id=clients] li').contains(appointmentValues.newClient.LNF);
-      cy.get('span[data-id=appointmentType]').contains(appointmentValues.appointmentType);
+      cy.get('ul[data-id=clients] li').contains(
+        appointmentValues.newClient.LNF,
+      );
+      cy.get('span[data-id=appointmentType]').contains(
+        appointmentValues.appointmentType,
+      );
       // cy.get('span[data-id=date]').contains(aDT.day.format('MM/DD/YYYY'));
       // cy.get('span[data-id=startTime]').contains(appointmentValues.time);
       cy.get('span[data-id=notes]').contains(appointmentValues.notes);
-      cy.get(`.form__footer__button`).contains('Cancel').click();
+      cy.get(`.form__footer__button`)
+        .contains('Cancel')
+        .click();
 
       routines.checkClientInventory({
         index: 3,
         client: client2,
-        fullHourCount: '-1'
+        fullHourCount: '-1',
       });
 
       routines.checkVerification({
@@ -77,8 +87,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         inarrearsItemValues: {
           client: client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       /*
@@ -90,13 +100,13 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
       routines.purchaseSessions({
         index: 5,
         client: client2,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       routines.checkClientInventory({
         index: 6,
         client: client2,
-        fullHourCount: '1'
+        fullHourCount: '1',
       });
 
       routines.checkSessions({
@@ -106,8 +116,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         usedCount: 1,
         usedItemValues: {
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkVerification({
@@ -116,8 +126,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         availableItemValues: {
           client: client2,
           date: aDT.date,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       /*
@@ -138,13 +148,13 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         index: 10,
         client: client2,
         fullHourCount: '2',
-        halfHourCount: '-1'
+        halfHourCount: '-1',
       });
 
       routines.checkSessions({
         index: 11,
         client: client2,
-        availableCount: 2
+        availableCount: 2,
       });
 
       routines.checkVerification({
@@ -153,8 +163,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         inarrearsItemValues: {
           client: client2,
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       /*
@@ -175,7 +185,7 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
       routines.checkClientInventory({
         index: 14,
         client: client2,
-        halfHourCount: '0'
+        halfHourCount: '0',
       });
 
       /*
@@ -184,13 +194,13 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
 
       routines.refundSessions({
         index: 15,
-        client: client2
+        client: client2,
       });
 
       routines.checkClientInventory({
         index: 16,
         client: client3,
-        halfHourCount: '-1'
+        halfHourCount: '-1',
       });
 
       routines.checkVerification({
@@ -199,8 +209,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         inarrearsItemValues: {
           client: client3,
           date: aDT.date,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
     });
   });
@@ -226,9 +236,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
       routines.checkClientInventory({
         index: 2,
         client: client1,
-        fullHourCount: '-1'
+        fullHourCount: '-1',
       });
-
 
       routines.checkVerification({
         index: 3,
@@ -236,8 +245,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         inarrearsItemValues: {
           client: client1,
           date: newMoment,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       /*
@@ -249,7 +258,7 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
       routines.purchaseSessions({
         index: 4,
         client: client1,
-        fullHourCount: '2'
+        fullHourCount: '2',
       });
 
       const newMoment2 = Cypress.moment(aDT.day).subtract(2, 'day');
@@ -264,7 +273,7 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
       routines.checkClientInventory({
         index: 6,
         client: client1,
-        fullHourCount: '1'
+        fullHourCount: '1',
       });
 
       routines.checkSessions({
@@ -274,8 +283,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         client: client1,
         usedItemValues: {
           date: newMoment2,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       routines.checkVerification({
@@ -283,8 +292,8 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         inarrearsItemValues: {
           client: client1,
           date: newMoment2,
-          appointmentType: 'Full Hour'
-        }
+          appointmentType: 'Full Hour',
+        },
       });
 
       /*
@@ -295,7 +304,7 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
       routines.purchaseSessions({
         index: 9,
         client: client2,
-        halfHourCount: '2'
+        halfHourCount: '2',
       });
 
       const newMoment3 = Cypress.moment(aDT.day).subtract(3, 'day');
@@ -306,31 +315,31 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
         newDate: newMoment3,
         appointmentType: 'Half Hour',
         currentClient: client1,
-        newClient: client2
+        newClient: client2,
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 11,
         client: client1,
-        halfHourCount: '0'
+        halfHourCount: '0',
       });
 
       routines.checkClientInventory({
         index: 12,
         client: client2,
-        halfHourCount: '1'
+        halfHourCount: '1',
       });
 
       routines.checkVerification({
         index: 13,
         availableCount: 1,
-        date:newMoment3,
+        date: newMoment3,
         inarrearsItemValues: {
           client: client2,
           date: newMoment3,
-          appointmentType: 'Half Hour'
-        }
+          appointmentType: 'Half Hour',
+        },
       });
 
       cy.log('14=====delete appointment for clean up=======');
@@ -338,12 +347,12 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
 
       routines.refundSessions({
         index: 15,
-        client: client2
+        client: client2,
       });
 
       routines.refundSessions({
         index: 16,
-        client: client1
+        client: client1,
       });
 
       //
@@ -357,21 +366,22 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
     it('Should allow you to persist all edits', function() {
       cy.createAppointment(aDT.date, aDT.time, client1, 'Full Hour');
       cy.clickOnAppointment(aDT.date, aDT.time);
-      cy.get(`.form__footer__button`).contains('Edit').click();
+      cy.get(`.form__footer__button`)
+        .contains('Edit')
+        .click();
 
       cy.get('#clients').click();
-      cy
-        .get('.ant-select-dropdown-menu-item')
+      cy.get('.ant-select-dropdown-menu-item')
         .contains(client1)
         .click();
-      cy
-        .get('.ant-select-dropdown-menu-item')
+      cy.get('.ant-select-dropdown-menu-item')
         .contains(client2)
         .click();
 
-      cy.get('#appointmentType').click({force: true});
-      cy
-        .get('.ant-select-dropdown-menu-item')
+      cy.get('#appointmentType').click({
+        force: true,
+      });
+      cy.get('.ant-select-dropdown-menu-item')
         .contains('Full Hour')
         .click();
 
@@ -387,7 +397,4 @@ describe.skip('Appointment Modal For Past Appointments Admin', () => {
       cy.get('span[data-id=notes]').contains('By! Everybody!');
     });
   });
-
 });
-
-

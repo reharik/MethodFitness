@@ -31,7 +31,7 @@ MenuItem.propTypes = {
   onClick: PropTypes.func,
   path: PropTypes.string,
   currentItem: PropTypes.string,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
 };
 
 export default MenuItem;

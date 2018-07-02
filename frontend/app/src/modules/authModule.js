@@ -7,9 +7,11 @@ export const CHECK_AUTHENTICATION = requestStates('checkAuth', 'auth');
 import { browserHistory } from 'react-router';
 
 const initialState = {
-  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '',
+  user: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : '',
   isFetching: false,
-  isAuthenticated: !!localStorage.getItem('id_token')
+  isAuthenticated: !!localStorage.getItem('id_token'),
 };
 
 export default (state = initialState, action = {}) => {
@@ -23,19 +25,21 @@ export default (state = initialState, action = {}) => {
       return {
         user,
         isAuthenticated: true,
-        errorMessage: ''
+        errorMessage: '',
       };
     }
     case CHECK_AUTHENTICATION.FAILURE:
     case LOGOUT.SUCCESS: {
       // this hits for check_auth.failure, but not logout.success
-      console.log(`=========='wtf why doesnt this action hit the reducer?'==========`);
+      console.log(
+        `=========='wtf why doesnt this action hit the reducer?'==========`,
+      );
       console.log('wtf');
       console.log(action);
       console.log(`==========END 'wtf'==========`);
 
       return Object.assign({}, state, {
-        isAuthenticated: false
+        isAuthenticated: false,
       });
     }
     default:
@@ -45,7 +49,11 @@ export default (state = initialState, action = {}) => {
 
 const successFunction = (action, response) => {
   browserHistory.push('/');
-  return { type: action.states.SUCCESS, action, response };
+  return {
+    type: action.states.SUCCESS,
+    action,
+    response,
+  };
 };
 
 export function logoutUser() {
@@ -59,8 +67,10 @@ export function logoutUser() {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' }
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
   };
 }
 
@@ -85,9 +95,11 @@ export function loginUser(data) {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    },
   };
 }
 
@@ -100,7 +112,9 @@ export function checkAuth() {
     params: {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' }
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
   };
 }

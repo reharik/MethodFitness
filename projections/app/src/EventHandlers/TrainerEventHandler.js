@@ -14,8 +14,8 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
         color: event.color,
         clients: event.clients,
         account: {
-          role: event.credentials.role
-        }
+          role: event.credentials.role,
+        },
       };
 
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
@@ -48,7 +48,9 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.archived = true;
       trainer.archivedDate = event.date;
-      let sql = `UPDATE "trainer" SET "archived" = 'true', document = '${JSON.stringify(trainer)}' 
+      let sql = `UPDATE "trainer" SET "archived" = 'true', document = '${JSON.stringify(
+        trainer,
+      )}' 
 where id = '${event.trainerId}'`;
       return await rsRepository.saveQuery(sql);
     }
@@ -57,7 +59,9 @@ where id = '${event.trainerId}'`;
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.archived = false;
       trainer.archivedDate = event.date;
-      let sql = `UPDATE "trainer" SET "archived" = 'false', document = '${JSON.stringify(trainer)}' 
+      let sql = `UPDATE "trainer" SET "archived" = 'false', document = '${JSON.stringify(
+        trainer,
+      )}' 
 where id = '${event.trainerId}'`;
       return await rsRepository.saveQuery(sql);
     }
@@ -70,20 +74,30 @@ where id = '${event.trainerId}'`;
 
     async function trainersNewClientRateSet(event) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
-      trainer.trainerClientRates = trainer.trainerClientRates ? trainer.trainerClientRates : [];
-      trainer.trainerClientRates.push({clientId: event.clientId, rate: event.rate});
+      trainer.trainerClientRates = trainer.trainerClientRates
+        ? trainer.trainerClientRates
+        : [];
+      trainer.trainerClientRates.push({
+        clientId: event.clientId,
+        rate: event.rate,
+      });
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
     }
 
     async function trainerClientRemoved(event) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
-      trainer.trainerClientRates.filter( x => x.clientId !== event.clientId );
+      trainer.trainerClientRates.filter(x => x.clientId !== event.clientId);
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
     }
 
     async function trainersClientRateChanged(event) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
-      trainer.trainerClientRates.map(x => x.clientId === event.clientId ? Object.assign(x, {rate: event.rate}) : x);
+      trainer.trainerClientRates.map(
+        x =>
+          x.clientId === event.clientId
+            ? Object.assign(x, { rate: event.rate })
+            : x,
+      );
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
     }
 
@@ -93,19 +107,22 @@ where id = '${event.trainerId}'`;
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
     }
 
-    return metaLogger({
-      handlerName: 'TrainerEventHandler',
-      trainerHired,
-      trainerArchived,
-      trainerUnArchived,
-      trainerContactUpdated,
-      trainerAddressUpdated,
-      trainerInfoUpdated,
-      trainersClientsUpdated,
-      trainersNewClientRateSet,
-      trainerClientRemoved,
-      trainersClientRateChanged,
-      trainerPasswordUpdated
-    }, 'TrainerEventHandler');
+    return metaLogger(
+      {
+        handlerName: 'TrainerEventHandler',
+        trainerHired,
+        trainerArchived,
+        trainerUnArchived,
+        trainerContactUpdated,
+        trainerAddressUpdated,
+        trainerInfoUpdated,
+        trainersClientsUpdated,
+        trainersNewClientRateSet,
+        trainerClientRemoved,
+        trainersClientRateChanged,
+        trainerPasswordUpdated,
+      },
+      'TrainerEventHandler',
+    );
   };
 };

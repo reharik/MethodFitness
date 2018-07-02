@@ -3,12 +3,17 @@ import AppointmentForm from '../../components/forms/Appointment/AppointmentForm'
 import { notifications } from './../../modules/notificationModule';
 import appointmentTypes from './../../constants/appointmentTypes';
 import { generateAllTimes } from './../../utilities/appointmentTimes';
-import { appointmentModel, updateAppointmentModel } from './../../selectors/appointmentModelSelector';
-import { scheduleAppointment,
+import {
+  appointmentModel,
+  updateAppointmentModel,
+} from './../../selectors/appointmentModelSelector';
+import {
+  scheduleAppointment,
   updateAppointment,
   fetchAppointmentAction,
   deleteAppointment,
-  deleteAppointmentFromPast} from './../../modules/appointmentModule';
+  deleteAppointmentFromPast,
+} from './../../modules/appointmentModule';
 import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
 import moment from 'moment';
 
@@ -19,17 +24,22 @@ const mapStateToProps = (state, props) => {
   let user;
   let trainers;
   let clients;
-  if(state.trainers && state.clients) {
+  if (state.trainers && state.clients) {
     user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
 
     clients = state.clients
       .filter(x => !x.archived)
       .filter(x => isAdmin || user.clients.includes(x.clientId))
-      .map(x => ({value: x.clientId, display: `${x.contact.lastName}, ${x.contact.firstName}`}));
+      .map(x => ({
+        value: x.clientId,
+        display: `${x.contact.lastName}, ${x.contact.firstName}`,
+      }));
 
-    trainers = state.trainers
-      .filter(x => !x.archived)
-      .map(x => ({value: x.trainerId, display: `${x.contact.lastName}, ${x.contact.firstName}`, color: x.color}));
+    trainers = state.trainers.filter(x => !x.archived).map(x => ({
+      value: x.trainerId,
+      display: `${x.contact.lastName}, ${x.contact.firstName}`,
+      color: x.color,
+    }));
   }
 
   const model = !props.args.appointmentId
@@ -38,7 +48,7 @@ const mapStateToProps = (state, props) => {
 
   // please put this shit in a config somewhere
   let startTime = 5;
-  if(!isAdmin && model.date.value.dayOfYear() === moment().dayOfYear()) {
+  if (!isAdmin && model.date.value.dayOfYear() === moment().dayOfYear()) {
     startTime = moment().hour() + 1;
   }
 
@@ -47,10 +57,20 @@ const mapStateToProps = (state, props) => {
   let buttons;
   if (props.args.appointmentId && !props.isCopy && !props.isEdit) {
     buttons = ['copy', 'delete', 'cancel'];
-    const appointment = state.appointments.filter(x => x.appointmentId === props.args.appointmentId)[0];
-    if(appointment && appointment.paid) {
+    const appointment = state.appointments.filter(
+      x => x.appointmentId === props.args.appointmentId,
+    )[0];
+    if (appointment && appointment.paid) {
       buttons = ['copy', 'cancel'];
-    } else if (permissionToSetAppointment({date: model.date.value, startTime: model.startTime.value}, isAdmin)) {
+    } else if (
+      permissionToSetAppointment(
+        {
+          date: model.date.value,
+          startTime: model.startTime.value,
+        },
+        isAdmin,
+      )
+    ) {
       buttons.splice(1, 0, 'edit');
     }
   } else {
@@ -71,16 +91,18 @@ const mapStateToProps = (state, props) => {
     onEdit: props.onEdit,
     buttons,
     editing: !model.appointmentId.value || props.isEdit,
-    trainerId: user ? user.trainerId : ''
+    trainerId: user ? user.trainerId : '',
   };
 };
 
-export default connect(mapStateToProps, {
-  scheduleAppointment,
-  updateAppointment,
-  fetchAppointmentAction,
-  notifications,
-  deleteAppointment,
-  deleteAppointmentFromPast
-})(AppointmentForm);
-
+export default connect(
+  mapStateToProps,
+  {
+    scheduleAppointment,
+    updateAppointment,
+    fetchAppointmentAction,
+    notifications,
+    deleteAppointment,
+    deleteAppointmentFromPast,
+  },
+)(AppointmentForm);

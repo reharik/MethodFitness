@@ -10,7 +10,7 @@ import {
   updateClientAddress,
   updateClientContact,
   updateClientSource,
-  fetchClientAction
+  fetchClientAction,
 } from './../../modules/clientModule';
 import { notifications } from './../../modules/notificationModule';
 
@@ -33,7 +33,11 @@ class UpdateClientFormContainer extends Component {
       return <p style={{ 'padding-top': '100px' }}> Loading... </p>;
     }
     if (this.props.errorMessage) {
-      return <p style={{ 'padding-top': '100px' }}>ERROR! -&gt; {this.props.errorMessage}</p>;
+      return (
+        <p style={{ 'padding-top': '100px' }}>
+          ERROR! -&gt; {this.props.errorMessage}
+        </p>
+      );
     }
 
     return <UpdateClientForm {...this.props} />;
@@ -44,7 +48,7 @@ UpdateClientFormContainer.propTypes = {
   params: PropTypes.object,
   fetchClientAction: PropTypes.func,
   isFetching: PropTypes.func,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
 };
 
 const mapStateToProps = (state, props) => {
@@ -56,16 +60,19 @@ const mapStateToProps = (state, props) => {
     states,
     sources,
     inventory: client ? client.inventory : null,
-    clientId: client ? client.clientId : null
+    clientId: client ? client.clientId : null,
   };
 };
 
-export default connect(mapStateToProps, {
-  updateClientInfo,
-  updateClientAddress,
-  updateClientContact,
-  updateClientSource,
-  fetchClientAction,
-  notifications,
-  notifClear
-})(UpdateClientFormContainer);
+export default connect(
+  mapStateToProps,
+  {
+    updateClientInfo,
+    updateClientAddress,
+    updateClientContact,
+    updateClientSource,
+    fetchClientAction,
+    notifications,
+    notifClear,
+  },
+)(UpdateClientFormContainer);

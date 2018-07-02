@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import TrainerVerificationList from '../../components/lists/TrainerVerificationList';
 import moment from 'moment';
 import sortBy from 'sort-by';
-import { fetchUnverifiedAppointments, verifyAppointments } from '../../modules/sessionVerificationModule';
+import {
+  fetchUnverifiedAppointments,
+  verifyAppointments,
+} from '../../modules/sessionVerificationModule';
 import decamelize from 'decamelize';
 
 class TrainerVerificationListContainer extends Component {
@@ -17,16 +20,19 @@ class TrainerVerificationListContainer extends Component {
   }
 
   render() {
-    return (<TrainerVerificationList
-      verifyAppointments={this.props.verifyAppointments}
-      gridConfig={this.props.gridConfig} />);
+    return (
+      <TrainerVerificationList
+        verifyAppointments={this.props.verifyAppointments}
+        gridConfig={this.props.gridConfig}
+      />
+    );
   }
 }
 
 TrainerVerificationListContainer.propTypes = {
   gridConfig: PropTypes.object,
   fetchUnverifiedAppointments: PropTypes.func,
-  verifyAppointments: PropTypes.func
+  verifyAppointments: PropTypes.func,
 };
 
 function mapStateToProps(state) {
@@ -42,18 +48,22 @@ function mapStateToProps(state) {
         .map(w => w[0].toUpperCase() + w.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
-      appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A')
-    })).sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));
+      appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A'),
+    }))
+    .sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));
 
   const gridConfig = {
-    dataSource
+    dataSource,
   };
   return {
-    gridConfig
+    gridConfig,
   };
 }
 
-export default connect(mapStateToProps, {
-  fetchUnverifiedAppointments,
-  verifyAppointments
-})(TrainerVerificationListContainer);
+export default connect(
+  mapStateToProps,
+  {
+    fetchUnverifiedAppointments,
+    verifyAppointments,
+  },
+)(TrainerVerificationListContainer);

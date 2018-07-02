@@ -19,7 +19,9 @@ export function getJsonSchema() {
     url: config.apiBase + 'swagger',
     params: {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
   };
 }

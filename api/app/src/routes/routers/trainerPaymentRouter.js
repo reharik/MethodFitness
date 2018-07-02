@@ -23,7 +23,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/trainerpayments', controllers.trainerPaymentListController.fetchTrainerPayments);
+    router.get(
+      '/trainerpayments',
+      controllers.trainerPaymentListController.fetchTrainerPayments,
+    );
     /**
      * @swagger
      * /trainerpaymentdetails/{paymentId}:
@@ -45,8 +48,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/trainerpaymentdetails/:paymentId',
-      controllers.trainerPaymentListController.fetchTrainerPaymentDetails);
+    router.get(
+      '/trainerpaymentdetails/:paymentId',
+      controllers.trainerPaymentListController.fetchTrainerPaymentDetails,
+    );
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

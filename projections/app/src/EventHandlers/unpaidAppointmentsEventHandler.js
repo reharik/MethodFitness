@@ -2,18 +2,21 @@ module.exports = function(
   unpaidAppointmentsPersistence,
   statefulEventHandler,
   metaLogger,
-  logger) {
-
+  logger,
+) {
   return async function unpaidAppointmentsEventHandler() {
-
     const persistence = unpaidAppointmentsPersistence();
     let initialState = statefulEventHandler.getInitialState({
       unfundedAppointments: [],
-      unpaidAppointments: []
+      unpaidAppointments: [],
     });
     let state = await persistence.initializeState(initialState);
 
-    const baseHandler = statefulEventHandler.baseHandler(state, persistence, 'unpaidAppointmentsBaseHandler');
+    const baseHandler = statefulEventHandler.baseHandler(
+      state,
+      persistence,
+      'unpaidAppointmentsBaseHandler',
+    );
     logger.info('unpaidAppointmentsEventHandler started up');
 
     async function fundedAppointmentAttendedByClient(event) {
@@ -42,7 +45,9 @@ module.exports = function(
       const trainerId = state.sessionReturnedFromPastAppointment(event);
       await persistence.saveState(state, trainerId);
     }
-    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(event) {
+    async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(
+      event,
+    ) {
       const trainerId = state.transferSession(event);
       if (trainerId) {
         return await persistence.saveState(state, trainerId);
@@ -74,20 +79,23 @@ module.exports = function(
       return await persistence.saveState(state, trainerId);
     }
 
-    return metaLogger({
-      handlerType: 'unpaidAppointmentsEventHandler',
-      handlerName: 'unpaidAppointmentsEventHandler',
-      baseHandlerName: 'unpaidAppointmentsBaseStateEventHandler',
-      baseHandler,
-      fundedAppointmentAttendedByClient,
-      fundedAppointmentRemovedForClient,
-      pastAppointmentUpdated,
-      sessionReturnedFromPastAppointment,
-      sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
-      trainerPaid,
-      unfundedAppointmentFundedByClient,
-      unfundedAppointmentAttendedByClient,
-      unfundedAppointmentRemovedForClient
-    }, 'unpaidAppointmentsEventHandler');
+    return metaLogger(
+      {
+        handlerType: 'unpaidAppointmentsEventHandler',
+        handlerName: 'unpaidAppointmentsEventHandler',
+        baseHandlerName: 'unpaidAppointmentsBaseStateEventHandler',
+        baseHandler,
+        fundedAppointmentAttendedByClient,
+        fundedAppointmentRemovedForClient,
+        pastAppointmentUpdated,
+        sessionReturnedFromPastAppointment,
+        sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
+        trainerPaid,
+        unfundedAppointmentFundedByClient,
+        unfundedAppointmentAttendedByClient,
+        unfundedAppointmentRemovedForClient,
+      },
+      'unpaidAppointmentsEventHandler',
+    );
   };
 };
