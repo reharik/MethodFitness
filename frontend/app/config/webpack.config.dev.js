@@ -130,6 +130,8 @@ module.exports = {
           {
             options: {
               formatter: eslintFormatter,
+              // this shit doesn't work
+              eslintPath: path.join(__dirname, '.eslint-react.json'),
             },
             loader: require.resolve('eslint-loader'),
           },

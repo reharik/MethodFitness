@@ -1,7 +1,5 @@
 {
-  "admin": {
-
-  },
+  "admin": {},
   "trainers": {
     "trainer1": {
       "userName": "trainer",

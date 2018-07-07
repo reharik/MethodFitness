@@ -194,18 +194,20 @@ removeBuildAndPushAll: dockerDown
 	$(shell aws ecr get-login --no-include-email --region us-east-2)
 	docker images | grep "/base_mf" | grep -v "base_mf_node" | awk '{print $3}' | xargs -r docker rmi -f
 
-	# cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest
-	# -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
-	# docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
+	 cd docker/base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest .
+	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
+	 cd docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
 	 cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
-	 cd ../docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
-	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
-	 cd ../docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
+	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 
 removeBaseImagesNotNode:
 	 docker rmi $(docker images -f "label=cleanMe" -q) 2>/dev/null || echo "No more images to remove."
+
+fu: removeBuildAndPushNode removeBuildAndPushThirdParty removeBuildAndPushFirstParty removeBuildAndPushFrontEnd
 
 ####TESTS####
 
