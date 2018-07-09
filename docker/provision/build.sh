@@ -3,7 +3,7 @@
 ###########################################
 #
 # This script is used to dynamically build all Docker Images for a project
-#  compose/provision/build.sh <aws profile name> <build plan name> 
+#  compose/provision/build.sh <aws profile name> <build plan name>
 #  This script must be run at the root of a project plan directory
 #
 ###########################################
@@ -53,8 +53,12 @@ echo "Removing old images"
 echo "--------------------------------------"
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-     docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  || ''
-     docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi || ''
+     docker images -q -f "label=methodfitness=child" | while read -r image; do docker rmi -f $image; done;
+     docker images -q -f "label=methodfitness=base3" | while read -r image; do docker rmi -f $image; done;
+     docker images -q -f "label=methodfitness=base2" | while read -r image; do docker rmi -f $image; done;
+     docker images -q -f "label=methodfitness=base1" | while read -r image; do docker rmi -f $image; done;
+     # docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  || ''
+     # docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi || ''
 
 echo "--------------------------------------"
 echo "Rebuilding the images"

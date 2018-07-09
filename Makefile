@@ -192,7 +192,7 @@ removeBuildAndPushFrontEnd:
 
 removeBuildAndPushAll: dockerDown
 	$(shell aws ecr get-login --no-include-email --region us-east-2)
-	docker images | grep "/base_mf" | grep -v "base_mf_node" | awk '{print $3}' | xargs -r docker rmi -f
+	#docker images | grep "/base_mf" | grep -v "base_mf_node" | awk '{print $3}' | xargs -r docker rmi -f
 
 	 cd docker/base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest .
 	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
