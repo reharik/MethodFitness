@@ -1,7 +1,7 @@
 import getMenuItems from '../../../src/utilities/menuItems';
 
-module.exports = (cy, Cypress, moment) => {
-  const apptDT = require('./getDateTimeFromDisplayPopup')(cy, Cypress, moment);
+module.exports = (cy, Cypress) => {
+  const apptDT = require('./getDateTimeFromDisplayPopup')(cy, Cypress);
 
   const _changeClients = options => {
     cy.log(`------changing client-------`);

@@ -1,0 +1,22 @@
+{
+  "name": "cypress-tests",
+  "version": "0.0.1",
+  "private": false,
+  "description": "cypress-tests",
+  "scripts": {
+    "cypressRun": "cypress run",
+    "cypressOpen": "cypress open",
+    "lint": "eslint -c ./../.eslintrc.json .",
+    "validate": "npm ls"
+  },
+  "keywords": [],
+  "author": "Raif Harik",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "pre-commit": [
+    "lint"
+  ]
+}

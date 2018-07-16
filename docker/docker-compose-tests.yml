@@ -81,3 +81,17 @@ services:
       - ext-ip="0.0.0.0"
       - log=/data/logs
       - stats-period-sec=400000
+
+  cypress:
+    build:
+      context: ../cypress
+      dockerfile: docker/Dockerfile
+    depends_on:
+    - frontend
+    volumes:
+      - ./../src/app:/home/current/app
+    command: npm run cypressRun #top -b #
+    env_file:
+      - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: cypress

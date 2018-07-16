@@ -10,7 +10,7 @@ describe('Moving between past and future', () => {
 
   beforeEach(() => {
     setupRoutes(cy);
-    routines = _routines(cy, Cypress, Cypress.moment);
+    routines = _routines(cy, Cypress);
 
     routines.loginAdmin({});
     routines.deleteAllAppointments();
