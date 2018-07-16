@@ -7,7 +7,7 @@ yarnUp: \
 	cd api && yarn && \
 	cd ../data && yarn && \
 	cd ../frontend && yarn && \
-	cd ../services && yarn && \
+	cd ../cypress && yarn && \
 	cd ../projections && yarn && \
 	cd ../workflows && yarn
 
@@ -15,7 +15,7 @@ reInstallDeps:
 	cd api && rm -rf node_modules yarn.lock && yarn && \
 	cd ../data && rm -rf node_modules yarn.lock && yarn && \
 	cd ../frontend && rm -rf node_modules yarn.lock && yarn && \
-	cd ../services && rm -rf node_modules yarn.lock && yarn && \
+	cd ../cypress && rm -rf node_modules yarn.lock && yarn && \
 	cd ../projections && rm -rf node_modules yarn.lock && yarn && \
 	cd ../workflows && rm -rf node_modules yarn.lock && yarn
 
@@ -23,7 +23,7 @@ killModules:
 	cd api && rm -rf node_modules yarn.lock && \
 	cd ../data && rm -rf node_modules yarn.lock && \
 	cd ../frontend && rm -rf node_modules yarn.lock && \
-	cd ../services && rm -rf node_modules yarn.lock && \
+	cd ../cypress && rm -rf node_modules yarn.lock && \
 	cd ../projections && rm -rf node_modules yarn.lock && \
 	cd ../workflows && rm -rf node_modules yarn.lock
 

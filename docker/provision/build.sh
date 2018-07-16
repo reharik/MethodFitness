@@ -54,11 +54,9 @@ echo "--------------------------------------"
 
      docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
      docker images -q -f "label=methodfitness=child" | while read -r image; do docker rmi -f $image; done;
+     docker images -q -f "label=methodfitness=base4" | while read -r image; do docker rmi -f $image; done;
      docker images -q -f "label=methodfitness=base3" | while read -r image; do docker rmi -f $image; done;
      docker images -q -f "label=methodfitness=base2" | while read -r image; do docker rmi -f $image; done;
-     docker images -q -f "label=methodfitness=base1" | while read -r image; do docker rmi -f $image; done;
-     # docker images | grep "/methodfitness" | awk '{print $1 ":" $2}' | xargs docker rmi  || ''
-     # docker images | grep "/base_mf" | awk '{print $1 ":" $2}' | xargs docker rmi || ''
 
 echo "--------------------------------------"
 echo "Rebuilding the images"

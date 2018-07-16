@@ -32,6 +32,6 @@ artifacts
 
 yarn.lock
 
-frontend/app/tests/cypress/videos/
-frontend/app/tests/cypress/screenshots/
+cypress/app/src/videos/
+cypress/app/src/screenshots/
 
