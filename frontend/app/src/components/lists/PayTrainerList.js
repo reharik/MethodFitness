@@ -89,7 +89,7 @@ class PayTrainerList extends Component {
           <Table
             {...this.props.gridConfig}
             rowSelection={rowSelection}
-            rowClassName={row => (!row.sessionId ? 'row-in-arrears' : '')}
+            rowClassName={row => (!row.sessionId ? 'row-in-arrears' : '')} // eslint-disable-line no-confusing-arrow
             pagination={false}
             rowKey={row => `${row.appointmentId}---${row.clientId}`}
             scroll={{ y: '100%' }}

@@ -13,7 +13,7 @@ const SubmissionFor = ({
   formItemLayout,
   extraFunc,
 }) => {
-  let input = InputFor({
+  let input = InputFor({ // eslint-disable-line new-cap
     data,
     selectOptions,
     onChange,

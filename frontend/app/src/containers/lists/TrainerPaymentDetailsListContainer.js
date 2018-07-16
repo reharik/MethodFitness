@@ -48,19 +48,19 @@ const columns = [
     width: '15%',
   },
   {
-    render: val => (val ? `$${val}` : val),
+    render: val => (val ? `$${val}` : val), // eslint-disable-line no-confusing-arrow
     dataIndex: 'pricePerSession',
     title: 'Cost',
     width: '10%',
   },
   {
-    render: val => (val ? `${val}%` : val),
+    render: val => (val ? `${val}%` : val), // eslint-disable-line no-confusing-arrow
     dataIndex: 'trainerPercentage',
     title: 'Percent',
     width: '10%',
   },
   {
-    render: val => (val ? `$${val}` : val),
+    render: val => (val ? `$${val}` : val), // eslint-disable-line no-confusing-arrow
     dataIndex: 'trainerPay',
     title: 'Pay',
     width: '10%',
@@ -79,7 +79,7 @@ function mapStateToProps(state, props) {
       ...x,
       appointmentType: decamelize(x.appointmentType, ' ')
         .split(' ')
-        .map(x => x[0].toUpperCase() + x.slice(1))
+        .map(ap => ap[0].toUpperCase() + x.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A'),

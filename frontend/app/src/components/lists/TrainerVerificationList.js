@@ -6,7 +6,7 @@ const confirm = Modal.confirm;
 import trainerVerificationListDefinition from './../../containers/lists/listDefinition/trainerVerificationListDefinition';
 import Breakjs from 'breakjs';
 
-const layout = Breakjs({
+const layout = Breakjs({ // eslint-disable-line new-cap
   mobile: 0,
   tablet: 768,
   laptop: 1201,
@@ -21,11 +21,11 @@ class TrainerVerificationList extends Component {
   };
 
   componentDidMount() {
-    layout.addChangeListener(layout => this.setState({ layout }));
+    layout.addChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({ layout }));
+    layout.removeChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
   }
 
   submitVerification = () => {
@@ -104,7 +104,7 @@ class TrainerVerificationList extends Component {
           <Table
             {...this.gridConfig}
             rowSelection={rowSelection}
-            rowClassName={row => (!row.sessionId ? 'row-in-arrears' : '')}
+            rowClassName={row => (!row.sessionId ? 'row-in-arrears' : '')} // eslint-disable-line no-confusing-arrow
             pagination={false}
             rowKey={row => `${row.appointmentId}---${row.clientId}`}
             scroll={{ y: '100%' }}

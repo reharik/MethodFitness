@@ -5,8 +5,8 @@ import uuid from 'uuid';
 
 const ListItemValueFor = ({ data }) => {
   let inputStyle = classNames('editor__container__input', {
-    editor__success: !data.invalid,
-    editor__error: data.invalid,
+    editor__success: !data.invalid, // eslint-disable-line camelcase
+    editor__error: data.invalid, // eslint-disable-line camelcase
   });
 
   const required = data.rules.some(x => x.rule === 'required') ? '*' : '';

@@ -10,8 +10,8 @@ const ArchiveLink = (action, loggedInUser, idName = 'id') => {
       archived: value,
       date: moment().toISOString(),
     };
-    const archiveClick = result => {
-      if (result[idName] === loggedInUser) {
+    const archiveClick = r => {
+      if (r[idName] === loggedInUser) {
         message.info('You may not archive the currently logged in User', 8);
         return;
       }

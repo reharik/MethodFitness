@@ -28,7 +28,7 @@ export function requestStates(entity, reducerName) {
   };
 }
 
-const handleSuccess = function* request(success, action, payload) {
+const handleSuccess = function* handleSuccess(success, action, payload) {
   const successAction = success(action, payload);
   if (Array.isArray(successAction)) {
     for (let a of successAction) {

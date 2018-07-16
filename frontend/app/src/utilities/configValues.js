@@ -1,6 +1,5 @@
 let config = {
-  // apiBase: 'http://localhost:3666/', //process.env.API_BASE_URL
-  apiBase: 'http://ec2-18-220-36-147.us-east-2.compute.amazonaws.com:3666/',
+  apiBase: process.env.API_BASE_URL || 'http://localhost:3666/',
   //bunch of default values here;
 };
 

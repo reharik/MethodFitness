@@ -39,19 +39,19 @@ export default size => {
           width: '15%',
         },
         {
-          render: val => (val ? `$${val}` : val),
+          render: val => (val ? `$${val}` : val), // eslint-disable-line no-confusing-arrow
           dataIndex: 'pricePerSession',
           title: 'Cost',
           width: '10%',
         },
         {
-          render: val => (val ? `${val}%` : val),
+          render: val => (val ? `${val}%` : val), // eslint-disable-line no-confusing-arrow
           dataIndex: 'trainerPercentage',
           title: 'Percent',
           width: '10%',
         },
         {
-          render: val => (val ? `$${val}` : val),
+          render: val => (val ? `$${val}` : val), // eslint-disable-line no-confusing-arrow
           dataIndex: 'trainerPay',
           title: 'Pay',
           width: '10%',

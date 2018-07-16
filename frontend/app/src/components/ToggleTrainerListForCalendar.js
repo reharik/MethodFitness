@@ -22,11 +22,11 @@ class ToggleTrainerListForCalendar extends Component {
     let allSelected = !id && !this.state.allSelected;
     if (id && this.state.allSelected) {
       result = this.state.items.map(
-        x => (x.id !== id ? { ...x, selected: false } : x),
+        x => (x.id !== id ? { ...x, selected: false } : x), // eslint-disable-line no-confusing-arrow
       );
     } else if (id) {
       result = this.state.items.map(
-        x => (x.id === id ? { ...x, selected: !x.selected } : x),
+        x => (x.id === id ? { ...x, selected: !x.selected } : x), // eslint-disable-line no-confusing-arrow
       );
       if (result.every(x => x.selected)) {
         allSelected = true;

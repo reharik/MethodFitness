@@ -3,7 +3,7 @@ import { menuItemClicked, navBreadCrumbClicked } from './../modules/index.js';
 import MenuItemList from '../components/layout/Menu/MenuItemList';
 
 function getCurrentItems(items, path) {
-  return path.reduce(function(i, key) {
+  return path.reduce((i, key) => {
     return i[key].children;
   }, items);
 }

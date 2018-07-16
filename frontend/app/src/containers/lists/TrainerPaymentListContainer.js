@@ -36,7 +36,7 @@ const columns = [
     width: '20%',
   },
   {
-    render: val => (val ? `$${val}` : ''),
+    render: val => (val ? `$${val}` : ''), // eslint-disable-line no-confusing-arrow
     dataIndex: 'paymentTotal',
     title: 'Payment Total',
     width: '10%',

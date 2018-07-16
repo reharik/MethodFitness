@@ -7,7 +7,7 @@ import moment from 'moment';
 import Breakjs from 'breakjs';
 const confirm = Modal.confirm;
 
-const layout = Breakjs({
+const layout = Breakjs({ // eslint-disable-line new-cap
   mobile: 0,
   tablet: 768,
   laptop: 1201,
@@ -20,11 +20,11 @@ class PurchaseList extends Component {
   };
 
   componentWillMount() {
-    layout.addChangeListener(layout => this.setState({ layout }));
+    layout.addChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({ layout }));
+    layout.removeChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
   }
 
   submitVerification = () => {
@@ -109,7 +109,7 @@ class PurchaseList extends Component {
 
     const columns = [
       {
-        render: val => (val ? `${val.substring(0, 8)}` : val),
+        render: val => (val ? `${val.substring(0, 8)}` : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'sessionId',
         title: 'Session Id',
       },
@@ -118,27 +118,27 @@ class PurchaseList extends Component {
         title: 'Appointment Type',
       },
       {
-        render: val => (val ? moment(val).format('L') : val),
+        render: val => (val ? moment(val).format('L') : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'appointmentDate',
         title: 'Date',
       },
       {
-        render: val => (val ? moment(val).format('LT') : val),
+        render: val => (val ? moment(val).format('LT') : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'startTime',
         title: 'Start Time',
       },
       {
-        render: val => (val ? `${val.substring(0, 8)}` : val),
+        render: val => (val ? `${val.substring(0, 8)}` : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'appointmentId',
         title: 'Appointment Id',
       },
       {
-        render: val => (val ? `Refunded` : val),
+        render: val => (val ? `Refunded` : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'refunded',
         title: 'Refunded',
       },
       {
-        render: val => (val ? `$${val}` : val),
+        render: val => (val ? `$${val}` : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'purchasePrice',
         title: 'Total',
       },

@@ -32,7 +32,7 @@ export default (state = [], action = {}) => {
       let ids = JSON.parse(selectn('action.params.body', action)).sessionIds;
 
       return state.map(
-        x => (ids.includes(x.sessionId) ? { ...x, verified: true } : x),
+        x => (ids.includes(x.sessionId) ? { ...x, verified: true } : x), // eslint-disable-line no-confusing-arrow
       );
     }
     case SUBMIT_TRAINER_PAYMENT.SUCCESS: {

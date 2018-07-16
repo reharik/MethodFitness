@@ -6,7 +6,7 @@ const Option = Select.Option;
 
 const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
   const { value, ..._data } = data; //eslint-disable-line no-unused-vars
-  const input = function() {
+  const input = function input() {
     switch (_data['x-input'] || _data.type) {
       case 'date-time': {
         const _onChange = onChange ? { onChange } : {};

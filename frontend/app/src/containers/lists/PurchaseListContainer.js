@@ -29,12 +29,12 @@ PurchaseListContainer.propTypes = {
 
 const columns = [
   {
-    render: val => (val ? moment(val).format('L') : val),
+    render: val => (val ? moment(val).format('L') : val), // eslint-disable-line no-confusing-arrow
     dataIndex: 'purchaseDate',
     title: 'Purchase Date',
   },
   {
-    render: val => (val ? `$${val}` : val),
+    render: val => (val ? `$${val}` : val), // eslint-disable-line no-confusing-arrow
     dataIndex: 'purchaseTotal',
     title: 'Total',
   },

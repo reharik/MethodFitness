@@ -6,7 +6,7 @@ import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
 const DisplayFor = ({ data, selectOptions, span }) => {
   moment.locale('en');
-  const _span = function() {
+  const _span = function _span() {
     switch (data['x-input'] || data.type) {
       case 'color-picker': {
         return (

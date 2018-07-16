@@ -11,7 +11,7 @@ import Breakjs from 'breakjs';
 import { Modal } from 'antd';
 const warning = Modal.warning;
 
-const layout = Breakjs({
+const layout = Breakjs({ // eslint-disable-line new-cap
   mobile: 0,
   tablet: 768,
   laptop: 1201,
@@ -41,11 +41,11 @@ class MFCalendar extends Component {
         hideViewMenu: true,
       };
     }
-    layout.addChangeListener(layout => this.setState({ layout }));
+    layout.addChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({ layout }));
+    layout.removeChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
   }
 
   copyAppointment = args => {

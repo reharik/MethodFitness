@@ -44,15 +44,14 @@ export default (state = [], action = {}) => {
   }
 };
 
-const successFunction = (action, payload) => {
-  return delay(1000, { action, payload }).then(({ action, payload }) => {
-    browserHistory.push(`/purchases/${payload.payload.clientId}`);
-    return {
-      type: action.states.SUCCESS,
-      action,
-      payload,
-    };
-  });
+const successFunction = async(action, payload) => {
+  await delay(1000, { action, payload });
+  browserHistory.push(`/purchases/${payload.payload.clientId}`);
+  return {
+    type: action.states.SUCCESS,
+    action,
+    payload,
+  };
 };
 
 export function purchase(data) {

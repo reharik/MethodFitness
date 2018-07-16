@@ -72,10 +72,10 @@ export function permissionToSetAppointment({ date, startTime }, isAdmin) {
   const targetDateTime = buildMomentFromDateAndTime(date, startTime);
   const cutOffDateTime = moment();
 
-  const sameDayAsCutOff = (targetDate, cutOffDateTime) => {
+  const sameDayAsCutOff = (targetDate, cutOffDT) => {
     return (
-      targetDateTime.isSame(cutOffDateTime, 'day') &&
-      targetDateTime.isAfter(moment(cutOffDateTime).add(2, 'hours'))
+      targetDateTime.isSame(cutOffDT, 'day') &&
+      targetDateTime.isAfter(moment(cutOffDT).add(2, 'hours'))
     );
   };
 
