@@ -26,7 +26,7 @@ echo "--------------------------------------"
 echo "--------------------------------------"
 echo "building and pushing the base images"
 echo "--------------------------------------"
-         cd ../base_mf_node && docker build --label baseNode --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$(git show -s --format=%h) .
+         cd ../base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$(git show -s --format=%h) .
          docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
          cd ../base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$(git show -s --format=%h) .
          docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty

@@ -167,32 +167,36 @@ ecr-login:
 ####################
 
 removeBuildAndPushNode:
-	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node)
+	docker images -q -f "label=name=base_mf_node" | while read -r image; do docker rmi -f $image; done;
 	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest
 	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
 
 removeBuildAndPushFirstParty:
-	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty)
+	docker images -q -f "label=name=base_mf_firstparty" | while read -r image; do docker rmi -f $image; done;
 	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest .
 	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
 
 removeBuildAndPushThirdParty:
-	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty)
+	docker images -q -f "label=name=base_mf_thirdparty" | while read -r image; do docker rmi -f $image; done;
 	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest .
 	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
 
 removeBuildAndPushFrontEnd:
-	 docker rmi $(docker images -q --filter=reference=709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend)
+	docker images -q -f "label=name=base_mf_frontend" | while read -r image; do docker rmi -f $image; done;
 	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest .
 	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 
 removeBuildAndPushAll: dockerDown
 	$(shell aws ecr get-login --no-include-email --region us-east-2)
-	#docker images | grep "/base_mf" | grep -v "base_mf_node" | awk '{print $3}' | xargs -r docker rmi -f
+	docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
+	docker images -q -f "label=methodfitness=child" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=methodfitness=base4" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=methodfitness=base3" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=methodfitness=base2" | while read -r image; do docker rmi -f $image; done;
 
 	 cd docker/base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest .
 	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
@@ -205,9 +209,9 @@ removeBuildAndPushAll: dockerDown
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 
 removeBaseImagesNotNode:
-	 docker rmi $(docker images -f "label=cleanMe" -q) 2>/dev/null || echo "No more images to remove."
-
-fu: removeBuildAndPushNode removeBuildAndPushThirdParty removeBuildAndPushFirstParty removeBuildAndPushFrontEnd
+	docker images -q -f "label=methodfitness=base4" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=methodfitness=base3" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=methodfitness=base2" | while read -r image; do docker rmi -f $image; done;
 
 ####TESTS####
 
