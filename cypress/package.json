@@ -6,7 +6,8 @@
   "scripts": {
     "cypressRun": "cypress run ",
     "cypressOpen": "cypress open",
-    "lint": ""
+    "lint": "eslint -c ./../.eslintrc.json .",
+    "validate": "npm ls"
   },
   "keywords": [],
   "author": "Raif Harik",
