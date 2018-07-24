@@ -103,6 +103,24 @@ kill-data-test: kill-eventstore-test kill-postgres-test
 
 ####END TEST BUILD####
 
+####DOCKER CYPRESS BUILD#####
+dockerUpCypress: kill-data-cypress-test
+	docker-compose -f docker/docker-compose-cypress-tests.yml -p methodfitcypresstests up
+
+dockerDownCypress:
+	docker-compose -f docker/docker-compose-cypress-tests.yml -p methodfitcypresstests down
+
+kill-eventstore-cypress-test:
+	- docker rm -f methodfitcypresstests_eventstore_1 || echo "No more containers to remove."
+
+kill-postgres-cypress-test:
+	- docker rm -v -f methodfitcypresstests_postgres_1  || echo "No more containers to remove."
+
+kill-data-cypress-test: kill-eventstore-cypress-test kill-postgres-cypress-test
+
+####END DOCKER CYPRESS BUILD#####
+
+
 dockerListServices:
 	@docker-compose -f docker/docker-compose-build.yml -p methodfit config --services
 
@@ -168,27 +186,32 @@ ecr-login:
 
 removeBuildAndPushNode:
 	docker images -q -f "label=name=base_mf_node" | while read -r image; do docker rmi -f $image; done;
-	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest
+	 cd docker/base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest .
 	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
 
 removeBuildAndPushFirstParty:
 	docker images -q -f "label=name=base_mf_firstparty" | while read -r image; do docker rmi -f $image; done;
-	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest .
-	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
+	 cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest .
+	 cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
 
 removeBuildAndPushThirdParty:
 	docker images -q -f "label=name=base_mf_thirdparty" | while read -r image; do docker rmi -f $image; done;
-	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest .
-	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
+	 cd docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest .
+	 cd docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
 
 removeBuildAndPushFrontEnd:
 	docker images -q -f "label=name=base_mf_frontend" | while read -r image; do docker rmi -f $image; done;
-	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest .
-	 cd docker/node_base && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
+	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest .
+	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
+
+removeBuildAndPushCypress:
+	docker images -q -f "label=name=base_mf_cypress" | while read -r image; do docker rmi -f $image; done;
+	cd docker/base_mf_cypress && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:$(git show -s --format=%h) .
+	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress
 
 removeBuildAndPushAll: dockerDown
 	$(shell aws ecr get-login --no-include-email --region us-east-2)
@@ -201,10 +224,13 @@ removeBuildAndPushAll: dockerDown
 	 cd docker/base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest .
 	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
+################
 	 cd docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
+###############
 	 cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
+###############
 	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 

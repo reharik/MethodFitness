@@ -69,7 +69,7 @@ module.exports = function(trainerInvariants, esEvents, metaLogger, uuid) {
       unArchiveTrainer(cmd) {
         let cmdClone = Object.assign({}, cmd);
         invariants.expectArchived();
-        raiseEvent(esEvents.trainerunArchivedEvent(cmdClone));
+        raiseEvent(esEvents.trainerUnarchivedEvent(cmdClone));
       },
 
       updateTrainersClientRates(cmd) {

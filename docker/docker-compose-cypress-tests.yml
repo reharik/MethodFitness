@@ -14,7 +14,7 @@ services:
     ports:
       - "8888:8888"
     env_file:
-      - ./../.envrc.example
+      - ./../.envrc.docker-cypress
 
   workflows:
     build:
@@ -27,7 +27,7 @@ services:
       - ./../workflows/app:/home/current/app
     command: npm run startLocalContainer #top -b #
     env_file:
-      - ./../.envrc.example
+      - ./../.envrc.docker-cypress
     environment:
       APPLICATION_NAME: workflows
       LOGGING_LEVEL: silly
@@ -43,7 +43,7 @@ services:
       - ./../projections/app:/home/current/app
     command: npm run startLocalContainer #top -b #
     env_file:
-      - ./../.envrc.example
+      - ./../.envrc.docker-cypress
     environment:
       APPLICATION_NAME: projections
       LOGGING_LEVEL: silly
@@ -60,7 +60,7 @@ services:
     ports:
       - 3666:3000
     env_file:
-      - ./../.envrc.example
+      - ./../.envrc.docker-cypress
     environment:
       APPLICATION_NAME: api
 
@@ -69,7 +69,7 @@ services:
     ports:
       - 5400:5432
     env_file:
-      - ./../.envrc.example
+      - ./../.envrc.docker-cypress
 
   eventstore:
     image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests:latest
@@ -82,17 +82,17 @@ services:
       - log=/data/logs
       - stats-period-sec=400000
 
-#  cypress:
-#    build:
-#      context: ../cypress
-#      dockerfile: docker/Dockerfile
-#    depends_on:
-#    - frontend
-#    volumes:
-#      - ./../cypress/app:/home/current/app
-#      - ./../cypress/cypress.json:/home/current/cypress.json:ro
-#    command: npm run cypressRun #top -b #cypress run #
-#    env_file:
-#      - ./../.envrc.example
-#    environment:
-#      APPLICATION_NAME: cypress
+  cypress:
+    build:
+      context: ../cypress
+      dockerfile: docker/Dockerfile
+    depends_on:
+    - frontend
+    volumes:
+      - ./../cypress/app:/home/current/app
+      - ./../cypress/cypress-docker.json:/home/current/cypress.json:ro
+    command: npm run cypressRun #top -b #cypress run #
+    env_file:
+      - ./../.envrc.docker-cypress
+    environment:
+      APPLICATION_NAME: cypress

@@ -40,7 +40,7 @@ describe('Auth', () => {
   it('logs in programmatically without using the UI', function() {
     const { userName, password } = this.users.admin;
     // programmatically log us in without needing the UI
-    cy.request('POST', 'localhost:3666/auth', {
+    cy.request('POST', `http://${process.env.API_HOST}/auth`, {
       userName,
       password,
     });

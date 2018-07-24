@@ -1,11 +1,9 @@
-#FROM node:8.1
-FROM Cypress.base
+FROM 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:latest
+
 MAINTAINER reharik@gmail.com
 LABEL "methodfitness"="child"
 LABEL "name"="cypress"
 
 ADD ./package.json ./package.json
-
-RUN yarn
-
+ADD ./cypress-docker.json ./cypress.json
 ADD ./app /$HOME/app

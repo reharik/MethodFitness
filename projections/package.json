@@ -24,14 +24,6 @@
   "keywords": [],
   "author": "Raif Harik",
   "license": "MIT",
-  "devDependencies": {
-    "chai": "^3.3.0",
-    "eslint": "^3.6.0",
-    "eslint-config-prettier": "^2.9.0",
-    "mocha": "3.4.2",
-    "nodemon": "^1.11.0",
-    "precommit-hook-eslint": "^3.0.0"
-  },
   "dependencies": {
     "config": "^1.14.0",
     "corelogger": "reharik/core_logger",
@@ -43,6 +35,14 @@
     "ramda-fantasy": "^0.8.0",
     "selectn": "^1.1.2",
     "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "eslint": "^3.6.0",
+    "eslint-config-prettier": "^2.9.0",
+    "mocha": "3.4.2",
+    "nodemon": "^1.11.0",
+    "precommit-hook-eslint": "^3.0.0"
   },
   "pre-commit": [
     "lint"

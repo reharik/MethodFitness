@@ -1,5 +1,5 @@
 let config = {
-  apiBase: process.env.API_BASE_URL || 'http://localhost:3666/',
+  apiBase: process.env.API_BASE_URL ,//|| 'http://localhost:3666/',
   //bunch of default values here;
 };
 

@@ -79,7 +79,7 @@ function mapStateToProps(state, props) {
       ...x,
       appointmentType: decamelize(x.appointmentType, ' ')
         .split(' ')
-        .map(ap => ap[0].toUpperCase() + x.slice(1))
+        .map(ap => ap[0].toUpperCase() + ap.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
       appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A'),

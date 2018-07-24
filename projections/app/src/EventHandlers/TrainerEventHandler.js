@@ -55,7 +55,7 @@ where id = '${event.trainerId}'`;
       return await rsRepository.saveQuery(sql);
     }
 
-    async function trainerUnArchived(event) {
+    async function trainerUnarchived(event) {
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer.archived = false;
       trainer.archivedDate = event.date;
@@ -112,7 +112,7 @@ where id = '${event.trainerId}'`;
         handlerName: 'TrainerEventHandler',
         trainerHired,
         trainerArchived,
-        trainerUnArchived,
+        trainerUnarchived,
         trainerContactUpdated,
         trainerAddressUpdated,
         trainerInfoUpdated,

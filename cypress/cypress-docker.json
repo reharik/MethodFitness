@@ -1,10 +1,14 @@
 {
-  "baseUrl": "http://localhost:8888",
+  "baseUrl": "http://frontend",
   "watchForFileChanges": false,
   "fixturesFolder": "app/src/fixtures",
   "integrationFolder": "app/src/integration",
   "pluginsFile": "app/src/plugins",
   "screenshotsFolder": "app/src/screenshots",
   "supportFile": "app/src/support",
-  "videosFolder": "app/src/videos"
+  "videosFolder": "app/src/videos",
+  "video":false,
+  "env": {
+    "API_BASE_URL":"http://api:3000"
+  }
 }

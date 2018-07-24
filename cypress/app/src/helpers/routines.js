@@ -1,8 +1,9 @@
-import getMenuItems from '../../../src/utilities/menuItems';
+import getMenuItems from './menuItems';
 
 module.exports = (cy, Cypress) => {
   const apptDT = require('./getDateTimeFromDisplayPopup')(cy, Cypress);
-
+  const apiHost = Cypress.env("API_BASE_URL");
+  
   const _changeClients = options => {
     cy.log(`------changing client-------`);
 
@@ -459,7 +460,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
 
-    cy.request('POST', 'localhost:3666/appointment/cleanalltestdata');
+    cy.request('POST', `${apiHost}/appointment/cleanalltestdata`);
     cy.wait(2000);
   };
 
@@ -500,11 +501,27 @@ module.exports = (cy, Cypress) => {
     };
     localStorage.setItem('menu_data', JSON.stringify(menuData));
     cy.fixture('trainers').then(trainers => {
-      cy.request('POST', 'localhost:3666/auth', {
+      cy.request('POST', `${apiHost}/auth`, {
         userName: trainers.trainer1.userName,
         password: trainers.trainer1.password,
       });
     });
+  };
+
+  const manuallyLoginTrainer = options => {
+    /* prettier-ignore-start */
+    cy.log(`======================================================`);
+    cy.log(
+      `${options.index || ''}======Trainer Manually Logging In: ${
+        options.trainer.LNF
+        }======`,
+    );
+    cy.log(`======================================================`);
+    /* prettier-ignore-end */
+    cy.get('#userName').type(options.trainer.userName);
+    cy.get('#password').type(options.trainer.password);
+    cy.get('form').submit();
+    cy.wait('@auth');
   };
 
   const loginTrainer = options => {
@@ -526,7 +543,7 @@ module.exports = (cy, Cypress) => {
     localStorage.setItem('menu_data', JSON.stringify(menuData));
     const { userName, password } = options.trainer;
     // programmatically log us in without needing the UI
-    cy.request('POST', 'localhost:3666/auth', {
+    cy.request('POST', `${apiHost}/auth`, {
       userName,
       password,
     });
@@ -714,5 +731,6 @@ module.exports = (cy, Cypress) => {
     purchaseSessions,
     refundSessions,
     verifyAppointments,
+    manuallyLoginTrainer
   };
 };

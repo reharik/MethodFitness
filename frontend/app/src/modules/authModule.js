@@ -28,16 +28,13 @@ export default (state = initialState, action = {}) => {
         errorMessage: '',
       };
     }
-    case CHECK_AUTHENTICATION.FAILURE:
-    case LOGOUT.SUCCESS: {
-      // this hits for check_auth.failure, but not logout.success
-      console.log(
-        `=========='wtf why doesnt this action hit the reducer?'==========`,
-      );
-      console.log('wtf');
-      console.log(action);
-      console.log(`==========END 'wtf'==========`);
-
+    case 'LOGOUT_SUCCESS': {
+      return {...state,
+        isAuthenticated: false,
+      };
+    }
+    case CHECK_AUTHENTICATION.FAILURE: {
+      // this hits for check_auth.failureaction, response, but not logout.success
       return Object.assign({}, state, {
         isAuthenticated: false,
       });
@@ -56,6 +53,14 @@ const successFunction = (action, response) => {
   };
 };
 
+const logoutSuccessFunction = (action, response) => {
+  return {
+    type: 'LOGOUT_SUCCESS',
+    action,
+    response,
+  };
+};
+
 export function logoutUser() {
   localStorage.removeItem('id_token');
   localStorage.removeItem('user');
@@ -63,6 +68,7 @@ export function logoutUser() {
   return {
     type: LOGOUT.REQUEST,
     states: LOGOUT,
+    successFunction: logoutSuccessFunction,
     url: configValues.apiBase + 'signout',
     params: {
       method: 'POST',

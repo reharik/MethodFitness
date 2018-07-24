@@ -124,7 +124,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
     });
   });
 
-  describe.only('when trainer is in clients view', () => {
+  describe('when trainer is in clients view', () => {
     it('should see the right stuff in client list', function() {
       let trainer = this.trainers.trainer3;
       routines.loginTrainer({

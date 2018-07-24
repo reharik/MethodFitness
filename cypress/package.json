@@ -4,19 +4,17 @@
   "private": false,
   "description": "cypress-tests",
   "scripts": {
-    "cypressRun": "cypress run",
+    "cypressRun": "cypress run ",
     "cypressOpen": "cypress open",
-    "lint": "eslint -c ./../.eslintrc.json .",
-    "validate": "npm ls"
+    "lint": ""
   },
   "keywords": [],
   "author": "Raif Harik",
   "license": "MIT",
   "dependencies": {
+    "cypress": "^3.0.2",
+    "eslint": "^5.2.0",
+    "eslint-config-prettier": "^2.9.0"
   },
-  "devDependencies": {
-  },
-  "pre-commit": [
-    "lint"
-  ]
+  "devDependencies": {}
 }

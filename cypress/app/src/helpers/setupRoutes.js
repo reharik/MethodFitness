@@ -85,4 +85,14 @@ module.exports = cy => {
     method: 'POST',
     url: '/appointment/cleanalltestdata',
   }).as('cleanalltestdata');
+
+  cy.route({
+    method: 'POST',
+    url: '/signout',
+  }).as('signout');
+
+  cy.route({
+    method: 'POST',
+    url: '/auth',
+  }).as('auth');
 };

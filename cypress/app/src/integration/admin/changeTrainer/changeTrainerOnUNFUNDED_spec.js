@@ -399,8 +399,56 @@ describe('Change Trainer on Unfunded Appointment', () => {
     });
   });
 
+
+
+  /*
+  so don't need to logout
+  this is what happens in unpaidAppointments
+
+   {                                                                   +|
+     "trainerId": "91576303-326d-4d04-9f55-02e02d38b8f7",            +|
+     "unpaidAppointments": [                                         +|
+         {                                                           +|
+             "clientId": "9c686f86-7202-4d34-8fb9-30165bee1ade",     +|
+             "trainerId": "91576303-326d-4d04-9f55-02e02d38b8f7",    +|
+             "clientName": "Barr, Sarah",                            +|
+             "appointmentId": "a6c8cd68-784e-4d39-a2eb-df988599a27d",+|
+             "appointmentDate": "2018-07-23T05:00:00.000Z",          +|
+             "appointmentType": "fullHour",                          +|
+             "appointmentStartTime": "2018-07-23T20:00:00-05:00"     +|
+         }                                                           +|
+     ]                                                               +|
+ }                                                                    |
+ {                                                                   +|
+     "trainerId": "a2312f85-a218-4bc0-ac5e-1108be7af0de",            +|
+     "unpaidAppointments": [                                         +|
+         {                                                           +|
+             "notes": "Hi! Everybody!",                              +|
+             "endTime": "2018-07-22T21:00:00-05:00",                 +|
+             "clientId": "9c686f86-7202-4d34-8fb9-30165bee1ade",     +|
+             "startTime": "2018-07-22T20:00:00-05:00",               +|
+             "trainerId": "a2312f85-a218-4bc0-ac5e-1108be7af0de",    +|
+             "clientName": "Barr, Sarah",                            +|
+             "appointmentId": "a6c8cd68-784e-4d39-a2eb-df988599a27d",+|
+             "appointmentDate": "2018-07-23T05:00:00.000Z",          +|
+             "appointmentType": "fullHour",                          +|
+             "appointmentStartTime": "2018-07-23T20:00:00-05:00"     +|
+         }                                                           +|
+     ]                                                               +|
+ }
+
+  I don't really know wtf is going on, why is there startTime as well as appointmentStartTime
+  obviously the startTime has the correct date and teh appointmentDate is incorrect
+  and why is the trainer#915 appointment still there.
+
+   */
+
+
+
+
+
   describe('When changing trainer and date on unpaid appointment', () => {
-    it('should pass all steps', function() {
+    it.only('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.createAppointment({
         index: 1,
@@ -426,6 +474,11 @@ describe('Change Trainer on Unfunded Appointment', () => {
         newDate,
       };
       routines.changeAppointment(appointmentValues);
+
+      cy.dataId('signOut', 'a').click();
+      cy.wait('@signout');
+      routines.manuallyLoginTrainer({index:1,trainer:this.trainers.trainer1});
+      cy.visit('/');
 
       routines.checkVerification({
         index: 4,
