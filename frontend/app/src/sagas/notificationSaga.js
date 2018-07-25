@@ -44,7 +44,9 @@ function* notifiy(action) {
     }
   }
 
-  let newCustomErrors = currentErrors.filter(e => newErrors.indexOf(e.id) === -1);
+  let newCustomErrors = currentErrors.filter(
+    e => newErrors.indexOf(e.id) === -1,
+  );
   for (let x of newCustomErrors) {
     yield put(notifDismiss(x.id));
   }

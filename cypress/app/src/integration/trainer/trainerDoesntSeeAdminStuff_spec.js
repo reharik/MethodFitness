@@ -88,7 +88,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
             .startOf('hour')
             .format('h:mm A'),
         );
-      cy.get('.ant-select-selection--single').blur();
+      cy.get('#startTime').blur();
 
       cy.get('button')
         .contains('Cancel')

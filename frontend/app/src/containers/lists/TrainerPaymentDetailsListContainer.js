@@ -38,7 +38,7 @@ const columns = [
     width: '20%',
   },
   {
-    dataIndex: 'appointmentStartTime',
+    dataIndex: 'startTime',
     title: 'Start Time',
     width: '15%',
   },
@@ -82,7 +82,7 @@ function mapStateToProps(state, props) {
         .map(ap => ap[0].toUpperCase() + ap.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
-      appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A'),
+      startTime: moment(x.startTime).format('hh:mm A'),
     }));
   }
   const gridConfig = {

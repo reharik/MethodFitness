@@ -40,7 +40,7 @@ const columns = [
     width: '20%',
   },
   {
-    dataIndex: 'appointmentStartTime',
+    dataIndex: 'startTime',
     title: 'Start Time',
     width: '15%',
   },
@@ -74,7 +74,7 @@ function mapStateToProps(state, props) {
   let dataSource = state.sessionVerification.filter(x => x.verified).map(x => ({
     ...x,
     appointmentDate: moment(x.appointmentDate).format('L'),
-    appointmentStartTime: moment(x.appointmentStartTime).format('LT'),
+    startTime: moment(x.startTime).format('LT'),
   }));
 
   let trainer = state.trainers.find(

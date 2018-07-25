@@ -37,7 +37,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
         clientName: `${client.lastName}, ${client.firstName}`,
         appointmentId: appointment.appointmentId,
         appointmentDate: appointment.date,
-        appointmentStartTime: appointment.startTime,
+        startTime: appointment.startTime,
         appointmentType: event.appointmentType,
       };
     };
@@ -65,7 +65,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
         clientName: `${client.lastName}, ${client.firstName}`,
         appointmentId: appointment.appointmentId,
         appointmentDate: appointment.date,
-        appointmentStartTime: appointment.startTime,
+        startTime: appointment.startTime,
         appointmentType: appointment.appointmentType,
         sessionId: session.sessionId,
         pricePerSession: session.purchasePrice,
@@ -168,6 +168,7 @@ module.exports = function(invariant, R, logger, metaLogger) {
           ? Object.assign({}, appointment, {
               trainerId: event.trainerId,
               startTime: event.startTime,
+              appointmentDate: event.startTime,
               endTime: event.endTime,
               notes: event.notes,
             })

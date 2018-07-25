@@ -2,8 +2,8 @@ import getMenuItems from './menuItems';
 
 module.exports = (cy, Cypress) => {
   const apptDT = require('./getDateTimeFromDisplayPopup')(cy, Cypress);
-  const apiHost = Cypress.env("API_BASE_URL");
-  
+  const apiHost = Cypress.env('API_BASE_URL');
+
   const _changeClients = options => {
     cy.log(`------changing client-------`);
 
@@ -514,7 +514,7 @@ module.exports = (cy, Cypress) => {
     cy.log(
       `${options.index || ''}======Trainer Manually Logging In: ${
         options.trainer.LNF
-        }======`,
+      }======`,
     );
     cy.log(`======================================================`);
     /* prettier-ignore-end */
@@ -713,6 +713,16 @@ module.exports = (cy, Cypress) => {
     cy.wait('@verifyappointments');
   };
 
+  const signOut = options => {
+    /* prettier-ignore-start */
+    cy.log(`======================================================`);
+    cy.log(`${options.index || ''}======Sign current user out======`);
+    cy.log(`======================================================`);
+
+    cy.dataId('signOut', 'a').click();
+    cy.wait('@signout');
+  };
+
   return {
     changeAppointment,
     checkClientInventory,
@@ -731,6 +741,7 @@ module.exports = (cy, Cypress) => {
     purchaseSessions,
     refundSessions,
     verifyAppointments,
-    manuallyLoginTrainer
+    manuallyLoginTrainer,
+    signOut,
   };
 };

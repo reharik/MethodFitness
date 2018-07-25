@@ -29,7 +29,8 @@ export default (state = initialState, action = {}) => {
       };
     }
     case 'LOGOUT_SUCCESS': {
-      return {...state,
+      return {
+        ...state,
         isAuthenticated: false,
       };
     }

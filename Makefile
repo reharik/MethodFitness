@@ -210,7 +210,7 @@ removeBuildAndPushFrontEnd:
 
 removeBuildAndPushCypress:
 	docker images -q -f "label=name=base_mf_cypress" | while read -r image; do docker rmi -f $image; done;
-	cd docker/base_mf_cypress && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:$(git show -s --format=%h) .
+	 cd docker/base_mf_cypress && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress
 
 removeBuildAndPushAll: dockerDown

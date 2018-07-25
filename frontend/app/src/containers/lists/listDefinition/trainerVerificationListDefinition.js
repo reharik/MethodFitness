@@ -29,7 +29,7 @@ export default size => {
           width: '20%',
         },
         {
-          dataIndex: 'appointmentStartTime',
+          dataIndex: 'startTime',
           title: 'Start Time',
           width: '15%',
         },

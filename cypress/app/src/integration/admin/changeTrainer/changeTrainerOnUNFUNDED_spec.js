@@ -399,8 +399,6 @@ describe('Change Trainer on Unfunded Appointment', () => {
     });
   });
 
-
-
   /*
   so don't need to logout
   this is what happens in unpaidAppointments
@@ -415,7 +413,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
              "appointmentId": "a6c8cd68-784e-4d39-a2eb-df988599a27d",+|
              "appointmentDate": "2018-07-23T05:00:00.000Z",          +|
              "appointmentType": "fullHour",                          +|
-             "appointmentStartTime": "2018-07-23T20:00:00-05:00"     +|
+             "startTime": "2018-07-23T20:00:00-05:00"     +|
          }                                                           +|
      ]                                                               +|
  }                                                                    |
@@ -432,23 +430,19 @@ describe('Change Trainer on Unfunded Appointment', () => {
              "appointmentId": "a6c8cd68-784e-4d39-a2eb-df988599a27d",+|
              "appointmentDate": "2018-07-23T05:00:00.000Z",          +|
              "appointmentType": "fullHour",                          +|
-             "appointmentStartTime": "2018-07-23T20:00:00-05:00"     +|
+             "startTime": "2018-07-23T20:00:00-05:00"     +|
          }                                                           +|
      ]                                                               +|
  }
 
-  I don't really know wtf is going on, why is there startTime as well as appointmentStartTime
+  I don't really know wtf is going on, why is there startTime as well as startTime
   obviously the startTime has the correct date and teh appointmentDate is incorrect
   and why is the trainer#915 appointment still there.
 
    */
 
-
-
-
-
   describe('When changing trainer and date on unpaid appointment', () => {
-    it.only('should pass all steps', function() {
+    it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.createAppointment({
         index: 1,
@@ -465,7 +459,12 @@ describe('Change Trainer on Unfunded Appointment', () => {
         noAvailable: true,
       });
 
-      const newDate = Cypress.moment(aDT.day).subtract(1, 'day');
+      const newDate = Cypress.moment(aDT.date).subtract(1, 'day');
+      cy.log(`==========newDate.toString()==========`);
+      cy.log(newDate.toString());
+      cy.log(aDT.date.toString());
+      cy.log(`==========END newDate.toString()==========`);
+
       appointmentValues = {
         index: 3,
         date: aDT.date,
@@ -474,11 +473,6 @@ describe('Change Trainer on Unfunded Appointment', () => {
         newDate,
       };
       routines.changeAppointment(appointmentValues);
-
-      cy.dataId('signOut', 'a').click();
-      cy.wait('@signout');
-      routines.manuallyLoginTrainer({index:1,trainer:this.trainers.trainer1});
-      cy.visit('/');
 
       routines.checkVerification({
         index: 4,

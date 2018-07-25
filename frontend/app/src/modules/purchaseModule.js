@@ -44,7 +44,8 @@ export default (state = [], action = {}) => {
   }
 };
 
-const successFunction = async(action, payload) => {
+// eslint-disable-next-line space-before-function-paren
+const successFunction = async (action, payload) => {
   await delay(1000, { action, payload });
   browserHistory.push(`/purchases/${payload.payload.clientId}`);
   return {

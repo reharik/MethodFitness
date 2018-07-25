@@ -48,7 +48,7 @@ function mapStateToProps(state) {
         .map(w => w[0].toUpperCase() + w.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
-      appointmentStartTime: moment(x.appointmentStartTime).format('hh:mm A'),
+      startTime: moment(x.startTime).format('hh:mm A'),
     }))
     .sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));
 

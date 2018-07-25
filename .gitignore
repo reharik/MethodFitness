@@ -34,4 +34,4 @@ yarn.lock
 
 cypress/app/src/videos/
 cypress/app/src/screenshots/
-
+cypress/app/.Trash-*/

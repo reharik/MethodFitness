@@ -11,10 +11,7 @@
           "$ref": "#/definitions/authUser"
         }
       },
-      "required": [
-        "success",
-        "user"
-      ]
+      "required": ["success", "user"]
     },
     "authUser": {
       "title": "authUser",
@@ -202,7 +199,7 @@
         "appointmentType": {
           "type": "string"
         },
-        "appointmentStartTime": {
+        "startTime": {
           "type": "string"
         }
       }
