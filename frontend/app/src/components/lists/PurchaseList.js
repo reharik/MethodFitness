@@ -7,8 +7,8 @@ import moment from 'moment';
 import Breakjs from 'breakjs';
 const confirm = Modal.confirm;
 
+// eslint-disable-next-line new-cap
 const layout = Breakjs({
-  // eslint-disable-line new-cap
   mobile: 0,
   tablet: 768,
   laptop: 1201,

@@ -6,8 +6,8 @@ const confirm = Modal.confirm;
 import trainerVerificationListDefinition from './../../containers/lists/listDefinition/trainerVerificationListDefinition';
 import Breakjs from 'breakjs';
 
+// eslint-disable-next-line new-cap
 const layout = Breakjs({
-  // eslint-disable-line new-cap
   mobile: 0,
   tablet: 768,
   laptop: 1201,
