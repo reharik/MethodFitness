@@ -1,11 +1,13 @@
 module.exports = function(invariant) {
-  return function({clientId,
+  return function({
+    clientId,
     source,
     startDate,
     sourceNotes,
     birthDate,
     archived,
-    contact
+    contact,
+    legacyId,
   }) {
     const {
       firstName,
@@ -13,22 +15,28 @@ module.exports = function(invariant) {
       address,
       secondaryPhone,
       mobilePhone,
-      email
+      email,
     } = contact;
 
-    const {
-      street1,
-      street2,
-      city,
-      state,
-      zipCode
-    } = address;
+    const { street1, street2, city, state, zipCode } = address;
 
-    invariant(firstName, 'clientAdded requires that you pass the clients first name');
-    invariant(lastName, 'clientAdded requires that you pass the clients last name');
+    invariant(
+      firstName,
+      'clientAdded requires that you pass the clients first name',
+    );
+    invariant(
+      lastName,
+      'clientAdded requires that you pass the clients last name',
+    );
     invariant(email, 'clientAdded requires that you pass the clients email');
-    invariant(mobilePhone, 'clientAdded requires that you pass the clients mobilePhone');
-    invariant(startDate, 'clientAdded requires that you pass the clients startDate');
+    invariant(
+      mobilePhone,
+      'clientAdded requires that you pass the clients mobilePhone',
+    );
+    invariant(
+      startDate,
+      'clientAdded requires that you pass the clients startDate',
+    );
 
     return {
       eventName: 'clientAdded',
@@ -38,6 +46,7 @@ module.exports = function(invariant) {
       sourceNotes,
       birthDate,
       archived,
+      legacyId,
       contact: {
         firstName,
         lastName,
@@ -49,9 +58,9 @@ module.exports = function(invariant) {
           street2,
           city,
           state,
-          zipCode
-        }
-      }
+          zipCode,
+        },
+      },
     };
   };
 };

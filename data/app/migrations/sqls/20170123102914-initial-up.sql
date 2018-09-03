@@ -218,3 +218,20 @@ WITH (
 
 ALTER TABLE "healthcheck"
   OWNER TO methodfitness;
+
+-- Table: "location"
+
+DROP TABLE IF EXISTS "location";
+
+CREATE TABLE "location"
+(
+  id uuid PRIMARY KEY,
+  meta jsonb,
+  document jsonb
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "location"
+  OWNER TO methodfitness;

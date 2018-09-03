@@ -58,28 +58,6 @@ module.exports = (cy, Cypress) => {
     }
   };
 
-  const checkDatePickerForCorrectMonth = targetDate => {
-    const targetMonth = targetDate.format('MMM');
-    const nextMonth = Cypress.moment(targetDate)
-      .add(1, 'month')
-      .format('MMM');
-    const lastMonth = Cypress.moment(targetDate)
-      .subtract(1, 'month')
-      .format('MMM');
-    cy.get('.ant-calendar-month-select', {
-      log: false,
-    })
-      .invoke('text')
-      .as('currMonth');
-    return cy.get('@currMonth', { log: false }).then(sow => {
-      if (sow !== targetMonth && sow === nextMonth) {
-        cy.get('.ant-calendar-prev-month-btn').click();
-      } else if (sow !== targetMonth && sow === lastMonth) {
-        cy.get('.ant-calendar-next-month-btn').click();
-      }
-    });
-  };
-
   const changeAppointment = options => {
     //TODO refactor me please
     // prettier-ignore-start */
@@ -170,6 +148,28 @@ module.exports = (cy, Cypress) => {
         .find(`span[data-id='pair']`)
         .contains(options.pairCount);
     }
+  };
+
+  const checkDatePickerForCorrectMonth = targetDate => {
+    const targetMonth = targetDate.format('MMM');
+    const nextMonth = Cypress.moment(targetDate)
+      .add(1, 'month')
+      .format('MMM');
+    const lastMonth = Cypress.moment(targetDate)
+      .subtract(1, 'month')
+      .format('MMM');
+    cy.get('.ant-calendar-month-select', {
+      log: false,
+    })
+      .invoke('text')
+      .as('currMonth');
+    return cy.get('@currMonth', { log: false }).then(sow => {
+      if (sow !== targetMonth && sow === nextMonth) {
+        cy.get('.ant-calendar-prev-month-btn').click();
+      } else if (sow !== targetMonth && sow === lastMonth) {
+        cy.get('.ant-calendar-next-month-btn').click();
+      }
+    });
   };
 
   const checkPayTrainer = options => {
@@ -718,9 +718,36 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     cy.log(`${options.index || ''}======Sign current user out======`);
     cy.log(`======================================================`);
+    /* prettier-ignore-end */
 
     cy.dataId('signOut', 'a').click();
     cy.wait('@signout');
+  };
+
+  const scheduleAppointmentInPastButDontReconcile = options => {
+    /* prettier-ignore-start */
+    cy.log(`======================================================`);
+    cy.log(
+      `${options.index ||
+        ''}======schedule appointment in past but don't reconcile======`,
+    );
+    cy.log(`======================================================`);
+    /* prettier-ignore-end */
+    const entityName = Cypress.moment(options.date).format('YYYYMMDD');
+    let payload = {
+      appointmentType: options.appointmentType,
+      date: options.date,
+      startTime: options.startTime,
+      endTime: options.endTime,
+      trainerId: options.trainerId,
+      clients: options.clientId,
+      entityName,
+    };
+    cy.request('POST', `${apiHost}/appointment/scheduleappointment`, payload);
+
+    // goto verify appointmnets make sure there are none
+    // post to the appointmentStatusUpdate
+    // check verify appointment, should show the appointment
   };
 
   return {
@@ -736,12 +763,13 @@ module.exports = (cy, Cypress) => {
     deleteAppointment,
     loginAdmin,
     loginTrainer,
+    manuallyLoginTrainer,
     navToAppropriateWeek,
     payTrainer,
     purchaseSessions,
     refundSessions,
-    verifyAppointments,
-    manuallyLoginTrainer,
     signOut,
+    verifyAppointments,
+    scheduleAppointmentInPastButDontReconcile,
   };
 };

@@ -20,7 +20,7 @@ describe('Creating an Appointment in the Past Changing Date', () => {
     cy.fixture('trainers').as('trainers');
   });
 
-  describe('When changing date on unfunded', () => {
+  describe.only('When changing date on unfunded', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time9, true);
 

@@ -32,7 +32,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
           password: createPassword('123123'),
           role: 'admin',
         },
-        trainerId: uuid.v4(),
+        trainerId: 'b4535c1b-8791-48f2-9eca-7920032c117c',
       },
       {
         birthDate: new Date('1/5/1972'),
@@ -55,7 +55,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
           password: createPassword('345345'),
           role: 'trainer',
         },
-        trainerId: uuid.v4(),
+        trainerId: 'e68533f8-ea60-4195-b9bf-f7a9e6c75a39',
       },
       {
         birthDate: new Date('1/5/1972'),
@@ -78,7 +78,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
           password: createPassword('234234'),
           role: 'trainer',
         },
-        trainerId: uuid.v4(),
+        trainerId: '3454aa86-a5a6-4600-b8d8-6912df9fccf1',
       },
     ],
 

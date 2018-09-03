@@ -1,2 +1,2 @@
 #!/bin/bash
-for x in `cat .envrc.example`; do echo $x && export $x; done;
+for x in `cat .envrc.local`; do echo $x && export $x; done;

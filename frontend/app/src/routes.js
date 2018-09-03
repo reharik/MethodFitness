@@ -15,6 +15,9 @@ import TrainerVerificationListContainer from './containers/lists/TrainerVerifica
 import PayTrainerListContainer from './containers/lists/PayTrainerListContainer';
 import TrainerPaymentListContainer from './containers/lists/TrainerPaymentListContainer';
 import TrainerPaymentDetailsContainer from './containers/lists/TrainerPaymentDetailsListContainer';
+import LocationList from './containers/lists/LocationListContainer';
+import UpdateLocationContainer from './containers/forms/UpdateLocationContainer';
+import LocationContainer from './containers/forms/LocationContainer';
 
 const routes = (
   <Route path="/" component={AppContainer}>
@@ -26,6 +29,9 @@ const routes = (
     <Route path="/clients" component={ClientList} />
     <Route path="/client/:clientId" component={UpdateClientContainer} />
     <Route path="/client" component={ClientContainer} />
+    <Route path="/locations" component={LocationList} />
+    <Route path="/location/:locationId" component={UpdateLocationContainer} />
+    <Route path="/location" component={LocationContainer} />
     <Route path="/purchase(/:clientId)" component={PurchaseContainer} />
     <Route path="/purchases(/:clientId)" component={PurchaseListContainer} />
     <Route path="/verification" component={TrainerVerificationListContainer} />

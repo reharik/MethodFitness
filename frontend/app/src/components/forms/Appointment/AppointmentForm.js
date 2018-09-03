@@ -207,6 +207,17 @@ class AppointmentForm extends Component {
             <EditableFor
               editing={this.state.editing}
               form={form}
+              data={model.location}
+              selectOptions={this.props.locations}
+              onChange={this.handleAppointmentTypeChange}
+              formItemLayout={formItemLayout}
+              span={24}
+            />
+          </Row>
+          <Row type="flex">
+            <EditableFor
+              editing={this.state.editing}
+              form={form}
               data={model.date}
               formItemLayout={formItemLayout}
               extraFunc={!this.props.isAdmin ? this.disabledDate : null}
@@ -270,6 +281,7 @@ AppointmentForm.propTypes = {
   editing: PropTypes.bool,
   isAdmin: PropTypes.bool,
   title: PropTypes.string,
+  locations: PropTypes.array,
   trainers: PropTypes.array,
   trainerId: PropTypes.string,
   clients: PropTypes.array,

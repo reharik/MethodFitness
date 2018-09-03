@@ -4,20 +4,23 @@
     "LN": "Harik",
     "FN": "Amahl",
     "userName": "admin",
-    "password": "123123"
+    "password": "123123",
+    "id": "b4535c1b-8791-48f2-9eca-7920032c117c"
   },
   "trainer2": {
     "LNF": "Else, Someone",
     "LN": "Else",
     "FN": "Someone",
     "userName": "admin2",
-    "password": "345345"
+    "password": "345345",
+    "id": "e68533f8-ea60-4195-b9bf-f7a9e6c75a39"
   },
   "trainer3": {
     "LNF": "Harik, Raif",
     "LN": "Harik",
     "FN": "Raif",
     "userName": "trainer2",
-    "password": "234234"
+    "password": "234234",
+    "id": "3454aa86-a5a6-4600-b8d8-6912df9fccf1"
   }
 }

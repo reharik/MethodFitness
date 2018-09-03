@@ -2,6 +2,11 @@ export default role => {
   const items = [
     { text: 'Calendar', path: '/calendar' },
     {
+      text: 'Locations',
+      path: '/locations',
+      role: 'admin',
+    },
+    {
       text: 'Trainers',
       path: '/trainers',
       role: 'admin',

@@ -49,6 +49,7 @@ describe('Archive Trainer', () => {
       // check that trainer is not in dropdown for appointment
       cy.navTo('Calendar');
       const aDT = _aDT(Cypress.moment, appTimes.time1);
+      routines.navToAppropriateWeek(aDT.date);
       cy.get(
         `ol[data-id='${aDT.date.format('ddd MM/DD')}'] li[data-id='${
           aDT.time

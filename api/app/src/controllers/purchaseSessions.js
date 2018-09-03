@@ -9,7 +9,7 @@ module.exports = function(invariant) {
         data.halfHourTenPack ||
         data.pair ||
         data.pairTenPack,
-      'purchases requires purchase at least one session'
+      'purchases requires that purchase at least one session',
     );
     return data;
   };

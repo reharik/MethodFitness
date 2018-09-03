@@ -14,13 +14,13 @@ module.exports = function(uuid, invariant) {
             city: 'Providence',
             state: 'RI',
             zipCode: '02916',
-          }
+          },
         },
         source: 'referral',
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        clientId: uuid.v4()
+        clientId: '8aa3c2bb-701b-4963-97d6-c98005dc316c',
       },
       {
         contact: {
@@ -34,14 +34,14 @@ module.exports = function(uuid, invariant) {
             street2: '',
             city: 'Providence',
             state: 'RI',
-            zipCode: '02903'
-          }
+            zipCode: '02903',
+          },
         },
         source: 'printAd',
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        clientId: uuid.v4()
+        clientId: '152243e5-eff7-4542-96eb-259fec84df0d',
       },
       {
         contact: {
@@ -55,14 +55,14 @@ module.exports = function(uuid, invariant) {
             street2: '',
             city: 'Providence',
             state: 'RI',
-            zipCode: '02915'
+            zipCode: '02915',
           },
         },
         source: 'referral',
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        clientId: uuid.v4()
+        clientId: 'bd753431-e171-4b2f-b5cc-8f6ac281b185',
       },
       {
         contact: {
@@ -76,14 +76,14 @@ module.exports = function(uuid, invariant) {
             street2: '',
             city: 'Bristol',
             state: 'RI',
-            zipCode: '02809'
-          }
+            zipCode: '02809',
+          },
         },
         source: 'webSearch',
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        clientId: uuid.v4()
+        clientId: '8db5b70d-1247-4ecc-a839-e8d2705bcdcc',
       },
       {
         contact: {
@@ -97,23 +97,39 @@ module.exports = function(uuid, invariant) {
             street2: '',
             city: 'Waltham',
             state: 'MA',
-            zipCode: '02403'
-          }
+            zipCode: '02403',
+          },
         },
         source: 'driveWalkBy',
         startDate: new Date('1/1/2016'),
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
-        clientId: uuid.v4()
-      }],
+        clientId: '87a07924-a855-4f1b-b4f4-5a3e82ed76a9',
+      },
+    ],
 
     addClient: client => {
-      invariant(client.contact.firstName, 'addClient requires that you pass the clients first name');
-      invariant(client.contact.lastName, 'addClient requires that you pass the clients last name');
-      invariant(client.contact.email, 'addClient requires that you pass the clients email');
-      invariant(client.contact.mobilePhone, 'addClient requires that you pass the clients mobilePhone');
-      invariant(client.startDate, 'addClient requires that you pass the clients startDate');
+      invariant(
+        client.contact.firstName,
+        'addClient requires that you pass the clients first name',
+      );
+      invariant(
+        client.contact.lastName,
+        'addClient requires that you pass the clients last name',
+      );
+      invariant(
+        client.contact.email,
+        'addClient requires that you pass the clients email',
+      );
+      invariant(
+        client.contact.mobilePhone,
+        'addClient requires that you pass the clients mobilePhone',
+      );
+      invariant(
+        client.startDate,
+        'addClient requires that you pass the clients startDate',
+      );
       return client;
-    }
+    },
   };
 };

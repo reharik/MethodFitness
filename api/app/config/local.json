@@ -8,11 +8,12 @@
   "configs": {
     "children": {
       "eventstore": {
-        "host": "localhost"
+        "host": "localhost",
+        "http": "http://localhost:2113"
       },
       "postgres": {
-        "config" :{
-           "host": "localhost"
+        "config": {
+          "host": "localhost"
         }
       }
     }

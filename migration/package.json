@@ -1,0 +1,17 @@
+{
+  "name": "migration",
+  "version": "1.0.0",
+  "description": "migrate data from legacy",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dagon": "^1.3.5",
+    "ges-eventsourcing": "reharik/ges-eventsourcing",
+    "mssql": "^4.1.0"
+  }
+}

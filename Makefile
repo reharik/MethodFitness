@@ -65,24 +65,30 @@ dockerLoggingDown:
 dockerUpNoVolume: kill-data-no-volume
 	docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume up
 
-commitNoVolume:
-	docker commit methodfitnovolume_postgres_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests
-	docker commit methodfitnovolume_eventstore_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests
+commitNoVolume: commitNoVolumePostgres commitNoVolumeEventstore
+commitNoVolumePostgres:
+	docker commit methodfitnovolume_postgres_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_novolume
 
-pushNoVolume:
-	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_tests
-	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_tests
+commitNoVolumeEventstore:
+	docker commit methodfitnovolume_eventstore_1 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_novolume
+
+
+pushNoVolume: pushNoVolumePostgres pushNoVolumeEventstore
+pushNoVolumePostgres:
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_novolume
+pushNoVolumeEventstore:
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_novolume
 
 dockerDownNoVolume:
 	docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume down
 
+kill-data-no-volume: kill-eventstore-no-volume kill-postgres-no-volume
 kill-eventstore-no-volume:
 	- docker rm -f methodfitnovolume_eventstore_1 || echo "No more containers to remove."
 
 kill-postgres-no-volume:
 	- docker rm -v -f methodfitnovolume_postgres_1  || echo "No more containers to remove."
 
-kill-data-no-volume: kill-eventstore-no-volume kill-postgres-no-volume
 ####END NO VOLUME####
 
 ####TEST BUILD####
@@ -133,15 +139,13 @@ killAndRestartData:
 
 
 prettyLint:
-	 echo "lint api" && \
+	 echo "============= lint api =============" && \
 	 cd api && yarn lint && \
-    echo "lint frontend" && \
+    echo "============= lint frontend =============" && \
     cd ../frontend && yarn lint && \
-    echo "lint service" && \
-    cd ../services && yarn lint && \
-    echo "lint workflows" && \
+    echo "============= lint workflows =============" && \
     cd ../workflows && yarn lint && \
-    echo "lint projections" && \
+    echo "============= lint projections =============" && \
     cd ../projections && yarn lint
 
 .PHONY: lint
@@ -185,41 +189,39 @@ ecr-login:
 ####################
 
 removeBuildAndPushNode:
-	docker images -q -f "label=name=base_mf_node" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=name=base_mf_node" | while read -r image; do docker rmi -f $$image; done;
 	 cd docker/base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest .
-	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
+	-t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node
 
 removeBuildAndPushFirstParty:
-	docker images -q -f "label=name=base_mf_firstparty" | while read -r image; do docker rmi -f $image; done;
-	 cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest .
-	 cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
-	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
+	docker images -q -f "label=name=base_mf_firstparty" | while read -r image; do docker rmi -f $$image; done;
+	cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
 
 removeBuildAndPushThirdParty:
-	docker images -q -f "label=name=base_mf_thirdparty" | while read -r image; do docker rmi -f $image; done;
-	 cd docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest .
-	 cd docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
-	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
+	docker images -q -f "label=name=base_mf_thirdparty" | while read -r image; do docker rmi -f $$image; done;
+	cd docker/base_mf_thirdparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty:$$(git show -s --format=%h) .
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_thirdparty
 
 removeBuildAndPushFrontEnd:
-	docker images -q -f "label=name=base_mf_frontend" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=name=base_mf_frontend" | while read -r image; do docker rmi -f $$image; done;
 	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest .
 	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 
 removeBuildAndPushCypress:
-	docker images -q -f "label=name=base_mf_cypress" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=name=base_mf_cypress" | while read -r image; do docker rmi -f $$image; done;
 	 cd docker/base_mf_cypress && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_cypress
 
 removeBuildAndPushAll: dockerDown
 	$(shell aws ecr get-login --no-include-email --region us-east-2)
 	docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove."
-	docker images -q -f "label=methodfitness=child" | while read -r image; do docker rmi -f $image; done;
-	docker images -q -f "label=methodfitness=base4" | while read -r image; do docker rmi -f $image; done;
-	docker images -q -f "label=methodfitness=base3" | while read -r image; do docker rmi -f $image; done;
-	docker images -q -f "label=methodfitness=base2" | while read -r image; do docker rmi -f $image; done;
+	docker images -q -f "label=methodfitness=child" | while read -r image; do docker rmi -f $$image; done;
+	docker images -q -f "label=methodfitness=base4" | while read -r image; do docker rmi -f $$image; done;
+	docker images -q -f "label=methodfitness=base3" | while read -r image; do docker rmi -f $$image; done;
+	docker images -q -f "label=methodfitness=base2" | while read -r image; do docker rmi -f $$image; done;
 
 	 cd docker/base_mf_node && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:latest .
 	 -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_node:$$(git show -s --format=%h) .

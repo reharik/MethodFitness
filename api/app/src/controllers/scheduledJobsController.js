@@ -8,14 +8,15 @@ module.exports = function(
 ) {
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
-    let date = moment()
-      .weekday(0)
-      .format('YYYY-MM-DD');
+    let date = moment().format('YYYY-MM-DD');
     let sql = `select * from appointment 
     where date<='${date}' and date>'${moment()
-      .subtract(1, 'month')
+      .subtract(6, 'month')
       .format('YYYY-MM-DD')}';`;
     const appointments = await rsRepository.query(sql);
+    console.log(`==========appointments==========`);
+    console.log(appointments);
+    console.log(`==========END appointments==========`);
 
     logger.info(`appoinments: ${JSON.stringify(appointments)}`);
     let _commands = [];

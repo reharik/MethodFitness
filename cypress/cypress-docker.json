@@ -7,7 +7,6 @@
   "screenshotsFolder": "app/src/screenshots",
   "supportFile": "app/src/support",
   "videosFolder": "app/src/videos",
-  "video": false,
   "env": {
     "API_BASE_URL": "http://api:3000"
   }

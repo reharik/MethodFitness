@@ -95,4 +95,9 @@ module.exports = cy => {
     method: 'POST',
     url: '/auth',
   }).as('auth');
+
+  cy.route({
+    method: 'POST',
+    url: '/scheduledjobs/appointmentstatusupdate',
+  }).as('appointmentstatusupdate');
 };

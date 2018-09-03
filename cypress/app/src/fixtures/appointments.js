@@ -1,4 +1,4 @@
-module.exports = (moment, _time, past) => {
+module.exports = (moment, _time, past, length) => {
   let date;
   const today = moment();
 

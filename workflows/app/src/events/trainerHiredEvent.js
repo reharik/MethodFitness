@@ -1,11 +1,13 @@
 module.exports = function(invariant) {
-  return function({ trainerId,
+  return function({
+    trainerId,
     color,
     birthDate,
     archived,
     contact,
     credentials,
-    clients
+    clients,
+    legacyId,
   }) {
     const {
       firstName,
@@ -13,22 +15,19 @@ module.exports = function(invariant) {
       address,
       secondaryPhone,
       mobilePhone,
-      email
+      email,
     } = contact;
-    const {
-      street1,
-      street2,
-      city,
-      state,
-      zipCode
-    } = address;
-    const {
-      password,
-      role
-    } = credentials;
+    const { street1, street2, city, state, zipCode } = address;
+    const { password, role } = credentials;
 
-    invariant(firstName, 'trainerHired requires that you pass the trainers first name');
-    invariant(lastName, 'trainerHired requires that you pass the trainers last name');
+    invariant(
+      firstName,
+      'trainerHired requires that you pass the trainers first name',
+    );
+    invariant(
+      lastName,
+      'trainerHired requires that you pass the trainers last name',
+    );
     // invariant(email, 'trainerHired requires that you pass the trainers email');
     // invariant(mobilePhone, 'trainerHired requires that you pass the trainers mobilePhone');
     // invariant(password, 'trainerHired requires that you pass the trainers password');
@@ -40,6 +39,7 @@ module.exports = function(invariant) {
       color,
       birthDate,
       archived,
+      legacyId,
       clients,
       contact: {
         firstName,
@@ -52,13 +52,13 @@ module.exports = function(invariant) {
           street2,
           city,
           state,
-          zipCode
-        }
+          zipCode,
+        },
       },
       credentials: {
         password,
-        role
-      }
+        role,
+      },
     };
   };
 };

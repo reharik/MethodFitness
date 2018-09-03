@@ -206,6 +206,18 @@
         }
       }
     },
+    "updateLocation": {
+      "title": "locationRequest",
+      "properties": {
+        "locationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
     "scheduleAppointment": {
       "title": "scheduleAppointment",
       "properties": {
@@ -214,6 +226,9 @@
           "format": "uuid"
         },
         "appointmentType": {
+          "type": "string"
+        },
+        "locationId": {
           "type": "string"
         },
         "date": {
@@ -244,6 +259,7 @@
       },
       "required": [
         "appointmentType",
+        "locationId",
         "date",
         "startTime",
         "endTime",
@@ -314,6 +330,23 @@
         }
       }
     },
+    "archiveLocation": {
+      "title": "archiveLocation",
+      "properties": {
+        "locationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "archivedDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+
     "purchase": {
       "title": "purchase",
       "properties": {

@@ -10,16 +10,19 @@ const mapStateToProps = state => {
 
   let config = {
     increment: 15,
-    firstDayOfWeek: 0,
+    firstDayOfWeek: 1,
     calendarName: 'schedule',
     dataSource: 'appointments',
     defaultView: 'week',
-    dayStartsAt: '5:00 AM',
+    dayStartsAt: '3:00 AM',
     dayEndsAt: '11:30 PM',
     utcTime: true,
     taskId: 'appointmentId',
     dayDisplayFormat: 'ddd MM/DD',
   };
+  console.log(`==========state.appointments==========`);
+  console.log(JSON.stringify(state.appointments));
+  console.log(`==========END state.appointments==========`);
 
   config.canUpdate = curriedPermissionToSetAppointment(isAdmin);
 

@@ -12,6 +12,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
         contact: event.contact,
         birthDate: event.birthDate,
         color: event.color,
+        legacyId: event.legacyId,
         clients: event.clients,
         account: {
           role: event.credentials.role,

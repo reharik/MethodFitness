@@ -24,7 +24,8 @@ const mapStateToProps = (state, props) => {
   let user;
   let trainers;
   let clients;
-  if (state.trainers && state.clients) {
+  let locations;
+  if (state.trainers && state.clients && state.locations) {
     user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
 
     clients = state.clients
@@ -39,6 +40,11 @@ const mapStateToProps = (state, props) => {
       value: x.trainerId,
       display: `${x.contact.lastName}, ${x.contact.firstName}`,
       color: x.color,
+    }));
+
+    locations = state.locations.filter(x => !x.archived).map(x => ({
+      value: x.locationId,
+      display: x.name,
     }));
   }
 
@@ -84,6 +90,7 @@ const mapStateToProps = (state, props) => {
     model,
     clients,
     trainers,
+    locations,
     appointmentTypes,
     times,
     onCancel: props.onCancel,

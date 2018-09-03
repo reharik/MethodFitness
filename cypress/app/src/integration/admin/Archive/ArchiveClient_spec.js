@@ -48,6 +48,7 @@ describe('Archive Client', () => {
 
       // check that client is not in dropdown for appointment
       cy.navTo('Calendar');
+      routines.navToAppropriateWeek(Cypress.moment());
       const aDT = _aDT(Cypress.moment, appTimes.time1);
       cy.get(
         `ol[data-id='${aDT.date.format('ddd MM/DD')}'] li[data-id='${

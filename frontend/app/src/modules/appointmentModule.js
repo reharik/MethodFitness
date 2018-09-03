@@ -1,11 +1,19 @@
-import reducerMerge from './../utilities/reducerMerge';
-import { buildMomentFromDateAndTime } from './../utilities/appointmentTimes';
 import config from './../utilities/configValues';
 import moment from 'moment';
-import { requestStates } from '../sagas/requestSaga';
+import reducerMerge from './../utilities/reducerMerge';
 import selectn from 'selectn';
+import { buildMomentFromDateAndTime } from './../utilities/appointmentTimes';
 import { fetchUnverifiedAppointments } from './sessionVerificationModule';
+import { requestStates } from '../sagas/requestSaga';
 
+export const DELETE_APPOINTMENT = requestStates(
+  'delete_appointment',
+  'appointments',
+);
+export const DELETE_APPOINTMENT_FROM_PAST = requestStates(
+  'delete_appointment_from_past',
+  'appointments',
+);
 export const FETCH_APPOINTMENTS = requestStates(
   'fetch_appointments',
   'appointments',
@@ -24,14 +32,6 @@ export const UPDATE_APPOINTMENT = requestStates(
 );
 export const UPDATE_APPOINTMENT_FROM_PAST = requestStates(
   'update_appointment_from_past',
-  'appointments',
-);
-export const DELETE_APPOINTMENT_FROM_PAST = requestStates(
-  'delete_appointment_from_past',
-  'appointments',
-);
-export const DELETE_APPOINTMENT = requestStates(
-  'delete_appointment',
   'appointments',
 );
 

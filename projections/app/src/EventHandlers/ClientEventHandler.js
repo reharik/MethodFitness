@@ -8,6 +8,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
     async function clientAdded(event) {
       let client = {
         clientId: event.clientId,
+        legacyId: event.legacyId,
         source: event.source,
         sourceNotes: event.sourceNotes,
         startDate: event.startDate,

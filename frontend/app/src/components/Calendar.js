@@ -118,6 +118,10 @@ class MFCalendar extends Component {
   };
 
   render() {
+    console.log(`==========this.config==========`);
+    console.log(this.config);
+    console.log(`==========END this.config==========`);
+
     moment.locale('en');
     return (
       <div id="mainCalendar">

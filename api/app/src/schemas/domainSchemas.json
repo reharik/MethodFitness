@@ -11,10 +11,7 @@
           "x-input": "password"
         }
       },
-      "required": [
-        "userName",
-        "password"
-      ]
+      "required": ["userName", "password"]
     },
     "contact": {
       "title": "contact",
@@ -38,12 +35,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "firstName",
-        "lastName",
-        "email",
-        "mobilePhone"
-      ]
+      "required": ["firstName", "lastName", "email", "mobilePhone"]
     },
     "trainer": {
       "title": "trainer",
@@ -125,9 +117,20 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "startDate"
-      ]
+      "required": ["startDate"]
+    },
+    "location": {
+      "title": "location",
+      "properties": {
+        "locationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": ["name"]
     },
     "account": {
       "title": "account",
@@ -141,10 +144,7 @@
           "x-input": "select"
         }
       },
-      "required": [
-        "password",
-        "role"
-      ]
+      "required": ["password", "role"]
     },
     "trainerClientRate": {
       "title": "trainerClientRate",
@@ -159,11 +159,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "trainerId",
-        "clientId",
-        "rate"
-      ]
+      "required": ["trainerId", "clientId", "rate"]
     },
     "address": {
       "title": "address",
@@ -195,6 +191,11 @@
         },
         "appointmentType": {
           "type": "string",
+          "x-input": "select"
+        },
+        "locationId": {
+          "type": "string",
+          "format": "uuid",
           "x-input": "select"
         },
         "date": {
@@ -231,6 +232,7 @@
       },
       "required": [
         "appointmentType",
+        "locationId",
         "date",
         "startTime",
         "endTime",
@@ -292,9 +294,7 @@
           "x-input": "textArea"
         }
       },
-      "required": [
-        "clientId"
-      ]
+      "required": ["clientId"]
     }
   }
 }
