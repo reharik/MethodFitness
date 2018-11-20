@@ -112,7 +112,7 @@ export function addLocation(data) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(location),
+      body: JSON.stringify(data),
     },
   };
 }
@@ -149,19 +149,6 @@ export function fetchLocationAction(locationId) {
 
 export function fetchAllLocationsAction() {
   let apiUrl = config.apiBase + 'fetchAllLocations';
-  return {
-    type: LOCATION_LIST.REQUEST,
-    states: LOCATION_LIST,
-    url: apiUrl,
-    params: {
-      method: 'GET',
-      credentials: 'include',
-    },
-  };
-}
-
-export function fetchLocationsAction() {
-  let apiUrl = config.apiBase + 'fetchLocations';
   return {
     type: LOCATION_LIST.REQUEST,
     states: LOCATION_LIST,

@@ -1,16 +1,17 @@
-module.exports = function(eventDispatcher,
-                          EventHandlers_array, //eslint-disable-line camelcase
-                          eventReceiver,
-                          pingDB,
-                          logger) {
+module.exports = function(
+  eventDispatcher,
+  EventHandlers_array, //eslint-disable-line camelcase
+  eventReceiver,
+  getStartPosition,
+  logger,
+) {
   return async function() {
-    if (!await pingDB()) {
-      throw new Error('can not connect to the database');
-    }
     try {
-      for (let _x of EventHandlers_array) { //eslint-disable-line camelcase
+      for (let _x of EventHandlers_array) {
+        //eslint-disable-line camelcase
         let x = await _x();
-        let dispatcher = await eventDispatcher();
+        const position = await getStartPosition(x.handlerName);
+        let dispatcher = await eventDispatcher(position);
         let source = dispatcher.startDispatching('event');
         eventReceiver(source, x);
       }

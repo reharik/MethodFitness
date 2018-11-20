@@ -34,6 +34,7 @@ module.exports = function(
 
   let archiveClient = async function(ctx) {
     logger.debug('arrived at client.archiveClient');
+    rsRepository = await rsRepository;
     let query = await rsRepository.query('SELECT * from "trainer";');
     const clientId = ctx.request.body.clientId;
 
@@ -76,6 +77,7 @@ module.exports = function(
   };
 
   let getClient = async function(ctx) {
+    rsRepository = await rsRepository;
     let client;
     if (ctx.state.user.role !== 'admin') {
       const trainer = await rsRepository.getById(

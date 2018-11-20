@@ -9,23 +9,25 @@
     "frontEndHost": "FRONT_END_HOST",
     "frontEndHostAlt": "FRONT_END_HOST_ALT",
     "frontEndPort": "FRONT_END_PORT"
-
   },
   "configs": {
     "children": {
       "eventstore": {
         "host": "EVENTSTORE_HOST",
         "http": "EVENTSTORE_HTTP",
+        "maxRetries": "EVENTSTORE_MAX_RETRIES",
+        "maxReconnections": "EVENTSTORE_MAX_RECONNECTIONS",
+        "verbose": "EVENTSTORE_VERBOSE",
         "systemUsers": {
           "admin": "EVENTSTORE_USER",
           "adminPassword": "EVENTSTORE_PASSWORD"
         }
       },
       "postgres": {
-        "config" :{
+        "config": {
           "user": "POSTGRES_USER",
           "database": "POSTGRES_DATABASE",
-          "host"     : "POSTGRES_HOST",
+          "host": "POSTGRES_HOST",
           "password": "POSTGRES_PASSWORD",
           "port": "POSTGRES_PORT"
         }

@@ -1,4 +1,4 @@
-FROM node:latest
+FROM keymetrics/pm2:latest-jessie
 
 MAINTAINER Raif Harik<reharik@gmail.com>
 LABEL "methodfitness"="base1"

@@ -1,6 +1,7 @@
 module.exports = function(rsRepository, logger) {
   let fetchTrainers = async function(ctx) {
     logger.debug('arrived at trainerlist.fetchTrainers');
+    rsRepository = await rsRepository;
 
     try {
       let sql = 'SELECT * from "trainer" where not "archived"';
@@ -8,7 +9,7 @@ module.exports = function(rsRepository, logger) {
         sql += ` and id = '${ctx.state.user.trainerId}'`;
       }
       const query = await rsRepository.query(sql);
-      ctx.body = {trainers: query};
+      ctx.body = { trainers: query };
       ctx.status = 200;
     } catch (ex) {
       throw ex;
@@ -17,12 +18,13 @@ module.exports = function(rsRepository, logger) {
 
   let fetchAllTrainers = async function(ctx) {
     logger.debug('arrived at trainerlist.fetchAllTrainers');
+    rsRepository = await rsRepository;
     try {
       let query = [];
       if (ctx.state.user.role === 'admin') {
         query = await rsRepository.query('SELECT * from "trainer";');
       }
-      ctx.body = {trainers: query};
+      ctx.body = { trainers: query };
       ctx.status = 200;
     } catch (ex) {
       throw ex;
@@ -31,6 +33,6 @@ module.exports = function(rsRepository, logger) {
 
   return {
     fetchTrainers,
-    fetchAllTrainers
+    fetchAllTrainers,
   };
 };

@@ -1,4 +1,5 @@
 import getMenuItems from './menuItems';
+import setupRoutes from './setupRoutes';
 
 module.exports = (cy, Cypress) => {
   const apptDT = require('./getDateTimeFromDisplayPopup')(cy, Cypress);
@@ -58,6 +59,23 @@ module.exports = (cy, Cypress) => {
     }
   };
 
+  const getAppointmentId = options => {
+    // prettier-ignore-start */
+    cy.log(`======================================================`);
+    cy.log(`${options.index || ''}======Get Appointment Id======`);
+    cy.log(`======================================================`);
+    /* prettier-ignore-end */
+    cy.navTo('Calendar');
+    navToAppropriateWeek(options.date);
+    cy.get(
+      `ol[data-id='${options.date.format('ddd MM/DD')}']
+ li[data-id='${options.time}'] .redux__task__calendar__task__item`,
+    )
+      .its('length')
+      .as('appointmentId');
+    return cy.get('@appointmentId');
+  };
+
   const changeAppointment = options => {
     //TODO refactor me please
     // prettier-ignore-start */
@@ -66,10 +84,16 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
     cy.navTo('Calendar');
-    cy.clickOnAppointment(options.date, options.time);
+    clickOnAppointment({
+      date: options.date,
+      time: options.time,
+      internal: true,
+    });
     cy.get(`.form__footer__button`)
       .contains('Edit')
-      .click();
+      .click({
+        force: true,
+      });
 
     _changeClients(options);
 
@@ -81,9 +105,19 @@ module.exports = (cy, Cypress) => {
         .click();
     }
 
+    if (options.location) {
+      cy.log(`----changing appointment location----`);
+      cy.get('#locationId').click({
+        force: true,
+      });
+      cy.get('.ant-select-dropdown-menu-item')
+        .contains(options.location)
+        .click();
+    }
+
     if (!!options.appointmentType) {
       cy.log(`----changing appointment type----`);
-      cy.get('#appointmentType').click({
+      cy.get('input#appointmentType').click({
         force: true,
       });
       cy.get('.ant-select-dropdown-menu-item')
@@ -103,15 +137,15 @@ module.exports = (cy, Cypress) => {
       checkDatePickerForCorrectMonth(options.newDate).then(() => {
         cy.get(
           `[title="${options.newDate.format(
-            'MM/DD/YYYY',
+            'MMMM D, YYYY',
           )}"] > .ant-calendar-date`,
         ).click();
         cy.get('form').submit();
-        cy.wait('@updateAppointmentFromPast').wait(3000);
+        cy.wait('@updateAppointmentFromPast').wait(1000);
       });
     } else {
       cy.get('form').submit();
-      cy.wait('@updateAppointmentFromPast').wait(3000);
+      cy.wait('@updateAppointmentFromPast').wait(1000);
     }
   };
 
@@ -163,6 +197,8 @@ module.exports = (cy, Cypress) => {
     })
       .invoke('text')
       .as('currMonth');
+    // cy.log(@currentMonth);
+    cy.log(targetMonth);
     return cy.get('@currMonth', { log: false }).then(sow => {
       if (sow !== targetMonth && sow === nextMonth) {
         cy.get('.ant-calendar-prev-month-btn').click();
@@ -204,7 +240,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
 
-    cy.goToPurchasesList(options.client);
+    goToPurchasesList({ client: options.client });
     cy.get('tr.ant-table-row-level-0:last')
       .find('.ant-table-row-expand-icon')
       .click();
@@ -284,8 +320,9 @@ module.exports = (cy, Cypress) => {
     cy.log(`${options.index || ''}======Checking Verification======`);
     cy.log(`======================================================`);
     /* prettier-ignore-end */
+    cy.wait(2000);
     cy.navTo('Trainer Verification');
-    cy.wait('@fetchUnverifiedAppointments').wait(1000);
+    cy.wait('@fetchUnverifiedAppointments');
     if (options.inarrearsCount) {
       cy.get('tr.row-in-arrears').should('have.length', options.inarrearsCount);
     }
@@ -383,15 +420,16 @@ module.exports = (cy, Cypress) => {
   };
 
   const clickOnAppointment = options => {
-    /* prettier-ignore-start */
-    cy.log(`======================================================`);
-    cy.log(
-      `${options.index ||
-        ''}======Click On Appointment: ${options.date.toString()}======`,
-    );
-    cy.log(`======================================================`);
-    /* prettier-ignore-end */
-
+    if (!options.internal) {
+      /* prettier-ignore-start */
+      cy.log(`======================================================`);
+      cy.log(
+        `${options.index ||
+          ''}======Click On Appointment: ${options.date.toString()}======`,
+      );
+      cy.log(`======================================================`);
+      /* prettier-ignore-end */
+    }
     navToAppropriateWeek(options.date);
     const appointment = cy.get(`ol[data-id='${options.date.format(
       'ddd MM/DD',
@@ -421,12 +459,13 @@ module.exports = (cy, Cypress) => {
     cy.get('.ant-select-dropdown-menu-item')
       .contains(options.client.LNF)
       .click();
+
     if (options.client2) {
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.client2.LNF)
         .click();
     } else if (options.appointmentType) {
-      cy.get('#appointmentType')
+      cy.get('input#appointmentType')
         .focus({ log: false })
         .click({ force: true });
       cy.get('.ant-select-dropdown-menu-item')
@@ -441,6 +480,14 @@ module.exports = (cy, Cypress) => {
         .contains(options.trainer.LNF)
         .click({ log: false });
     }
+    if (options.location) {
+      cy.get('#locationId')
+        .focus({ log: false })
+        .click({ force: true });
+      cy.get('.ant-select-dropdown-menu-item')
+        .contains(options.location.name)
+        .click({ log: false });
+    }
     cy.get('#notes').type('Hi! Everybody!');
     cy.get('form').submit();
     cy.wait(
@@ -451,6 +498,31 @@ module.exports = (cy, Cypress) => {
       `ol[data-id='${options.date.format('ddd MM/DD')}']
  li[data-id='${options.time}'] div.redux__task__calendar__task__item`,
     ).should('exist');
+  };
+
+  const cleanDB = () => {
+    /* prettier-ignore-start */
+    console.log(`=========="killing data"==========`);
+    console.log('killing data');
+    console.log(`==========END "killing data"==========`);
+
+    cy.log(`======================================================`);
+    cy.log(`======Clean all tables in db======`);
+    cy.log(`======================================================`);
+    /* prettier-ignore-end */
+    cy.exec('make dockerDownTestsData', { failOnNonZeroExit: false });
+    // cy.wait(10000);
+    cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
+    // cy.exec('make dockerDownTestsData', { failOnNonZeroExit: false });
+    // cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
+    cy.wait(5000);
+    cy.request('GET', `${apiHost}/healthcheck/systemsup`)
+      .its('status')
+      .should('equal', 200);
+
+    // cy.request('POST', `${apiHost}/appointment/cleanalltestdata`);
+    // cy.wait(2000);
+    // cy.wait('@cleanalltestdata');
   };
 
   const deleteAllAppointments = () => {
@@ -475,11 +547,17 @@ module.exports = (cy, Cypress) => {
     /* prettier-ignore-end */
 
     cy.navTo('Calendar');
-    cy.clickOnAppointment(options.date, options.time);
+    clickOnAppointment({
+      date: options.date,
+      time: options.time,
+      internal: true,
+    });
     let isPast = apptDT.getMomentForAppointment();
     cy.get(`.form__footer__button`)
       .contains('Delete')
-      .click();
+      .click({
+        force: true,
+      });
     isPast.then(
       x =>
         x ? cy.wait('@deletePastAppointment') : cy.wait('@cancelappointment'),
@@ -617,6 +695,20 @@ module.exports = (cy, Cypress) => {
     cy.get('tr.row-in-arrears').should('have.length', 0);
   };
 
+  const gotToPurchaseList = options => {
+    cy.get('span.menu__item__leaf__link')
+      .contains('Clients')
+      .click();
+    cy.wait('@fetchAllClients');
+    const row = cy
+      .get('.ant-table-row-level-0')
+      .find('span')
+      .contains(options.client.LN)
+      .closest('tr');
+    row.find('td:last a.list__cell__link span').click();
+    cy.wait('@fetchpurchases').wait(500);
+  };
+
   const purchaseSessions = options => {
     /* prettier-ignore-start */
     cy.log(`======================================================`);
@@ -628,7 +720,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
 
-    cy.goToPurchasesList(options.client);
+    goToPurchasesList({ client: options.client });
     cy.get('.contentHeader__button__new').click();
 
     if (options.fullHourCount) {
@@ -677,7 +769,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
 
-    cy.goToPurchasesList(options.client);
+    goToPurchasesList({ client: options.client });
     cy.get('tr.ant-table-row-level-0:last')
       .find('.ant-table-row-expand-icon')
       .click();
@@ -689,6 +781,23 @@ module.exports = (cy, Cypress) => {
     cy.get('button')
       .contains('OK')
       .click({ force: true });
+  };
+
+  const goToPurchasesList = options => {
+    /* prettier-ignore-start */
+    cy.log(`======================================================`);
+    cy.log(`${options.index || ''}======Go To Purchase List======`);
+    cy.log(`======================================================`);
+    /* prettier-ignore-end */
+    cy.navTo('Clients');
+    cy.wait('@fetchAllClients');
+    const row = cy
+      .get('.ant-table-row-level-0')
+      .find('span')
+      .contains(options.client.LN)
+      .closest('tr');
+    row.find('td:last a.list__cell__link span').click();
+    cy.wait('@fetchpurchases').wait(500);
   };
 
   const verifyAppointments = options => {
@@ -750,6 +859,21 @@ module.exports = (cy, Cypress) => {
     // check verify appointment, should show the appointment
   };
 
+  const selectDate = options => {
+    cy.dataId(options.dateContainerName, 'div')
+      .find('input')
+      .click();
+    checkDatePickerForCorrectMonth(options.newDate).then(() => {
+      cy.get(
+        `[title="${options.newDate.format(
+          'MMMM D, YYYY',
+        )}"] > .ant-calendar-date`,
+      ).click();
+    });
+  };
+
+  setupRoutes(cy);
+
   return {
     changeAppointment,
     checkClientInventory,
@@ -757,10 +881,13 @@ module.exports = (cy, Cypress) => {
     checkSessions,
     checkTrainerPayment,
     checkVerification,
+    cleanDB,
     clickOnAppointment,
     createAppointment,
     deleteAllAppointments,
     deleteAppointment,
+    getAppointmentId,
+    goToPurchasesList,
     loginAdmin,
     loginTrainer,
     manuallyLoginTrainer,
@@ -768,8 +895,9 @@ module.exports = (cy, Cypress) => {
     payTrainer,
     purchaseSessions,
     refundSessions,
+    scheduleAppointmentInPastButDontReconcile,
     signOut,
     verifyAppointments,
-    scheduleAppointmentInPastButDontReconcile,
+    selectDate,
   };
 };

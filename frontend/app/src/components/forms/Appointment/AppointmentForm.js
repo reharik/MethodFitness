@@ -164,6 +164,16 @@ class AppointmentForm extends Component {
             <HiddenFor form={form} data={model.appointmentId} />
           </Row>
           <Row type="flex">
+            <EditableFor
+              editing={this.state.editing}
+              form={form}
+              data={model.locationId}
+              selectOptions={this.props.locations}
+              formItemLayout={formItemLayout}
+              span={24}
+            />
+          </Row>
+          <Row type="flex">
             {this.props.isAdmin ? (
               <EditableFor
                 editing={this.state.editing}
@@ -203,17 +213,7 @@ class AppointmentForm extends Component {
               span={24}
             />
           </Row>
-          <Row type="flex">
-            <EditableFor
-              editing={this.state.editing}
-              form={form}
-              data={model.location}
-              selectOptions={this.props.locations}
-              onChange={this.handleAppointmentTypeChange}
-              formItemLayout={formItemLayout}
-              span={24}
-            />
-          </Row>
+
           <Row type="flex">
             <EditableFor
               editing={this.state.editing}
@@ -291,5 +291,11 @@ AppointmentForm.propTypes = {
 };
 
 export default Form.create({
-  mapPropsToFields: props => ({ ...props.model }),
+  mapPropsToFields: props =>
+    Object.keys(props.model)
+      .map(x => Form.createFormField(props.model[x]))
+      .reduce((acc, item) => {
+        acc[item.name] = item;
+        return acc;
+      }, {}),
 })(AppointmentForm);

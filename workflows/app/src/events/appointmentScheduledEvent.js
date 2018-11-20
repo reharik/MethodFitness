@@ -1,6 +1,7 @@
 module.exports = function() {
   return function({
     appointmentId,
+    locationId,
     appointmentType,
     date,
     startTime,
@@ -9,11 +10,12 @@ module.exports = function() {
     color,
     clients,
     notes,
-    entityName
+    entityName,
   }) {
     return {
       eventName: 'appointmentScheduled',
       appointmentId,
+      locationId,
       appointmentType,
       date,
       startTime,
@@ -22,7 +24,7 @@ module.exports = function() {
       color,
       clients,
       notes,
-      entityName
+      entityName,
     };
   };
 };

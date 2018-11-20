@@ -4,6 +4,7 @@ MAINTAINER reharik@gmail.com
 LABEL "methodfitness"="child"
 
 ADD ./package.json ./package.json
+ADD ./ecosystem.config.js ./ecosystem.config.js
 
 RUN yarn
 

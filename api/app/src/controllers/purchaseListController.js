@@ -2,8 +2,12 @@ module.exports = function(rsRepository, logger) {
   let fetchPurchases = async function(ctx) {
     logger.debug('arrived at sessionsPurchaseList.fetchPurchases');
 
+    rsRepository = await rsRepository;
     try {
-      const clientPurchases = await rsRepository.getById(ctx.params.clientId, 'sessionsPurchased');
+      const clientPurchases = await rsRepository.getById(
+        ctx.params.clientId,
+        'sessionsPurchased',
+      );
 
       ctx.body = clientPurchases.purchases ? clientPurchases.purchases : [];
 
@@ -15,6 +19,6 @@ module.exports = function(rsRepository, logger) {
   };
 
   return {
-    fetchPurchases
+    fetchPurchases,
   };
 };

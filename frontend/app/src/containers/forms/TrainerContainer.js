@@ -11,12 +11,29 @@ const { notifClear } = notifActions;
 const mapStateToProps = state => {
   const clients = state.clients.filter(x => !x.archived).map(x => ({
     value: x.clientId,
-    display: `${x.contact.lastName} ${x.contact.firstName}`,
+    display: `${x.contact.lastName}, ${x.contact.firstName}`,
   }));
+
+  const comparePassword = form => {
+    return (rule, value, callback) => {
+      if (value && value !== form.getFieldValue('password')) {
+        callback('Two passwords that you enter is inconsistent!');
+      } else {
+        callback();
+      }
+    };
+  };
+
   let model = normalizeModel(state.schema.definitions.trainer);
   model.confirmPassword = { ...model.password };
   model.confirmPassword.name = 'confirmPassword';
-  // model.confirmPassword.rules = [{ rule: 'equalTo', compareField: 'password' }];
+  model.confirmPassword.label = 'Confirm Password';
+  model.confirmPassword.placeholder = 'Confirm Password';
+  model.confirmPassword.rules = form => [
+    { required: true },
+    { validator: comparePassword(form) },
+  ];
+
   return {
     model,
     states,

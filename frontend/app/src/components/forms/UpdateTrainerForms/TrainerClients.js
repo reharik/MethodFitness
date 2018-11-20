@@ -24,7 +24,7 @@ const TrainerClientsInner = ({
   };
 
   return (
-    <Card title={`Trainer's Clients`}>
+    <Card title={`Trainer's Clients`} data-id={'trainerClients'}>
       <Form onSubmit={handleSubmit} layout={'vertical'}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
@@ -62,9 +62,13 @@ class TrainerClients extends Component {
 
   render() {
     let Inner = Form.create({
-      mapPropsToFields: props => ({
-        ...props.model,
-      }),
+      mapPropsToFields: props =>
+        Object.keys(props.model)
+          .map(x => Form.createFormField(props.model[x]))
+          .reduce((acc, item) => {
+            acc[item.name] = item;
+            return acc;
+          }, {}),
     })(TrainerClientsInner);
     return (
       <Inner

@@ -24,9 +24,9 @@ class TrainerForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // debugger; //eslint-disable-line
-        // console.log(`==========values=========`);
-        // console.log(values);
-        // console.log(`==========END values=========`);
+        console.log(`==========values=========`);
+        console.log(JSON.stringify(values));
+        console.log(`==========END values=========`);
         this.props.hireTrainer(values);
         console.log('Received values of form: ', values);
       }
@@ -36,9 +36,7 @@ class TrainerForm extends Component {
   render() {
     const model = this.props.model;
     const form = this.props.form;
-    // console.log(`==========model.clients=========`);
-    // console.log(model.clients);
-    // console.log(`==========END model.clients=========`);
+
     return (
       <div className="form">
         <ContentHeader>
@@ -112,7 +110,6 @@ class TrainerForm extends Component {
               <Col xl={10} lg={14} sm={24}>
                 <Card title="Trainer Credentials">
                   <Row type="flex">
-                    {' '}
                     <SubmissionFor form={form} data={model.password} />
                   </Row>
                   <Row type="flex">
@@ -136,11 +133,11 @@ class TrainerForm extends Component {
                       editing={true}
                       form={form}
                       data={model.clients}
-                      onChange={e => {
-                        console.log(`==========e=========`);
-                        console.log(e);
-                        console.log(`==========END e=========`);
-                      }}
+                      // onChange={e => {
+                      //   console.log(`==========e=========`);
+                      //   console.log(e);
+                      //   console.log(`==========END e=========`);
+                      // }}
                       selectOptions={this.props.clients}
                     />
                   </Row>
@@ -154,7 +151,7 @@ class TrainerForm extends Component {
                 </button>
                 <button
                   type="reset"
-                  onClick={this.formReset}
+                  onClick={() => browserHistory.push('/trainers')}
                   className="form__footer__button"
                 >
                   Cancel
@@ -181,5 +178,11 @@ TrainerForm.propTypes = {
 };
 
 export default Form.create({
-  mapPropsToFields: props => ({ ...props.model }),
+  mapPropsToFields: props =>
+    Object.keys(props.model)
+      .map(x => Form.createFormField(props.model[x]))
+      .reduce((acc, item) => {
+        acc[item.name] = item;
+        return acc;
+      }, {}),
 })(TrainerForm);

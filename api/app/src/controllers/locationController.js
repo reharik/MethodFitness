@@ -43,6 +43,7 @@ module.exports = function(
   };
 
   let getLocation = async function(ctx) {
+    rsRepository = await rsRepository;
     let location;
     location = await rsRepository.getById(ctx.params.locationId, 'location');
 

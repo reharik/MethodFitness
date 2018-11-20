@@ -8,7 +8,7 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ./../frontend/app:/home/current/app
-    command: npm run start2 #top -b #
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     environment:
       APPLICATION_NAME: frontend
     ports:
@@ -25,7 +25,7 @@ services:
       - eventstore
     volumes:
       - ./../workflows/app:/home/current/app
-    command: npm run startLocalContainer #top -b #
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     env_file:
       - ./../.envrc.example
     environment:
@@ -41,7 +41,7 @@ services:
       - eventstore
     volumes:
       - ./../projections/app:/home/current/app
-    command: npm run startLocalContainer #top -b #
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     env_file:
       - ./../.envrc.example
     environment:
@@ -56,7 +56,7 @@ services:
     - eventstore
     volumes:
       - ./../api/app:/home/current/app
-    command: npm run startLocalContainer #top -b #
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     ports:
       - 3666:3000
     env_file:
@@ -91,7 +91,7 @@ services:
 #    volumes:
 #      - ./../cypress/app:/home/current/app
 #      - ./../cypress/cypress.json:/home/current/cypress.json:ro
-#    command: npm run cypressRun #top -b #cypress run #
+#        command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #cypress run #
 #    env_file:
 #      - ./../.envrc.example
 #    environment:

@@ -80,7 +80,10 @@ pushNoVolumeEventstore:
 	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_novolume
 
 dockerDownNoVolume:
-	docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume down
+		docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume down
+
+dockerDownNoVolumeKillImages:
+		docker-compose -f docker/docker-compose-no-volume.yml -p methodfitnovolume down --rmi local --remove-orphans
 
 kill-data-no-volume: kill-eventstore-no-volume kill-postgres-no-volume
 kill-eventstore-no-volume:
@@ -98,6 +101,9 @@ dockerUpTests: kill-data-test
 
 dockerDownTests:
 	docker-compose -f docker/docker-compose-tests.yml -p methodfittests down
+
+dockerDownTestsKillImages:
+	docker-compose -f docker/docker-compose-tests.yml -p methodfittests down --rmi local --remove-orphans
 
 kill-eventstore-test:
 	- docker rm -f methodfittests_eventstore_1 || echo "No more containers to remove."

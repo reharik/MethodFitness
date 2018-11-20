@@ -1,5 +1,22 @@
-module.exports = function(rsRepository, metaLogger, logger) {
-  return function AppointmentEventHandler() {
+module.exports = function(
+  appointmentsPersistence,
+  statefulEventHandler,
+  metaLogger,
+  logger,
+) {
+  return async function appointmentsEventHandler() {
+    const persistence = appointmentsPersistence();
+    let initialState = statefulEventHandler.getInitialState(
+      { locations: [] },
+      { appointments: true, sessions: true },
+    );
+    let state = await persistence.initializeState(initialState);
+
+    const baseHandler = statefulEventHandler.baseHandler(
+      state,
+      persistence,
+      'appointmentsBaseHandler',
+    );
     logger.info('AppointmentEventHandler started up');
 
     async function appointmentScheduledInPast(event) {
@@ -7,34 +24,19 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function appointmentScheduled(event) {
-      let sql = `INSERT INTO "appointment" (
-            "id", 
-            "date",
-            "trainer",
-            "document"
-            ) VALUES (
-            '${event.appointmentId}',
-            '${event.entityName}',
-            '${event.trainerId}',
-            '${JSON.stringify(event)}')`;
-      return await rsRepository.saveQuery(sql);
+      const appointment = state.appointmentScheduled(event);
+      return await persistence.saveState(state, appointment);
     }
 
     async function appointmentCanceled(event) {
-      let sql = `DELETE FROM "appointment" where "id" = '${
-        event.appointmentId
-      }'`;
-      return await rsRepository.saveQuery(sql);
+      return await persistence.deleteAppointment(event.appointmentId);
     }
 
     async function pastAppointmentRemoved(event) {
       if (event.rescheduled) {
-        return undefined;
+        return null;
       }
-      let sql = `DELETE FROM "appointment" where "id" = '${
-        event.appointmentId
-      }'`;
-      return await rsRepository.saveQuery(sql);
+      return await persistence.deleteAppointment(event.appointmentId);
     }
 
     async function pastAppointmentUpdated(event) {
@@ -42,25 +44,8 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function appointmentUpdated(event) {
-      let appointment = await rsRepository.getById(
-        event.appointmentId,
-        'appointment',
-      );
-      let update = Object.assign({}, appointment, {
-        appointmentType: event.appointmentType,
-        date: event.date,
-        startTime: event.startTime,
-        endTime: event.endTime,
-        trainerId: event.trainerId,
-        clients: event.clients,
-        notes: event.notes,
-      });
-      let sql = `update "appointment" set
-            "date" = '${event.entityName}',
-            "trainer" = '${event.trainerId}',
-            "document" = '${JSON.stringify(update)}'
-            where "id" = '${event.appointmentId}'`;
-      return await rsRepository.saveQuery(sql);
+      const appointment = await state.appointmentUpdated(event);
+      return await persistence.saveState(state, appointment);
     }
 
     async function unfundedAppointmentAttendedByClient(event) {
@@ -68,72 +53,61 @@ module.exports = function(rsRepository, metaLogger, logger) {
     }
 
     async function fundedAppointmentAttendedByClient(event) {
-      let appointment = await rsRepository.getById(
-        event.appointmentId,
-        'appointment',
-      );
-      appointment.completed = true;
-      appointment.sessionId = event.sessionId;
-      let sql = `update "appointment" set
-            "date" = '${appointment.entityName}',
-            "trainer" = '${appointment.trainerId}',
-            "document" = '${JSON.stringify(appointment)}'
-            where "id" = '${event.appointmentId}'`;
-      return await rsRepository.saveQuery(sql);
+      const appointment = await state.appointmentCompleted(event);
+      return await persistence.saveAppointmentOnly(appointment);
     }
+    //
+    // async function trainerPaid(event) {
+    //   const appointments = state.trainerPaid(event);
+    //
+    //   // this looks bad because it doesn't wait for any of the responses,
+    //   // but I don't need em so it's actually better.  Unless it throws, which could be bad
+    //   appointments.forEach(async appointment => {
+    //     await persistence.saveAppointmentOnly(appointment);
+    //   });
+    // }
 
-    async function trainerPaid(event) {
-      const appointmentIds = event.paidAppointments.map(x => x.appointmentId);
-      let appointments = await rsRepository.getByIds(
-        appointmentIds,
-        'appointment',
-      );
-      const query = doc => {
-        return `UPDATE "appointment" SET document = '${rsRepository.sanitizeDocument(
-          doc,
-        )}'
-        WHERE "id" = '${doc.appointmentId}'`;
-      };
-      // this looks bad because it doesn't wait for any of the responses,
-      // but I don't need em so it's actually better.  Unless it throws, which could be bad
-      appointments = Array.isArray(appointments)
-        ? appointments
-        : [appointments];
-      appointments.forEach(async x => {
-        x.paid = true;
-        await rsRepository.query(query(x));
+    // I'm not doing client info change because the occurance of client name change
+    // is pretty rare and the effect very limited plus it's much more difficult
+    async function trainerInfoUpdated(event) {
+      const appointments = state.trainerInfoUpdated(event);
+      appointments.forEach(async appointment => {
+        await persistence.saveAppointmentOnly(appointment);
       });
     }
 
-    async function trainerInfoUpdated(event) {
-      let selectSql = `select * FROM "appointment" where "trainer" = '${
-        event.trainerId
-      }'`;
-      let appointments = await rsRepository.query(selectSql);
-      let updatedAppointments = appointments.map(x =>
-        Object.assign({}, x, { color: event.color }),
-      );
-      for (let a of updatedAppointments) {
-        let updateSql = `update "appointment" set
-            "document" = '${JSON.stringify(a)}'
-            where "id" = '${a.appointmentId}'`;
-        await rsRepository.saveQuery(updateSql);
-      }
+    async function locationUpdated(event) {
+      const appointments = state.locationUpdated(event);
+      // save the new location state to the metadata
+      await persistence.saveState(state);
+      appointments.forEach(async appointment => {
+        await persistence.saveAppointmentOnly(appointment);
+      });
+    }
+
+    async function locationAdded(event) {
+      state.locationAdded(event);
+      // save the new location state to the metadata
+      await persistence.saveState(state);
     }
 
     return metaLogger(
       {
         handlerName: 'AppointmentEventHandler',
+        baseHandlerName: 'AppointmentBaseStateEventHandler',
+        baseHandler,
         appointmentScheduled,
-        appointmentCanceled,
         appointmentUpdated,
+        appointmentCanceled,
         fundedAppointmentAttendedByClient,
         unfundedAppointmentAttendedByClient,
         appointmentScheduledInPast,
         pastAppointmentRemoved,
         pastAppointmentUpdated,
-        trainerPaid,
+        // trainerPaid,
         trainerInfoUpdated,
+        locationUpdated,
+        locationAdded,
       },
       'AppointmentEventHandler',
     );

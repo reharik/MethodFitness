@@ -3,20 +3,22 @@
     "children": {
       "eventstore": {
         "host": "localhost",
+        "http": "localhost:2113",
+        "maxRetries": 10,
+        "maxReconnections": 10,
+        "verbose": true,
         "systemUsers": {
           "admin": "admin",
           "adminPassword": "changeit"
         }
       },
       "postgres": {
-        "config" :{
+        "config": {
           "user": "methodfitness",
           "database": "methodfitness",
-          "host"     : "localhost",
+          "host": "localhost",
           "password": "password",
-          "port": "5400",
-          "max": "10",
-          "idleTimeoutMillis": "30000"
+          "port": "5400"
         }
       }
     },

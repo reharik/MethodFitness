@@ -24,7 +24,7 @@ const ClientSourceInner = ({
   };
 
   return (
-    <Card title={'Source Info'}>
+    <Card title={'Source Info'} data-id={'clientSource'}>
       <Form onSubmit={handleSubmit}>
         <EditableFor form={form} data={model.clientId} hidden={true} />
         <Row type="flex">
@@ -35,6 +35,7 @@ const ClientSourceInner = ({
             selectOptions={sources}
           />
           <EditableFor editing={editing} form={form} data={model.startDate} />
+          <EditableFor editing={editing} form={form} data={model.sourceNotes} />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />
       </Form>
@@ -63,9 +64,13 @@ class ClientSource extends Component {
 
   render() {
     let Inner = Form.create({
-      mapPropsToFields: props => ({
-        ...props.model,
-      }),
+      mapPropsToFields: props =>
+        Object.keys(props.model)
+          .map(x => Form.createFormField(props.model[x]))
+          .reduce((acc, item) => {
+            acc[item.name] = item;
+            return acc;
+          }, {}),
     })(ClientSourceInner);
     return (
       <Inner

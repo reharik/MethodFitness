@@ -4,6 +4,7 @@ import moment from 'moment';
 
 export function appointmentModel(state, args) {
   moment.locale('en');
+
   const model = normalizeModel(state.schema.definitions.appointment);
   model.date.value = moment(args.day);
   model.appointmentType.value = 'halfHour';

@@ -62,7 +62,9 @@ describe('Trainer Can Not See Admin Stuff', () => {
         .click();
       //checking for "disabled" class
       cy.get(
-        `[title="${newDate.format('MM/DD/YYYY')}"].ant-calendar-disabled-cell`,
+        `[title="${newDate.format(
+          'MMMM D, YYYY',
+        )}"].ant-calendar-disabled-cell`,
       ).should('exist');
 
       cy.get('button')

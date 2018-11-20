@@ -34,7 +34,8 @@ const SubmissionFor = ({
         style={{ padding: '0 8px' }}
       >
         {form.getFieldDecorator(data.name, {
-          rules: data.rules,
+          rules:
+            typeof data.rules === 'function' ? data.rules(form) : data.rules,
         })(input)}
       </FormItem>
     </Col>

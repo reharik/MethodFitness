@@ -3,16 +3,19 @@
     "children": {
       "eventstore": {
         "host": "localhost",
+        "maxRetries": 10,
+        "maxReconnections": 10,
+        "verbose": true,
         "systemUsers": {
           "admin": "admin",
           "adminPassword": "changeit"
         }
       },
       "postgres": {
-        "config" :{
+        "config": {
           "user": "methodfitness",
           "database": "methodfitness",
-          "host"     : "localhost",
+          "host": "localhost",
           "password": "password",
           "port": "5400",
           "max": "10",

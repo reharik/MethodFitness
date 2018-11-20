@@ -2,6 +2,7 @@ module.exports = function() {
   return function(
     {
       appointmentId,
+      locationId,
       appointmentType,
       date,
       startTime,
@@ -18,6 +19,7 @@ module.exports = function() {
     return {
       eventName: 'pastAppointmentUpdated',
       appointmentId,
+      locationId,
       appointmentType,
       date,
       startTime,

@@ -49,7 +49,7 @@ class LocationForm extends Component {
               <Col xl={10} lg={14} sm={24}>
                 <Card title="Location Info">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.Name} />
+                    <SubmissionFor form={form} data={model.name} />
                   </Row>
                 </Card>
               </Col>

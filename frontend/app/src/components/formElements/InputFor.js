@@ -75,8 +75,7 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
       case 'textArea': {
         const _onChange = onChange ? { onChange } : {};
         return (
-          <Input
-            type="textarea"
+          <Input.TextArea
             placeholder={_data.placeholder}
             name={_data.name}
             {..._onChange}

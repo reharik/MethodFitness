@@ -6,6 +6,7 @@ module.exports = function(invariant) {
       eventName: 'locationAdded',
       locationId,
       legacyId,
+      name,
     };
   };
 };

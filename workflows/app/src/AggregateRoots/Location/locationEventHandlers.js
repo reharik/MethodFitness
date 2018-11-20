@@ -13,15 +13,8 @@ module.exports = function() {
         state._isArchived = false;
       },
 
-      locationUpdated: event => {
-        state.unfundedAppointments = state.unfundedAppointments.map(
-          x =>
-            x.appointmentId === event.appointmentId
-              ? Object.assign({}, x, {
-                  name: event.name,
-                })
-              : x,
-        );
+      locationUpdated: () => {
+        /*no-op*/
       },
     };
   };

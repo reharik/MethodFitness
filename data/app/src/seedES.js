@@ -3,6 +3,7 @@ module.exports = function(
   uuid,
   eventstore,
   loadClients,
+  loadLocations,
   loadTrainers,
   loadPurchases,
   loadAppointments,
@@ -16,6 +17,11 @@ module.exports = function(
       console.log('=========="begin seed"=========');
       console.log('begin seed');
       console.log('==========END "begin seed"=========');
+
+      for (let x of loadLocations.locations) {
+        let command = loadLocations.addLocation(x);
+        await processCommands(command, 'addLocation');
+      }
 
       for (let x of loadClients.clients) {
         let command = loadClients.addClient(x);

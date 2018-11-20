@@ -6,6 +6,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
   return function LocationEventHandler() {
     logger.info('LocationEventHandler started up');
     async function locationAdded(event) {
+      rsRepository = await rsRepository;
       let location = {
         locationId: event.locationId,
         legacyId: event.legacyId,
@@ -15,12 +16,14 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
     }
 
     async function locationUpdated(event) {
+      rsRepository = await rsRepository;
       let location = await rsRepository.getById(event.locationId, 'location');
       location.name = event.name;
       return await rsRepository.save('location', location, location.locationId);
     }
 
     async function locationArchived(event) {
+      rsRepository = await rsRepository;
       let location = await rsRepository.getById(event.locationId, 'location');
       location.archived = true;
       location.archivedDate = event.date;
@@ -32,6 +35,7 @@ where id = '${event.locationId}'`;
     }
 
     async function locationUnarchived(event) {
+      rsRepository = await rsRepository;
       let location = await rsRepository.getById(event.locationId, 'location');
       location.archived = false;
       location.archivedDate = event.date;

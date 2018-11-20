@@ -110,6 +110,7 @@ CREATE TABLE "appointment"
   id uuid PRIMARY KEY,
   trainer uuid NOT NULL,
   date date NOT NULL,
+  meta jsonb,
   document jsonb
 )
 WITH (

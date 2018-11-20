@@ -72,7 +72,7 @@ LocationUpdate.propTypes = {
   submit: PropTypes.func,
 };
 
-class Location extends Component {
+class LocationUpdateForm extends Component {
   render() {
     let model = this.props.model;
     return (
@@ -97,7 +97,7 @@ class Location extends Component {
             <Col xl={10} lg={14} sm={24}>
               <LocationUpdate
                 model={model}
-                submit={this.props.updateLocationUpdate}
+                submit={this.props.updateLocation}
                 sources={this.props.sources}
               />
             </Col>
@@ -108,18 +108,13 @@ class Location extends Component {
   }
 }
 
-Location.propTypes = {
+LocationUpdateForm.propTypes = {
   locationId: PropTypes.string,
   model: PropTypes.object,
-  inventory: PropTypes.object,
   notifications: PropTypes.func,
-  states: PropTypes.array,
   sources: PropTypes.array,
   fetchLocationAction: PropTypes.func,
-  updateLocationUpdate: PropTypes.func,
-  updateLocationInfo: PropTypes.func,
-  updateLocationContact: PropTypes.func,
-  updateLocationAddress: PropTypes.func,
+  updateLocation: PropTypes.func,
 };
 
-export default Location;
+export default LocationUpdateForm;

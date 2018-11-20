@@ -10,12 +10,12 @@ describe('Calling appointmentStatusUpdate', () => {
   let routines;
 
   beforeEach(() => {
+    routines.cleanDB();
     setupRoutes(cy);
     routines = _routines(cy, Cypress, Cypress.moment);
     cy.log(dtHelpers);
 
     routines.loginAdmin({});
-    routines.deleteAllAppointments();
     cy.visit('/');
     cy.fixture('prices').as('prices');
     cy.fixture('clients').as('clients');

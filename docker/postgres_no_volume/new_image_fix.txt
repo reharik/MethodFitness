@@ -1,0 +1,2 @@
+You must run
+chmod +x docker/postgres_no_volume/docker-entrypoint.sh

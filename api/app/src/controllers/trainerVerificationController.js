@@ -1,13 +1,16 @@
-module.exports = function(rsRepository,
-                          eventstore,
-                          notificationListener,
-                          notificationParser,
-                          commands,
-                          moment,
-                          uuid,
-                          logger) {
+module.exports = function(
+  rsRepository,
+  eventstore,
+  notificationListener,
+  notificationParser,
+  commands,
+  moment,
+  uuid,
+  logger,
+) {
   let fetchUnverifiedAppointments = async function(ctx) {
     logger.debug('arrived at trainerVerification.fetchUnverifiedAppointments');
+    rsRepository = await rsRepository;
 
     try {
       let sql = 'SELECT * from "unpaidAppointments" where';
@@ -17,7 +20,10 @@ module.exports = function(rsRepository,
       //   sql += ` id <> '00000000-0000-0000-0000-000000000001'`;
       // }
       const query = await rsRepository.query(sql);
-      const result = query.reduce((ag, x) => ag.concat(x.unpaidAppointments), []);
+      const result = query.reduce(
+        (ag, x) => ag.concat(x.unpaidAppointments),
+        [],
+      );
       ctx.body = result.filter(x => !x.verified);
       ctx.status = 200;
     } catch (ex) {
@@ -36,7 +42,11 @@ module.exports = function(rsRepository,
       const continuationId = uuid.v4();
       let notificationPromise = await notificationListener(continuationId);
       const command = commands.verifyAppointmentsCommand(payload);
-      await eventstore.commandPoster(command, 'verifyAppointments', continuationId);
+      await eventstore.commandPoster(
+        command,
+        'verifyAppointments',
+        continuationId,
+      );
 
       const result = await notificationParser(notificationPromise);
       ctx.body = result.body;
@@ -48,6 +58,6 @@ module.exports = function(rsRepository,
 
   return {
     fetchUnverifiedAppointments,
-    verifyAppointments
+    verifyAppointments,
   };
 };

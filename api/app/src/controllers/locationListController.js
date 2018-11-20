@@ -1,6 +1,7 @@
 module.exports = function(rsRepository, logger) {
   let fetchAllLocations = async function(ctx) {
     logger.debug('arrived at locationlist.fetchAllLocations');
+    rsRepository = await rsRepository;
 
     try {
       let sql = 'SELECT * from "location";';

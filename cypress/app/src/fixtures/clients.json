@@ -2,7 +2,9 @@
   "client1": {
     "LNF": "Barr, Sarah",
     "LN": "Barr",
-    "id": "87a07924-a855-4f1b-b4f4-5a3e82ed76a9"
+    "id": "87a07924-a855-4f1b-b4f4-5a3e82ed76a9",
+    "birthDate": "01/01/1980",
+    "startDate": "01/01/2016"
   },
   "client2": {
     "LNF": "Ahern, Jessica",
@@ -23,5 +25,19 @@
     "LNF": "Abelow, Hanna",
     "LN": "abelow",
     "id": "8aa3c2bb-701b-4963-97d6-c98005dc316c"
+  },
+  "newClient": {
+    "firstName": "Bubba",
+    "lastName": "LikesIt",
+    "mobilePhone": "123456789",
+    "secondaryPhone": "987654321",
+    "email": "bubba@likesit.com",
+    "street1": "some street",
+    "street2": "some other street",
+    "city": "Austin",
+    "state": "Texas",
+    "zipCode": "78702",
+    "source": "Network",
+    "sourceNotes": "this is a new client"
   }
 }

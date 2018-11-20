@@ -1,8 +1,12 @@
 module.exports = function(rsRepository, logger) {
   let fetchTrainerPayments = async function(ctx) {
     logger.debug('arrived at trainerPaymentsList.fetchTrainerPayments');
+    rsRepository = await rsRepository;
     try {
-      ctx.body = await rsRepository.getById(ctx.state.user.trainerId, 'trainerPayments');
+      ctx.body = await rsRepository.getById(
+        ctx.state.user.trainerId,
+        'trainerPayments',
+      );
       ctx.status = 200;
       return ctx;
     } catch (ex) {
@@ -12,11 +16,16 @@ module.exports = function(rsRepository, logger) {
 
   let fetchTrainerPaymentDetails = async function(ctx) {
     logger.debug('arrived at trainerPaymentsList.fetchTrainerPaymentDetails');
+    rsRepository = await rsRepository;
     try {
-      let result = await rsRepository.getById(ctx.state.user.trainerId, 'trainerPaymentDetails');
-      ctx.body = result && result.payments
-        ? result.payments.filter(x => x.paymentId === ctx.params.paymentId)
-        : [];
+      let result = await rsRepository.getById(
+        ctx.state.user.trainerId,
+        'trainerPaymentDetails',
+      );
+      ctx.body =
+        result && result.payments
+          ? result.payments.filter(x => x.paymentId === ctx.params.paymentId)
+          : [];
       ctx.status = 200;
       return ctx;
     } catch (ex) {
@@ -25,6 +34,6 @@ module.exports = function(rsRepository, logger) {
   };
   return {
     fetchTrainerPayments,
-    fetchTrainerPaymentDetails
+    fetchTrainerPaymentDetails,
   };
 };

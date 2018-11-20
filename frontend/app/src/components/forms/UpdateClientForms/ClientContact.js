@@ -17,7 +17,7 @@ const ClientContactInner = ({ model, form, toggleEdit, submit, editing }) => {
   };
 
   return (
-    <Card title={'Client Contact'}>
+    <Card title={'Client Contact'} data-id={'clientContact'}>
       <Form onSubmit={handleSubmit} layout={'vertical'}>
         <EditableFor form={form} data={model.clientId} hidden={true} />
         <Row type="flex">
@@ -57,9 +57,13 @@ class ClientContact extends Component {
 
   render() {
     let Inner = Form.create({
-      mapPropsToFields: props => ({
-        ...props.model,
-      }),
+      mapPropsToFields: props =>
+        Object.keys(props.model)
+          .map(x => Form.createFormField(props.model[x]))
+          .reduce((acc, item) => {
+            acc[item.name] = item;
+            return acc;
+          }, {}),
     })(ClientContactInner);
     return (
       <Inner

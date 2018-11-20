@@ -22,12 +22,9 @@ const TrainerPasswordInner = ({
       }
     });
   };
-  console.log(`==========model.role=========`);
-  console.log(model.role);
-  console.log(`==========END model.role=========`);
 
   return (
-    <Card title={'Trainer Password'}>
+    <Card title={'Trainer Password'} data-id={'trainerPassword'}>
       <Form onSubmit={handleSubmit} layout={'vertical'}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
@@ -81,9 +78,13 @@ class TrainerPassword extends Component {
 
   render() {
     let Inner = Form.create({
-      mapPropsToFields: props => ({
-        ...props.model,
-      }),
+      mapPropsToFields: props =>
+        Object.keys(props.model)
+          .map(x => Form.createFormField(props.model[x]))
+          .reduce((acc, item) => {
+            acc[item.name] = item;
+            return acc;
+          }, {}),
     })(TrainerPasswordInner);
     return (
       <Inner

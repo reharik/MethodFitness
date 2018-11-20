@@ -14,15 +14,19 @@ module.exports = function(bcryptjs, rsRepository) {
   };
 
   let getClientsForTrainer = async user => {
+    rsRepository = await rsRepository;
     let trainer = await rsRepository.query(
-      `select * from "trainer" where id = '${user.trainerId}'`
+      `select * from "trainer" where id = '${user.trainerId}'`,
     );
-    return trainer[0] ? Object.assign({}, user, {clients: trainer[0].clients}) : user;
+    return trainer[0]
+      ? Object.assign({}, user, { clients: trainer[0].clients })
+      : user;
   };
 
   let matchUser = async function(username, password) {
+    rsRepository = await rsRepository;
     let users = await rsRepository.query(
-      `select * from "user" where not "archived" AND "document" ->> 'userName' = '${username.toLowerCase()}'`
+      `select * from "user" where not "archived" AND "document" ->> 'userName' = '${username.toLowerCase()}'`,
     );
     //for now, but lets put a findOne func on repo
     let user = users[0];
@@ -47,7 +51,7 @@ module.exports = function(bcryptjs, rsRepository) {
   return {
     createPassword,
     comparePassword,
-    matchUser //,
+    matchUser, //,
     // authenticate: authenticate
   };
 };

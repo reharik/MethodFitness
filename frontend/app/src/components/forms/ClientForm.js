@@ -109,6 +109,13 @@ class ClientForm extends Component {
                 <button type="submit" className="form__footer__button">
                   Submit
                 </button>
+                <button
+                  type="reset"
+                  onClick={() => browserHistory.push('/clients')}
+                  className="form__footer__button"
+                >
+                  Cancel
+                </button>
               </Col>
             </Row>
           </Form>

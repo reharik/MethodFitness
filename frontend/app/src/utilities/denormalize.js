@@ -8,7 +8,7 @@ export function denormalizeContact(flat) {
     address: {
       street1: flat.street1,
       street2: flat.street2,
-      city: flat.flat,
+      city: flat.city,
       state: flat.state,
       zipCode: flat.zipCode,
     },
@@ -16,6 +16,10 @@ export function denormalizeContact(flat) {
 }
 
 export function denormalizeTrainer(flat) {
+  console.log(`==========flat==========`);
+  console.log(flat);
+  console.log(`==========END flat==========`);
+
   return {
     color: flat.color,
     birthDate: flat.birthDate,

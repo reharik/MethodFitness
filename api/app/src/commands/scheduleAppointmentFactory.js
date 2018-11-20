@@ -2,6 +2,7 @@ module.exports = function(invariant) {
   return function({
     commandName,
     appointmentId,
+    locationId,
     appointmentType,
     date,
     startTime,
@@ -35,6 +36,10 @@ module.exports = function(invariant) {
       appointmentType,
       `${commandName} requires that you pass the appointmentType`,
     );
+    invariant(
+      locationId,
+      `${commandName} requires that you pass the locationId`,
+    );
     invariant(trainerId, `${commandName} requires that you pass trainerId`);
     invariant(
       date,
@@ -58,6 +63,7 @@ module.exports = function(invariant) {
       enitityName since it's a date but the date prop is utc`,
     );
     let result = {
+      locationId,
       commandName,
       appointmentType,
       date,

@@ -8,6 +8,7 @@ module.exports = function(
 ) {
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
+    rsRepository = await rsRepository;
     let date = moment().format('YYYY-MM-DD');
     let sql = `select * from appointment 
     where date<='${date}' and date>'${moment()

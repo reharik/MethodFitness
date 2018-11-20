@@ -7,10 +7,11 @@ describe('Archive Client', () => {
   let routines;
 
   beforeEach(() => {
-    setupRoutes(cy);
     routines = _routines(cy, Cypress, Cypress.moment);
-    cy.fixture('clients').as('clients');
+    routines.cleanDB();
+    setupRoutes(cy);
     routines.loginAdmin({});
+    cy.fixture('clients').as('clients');
     cy.visit('/');
     cy.navTo('Clients');
   });

@@ -1,53 +1,43 @@
-module.exports = function(pg, config, promiseretry) {
-  const ping = () => {
-    const configs = config.configs.children.postgres.config;
-    let dbExists;
-    const client = new pg.Client(configs);
-    return new Promise((res, rej) => {
-      // connect to our database
-      return client.connect(connError => { // eslint-disable-line consistent-return
-        if (connError) {
-          console.log('==========connError=========');
-          console.log(connError);
-          console.log('==========END connError=========');
-          return rej(connError);
-        }
-        // execute a query on our database
-        client.query(`select relname from pg_class where relname='trainer' and relkind='r';`,
-          (queryErr, result) => {
-            if (queryErr) {
-              console.log('==========queryErr=========');
-              console.log(queryErr);
-              console.log('==========END queryErr=========');
-              return rej(queryErr);
-            }
-            dbExists = !!result.rows[0];
+module.exports = function(pg, config, asyncretry) {
+  // const ping = async function(client, bail, number) {
+  //   console.log(`=========="here"==========`);
+  //   console.log('here');
+  //   console.log(`==========END "here"==========`);
+  //
+  //   console.log('attempt to connect to the db number', number);
+  //   if (!client._connected()) {
+  //     await client.connect();
+  //   }
+  //
+  //   client.on('error', err => {
+  //     console.log(`==========err==asdfasdfdsaf========`);
+  //     console.log(err);
+  //     console.log(`==========END err==========`);
+  //   });
+  //
+  //   const result = await client.query(
+  //     `select relname as table from pg_stat_user_tables where schemaname = 'public'`,
+  //   );
+  //
+  //   // if (result.rowCount === 0) {
+  //   throw new Error('db does not exist');
+  //   // }
+  //   console.log('==========dbExists=========');
+  //   console.log(true);
+  //   console.log('==========END dbExists=========');
+  //   await client.end();
+  //   return client;
+  // };
 
-            if (!dbExists) {return rej('No Tables in the DB yet');}
-            console.log('==========dbExists=========');
-            console.log(dbExists);
-            console.log('==========END dbExists=========');
-
-            // disconnect the client
-            client.end(endErr => {
-              if (endErr) {
-                console.log('==========endErr=========');
-                console.log(endErr);
-                console.log('==========END endErr=========');
-
-                return rej(endErr);
-              }
-              return undefined;
-            });
-            return res(dbExists);
-          });
-      });
-    });
-  };
   return () => {
-    return promiseretry((retry, number) => {
-      console.log('attempt number', number);
-      return ping().catch(retry);
-    }, {retries: 10});
+    // const configs = config.configs.children.postgres.config;
+    // console.log(`==========configs=========`);
+    // console.log(configs);
+    // console.log(`==========END configs=========`);
+    // const client = new pg.Client(configs);
+    //
+    // return asyncretry((bail, number) => ping(client, bail, number), {
+    //   retries: 2,
+    // });
   };
 };

@@ -11,9 +11,6 @@ import { Row, Col } from 'antd';
 
 class UpdateClientForm extends Component {
   render() {
-    console.log(`==========this.props.clientId=xxxxxx========`);
-    console.log(this.props.clientId); // eslint-disable-line quotes
-    console.log(`==========END this.props.clientId=========`);
     let model = this.props.model;
     return (
       <div className="form">

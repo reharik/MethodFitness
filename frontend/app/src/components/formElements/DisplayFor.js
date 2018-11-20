@@ -66,6 +66,7 @@ const DisplayFor = ({ data, selectOptions, span }) => {
       sm={span || 12}
       xs={24}
       style={{ marginBottom: '15px' }}
+      data-id={`${data.name}-container`}
     >
       <Col xl={10} lg={10} sm={12} xs={24}>
         <label className="display__container__label ant-form-item-label">

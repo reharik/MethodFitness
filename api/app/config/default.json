@@ -1,5 +1,5 @@
 {
-  "frontend":{},
+  "frontend": {},
   "env": "dev",
   "fontendUrl": "http://localhost:8080/app.bundle.js?9b3657d5912777bbf51",
   "app": {
@@ -7,9 +7,7 @@
     "host": "localhost",
     "port": 3000,
     "env": "Dev",
-    "keys": [
-      "methodFitness"
-    ],
+    "keys": ["methodFitness"],
     "swagger_ui_url": "http://localhost:4666",
     "frontEndHost": "0.0.0.0",
     "frontEndHostAlt": "localhost",
@@ -20,16 +18,19 @@
     "children": {
       "eventstore": {
         "host": "eventstore",
+        "maxRetries": 10,
+        "maxReconnections": 10,
+        "verbose": true,
         "systemUsers": {
           "admin": "admin",
           "adminPassword": "changeit"
         }
       },
       "postgres": {
-        "config" :{
+        "config": {
           "user": "methodfitness",
           "database": "methodfitness",
-          "host"     : "localhost",
+          "host": "localhost",
           "password": "password",
           "port": "5432"
         }

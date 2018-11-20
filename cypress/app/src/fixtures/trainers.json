@@ -22,5 +22,19 @@
     "userName": "trainer2",
     "password": "234234",
     "id": "3454aa86-a5a6-4600-b8d8-6912df9fccf1"
+  },
+  "newTrainer": {
+    "firstName": "Bubba",
+    "lastName": "LikesIt",
+    "mobilePhone": "123456789",
+    "secondaryPhone": "987654321",
+    "email": "bubba@likesit.com",
+    "street1": "some street",
+    "street2": "some other street",
+    "city": "Austin",
+    "state": "Texas",
+    "zipCode": "78702",
+    "clients": ["Barr, Sarah", "Ahern, Jessica"],
+    "password": "1234"
   }
 }

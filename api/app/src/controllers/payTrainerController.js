@@ -1,15 +1,20 @@
-module.exports = function(rsRepository,
-                          eventstore,
-                          notificationListener,
-                          notificationParser,
-                          commands,
-                          moment,
-                          uuid,
-                          logger) {
+module.exports = function(
+  rsRepository,
+  eventstore,
+  notificationListener,
+  notificationParser,
+  commands,
+  moment,
+  uuid,
+  logger,
+) {
   let fetchVerifiedAppointments = async function(ctx) {
     logger.debug('arrived at payTrainer.fetchVerifiedAppointments');
+    rsRepository = await rsRepository;
     try {
-      let sql = `SELECT * from "unpaidAppointments" where id = '${ctx.params.trainerId}'`;
+      let sql = `SELECT * from "unpaidAppointments" where id = '${
+        ctx.params.trainerId
+      }'`;
       const query = await rsRepository.query(sql);
       const result = query[0];
       let body = {};
@@ -45,6 +50,6 @@ module.exports = function(rsRepository,
 
   return {
     fetchVerifiedAppointments,
-    payTrainer
+    payTrainer,
   };
 };

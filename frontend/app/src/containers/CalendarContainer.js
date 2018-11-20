@@ -3,6 +3,7 @@ import Calendar from '../components/Calendar';
 import { fetchAppointmentsAction, updateTaskViaDND } from './../modules';
 import { fetchClientsAction } from './../modules/clientModule';
 import { fetchTrainersAction } from './../modules/trainerModule';
+import { fetchAllLocationsAction } from './../modules/locationModule';
 import { curriedPermissionToSetAppointment } from './../utilities/appointmentTimes';
 
 const mapStateToProps = state => {
@@ -20,9 +21,6 @@ const mapStateToProps = state => {
     taskId: 'appointmentId',
     dayDisplayFormat: 'ddd MM/DD',
   };
-  console.log(`==========state.appointments==========`);
-  console.log(JSON.stringify(state.appointments));
-  console.log(`==========END state.appointments==========`);
 
   config.canUpdate = curriedPermissionToSetAppointment(isAdmin);
 
@@ -42,6 +40,7 @@ export default connect(
   {
     fetchClientsAction,
     fetchTrainersAction,
+    fetchAllLocationsAction,
     retrieveDataAction: fetchAppointmentsAction,
     updateTaskViaDND,
   },

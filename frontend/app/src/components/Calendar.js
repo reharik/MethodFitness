@@ -28,6 +28,7 @@ class MFCalendar extends Component {
   componentWillMount() {
     this.props.fetchClientsAction();
     this.props.fetchTrainersAction();
+    this.props.fetchAllLocationsAction();
     this.config = {
       ...this.props.config,
       retrieveDataAction: this.props.retrieveDataAction,
@@ -118,10 +119,6 @@ class MFCalendar extends Component {
   };
 
   render() {
-    console.log(`==========this.config==========`);
-    console.log(this.config);
-    console.log(`==========END this.config==========`);
-
     moment.locale('en');
     return (
       <div id="mainCalendar">
@@ -170,6 +167,7 @@ MFCalendar.propTypes = {
   layout: PropTypes.string,
   fetchClientsAction: PropTypes.func,
   fetchTrainersAction: PropTypes.func,
+  fetchAllLocationsAction: PropTypes.func,
   retrieveDataAction: PropTypes.func,
   updateTaskViaDND: PropTypes.func,
   title: PropTypes.string,

@@ -1,24 +1,25 @@
-module.exports = function(rsRepository, promiseretry) {
-  const ping = healthCheckId => {
-    return new Promise((res, rej) => {
-      rsRepository
-        .saveQuery(`select * from "helathcheck" where "id" ='${healthCheckId}'`)
-        .then(result => {
-          if (result && result.rows.length > 0 && result.rows[0].healthCheck) {
-            res(result.row[0].healthCheck);
-          } else {
-            rej(false);
-          }
-        });
-    });
-  };
-  return healthCheckId => {
-    return promiseretry(
-      (retry, number) => {
-        console.log('attempt number', number);
-        return ping(healthCheckId).catch(retry);
-      },
-      { retries: 4 },
+module.exports = function(rsRepository, asyncretry, pingDB) {
+  const ping = async function(healthCheckId, bail, number) {
+    rsRepository = await rsRepository;
+    console.log('attempt to connect to retrieve health check number', number);
+    const result = await rsRepository.saveQuery(
+      `select * from "healthcheck" where "id" ='${healthCheckId}'`,
     );
+
+    if (result.rows.length === 0) {
+      throw new Error(`row doesn't exist`);
+    }
+    return result.rows[0].healthcheck;
+  };
+
+  return async healthCheckId => {
+    await pingDB();
+    console.log(`=========="here"==========`);
+    console.log('here');
+    console.log(`==========END "here"==========`);
+
+    return asyncretry((bail, number) => ping(healthCheckId, bail, number), {
+      retries: 5,
+    });
   };
 };

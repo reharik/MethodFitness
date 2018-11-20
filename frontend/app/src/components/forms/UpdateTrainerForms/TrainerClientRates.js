@@ -37,7 +37,7 @@ const TrainerClientRatesInner = ({
   };
 
   return (
-    <Card title={`Trainer's Client Rate`}>
+    <Card title={`Trainer's Client Rate`} data-id={'trainerClientRate'}>
       <Form layout="inline" onSubmit={handleSubmit}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
         {model.trainerClientRates.listItems.map(x => {
@@ -81,7 +81,9 @@ class TrainerClientRates extends Component {
   mapPropsToFields = props => {
     let data = {};
     if (props.model.trainerClientRates.listItems) {
-      props.model.trainerClientRates.listItems.forEach(x => (data[x.name] = x));
+      props.model.trainerClientRates.listItems.forEach(
+        x => (data[x.name] = Form.createFormField(x)),
+      );
     }
     return data;
   };

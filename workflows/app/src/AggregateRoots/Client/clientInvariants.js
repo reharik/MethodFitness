@@ -10,9 +10,12 @@ module.exports = function(invariant) {
       },
 
       expectSessionsExist: cmd => {
-        invariant(state.clientInventory.sessionsExists(cmd), `Client does not have sessions with these Ids.
- It is possible that they have just been used, or there has been an error`);
-      }
+        invariant(
+          state.clientInventory.sessionsExists(cmd),
+          `Client does not have sessions with these Ids.
+ It is possible that they have just been used, or there has been an error`,
+        );
+      },
     };
   };
 };

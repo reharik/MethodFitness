@@ -6,6 +6,7 @@ LABEL "methodfitness"="child"
 LABEL "name"="frontend"
 
 ADD ./package.json ./package.json
+ADD ./ecosystem.config.js ./ecosystem.config.js
 #RUN npm install -q
 RUN yarn
 

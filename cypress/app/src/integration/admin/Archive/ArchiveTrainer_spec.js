@@ -7,10 +7,11 @@ describe('Archive Trainer', () => {
   let routines;
 
   beforeEach(() => {
-    setupRoutes(cy);
     routines = _routines(cy, Cypress, Cypress.moment);
-    cy.fixture('trainers').as('trainers');
+    routines.cleanDB();
+    setupRoutes(cy);
     routines.loginAdmin({});
+    cy.fixture('trainers').as('trainers');
     cy.visit('/');
     cy.navTo('Trainers');
   });

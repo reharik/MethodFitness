@@ -318,8 +318,6 @@ const successFunction = (action, payload) => {
 };
 
 export function hireTrainer(data) {
-  data.state = data.state ? data.state.value : undefined;
-  data.clients = data.clients ? data.clients.map(x => x.value) : [];
   const trainer = denormalizeTrainer(data);
   return {
     type: HIRE_TRAINER.REQUEST,

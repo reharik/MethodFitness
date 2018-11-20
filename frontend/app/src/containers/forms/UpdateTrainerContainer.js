@@ -28,7 +28,7 @@ const mapStateToProps = (state, ownProps) => {
   };
   const clients = state.clients.filter(x => !x.archived).map(x => ({
     value: x.clientId,
-    display: `${x.contact.lastName} ${x.contact.firstName}`,
+    display: `${x.contact.lastName}, ${x.contact.firstName}`,
   }));
   // possibly do this backwards in case a tcr hasn't been set for some reason
   if (trainer && clients) {
@@ -45,10 +45,26 @@ const mapStateToProps = (state, ownProps) => {
       });
   }
 
+  const comparePassword = form => {
+    return (rule, value, callback) => {
+      if (value && value !== form.getFieldValue('password')) {
+        callback('Two passwords that you enter is inconsistent!');
+      } else {
+        callback();
+      }
+    };
+  };
+
   const model = normalizeModel(state.schema.definitions.trainer, trainer);
   model.confirmPassword = { ...model.password };
   model.confirmPassword.name = 'confirmPassword';
-  model.confirmPassword.rules = [{ rule: 'equalTo', compareField: 'password' }];
+  model.confirmPassword.label = 'Confirm Password';
+  model.confirmPassword.placeholder = 'Confirm Password';
+  model.confirmPassword.rules = form => [
+    { required: true },
+    { validator: comparePassword(form) },
+  ];
+
   return {
     model,
     states,

@@ -1,5 +1,3 @@
-
-
 module.exports = function(
   rsRepository,
   notificationListener,
@@ -8,12 +6,14 @@ module.exports = function(
   commands,
   uuid,
   logger,
-  authentication
+  authentication,
 ) {
   let hireTrainer = async function(ctx) {
     logger.debug('arrived at trainer.hireTrainer');
     const payload = ctx.request.body;
-    payload.credentials.password = authentication.createPassword(payload.credentials.password);
+    payload.credentials.password = authentication.createPassword(
+      payload.credentials.password,
+    );
     const result = await processMessage(payload, 'hireTrainer');
 
     ctx.body = result.body;
@@ -30,7 +30,10 @@ module.exports = function(
 
   let updateTrainerContact = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainerContact');
-    const result = await processMessage(ctx.request.body, 'updateTrainerContact');
+    const result = await processMessage(
+      ctx.request.body,
+      'updateTrainerContact',
+    );
 
     ctx.body = result.body;
     ctx.status = result.status;
@@ -39,7 +42,10 @@ module.exports = function(
   let updateTrainerAddress = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainerAddress');
 
-    const result = await processMessage(ctx.request.body, 'updateTrainerAddress');
+    const result = await processMessage(
+      ctx.request.body,
+      'updateTrainerAddress',
+    );
 
     ctx.body = result.body;
     ctx.status = result.status;
@@ -58,7 +64,10 @@ module.exports = function(
   let updateTrainersClients = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainersClients');
 
-    const result = await processMessage(ctx.request.body, 'updateTrainersClients');
+    const result = await processMessage(
+      ctx.request.body,
+      'updateTrainersClients',
+    );
 
     ctx.body = result.body;
     ctx.status = result.status;
@@ -67,7 +76,10 @@ module.exports = function(
   let updateTrainersClientRates = async function(ctx) {
     logger.debug('arrived at trainer.updateTrainersClientRates');
 
-    const result = await processMessage(ctx.request.body, 'updateTrainersClientRates');
+    const result = await processMessage(
+      ctx.request.body,
+      'updateTrainersClientRates',
+    );
 
     ctx.body = result.body;
     ctx.status = result.status;
@@ -78,7 +90,7 @@ module.exports = function(
 
     const result = await processMessage(
       ctx.request.body,
-      ctx.request.body.archived ? 'unArchiveTrainer' : 'archiveTrainer'
+      ctx.request.body.archived ? 'unArchiveTrainer' : 'archiveTrainer',
     );
 
     ctx.body = result.body;
@@ -87,7 +99,10 @@ module.exports = function(
 
   let processMessage = async function(payload, commandName) {
     const continuationId = uuid.v4();
-    let notificationPromise = await notificationListener(continuationId, commandName);
+    let notificationPromise = await notificationListener(
+      continuationId,
+      commandName,
+    );
 
     const command = commands[commandName + 'Command'](payload);
     await eventstore.commandPoster(command, commandName, continuationId);
@@ -96,17 +111,22 @@ module.exports = function(
   };
 
   let getTrainer = async function(ctx) {
+    rsRepository = await rsRepository;
     const trainer = await rsRepository.getById(ctx.params.trainerId, 'trainer');
     ctx.status = 200;
     ctx.body = trainer;
   };
 
-
   let getTrainerClientRates = async function(ctx) {
+    rsRepository = await rsRepository;
     const trainer = await rsRepository.getById(ctx.params.trainerId, 'trainer');
     ctx.status = 200;
     ctx.body = trainer.trainerClientRates
-      ? trainer.trainerClientRates.map(x => ({trainerId: trainer.trainerId, clientId: x.clientId, rate: x.rate}))
+      ? trainer.trainerClientRates.map(x => ({
+          trainerId: trainer.trainerId,
+          clientId: x.clientId,
+          rate: x.rate,
+        }))
       : [];
   };
 
@@ -120,6 +140,6 @@ module.exports = function(
     updateTrainersClientRates,
     archiveTrainer,
     getTrainerClientRates,
-    getTrainer
+    getTrainer,
   };
 };

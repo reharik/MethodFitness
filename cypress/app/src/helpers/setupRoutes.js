@@ -8,6 +8,11 @@ module.exports = cy => {
 
   cy.route({
     method: 'GET',
+    url: '/fetchAllTrainers',
+  }).as('fetchAllTrainers');
+
+  cy.route({
+    method: 'GET',
     url: '/trainerVerification/fetchUnverifiedAppointments',
   }).as('fetchUnverifiedAppointments');
 
@@ -45,6 +50,11 @@ module.exports = cy => {
     method: 'GET',
     url: '/client/getClient/*',
   }).as('getClient');
+
+  cy.route({
+    method: 'GET',
+    url: '/trainer/getTrainer/*',
+  }).as('getTrainer');
 
   cy.route({
     method: 'POST',

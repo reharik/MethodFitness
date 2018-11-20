@@ -20,8 +20,8 @@ const normalizeModel = (schema, obj, formName) => {
     Object.keys(model).map((x, i) => {
       //validate required props
       const item = { ...model[x] };
-      let value = item.value || '';
-      if (item.type === 'array' && value === '') {
+      let value = item.value;
+      if (item.type === 'array' && !value) {
         value = [];
       }
       if (item['x-input'] === 'date-time' && value) {
@@ -38,6 +38,7 @@ const normalizeModel = (schema, obj, formName) => {
       item.value = value;
       item.formName = formName;
       item.key = formName + '_' + i;
+
       return item;
     });
 

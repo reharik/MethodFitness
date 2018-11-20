@@ -1,10 +1,21 @@
-module.exports = function(rsRepository, notificationListener, notificationParser, eventstore, commands, logger, uuid) {
+module.exports = function(
+  rsRepository,
+  notificationListener,
+  notificationParser,
+  eventstore,
+  commands,
+  logger,
+  uuid,
+) {
   let purchase = async function(ctx) {
     logger.debug('arrived at sessionsPurchase.purchases');
     let payload = ctx.request.body;
-    payload.totalFullHours = parseInt(payload.fullHourTenPack) * 10 + parseInt(payload.fullHour);
-    payload.totalHalfHours = parseInt(payload.halfHourTenPack) * 10 + parseInt(payload.halfHour);
-    payload.totalPairs = parseInt(payload.pairTenPack) * 10 + parseInt(payload.pair);
+    payload.totalFullHours =
+      parseInt(payload.fullHourTenPack) * 10 + parseInt(payload.fullHour);
+    payload.totalHalfHours =
+      parseInt(payload.halfHourTenPack) * 10 + parseInt(payload.halfHour);
+    payload.totalPairs =
+      parseInt(payload.pairTenPack) * 10 + parseInt(payload.pair);
     await processMessage(ctx, 'purchase', payload);
   };
 
@@ -38,7 +49,11 @@ module.exports = function(rsRepository, notificationListener, notificationParser
   };
 
   let fetchPurchase = async function(ctx) {
-    let _purchase = await rsRepository.getById(ctx.params.purchaseId, 'purchase');
+    rsRepository = await rsRepository;
+    let _purchase = await rsRepository.getById(
+      ctx.params.purchaseId,
+      'purchase',
+    );
 
     ctx.status = 200;
     ctx.body = _purchase;
@@ -48,6 +63,6 @@ module.exports = function(rsRepository, notificationListener, notificationParser
     purchase,
     updatePurchase,
     refundSessions,
-    fetchPurchase
+    fetchPurchase,
   };
 };

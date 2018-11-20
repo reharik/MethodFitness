@@ -25,28 +25,33 @@ const mapStateToProps = (state, props) => {
   let trainers;
   let clients;
   let locations;
-  if (state.trainers && state.clients && state.locations) {
-    user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
-
-    clients = state.clients
-      .filter(x => !x.archived)
-      .filter(x => isAdmin || user.clients.includes(x.clientId))
-      .map(x => ({
-        value: x.clientId,
-        display: `${x.contact.lastName}, ${x.contact.firstName}`,
-      }));
-
-    trainers = state.trainers.filter(x => !x.archived).map(x => ({
-      value: x.trainerId,
-      display: `${x.contact.lastName}, ${x.contact.firstName}`,
-      color: x.color,
-    }));
-
-    locations = state.locations.filter(x => !x.archived).map(x => ({
-      value: x.locationId,
-      display: x.name,
-    }));
+  if (
+    state.trainers.length <= 0 ||
+    state.clients.length <= 0 ||
+    state.locations.length <= 0
+  ) {
+    return null;
   }
+  user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
+
+  clients = state.clients
+    .filter(x => !x.archived)
+    .filter(x => isAdmin || user.clients.includes(x.clientId))
+    .map(x => ({
+      value: x.clientId,
+      display: `${x.contact.lastName}, ${x.contact.firstName}`,
+    }));
+
+  trainers = state.trainers.filter(x => !x.archived).map(x => ({
+    value: x.trainerId,
+    display: `${x.contact.lastName}, ${x.contact.firstName}`,
+    color: x.color,
+  }));
+
+  locations = state.locations.filter(x => !x.archived).map(x => ({
+    value: x.locationId,
+    display: x.name,
+  }));
 
   const model = !props.args.appointmentId
     ? appointmentModel(state, props.args)
@@ -56,6 +61,11 @@ const mapStateToProps = (state, props) => {
   let startTime = 5;
   if (!isAdmin && model.date.value.dayOfYear() === moment().dayOfYear()) {
     startTime = moment().hour() + 1;
+  }
+
+  //set default location - this is crapy but I don't know how to deal right now
+  if (!props.args.appointmentId) {
+    model.locationId.value = locations[0].value;
   }
 
   const times = generateAllTimes(15, startTime, 11);
@@ -85,6 +95,7 @@ const mapStateToProps = (state, props) => {
 
   model.appointmentType.label = 'Type';
   model.trainerId.label = 'Trainer';
+  model.locationId.label = 'Location';
   return {
     isAdmin,
     model,
