@@ -9,6 +9,8 @@
         "systemUsers": {
           "admin": "admin",
           "adminPassword": "changeit"
+        },
+        "retries": {
         }
       },
       "postgres": {
@@ -20,6 +22,9 @@
           "port": "5400",
           "max": "10",
           "idleTimeoutMillis": "30000"
+        },
+        "retries": {
+          "maxTimeout":1000
         }
       },
       "eventdispatcher": {

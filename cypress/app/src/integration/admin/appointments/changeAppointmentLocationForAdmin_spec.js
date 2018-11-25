@@ -19,7 +19,7 @@ describe('Change Appointment location in the Past For Admin', () => {
 
   describe('When creating an appointment changing the location', () => {
     it('should pass all steps', function() {
-      aDT = _aDT(Cypress.moment, appTimes.time13, true);
+      aDT = _aDT(Cypress.moment, appTimes.time5, true);
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,

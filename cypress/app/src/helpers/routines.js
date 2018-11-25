@@ -431,6 +431,8 @@ module.exports = (cy, Cypress) => {
       /* prettier-ignore-end */
     }
     navToAppropriateWeek(options.date);
+    cy.wait(1000);
+
     const appointment = cy.get(`ol[data-id='${options.date.format(
       'ddd MM/DD',
     )}']
@@ -515,7 +517,7 @@ module.exports = (cy, Cypress) => {
     cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
     // cy.exec('make dockerDownTestsData', { failOnNonZeroExit: false });
     // cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
-    cy.wait(5000);
+    cy.wait(8000);
     cy.request('GET', `${apiHost}/healthcheck/systemsup`)
       .its('status')
       .should('equal', 200);

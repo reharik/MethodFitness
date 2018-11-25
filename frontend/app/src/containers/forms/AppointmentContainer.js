@@ -30,7 +30,7 @@ const mapStateToProps = (state, props) => {
     state.clients.length <= 0 ||
     state.locations.length <= 0
   ) {
-    return null;
+    return {model:[]};
   }
   user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
 

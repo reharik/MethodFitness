@@ -10,6 +10,8 @@
         "systemUsers": {
           "admin": "admin",
           "adminPassword": "changeit"
+        },
+        "retries": {
         }
       },
       "postgres": {
@@ -19,6 +21,9 @@
           "host": "localhost",
           "password": "password",
           "port": "5400"
+        },
+        "retries": {
+          "maxTimeout":1000
         }
       }
     },
