@@ -8,7 +8,7 @@ export default size => {
       return () => [
         {
           render: (column, row) => {
-            return cellLink('trainer')(column, row, 'trainerId');
+            return cellLink('trainer', 'trainerId')(column, row);
           },
           dataIndex: 'contact.lastName',
           title: 'Last Name',

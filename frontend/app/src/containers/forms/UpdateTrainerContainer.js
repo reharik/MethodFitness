@@ -40,7 +40,7 @@ const mapStateToProps = (state, ownProps) => {
           value: x.rate,
           label: client.display || '',
           name: x.clientId,
-          rule: [{ required: true }],
+          rules: [{ required: true, message: 'Rate is required' }],
         };
       });
   }

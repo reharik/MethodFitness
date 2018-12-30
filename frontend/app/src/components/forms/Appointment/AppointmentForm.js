@@ -291,11 +291,14 @@ AppointmentForm.propTypes = {
 };
 
 export default Form.create({
-  mapPropsToFields: props =>
-    Object.keys(props.model)
-      .map(x => Form.createFormField(props.model[x]))
-      .reduce((acc, item) => {
-        acc[item.name] = item;
-        return acc;
-      }, {}),
+  mapPropsToFields: props => {
+    return props.model
+      ? Object.keys(props.model)
+          .map(x => Form.createFormField(props.model[x]))
+          .reduce((acc, item) => {
+            acc[item.name] = item;
+            return acc;
+          }, {})
+      : null;
+  },
 })(AppointmentForm);

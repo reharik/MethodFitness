@@ -31,7 +31,7 @@ class UpdateClientForm extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Row type="flex">
-            <Col xl={10} lg={14} sm={24}>
+            <Col lg={12} sm={24}>
               <ClientInfo model={model} submit={this.props.updateClientInfo} />
               <ClientContact
                 model={model}

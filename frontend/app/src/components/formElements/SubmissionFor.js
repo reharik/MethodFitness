@@ -21,13 +21,9 @@ const SubmissionFor = ({
     form,
     extraFunc,
   });
+
   return (
-    <Col
-      lg={span || 12}
-      sm={span || 12}
-      xs={24}
-      data-id={`${data.name}-container`}
-    >
+    <Col lg={span || 12} sm={24} data-id={`${data.name}-container`}>
       <FormItem
         {...formItemLayout}
         label={data.label}

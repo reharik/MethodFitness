@@ -1,13 +1,16 @@
 // compiler.js
 
-
 // var deref = require("json-schema-deref-sync");
 /*
  * We need special handling for query validation, since they're all strings.
  * e.g. we must treat "5" as a valid number
  */
 
-module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) {
+module.exports = function(
+  jsonschemaderefsync,
+  curriedValidator,
+  mergeDistinct,
+) {
   /*
    * We need special handling for query string validation, since they're all strings.
    * e.g. we must treat "5" as a valid number
@@ -140,7 +143,10 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
   function compile(document, customValidators) {
     // the validation module is curried so we can add the document and custom validators now
     // and the actual values later as we get them.
-    const curriedValidatorWithDoc = curriedValidator(document, customValidators);
+    const curriedValidatorWithDoc = curriedValidator(
+      document,
+      customValidators,
+    );
     // get the de-referenced version of the swagger document
     let swagger = jsonschemaderefsync(document);
     // add a validator for every parameter in swagger document
@@ -154,13 +160,15 @@ module.exports = function(jsonschemaderefsync, curriedValidator, mergeDistinct) 
         name,
         path,
         regex: new RegExp(basePath + name.replace(/\{[^}]*}/g, '[^/]+') + '$'),
-        expected: (name.match(/[^\/]+/g) || []).map(s => s.toString())
+        expected: (name.match(/[^\/]+/g) || []).map(s => s.toString()),
       };
     });
 
     return function(targetPath) {
       // get a list of matching paths, there should be only one
-      let matches = compiledPaths.filter(path => !!targetPath.toLowerCase().match(path.regex));
+      let matches = compiledPaths.filter(
+        path => !!targetPath.toLowerCase().match(path.regex),
+      );
       return matches && matches.length === 1 ? matches[0] : null;
     };
   }

@@ -85,7 +85,8 @@ module.exports = function(trainerInvariants, esEvents, metaLogger, uuid) {
             .map(x => ({
               trainerId: state._id,
               clientId: x.clientId,
-              rate: cmdClone.clientRates.find(y => x.clientId === y.id).rate,
+              rate: cmdClone.clientRates.find(y => x.clientId === y.clientId)
+                .rate,
             }))
             .forEach(e =>
               raiseEvent(esEvents.trainersClientRatesUpdatedEvent(e)),

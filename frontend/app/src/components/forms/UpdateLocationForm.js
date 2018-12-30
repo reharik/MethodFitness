@@ -19,11 +19,16 @@ const LocationUpdateInner = ({ model, form, toggleEdit, submit, editing }) => {
   };
 
   return (
-    <Card title={'Source Info'}>
+    <Card title={'Location Info'}>
       <Form onSubmit={handleSubmit}>
         <EditableFor form={form} data={model.locationId} hidden={true} />
         <Row type="flex">
-          <EditableFor editing={editing} form={form} data={model.name} />
+          <EditableFor
+            editing={editing}
+            form={form}
+            data={model.name}
+            align={'center'}
+          />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />
       </Form>
@@ -94,7 +99,7 @@ class LocationUpdateForm extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Row type="flex">
-            <Col xl={10} lg={14} sm={24}>
+            <Col lg={12} md={24}>
               <LocationUpdate
                 model={model}
                 submit={this.props.updateLocation}

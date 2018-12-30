@@ -31,7 +31,7 @@ describe('Change Appointment location in the Past For Admin', () => {
         index: 2,
         date: aDT.date,
         time: aDT.time,
-        location: 'somewhere else',
+        location: { name: 'somewhere else' },
       };
       routines.changeAppointment(appointmentValues);
       routines.clickOnAppointment(appointmentValues);

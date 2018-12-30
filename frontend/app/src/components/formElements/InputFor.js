@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Input, InputNumber, DatePicker, Select } from 'antd';
 import ListItemValueFor from './ListItemValueFor';
 import InputColor from 'react-input-color';
@@ -116,6 +117,14 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
   };
 
   return input();
+};
+
+InputFor.propTypes = {
+  data: PropTypes.object,
+  selectOptions: PropTypes.array,
+  onChange: PropTypes.func,
+  form: PropTypes.object,
+  extraFunc: PropTypes.func,
 };
 
 export default InputFor;

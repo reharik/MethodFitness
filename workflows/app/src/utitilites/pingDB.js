@@ -1,4 +1,5 @@
-module.exports = function(pg, config, asyncretry) {
+module.exports = function() {
+  //pg, config, asyncretry) {
   // const ping = async function(client, bail, number) {
   //   console.log(`=========="here"==========`);
   //   console.log('here');

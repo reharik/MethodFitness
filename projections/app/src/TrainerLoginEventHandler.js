@@ -2,7 +2,8 @@
  * Created by parallels on 7/16/15.
  */
 
-module.exports = function(rsRepository, logger) {
+module.exports = function() {
+  //rsRepository, logger) {
   return function TrainerLoggedInEventHandler() {
     // logger.info('TrainerLoggedInEventHandler started up');
     //

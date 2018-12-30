@@ -27,7 +27,7 @@ const ClientContactInner = ({ model, form, toggleEdit, submit, editing }) => {
             form={form}
             data={model.secondaryPhone}
           />
-        </Row>
+        </Row>{' '}
         <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.email} />
         </Row>

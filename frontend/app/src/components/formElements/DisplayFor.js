@@ -4,7 +4,12 @@ import moment from 'moment';
 import { Col } from 'antd';
 import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
-const DisplayFor = ({ data, selectOptions, span }) => {
+const DisplayFor = ({ data, selectOptions, span, align }) => {
+  console.log(`==========data==========`);
+  console.log(data.label);
+  console.log(data);
+  console.log(`==========END data==========`);
+
   moment.locale('en');
   const _span = function _span() {
     switch (data['x-input'] || data.type) {
@@ -29,7 +34,15 @@ const DisplayFor = ({ data, selectOptions, span }) => {
           return;
         }
         const find = selectOptions.find(y => y.value === data.value);
+        console.log(`==========find==========`);
+        console.log(selectOptions);
+        console.log(`==========END find==========`);
+
         const textValue = find && find.display;
+        console.log(`==========textValue==========`);
+        console.log(textValue);
+        console.log(`==========END textValue==========`);
+
         return <span data-id={data.name}>{textValue}</span>;
       }
       case 'multi-select': {
@@ -50,9 +63,10 @@ const DisplayFor = ({ data, selectOptions, span }) => {
         return <ListItemValueDisplayFor data={data} />;
       }
       default: {
+        const val = data.value;
         return (
           <span data-id={data.name}>
-            {data.value.display || data.value.id || data.value}
+            {(val && val.display) || (val && val.id) || val}
           </span>
         );
       }
@@ -61,20 +75,24 @@ const DisplayFor = ({ data, selectOptions, span }) => {
 
   return (
     <Col
-      xl={span || 12}
-      lg={span || 10}
-      sm={span || 12}
-      xs={24}
-      style={{ marginBottom: '15px' }}
+      lg={span || 12}
+      md={24}
+      style={{
+        marginBottom: '15px',
+        display: 'flex',
+        alignItems: align || 'end',
+      }}
       data-id={`${data.name}-container`}
     >
-      <Col xl={10} lg={10} sm={12} xs={24}>
+      <Col md={4} lg={10} xl={10}>
         <label className="display__container__label ant-form-item-label">
-          <span>{data.label}</span>
+          {data.label}
         </label>
       </Col>
-      <Col xl={14} lg={14} xs={24}>
-        <div className="display__container__value">{_span()}</div>
+      <Col md={6} lg={12} xl={12}>
+        <div className="display__container__value ant-form-item-control">
+          {_span()}
+        </div>
       </Col>
     </Col>
   );
@@ -84,6 +102,7 @@ DisplayFor.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   span: PropTypes.number,
   selectOptions: PropTypes.array,
+  align: PropTypes.string,
 };
 
 export default DisplayFor;

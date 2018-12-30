@@ -70,7 +70,7 @@ describe('Edit existing trainer client rates', () => {
         .contains('Submit')
         .click();
 
-      cy.get(`input#${client.id}`)
+      cy.dataId(`${client.id}-container`, 'div')
         .find('div.ant-form-explain')
         .contains('Rate is required');
     });

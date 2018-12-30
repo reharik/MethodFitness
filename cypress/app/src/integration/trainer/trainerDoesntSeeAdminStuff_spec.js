@@ -37,7 +37,9 @@ describe('Trainer Can Not See Admin Stuff', () => {
       ).click();
 
       cy.dataId('trainerId', 'span').contains(trainer.LNF);
-      cy.dataId('trainerId-container', 'div').should('not.exist');
+      cy.dataId('trainerId-container', 'div')
+        .find('input')
+        .should('not.exist');
 
       // check that only trainers clients show
       cy.get('#clients').click();
@@ -53,7 +55,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
       cy.get('.ant-select-dropdown-menu-item')
         .contains(this.clients.client5.LNF)
         .should('not.exist');
-      cy.get('#clients').blur();
+      cy.get('#clients input').blur();
 
       //test that date before now is not available to click
       cy.log(`----changing date----`);
@@ -90,7 +92,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
             .startOf('hour')
             .format('h:mm A'),
         );
-      cy.get('#startTime').blur();
+      cy.get('#startTime input').blur();
 
       cy.get('button')
         .contains('Cancel')
@@ -103,7 +105,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
  li[data-id='${aDT.time}'] .redux__task__calendar__tasks`,
       ).click();
 
-      cy.get('div.ant-confirm-body span').contains(
+      cy.get('div.ant-modal-confirm-body span').contains(
         'You can not set an appointment in the past',
       );
       cy.get('button')

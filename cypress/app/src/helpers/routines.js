@@ -16,10 +16,11 @@ module.exports = (cy, Cypress) => {
         .closest('li')
         .find('span.ant-select-selection__choice__remove')
         .click();
+      cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.newClient.LNF)
         .click();
-      cy.get('#clients').blur();
+      cy.get('#clients input').blur();
     }
     if (!!options.removeClient) {
       cy.log(`----removing client----`);
@@ -29,7 +30,6 @@ module.exports = (cy, Cypress) => {
         .closest('li')
         .find('span.ant-select-selection__choice__remove')
         .click();
-      cy.get('#clients').blur();
     }
     if (!!options.currentClient && !!options.client2) {
       cy.log(`----adding client for pair----`);
@@ -37,7 +37,7 @@ module.exports = (cy, Cypress) => {
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.client2.LNF)
         .click();
-      cy.get('#clients').blur();
+      cy.get('#clients input').blur();
     }
     if (!!options.newClient && !!options.newClient2) {
       cy.log(`----changing both clients----`);
@@ -111,7 +111,7 @@ module.exports = (cy, Cypress) => {
         force: true,
       });
       cy.get('.ant-select-dropdown-menu-item')
-        .contains(options.location)
+        .contains(options.location.name)
         .click();
     }
 
@@ -275,7 +275,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
     cy.navTo('Payment History');
-    cy.wait('@trainerpayments');
+    cy.wait('@trainerpayments').wait(500);
     cy.get('.ant-table-row:last')
       .find('span')
       .contains(Cypress.moment().format('MM/DD/YYYY'))
@@ -473,15 +473,13 @@ module.exports = (cy, Cypress) => {
         .click({ log: false });
     }
     if (options.trainer) {
-      cy.get('#trainerId')
-        .focus({ log: false })
-        .click({ force: true });
+      cy.get('#trainerId').click({ force: true });
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.trainer.LNF)
         .click({ log: false });
     }
     if (options.location) {
-      cy.get('#locationId')
+      cy.get('input#locationId')
         .focus({ log: false })
         .click({ force: true });
       cy.get('.ant-select-dropdown-menu-item')
@@ -515,7 +513,7 @@ module.exports = (cy, Cypress) => {
     cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
     // cy.exec('make dockerDownTestsData', { failOnNonZeroExit: false });
     // cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
-    cy.wait(5000);
+    cy.wait(6000);
     cy.request('GET', `${apiHost}/healthcheck/systemsup`)
       .its('status')
       .should('equal', 200);
@@ -850,6 +848,7 @@ module.exports = (cy, Cypress) => {
       endTime: options.endTime,
       trainerId: options.trainerId,
       clients: options.clientId,
+      locationId: options.locationId,
       entityName,
     };
     cy.request('POST', `${apiHost}/appointment/scheduleappointment`, payload);

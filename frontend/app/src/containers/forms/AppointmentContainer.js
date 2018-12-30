@@ -96,6 +96,7 @@ const mapStateToProps = (state, props) => {
   model.appointmentType.label = 'Type';
   model.trainerId.label = 'Trainer';
   model.locationId.label = 'Location';
+
   return {
     isAdmin,
     model,

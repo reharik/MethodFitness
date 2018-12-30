@@ -15,7 +15,7 @@ const mapStateToProps = state => {
     calendarName: 'schedule',
     dataSource: 'appointments',
     defaultView: 'week',
-    dayStartsAt: '3:00 AM',
+    dayStartsAt: '5:00 AM',
     dayEndsAt: '11:30 PM',
     utcTime: true,
     taskId: 'appointmentId',

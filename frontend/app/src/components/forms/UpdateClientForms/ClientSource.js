@@ -35,6 +35,8 @@ const ClientSourceInner = ({
             selectOptions={sources}
           />
           <EditableFor editing={editing} form={form} data={model.startDate} />
+        </Row>
+        <Row type="flex">
           <EditableFor editing={editing} form={form} data={model.sourceNotes} />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />

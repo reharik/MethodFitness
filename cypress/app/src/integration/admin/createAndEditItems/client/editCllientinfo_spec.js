@@ -28,7 +28,7 @@ describe('Edit an existing client contact info', () => {
         .click();
       cy.wait('@getClient');
       cy.wait(500);
-      cy.dataId('clientContact', 'div')
+      cy.dataId('clientInfo', 'div')
         .find(`.form__footer__button`)
         .contains('Edit')
         .click({
