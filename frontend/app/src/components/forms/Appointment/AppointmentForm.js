@@ -16,7 +16,7 @@ class AppointmentForm extends Component {
   containerName = 'appointmentForm';
   state = { editing: this.props.editing };
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     this.setState({ editing: newProps.editing });
   }
 

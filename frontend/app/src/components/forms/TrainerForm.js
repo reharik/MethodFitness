@@ -8,7 +8,7 @@ import { Form, Card, Row, Col } from 'antd';
 import EditableFor from './../formElements/EditableFor';
 
 class TrainerForm extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 

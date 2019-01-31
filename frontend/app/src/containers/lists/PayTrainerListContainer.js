@@ -8,7 +8,7 @@ import { fetchVerifiedAppointments } from './../../modules/sessionVerificationMo
 import { submitTrainerPayment } from './../../modules/trainerPaymentModule';
 
 class PayTrainerListContainer extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 

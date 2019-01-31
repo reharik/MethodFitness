@@ -46,7 +46,7 @@
 .mf__modal__titleBar {
   width: 100%;
   height: 41px;
-  background: url(./images/content-header-silver.png) repeat-x scroll 0 0
+  background: url(./../images/content-header-silver.png) repeat-x scroll 0 0
     transparent;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .mf__modal__form__footer__button {
-  background: url('./images/button-save-bg.png') repeat-x scroll 0 0 #cccccc;
+  background: url('./../images/button-save-bg.png') repeat-x scroll 0 0 #cccccc;
   border: 1px solid #b7d6de;
   height: 22px;
   width: 80px;
@@ -109,11 +109,11 @@
 }
 
 .mf__modal__form__footer__button:hover {
-  background: url('./images/button-save-bg-hover.png') repeat-x scroll 0 0
+  background: url('./../images/button-save-bg-hover.png') repeat-x scroll 0 0
     #cccccc;
 }
 
 .mf__modal__form__footer__button:active {
-  background: url('./images/button-save-bg-active.png') repeat-x scroll 0 0
+  background: url('./../images/button-save-bg-active.png') repeat-x scroll 0 0
     #cccccc;
 }

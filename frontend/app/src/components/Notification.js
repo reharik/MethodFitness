@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert, message } from 'antd';
 
 class SuccessMsg extends Component {
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.notification && newProps.notification.type === 'success') {
       if (
         (!this.props.notification && newProps.notification.message) ||

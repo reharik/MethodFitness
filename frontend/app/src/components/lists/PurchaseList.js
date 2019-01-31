@@ -20,7 +20,7 @@ class PurchaseList extends Component {
     layout: layout.current(),
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     layout.addChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
   }
 

@@ -14,7 +14,7 @@ import { actions as notifActions } from 'redux-notifications';
 const { notifClear } = notifActions;
 
 class UpdateLocationFormContainer extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 

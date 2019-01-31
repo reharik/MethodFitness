@@ -7,7 +7,7 @@ import { fetchTrainerPaymentDetails } from './../../modules/trainerPaymentDetail
 import decamelize from 'decamelize';
 
 class TrainerPaymentDetailsListContainer extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 

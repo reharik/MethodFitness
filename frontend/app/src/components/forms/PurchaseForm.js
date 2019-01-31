@@ -7,7 +7,7 @@ import { Form, Card, Row, Col } from 'antd';
 import prices from './../../utilities/prices';
 
 class PurchaseForm extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
     this.setState({ ...this.purchasePrice({}) });
   }

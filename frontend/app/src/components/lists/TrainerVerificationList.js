@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
-const confirm = Modal.confirm;
 import trainerVerificationListDefinition from './../../containers/lists/listDefinition/trainerVerificationListDefinition';
 import Breakjs from 'breakjs';
+const confirm = Modal.confirm;
 
 // eslint-disable-next-line new-cap
 const layout = Breakjs({

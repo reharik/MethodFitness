@@ -1,10 +1,10 @@
 import { requestStates } from '../sagas/requestSaga';
 import configValues from './../utilities/configValues';
 import selectn from 'selectn';
+import { browserHistory } from 'react-router';
 export const LOGIN = requestStates('login', 'auth');
 export const LOGOUT = requestStates('logout', 'auth');
 export const CHECK_AUTHENTICATION = requestStates('checkAuth', 'auth');
-import { browserHistory } from 'react-router';
 
 const initialState = {
   user: localStorage.getItem('user')

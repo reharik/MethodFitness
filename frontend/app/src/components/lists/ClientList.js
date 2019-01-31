@@ -13,7 +13,7 @@ class ClientList extends Component {
     dataSource: this.props.gridConfig.dataSource,
   };
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     let newState = this.changeView(
       newProps.gridConfig.dataSource,
       this.state.view,

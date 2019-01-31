@@ -1,12 +1,12 @@
 .mainHeader {
-  background: url("./images/header-title.gif") no-repeat #407397;
+  background: url('./../images/header-title.gif') no-repeat #407397;
 }
 
 .mainHeader__profile__links {
 }
 
 .mainHeader__profile__links__link {
-  border-left: 1px solid #F6F6F6;
+  border-left: 1px solid #f6f6f6;
   color: white;
   font-family: verdana;
   font-size: 10px;

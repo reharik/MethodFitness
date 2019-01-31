@@ -7,7 +7,7 @@ import cellLink from '../../components/GridElements/CellLink.js';
 import { fetchTrainerPayments } from './../../modules/trainerPaymentModule';
 
 class TrainerPaymentListContainer extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 

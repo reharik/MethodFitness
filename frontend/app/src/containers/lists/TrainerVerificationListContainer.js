@@ -11,7 +11,7 @@ import {
 import decamelize from 'decamelize';
 
 class TrainerVerificationListContainer extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 

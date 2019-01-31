@@ -1,5 +1,5 @@
-.form{
-  height:100%;
+.form {
+  height: 100%;
 }
 
 .form__header__right {
@@ -10,25 +10,24 @@
   margin-left: 10px;
 }
 
-
 .form__content {
-  background:white;
-  border: 1px solid #D9D9D9;
+  background: white;
+  border: 1px solid #d9d9d9;
   padding: 0 16px;
 }
 
-.form__section__header{
+.form__section__header {
   margin: 15px 0 0 24px;
 }
 
 .form__section__row {
   max-width: 500px;
-  margin-left:20px;
+  margin-left: 20px;
 }
 
 .form__section__row__single {
   max-width: 250px;
-  margin-left:20px;
+  margin-left: 20px;
 }
 
 .form__section__row__address__state {
@@ -55,22 +54,23 @@
 }
 
 .form__footer__button {
-  background: url("./images/button-save-bg.png") repeat-x scroll 0 0 #CCCCCC;
-  border: 1px solid #B7D6DE;
+  background: url('./../images/button-save-bg.png') repeat-x scroll 0 0 #cccccc;
+  border: 1px solid #b7d6de;
   height: 22px;
   width: 80px;
   color: #437182;
-  margin-left:5px;
+  margin-left: 5px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: bold;
 }
 
 .form__footer__button:hover {
-  background: url("./images/button-save-bg-hover.png") repeat-x scroll 0 0 #CCCCCC;
+  background: url('./../images/button-save-bg-hover.png') repeat-x scroll 0 0
+    #cccccc;
 }
 
 .form__footer__button:active {
-  background: url("./images/button-save-bg-active.png") repeat-x scroll 0 0 #CCCCCC;
+  background: url('./../images/button-save-bg-active.png') repeat-x scroll 0 0
+    #cccccc;
 }
-

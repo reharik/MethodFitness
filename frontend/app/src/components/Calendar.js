@@ -25,13 +25,13 @@ class MFCalendar extends Component {
     layout: layout.current(),
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchClientsAction();
     this.props.fetchTrainersAction();
     this.props.fetchAllLocationsAction();
     this.config = {
       ...this.props.config,
-      retrieveDataAction: this.props.retrieveDataAction,
+      retrieveData: this.retrieveData,
       updateTaskViaDND: this.props.updateTaskViaDND,
       taskClickedEvent: this.taskClickedEvent,
       openSpaceClickedEvent: this.openSpaceClickedEvent,
@@ -118,6 +118,15 @@ class MFCalendar extends Component {
     });
   };
 
+  retrieveData = (start, end) => {
+    this.setState(state => ({
+      ...state,
+      appointments: this.props.appointments.filter(
+        a => a.date >= start && a.date <= end,
+      ),
+    }));
+  };
+
   render() {
     moment.locale('en');
     return (
@@ -142,7 +151,10 @@ class MFCalendar extends Component {
                 </Col>
               ) : null}
               <Col xl={21} lg={20} sm={24}>
-                <Calendar config={this.config} />
+                <Calendar
+                  config={this.config}
+                  tasks={this.state.appointments}
+                />
               </Col>
             </Row>
           </div>
@@ -172,6 +184,7 @@ MFCalendar.propTypes = {
   updateTaskViaDND: PropTypes.func,
   title: PropTypes.string,
   isAdmin: PropTypes.bool,
+  appointments: PropTypes.array,
 };
 
 export default MFCalendar;

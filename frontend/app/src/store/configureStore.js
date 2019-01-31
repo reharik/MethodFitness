@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import createLogger from 'redux-logger';
+import logger from 'redux-logger';
 import rootReducer from '../modules/rootReducer';
 import DevTools from '../containers/DevTools';
 //thunk used for notif
@@ -14,7 +14,7 @@ export default function configureStore(initialState) {
     rootReducer,
     initialState,
     compose(
-      applyMiddleware(thunk, sagaMiddleware, createLogger()),
+      applyMiddleware(thunk, sagaMiddleware, logger),
       DevTools.instrument(),
     ),
   );

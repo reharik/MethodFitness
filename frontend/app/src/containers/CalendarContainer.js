@@ -7,6 +7,10 @@ import { fetchAllLocationsAction } from './../modules/locationModule';
 import { curriedPermissionToSetAppointment } from './../utilities/appointmentTimes';
 
 const mapStateToProps = state => {
+  console.log(`==========state==xxx========`);
+  console.log(state);
+  console.log(`==========END state==========`);
+
   const isAdmin = state.auth.user.role === 'admin';
 
   let config = {
@@ -32,6 +36,7 @@ const mapStateToProps = state => {
   return {
     isAdmin,
     config,
+    appointments: state.appointments,
   };
 };
 
