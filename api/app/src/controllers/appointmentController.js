@@ -7,7 +7,6 @@ module.exports = function(
   moment,
   logger,
   uuid,
-  nodeFetch,
   R,
   reseedDB,
 ) {
