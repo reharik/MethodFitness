@@ -1,114 +1,61 @@
 module.exports = function(eventRepository, metaLogger, logger, client) {
   return function ClientWorkflow() {
+    async function handleCommand(cmd, continuationId, funcName) {
+      let clientInstance = await eventRepository.getById(client, cmd.clientId);
+      clientInstance[funcName](cmd);
+
+      logger.info('saving clientInstance');
+      logger.trace(JSON.stringify(clientInstance));
+
+      await eventRepository.save(clientInstance, { continuationId });
+      return { clientId: clientInstance.state._id };
+    }
+
     async function addClient(cmd, continuationId) {
       let clientInstance = client();
       clientInstance.addClient(cmd);
 
       logger.info('saving clientInstance');
-      logger.trace(clientInstance);
+      logger.trace(JSON.stringify(clientInstance));
 
       await eventRepository.save(clientInstance, { continuationId });
       return { clientId: clientInstance.state._id };
     }
 
     async function updateClientAddress(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.updateClientAddress(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(clientInstance);
-
-      await eventRepository.save(clientInstance, { continuationId });
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'updateClientAddress');
     }
 
     async function updateClientContact(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.updateClientContact(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(clientInstance);
-
-      await eventRepository.save(clientInstance, { continuationId });
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'updateClientContact');
     }
 
     async function updateClientInfo(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.updateClientInfo(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(clientInstance);
-
-      await eventRepository.save(clientInstance, { continuationId });
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'updateClientInfo');
     }
 
     async function updateClientSource(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.updateClientSource(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(clientInstance);
-
-      await eventRepository.save(clientInstance, { continuationId });
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'updateClientSource');
     }
 
     async function clientAttendsAppointment(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.clientAttendsAppointment(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(clientInstance);
-
-      await eventRepository.save(clientInstance, { continuationId });
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'clientAttendsAppointment');
     }
 
     async function archiveClient(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.archiveClient(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(clientInstance);
-
-      await eventRepository.save(clientInstance, { continuationId });
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'archiveClient');
     }
 
     async function unArchiveClient(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.unArchiveClient(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(clientInstance);
-
-      await eventRepository.save(clientInstance, { continuationId });
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'unArchiveClient');
     }
 
     async function purchase(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.purchase(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(JSON.stringify(clientInstance));
-      await eventRepository.save(clientInstance, { continuationId });
-
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'purchase');
     }
 
     async function refundSessions(cmd, continuationId) {
-      let clientInstance = await eventRepository.getById(client, cmd.clientId);
-      clientInstance.refundSessions(cmd);
-
-      logger.info('saving clientInstance');
-      logger.trace(JSON.stringify(clientInstance));
-
-      await eventRepository.save(clientInstance, { continuationId });
-
-      return { clientId: clientInstance.state._id };
+      return handleCommand(cmd, continuationId, 'refundSessions');
     }
 
     async function removeAppointmentFromPast(cmd, continuationId) {
