@@ -31,7 +31,7 @@
     "db-migrate": "^0.10.0-beta.20",
     "db-migrate-pg": "^0.1.11",
     "ges-eventsourcing": "reharik/ges-eventsourcing",
-    "node-eventstore-client": "^0.1.2",
+    "node-eventstore-client": "^0.2.10",
     "pg": "^7.4.3",
     "uuid": "^3.0.1"
   },

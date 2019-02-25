@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Calendar from '../components/Calendar';
 import { fetchAppointmentsAction, updateTaskViaDND } from './../modules';
@@ -5,12 +6,73 @@ import { fetchClientsAction } from './../modules/clientModule';
 import { fetchTrainersAction } from './../modules/trainerModule';
 import { fetchAllLocationsAction } from './../modules/locationModule';
 import { curriedPermissionToSetAppointment } from './../utilities/appointmentTimes';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment/moment';
+
+const CalendarContainer = ({
+  config,
+  fetchClients,
+  fetchTrainers,
+  fetchAllLocations,
+  fetchAppointments,
+  updateDNDTask,
+  isAdmin,
+  appointments,
+}) => {
+  const [currentAppointments, setCurrentAppointments] = useState(appointments);
+  const [startDate, setStartDate] = useState(moment().startOf('month'));
+  const [endDate, setEndDate] = useState(moment().endOf('month'));
+  useEffect(
+    () => {
+      fetchClients();
+      fetchTrainers();
+      fetchAllLocations();
+      setAppointmentsInState();
+    },
+    [appointments],
+  );
+
+  const retrieveData = (
+    start = moment().startOf('month'),
+    end = moment().endOf('month'),
+  ) => {
+    fetchAppointments(start, end);
+    setStartDate(start);
+    setEndDate(end);
+    setAppointmentsInState(start, end);
+  };
+
+  const setAppointmentsInState = (start = startDate, end = endDate) => {
+    const appts = (appointments || []).filter(
+      a => a.date >= start && a.date <= end,
+    );
+    setCurrentAppointments(appts);
+  };
+
+  return (
+    <Calendar
+      retrieveData={retrieveData}
+      fetchAppointments={fetchAppointments}
+      updateTaskViaDND={updateDNDTask}
+      isAdmin={isAdmin}
+      config={config}
+      appointments={currentAppointments}
+    />
+  );
+};
+
+CalendarContainer.propTypes = {
+  config: PropTypes.object,
+  fetchClients: PropTypes.func,
+  fetchTrainers: PropTypes.func,
+  fetchAllLocations: PropTypes.func,
+  fetchAppointments: PropTypes.func,
+  updateDNDTask: PropTypes.func,
+  isAdmin: PropTypes.bool,
+  appointments: PropTypes.array,
+};
 
 const mapStateToProps = state => {
-  console.log(`==========state==xxx========`);
-  console.log(state);
-  console.log(`==========END state==========`);
-
   const isAdmin = state.auth.user.role === 'admin';
 
   let config = {
@@ -43,10 +105,10 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    fetchClientsAction,
-    fetchTrainersAction,
-    fetchAllLocationsAction,
-    retrieveDataAction: fetchAppointmentsAction,
-    updateTaskViaDND,
+    fetchClients: fetchClientsAction,
+    fetchTrainers: fetchTrainersAction,
+    fetchAllLocations: fetchAllLocationsAction,
+    fetchAppointments: fetchAppointmentsAction,
+    updateDNDTask: updateTaskViaDND,
   },
-)(Calendar);
+)(CalendarContainer);

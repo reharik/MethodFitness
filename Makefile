@@ -242,6 +242,18 @@ removeBuildAndPushAll: dockerDown
 	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
 	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 
+#For Changes to GES
+removeFrontEndAndFirstPartyRebuildAndPush:
+	docker images -q -f "label=name=base_mf_frontend" | while read -r image; do docker rmi -f $$image; done;
+	docker images -q -f "label=name=base_mf_firstparty" | while read -r image; do docker rmi -f $$image; done;
+	cd docker/base_mf_firstparty && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:latest -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty:$$(git show -s --format=%h) .
+	cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest .
+	cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_firstparty
+	docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
+
+
+
 removeBaseImagesNotNode:
 	docker images -q -f "label=methodfitness=base4" | while read -r image; do docker rmi -f $image; done;
 	docker images -q -f "label=methodfitness=base3" | while read -r image; do docker rmi -f $image; done;
