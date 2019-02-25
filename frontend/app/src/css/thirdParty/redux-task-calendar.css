@@ -58,6 +58,7 @@
   justify-content: space-around;
   width: 100%;
   margin-top: 5px;
+  padding-right: 10px;
 }
 .redux__task__calendar__month {
   display: -webkit-box;
@@ -132,9 +133,7 @@
   flex-grow: 1;
   max-width: 14.28%;
 }
-.redux__task__calendar__day__items {
-  width: 95%;
-}
+
 .redux__task__calendar__day {
   display: -webkit-box;
   display: -ms-flexbox;

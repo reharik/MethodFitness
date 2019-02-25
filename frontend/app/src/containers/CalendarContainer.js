@@ -33,8 +33,10 @@ const CalendarContainer = ({
   );
 
   const retrieveData = (
-    start = moment().startOf('month'),
-    end = moment().endOf('month'),
+    // if we have different default calendar views
+    // this is where we need to change the initial get
+    start = moment().startOf('isoweek'),
+    end = moment().endOf('isoweek'),
   ) => {
     fetchAppointments(start, end);
     setStartDate(start);
@@ -43,9 +45,10 @@ const CalendarContainer = ({
   };
 
   const setAppointmentsInState = (start = startDate, end = endDate) => {
-    const appts = (appointments || []).filter(
-      a => a.date >= start && a.date <= end,
-    );
+    const appts = (appointments || []).filter(a => {
+      const aDate = moment(a.date);
+      return aDate >= start && aDate <= end;
+    });
     setCurrentAppointments(appts);
   };
 
@@ -91,8 +94,7 @@ const mapStateToProps = state => {
   config.canUpdate = curriedPermissionToSetAppointment(isAdmin);
 
   config.taskFilter = isAdmin
-    ? (x, calState) =>
-        calState.toggleTrainerListForCalendar.includes(x.trainerId)
+    ? x => state.toggleTrainerListForCalendar.includes(x.trainerId)
     : x => x.trainerId === state.auth.user.trainerId;
 
   return {
