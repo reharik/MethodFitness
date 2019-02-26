@@ -3,6 +3,7 @@ module.exports = function() {
     return {
       locationAdded: event => {
         state._id = event.locationId;
+        state.name = event.name;
       },
 
       locationArchived() {
@@ -14,7 +15,7 @@ module.exports = function() {
       },
 
       locationUpdated: () => {
-        /*no-op*/
+        state.name = event.name;
       },
     };
   };

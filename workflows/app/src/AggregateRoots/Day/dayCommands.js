@@ -3,8 +3,7 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
     const invariants = dayInvariants(state);
     return metaLogger(
       {
-        scheduleAppointment(cmd) {
-          let cmdClone = Object.assign({}, cmd);
+        async scheduleAppointment(cmdClone) {
           invariants.expectEndTimeAfterStart(cmdClone);
           invariants.expectAppointmentDurationCorrect(cmdClone);
           invariants.expectCorrectNumberOfClients(cmdClone);
@@ -22,8 +21,7 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
           raiseEvent(esEvents.appointmentScheduledEvent(cmdClone));
         },
 
-        updateAppointment(cmd) {
-          let cmdClone = Object.assign({}, cmd);
+        async updateAppointment(cmdClone) {
           invariants.expectEndTimeAfterStart(cmdClone);
           invariants.expectAppointmentDurationCorrect(cmdClone);
           invariants.expectCorrectNumberOfClients(cmdClone);
@@ -39,8 +37,7 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
           raiseEvent(esEvents.appointmentCanceledEvent(cmdClone));
         },
 
-        scheduleAppointmentInPast(cmd) {
-          let cmdClone = Object.assign({}, cmd);
+        async scheduleAppointmentInPast(cmdClone) {
           invariants.expectEndTimeAfterStart(cmdClone);
           invariants.expectAppointmentDurationCorrect(cmdClone);
           invariants.expectCorrectNumberOfClients(cmdClone);
@@ -51,7 +48,7 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
           raiseEvent(esEvents.appointmentScheduledInPastEvent(cmdClone));
         },
 
-        updateAppointmentFromPast(cmd, rescheduled, updateDayOnly) {
+        async updateAppointmentFromPast(cmd, rescheduled, updateDayOnly) {
           let cmdClone = Object.assign({}, cmd);
           invariants.expectEndTimeAfterStart(cmdClone);
           invariants.expectAppointmentDurationCorrect(cmdClone);
@@ -64,13 +61,12 @@ module.exports = function(dayInvariants, metaLogger, esEvents, uuid) {
           if (appointment && appointment.trainerId !== cmdClone.trainerId) {
             cmdClone.oldTrainerId = appointment.trainerId;
           }
-          raiseEvent(
-            esEvents.pastAppointmentUpdatedEvent(
-              cmdClone,
-              rescheduled,
-              updateDayOnly,
-            ),
+          let event = esEvents.pastAppointmentUpdatedEvent(
+            cmdClone,
+            rescheduled,
+            updateDayOnly,
           );
+          raiseEvent(event);
         },
 
         removeAppointmentFromPast(cmd, rescheduled) {

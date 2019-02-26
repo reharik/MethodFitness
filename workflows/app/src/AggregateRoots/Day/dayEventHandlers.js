@@ -1,7 +1,6 @@
 module.exports = function() {
   return state => {
     return {
-
       appointmentScheduled(event) {
         if (!state._id) {
           state._id = event.entityName;
@@ -12,7 +11,7 @@ module.exports = function() {
           startTime: event.startTime,
           endTime: event.endTime,
           trainerId: event.trainerId,
-          clients: event.clients
+          clients: event.clients,
         });
       },
 
@@ -29,11 +28,15 @@ module.exports = function() {
       },
 
       appointmentCanceled(event) {
-        state.appointments = state.appointments.filter(x => x.appointmentId !== event.appointmentId);
+        state.appointments = state.appointments.filter(
+          x => x.appointmentId !== event.appointmentId,
+        );
       },
 
       pastAppointmentRemoved(event) {
-        state.appointments = state.appointments.filter(x => x.appointmentId !== event.appointmentId);
+        state.appointments = state.appointments.filter(
+          x => x.appointmentId !== event.appointmentId,
+        );
       },
 
       appointmentScheduledInPast(event) {
@@ -46,7 +49,7 @@ module.exports = function() {
         } else {
           this.appointmentUpdated(event);
         }
-      }
+      },
     };
   };
 };

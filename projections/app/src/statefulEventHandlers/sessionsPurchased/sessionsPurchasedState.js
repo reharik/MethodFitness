@@ -41,17 +41,10 @@ module.exports = function(R, metaLogger) {
       let session = innerState.sessions.find(
         x => x.sessionId === event.sessionId,
       );
-      let appointment = innerState.appointments.find(
-        x => x.appointmentId === event.appointmentId,
-      );
-      let trainer = innerState.trainers.find(
-        x => x.trainerId === appointment.trainerId,
-      );
 
-      session.appointmentId = appointment.appointmentId;
-      session.appointmentDate = appointment.date;
-      session.startTime = appointment.startTime;
-      session.trainer = `${trainer.firstName} ${trainer.lastName}`;
+      session.appointmentId = event.appointmentId;
+      session.appointmentDate = event.date;
+      session.startTime = event.startTime;
 
       return getPurchase(session.purchaseId);
     };

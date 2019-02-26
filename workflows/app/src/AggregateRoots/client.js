@@ -10,6 +10,8 @@ module.exports = function(
       type: 'Client',
       clientInventory: clientInventory(),
       unfundedAppointments: [],
+      firstName,
+      lastName,
     };
     const aggFunctions = aggregateRootBase(state, clientEventHandlers);
     return Object.assign(

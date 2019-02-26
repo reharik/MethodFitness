@@ -1,10 +1,11 @@
 module.exports = function() {
   return state => {
     return {
-
       trainerHired(event) {
         state._password = event.credentials.password;
         state._id = event.trainerId;
+        state.firstName = event.firstName;
+        state.lastName = event.lastName;
       },
 
       trainerPasswordUpdated(event) {
@@ -19,23 +20,32 @@ module.exports = function() {
         state._isArchived = false;
       },
 
-      trainersClientsUpdated(cmd) {
-        state.trainerClients = cmd.clients;
+      trainersClientsUpdated(event) {
+        state.trainerClients = event.clients;
       },
 
-      trainersNewClientRateSet(cmd) {
-        state.trainerClientRates.push({clientId: cmd.clientId, rate: cmd.rate});
-      },
-
-      trainerClientRemoved(cmd) {
-        state.trainerClientRates = state.trainerClientRates.filter(x => x.clientId !== cmd.clientId);
-      },
-
-      trainersClientRateChanged(cmd) {
-        state.trainerClientRates = state.trainerClientRates.map(x => {
-          return x.clientId === cmd.clientId ? cmd : x;
+      trainersNewClientRateSet(event) {
+        state.trainerClientRates.push({
+          clientId: event.clientId,
+          rate: event.rate,
         });
-      }
+      },
+
+      trainerClientRemoved(event) {
+        state.trainerClientRates = state.trainerClientRates.filter(
+          x => x.clientId !== event.clientId,
+        );
+      },
+
+      trainersClientRateChanged(event) {
+        state.trainerClientRates = state.trainerClientRates.map(x => {
+          return x.clientId === event.clientId ? event : x;
+        });
+      },
+      trainerContactUpdatedEvent(event) {
+        state.firstName = event.firstName;
+        state.lastName = event.lastName;
+      },
     };
   };
 };

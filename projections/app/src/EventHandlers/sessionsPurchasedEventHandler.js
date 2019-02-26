@@ -1,4 +1,5 @@
 module.exports = function(
+  rsRepository,
   moment,
   sessionsPurchasedPersistence,
   statefulEventHandler,
@@ -6,30 +7,81 @@ module.exports = function(
   logger,
 ) {
   return async function sessionsPurchasedEventHandler() {
-    const persistence = sessionsPurchasedPersistence();
-    let initialState = statefulEventHandler.getInitialState({ purchases: [] });
-    let state = await persistence.initializeState(initialState);
-
-    const baseHandler = statefulEventHandler.baseHandler(
-      state,
-      persistence,
-      'SessionsPurchasedBaseHandler',
-    );
     logger.info('SessionsPurchasedEventHandler started up');
 
     async function fundedAppointmentAttendedByClient(event) {
-      const purchase = state.fundedAppointmentAttendedByClient(event);
-      return await persistence.saveState(state, purchase);
+      rsRepository = await rsRepository;
+      const purchases = rsRepository.getById(
+        event.clientId,
+        'sessionsPurchased',
+      );
+      const purchase = purchases.find(x => x.purchaseId === event.purchaseId);
+      const session = purchase.sessions.find(x => x.id === event.sessionId);
+
+      session.appointmentId = event.appointmentId;
+      session.appointmentDate = event.date;
+      session.startTime = event.startTime;
+
+      return await rsRepository.save(
+        'sessionsPurchased',
+        purchases,
+        event.clientId,
+      );
+
     }
 
     async function pastAppointmentUpdated(event) {
-      const purchases = state.pastAppointmentUpdated(event);
-      for (let p of purchases) {
-        await persistence.saveState(state, p);
+
+      for(let client of event.clients) {
+        rsRepository = await rsRepository;
+        const purchases = rsRepository.getById(
+          client.clientId,
+          'sessionsPurchased',
+        );
+
+        const purchase = purchases.find(purch => purch.sessions.any(
+          x => x.appointmentId === event.appointmentId && x.clientId === client.clientId,
+        );
+
+        let session = purchase.find(x => x.appointmentId === event.appointmentId && x.clientId === client.clientId);
+        if (session) {
+          session.trainerId = event.trainerId;
+          session.appointmentDate = event.date;
+          session.startTime = event.startTime;
+
+          await rsRepository.save(
+            'sessionsPurchased',
+            purchases,
+            client.clientId,
+          );
+        }
       }
     }
 
     async function sessionsPurchased(event) {
+      rsRepository = await rsRepository;
+      const purchase = {
+        purchaseTotal: event.purchaseTotal,
+        purchaseDate: event.purchaseDate,
+        purchaseId: event.purchaseId,
+        clientId: event.clientId,
+      };
+
+
+      innerState.sessions
+        .filter(x => x.purchaseId === purchase.purchaseId && !!x.appointmentId)
+        .forEach(session => {
+          const appointment = innerState.appointments.find(
+            a => a.appointmentId === session.appointmentId,
+          );
+          const trainer = innerState.trainers.find(
+            t => t.trainerId === appointment.trainerId,
+          );
+          session.appointmentDate = appointment.date;
+          session.startTime = appointment.startTime;
+          session.trainer = `${trainer.firstName} ${trainer.lastName}`;
+        });
+      innerState.purchases.push(purchase);
       const purchase = state.sessionsPurchased(event);
       return await persistence.saveState(state, purchase);
     }

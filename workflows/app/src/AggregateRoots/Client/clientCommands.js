@@ -1,5 +1,6 @@
 module.exports = function(
   clientInvariants,
+  rsRepository,
   esEvents,
   uuid,
   logger,
@@ -111,13 +112,22 @@ module.exports = function(
           );
         },
 
-        clientAttendsAppointment: cmd => {
+        clientAttendsAppointment: async cmd => {
+          rsRepository = await rsRepository;
+          const appointment = await rsRepository.getById(
+            event.appointmentId,
+            'appointment',
+          );
+
           let cmdClone = Object.assign({}, cmd);
           let event;
           const session = state.clientInventory.consumeSession(cmdClone);
           cmdClone.clientId = state._id;
           if (session) {
             cmdClone.sessionId = session.sessionId;
+            cmdClone.purchaseId = session.purchaseId;
+            cmdClone.appointmentDate = appointment.date;
+            cmdClone.appointmentStartTime = appointment.startTime;
             // in case this is an update of an appointment in the past
             event = esEvents.fundedAppointmentAttendedByClient(cmdClone);
           } else {

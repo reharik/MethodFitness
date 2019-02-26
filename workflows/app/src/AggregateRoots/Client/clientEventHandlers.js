@@ -3,6 +3,8 @@ module.exports = function() {
     return {
       clientAdded: event => {
         state._id = event.clientId;
+        state.firstName = event.firstName;
+        state.lastName = event.lastName;
       },
 
       clientArchived() {
@@ -11,6 +13,11 @@ module.exports = function() {
 
       clientUnarchived() {
         state._isArchived = false;
+      },
+
+      clientContactUpdated() {
+        state.firstName = event.firstName;
+        state.lastName = event.lastName;
       },
 
       sessionsPurchased: event => {
