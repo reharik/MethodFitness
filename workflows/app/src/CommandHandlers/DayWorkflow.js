@@ -106,12 +106,7 @@ module.exports = function(
       const cmdClone = enrichCmd(cmd);
       let dayInstance =
         (await eventRepository.getById(day, cmdClone.entityName)) || day();
-      await dayInstance.scheduleAppointment(
-        cmdClone,
-        trainerInstance,
-        clientInstances,
-        locationInstance,
-      );
+      await dayInstance.scheduleAppointment(cmdClone);
       return dayInstance;
     }
 

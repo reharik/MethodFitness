@@ -208,6 +208,13 @@ module.exports = function(
             raiseEvent(esEvents.clientInternalStateUpdatedEvent(cmd));
           }
         },
+
+        getPurchasePriceOfSessionByAppointmentId: appointmentId => {
+          const session = state.clientInventory.getUsedSessionByAppointmentId(
+            appointmentId,
+          );
+          return session.puchasePrice;
+        },
       },
       'ClientCommands',
     );

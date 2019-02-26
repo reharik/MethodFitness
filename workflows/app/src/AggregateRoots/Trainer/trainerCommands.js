@@ -1,4 +1,13 @@
-module.exports = function(trainerInvariants, esEvents, metaLogger, uuid) {
+module.exports = function(
+  trainerInvariants,
+  rsRepository,
+  eventRepository,
+  esEvents,
+  metaLogger,
+  trainer,
+  client,
+  uuid,
+) {
   return (raiseEvent, state) => {
     const invariants = trainerInvariants(state);
     return metaLogger(
@@ -39,10 +48,47 @@ module.exports = function(trainerInvariants, esEvents, metaLogger, uuid) {
           raiseEvent(esEvents.trainerVerifiedAppointmentsEvent(cmdClone));
         },
 
-        payTrainer(cmd) {
+        async payTrainer(cmd) {
+          rsRepository = await rsRepository;
           let cmdClone = Object.assign({}, cmd);
           invariants.expectNotArchived();
           cmdClone.paymentId = uuid.v4();
+          const trainerInstance = await eventRepository.getById(
+            trainer,
+            cmdClone.trainerId,
+          );
+          for (let paid of cmd.paidAppointment) {
+            const appointment = await rsRepository.getById(
+              paid.appointmentId,
+              'appointment',
+            );
+            const clientInstance = await eventRepository.getById(
+              client,
+              paid.clientId,
+            );
+            const purchasePrice = clientInstance.getPurchasePriceOfSessionByAppointmentId(
+              paid.appointmentId,
+            );
+            const TCR = state.trainerClientRates.find(
+              x => x.clientId === paid.clientId,
+            );
+            let TR = 0;
+            if (TCR && purchasePrice) {
+              TR = purchasePrice * (TCR.rate * 0.01);
+            }
+            paid.appointmentDate = appointment.date;
+            paid.appointmentStartTime = appointment.startTime;
+            paid.appointmentType = appointment.appointmentType;
+
+            paid.trainerFirstName = trainerInstance.contact.firstName;
+            paid.trainerLastName = trainerInstance.contact.lastName;
+            paid.clientFirstName = clientInstance.firstName;
+            paid.clientlastName = clientInstance.lastName;
+            paid.pricePerSession = purchasePrice;
+            paid.trainerPercentage = TCR ? TCR.rate : 0;
+            paid.trainerPay = TR;
+          }
+
           raiseEvent(esEvents.trainerPaidEvent(cmdClone));
         },
 

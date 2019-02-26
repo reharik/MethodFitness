@@ -11,8 +11,8 @@ module.exports = function(
       _password: undefined,
       _defaultTrainerCientRate: 65,
       trainerClientRates: [],
-      firstName,
-      lastName,
+      firstName: '',
+      lastName: '',
     };
     const aggFunctions = aggregateRootBase(state, trainerEventHandlers);
     return Object.assign(

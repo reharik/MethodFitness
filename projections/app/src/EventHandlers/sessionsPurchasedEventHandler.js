@@ -1,22 +1,11 @@
-module.exports = function(
-  rsRepository,
-  moment,
-  sessionsPurchasedPersistence,
-  statefulEventHandler,
-  metaLogger,
-  logger,
-) {
+module.exports = function(rsRepository, metaLogger, logger) {
   return async function sessionsPurchasedEventHandler() {
     logger.info('SessionsPurchasedEventHandler started up');
 
     async function fundedAppointmentAttendedByClient(event) {
       rsRepository = await rsRepository;
-      const purchases = rsRepository.getById(
-        event.clientId,
-        'sessionsPurchased',
-      );
-      const purchase = purchases.find(x => x.purchaseId === event.purchaseId);
-      const session = purchase.sessions.find(x => x.id === event.sessionId);
+      const client = rsRepository.getById(event.clientId, 'sessionsPurchased');
+      let session = client.sessions.find(x => x.id === event.sessionId);
 
       session.appointmentId = event.appointmentId;
       session.appointmentDate = event.date;
@@ -24,26 +13,24 @@ module.exports = function(
 
       return await rsRepository.save(
         'sessionsPurchased',
-        purchases,
+        client,
         event.clientId,
       );
-
     }
 
     async function pastAppointmentUpdated(event) {
-
-      for(let client of event.clients) {
+      for (let client of event.clients) {
         rsRepository = await rsRepository;
-        const purchases = rsRepository.getById(
+        const clientPurchases = rsRepository.getById(
           client.clientId,
           'sessionsPurchased',
         );
 
-        const purchase = purchases.find(purch => purch.sessions.any(
-          x => x.appointmentId === event.appointmentId && x.clientId === client.clientId,
+        let session = clientPurchases.sessions.find(
+          x =>
+            x.appointmentId === event.appointmentId &&
+            x.clientId === client.clientId,
         );
-
-        let session = purchase.find(x => x.appointmentId === event.appointmentId && x.clientId === client.clientId);
         if (session) {
           session.trainerId = event.trainerId;
           session.appointmentDate = event.date;
@@ -51,7 +38,7 @@ module.exports = function(
 
           await rsRepository.save(
             'sessionsPurchased',
-            purchases,
+            clientPurchases,
             client.clientId,
           );
         }
@@ -60,54 +47,75 @@ module.exports = function(
 
     async function sessionsPurchased(event) {
       rsRepository = await rsRepository;
+      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
+
+      if (!client) {
+        client = {
+          clientId: event.clientId,
+          purchases: [],
+          sessions: [],
+        };
+      }
+
       const purchase = {
         purchaseTotal: event.purchaseTotal,
         purchaseDate: event.purchaseDate,
         purchaseId: event.purchaseId,
         clientId: event.clientId,
       };
+      const sessions = event.sessions.map(x => ({
+        used: !!x.appointmentId,
+        sessionId: x.sessionId,
+        purchaseId: event.purchaseId,
+        appointmentId: x.appointmentId,
+        appointmentType: x.appointmentType,
+        purchasePrice: x.purchasePrice,
+        clientId: x.clientId,
+      }));
 
+      client.purchases.push(purchase);
+      client.sessions.concat(sessions);
 
-      innerState.sessions
-        .filter(x => x.purchaseId === purchase.purchaseId && !!x.appointmentId)
-        .forEach(session => {
-          const appointment = innerState.appointments.find(
-            a => a.appointmentId === session.appointmentId,
-          );
-          const trainer = innerState.trainers.find(
-            t => t.trainerId === appointment.trainerId,
-          );
-          session.appointmentDate = appointment.date;
-          session.startTime = appointment.startTime;
-          session.trainer = `${trainer.firstName} ${trainer.lastName}`;
-        });
-      innerState.purchases.push(purchase);
-      const purchase = state.sessionsPurchased(event);
-      return await persistence.saveState(state, purchase);
+      await rsRepository.save('sessionsPurchased', client, client.clientId);
     }
 
     async function sessionsRefunded(event) {
-      const purchases = state.refundSessions(event);
-      for (let p of purchases) {
-        await persistence.saveState(state, p);
-      }
+      rsRepository = await rsRepository;
+      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
+
+      event.refundedSessions.forEach(r => {
+        let session = client.sessions.find(s => s.sessionId === r.sessionId);
+        session.refunded = true;
+      });
+
+      await rsRepository.save('sessionsPurchased', client, client.clientId);
     }
 
     async function sessionReturnedFromPastAppointment(event) {
-      const purchase = state.sessionReturnedFromPastAppointment(event);
-      await persistence.saveState(state, purchase);
+      rsRepository = await rsRepository;
+      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
+      let session = client.sessions.find(x => x.sessionId === event.sessionId);
+      session.used = false;
+      delete session.appointmentId;
+      delete session.startTime;
+      delete session.appointmentDate;
+
+      await rsRepository.save('sessionsPurchased', client, client.clientId);
     }
 
     async function sessionTransferredFromRemovedAppointmentToUnfundedAppointment(
       event,
     ) {
-      let purchase = state.transferSessionFromPastAppointment(event);
-      await persistence.saveState(state, purchase);
-    }
+      rsRepository = await rsRepository;
+      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
 
-    async function trainerPaid(event) {
-      state.cleanUp(event);
-      return await persistence.saveState(state);
+      let session = client.sessions.find(x => x.sessionId === event.sessionId);
+      session.used = true;
+      session.appointmentDate = event.appointmentDate;
+      session.appointmentId = event.appointmentId;
+      session.startTime = event.appointmentStartTime;
+
+      await rsRepository.save('sessionsPurchased', client, client.clientId);
     }
 
     /*
@@ -121,17 +129,13 @@ module.exports = function(
 
     return metaLogger(
       {
-        handlerType: 'sessionsPurchasedEventHandler',
         handlerName: 'sessionsPurchasedEventHandler',
-        baseHandlerName: 'sessionsPurchasedBaseStateEventHandler',
-        baseHandler,
         fundedAppointmentAttendedByClient,
         pastAppointmentUpdated,
         sessionsPurchased,
         sessionsRefunded,
         sessionReturnedFromPastAppointment,
         sessionTransferredFromRemovedAppointmentToUnfundedAppointment,
-        trainerPaid,
       },
       'sessionPurchasedEventHandler',
     );
