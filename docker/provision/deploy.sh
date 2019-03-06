@@ -9,6 +9,7 @@ echo "--------------------------------------"
 
 echo "--------------------------------------"
 echo "scp"
+ls -la $(pwd)/deploy/
 echo "--------------------------------------"
 scp -o "StrictHostKeyChecking=no" -r $(pwd)/deploy/* ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com:~/
 echo "--------------------------------------"
