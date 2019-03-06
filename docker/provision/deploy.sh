@@ -10,7 +10,7 @@ echo "--------------------------------------"
 echo "--------------------------------------"
 echo "scp"
 echo "--------------------------------------"
-scp -o "StrictHostKeyChecking=no" -r ./deploy/. ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com:~/
+scp -o "StrictHostKeyChecking=no" -r $(pwd)/deploy/. ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com:~/
 echo "--------------------------------------"
 echo "chmod on docker-compose"
 echo "--------------------------------------"
