@@ -1,5 +1,5 @@
 NODE_ENV=development
-API_BASE_URL=http://ec2-18-220-36-147.us-east-2.compute.amazonaws.com:3666/
+API_BASE_URL=http://ec2-18-220-170-213.us-east-2.compute.amazonaws.com:3666/
 API_HOST=ec2-18-220-36-147.us-east-2.compute.amazonaws.com
 API_PORT=3000
 FRONT_END_HOST=ec2-18-220-36-147.us-east-2.compute.amazonaws.com
