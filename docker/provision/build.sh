@@ -44,6 +44,11 @@ echo "LOGGLY_TOKEN=$(printenv LOGGLY_TOKEN)"  >> .envrc.qa
 
 cat .envrc.qa >> deploy/.env
 
+cat deploy/.env
+echo "==============="
+cat .envrc.qa
+echo "==============="
+
 IMAGE_CHECK=$(aws ecr list-images --repository-name methodfitness/api | grep "$TAG") || echo ''
 echo $IMAGE_CHECK
 if [ -z "${IMAGE_CHECK}" ]; then
