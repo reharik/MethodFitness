@@ -88,8 +88,8 @@ describe('Archive Trainer', () => {
       cy.get('span')
         .contains('Archived')
         .click();
-      cy.get('.ant-table-placeholder')
-        .contains('No data')
+      cy.get('.ant-empty-description')
+        .contains('No Data')
         .should('exist');
     });
     it('should should not archive trainer if currently logged in', function() {

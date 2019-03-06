@@ -84,7 +84,7 @@ export function fetchVerifiedAppointments(trainerId) {
   return {
     type: FETCH_TRAINER_PAYABLES.REQUEST,
     states: FETCH_TRAINER_PAYABLES,
-    url: `${config.apiBase}/payTrainer/fetchVerifiedAppointments/${trainerId}`,
+    url: `${config.apiBase}payTrainer/fetchVerifiedAppointments/${trainerId}`,
     params: {
       method: 'GET',
       credentials: 'include',

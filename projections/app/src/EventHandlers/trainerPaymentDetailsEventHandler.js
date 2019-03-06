@@ -1,30 +1,56 @@
-module.exports = function(trainerPaymentDetailsPersistence,
-                          metaLogger,
-                          statefulEventHandler,
-                          logger) {
-
-  return async function trainerPaymentDetailsEventHandler() {
-
-    const persistence = trainerPaymentDetailsPersistence();
-    let initialState = statefulEventHandler.getInitialState({
-      paidAppointments: []
-    });
-    let state = await persistence.initializeState(initialState);
-    const baseHandler = statefulEventHandler.baseHandler(state, persistence, 'trainerPaymentDetailsBaseHandler');
-
+module.exports = function(rsRepository, moment, metaLogger, logger) {
+  return async function trainerPaymentDetails() {
     logger.info('trainerPaymentDetailsEventHandler started up');
 
     async function trainerPaid(event) {
-      const payment = state.trainerPaid(event);
-      return await persistence.saveState(state, payment, event.trainerId);
+      rsRepository = await rsRepository;
+      let trainer = await rsRepository.getById(
+        event.trainerId,
+        'trainerPaymentDetails',
+      );
+
+      if (!trainer || Object.keys(trainer).length === 0) {
+        trainer = {
+          payments: [],
+        };
+      }
+
+      let paidAppointments = event.paidAppointments.map(x => ({
+        trainerId: x.trainerId,
+        clientId: x.clientId,
+        clientName: `${x.clientLastName}, ${x.clientFirstName}`,
+        appointmentId: x.appointmentId,
+        appointmentDate: x.appointmentDate,
+        startTime: x.appointmentStartTime,
+        appointmentType: x.appointmentType,
+        sessionId: x.sessionId,
+        pricePerSession: x.pricePerSession,
+        //possibly set this to default TCR if 0
+        trainerPercentage: x.trainerPercentage,
+        trainerPay: x.trainerPay,
+      }));
+      const payment = {
+        paymentId: event.paymentId,
+        paymentDate: moment().toISOString(),
+        paidAppointments,
+        paymentTotal: paidAppointments.reduce((a, b) => a + b.trainerPay, 0),
+      };
+
+      trainer.payments.push(payment);
+
+      return await rsRepository.save(
+        'trainerPaymentDetails',
+        trainer,
+        event.trainerId,
+      );
     }
 
-    return metaLogger({
-      handlerType: 'trainerPaymentDetailsEventHandler',
-      handlerName: 'trainerPaymentDetailsEventHandler',
-      baseHandlerName: 'trainerPaymentDetailsBaseStateEventHandler',
-      baseHandler,
-      trainerPaid
-    }, 'trainerPaymentDetailsEventHandler');
+    return metaLogger(
+      {
+        handlerName: 'trainerPaymentDetailsEventHandler',
+        trainerPaid,
+      },
+      'trainerPaymentDetailsEventHandler',
+    );
   };
 };

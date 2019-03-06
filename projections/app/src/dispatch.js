@@ -9,6 +9,7 @@ module.exports = function(
     try {
       for (let _x of EventHandlers_array) {
         //eslint-disable-line camelcase
+        //eslint-disable-line camelcase
         let x = await _x();
         const position = await getStartPosition(x.handlerName);
         let dispatcher = await eventDispatcher(position);

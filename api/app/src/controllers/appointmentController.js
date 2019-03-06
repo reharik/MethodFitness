@@ -108,8 +108,7 @@ module.exports = function(
       ctx.body = result.body;
       ctx.status = result.status;
     } catch (ex) {
-      ctx.body = { success: false, error: ex.message };
-      ctx.status = 500;
+      throw ex;
     }
   };
 
@@ -124,6 +123,9 @@ module.exports = function(
     if (orig.trainerId !== update.trainerId) {
       changes.trainer = true;
     }
+    if (orig.date !== update.date) {
+      changes.date = true;
+    }
     return changes;
   };
 
@@ -137,8 +139,19 @@ module.exports = function(
         body.appointmentId,
         'appointment',
       );
+      console.log(`==========appointment==========`);
+      console.log(appointment);
+      console.log(`==========END appointment==========`);
+      console.log(`==========body.trainerId==========`);
+      console.log(body);
+      console.log(`==========END body.trainerId==========`);
+
       let clientsSame =
-        R.symmetricDifference(body.clients, appointment.clients).length <= 0;
+        R.symmetricDifference(
+          body.clients,
+          appointment.clients.map(x => x.clientId),
+        ).length <= 0;
+
       if (
         moment(appointment.date).format('YYYYMMDD') ===
           moment(body.date).format('YYYYMMDD') &&
@@ -160,6 +173,10 @@ module.exports = function(
         body,
         clientsSame,
       );
+      console.log(`==========body2==========`);
+      console.log(body);
+      console.log(`==========END body==========`);
+
       notification = await processMessage(
         body,
         'scheduleAppointmentFactory',
@@ -169,8 +186,7 @@ module.exports = function(
       ctx.body = result.body;
       ctx.status = result.status;
     } catch (ex) {
-      ctx.body = { success: false, error: ex.message };
-      ctx.status = 500;
+      throw ex;
     }
   };
 

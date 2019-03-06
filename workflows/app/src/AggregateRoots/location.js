@@ -7,6 +7,7 @@ module.exports = function(
     const state = {
       _isArchived: false,
       type: 'Location',
+      name: '',
     };
     const aggFunctions = aggregateRootBase(state, locationEventHandlers);
     return Object.assign(

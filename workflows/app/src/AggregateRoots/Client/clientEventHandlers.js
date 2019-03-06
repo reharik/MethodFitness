@@ -3,6 +3,8 @@ module.exports = function() {
     return {
       clientAdded: event => {
         state._id = event.clientId;
+        state.firstName = event.contact.firstName;
+        state.lastName = event.contact.lastName;
       },
 
       clientArchived() {
@@ -13,6 +15,11 @@ module.exports = function() {
         state._isArchived = false;
       },
 
+      clientContactUpdated(event) {
+        state.firstName = event.contact.firstName;
+        state.lastName = event.contact.lastName;
+      },
+
       sessionsPurchased: event => {
         state.clientInventory.addSessionsToInventory(event);
       },
@@ -21,6 +28,9 @@ module.exports = function() {
         state.clientInventory.sessionConsumed(
           event.sessionId,
           event.appointmentId,
+          event.trainerPay,
+          event.trainerPercentage,
+          event.trainerId
         );
       },
 

@@ -35,7 +35,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
       });
 
@@ -46,15 +46,9 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
-      });
-
-      routines.checkVerification({
-        index: 2,
-        noInarrears: true,
-        noAvailable: true,
       });
 
       appointmentValues = {
@@ -64,12 +58,11 @@ describe('Change Trainer on funded Appointment', () => {
         newTrainer: this.trainers.trainer1,
       };
       routines.changeAppointment(appointmentValues);
-
       routines.checkVerification({
         index: 4,
         availabaleCount: 1,
         availabaleItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Full Hour',
         },
@@ -77,7 +70,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 1,
         usedCount: 1,
         usedItemValues: {
@@ -105,7 +98,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 9,
         appointmentCount: 1,
         appointmentValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Full Hour',
         },
@@ -118,7 +111,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
       });
 
@@ -129,7 +122,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -153,7 +146,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 4,
         inarrearsCount: 1,
         inarrearsItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Half Hour',
         },
@@ -161,7 +154,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 2,
       });
     });
@@ -172,7 +165,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
         halfHourCount: '2',
       });
@@ -184,7 +177,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -208,7 +201,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 4,
         availabaleCount: 1,
         availabaleItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Half Hour',
         },
@@ -216,7 +209,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 3,
         usedCount: 1,
         usedItemValues: {
@@ -244,7 +237,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 9,
         appointmentCount: 1,
         appointmentValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Half Hour',
         },
@@ -257,7 +250,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
       });
 
@@ -268,7 +261,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -284,7 +277,7 @@ describe('Change Trainer on funded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
@@ -301,7 +294,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 2,
       });
     });
@@ -312,7 +305,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
       });
 
@@ -329,7 +322,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -345,7 +338,7 @@ describe('Change Trainer on funded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
@@ -362,7 +355,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 2,
       });
 
@@ -409,7 +402,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
       });
 
@@ -420,7 +413,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -436,7 +429,7 @@ describe('Change Trainer on funded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
         appointmentType: 'Half Hour',
       };
@@ -454,7 +447,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 2,
       });
     });
@@ -465,7 +458,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
       });
 
@@ -482,7 +475,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -498,7 +491,7 @@ describe('Change Trainer on funded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
         appointmentType: 'Half Hour',
       };
@@ -521,7 +514,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 2,
       });
 
@@ -568,7 +561,7 @@ describe('Change Trainer on funded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: '2',
       });
 
@@ -579,7 +572,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -604,7 +597,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 4,
         availableCount: 1,
         availableItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: newDate,
           appointmentType: 'Full Hour',
         },
@@ -612,7 +605,7 @@ describe('Change Trainer on funded Appointment', () => {
 
       routines.checkSessions({
         index: 5,
-        client: this.clients.client1,
+        client: this.clients.client5,
         availableCount: 1,
         usedCount: 1,
         usedItemValues: {
@@ -640,7 +633,7 @@ describe('Change Trainer on funded Appointment', () => {
         index: 9,
         appointmentCount: 1,
         appointmentValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: newDate,
           appointmentType: 'Full Hour',
         },

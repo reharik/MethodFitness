@@ -36,10 +36,6 @@ module.exports = function(_options) {
             './app/src/CommandHandlers',
             'CommandHandlers_array',
           )
-          .groupAllInDirectory(
-            './app/src/AggregateRoots/Day/pastAppointmentStrategies',
-            'pastAppointmentStrategies_array',
-          )
           .requiredModuleRegistires(['ges-eventsourcing'])
           .for('corelogger')
           .renameTo('logger')

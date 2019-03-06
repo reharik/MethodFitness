@@ -5,11 +5,6 @@ import { Col } from 'antd';
 import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
 const DisplayFor = ({ data, selectOptions, span, align }) => {
-  console.log(`==========data==========`);
-  console.log(data.label);
-  console.log(data);
-  console.log(`==========END data==========`);
-
   moment.locale('en');
   const _span = function _span() {
     switch (data['x-input'] || data.type) {
@@ -34,15 +29,7 @@ const DisplayFor = ({ data, selectOptions, span, align }) => {
           return;
         }
         const find = selectOptions.find(y => y.value === data.value);
-        console.log(`==========find==========`);
-        console.log(selectOptions);
-        console.log(`==========END find==========`);
-
         const textValue = find && find.display;
-        console.log(`==========textValue==========`);
-        console.log(textValue);
-        console.log(`==========END textValue==========`);
-
         return <span data-id={data.name}>{textValue}</span>;
       }
       case 'multi-select': {

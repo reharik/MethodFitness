@@ -26,7 +26,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -49,7 +49,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 4,
         inarrearsCount: 1,
         inarrearsItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Full Hour',
         },
@@ -64,7 +64,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -88,7 +88,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 4,
         inarrearsCount: 1,
         inarrearsItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Half Hour',
         },
@@ -101,7 +101,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         halfHourCount: '2',
       });
 
@@ -112,7 +112,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -136,7 +136,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 4,
         availableCount: 1,
         availableItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Half Hour',
         },
@@ -161,7 +161,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 9,
         appointmentCount: 1,
         appointmentValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: aDT.date,
           appointmentType: 'Half Hour',
         },
@@ -176,7 +176,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -192,7 +192,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
@@ -225,7 +225,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -241,7 +241,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
       };
       routines.changeAppointment(appointmentValues);
@@ -290,7 +290,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -306,7 +306,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
         appointmentType: 'Half Hour',
       };
@@ -340,7 +340,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -356,7 +356,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         date: aDT.date,
         time: aDT.time,
         newTrainer: this.trainers.trainer1,
-        currentClient: this.clients.client1,
+        currentClient: this.clients.client5,
         newClient: this.clients.client2,
         appointmentType: 'Half Hour',
       };
@@ -441,14 +441,14 @@ describe('Change Trainer on Unfunded Appointment', () => {
 
    */
 
-  describe('When changing trainer and date on unpaid appointment', () => {
+  describe.only('When changing trainer and date on unpaid appointment', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.createAppointment({
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         trainer: this.trainers.trainer2,
         appointmentType: 'Full Hour',
       });
@@ -478,7 +478,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
         index: 4,
         inarrearsCount: 1,
         inarrearsItemValues: {
-          client: this.clients.client1,
+          client: this.clients.client5,
           date: newDate,
           appointmentType: 'Full Hour',
         },

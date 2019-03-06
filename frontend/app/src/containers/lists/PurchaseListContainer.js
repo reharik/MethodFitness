@@ -43,17 +43,17 @@ const columns = [
 function mapStateToProps(state, props) {
   moment.locale('en');
   const isAdmin = state.auth.user.role === 'admin';
-  const dataSource = state.purchases.filter(
+  const dataSource = state.purchases.find(
     x => x.clientId === props.params.clientId,
   );
-
   const gridConfig = {
     columns,
-    dataSource,
+    dataSource: dataSource ? dataSource.purchases : [],
   };
   return {
     isAdmin,
     gridConfig,
+    sessionsDataSource: dataSource ? dataSource.sessions : [],
     clientId: props.params.clientId,
   };
 }
