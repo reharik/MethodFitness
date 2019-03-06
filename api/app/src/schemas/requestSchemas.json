@@ -443,9 +443,13 @@
         "sessionId": {
           "type": "string",
           "format": "uuid"
+        },
+        "clientId": {
+          "type": "string",
+          "format": "uuid"
         }
       },
-      "required": ["appointmentId", "sessionId"]
+      "required": ["appointmentId", "sessionId", "clientId"]
     },
     "appointmentStatusUpdate": {
       "title": "appointmentStatusUpdate",

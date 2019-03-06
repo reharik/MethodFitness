@@ -48,9 +48,11 @@ class PayTrainerList extends Component {
     let selectedRowKeys = selectedRows
       .filter(x => x.sessionId)
       .map(x => `${x.appointmentId}---${x.clientId}`);
-    let selectedIds = selectedRows
-      .filter(x => x.sessionId)
-      .map(x => ({ sessionId: x.sessionId, appointmentId: x.appointmentId }));
+    let selectedIds = selectedRows.filter(x => x.sessionId).map(x => ({
+      sessionId: x.sessionId,
+      appointmentId: x.appointmentId,
+      clientId: x.clientId,
+    }));
     this.setState({ trainerTotal, selectedRowKeys, selectedIds });
   };
 

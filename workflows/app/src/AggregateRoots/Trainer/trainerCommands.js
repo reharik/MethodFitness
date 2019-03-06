@@ -4,8 +4,6 @@ module.exports = function(
   eventRepository,
   esEvents,
   metaLogger,
-  trainer,
-  client,
   uuid,
 ) {
   return (raiseEvent, state) => {
@@ -48,16 +46,18 @@ module.exports = function(
           raiseEvent(esEvents.trainerVerifiedAppointmentsEvent(cmdClone));
         },
 
-        async payTrainer(cmd) {
+        async payTrainer(cmd, client) {
           rsRepository = await rsRepository;
           let cmdClone = Object.assign({}, cmd);
           invariants.expectNotArchived();
           cmdClone.paymentId = uuid.v4();
-          const trainerInstance = await eventRepository.getById(
-            trainer,
-            cmdClone.trainerId,
-          );
-          for (let paid of cmd.paidAppointment) {
+
+          for (let paid of cmd.paidAppointments) {
+            // should probably get this from ES but I'm still
+            // creaped out by deriving the Entity Name from the
+            // appointmentDate, which I don't even have here
+            // and there is no chance of a race condition here
+            // because it's looking an appointment that has been there for awhile
             const appointment = await rsRepository.getById(
               paid.appointmentId,
               'appointment',
@@ -69,6 +69,7 @@ module.exports = function(
             const purchasePrice = clientInstance.getPurchasePriceOfSessionByAppointmentId(
               paid.appointmentId,
             );
+
             const TCR = state.trainerClientRates.find(
               x => x.clientId === paid.clientId,
             );
@@ -80,10 +81,10 @@ module.exports = function(
             paid.appointmentStartTime = appointment.startTime;
             paid.appointmentType = appointment.appointmentType;
 
-            paid.trainerFirstName = trainerInstance.contact.firstName;
-            paid.trainerLastName = trainerInstance.contact.lastName;
-            paid.clientFirstName = clientInstance.firstName;
-            paid.clientlastName = clientInstance.lastName;
+            paid.trainerFirstName = state.firstName;
+            paid.trainerLastName = state.lastName;
+            paid.clientFirstName = clientInstance.state.firstName;
+            paid.clientLastName = clientInstance.state.lastName;
             paid.pricePerSession = purchasePrice;
             paid.trainerPercentage = TCR ? TCR.rate : 0;
             paid.trainerPay = TR;
@@ -172,6 +173,10 @@ module.exports = function(
             );
 
           raiseEvent(esEvents.trainersClientsUpdatedEvent(cmdClone));
+        },
+
+        getTrainerClientRateByClientId(clientId) {
+          return state.trainerClientRates.find(x => x.clientId === clientId);
         },
       },
       'TrainerCommands',

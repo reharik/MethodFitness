@@ -1,11 +1,11 @@
-module.exports = function(logger) {
+module.exports = function() { //logger) {
   return (state, eventHandlers) => {
     state._version = -1; // corresponds to ExpectedEvent.NoStream
     state.uncommittedEvents = [];
     const eventHandlersInstance = eventHandlers(state);
     const applyEvent = event => {
-      logger.debug(`${event.eventName} currently in applyEvent`);
-      logger.debug(JSON.stringify(event));
+      // logger.debug(`${event.eventName} currently in applyEvent`);
+      // logger.debug(JSON.stringify(event));
 
       if (eventHandlersInstance[event.eventName]) {
         eventHandlersInstance[event.eventName](event);

@@ -4,12 +4,12 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
 
     async function trainerPaid(event) {
       rsRepository = await rsRepository;
-      let trainer = rsRepository.getById(
+      let trainer = await rsRepository.getById(
         event.trainerId,
         'trainerPaymentDetails',
       );
 
-      if (!trainer) {
+      if (!trainer || Object.keys(trainer).length === 0) {
         trainer = {
           payments: [],
         };
@@ -18,13 +18,13 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
       let paidAppointments = event.paidAppointments.map(x => ({
         trainerId: x.trainerId,
         clientId: x.clientId,
-        clientName: `${x.clientlastName}, ${x.clientfirstName}`,
+        clientName: `${x.clientLastName}, ${x.clientFirstName}`,
         appointmentId: x.appointmentId,
         appointmentDate: x.appointmentDate,
         startTime: x.appointmentStartTime,
         appointmentType: x.appointmentType,
         sessionId: x.sessionId,
-        pricePerSession: x.purchasePrice,
+        pricePerSession: x.pricePerSession,
         //possibly set this to default TCR if 0
         trainerPercentage: x.trainerPercentage,
         trainerPay: x.trainerPay,

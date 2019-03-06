@@ -1,4 +1,11 @@
-module.exports = function(eventRepository, metaLogger, logger, client) {
+module.exports = function(
+  eventRepository,
+  metaLogger,
+  logger,
+  client,
+  trainer,
+  day,
+) {
   return function ClientWorkflow() {
     async function handleCommand(cmd, continuationId, funcName) {
       let clientInstance = await eventRepository.getById(client, cmd.clientId);
@@ -39,7 +46,14 @@ module.exports = function(eventRepository, metaLogger, logger, client) {
     }
 
     async function clientAttendsAppointment(cmd, continuationId) {
-      return handleCommand(cmd, continuationId, 'clientAttendsAppointment');
+      let clientInstance = await eventRepository.getById(client, cmd.clientId);
+      await clientInstance.clientAttendsAppointment(cmd, trainer, day);
+
+      logger.info('saving clientInstance');
+      logger.trace(JSON.stringify(clientInstance));
+
+      await eventRepository.save(clientInstance, { continuationId });
+      return { clientId: clientInstance.state._id };
     }
 
     async function archiveClient(cmd, continuationId) {
@@ -51,22 +65,18 @@ module.exports = function(eventRepository, metaLogger, logger, client) {
     }
 
     async function purchase(cmd, continuationId) {
-      return handleCommand(cmd, continuationId, 'purchase');
+      let clientInstance = await eventRepository.getById(client, cmd.clientId);
+      await clientInstance.purchase(cmd, trainer);
+
+      logger.info('saving clientInstance');
+      logger.trace(JSON.stringify(clientInstance));
+
+      await eventRepository.save(clientInstance, { continuationId });
+      return { clientId: clientInstance.state._id };
     }
 
     async function refundSessions(cmd, continuationId) {
       return handleCommand(cmd, continuationId, 'refundSessions');
-    }
-
-    async function removeAppointmentFromPast(cmd, continuationId) {
-      for (let clientId of cmd.clients) {
-        let c = await eventRepository.getById(client, clientId);
-        logger.debug('refunding client for appointment in past');
-        c.returnSessionFromPast(cmd.appointmentId);
-        c.removePastAppointmentForClient(cmd.appointmentId);
-        logger.info('saving client');
-        await eventRepository.save(c, { continuationId });
-      }
     }
 
     return metaLogger(
@@ -82,7 +92,6 @@ module.exports = function(eventRepository, metaLogger, logger, client) {
         clientAttendsAppointment,
         purchase,
         refundSessions,
-        removeAppointmentFromPast,
       },
       'ClientWorkflow',
     );

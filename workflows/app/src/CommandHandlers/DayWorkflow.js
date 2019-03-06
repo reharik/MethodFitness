@@ -1,6 +1,5 @@
 module.exports = function(
   eventRepository,
-  changeAppointmentFromPast,
   logger,
   day,
   trainer,
@@ -9,7 +8,15 @@ module.exports = function(
   metaLogger,
 ) {
   return function DayWorkflow() {
-    const enrichCmd = async cmd => {
+    const getClientInstances = async cmd => {
+      let clientInstances = [];
+      for (let clientId of cmd.clients) {
+        clientInstances.push(await eventRepository.getById(client, clientId));
+      }
+      return clientInstances;
+    };
+
+    const enrichCmd = async (cmd, clients) => {
       let cmdClone = Object.assign({}, cmd);
       const trainerInstance = await eventRepository.getById(
         trainer,
@@ -19,17 +26,15 @@ module.exports = function(
         location,
         cmdClone.locationId,
       );
-      let clientInstances = [];
-      for (let clientId of cmdClone.clients) {
-        clientInstances.push(await eventRepository.getById(client, clientId));
-      }
+      const clientInstances = clients || (await getClientInstances(cmd));
+
       cmdClone.locationName = locationInstance.name;
-      cmdClone.trainerFirstName = trainerInstance.contact.firstName;
-      cmdClone.trainerLastName = trainerInstance.contact.lastName;
+      cmdClone.trainerFirstName = trainerInstance.state.firstName;
+      cmdClone.trainerLastName = trainerInstance.state.lastName;
       cmdClone.clients = clientInstances.map(x => ({
-        firstName: x.contact.firstName,
-        lastName: x.contact.lastName,
-        clientId: x.clientId,
+        firstName: x.state.firstName,
+        lastName: x.state.lastName,
+        clientId: x.state._id,
       }));
       return cmdClone;
     };
@@ -49,7 +54,7 @@ module.exports = function(
     }
 
     async function updateAppointment(cmd, continuationId) {
-      const cmdClone = enrichCmd(cmd);
+      const cmdClone = await enrichCmd(cmd);
       let dayInstance = await eventRepository.getById(day, cmdClone.entityName);
       await dayInstance.updateAppointment(cmdClone);
 
@@ -103,7 +108,7 @@ module.exports = function(
     }
 
     async function scheduleAppointmentBase(cmd) {
-      const cmdClone = enrichCmd(cmd);
+      const cmdClone = await enrichCmd(cmd);
       let dayInstance =
         (await eventRepository.getById(day, cmdClone.entityName)) || day();
       await dayInstance.scheduleAppointment(cmdClone);
@@ -112,7 +117,8 @@ module.exports = function(
 
     async function scheduleAppointmentInPast(cmd, continuationId) {
       logger.info(`calling ${cmd.commandName} on Day`);
-      const cmdClone = enrichCmd(cmd);
+      const clients = await getClientInstances(cmd);
+      const cmdClone = await enrichCmd(cmd, clients);
       let dayInstance =
         (await eventRepository.getById(day, cmdClone.entityName)) || day();
       await dayInstance.scheduleAppointmentInPast(cmdClone);
@@ -126,42 +132,91 @@ module.exports = function(
       logger.trace(dayInstance.state._id);
       await eventRepository.save(dayInstance, { continuationId });
 
-      // this is ok because it's not updating existing info just adding it. ... I think
-      // possible that eventhandlerbase not called on client because this is day, so that could be problem
-      // but should still probably be moved to client
       const newCmd = Object.assign({}, cmdClone, {
         appointmentId: newAppointmentId,
       });
-      for (let clientId of newCmd.clients) {
-        let c = await eventRepository.getById(client, clientId);
+      for (let clientInstance of clients) {
         logger.debug('associating client with appointment from past');
-        c.clientAttendsAppointment(newCmd);
+        await clientInstance.clientAttendsAppointment(newCmd, trainer, day);
         logger.info('saving client');
-        await eventRepository.save(c, { continuationId });
+        await eventRepository.save(clientInstance, { continuationId });
       }
       return { appointmentId: newAppointmentId };
     }
 
     async function updateAppointmentFromPast(cmd, continuationId) {
-      const cmdClone = enrichCmd(cmd);
-      await changeAppointmentFromPast(cmdClone, continuationId);
+      if (
+        !cmd.isPastToFuture &&
+        !cmd.isFutureToPast &&
+        !cmd.changes.clients &&
+        !cmd.changes.appointmentType &&
+        !cmd.changes.date
+      ) {
+        const dayInstance = await eventRepository.getById(day, cmd.entityName);
+        let origAppointment = dayInstance.getAppointment(cmd.appointmentId);
+
+        for (let clientId of origAppointment.clients.map(x => x.clientId)) {
+          let c = await eventRepository.getById(client, clientId);
+          logger.debug(
+            `updating appointment id: ${
+              cmd.appointmentId
+            } for client Id: ${clientId}`,
+          );
+          await c.updateAppointmentFromPast(cmd);
+          await eventRepository.save(c, continuationId);
+        }
+        const clients = await getClientInstances(cmd);
+        await dayInstance.updateAppointmentFromPast(
+          await enrichCmd(cmd, clients),
+          clients,
+          continuationId,
+        );
+        await eventRepository.save(dayInstance, continuationId);
+      } else {
+        await removeAppointmentFromPast(
+          {
+            appointmentId: cmd.appointmentId,
+            entityName: cmd.originalEntityName,
+          },
+          continuationId,
+        );
+        if (cmd.isPastToFuture) {
+          await scheduleAppointment(cmd, continuationId);
+        } else {
+          await scheduleAppointmentInPast(cmd, continuationId);
+        }
+      }
+
       return {
-        updateType:
-          cmdClone.originalEntityName !== cmdClone.entityName
-            ? 'rescheduleAppointmentToNewDay'
-            : '',
-        appointmentId: cmdClone.appointmentId,
+        updateType: cmd.originalEntityName
+          ? 'rescheduleAppointmentToNewDay'
+          : '',
+        appointmentId: cmd.appointmentId,
       };
     }
 
     async function removeAppointmentFromPast(cmd, continuationId) {
       let dayInstance = await eventRepository.getById(day, cmd.entityName);
-      dayInstance.removeAppointmentFromPast(cmd);
+      const appointmentToRemove = dayInstance.getAppointment(cmd.appointmentId);
+      console.log(`==========appointmentToRemov==========`);
+      console.log(appointmentToRemove);
+      console.log(`==========END appointmentToRemov==========`);
 
-      logger.info('saving dayInstance');
-      logger.trace(dayInstance.state._id);
+      // refund clients
+      let clients = appointmentToRemove.clients.map(x => x.clientId);
+      for (let clientId of clients) {
+        let c = await eventRepository.getById(client, clientId);
+        c.returnSessionFromPast(cmd.appointmentId);
+        c.removePastAppointmentForClient(
+          cmd.appointmentId,
+          appointmentToRemove.trainerId,
+        );
+        await eventRepository.save(c);
+      }
+
+      cmd.clients = clients;
+      await dayInstance.removeAppointmentFromPast(cmd);
       await eventRepository.save(dayInstance, { continuationId });
-
       return { appointmentId: cmd.appointmentId };
     }
 

@@ -1,5 +1,9 @@
 module.exports = function payTrainerRouter(koarouter, controllers) {
   return function(appRouter) {
+    console.log(`==========controllers.payTrainerController==========`);
+    console.log(controllers.payTrainerController);
+    console.log(`==========END controllers.payTrainerController==========`);
+
     const router = koarouter();
     /**
      * @swagger
@@ -28,8 +32,10 @@ module.exports = function payTrainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/paytrainer/fetchverifiedappointments/:trainerId',
-      controllers.payTrainerController.fetchVerifiedAppointments);
+    router.get(
+      '/paytrainer/fetchverifiedappointments/:trainerId',
+      controllers.payTrainerController.fetchVerifiedAppointments,
+    );
     /**
      * @swagger
      * /paytrainer/{trainerId}:
@@ -62,8 +68,10 @@ module.exports = function payTrainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/paytrainer/:trainerId',
-      controllers.payTrainerController.payTrainer);
+    router.post(
+      '/paytrainer/:trainerId',
+      controllers.payTrainerController.payTrainer,
+    );
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

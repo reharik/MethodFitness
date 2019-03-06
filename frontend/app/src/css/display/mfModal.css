@@ -1,5 +1,7 @@
 .mf__modal {
   z-index: 1000;
+  overflow: auto;
+  max-height: 95vw;
 }
 
 .mf__modal[hidden] {

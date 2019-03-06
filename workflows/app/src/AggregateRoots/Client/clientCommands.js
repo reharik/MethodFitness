@@ -1,6 +1,7 @@
 module.exports = function(
   clientInvariants,
   rsRepository,
+  eventRepository,
   esEvents,
   uuid,
   logger,
@@ -86,53 +87,95 @@ module.exports = function(
           raiseEvent(esEvents.clientUnarchivedEvent(cmdClone));
         },
 
-        purchase: cmd => {
+        purchase: async (cmd, trainer) => {
           let cmdClone = Object.assign({}, cmd);
           cmdClone.purchaseId = cmdClone.purchaseId || uuid.v4();
           let sessions = generateSessions(cmdClone);
+
+          // handle unfunded sessions
           let fundedAppointments = [];
-          state.unfundedAppointments.forEach(x => {
+          for (let x of state.unfundedAppointments) {
             let session = sessions.find(
               s => s.appointmentType === x.appointmentType && !s.used,
             );
             if (session) {
-              x.sessionId = session.sessionId;
-              x.purchasePrice = session.purchasePrice;
+              const trainerInstance = await eventRepository.getById(
+                trainer,
+                x.trainerId,
+              );
+              const TCR = trainerInstance.getTrainerClientRateByClientId(
+                state._id,
+              );
+              let TR = 0;
+              if (TCR && session.purchasePrice) {
+                TR = session.purchasePrice * ((TCR ? TCR.rate : 0) * 0.01);
+              }
+              // update appointment for funding event
+              x = Object.assign({}, x, {
+                sessionId: session.sessionId,
+                purchaseId: session.purchaseId,
+                pricePerSession: session.purchasePrice,
+                trainerPercentage: TCR ? TCR.rate : 0,
+                trainerPay: TR,
+              });
+              // update session to show it's used;
               session.used = true;
               session.appointmentId = x.appointmentId;
               session.trainerId = x.trainerId;
+              session.pricePerSession = session.purchasePrice;
+              session.trainerPay = TR;
+              session.trainerPercentage = TCR ? TCR.rate : 0;
+              session.appointmentStartTime = x.appointmentStartTime;
+              session.appointmentDate = x.appointmentDate;
               fundedAppointments.push(x);
             }
-          });
+          }
 
           cmdClone.sessions = sessions;
           raiseEvent(esEvents.sessionsPurchasedEvent(cmdClone));
-          fundedAppointments.forEach(e =>
-            raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e)),
-          );
+          // apply new sessions to unfunded appointments
+          fundedAppointments.forEach(e => {
+            raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e));
+          });
         },
 
-        clientAttendsAppointment: async cmd => {
-          rsRepository = await rsRepository;
-          const appointment = await rsRepository.getById(
-            event.appointmentId,
-            'appointment',
-          );
-
+        clientAttendsAppointment: async (cmd, trainer) => {
           let cmdClone = Object.assign({}, cmd);
           let event;
           const session = state.clientInventory.consumeSession(cmdClone);
+          const trainerInstance = await eventRepository.getById(
+            trainer,
+            cmdClone.trainerId,
+          );
+
+          const TCR = trainerInstance.getTrainerClientRateByClientId(state._id);
+          console.log(`==========TCR==========`);
+          console.log(TCR);
+          console.log(`==========END TCR==========`);
+
           cmdClone.clientId = state._id;
+          cmdClone.clientFirstName = state.firstName;
+          cmdClone.clientLastName = state.lastName;
+          cmdClone.appointmentDate = cmdClone.date;
+          cmdClone.appointmentStartTime = cmdClone.startTime;
+          cmdClone.trainerPercentage = TCR ? TCR.rate : 0;
           if (session) {
+            const purchasePrice = session.purchasePrice;
+            let TR = 0;
+            if (TCR && purchasePrice) {
+              TR = purchasePrice * (TCR.rate * 0.01);
+            }
+
             cmdClone.sessionId = session.sessionId;
             cmdClone.purchaseId = session.purchaseId;
-            cmdClone.appointmentDate = appointment.date;
-            cmdClone.appointmentStartTime = appointment.startTime;
-            // in case this is an update of an appointment in the past
+            cmdClone.pricePerSession = purchasePrice;
+            cmdClone.trainerPay = TR;
+
             event = esEvents.fundedAppointmentAttendedByClient(cmdClone);
           } else {
             event = esEvents.unfundedAppointmentAttendedByClientEvent(cmdClone);
           }
+
           raiseEvent(event);
         },
 
@@ -142,7 +185,7 @@ module.exports = function(
           raiseEvent(esEvents.sessionsRefundedEvent(cmdClone));
         },
 
-        removePastAppointmentForClient: appointmentId => {
+        removePastAppointmentForClient: (appointmentId, trainerId) => {
           const unfundedAppointment = state.unfundedAppointments.find(
             u => u.appointmentId === appointmentId,
           );
@@ -159,6 +202,7 @@ module.exports = function(
             raiseEvent(
               esEvents.fundedAppointmentRemovedForClientEvent({
                 appointmentId,
+                trainerId,
                 clientId: state._id,
               }),
             );
@@ -169,6 +213,7 @@ module.exports = function(
           const session = state.clientInventory.getUsedSessionByAppointmentId(
             appointmentId,
           );
+
           if (!session) {
             logger.debug(
               `No session associated with appointment Id: ${appointmentId} found!`,
@@ -184,9 +229,14 @@ module.exports = function(
           if (unfundedAppointment) {
             event = esEvents.sessionTransferredFromRemovedAppointmentToUnfundedAppointment(
               {
-                clientId: state._id,
-                sessionId: session.sessionId,
                 appointmentId: unfundedAppointment.appointmentId,
+                clientId: state._id,
+                pricePerSession: session.purchasePrice,
+                purchaseId: session.purchaseId,
+                sessionId: session.sessionId,
+                trainerId: session.trainerId,
+                trainerPay: session.trainerPay,
+                trainerPercentage: session.trainerPercentage,
               },
             );
           } else {
@@ -213,7 +263,8 @@ module.exports = function(
           const session = state.clientInventory.getUsedSessionByAppointmentId(
             appointmentId,
           );
-          return session.puchasePrice;
+
+          return session ? session.purchasePrice : '';
         },
       },
       'ClientCommands',

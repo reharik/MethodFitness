@@ -4,8 +4,8 @@ module.exports = function() {
       trainerHired(event) {
         state._password = event.credentials.password;
         state._id = event.trainerId;
-        state.firstName = event.firstName;
-        state.lastName = event.lastName;
+        state.firstName = event.contact.firstName;
+        state.lastName = event.contact.lastName;
       },
 
       trainerPasswordUpdated(event) {
@@ -43,8 +43,8 @@ module.exports = function() {
         });
       },
       trainerContactUpdatedEvent(event) {
-        state.firstName = event.firstName;
-        state.lastName = event.lastName;
+        state.firstName = event.contact.firstName;
+        state.lastName = event.contact.lastName;
       },
     };
   };

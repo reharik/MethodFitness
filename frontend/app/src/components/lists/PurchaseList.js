@@ -16,16 +16,20 @@ const layout = Breakjs({
 
 class PurchaseList extends Component {
   state = {
-    purchases: {},
+    purchases: [],
     layout: layout.current(),
   };
 
-  UNSAFE_componentWillMount() {
-    layout.addChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
+  componentDidMount() {
+    layout.addChangeListener(layout =>
+      this.setState(state => ({ ...state, layout })),
+    ); // eslint-disable-line no-shadow
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
+    layout.removeChangeListener(layout =>
+      this.setState(state => ({ ...state, layout })),
+    ); // eslint-disable-line no-shadow
   }
 
   submitVerification = () => {
@@ -98,9 +102,15 @@ class PurchaseList extends Component {
   });
 
   expandRowRender = data => {
-    const selectedRowKeys = this.state.purchases[data.purchaseId]
-      ? this.state.purchases[data.purchaseId].selectedRowKeys
-      : [];
+    const selectedRowKeys = this.props.sessionsDataSource.filter(
+      x => x.purchaseId === data.purchaseId,
+    );
+
+    console.log(`==========selectedRowKeys==========`);
+    console.log(data);
+    console.log(selectedRowKeys);
+    console.log(`==========END selectedRowKeys==========`);
+
     let rowSelection = {
       selectedRowKeys,
       onSelect: this.onSelect,
@@ -125,7 +135,7 @@ class PurchaseList extends Component {
       },
       {
         render: val => (val ? moment(val).format('LT') : val), // eslint-disable-line no-confusing-arrow
-        dataIndex: 'startTime',
+        dataIndex: 'appointmentStartTime',
         title: 'Start Time',
       },
       {
@@ -160,7 +170,7 @@ class PurchaseList extends Component {
         columns={columns}
         rowKey="sessionId"
         rowClassName={getRowClass}
-        dataSource={data.sessions}
+        dataSource={selectedRowKeys}
         rowSelection={this.props.isAdmin ? rowSelection : null}
         pagination={false}
       />
@@ -168,9 +178,10 @@ class PurchaseList extends Component {
   };
 
   render() {
-    let hasRefundableItems = this.props.gridConfig.dataSource
-      .reduce((a, b) => a.concat(b.sessions), [])
-      .some(x => !x.refunded && !x.appointmentId);
+    let hasRefundableItems = this.props.sessionsDataSource.some(
+      x => !x.refunded && !x.appointmentId,
+    );
+
     return (
       <div id="purchaseList">
         <ContentHeader>
@@ -229,6 +240,7 @@ PurchaseList.propTypes = {
   clientId: PropTypes.string,
   refundSessions: PropTypes.func,
   isAdmin: PropTypes.bool,
+  sessionsDataSource: PropTypes.array,
 };
 
 export default PurchaseList;

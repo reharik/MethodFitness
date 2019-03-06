@@ -1,4 +1,10 @@
-module.exports = function(eventRepository, logger, metaLogger, trainer) {
+module.exports = function(
+  eventRepository,
+  logger,
+  metaLogger,
+  trainer,
+  client,
+) {
   return function TrainerWorkflow() {
     // async function loginTrainer(cmd, continuationId ) {
     //   throw new Error('yo! wtf!');
@@ -148,7 +154,7 @@ module.exports = function(eventRepository, logger, metaLogger, trainer) {
         trainer,
         cmd.trainerId,
       );
-      trainerInstance.payTrainer(cmd);
+      await trainerInstance.payTrainer(cmd, client);
       logger.info('saving trainerInstance');
       logger.trace(trainerInstance);
       await eventRepository.save(trainerInstance, { continuationId });

@@ -43,13 +43,26 @@ module.exports = function(sortby, metaLogger, logger) {
       consumedSessions.splice(idx, 1);
     };
 
-    const sessionConsumed = (sessionId, appointmentId) => {
+    const sessionConsumed = (
+      sessionId,
+      appointmentId,
+      trainerPay,
+      trainerPercentage,
+      trainerId,
+    ) => {
       if (appointmentId) {
         let session = sessions.find(x => x.sessionId === sessionId);
         logger.debug(
           `addding session to consumedSession with appointmentId: ${appointmentId} in clientInventory`,
         );
-        consumedSessions.push(Object.assign({}, session, { appointmentId }));
+        consumedSessions.push(
+          Object.assign({}, session, {
+            appointmentId,
+            trainerPay,
+            trainerPercentage,
+            trainerId
+          }),
+        );
       }
       logger.debug(
         `removing session ${sessionId} from sessions in clientInventory`,
@@ -63,7 +76,12 @@ module.exports = function(sortby, metaLogger, logger) {
       );
     };
 
+    const getDamnSessions = () => {
+      return consumedSessions;
+    };
+
     return metaLogger({
+      getDamnSessions,
       addSessionsToInventory,
       consumeSession,
       getUsedSessionByAppointmentId,

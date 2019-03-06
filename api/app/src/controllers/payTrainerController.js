@@ -19,7 +19,7 @@ module.exports = function(
       const result = query[0];
       let body = {};
       if (result) {
-        body = result.unpaidAppointments.filter(x => x.verified);
+        body = result.appointments.filter(x => x.verified);
       }
       ctx.body = body;
       ctx.status = 200;

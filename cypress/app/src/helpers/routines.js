@@ -15,11 +15,15 @@ module.exports = (cy, Cypress) => {
         .contains(options.currentClient.LNF)
         .closest('li')
         .find('span.ant-select-selection__choice__remove')
-        .click();
+        .wait(250)
+        .click()
+        .wait(500);
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.newClient.LNF)
-        .click();
+        .wait(250)
+        .click()
+        .wait(250);
       cy.get('#clients input').blur();
     }
     if (!!options.removeClient) {
@@ -29,14 +33,18 @@ module.exports = (cy, Cypress) => {
         .contains(options.removeClient.LNF)
         .closest('li')
         .find('span.ant-select-selection__choice__remove')
-        .click();
+        .wait(250)
+        .click()
+        .wait(250);
     }
     if (!!options.currentClient && !!options.client2) {
       cy.log(`----adding client for pair----`);
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.client2.LNF)
-        .click();
+        .wait(250)
+        .click()
+        .wait(250);
       cy.get('#clients input').blur();
     }
     if (!!options.newClient && !!options.newClient2) {
@@ -47,15 +55,22 @@ module.exports = (cy, Cypress) => {
           cy
             .wrap(item)
             .find('span.ant-select-selection__choice__remove')
-            .click(),
+
+            .wait(250)
+            .click()
+            .wait(250),
         );
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.newClient.LNF)
-        .click();
+        .wait(250)
+        .click()
+        .wait(250);
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.newClient2.LNF)
-        .click();
+        .wait(250)
+        .click()
+        .wait(250);
     }
   };
 
@@ -97,14 +112,6 @@ module.exports = (cy, Cypress) => {
 
     _changeClients(options);
 
-    if (options.newTrainer) {
-      cy.log(`----changing Trainer----`);
-      cy.get('#trainerId').click({ force: true });
-      cy.get('.ant-select-dropdown-menu-item')
-        .contains(options.newTrainer.LNF)
-        .click();
-    }
-
     if (options.location) {
       cy.log(`----changing appointment location----`);
       cy.get('#locationId').click({
@@ -112,6 +119,7 @@ module.exports = (cy, Cypress) => {
       });
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.location.name)
+        .wait(500)
         .click();
     }
 
@@ -122,11 +130,21 @@ module.exports = (cy, Cypress) => {
       });
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.appointmentType)
+        .wait(500)
         .click();
     }
     if (!!options.notes) {
       cy.log(`----changing notes----`);
       cy.get('#notes').type(options.notes);
+    }
+    if (options.newTrainer) {
+      cy.log(`----changing Trainer----`);
+      cy.get('#trainerId').click({ force: true });
+      cy.get('.ant-select-dropdown-menu-item')
+        .contains(options.newTrainer.LNF)
+        .wait(250)
+        .click()
+        .wait(250);
     }
 
     if (!!options.newDate) {
@@ -632,9 +650,9 @@ module.exports = (cy, Cypress) => {
       .invoke('val')
       .as('sowValue');
     cy.get('@sowValue', { log: false }).then(sow => {
-      const startOfWeek = Cypress.moment(sow)
-        .add(1, 'day')
-        .startOf('day');
+      const startOfWeek = Cypress.moment(sow).startOf('day');
+      cy.log(startOfWeek.toString());
+      cy.log(date.toString());
       if (date.isBefore(startOfWeek)) {
         cy.log(`======navigate one week back======`);
         cy.get('.redux__task__calendar__header__date__nav > :nth-child(1)', {
@@ -642,7 +660,7 @@ module.exports = (cy, Cypress) => {
         }).click({ log: false });
         cy.wait('@fetchAppointments', {
           log: false,
-        });
+        }).wait(250);
       }
     });
 
@@ -653,7 +671,7 @@ module.exports = (cy, Cypress) => {
       .as('eowValue');
     cy.get('@eowValue', { log: false }).then(eow => {
       const endOfWeek = Cypress.moment(eow)
-        .add(1, 'day')
+        .subtract(1, 'day')
         .endOf('day');
       if (date.isAfter(endOfWeek)) {
         cy.log(`======navigate one week forward======`);

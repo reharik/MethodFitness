@@ -1,16 +1,26 @@
 module.exports = function(invariant) {
   return function({
     clientId,
+    clientFirstName,
+    clientLastName,
     trainerId,
     appointmentId,
-    purchaseId,
     appointmentType,
     appointmentStartTime,
     appointmentDate,
+    trainerPercentage,
   }) {
     invariant(
       clientId,
       'unfundedAppointmentAttendedByClientEvent requires that you pass the clients id',
+    );
+    invariant(
+      clientFirstName,
+      'unfundedAppointmentAttendedByClientEvent requires that you pass the clients first name',
+    );
+    invariant(
+      clientLastName,
+      'unfundedAppointmentAttendedByClientEvent requires that you pass the clients last name',
     );
     invariant(
       trainerId,
@@ -19,10 +29,6 @@ module.exports = function(invariant) {
     invariant(
       appointmentId,
       'unfundedAppointmentAttendedByClientEvent requires that you pass the appointment id',
-    );
-    invariant(
-      purchaseId,
-      'unfundedAppointmentAttendedByClientEvent requires that you pass the purchase id',
     );
     invariant(
       appointmentType,
@@ -36,15 +42,21 @@ module.exports = function(invariant) {
       appointmentStartTime,
       'unfundedAppointmentAttendedByClientEvent requires that you pass the appointment start time',
     );
+    invariant(
+      trainerPercentage,
+      'unfundedAppointmentAttendedByClientEvent requires that you pass the trainers percentage',
+    );
     return {
       eventName: 'unfundedAppointmentAttendedByClient',
       clientId,
+      clientFirstName,
+      clientLastName,
       trainerId,
       appointmentId,
-      purchaseId,
       appointmentType,
       appointmentStartTime,
       appointmentDate,
+      trainerPercentage,
     };
   };
 };

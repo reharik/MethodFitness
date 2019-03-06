@@ -1,10 +1,13 @@
 module.exports = function(invariant) {
   return function({
     appointmentId,
-    appointmentDate,
-    appointmentStartTime,
-    sessionId,
     clientId,
+    sessionId,
+    purchaseId,
+    pricePerSession,
+    trainerPercentage,
+    trainerPay,
+    trainerId,
   }) {
     invariant(
       appointmentId,
@@ -12,16 +15,6 @@ module.exports = function(invariant) {
         ' you pass the appointment id',
     );
 
-    invariant(
-      appointmentDate,
-      'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
-        ' you pass the appointment date',
-    );
-    invariant(
-      appointmentStartTime,
-      'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
-        ' you pass the appointment start time',
-    );
     invariant(
       sessionId,
       'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
@@ -32,14 +25,43 @@ module.exports = function(invariant) {
       'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
         ' you pass the clientId',
     );
+    invariant(
+      purchaseId,
+      'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
+        ' you pass the purchaseId',
+    );
+    invariant(
+      pricePerSession,
+      'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
+        ' you pass the price per session',
+    );
+    invariant(
+      trainerPercentage,
+      'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
+        ' you pass the trainer percentage',
+    );
+    invariant(
+      trainerPay,
+      'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
+        ' you pass the trainerPay',
+    );
+    invariant(
+      trainerId,
+      'sessionTransferredFromRemovedAppointmentToUnfundedAppointment requires that' +
+        ' you pass the trainer Id',
+    );
+
     return {
       eventName:
         'sessionTransferredFromRemovedAppointmentToUnfundedAppointment',
       appointmentId,
-      appointmentDate,
-      appointmentStartTime,
-      sessionId,
       clientId,
+      sessionId,
+      purchaseId,
+      pricePerSession,
+      trainerPercentage,
+      trainerPay,
+      trainerId,
     };
   };
 };

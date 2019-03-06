@@ -4,8 +4,11 @@ module.exports = function(rsRepository, metaLogger, logger) {
 
     async function fundedAppointmentAttendedByClient(event) {
       rsRepository = await rsRepository;
-      const client = rsRepository.getById(event.clientId, 'sessionsPurchased');
-      let session = client.sessions.find(x => x.id === event.sessionId);
+      const client = await rsRepository.getById(
+        event.clientId,
+        'sessionsPurchased',
+      );
+      let session = client.sessions.find(x => x.sessionId === event.sessionId);
 
       session.appointmentId = event.appointmentId;
       session.appointmentDate = event.date;
@@ -21,11 +24,17 @@ module.exports = function(rsRepository, metaLogger, logger) {
     async function pastAppointmentUpdated(event) {
       for (let client of event.clients) {
         rsRepository = await rsRepository;
-        const clientPurchases = rsRepository.getById(
+        let clientPurchases = await rsRepository.getById(
           client.clientId,
           'sessionsPurchased',
         );
-
+        if (!clientPurchases || Object.keys(clientPurchases).length === 0) {
+          clientPurchases = {
+            clientId: event.clientId,
+            purchases: [],
+            sessions: [],
+          };
+        }
         let session = clientPurchases.sessions.find(
           x =>
             x.appointmentId === event.appointmentId &&
@@ -47,9 +56,12 @@ module.exports = function(rsRepository, metaLogger, logger) {
 
     async function sessionsPurchased(event) {
       rsRepository = await rsRepository;
-      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
+      let client = await rsRepository.getById(
+        event.clientId,
+        'sessionsPurchased',
+      );
 
-      if (!client) {
+      if (!client || Object.keys(client).length === 0) {
         client = {
           clientId: event.clientId,
           purchases: [],
@@ -69,19 +81,24 @@ module.exports = function(rsRepository, metaLogger, logger) {
         purchaseId: event.purchaseId,
         appointmentId: x.appointmentId,
         appointmentType: x.appointmentType,
+        appointmentDate: x.appointmentDate,
+        appointmentStartTime: x.appointmentStartTime,
         purchasePrice: x.purchasePrice,
         clientId: x.clientId,
       }));
 
       client.purchases.push(purchase);
-      client.sessions.concat(sessions);
+      client.sessions = client.sessions.concat(sessions);
 
       await rsRepository.save('sessionsPurchased', client, client.clientId);
     }
 
     async function sessionsRefunded(event) {
       rsRepository = await rsRepository;
-      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
+      let client = await rsRepository.getById(
+        event.clientId,
+        'sessionsPurchased',
+      );
 
       event.refundedSessions.forEach(r => {
         let session = client.sessions.find(s => s.sessionId === r.sessionId);
@@ -93,7 +110,10 @@ module.exports = function(rsRepository, metaLogger, logger) {
 
     async function sessionReturnedFromPastAppointment(event) {
       rsRepository = await rsRepository;
-      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
+      let client = await rsRepository.getById(
+        event.clientId,
+        'sessionsPurchased',
+      );
       let session = client.sessions.find(x => x.sessionId === event.sessionId);
       session.used = false;
       delete session.appointmentId;
@@ -107,7 +127,10 @@ module.exports = function(rsRepository, metaLogger, logger) {
       event,
     ) {
       rsRepository = await rsRepository;
-      let client = rsRepository.getById(client.clientId, 'sessionsPurchased');
+      let client = await rsRepository.getById(
+        event.clientId,
+        'sessionsPurchased',
+      );
 
       let session = client.sessions.find(x => x.sessionId === event.sessionId);
       session.used = true;

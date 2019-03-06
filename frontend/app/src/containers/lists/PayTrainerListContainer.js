@@ -80,8 +80,10 @@ function mapStateToProps(state, props) {
   let trainer = state.trainers.find(
     x => x.trainerId === props.params.trainerId,
   );
-  let trainerName = `${trainer.contact.firstName} ${trainer.contact.lastName}`;
-
+  let trainerName = '';
+  if (trainer) {
+    trainerName = `${trainer.contact.firstName} ${trainer.contact.lastName}`;
+  }
   const gridConfig = {
     columns,
     dataSource,

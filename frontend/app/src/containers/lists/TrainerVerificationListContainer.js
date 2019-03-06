@@ -37,7 +37,7 @@ TrainerVerificationListContainer.propTypes = {
 
 function mapStateToProps(state) {
   moment.locale('en');
-  let dataSource = state.sessionVerification
+  let dataSource = (state.sessionVerification || [])
     .filter(x => !x.verified && x.trainerId === state.auth.user.trainerId)
     .map(x => ({
       ...x,
@@ -48,7 +48,7 @@ function mapStateToProps(state) {
         .map(w => w[0].toUpperCase() + w.slice(1))
         .join(' '),
       appointmentDate: moment(x.appointmentDate).format('L'),
-      startTime: moment(x.startTime).format('hh:mm A'),
+      startTime: moment(x.appointmentStartTime).format('hh:mm A'),
     }))
     .sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));
 

@@ -29,5 +29,11 @@ export function updateAppointmentModel(state, args, copy) {
   model.startTime.value = moment(model.startTime.value).format('hh:mm A');
   model.endTime.value = moment(model.endTime.value).format('hh:mm A');
   model.appointmentId.value = copy ? '' : model.appointmentId.value;
+  // data in projection is an object, but when added to the store from
+  // scheduleAppointment it is just an array of guids
+  model.clients.value = model.clients.value.map(
+    x => (typeof x === 'string' ? x : x.clientId),
+  );
+
   return model;
 }

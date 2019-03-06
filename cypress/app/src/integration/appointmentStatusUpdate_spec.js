@@ -6,7 +6,7 @@ const appTimes = require('../helpers/appointmentTimes');
 let aDT;
 let appointmentValues;
 
-describe('Calling appointmentStatusUpdate', () => {
+describe.skip('Calling appointmentStatusUpdate', () => {
   let routines;
 
   beforeEach(() => {

@@ -1,23 +1,79 @@
 module.exports = function(invariant) {
-  return function({ clientId,
+  return function({
+    appointmentDate,
     appointmentId,
-    appointmentType,
+    appointmentStartTime,
+    clientId,
+    pricePerSession,
+    purchaseId,
     sessionId,
-    purchasePrice
-
+    trainerId,
+    trainerPay,
+    trainerPercentage,
   }) {
-    invariant(clientId, 'unfundedAppointmentFundedByClient requires that you pass the clients id');
-    invariant(appointmentId, 'unfundedAppointmentFundedByClient requires that you pass the appointment id');
-    invariant(appointmentType, 'unfundedAppointmentFundedByClient requires that you pass the appointment type');
-    invariant(sessionId, 'unfundedAppointmentFundedByClient requires that you pass the session id');
-    invariant(purchasePrice, 'unfundedAppointmentFundedByClient requires that you pass the purchase price');
+    invariant(
+      appointmentId,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the appointment id',
+    );
+    invariant(
+      appointmentDate,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the appointment date',
+    );
+    invariant(
+      appointmentStartTime,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the appointment start time',
+    );
+    invariant(
+      sessionId,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the sessionId',
+    );
+    invariant(
+      trainerId,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the trainer Id',
+    );
+    invariant(
+      clientId,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the clientId',
+    );
+    invariant(
+      purchaseId,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the purchaseId',
+    );
+    invariant(
+      pricePerSession,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the price per session',
+    );
+    invariant(
+      trainerPercentage,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the trainer percentage',
+    );
+    invariant(
+      trainerPay,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the trainerPay',
+    );
+
     return {
       eventName: 'unfundedAppointmentFundedByClient',
-      clientId,
+      appointmentDate,
       appointmentId,
-      appointmentType,
+      appointmentStartTime,
+      clientId,
+      pricePerSession,
+      purchaseId,
       sessionId,
-      purchasePrice
+      trainerId,
+      trainerPay,
+      trainerPercentage,
     };
   };
 };

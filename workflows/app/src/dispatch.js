@@ -1,15 +1,14 @@
-// eslint-disable-next-line camelcase
 module.exports = function(
   config,
   eventDispatcher,
-  CommandHandlers_array,
+  CommandHandlers_array, // eslint-disable-next-line camelcase
   eventReceiver,
   getStartPosition,
 ) {
   return async function() {
     try {
       for (let x of CommandHandlers_array) {
-        // eslint-disable-line camelcase
+        // eslint-disable-next-line camelcase
         let handler = x();
         let position = await getStartPosition(handler.handlerName);
         let dispatcher = await eventDispatcher(position);
