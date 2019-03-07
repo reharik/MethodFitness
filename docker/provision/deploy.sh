@@ -12,8 +12,9 @@ echo "scp"
 ls -la $(pwd)/deploy/
 cat $(pwd)/deploy/.env
 echo "--------------------------------------"
-scp -o "StrictHostKeyChecking=no" -r $(pwd)/deploy/* ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com:~/
-scp -o "StrictHostKeyChecking=no" -r $(pwd)/deploy/.env ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com:~/
+ssh ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com 'cat > ./deploy/.env' < .env
+ssh ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com 'cat > ./deploy/docker-compose.yml' < docker-compose.yml
+ssh ubuntu@ec2-18-220-170-213.us-east-2.compute.amazonaws.com 'cat > ./deploy/deploy_containers.sh' < deploy_containers.sh
 echo "--------------------------------------"
 echo "chmod on docker-compose"
 echo "--------------------------------------"
