@@ -1,5 +1,5 @@
 let config = {
-  apiBase: process.env.API_BASE_URL
+  apiBase: process.env.API_BASE_URL || 'http://localhost:3666/',
   //bunch of default values here;
 };
 
@@ -8,5 +8,8 @@ let config = {
 //   merge(config, newConfig);
 //   return config;
 // }
+console.log("==================")
+console.log(process.env.API_BASE_URL)
+console.log("==================")
 
 export default config;
