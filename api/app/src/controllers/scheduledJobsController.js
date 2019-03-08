@@ -19,11 +19,11 @@ module.exports = function(
     logger.info(`appoinments: ${JSON.stringify(appointments, null, 4)}`);
     let _commands = [];
     const now = moment();
-    logger.trace(`now: ${now.toString()}`);
+    logger.debug(`now: ${now.toString()}`);
     appointments
       .filter(x => {
         const endTime = moment(x.endTime);
-        logger.trace(`appt endTime: ${endTime.toString()}`);
+        logger.debug(`appt endTime: ${endTime.toString()}`);
         const before = endTime.isBefore(now, 'minute');
         const notCompleted = !x.completed;
         return before && notCompleted;
