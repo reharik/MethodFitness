@@ -6,7 +6,7 @@ const appTimes = require('../helpers/appointmentTimes');
 let aDT;
 let appointmentValues;
 
-describe.skip('Calling appointmentStatusUpdate', () => {
+describe('Calling appointmentStatusUpdate', () => {
   let routines;
 
   beforeEach(() => {
@@ -22,9 +22,9 @@ describe.skip('Calling appointmentStatusUpdate', () => {
     cy.fixture('locations').as('locations');
   });
 
-  describe('When calling appointmentStatusUpdate', () => {
+  describe.only('When calling appointmentStatusUpdate', () => {
     it('should pass all steps', function() {
-      cy.log(this.clients.client1.id);
+      cy.log(this.clients.client5.id);
       aDT = _aDT(Cypress.moment, appTimes.time7, true);
       let time = dtHelpers.syncApptTypeAndTime('fullHour', aDT.time);
       let endTime = dtHelpers
@@ -37,12 +37,13 @@ describe.skip('Calling appointmentStatusUpdate', () => {
           .buildMomentFromDateAndTime(aDT.date, aDT.time)
           .format(),
         endTime,
-        clientId: [this.clients.client1.id],
+        clientId: [this.clients.client5.id],
         trainerId: this.trainers.trainer1.id,
         appointmentType: 'fullHour',
         locationId: this.locations.location1.id,
       });
       cy.wait(1000);
+      cy.navTo('Trainers');
       cy.navTo('Calendar');
       cy.wait('@fetchAppointments', {
         log: false,
@@ -55,7 +56,7 @@ describe.skip('Calling appointmentStatusUpdate', () => {
 
       routines.checkClientInventory({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: 0,
       });
       const apiHost = Cypress.env('API_BASE_URL');
@@ -63,14 +64,14 @@ describe.skip('Calling appointmentStatusUpdate', () => {
       cy.wait(1000);
       routines.checkClientInventory({
         index: 2,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: -1,
       });
     });
   });
   describe('When calling appointmentStatusUpdate', () => {
     it('should should not affect appointments in future', function() {
-      cy.log(this.clients.client1.id);
+      cy.log(this.clients.client5.id);
       aDT = _aDT(Cypress.moment, appTimes.time7, true);
       let startTime = dtHelpers.buildMomentFromDateAndTime(aDT.date, aDT.time);
 
@@ -80,7 +81,7 @@ describe.skip('Calling appointmentStatusUpdate', () => {
         endTime: Cypress.moment(startTime)
           .add(1, 'hour')
           .format(),
-        clientId: [this.clients.client1.id],
+        clientId: [this.clients.client5.id],
         trainerId: this.trainers.trainer1.id,
         appointmentType: 'fullHour',
         locationId: this.locations.location1.id,
@@ -90,7 +91,7 @@ describe.skip('Calling appointmentStatusUpdate', () => {
       routines.createAppointment({
         date: aDTFuture.date,
         time: aDTFuture.time,
-        client: this.clients.client1,
+        client: this.clients.client5,
         appointmentType: 'Full Hour',
         future: true,
       });
@@ -108,7 +109,7 @@ describe.skip('Calling appointmentStatusUpdate', () => {
 
       routines.checkClientInventory({
         index: 1,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: 0,
       });
       const apiHost = Cypress.env('API_BASE_URL');
@@ -116,7 +117,7 @@ describe.skip('Calling appointmentStatusUpdate', () => {
       cy.wait(1000);
       routines.checkClientInventory({
         index: 2,
-        client: this.clients.client1,
+        client: this.clients.client5,
         fullHourCount: -1,
       });
     });

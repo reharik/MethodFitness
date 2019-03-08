@@ -1,8 +1,12 @@
 module.exports = function(invariant) {
-  return function({ clientId, trainerId, appointmentId, appointmentType }) {
+  return function({ clientId, trainerId, appointmentId, appointmentType, startTime, date }) {
     invariant(
       clientId,
       'clientAttendsAppointmentCommand requires that you pass the clients id',
+    );
+    invariant(
+      trainerId,
+      'clientAttendsAppointmentCommand requires that you pass the trainer id',
     );
     invariant(
       appointmentId,
@@ -13,15 +17,20 @@ module.exports = function(invariant) {
       'clientAttendsAppointmentCommand requires that you pass the appointment type',
     );
     invariant(
-      trainerId,
-      'clientAttendsAppointmentCommand requires that you pass the trainer id',
+      startTime,
+      'clientAttendsAppointmentCommand requires that you pass the appointment start time',
     );
+    invariant(
+      date,
+      'clientAttendsAppointmentCommand requires that you pass the appointment date',
+    );
+
     return {
       commandName: 'clientAttendsAppointment',
       clientId,
       trainerId,
       appointmentId,
-      appointmentType,
+      appointmentType, startTime, date
     };
   };
 };

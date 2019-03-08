@@ -15,11 +15,8 @@ module.exports = function(
       .subtract(6, 'month')
       .format('YYYY-MM-DD')}';`;
     const appointments = await rsRepository.query(sql);
-    console.log(`==========appointments==========`);
-    console.log(appointments);
-    console.log(`==========END appointments==========`);
 
-    logger.info(`appoinments: ${JSON.stringify(appointments)}`);
+    logger.info(`appoinments: ${JSON.stringify(appointments, null, 4)}`);
     let _commands = [];
 
     appointments
@@ -32,16 +29,18 @@ module.exports = function(
         x.clients.forEach(y =>
           _commands.push(
             commands.clientAttendsAppointmentCommand({
-              clientId: y,
+              clientId: y.clientId,
               trainerId: x.trainerId,
               appointmentId: x.appointmentId,
               appointmentType: x.appointmentType,
+              startTime: x.startTime,
+              date: x.date
             }),
           ),
         ),
       );
 
-    logger.info(`commands ${JSON.stringify(_commands)}`);
+    logger.info(`commands ${JSON.stringify(_commands, null, 4)}`);
     for (let c of _commands) {
       await eventstore.commandPoster(c, c.commandName, uuid.v4());
     }

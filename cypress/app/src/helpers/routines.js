@@ -850,7 +850,7 @@ module.exports = (cy, Cypress) => {
   };
 
   const scheduleAppointmentInPastButDontReconcile = options => {
-    /* prettier-ignore-start */
+    /* prettier-ignore-start */scheduleAppointmentInPastButDontReconcile
     cy.log(`======================================================`);
     cy.log(
       `${options.index ||

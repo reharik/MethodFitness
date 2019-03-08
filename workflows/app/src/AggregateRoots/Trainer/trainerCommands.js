@@ -176,8 +176,12 @@ module.exports = function(
         },
 
         getTrainerClientRateByClientId(clientId) {
-          return state.trainerClientRates.find(x => x.clientId === clientId);
-        },
+            const rate = state.trainerClientRates.find(x => x.clientId === clientId);
+            if(!rate) {
+              throw new Error(`This client: ${clientId} is not availble to trainer: ${state.firstName} ${state.lastName} - ${state._id}`);
+            }
+            return rate;
+          },
       },
       'TrainerCommands',
     );
