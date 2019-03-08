@@ -62,8 +62,8 @@ module.exports = function(webpackEnv) {
     ? publicPath.slice(0, -1)
     : isEnvDevelopment && '';
   // Get environment variables to inject into our app.
-  const env = getClientEnvironment(publicUrl);
   // common function to get style loaders
+  const env = getClientEnvironment(publicUrl);
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
