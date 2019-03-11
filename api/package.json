@@ -39,6 +39,7 @@
     "koa2-cors": "^2.0.3",
     "koa2-response-time": "0.0.10",
     "moment": "^2.17.1",
+    "moment-timezone": "^0.5.23",
     "node-eventstore-client": "0.2.10",
     "papers-local": "reharik/papers-local",
     "path": "^0.12.7",

@@ -1,4 +1,4 @@
-module.exports = function(invariant) {
+module.exports = function(invariant, riMoment) {
   return function({
     commandName,
     appointmentId,
@@ -17,6 +17,9 @@ module.exports = function(invariant) {
     isPastToFuture,
     isFutureToPast,
   }) {
+    const riStartTime = riMoment(startTime).toString();
+    const riEndTime = riMoment(endTime).toString();
+
     if (
       commandName !== 'scheduleAppointment' &&
       commandName !== 'scheduleAppointmentInPast'
@@ -46,11 +49,11 @@ module.exports = function(invariant) {
       `${commandName} requires that you pass the appointment date`,
     );
     invariant(
-      startTime,
+      riStartTime,
       `${commandName} requires that you pass the appointment start time`,
     );
     invariant(
-      endTime,
+      riEndTime,
       `${commandName} requires that you pass the appointment end time`,
     );
     invariant(
@@ -67,8 +70,8 @@ module.exports = function(invariant) {
       commandName,
       appointmentType,
       date,
-      startTime,
-      endTime,
+      startTime: riStartTime,
+      endTime: riEndTime,
       trainerId,
       color,
       clients,

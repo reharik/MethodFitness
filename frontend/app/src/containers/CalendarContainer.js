@@ -89,6 +89,7 @@ const mapStateToProps = state => {
     utcTime: true,
     taskId: 'appointmentId',
     dayDisplayFormat: 'ddd MM/DD',
+    spcificTimeZone: 'America/New_York'
   };
 
   config.canUpdate = curriedPermissionToSetAppointment(isAdmin);

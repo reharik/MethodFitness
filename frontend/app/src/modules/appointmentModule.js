@@ -89,6 +89,9 @@ function formatAppointmentData(data) {
 
 export function scheduleAppointment(data) {
   const formattedData = formatAppointmentData(data);
+  console.log('formattedData');
+  console.log(formattedData);
+  console.log('formattedData');
   const startTimeIsInPast = buildMomentFromDateAndTime(
     data.date,
     data.startTime,

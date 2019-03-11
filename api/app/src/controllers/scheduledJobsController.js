@@ -2,6 +2,7 @@ module.exports = function(
   rsRepository,
   eventstore,
   moment,
+  riMoment,
   uuid,
   commands,
   logger,
@@ -9,16 +10,16 @@ module.exports = function(
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
     rsRepository = await rsRepository;
-    let date = moment().format('YYYY-MM-DD');
+    let date = riMoment().format('YYYY-MM-DD');
     let sql = `select * from appointment 
-    where date<='${date}' and date>'${moment()
+    where date<='${date}' and date>'${riMoment()
       .subtract(6, 'month')
       .format('YYYY-MM-DD')}';`;
     const appointments = await rsRepository.query(sql);
 
     logger.info(`appoinments: ${JSON.stringify(appointments, null, 4)}`);
     let _commands = [];
-    const now = moment();
+    const now = riMoment();
     logger.debug(`now: ${now.toString()}`);
     logger.debug(`nowISO: ${now.toISOString()}`);
     appointments
