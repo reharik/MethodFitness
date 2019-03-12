@@ -1,4 +1,4 @@
-import riMoment, { isMoment } from './riMoment';
+import riMoment from './riMoment';
 
 export function generateAllTimes(inc, start, end) {
   let times = [];
@@ -25,21 +25,16 @@ export function generateAllTimes(inc, start, end) {
 const convertToHoursAndMin = time => {
   let hour = parseInt(time.substring(time.indexOf('T') + 1, time.indexOf(':')));
   let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(':') + 3));
-  return { hour, min};
+    let A = time.substring(time.indexOf(' ') + 1);
+    hour = A === 'AM' || hour === 12 ? hour : hour + 12;
+    return { hour, min};
 };
 
 export function buildMomentFromDateAndTime(date, time) {
-  if (!date || !time) {
+  if (!date || !time || time.length < 7) {
     return undefined;
   }
-  let normalizedTime = time;
-  if (isMoment(time)) {
-    normalizedTime = time.format('HH:mm A');
-  } else if (time.length > 8) {
-  normalizedTime = convertTimeToMoment(time).format('HH:mm A');
-  }
-
-  let hourMin = convertToHoursAndMin(normalizedTime);
+  let hourMin = convertToHoursAndMin(time);
 
   return riMoment(date)
     .hour(hourMin.hour)
