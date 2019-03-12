@@ -10,7 +10,8 @@ import HiddenFor from '../../formElements/HiddenFor';
 import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import AppointmentFooter from './AppointmentFooter';
-import moment from 'moment';
+import riMoment from './../../../utilities/riMoment';
+
 
 class AppointmentForm extends Component {
   containerName = 'appointmentForm';
@@ -125,7 +126,7 @@ class AppointmentForm extends Component {
     const date = this.props.form.getFieldValue('date');
     const startTime = this.props.form.getFieldValue('startTime');
     const clients = this.props.form.getFieldValue('clients');
-    if (buildMomentFromDateAndTime(date, startTime).isBefore(moment())) {
+    if (buildMomentFromDateAndTime(date, startTime).isBefore(riMoment())) {
       this.props.deleteAppointmentFromPast(appointmentId, date, clients);
     } else {
       this.props.deleteAppointment(appointmentId, date);
@@ -144,7 +145,7 @@ class AppointmentForm extends Component {
   };
 
   disabledDate = current => {
-    return current < moment().startOf('day');
+    return current < riMoment().startOf('day');
   };
 
   render() {

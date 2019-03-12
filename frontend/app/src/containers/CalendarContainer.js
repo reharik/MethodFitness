@@ -7,7 +7,8 @@ import { fetchTrainersAction } from './../modules/trainerModule';
 import { fetchAllLocationsAction } from './../modules/locationModule';
 import { curriedPermissionToSetAppointment } from './../utilities/appointmentTimes';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment/moment';
+import riMoment from './../utilities/riMoment';
+
 
 const CalendarContainer = ({
   config,
@@ -20,8 +21,8 @@ const CalendarContainer = ({
   appointments,
 }) => {
   const [currentAppointments, setCurrentAppointments] = useState(appointments);
-  const [startDate, setStartDate] = useState(moment().startOf('month'));
-  const [endDate, setEndDate] = useState(moment().endOf('month'));
+  const [startDate, setStartDate] = useState(riMoment().startOf('month'));
+  const [endDate, setEndDate] = useState(riMoment().endOf('month'));
   useEffect(
     () => {
       fetchClients();
@@ -35,8 +36,8 @@ const CalendarContainer = ({
   const retrieveData = (
     // if we have different default calendar views
     // this is where we need to change the initial get
-    start = moment().startOf('isoweek'),
-    end = moment().endOf('isoweek'),
+    start = riMoment().startOf('isoweek'),
+    end = riMoment().endOf('isoweek'),
   ) => {
     fetchAppointments(start, end);
     setStartDate(start);
@@ -46,7 +47,7 @@ const CalendarContainer = ({
 
   const setAppointmentsInState = (start = startDate, end = endDate) => {
     const appts = (appointments || []).filter(a => {
-      const aDate = moment(a.date);
+      const aDate = riMoment(a.date);
       return aDate >= start && aDate <= end;
     });
     setCurrentAppointments(appts);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
 import { browserHistory } from 'react-router';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
 import Breakjs from 'breakjs';
 const confirm = Modal.confirm;
 
@@ -21,15 +21,15 @@ class PurchaseList extends Component {
   };
 
   componentDidMount() {
-    layout.addChangeListener(layout =>
-      this.setState(state => ({ ...state, layout })),
-    ); // eslint-disable-line no-shadow
+    layout.addChangeListener(l =>
+      this.setState(state => ({ ...state, l })),
+    );
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(layout =>
-      this.setState(state => ({ ...state, layout })),
-    ); // eslint-disable-line no-shadow
+    layout.removeChangeListener(l =>
+      this.setState(state => ({ ...state, l })),
+    );
   }
 
   submitVerification = () => {
@@ -129,12 +129,12 @@ class PurchaseList extends Component {
         title: 'Appointment Type',
       },
       {
-        render: val => (val ? moment(val).format('L') : val), // eslint-disable-line no-confusing-arrow
+        render: val => (val ? riMoment(val).format('L') : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'appointmentDate',
         title: 'Date',
       },
       {
-        render: val => (val ? moment(val).format('LT') : val), // eslint-disable-line no-confusing-arrow
+        render: val => (val ? riMoment(val).format('LT') : val), // eslint-disable-line no-confusing-arrow
         dataIndex: 'appointmentStartTime',
         title: 'Start Time',
       },

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TrainerPaymentList from '../../components/lists/TrainerPaymentList';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
+
 import cellLink from '../../components/GridElements/CellLink.js';
 import { fetchTrainerPayments } from './../../modules/trainerPaymentModule';
 
@@ -44,7 +45,6 @@ const columns = [
 ];
 
 function mapStateToProps(state) {
-  moment.locale('en');
   let trainerPayment = state.trainerPayment.find(
     x => x.trainerId === state.auth.user.trainerId,
   );
@@ -52,7 +52,7 @@ function mapStateToProps(state) {
     ? trainerPayment.payments.map(x => ({
         paymentId: x.paymentId,
         paymentTotal: x.paymentTotal,
-        date: moment(x.date).format('L'),
+        date: riMoment(x.date).format('L'),
       }))
     : [];
 

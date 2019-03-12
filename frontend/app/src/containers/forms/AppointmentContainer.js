@@ -15,7 +15,8 @@ import {
   deleteAppointmentFromPast,
 } from './../../modules/appointmentModule';
 import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
+
 
 const mapStateToProps = (state, props) => {
   const isAdmin = state.auth.user.role === 'admin';
@@ -59,8 +60,8 @@ const mapStateToProps = (state, props) => {
 
   // please put this shit in a config somewhere
   let startTime = 5;
-  if (!isAdmin && model.date.value.dayOfYear() === moment().dayOfYear()) {
-    startTime = moment().hour() + 1;
+  if (!isAdmin && model.date.value.dayOfYear() === riMoment().dayOfYear()) {
+    startTime = riMoment().hour() + 1;
   }
 
   //set default location - this is crapy but I don't know how to deal right now

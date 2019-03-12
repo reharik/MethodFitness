@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
+
 import { Col } from 'antd';
 import ListItemValueDisplayFor from './ListItemValueDisplayFor';
 
 const DisplayFor = ({ data, selectOptions, span, align }) => {
-  moment.locale('en');
   const _span = function _span() {
     switch (data['x-input'] || data.type) {
       case 'color-picker': {
@@ -21,7 +21,7 @@ const DisplayFor = ({ data, selectOptions, span, align }) => {
       }
       case 'date-time': {
         return (
-          <span data-id={data.name}>{moment(data.value).format('L')}</span>
+          <span data-id={data.name}>{riMoment(data.value).format('L')}</span>
         );
       }
       case 'select': {

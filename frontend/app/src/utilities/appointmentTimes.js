@@ -1,12 +1,11 @@
-import moment from 'moment';
+import riMoment, { isMoment } from './riMoment';
 
 export function generateAllTimes(inc, start, end) {
-  moment.locale('en');
   let times = [];
-  let startMom = moment()
+  let startMom = riMoment()
     .hour(start)
     .minute(0);
-  let endMom = moment()
+  let endMom = riMoment()
     .hour(end + 12)
     .minute(0);
   times.push({
@@ -32,30 +31,36 @@ const convertToHoursAndMin = time => {
 };
 
 export function buildMomentFromDateAndTime(date, time) {
-  moment.locale('en');
   if (!date || !time) {
     return undefined;
   }
   let normalizedTime = time;
-  if (moment.isMoment(time)) {
+  if (isMoment(time)) {
     normalizedTime = time.format('HH:mm A');
   } else if (time.length > 8) {
-    normalizedTime = moment(time).format('HH:mm A');
+  normalizedTime = convertTimeToMoment(time).format('HH:mm A');
   }
 
   let hourMin = convertToHoursAndMin(normalizedTime);
 
-  return moment(date)
+  return riMoment(date)
     .hour(hourMin.hour)
     .minute(hourMin.min);
 }
 
+const convertTimeToMoment = (time) => {
+  const hourMin = convertToHoursAndMin(time);
+  return riMoment().startOf('day').add(hourMin.hour, 'hour').add(hourMin.minute, 'minute');
+};
+
 export function syncApptTypeAndTime(apptType, startTime) {
-  moment.locale('en');
-  const time = moment(startTime, 'hh:mm A');
+  const time = convertTimeToMoment(startTime);
   let endTime;
   if (apptType === 'halfHour') {
-    endTime = time.add(30, 'm');
+    endTime = time.add(30, 'minute');
+    console.log(`==========endTime.format()==========`);
+    console.log(riMoment(endTime).format());
+    console.log(`==========END endTime.format()==========`);
   }
   if (apptType === 'fullHour' || apptType === 'pair') {
     endTime = time.add(60, 'm');
@@ -70,12 +75,12 @@ export function curriedPermissionToSetAppointment(isAdmin) {
 // eslint-disable-next-line no-unused-vars
 export function permissionToSetAppointment({ date, startTime }, isAdmin) {
   const targetDateTime = buildMomentFromDateAndTime(date, startTime);
-  const cutOffDateTime = moment();
+  const cutOffDateTime = riMoment();
 
   const sameDayAsCutOff = (targetDate, cutOffDT) => {
     return (
-      targetDateTime.isSame(cutOffDT, 'day') &&
-      targetDateTime.isAfter(moment(cutOffDT).add(2, 'hours'))
+      targetDate.isSame(cutOffDT, 'day') &&
+      targetDate.isAfter(riMoment(cutOffDT).add(2, 'hours'))
     );
   };
 

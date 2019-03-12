@@ -6,7 +6,7 @@ import { Calendar } from 'redux-task-calendar';
 import ToggleTrainerListForCalendarContainer from './../containers/ToggleTrainerListContainer';
 import { permissionToSetAppointment } from './../utilities/appointmentTimes';
 import { Row, Col } from 'antd';
-import moment from 'moment';
+import riMoment from './../utilities/riMoment';
 import Breakjs from 'breakjs';
 import { Modal } from 'antd';
 const warning = Modal.warning;
@@ -80,7 +80,7 @@ const MFCalendar = ({
       });
       return;
     }
-    const formattedTime = moment(task.startTime)
+    const formattedTime = riMoment(task.startTime)
       .format('hh:mm A');
     let newApptArgs = {
       day: task.day,
@@ -95,8 +95,6 @@ const MFCalendar = ({
     setIsOpen(false);
     setApptArgs({});
   };
-
-  moment.locale('en');
 
   let calConfig = {
     ...config,
