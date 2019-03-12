@@ -7,9 +7,6 @@ export function appointmentModel(state, args) {
   model.date.value = riMoment(args.day);
   model.appointmentType.value = 'halfHour';
   model.startTime.value = args.startTime;
-  console.log(`==========model.startTime==========`);
-  console.log(model.startTime);
-  console.log(`==========END model.startTime==========`);
   model.endTime.value = syncApptTypeAndTime(
     model.appointmentType.value,
     model.startTime.value,

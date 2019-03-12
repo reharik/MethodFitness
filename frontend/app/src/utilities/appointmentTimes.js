@@ -23,11 +23,9 @@ export function generateAllTimes(inc, start, end) {
 }
 
 const convertToHoursAndMin = time => {
-  let hour = parseInt(time.substring(0, time.indexOf(':')));
-  let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
-  let A = time.substring(time.indexOf(' ') + 1);
-  hour = A === 'AM' || hour === 12 ? hour : hour + 12;
-  return { hour, min, A };
+  let hour = parseInt(time.substring(time.indexOf('T') + 1, time.indexOf(':')));
+  let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(':') + 3));
+  return { hour, min};
 };
 
 export function buildMomentFromDateAndTime(date, time) {
@@ -50,20 +48,17 @@ export function buildMomentFromDateAndTime(date, time) {
 
 const convertTimeToMoment = (time) => {
   const hourMin = convertToHoursAndMin(time);
-  return riMoment().startOf('day').add(hourMin.hour, 'hour').add(hourMin.minute, 'minute');
+  return riMoment().startOf('day').add(hourMin.hour, 'hour').add(hourMin.min, 'minute');
 };
 
 export function syncApptTypeAndTime(apptType, startTime) {
-  const time = convertTimeToMoment(startTime);
+  let newTime = convertTimeToMoment(startTime);
   let endTime;
   if (apptType === 'halfHour') {
-    endTime = time.add(30, 'minute');
-    console.log(`==========endTime.format()==========`);
-    console.log(riMoment(endTime).format());
-    console.log(`==========END endTime.format()==========`);
+    endTime = riMoment(newTime).add(30, 'm');
   }
   if (apptType === 'fullHour' || apptType === 'pair') {
-    endTime = time.add(60, 'm');
+    riMoment(endTime).add(60, 'm');
   }
   return endTime.format('h:mm A');
 }
