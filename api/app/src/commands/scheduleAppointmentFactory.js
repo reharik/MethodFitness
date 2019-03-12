@@ -17,8 +17,8 @@ module.exports = function(invariant, riMoment) {
     isPastToFuture,
     isFutureToPast,
   }) {
-    const riStartTime = riMoment(startTime).toString();
-    const riEndTime = riMoment(endTime).toString();
+    const riStartTime = riMoment(startTime).format();
+    const riEndTime = riMoment(endTime).format();
 
     if (
       commandName !== 'scheduleAppointment' &&
