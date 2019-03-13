@@ -1,7 +1,6 @@
 module.exports = function(
   rsRepository,
   eventstore,
-  moment,
   riMoment,
   uuid,
   commands,
@@ -24,7 +23,7 @@ module.exports = function(
     logger.debug(`nowISO: ${now.toISOString()}`);
     appointments
       .filter(x => {
-        const endTime = moment(x.endTime);
+        const endTime = riMoment(x.endTime);
         logger.debug(`appt endTime: ${endTime.toString()}`);
         logger.debug(`appt endTimeISO: ${endTime.toISOString()}`);
         const before = endTime.isBefore(now, 'minute');
