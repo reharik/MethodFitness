@@ -23,8 +23,10 @@ export function updateAppointmentModel(state, args, copy) {
     state.schema.definitions.appointment,
     appointment,
   );
+  // startTime has to be hh:mm A because it needs to match the selector option
   model.startTime.value = riMoment(model.startTime.value).format('hh:mm A');
-  model.endTime.value = riMoment(model.endTime.value).format('hh:mm A');
+  // endTime needs to be h:mm A to avoid a leading 0
+  model.endTime.value = riMoment(model.endTime.value).format('h:mm A');
   model.appointmentId.value = copy ? '' : model.appointmentId.value;
   // data in projection is an object, but when added to the store from
   // scheduleAppointment it is just an array of guids

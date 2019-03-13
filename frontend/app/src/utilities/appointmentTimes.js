@@ -53,7 +53,7 @@ export function syncApptTypeAndTime(apptType, startTime) {
     endTime = riMoment(newTime).add(30, 'm');
   }
   if (apptType === 'fullHour' || apptType === 'pair') {
-    riMoment(endTime).add(60, 'm');
+    endTime = riMoment(newTime).add(60, 'm');
   }
   return endTime.format('h:mm A');
 }
