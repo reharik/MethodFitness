@@ -60,7 +60,7 @@ ClientListContainer.propTypes = {
 function mapStateToProps(state) {
   const isAdmin = state.auth.user.role === 'admin';
 
-  let dataSource = state.clients
+  let dataSource = state.clients.results
     .filter(x => isAdmin || state.auth.user.clients.includes(x.clientId))
     .sort(sortBy('contact.lastName'));
 

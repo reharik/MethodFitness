@@ -9,7 +9,7 @@ import { actions as notifActions } from 'redux-notifications';
 const { notifClear } = notifActions;
 
 const mapStateToProps = state => {
-  const clients = state.clients.filter(x => !x.archived).map(x => ({
+  const clients = state.clients.results.filter(x => !x.archived).map(x => ({
     value: x.clientId,
     display: `${x.contact.lastName}, ${x.contact.firstName}`,
   }));

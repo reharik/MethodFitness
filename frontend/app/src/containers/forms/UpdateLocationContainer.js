@@ -48,7 +48,7 @@ UpdateLocationFormContainer.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
-  const location = state.locations.find(
+  const location = state.locations.results.find(
     x => x.locationId === props.params.locationId,
   );
   const model = normalizeModel(state.schema.definitions.location, location);

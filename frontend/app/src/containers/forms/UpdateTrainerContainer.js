@@ -24,9 +24,9 @@ const { notifClear } = notifActions;
 
 const mapStateToProps = (state, ownProps) => {
   const trainer = {
-    ...state.trainers.find(x => x.trainerId === ownProps.params.trainerId),
+    ...state.trainers.results.find(x => x.trainerId === ownProps.params.trainerId),
   };
-  const clients = state.clients.filter(x => !x.archived).map(x => ({
+  const clients = state.clients.results.filter(x => !x.archived).map(x => ({
     value: x.clientId,
     display: `${x.contact.lastName}, ${x.contact.firstName}`,
   }));

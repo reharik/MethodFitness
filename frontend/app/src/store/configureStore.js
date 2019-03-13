@@ -6,6 +6,7 @@ import DevTools from '../containers/DevTools';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './../sagas/rootSaga';
+import { cacheEnhancer } from 'redux-cache';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,6 +16,7 @@ export default function configureStore(initialState) {
     initialState,
     compose(
       applyMiddleware(thunk, sagaMiddleware, logger),
+      cacheEnhancer(),
       DevTools.instrument(),
     ),
   );

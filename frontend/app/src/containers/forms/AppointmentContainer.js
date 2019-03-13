@@ -27,15 +27,15 @@ const mapStateToProps = (state, props) => {
   let clients;
   let locations;
   if (
-    state.trainers.length <= 0 ||
-    state.clients.length <= 0 ||
-    state.locations.length <= 0
+    state.trainers.results.length <= 0 ||
+    state.clients.results.length <= 0 ||
+    state.locations.results.length <= 0
   ) {
     return null;
   }
-  user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
+  user = state.trainers.results.find(x => x.trainerId === state.auth.user.trainerId);
 
-  clients = state.clients
+  clients = state.clients.results
     .filter(x => !x.archived)
     .filter(x => isAdmin || user.clients.includes(x.clientId))
     .map(x => ({
@@ -43,13 +43,13 @@ const mapStateToProps = (state, props) => {
       display: `${x.contact.lastName}, ${x.contact.firstName}`,
     }));
 
-  trainers = state.trainers.filter(x => !x.archived).map(x => ({
+  trainers = state.trainers.results.filter(x => !x.archived).map(x => ({
     value: x.trainerId,
     display: `${x.contact.lastName}, ${x.contact.firstName}`,
     color: x.color,
   }));
 
-  locations = state.locations.filter(x => !x.archived).map(x => ({
+  locations = state.locations.results.filter(x => !x.archived).map(x => ({
     value: x.locationId,
     display: x.name,
   }));
