@@ -88,7 +88,7 @@ function formatAppointmentData(data) {
 
 export function scheduleAppointment(data) {
   const formattedData = formatAppointmentData(data);
-  const startTimeIsInPast = riMoment(formattedData.startTime).isBefore(riMoment());
+  const startTimeIsInPast = riMoment(formattedData.endTime).isBefore(riMoment());
   return startTimeIsInPast
     ? scheduleAppointmentInPast(formattedData)
     : scheduleAppointmentInFuture(formattedData);
