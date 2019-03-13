@@ -8,7 +8,7 @@ import { fetchClientAction } from './../../modules/clientModule';
 const mapStateToProps = (state, props) => {
   const model = normalizeModel(state.schema.definitions.purchase);
   model.clientId.value = props.params.clientId;
-  let client = state.clients.find(
+  let client = state.clients.results.find(
     x => x.clientId === props.params.clientId,
   ) || { contact: {} };
 

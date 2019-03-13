@@ -60,7 +60,7 @@ function mapStateToProps(state) {
   const isAdmin = state.auth.user.role === 'admin';
 
   const gridConfig = {
-    dataSource: state.locations,
+    dataSource: state.locations.results,
   };
   return {
     isAdmin,
