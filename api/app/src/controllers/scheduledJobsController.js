@@ -19,14 +19,13 @@ module.exports = function(
     logger.info(`appoinments: ${JSON.stringify(appointments, null, 4)}`);
     let _commands = [];
     const now = riMoment();
-    logger.debug(`now: ${now.toString()}`);
-    logger.debug(`nowISO: ${now.toISOString()}`);
+    logger.debug(`now: ${now.format()} time: ${now.format('h:mm A')}`);
     appointments
       .filter(x => {
         const endTime = riMoment(x.endTime);
-        logger.debug(`appt endTime: ${endTime.toString()}`);
-        logger.debug(`appt endTimeISO: ${endTime.toISOString()}`);
+        logger.debug(`endTime: ${endTime.format()} time: ${endTime.format('h:mm A')}`);
         const before = endTime.isBefore(now, 'minute');
+        logger.debug(`is appointment before now: ${before}`);
         const notCompleted = !x.completed;
         return before && notCompleted;
       })
