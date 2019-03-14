@@ -1,5 +1,6 @@
 let config = {
-  apiBase: process.env.API_BASE_URL
+  apiBase: process.env.API_BASE_URL,
+  endToEndTesting: process.env.CYPRESS_TESTING,
   //bunch of default values here;
 };
 

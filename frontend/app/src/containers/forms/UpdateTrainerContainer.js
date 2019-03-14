@@ -70,6 +70,7 @@ const mapStateToProps = (state, ownProps) => {
     states,
     clients,
     roles,
+    isAdmin: state.auth.user.role === 'admin'
   };
 };
 

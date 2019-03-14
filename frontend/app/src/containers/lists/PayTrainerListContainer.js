@@ -80,7 +80,7 @@ function mapStateToProps(state, props) {
       };
     });
 
-  let trainer = state.trainer.resultss.find(
+  let trainer = state.trainers.results.find(
     x => x.trainerId === props.params.trainerId,
   );
   let trainerName = '';

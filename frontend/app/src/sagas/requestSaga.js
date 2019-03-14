@@ -1,6 +1,7 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { logoutUser } from './../modules';
 import { checkCacheValid } from 'redux-cache';
+import config from './../utilities/configValues';
 
 const cachableItems = {
   TRAINER: 'trainers',
@@ -54,7 +55,10 @@ const handleSuccess = function* handleSuccess(success, action, payload) {
 function* request(action) {
   const entity = action.type.substring(action.type.lastIndexOf('/') + 1, action.type.lastIndexOf('_'));
   const chachableReducer = cachableItems[entity];
-  if(chachableReducer) {
+  console.log(`==========config.endToEndTesting==========`);
+  console.log(config.endToEndTesting);
+  console.log(`==========END config.endToEndTesting==========`);
+  if(!config.endToEndTesting && chachableReducer) {
     const state = yield select();
     const isCacheValid = checkCacheValid(() => state, chachableReducer);
     if (isCacheValid) {
