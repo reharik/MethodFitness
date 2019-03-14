@@ -30,7 +30,7 @@ describe('Change Trainer on funded Appointment', () => {
     cy.fixture('trainers').as('trainers');
   });
 
-  describe.only('When changing trainer on paid appointment', () => {
+  describe('When changing trainer on paid appointment', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({

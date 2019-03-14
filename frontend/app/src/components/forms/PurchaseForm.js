@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import SubmissionFor from './../formElements/SubmissionFor';
-import { Form, Card, Row, Col } from 'antd';
 import prices from './../../utilities/prices';
+import { Form, Card, Row, Col } from 'antd';
+import { Notifs } from 'redux-notifications';
+import { browserHistory } from 'react-router';
 
 class PurchaseForm extends Component {
-  UNSAFE_componentWillMount() {
-    this.loadData();
-    this.setState({ ...this.purchasePrice({}) });
-  }
-
-  loadData() {
-    // if (this.props.params.clientId) {
-    //   this.props.fetchClientAction(this.props.params.clientId);
-    // }
-  }
+  state = {
+    fullHourTenPackTotal: 0,
+    fullHourTotal: 0,
+    halfHourTenPackTotal: 0,
+    halfHourTotal: 0,
+    pairTenPackTotal: 0,
+    pairTotal: 0,
+    purchaseTotal: 0,
+  };
 
   onSubmitHandler = e => {
     e.preventDefault();
@@ -75,7 +75,8 @@ class PurchaseForm extends Component {
       <div className="form">
         <ContentHeader>
           <div className="form__header">
-            <div className="form__header__left" />
+            <div className="form__header__left">
+            </div>
             <div className="form__header__center">
               <div className="form__header__center__title">
                 Purchase Information for{' '}
@@ -84,7 +85,18 @@ class PurchaseForm extends Component {
                 }`}
               </div>
             </div>
-            <div className="form__header__right" />
+            <div className="form__header__right" >
+            <button
+                className="contentHeader__button"
+                onClick={() =>
+                  browserHistory.push(
+                    `/purchases/${this.props.params.clientId}`,
+                  )
+                }
+              >
+                Return to Purchases
+              </button>
+              </div>
           </div>
         </ContentHeader>
         <Notifs containerName="PurchaseForm" />

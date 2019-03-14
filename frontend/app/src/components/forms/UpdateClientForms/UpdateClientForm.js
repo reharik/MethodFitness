@@ -22,6 +22,16 @@ class UpdateClientForm extends Component {
                 title="New"
                 onClick={() => browserHistory.push('/client')}
               />
+              <button
+                    className="contentHeader__button"
+                    onClick={() =>
+                      browserHistory.push(
+                        `/purchase/${this.props.clientId}`,
+                      )
+                    }
+                  >
+                    Purchase Sessions
+                  </button>
             </div>
             <div className="form__header__center">
               <div className="form__header__center__title">Client</div>

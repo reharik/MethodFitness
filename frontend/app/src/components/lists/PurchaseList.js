@@ -202,20 +202,22 @@ class PurchaseList extends Component {
                   Submit Refund
                 </button>
               ) : null}
-              <a
-                className="contentHeader__anchor"
-                data-id={'returnToClient'}
-                onClick={() =>
-                  browserHistory.push(`/client/${this.props.clientId}`)
-                }
-              >
-                Return to client
-              </a>
             </div>
             <div className="list__header__center">
               <div className="list__header__center__title">Purchases</div>
             </div>
-            <div className="list__header__right" />
+            <div className="list__header__right" >
+            <button
+                className="contentHeader__button"
+                onClick={() =>
+                  browserHistory.push(
+                    `/client/${this.props.params.clientId}`,
+                  )
+                }
+              >
+                Return to Client
+              </button>
+            </div>
           </div>
         </ContentHeader>
         <div className="form-scroll-inner">
