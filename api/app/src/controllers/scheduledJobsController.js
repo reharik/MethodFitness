@@ -1,7 +1,7 @@
 module.exports = function(
   rsRepository,
   eventstore,
-  moment,
+  riMoment,
   uuid,
   commands,
   logger,
@@ -9,22 +9,23 @@ module.exports = function(
   let appointmentStatusUpdate = async function(ctx) {
     logger.debug('arrived at scheduledJobs.appointmentStatusUpdate');
     rsRepository = await rsRepository;
-    let date = moment().format('YYYY-MM-DD');
+    let date = riMoment().format('YYYY-MM-DD');
     let sql = `select * from appointment 
-    where date<='${date}' and date>'${moment()
+    where date<='${date}' and date>'${riMoment()
       .subtract(6, 'month')
       .format('YYYY-MM-DD')}';`;
     const appointments = await rsRepository.query(sql);
-    console.log(`==========appointments==========`);
-    console.log(appointments);
-    console.log(`==========END appointments==========`);
 
-    logger.info(`appoinments: ${JSON.stringify(appointments)}`);
+    logger.info(`appoinments: ${JSON.stringify(appointments, null, 4)}`);
     let _commands = [];
-
+    const now = riMoment();
+    logger.debug(`now: ${now.format()} time: ${now.format('h:mm A')}`);
     appointments
       .filter(x => {
-        const before = moment(x.endTime).isBefore(moment(), 'minute');
+        const endTime = riMoment(x.endTime);
+        logger.debug(`endTime: ${endTime.format()} time: ${endTime.format('h:mm A')}`);
+        const before = endTime.isBefore(now, 'minute');
+        logger.debug(`is appointment before now: ${before}`);
         const notCompleted = !x.completed;
         return before && notCompleted;
       })
@@ -32,16 +33,18 @@ module.exports = function(
         x.clients.forEach(y =>
           _commands.push(
             commands.clientAttendsAppointmentCommand({
-              clientId: y,
+              clientId: y.clientId,
               trainerId: x.trainerId,
               appointmentId: x.appointmentId,
               appointmentType: x.appointmentType,
+              startTime: x.startTime,
+              date: x.date
             }),
           ),
         ),
       );
 
-    logger.info(`commands ${JSON.stringify(_commands)}`);
+    logger.info(`commands ${JSON.stringify(_commands, null, 4)}`);
     for (let c of _commands) {
       await eventstore.commandPoster(c, c.commandName, uuid.v4());
     }

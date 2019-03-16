@@ -14,7 +14,8 @@
   width: 100%;
 }
 
-.ant-table-small .ant-table-header > table, .ant-table-small .ant-table-body > table {
+.ant-table-small .ant-table-header > table,
+.ant-table-small .ant-table-body > table {
   padding: 0;
 }
 
@@ -22,15 +23,15 @@
   background: #f6f6f6;
 }
 
-.ant-table-tbody>tr:hover>td{
-  background:#fae8b3
+.ant-table-tbody > tr:hover > td {
+  background: #fae8b3;
 }
 
 .ant-message {
   font-size: 16px;
 }
 
-.ant-message .anticon{
+.ant-message .anticon {
   font-size: 16px;
 }
 

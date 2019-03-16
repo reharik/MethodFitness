@@ -33,11 +33,30 @@ class UpdateTrainerForm extends Component {
         <ContentHeader>
           <div className="form__header">
             <div className="form__header__left">
-              <button
-                className="contentHeader__button__new"
-                title="New"
-                onClick={() => browserHistory.push('/trainer')}
-              />
+              {this.props.isAdmin ? (
+                <>
+                  <button
+                    className="contentHeader__button"
+                    onClick={() =>
+                      browserHistory.push(
+                        `/trainerPayments/${this.props.params.trainerId}`,
+                      )
+                    }
+                  >
+                    Trainer Payments
+                  </button>
+                  <button
+                    className="contentHeader__button"
+                    onClick={() =>
+                      browserHistory.push(
+                        `/paytrainer/${this.props.params.trainerId}`,
+                      )
+                    }
+                  >
+                    Pay Trainer
+                  </button>
+                </>
+              ) : null}
             </div>
             <div className="form__header__center">
               <div className="form__header__center__title">Trainer</div>
@@ -47,7 +66,7 @@ class UpdateTrainerForm extends Component {
         </ContentHeader>
         <div className="form-scroll-inner">
           <Row type="flex">
-            <Col xl={10} lg={18} sm={24}>
+            <Col lg={12} md={24}>
               <TrainerContact
                 model={model}
                 submit={this.props.updateTrainerContact}
@@ -98,6 +117,7 @@ UpdateTrainerForm.propTypes = {
   updateTrainerAddress: PropTypes.func,
   updateTrainerPassword: PropTypes.func,
   getTrainerClientRates: PropTypes.func,
+  isAdmin: PropTypes.bool
 };
 
 export default UpdateTrainerForm;

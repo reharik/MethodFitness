@@ -10,13 +10,14 @@ import HiddenFor from '../../formElements/HiddenFor';
 import EditableFor from '../../formElements/EditableFor';
 import { Form, Card, Row } from 'antd';
 import AppointmentFooter from './AppointmentFooter';
-import moment from 'moment';
+import riMoment from './../../../utilities/riMoment';
+
 
 class AppointmentForm extends Component {
   containerName = 'appointmentForm';
   state = { editing: this.props.editing };
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     this.setState({ editing: newProps.editing });
   }
 
@@ -125,7 +126,7 @@ class AppointmentForm extends Component {
     const date = this.props.form.getFieldValue('date');
     const startTime = this.props.form.getFieldValue('startTime');
     const clients = this.props.form.getFieldValue('clients');
-    if (buildMomentFromDateAndTime(date, startTime).isBefore(moment())) {
+    if (buildMomentFromDateAndTime(date, startTime).isBefore(riMoment())) {
       this.props.deleteAppointmentFromPast(appointmentId, date, clients);
     } else {
       this.props.deleteAppointment(appointmentId, date);
@@ -144,7 +145,7 @@ class AppointmentForm extends Component {
   };
 
   disabledDate = current => {
-    return current < moment().startOf('day');
+    return current < riMoment().startOf('day');
   };
 
   render() {
@@ -292,15 +293,13 @@ AppointmentForm.propTypes = {
 
 export default Form.create({
   mapPropsToFields: props => {
-   console.log(`==========props=========`);
-    console.log(props.model);
-    console.log(Object.keys(props.model));
-   console.log(`==========END props=========`);
-
-    return Object.keys(props.model)
-      .map(x => Form.createFormField(props.model[x]))
-      .reduce((acc, item) => {
-        acc[item.name] = item;
-        return acc;
-      }, {});
-  }})(AppointmentForm);
+    return props.model
+      ? Object.keys(props.model)
+          .map(x => Form.createFormField(props.model[x]))
+          .reduce((acc, item) => {
+            acc[item.name] = item;
+            return acc;
+          }, {})
+      : null;
+  },
+})(AppointmentForm);

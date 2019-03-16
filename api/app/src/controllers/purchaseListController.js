@@ -9,7 +9,7 @@ module.exports = function(rsRepository, logger) {
         'sessionsPurchased',
       );
 
-      ctx.body = clientPurchases.purchases ? clientPurchases.purchases : [];
+      ctx.body = clientPurchases;
 
       ctx.status = 200;
       return ctx;

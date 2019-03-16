@@ -15,7 +15,8 @@ import {
   deleteAppointmentFromPast,
 } from './../../modules/appointmentModule';
 import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
+
 
 const mapStateToProps = (state, props) => {
   const isAdmin = state.auth.user.role === 'admin';
@@ -26,15 +27,15 @@ const mapStateToProps = (state, props) => {
   let clients;
   let locations;
   if (
-    state.trainers.length <= 0 ||
-    state.clients.length <= 0 ||
-    state.locations.length <= 0
+    state.trainers.results.length <= 0 ||
+    state.clients.results.length <= 0 ||
+    state.locations.results.length <= 0
   ) {
     return {model:[]};
   }
-  user = state.trainers.find(x => x.trainerId === state.auth.user.trainerId);
+  user = state.trainers.results.find(x => x.trainerId === state.auth.user.trainerId);
 
-  clients = state.clients
+  clients = state.clients.results
     .filter(x => !x.archived)
     .filter(x => isAdmin || user.clients.includes(x.clientId))
     .map(x => ({
@@ -42,13 +43,13 @@ const mapStateToProps = (state, props) => {
       display: `${x.contact.lastName}, ${x.contact.firstName}`,
     }));
 
-  trainers = state.trainers.filter(x => !x.archived).map(x => ({
+  trainers = state.trainers.results.filter(x => !x.archived).map(x => ({
     value: x.trainerId,
     display: `${x.contact.lastName}, ${x.contact.firstName}`,
     color: x.color,
   }));
 
-  locations = state.locations.filter(x => !x.archived).map(x => ({
+  locations = state.locations.results.filter(x => !x.archived).map(x => ({
     value: x.locationId,
     display: x.name,
   }));
@@ -59,8 +60,8 @@ const mapStateToProps = (state, props) => {
 
   // please put this shit in a config somewhere
   let startTime = 5;
-  if (!isAdmin && model.date.value.dayOfYear() === moment().dayOfYear()) {
-    startTime = moment().hour() + 1;
+  if (!isAdmin && model.date.value.dayOfYear() === riMoment().dayOfYear()) {
+    startTime = riMoment().hour() + 1;
   }
 
   //set default location - this is crapy but I don't know how to deal right now

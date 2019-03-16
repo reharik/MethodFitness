@@ -1,379 +1,491 @@
 .redux__task__calendar__app {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: column nowrap;
-        flex-flow: column nowrap;
-    width: 100%
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  width: 100%;
 }
 .redux__task__calendar__header {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row wrap;
-        flex-flow: row wrap;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    width: 100%
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
 }
 
 .redux__task__calendar__header__view__nav {
-    margin-right: 10px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row nowrap;
-    flex-flow: row nowrap;
-    -ms-flex-pack: distribute;
-    justify-content: space-around;
+  margin-right: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
 
-    margin-right: 10px;
-    width: 180px;
+  margin-right: 10px;
+  width: 180px;
 }
 .redux__task__calendar__header__date__nav {
-    margin-right: 10px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
-    -ms-flex-pack: distribute;
-        justify-content: space-around
+  margin-right: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
 }
 .redux__task__calendar__header__date__nav__today {
-    -ms-flex-item-align: center;
-        align-self: center
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 .redux__task__calendar__calendar__display__view {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-    width: 100%;
-    margin-top: 5px
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 5px;
+  padding-right: 10px;
 }
 .redux__task__calendar__month {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: column nowrap;
-        flex-flow: column nowrap;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    width: 100%
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
 }
 .redux__task__calendar__month__day__header {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
-    -ms-flex-pack: distribute;
-        justify-content: space-around
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
 }
 .redux__task__calendar__month__week {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    width: 100%;
-    min-height: 100px
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100px;
 }
 .redux__task__calendar__month__day {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    width: 14.28%
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 14.28%;
 }
 .redux__task__calendar__month__day__number {
-    -ms-flex-item-align: end;
-        align-self: flex-end;
-    padding: 3px
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  padding: 3px;
 }
 .redux__task__calendar__week {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    width: 100%
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
 }
 .redux__task__calendar__times__column {
-    width: 80px
+  width: 80px;
 }
 .redux__task__calendar__week__days {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    width: 95%
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 95%;
 }
 .redux__task__calendar__week__day {
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
-    max-width: 14.28%
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 14.28%;
 }
-.redux__task__calendar__day__items {
-    width: 95%
-}
+
 .redux__task__calendar__day {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    width: 100%
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
 }
 .redux__task__calendar__task__item {
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -ms-flex-flow: column nowrap;
-        flex-flow: column nowrap
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
 }
-.redux__task__calendar__calendar { width: 100%; }
+.redux__task__calendar__calendar {
+  width: 100%;
+}
 .redux__task__calendar__header {
-    min-height: 28px;
-    margin-top: 10px
+  min-height: 28px;
+  margin-top: 10px;
 }
 .redux__task__calendar__header__display__date {
-    font-weight: bold;
-    font-size: 18px;
-    text-align: center;
-    padding: 10px 0 0 10px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  padding: 10px 0 0 10px;
 }
 .redux__task__calendar__header__date__nav {
-    width: 135px;
-    margin-left: 10px;
-
+  width: 135px;
+  margin-left: 10px;
 }
 .redux__task__calendar__header__date__nav__button {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    background: -webkit-linear-gradient(bottom, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    background: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    border-radius: 3px;
-    border: 1px solid #dadada;
-    cursor: pointer;
-    color: #555555;
-    height: 28px;
-    font-size: 13px;
-    font-weight: bold;
-    padding: 0 10px;
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  background: -webkit-linear-gradient(
+    bottom,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  background: linear-gradient(
+    to top,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  border-radius: 3px;
+  border: 1px solid #dadada;
+  cursor: pointer;
+  color: #555555;
+  height: 28px;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 10px;
 }
 .redux__task__calendar__header__date__nav__button:hover {
-    background: -webkit-linear-gradient(bottom, #c2c2c2 0%, #bababa 0%, #c3c3c3 30%, #d9d9d9 100%);
-    background: linear-gradient(to top, #c2c2c2 0%, #bababa 0%, #c3c3c3 30%, #d9d9d9 100%)
+  background: -webkit-linear-gradient(
+    bottom,
+    #c2c2c2 0%,
+    #bababa 0%,
+    #c3c3c3 30%,
+    #d9d9d9 100%
+  );
+  background: linear-gradient(
+    to top,
+    #c2c2c2 0%,
+    #bababa 0%,
+    #c3c3c3 30%,
+    #d9d9d9 100%
+  );
 }
 .redux__task__calendar__header__date__nav__today {
-    font-size: 13px;
-    cursor: pointer;
-    color: blue
+  font-size: 13px;
+  cursor: pointer;
+  color: blue;
 }
 .redux__task__calendar__header__view__nav_button {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    background: -webkit-linear-gradient(bottom, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    background: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    border-radius: 3px;
-    border: 1px solid #b2b8ad;
-    cursor: pointer;
-    color: #555555;
-    height: 28px;
-    font-size: 13px;
-    font-weight: bold;
-    padding: 0 10px;
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  background: -webkit-linear-gradient(
+    bottom,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  background: linear-gradient(
+    to top,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  border-radius: 3px;
+  border: 1px solid #b2b8ad;
+  cursor: pointer;
+  color: #555555;
+  height: 28px;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 10px;
 }
 .redux__task__calendar__header__view__nav_button:hover {
-    background: -webkit-linear-gradient(bottom, #c2c2c2 0%, #bababa 0%, #c3c3c3 30%, #d9d9d9 100%);
-    background: linear-gradient(to top, #c2c2c2 0%, #bababa 0%, #c3c3c3 30%, #d9d9d9 100%)
+  background: -webkit-linear-gradient(
+    bottom,
+    #c2c2c2 0%,
+    #bababa 0%,
+    #c3c3c3 30%,
+    #d9d9d9 100%
+  );
+  background: linear-gradient(
+    to top,
+    #c2c2c2 0%,
+    #bababa 0%,
+    #c3c3c3 30%,
+    #d9d9d9 100%
+  );
 }
-.redux__task__calendar__times__column {}
+.redux__task__calendar__times__column {
+}
 .redux__task__calendar__times__column__spacer__item {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    background: -webkit-linear-gradient(bottom, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    background: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    border-top-left-radius: 3px;
-    border-top: 1px solid #d1d1d1;
-    border-left: 1px solid #d1d1d1;
-    border-right: 2px solid #d1d1d1;
-    border-bottom: 2px solid #d1d1d1;
-    color: #555555;
-    text-align: center;
-    font-size: 14px
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  background: -webkit-linear-gradient(
+    bottom,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  background: linear-gradient(
+    to top,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  border-top-left-radius: 3px;
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+  border-right: 2px solid #d1d1d1;
+  border-bottom: 2px solid #d1d1d1;
+  color: #555555;
+  text-align: center;
+  font-size: 14px;
 }
 .redux__task__calendar__times__column__item {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    background: -webkit-linear-gradient(bottom, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    background: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    border-left: 1px solid #d1d1d1;
-    border-right: 2px solid #d1d1d1;
-    border-bottom: 1px solid #d1d1d1;
-    color: #555555;
-    text-align: center;
-    height: 20px;
-    font-size: 14px;
-    font-weight: bold
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  background: -webkit-linear-gradient(
+    bottom,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  background: linear-gradient(
+    to top,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  border-left: 1px solid #d1d1d1;
+  border-right: 2px solid #d1d1d1;
+  border-bottom: 1px solid #d1d1d1;
+  color: #555555;
+  text-align: center;
+  height: 20px;
+  font-size: 14px;
+  font-weight: bold;
 }
 .redux__task__calendar__times__column__item:last-child {
-    border-bottom-left-radius: 3px
+  border-bottom-left-radius: 3px;
 }
 .redux__task__calendar__month__day {
-    font-size: 12px;
-    border: 1px solid #d1d1d1
+  font-size: 12px;
+  border: 1px solid #d1d1d1;
 }
-.redux__task__calendar__month__day__otherMonth  .redux__task__calendar__month__day__number {
-    color: #BDBDBD
-}
-.redux__task__calendar__month__task__item {}
-.redux__task__calendar__month__day__header {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    background: -webkit-linear-gradient(bottom, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    background: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    border-top: 1px solid #d1d1d1;
-    border-left: 1px solid #d1d1d1;
-    border-right: 1px solid #d1d1d1;
-    border-bottom: 2px solid #d1d1d1;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-    color: #555555;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold
-}
-.redux__task__calendar__month__day__header_item {
-    border-right: 1px solid #d1d1d1;
-    width: 100%
-}
-.redux__task__calendar__month__day__today {
-    background-color: #fcefa1
-}
-.redux__task__calendar__month__day__header_item:last-child {
-    border-right: none
-}
-.redux__task__calendar__week__day:last-child .redux__task__calendar__week__day__items__name__value {
-    border-top-right-radius: 3px
-}
-.redux__task__calendar__week__day:last-child  .redux__task__calendar__week__day__items__slot:last-child {
-    border-bottom-right-radius: 3px
-}
-.redux__task__calendar__week__day__items__name__value {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    background: -webkit-linear-gradient(bottom, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    background: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    border-top: 1px solid #d1d1d1;
-    border-left: 1px solid #d1d1d1;
-    border-right: 1px solid #d1d1d1;
-    border-bottom: 2px solid #d1d1d1;
-    color: #555555;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold
-}
-.redux__task__calendar__week__day__items__slot {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    border-bottom: 1px solid #d1d1d1;
-    border-right: 1px solid #d1d1d1;
-    color: #555555;
-    height: 20px
-}
-.redux__task__calendar__week__hour__breaks {
-    border-top: 1px solid #d1d1d1
-}
-.redux__task__calendar__week__day__isToday {
-    background-color: #fcefa1
-}
-.redux__task__calendar__day__items__slot:last-child {
-    border-bottom-right-radius: 3px
-}
-.redux__task__calendar__day__items__name__value {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    background: -webkit-linear-gradient(bottom, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    background: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
-    border-top: 1px solid #d1d1d1;
-    border-left: 1px solid #d1d1d1;
-    border-right: 1px solid #d1d1d1;
-    border-bottom: 2px solid #d1d1d1;
-    border-top-right-radius: 3px;
-    color: #555555;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold
-}
-.redux__task__calendar__day__items__slot {
-    box-shadow: inset 0px 0px 14px -3px #f2fadc;
-    border-bottom: 1px solid #d1d1d1;
-    border-right: 1px solid #d1d1d1;
-    color: #555555;
-    height: 20px
-}
-.redux__task__calendar__hour__breaks {
-    border-top: 1px solid #d1d1d1
-}
-.redux__task__calendar__halfhour__breaks {
-    border-top: 1px solid #d1d1d1
-}
-.redux__task__calendar__day__isToday {
-    background-color: #fcefa1
-}
-.redux__task__calendar__tasks {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex
-}
-.redux__task__calendar__task {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    width: 100%
-}
-.redux__task__calendar__task__item {
-    margin: 1px;
-    border-radius: 3px
+.redux__task__calendar__month__day__otherMonth
+  .redux__task__calendar__month__day__number {
+  color: #bdbdbd;
 }
 .redux__task__calendar__month__task__item {
-    margin: 1px;
-    border-radius: 3px
+}
+.redux__task__calendar__month__day__header {
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  background: -webkit-linear-gradient(
+    bottom,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  background: linear-gradient(
+    to top,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
+  border-bottom: 2px solid #d1d1d1;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  color: #555555;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+.redux__task__calendar__month__day__header_item {
+  border-right: 1px solid #d1d1d1;
+  width: 100%;
+}
+.redux__task__calendar__month__day__today {
+  background-color: #fcefa1;
+}
+.redux__task__calendar__month__day__header_item:last-child {
+  border-right: none;
+}
+.redux__task__calendar__week__day:last-child
+  .redux__task__calendar__week__day__items__name__value {
+  border-top-right-radius: 3px;
+}
+.redux__task__calendar__week__day:last-child
+  .redux__task__calendar__week__day__items__slot:last-child {
+  border-bottom-right-radius: 3px;
+}
+.redux__task__calendar__week__day__items__name__value {
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  background: -webkit-linear-gradient(
+    bottom,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  background: linear-gradient(
+    to top,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
+  border-bottom: 2px solid #d1d1d1;
+  color: #555555;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+.redux__task__calendar__week__day__items__slot {
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  border-bottom: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
+  color: #555555;
+  height: 20px;
+}
+.redux__task__calendar__week__hour__breaks {
+  border-top: 1px solid #d1d1d1;
+}
+.redux__task__calendar__week__day__isToday {
+  background-color: #fcefa1;
+}
+.redux__task__calendar__day__items__slot:last-child {
+  border-bottom-right-radius: 3px;
+}
+.redux__task__calendar__day__items__name__value {
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  background: -webkit-linear-gradient(
+    bottom,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  background: linear-gradient(
+    to top,
+    #d6d6d6 0%,
+    #cfcfcf 0%,
+    #d9d9d9 30%,
+    #f0f0f0 100%
+  );
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
+  border-bottom: 2px solid #d1d1d1;
+  border-top-right-radius: 3px;
+  color: #555555;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+.redux__task__calendar__day__items__slot {
+  box-shadow: inset 0px 0px 14px -3px #f2fadc;
+  border-bottom: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
+  color: #555555;
+  height: 20px;
+}
+.redux__task__calendar__hour__breaks {
+  border-top: 1px solid #d1d1d1;
+}
+.redux__task__calendar__halfhour__breaks {
+  border-top: 1px solid #d1d1d1;
+}
+.redux__task__calendar__day__isToday {
+  background-color: #fcefa1;
+}
+.redux__task__calendar__tasks {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.redux__task__calendar__task {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+.redux__task__calendar__task__item {
+  margin: 1px;
+  border-radius: 3px;
+}
+.redux__task__calendar__month__task__item {
+  margin: 1px;
+  border-radius: 3px;
 }
 .redux__task__calendar__month__task__item__title {
-    font-size: 10px;
-    color: white;
-    padding: 3px;
-    border-radius: 3px
+  font-size: 10px;
+  color: white;
+  padding: 3px;
+  border-radius: 3px;
 }
 .redux__task__calendar__task__item__display {
-    font-size: 10px;
-    color: white;
-    padding: 3px;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    height: 100%
+  font-size: 10px;
+  color: white;
+  padding: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  height: 100%;
 }
 .redux__task__calendar__task__item__title {
-    font-size: 10px;
-    color: white;
-    padding: 3px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px
+  font-size: 10px;
+  color: white;
+  padding: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
-

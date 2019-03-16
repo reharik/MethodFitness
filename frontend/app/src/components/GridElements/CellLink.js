@@ -2,9 +2,9 @@ import { Link } from 'react-router';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CellLink = (route, idName = 'id') => {
+const CellLink = (route, idName = 'id', additionalParams) => {
   const link = (value, row) => {
-    const fullRoute = route + '/' + (row ? row[idName] : 0);
+    const fullRoute = `${route}/${row ? row[idName] : 0}${additionalParams ? `/${additionalParams}` : ''}`;
     return (
       <Link to={fullRoute} className="list__cell__link">
         <span>{value}</span>

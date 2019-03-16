@@ -12,7 +12,7 @@ class TrainerList extends Component {
     dataSource: this.props.gridConfig.dataSource,
   };
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     this.changeView(newProps.gridConfig.dataSource, this.state.view);
   }
 

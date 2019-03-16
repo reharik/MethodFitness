@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Input, InputNumber, DatePicker, Select } from 'antd';
 import ListItemValueFor from './ListItemValueFor';
-import InputColor from 'react-input-color';
+import InputColor from 'rc-color-picker';
 const Option = Select.Option;
 
 const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
@@ -23,15 +24,11 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
         );
       }
       case 'color-picker': {
-        return (
-          <InputColor
-            {..._data}
-            style={{
-              display: 'flex',
-              width: '100%',
-            }}
-          />
-        );
+        const colorValue =
+          typeof form.getFieldValue(_data.name) === 'object'
+            ? form.getFieldValue(_data.name).color
+            : form.getFieldValue(_data.name);
+        return <InputColor color={colorValue} />;
       }
       case 'select': {
         const _onChange = onChange ? { onChange } : {};
@@ -45,7 +42,7 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
             {..._onChange}
           >
             {selectOptions.map(x => (
-              <Option key={x.value} value={x.value}>
+              <Option key={x.value} value={x.value} data-id={data.name}>
                 {x.display}
               </Option>
             ))}
@@ -64,7 +61,7 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
             {..._onChange}
           >
             {selectOptions.map(x => (
-              <Option key={x.value} value={x.value}>
+              <Option key={x.value} value={x.value} data-id={data.name}>
                 {x.display}
               </Option>
             ))}
@@ -116,6 +113,14 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
   };
 
   return input();
+};
+
+InputFor.propTypes = {
+  data: PropTypes.object,
+  selectOptions: PropTypes.array,
+  onChange: PropTypes.func,
+  form: PropTypes.object,
+  extraFunc: PropTypes.func,
 };
 
 export default InputFor;

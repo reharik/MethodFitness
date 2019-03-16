@@ -1,4 +1,4 @@
-const _routines = require('../../../../../helpers/routines');
+const _routines = require('../../../../helpers/routines');
 const setupRoutes = require('../../../../helpers/setupRoutes');
 const _aDT = require('../../../../fixtures/appointments');
 const appTimes = require('../../../../helpers/appointmentTimes');

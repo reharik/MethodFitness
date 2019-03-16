@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TrainerPaymentDetailsList from '../../components/lists/TrainerPaymentDetailsList';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
 import { fetchTrainerPaymentDetails } from './../../modules/trainerPaymentDetailModule';
 import decamelize from 'decamelize';
 
 class TrainerPaymentDetailsListContainer extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.loadData();
   }
 
   loadData() {
-    this.props.fetchTrainerPaymentDetails(this.props.paymentId);
+    this.props.fetchTrainerPaymentDetails(this.props.paymentId, this.props.trainerId);
   }
 
   render() {
@@ -24,6 +24,7 @@ TrainerPaymentDetailsListContainer.propTypes = {
   gridConfig: PropTypes.object,
   fetchTrainerPaymentDetails: PropTypes.func,
   paymentId: PropTypes.string,
+  trainerId: PropTypes.string
 };
 
 const columns = [
@@ -68,7 +69,6 @@ const columns = [
 ];
 
 function mapStateToProps(state, props) {
-  moment.locale('en');
   let payment = state.trainerPaymentDetail.find(
     x => x.paymentId === props.params.paymentId,
   );
@@ -81,8 +81,8 @@ function mapStateToProps(state, props) {
         .split(' ')
         .map(ap => ap[0].toUpperCase() + ap.slice(1))
         .join(' '),
-      appointmentDate: moment(x.appointmentDate).format('L'),
-      startTime: moment(x.startTime).format('hh:mm A'),
+      appointmentDate: riMoment(x.appointmentDate).format('L'),
+      startTime: riMoment(x.startTime).format('hh:mm A'),
     }));
   }
   const gridConfig = {
@@ -93,7 +93,8 @@ function mapStateToProps(state, props) {
     gridConfig,
     paymentId: props.params.paymentId,
     paymentTotal: payment ? payment.paymentTotal : 0,
-    paymentDate: payment ? moment(payment.paymentDate).format('L') : '',
+    paymentDate: payment ? riMoment(payment.paymentDate).format('L') : '',
+    trainerId: props.params.trainerId
   };
 }
 

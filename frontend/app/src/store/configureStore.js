@@ -1,11 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import createLogger from 'redux-logger';
+import logger from 'redux-logger';
 import rootReducer from '../modules/rootReducer';
 import DevTools from '../containers/DevTools';
 //thunk used for notif
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './../sagas/rootSaga';
+import { cacheEnhancer } from 'redux-cache';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,7 +15,8 @@ export default function configureStore(initialState) {
     rootReducer,
     initialState,
     compose(
-      applyMiddleware(thunk, sagaMiddleware, createLogger()),
+      applyMiddleware(thunk, sagaMiddleware, logger),
+      cacheEnhancer(),
       DevTools.instrument(),
     ),
   );

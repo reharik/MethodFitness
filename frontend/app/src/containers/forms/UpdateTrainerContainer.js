@@ -24,9 +24,9 @@ const { notifClear } = notifActions;
 
 const mapStateToProps = (state, ownProps) => {
   const trainer = {
-    ...state.trainers.find(x => x.trainerId === ownProps.params.trainerId),
+    ...state.trainers.results.find(x => x.trainerId === ownProps.params.trainerId),
   };
-  const clients = state.clients.filter(x => !x.archived).map(x => ({
+  const clients = state.clients.results.filter(x => !x.archived).map(x => ({
     value: x.clientId,
     display: `${x.contact.lastName}, ${x.contact.firstName}`,
   }));
@@ -40,7 +40,7 @@ const mapStateToProps = (state, ownProps) => {
           value: x.rate,
           label: client.display || '',
           name: x.clientId,
-          rule: [{ required: true }],
+          rules: [{ required: true, message: 'Rate is required' }],
         };
       });
   }
@@ -70,6 +70,7 @@ const mapStateToProps = (state, ownProps) => {
     states,
     clients,
     roles,
+    isAdmin: state.auth.user.role === 'admin'
   };
 };
 

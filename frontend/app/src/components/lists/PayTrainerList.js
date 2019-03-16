@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
+import { browserHistory } from 'react-router';
 const confirm = Modal.confirm;
 
 class PayTrainerList extends Component {
@@ -50,7 +51,11 @@ class PayTrainerList extends Component {
       .map(x => `${x.appointmentId}---${x.clientId}`);
     let selectedIds = selectedRows
       .filter(x => x.sessionId)
-      .map(x => ({ sessionId: x.sessionId, appointmentId: x.appointmentId }));
+      .map(x => ({
+        sessionId: x.sessionId,
+        appointmentId: x.appointmentId,
+        clientId: x.clientId,
+      }));
     this.setState({ trainerTotal, selectedRowKeys, selectedIds });
   };
 
@@ -82,7 +87,17 @@ class PayTrainerList extends Component {
                 )}`}
               </div>
             </div>
-            <div className="list__header__right" />
+            <div className="list__header__right">
+              <a
+                className="contentHeader__anchor"
+                data-id={'returnToClient'}
+                onClick={() =>
+                  browserHistory.push(`/trainer/${this.props.params.trainerId}`)
+                }
+              >
+                {this.props.trainerName}
+              </a>
+            </div>
           </div>
         </ContentHeader>
         <div className="form-scroll-inner">

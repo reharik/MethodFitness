@@ -1,8 +1,8 @@
 module.exports = function(logger) {
   const iterateArguments = (args, before, after) => {
     let result = before || '';
-    Object.keys(args).forEach(augKey =>
-      result += itemToString(args[augKey]) + '\n'
+    Object.keys(args).forEach(
+      augKey => (result += itemToString(args[augKey]) + '\n'),
     );
     result += after || '';
     return result;
@@ -22,11 +22,16 @@ module.exports = function(logger) {
     beforeExecution: (logger, key, name, args) => {
       let resolvedName = name || 'anonymous function';
       logger.debug(`${key} called in ${resolvedName}`);
-      logger.trace(iterateArguments(args, `${key} called with ${args.length <= 0 ? 'no ' : ''}arguments \n`));
+      logger.trace(
+        iterateArguments(
+          args,
+          `${key} called with ${args.length <= 0 ? 'no ' : ''}arguments \n`,
+        ),
+      );
     },
     afterExecution: (logger, key, name, result) => {
       logger.trace(`${key} result:\n ${itemToString(result)}`);
-    }
+    },
   };
 
   const wrapper = function(_config) {
@@ -41,14 +46,22 @@ module.exports = function(logger) {
         if (typeof obj[key] !== 'function') {
           decorated[key] = obj[key];
         } else {
-
           let wrapped = function() {
-            config.beforeExecution(logger, key, name, arguments);
-            let result = obj[key](...arguments);
-            if (result) {
-              config.afterExecution(logger, key, name, result);
+            try {
+              config.beforeExecution(logger, key, name, arguments);
+              let result = obj[key](...arguments);
+              if (result) {
+                config.afterExecution(logger, key, name, result);
+              }
+              return result;
+            } catch (error) {
+              console.log(`==========error==========`);
+              console.log(error);
+              console.log(`==========END error==========`);
+
+              logger.error(error);
+              throw error;
             }
-            return result;
           };
           wrapped.toStringWrapper = wrapped.toString();
           wrapped.toString = obj[key].toString.bind(obj[key]);
@@ -62,6 +75,6 @@ module.exports = function(logger) {
   return {
     wrapper,
     iterateArguments,
-    itemToString
+    itemToString,
   };
 };

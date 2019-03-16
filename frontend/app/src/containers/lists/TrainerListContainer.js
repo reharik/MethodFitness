@@ -57,7 +57,7 @@ TrainerListContainer.propTypes = {
 
 function mapStateToProps(state) {
   const gridConfig = {
-    dataSource: state.trainers.sort(sortBy('contact.lastName')),
+    dataSource: state.trainers.results.sort(sortBy('contact.lastName')),
   };
   return {
     gridConfig,

@@ -98,8 +98,8 @@ describe('Archive Client', () => {
       cy.get('span')
         .contains('Archived')
         .click();
-      cy.get('.ant-table-placeholder')
-        .contains('No data')
+      cy.get('.ant-empty-description')
+        .contains('No Data')
         .should('exist');
     });
   });

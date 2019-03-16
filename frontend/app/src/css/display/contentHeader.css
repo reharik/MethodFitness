@@ -1,13 +1,14 @@
 .contentHeader {
   width: 100%;
   min-height: 41px;
-  background: url(./images/content-header-silver.png) repeat-x scroll 0 0 transparent;
-  margin-top:10px;
-  padding-top:7px;
+  background: url(./../images/content-header-silver.png) repeat-x scroll 0 0
+    transparent;
+  margin-top: 10px;
+  padding-top: 7px;
 }
 
 .contentHeader__headerSearch {
-  background: url(./images/search-bg.png) no-repeat scroll 0 0 transparent;
+  background: url(./../images/search-bg.png) no-repeat scroll 0 0 transparent;
   width: 178px;
   height: 25px;
   border: none;
@@ -16,41 +17,44 @@
 }
 
 .contentHeader__button__new {
-  height:24px;
-  width:29px;
+  height: 24px;
+  width: 29px;
   border-radius: 3px;
   border: 1px solid #c6c6c6;
-  background: url(./images/icon-header-plus.png) no-repeat scroll 0 0 transparent;
+  background: url(./../images/icon-header-plus.png) no-repeat scroll 0 0
+    transparent;
 }
 
 .contentHeader__button__new:hover {
-  height:24px;
-  width:29px;
+  height: 24px;
+  width: 29px;
   border-radius: 3px;
   border: 1px solid #c6c6c6;
-  background: url(./images/icon-header-plus.png) no-repeat scroll 0 -23px transparent;
+  background: url(./../images/icon-header-plus.png) no-repeat scroll 0 -23px transparent;
 }
 
 .contentHeader__button {
-  background: url("./images/button-save-bg.png") repeat-x scroll 0 0 #CCCCCC;
-  border: 1px solid #B7D6DE;
+  background: url('./../images/button-save-bg.png') repeat-x scroll 0 0 #cccccc;
+  border: 1px solid #b7d6de;
   padding: 5px 10px;
   color: #437182;
-  margin-left:5px;
+  margin-left: 5px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: bold;
 }
 
 .contentHeader__button:hover {
-  background: url("./images/button-save-bg-hover.png") repeat-x scroll 0 0 #CCCCCC;
+  background: url('./../images/button-save-bg-hover.png') repeat-x scroll 0 0
+    #cccccc;
 }
 
 .contentHeader__button:active {
-  background: url("./images/button-save-bg-active.png") repeat-x scroll 0 0 #CCCCCC;
+  background: url('./../images/button-save-bg-active.png') repeat-x scroll 0 0
+    #cccccc;
 }
 
 .contentHeader__anchor {
   padding: 5px 10px;
-  margin-left:5px;
+  margin-left: 5px;
 }

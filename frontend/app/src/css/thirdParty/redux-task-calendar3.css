@@ -1,0 +1,372 @@
+$borderColor: #d1d1d1;
+$border: 1px solid $borderColor;
+$border__thick: 2px solid $borderColor;
+$gradient: linear-gradient(to top, #d6d6d6 0%, #cfcfcf 0%, #d9d9d9 30%, #f0f0f0 100%);
+$gradient__darker: linear-gradient(to top, #c2c2c2 0%, #bababa 0%, #c3c3c3 30%, #d9d9d9 100%);
+
+@define-mixin border {
+    border-top:1px solid $borderColor;
+    border-left:1px solid $borderColor;
+    border-right:1px solid $borderColor;
+    border-bottom:2px solid $borderColor;
+}
+
+@define-mixin flex__row__space $space {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: $space;
+}
+
+
+html, body {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+ol {
+    list-style: none;
+    padding:0;
+    margin:0;
+}
+
+.app {
+    display: flex;
+    flex-flow: column nowrap;
+    width:100%;
+}
+
+.header {
+    @mixin flex__row__space space-between;
+    align-items: center;
+    width:100%;
+}
+
+.header__display__date {
+    width:200px;
+}
+
+.header__view__nav {
+
+}
+
+.header__date__nav {
+    @mixin flex__row__space space-around;
+}
+
+.header__date__nav__today {
+    align-self: center;
+}
+
+.calendar__display__view {
+    @mixin flex__row__space space-around;
+    width:100%;
+    margin-top:5px;
+}
+
+
+.month {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content:center;
+    width:100%;
+}
+
+.month__day__header {
+    @mixin flex__row__space space-around;
+}
+
+.month__week {
+    @mixin flex__row__space center;
+    width:100%;
+    min-height:100px;
+}
+
+.month__day {
+    display: flex;
+    flex-direction:column;
+    width:14.28%
+}
+
+.month__day__number {
+    align-self:flex-end;
+    padding: 3px;
+}
+
+.week {
+    @mixin flex__row__space center;
+    width:100%;
+}
+
+.times__column {
+    width:80px;
+}
+
+.week__days {
+    display: flex;
+    width:95%;
+
+}
+.week__day {
+    flex-grow:1;
+    max-width:14.28%;
+}
+
+.day__items {
+    width:95%
+}
+
+
+.day {
+    @mixin flex__row__space center;
+    width:100%;
+}
+
+.task__item {
+    display: inline-flex;
+    flex-flow: column nowrap;
+}
+.calendar {
+}
+
+
+.header {
+    height:28px;
+    margin-top:10px
+}
+
+.header__display__date {
+    font-weight:bold;
+    font-size: 18px;
+    text-align: center;
+}
+
+.header__date__nav {
+    width: 150px;
+}
+
+.header__date__nav__button {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background: $gradient;
+    border-radius:3px;
+    border:1px solid #dadada;
+    cursor:pointer;
+    color: #555555;
+    height: 28px;
+    font-size:13px;
+    font-weight:bold;
+}
+.header__date__nav__button:hover {
+    background: $gradient__darker;
+}
+
+.header__date__nav__today {
+    font-size: 13px;
+    cursor:pointer;
+    color:blue;
+}
+
+.header__view__nav_button {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background:$gradient;
+    border-radius:3px;
+    border:1px solid #b2b8ad;
+    cursor:pointer;
+    color: #555555;
+    height: 28px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.header__view__nav_button:hover {
+    background: $gradient__darker;
+}
+
+
+.times__column {
+}
+
+.times__column__spacer__item {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background:$gradient;
+    border-top-left-radius:3px;
+    border-top:$border;
+    border-left:$border;
+    border-right:$border__thick;
+    border-bottom:$border__thick;
+    color: #555555;
+    text-align: center;
+    font-size: 14px;
+}
+.times__column__item {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background:$gradient;
+    border-left:$border;
+    border-right:$border__thick;
+    border-bottom:$border;
+    color: #555555;
+    text-align: center;
+    height:20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.times__column__item:last-child {
+    border-bottom-left-radius:3px;
+}
+
+.month__day {
+    font-size:12px;
+    border:$border;
+}
+
+.month__day__otherMonth  .month__day__number {
+    color:#BDBDBD;
+}
+
+.month__task__item {
+
+}
+
+.month__day__header {
+    box-shadow: inset 0px 0px 14px -3px #f2fadc;
+    background: $gradient;
+    @mixin border;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    color: #555555;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.month__day__header_item {
+    border-right: $border;
+    width:100%;
+}
+
+.month__day__today {
+    background-color: #fcefa1;
+}
+
+.month__day__header_item:last-child {
+    border-right: none;
+}
+
+
+.week__day:last-child .week__day__items__name__value{
+    border-top-right-radius:3px;
+}
+
+.week__day:last-child  .week__day__items__slot:last-child {
+    border-bottom-right-radius:3px;
+}
+
+.week__day__items__name__value {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background:$gradient;
+    @mixin border;
+    color: #555555;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.week__day__items__slot {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    border-bottom: $border;
+    border-right: $border;
+    color: #555555;
+    height:20px;
+}
+
+.week__hour__breaks {
+    border-top: $border;
+}
+
+.week__day__isToday {
+    background-color: #fcefa1;
+}
+
+.day__items__slot:last-child {
+    border-bottom-right-radius:3px;
+}
+
+.day__items__name__value {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    background:$gradient;
+    @mixin border;
+    border-top-right-radius:3px;
+    color: #555555;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.day__items__slot {
+    box-shadow:inset 0px 0px 14px -3px #f2fadc;
+    border-bottom:$border;
+    border-right:$border;
+    color: #555555;
+    height:20px;
+}
+
+.hour__breaks {
+  border-top:$border;
+}
+
+.halfhour__breaks {
+  border-top:$border;
+}
+
+.day__isToday {
+    background-color: #fcefa1;
+}
+
+.tasks {
+  display: flex;
+}
+
+.task {
+  display: flex;
+  width:100%
+}
+
+.task__item {
+    margin: 1px;
+    border-radius: 3px;
+}
+
+.month__task__item {
+    margin: 1px;
+    border-radius: 3px;
+}
+
+.month__task__item__title {
+    font-size: 10px;
+    color: white;
+    padding:3px;
+    border-radius: 3px;
+}
+
+.task__item__display {
+    font-size: 10px;
+    color: white;
+    padding:3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    height: 100%;
+}
+
+.task__item__title {
+    font-size: 10px;
+    color: white;
+    padding:3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+
+
+

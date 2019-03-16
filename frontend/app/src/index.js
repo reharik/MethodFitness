@@ -9,6 +9,7 @@ import './css/index.css';
 import './css/thirdParty/redux-task-calendar.css';
 import './css/thirdParty/input-color.css';
 import './css/thirdParty/notif-styles.css';
+import './css/thirdParty/rc-color-picker.min.css';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);

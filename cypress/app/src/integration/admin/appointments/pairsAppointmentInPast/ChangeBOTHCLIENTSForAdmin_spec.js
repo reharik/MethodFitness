@@ -150,7 +150,7 @@ describe('Creating a Pairs Appointment in the Past Changing Both Clients', () =>
         client: this.clients.client1,
         client2: this.clients.client2,
         appointmentType: 'Pair',
-        location: 'default',
+        location: { name: 'default' },
       });
 
       appointmentValues = {
@@ -159,7 +159,7 @@ describe('Creating a Pairs Appointment in the Past Changing Both Clients', () =>
         time: aDT.time,
         newClient: this.clients.client3,
         newClient2: this.clients.client4,
-        location: 'somewhereelse',
+        location: { name: 'somewhere else' },
       };
       routines.changeAppointment(appointmentValues);
 

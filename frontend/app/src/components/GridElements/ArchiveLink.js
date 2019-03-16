@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
 import { message } from 'antd';
 
 const ArchiveLink = (action, loggedInUser, idName = 'id') => {
@@ -8,7 +8,7 @@ const ArchiveLink = (action, loggedInUser, idName = 'id') => {
     const result = {
       [idName]: row[idName],
       archived: value,
-      date: moment().toISOString(),
+      date: riMoment().toISOString(),
     };
     const archiveClick = r => {
       if (r[idName] === loggedInUser) {

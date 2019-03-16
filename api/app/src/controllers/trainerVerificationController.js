@@ -20,11 +20,12 @@ module.exports = function(
       //   sql += ` id <> '00000000-0000-0000-0000-000000000001'`;
       // }
       const query = await rsRepository.query(sql);
-      const result = query.reduce(
-        (ag, x) => ag.concat(x.unpaidAppointments),
-        [],
-      );
-      ctx.body = result.filter(x => !x.verified);
+      const result = query[0];
+      console.log(`==========result==========`);
+      console.log(result);
+      console.log(`==========END result==========`);
+
+      ctx.body = result ? result.appointments.filter(x => !x.verified) : [];
       ctx.status = 200;
     } catch (ex) {
       throw ex;

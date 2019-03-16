@@ -1,6 +1,7 @@
 import uuid from 'uuid';
 import formJsonSchema from './formJsonSchema';
-import moment from 'moment';
+import riMoment from './../utilities/riMoment';
+
 export function propToLabel(val) {
   return val
     ? val
@@ -11,7 +12,6 @@ export function propToLabel(val) {
 }
 
 const normalizeModel = (schema, obj, formName) => {
-  moment.locale('en');
   // debugger; //eslint-disable-line
   const model = formJsonSchema(schema, obj);
   formName = formName || uuid.v4();
@@ -25,7 +25,7 @@ const normalizeModel = (schema, obj, formName) => {
         value = [];
       }
       if (item['x-input'] === 'date-time' && value) {
-        value = moment(value);
+        value = riMoment(value);
       }
       if (item['x-input'] === 'listItemValue' && value) {
         item.listItems = value;

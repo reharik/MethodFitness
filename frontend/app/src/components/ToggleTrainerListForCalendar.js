@@ -7,7 +7,7 @@ class ToggleTrainerListForCalendar extends Component {
     allSelected: true,
   };
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (this.state.items.length <= 0 && newProps.items.length > 0) {
       this.setState({
         items: newProps.items.map(x => ({ ...x, selected: true })),

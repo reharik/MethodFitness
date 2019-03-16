@@ -10,5 +10,7 @@
   "video": false,
   "env": {
     "API_BASE_URL": "http://localhost:3666"
-  }
+  },
+  "viewportWidth": 1400,
+  "viewportHeight": 960
 }

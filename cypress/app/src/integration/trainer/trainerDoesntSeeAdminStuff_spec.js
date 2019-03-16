@@ -3,7 +3,6 @@ const setupRoutes = require('../../helpers/setupRoutes');
 const _aDT = require('../../fixtures/appointments');
 const appTimes = require('../../helpers/appointmentTimes');
 let aDT;
-let appointmentValues;
 
 describe('Trainer Can Not See Admin Stuff', () => {
   let routines;
@@ -37,9 +36,12 @@ describe('Trainer Can Not See Admin Stuff', () => {
       ).click();
 
       cy.dataId('trainerId', 'span').contains(trainer.LNF);
-      cy.dataId('trainerId-container', 'div').should('not.exist');
+      cy.dataId('trainerId-container', 'div')
+        .find('input')
+        .should('not.exist');
 
-      // check that only trainers clients show
+        // check that only trainers clients show
+      cy.log(`----check that only trainers clients show----`);
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(this.clients.client3.LNF)
@@ -53,14 +55,16 @@ describe('Trainer Can Not See Admin Stuff', () => {
       cy.get('.ant-select-dropdown-menu-item')
         .contains(this.clients.client5.LNF)
         .should('not.exist');
-      cy.get('#clients').blur();
+      cy.get('#clients input').blur();
 
       //test that date before now is not available to click
+      cy.log(`----test that date before now is not available to click----`);
       cy.log(`----changing date----`);
       cy.dataId('date-container', 'div')
         .find('input')
         .click();
       //checking for "disabled" class
+      cy.log(`----checking for "disabled" class----`);
       cy.get(
         `[title="${newDate.format(
           'MMMM D, YYYY',
@@ -72,6 +76,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
         .click({ force: true });
 
       //test that start times begin now.
+      cy.log(`----test that start times begin now----`);
       cy.get(
         `ol[data-id='${Cypress.moment().format(
           'ddd MM/DD',
@@ -86,24 +91,25 @@ describe('Trainer Can Not See Admin Stuff', () => {
         .first('li.ant-select-dropdown-menu-item')
         .contains(
           Cypress.moment()
-            .add(1, 'hour')
+            .add(2, 'hour')
             .startOf('hour')
             .format('h:mm A'),
         );
-      cy.get('#startTime').blur();
+      cy.get('#startTime input').blur();
 
       cy.get('button')
         .contains('Cancel')
         .click({ force: true });
 
       // test that you get correct error message when trying to click time in past
+      cy.log(`----test that you get correct error message when trying to click time in past----`);
       aDT = _aDT(Cypress.moment, appTimes.time15, true);
       cy.get(
         `ol[data-id='${aDT.date.format('ddd MM/DD')}']
  li[data-id='${aDT.time}'] .redux__task__calendar__tasks`,
       ).click();
 
-      cy.get('div.ant-confirm-body span').contains(
+      cy.get('div.ant-modal-confirm-body span').contains(
         'You can not set an appointment in the past',
       );
       cy.get('button')

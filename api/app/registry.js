@@ -20,6 +20,8 @@ module.exports = function(_options) {
           .renameTo('_fantasy')
           .for('applicationFunctions')
           .renameTo('appfuncs')
+          .for('momenttimezone')
+          .renameTo('moment')
           .groupAllInDirectory('./app/src/controllers', 'controllers')
           .groupAllInDirectory('./app/src/schemas', 'schemas', true)
           .groupAllInDirectory('./app/src/routes/routers', 'routers_array')

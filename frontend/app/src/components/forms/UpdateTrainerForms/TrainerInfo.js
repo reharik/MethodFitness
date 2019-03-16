@@ -8,6 +8,7 @@ const TrainerInfoInner = ({ model, form, toggleEdit, submit, editing }) => {
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
+      values.color = values.color ? values.color.color : '';
       if (!err) {
         submit(values);
         console.log('Received values of form: ', values);

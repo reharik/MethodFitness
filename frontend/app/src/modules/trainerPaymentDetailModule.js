@@ -18,11 +18,11 @@ export default (state = [], action = {}) => {
   }
 };
 
-export function fetchTrainerPaymentDetails(paymentId) {
+export function fetchTrainerPaymentDetails(paymentId, trainerId) {
   return {
     type: FETCH_TRAINER_PAYMENT_DETAILS.REQUEST,
     states: FETCH_TRAINER_PAYMENT_DETAILS,
-    url: `${config.apiBase}trainerPaymentDetails/${paymentId}`,
+    url: `${config.apiBase}trainerPaymentDetails/${paymentId}${trainerId ? `/${trainerId}` : ''}`,
     params: {
       method: 'GET',
       credentials: 'include',

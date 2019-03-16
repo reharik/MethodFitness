@@ -8,9 +8,8 @@
   margin-left: 10px;
 }
 
-
 .list__cell__link {
-  color:rgb(0, 0, 238);
+  color: rgb(0, 0, 238);
   cursor: pointer;
 }
 
@@ -31,21 +30,23 @@
 }
 
 .list_header__button {
-  background: url("./images/button-save-bg.png") repeat-x scroll 0 0 #CCCCCC;
-  border: 1px solid #B7D6DE;
+  background: url('./../images/button-save-bg.png') repeat-x scroll 0 0 #cccccc;
+  border: 1px solid #b7d6de;
   height: 22px;
   width: 80px;
   color: #437182;
-  margin-left:5px;
+  margin-left: 5px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: bold;
 }
 
 .list_header__button:hover {
-  background: url("./images/button-save-bg-hover.png") repeat-x scroll 0 0 #CCCCCC;
+  background: url('./../images/button-save-bg-hover.png') repeat-x scroll 0 0
+    #cccccc;
 }
 
 .list_header__button:active {
-  background: url("./images/button-save-bg-active.png") repeat-x scroll 0 0 #CCCCCC;
+  background: url('./../images/button-save-bg-active.png') repeat-x scroll 0 0
+    #cccccc;
 }

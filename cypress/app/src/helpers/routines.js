@@ -15,11 +15,16 @@ module.exports = (cy, Cypress) => {
         .contains(options.currentClient.LNF)
         .closest('li')
         .find('span.ant-select-selection__choice__remove')
-        .click();
+        .wait(250)
+        .click()
+        .wait(500);
+      cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.newClient.LNF)
-        .click();
-      cy.get('#clients').blur();
+        .wait(250)
+        .click()
+        .wait(250);
+      cy.get('#clients input').blur();
     }
     if (!!options.removeClient) {
       cy.log(`----removing client----`);
@@ -28,16 +33,19 @@ module.exports = (cy, Cypress) => {
         .contains(options.removeClient.LNF)
         .closest('li')
         .find('span.ant-select-selection__choice__remove')
-        .click();
-      cy.get('#clients').blur();
+        .wait(250)
+        .click()
+        .wait(250);
     }
     if (!!options.currentClient && !!options.client2) {
       cy.log(`----adding client for pair----`);
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.client2.LNF)
-        .click();
-      cy.get('#clients').blur();
+        .wait(250)
+        .click()
+        .wait(250);
+      cy.get('#clients input').blur();
     }
     if (!!options.newClient && !!options.newClient2) {
       cy.log(`----changing both clients----`);
@@ -47,15 +55,22 @@ module.exports = (cy, Cypress) => {
           cy
             .wrap(item)
             .find('span.ant-select-selection__choice__remove')
-            .click(),
+
+            .wait(250)
+            .click()
+            .wait(250),
         );
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.newClient.LNF)
-        .click();
+        .wait(250)
+        .click()
+        .wait(250);
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.newClient2.LNF)
-        .click();
+        .wait(250)
+        .click()
+        .wait(250);
     }
   };
 
@@ -97,21 +112,14 @@ module.exports = (cy, Cypress) => {
 
     _changeClients(options);
 
-    if (options.newTrainer) {
-      cy.log(`----changing Trainer----`);
-      cy.get('#trainerId').click({ force: true });
-      cy.get('.ant-select-dropdown-menu-item')
-        .contains(options.newTrainer.LNF)
-        .click();
-    }
-
     if (options.location) {
       cy.log(`----changing appointment location----`);
       cy.get('#locationId').click({
         force: true,
       });
       cy.get('.ant-select-dropdown-menu-item')
-        .contains(options.location)
+        .contains(options.location.name)
+        .wait(500)
         .click();
     }
 
@@ -122,11 +130,21 @@ module.exports = (cy, Cypress) => {
       });
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.appointmentType)
+        .wait(500)
         .click();
     }
     if (!!options.notes) {
       cy.log(`----changing notes----`);
       cy.get('#notes').type(options.notes);
+    }
+    if (options.newTrainer) {
+      cy.log(`----changing Trainer----`);
+      cy.get('#trainerId').click({ force: true });
+      cy.get('.ant-select-dropdown-menu-item')
+        .contains(options.newTrainer.LNF)
+        .wait(250)
+        .click()
+        .wait(250);
     }
 
     if (!!options.newDate) {
@@ -275,7 +293,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
     cy.navTo('Payment History');
-    cy.wait('@trainerpayments');
+    cy.wait('@trainerpayments').wait(500);
     cy.get('.ant-table-row:last')
       .find('span')
       .contains(Cypress.moment().format('MM/DD/YYYY'))
@@ -431,8 +449,6 @@ module.exports = (cy, Cypress) => {
       /* prettier-ignore-end */
     }
     navToAppropriateWeek(options.date);
-    cy.wait(1000);
-
     const appointment = cy.get(`ol[data-id='${options.date.format(
       'ddd MM/DD',
     )}']
@@ -475,15 +491,13 @@ module.exports = (cy, Cypress) => {
         .click({ log: false });
     }
     if (options.trainer) {
-      cy.get('#trainerId')
-        .focus({ log: false })
-        .click({ force: true });
+      cy.get('#trainerId').click({ force: true });
       cy.get('.ant-select-dropdown-menu-item')
         .contains(options.trainer.LNF)
         .click({ log: false });
     }
     if (options.location) {
-      cy.get('#locationId')
+      cy.get('input#locationId')
         .focus({ log: false })
         .click({ force: true });
       cy.get('.ant-select-dropdown-menu-item')
@@ -517,7 +531,7 @@ module.exports = (cy, Cypress) => {
     cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
     // cy.exec('make dockerDownTestsData', { failOnNonZeroExit: false });
     // cy.exec('make dockerUpTestsData', { failOnNonZeroExit: false });
-    cy.wait(8000);
+    cy.wait(6000);
     cy.request('GET', `${apiHost}/healthcheck/systemsup`)
       .its('status')
       .should('equal', 200);
@@ -636,9 +650,9 @@ module.exports = (cy, Cypress) => {
       .invoke('val')
       .as('sowValue');
     cy.get('@sowValue', { log: false }).then(sow => {
-      const startOfWeek = Cypress.moment(sow)
-        .add(1, 'day')
-        .startOf('day');
+      const startOfWeek = Cypress.moment(sow).startOf('day');
+      cy.log(startOfWeek.toString());
+      cy.log(date.toString());
       if (date.isBefore(startOfWeek)) {
         cy.log(`======navigate one week back======`);
         cy.get('.redux__task__calendar__header__date__nav > :nth-child(1)', {
@@ -646,7 +660,7 @@ module.exports = (cy, Cypress) => {
         }).click({ log: false });
         cy.wait('@fetchAppointments', {
           log: false,
-        });
+        }).wait(250);
       }
     });
 
@@ -657,7 +671,7 @@ module.exports = (cy, Cypress) => {
       .as('eowValue');
     cy.get('@eowValue', { log: false }).then(eow => {
       const endOfWeek = Cypress.moment(eow)
-        .add(1, 'day')
+        .subtract(1, 'day')
         .endOf('day');
       if (date.isAfter(endOfWeek)) {
         cy.log(`======navigate one week forward======`);
@@ -836,7 +850,7 @@ module.exports = (cy, Cypress) => {
   };
 
   const scheduleAppointmentInPastButDontReconcile = options => {
-    /* prettier-ignore-start */
+    /* prettier-ignore-start */scheduleAppointmentInPastButDontReconcile
     cy.log(`======================================================`);
     cy.log(
       `${options.index ||
@@ -852,6 +866,7 @@ module.exports = (cy, Cypress) => {
       endTime: options.endTime,
       trainerId: options.trainerId,
       clients: options.clientId,
+      locationId: options.locationId,
       entityName,
     };
     cy.request('POST', `${apiHost}/appointment/scheduleappointment`, payload);

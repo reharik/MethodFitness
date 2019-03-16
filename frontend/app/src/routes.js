@@ -39,9 +39,9 @@ const routes = (
       path="/payTrainer(/:trainerId)"
       component={PayTrainerListContainer}
     />
-    <Route path="/trainerPayments" component={TrainerPaymentListContainer} />
+    <Route path="/trainerPayments(/:trainerId)" component={TrainerPaymentListContainer} />
     <Route
-      path="/trainerPayment(/:paymentId)"
+      path="/trainerPaymentDetails/:paymentId(/:trainerId)"
       component={TrainerPaymentDetailsContainer}
     />
   </Route>

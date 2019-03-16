@@ -4,6 +4,7 @@ import { denormalizeTrainer } from './../utilities/denormalize';
 import selectn from 'selectn';
 import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
+import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
 
 export const HIRE_TRAINER = requestStates('hire_trainer', 'trainer');
 export const UPDATE_TRAINER_PASSWORD = requestStates(
@@ -34,7 +35,7 @@ export const TRAINER_LIST = requestStates('trainer_list', 'trainer');
 export const ARCHIVE_TRAINER = requestStates('archive_trainer', 'trainer');
 export const TRAINER = requestStates('trainer');
 
-export default (state = [], action = {}) => {
+export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
   switch (action.type) {
     case HIRE_TRAINER.REQUEST:
     case TRAINER.REQUEST:
@@ -43,10 +44,10 @@ export default (state = [], action = {}) => {
       return state;
     }
     case TRAINER.SUCCESS: {
-      return reducerMerge(state, action.response, 'trainerId');
+      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response, 'trainerId')};
     }
     case TRAINER_LIST.SUCCESS: {
-      return reducerMerge(state, action.response.trainers, 'trainerId');
+      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response.trainers, 'trainerId')};
     }
     case HIRE_TRAINER.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
@@ -55,7 +56,7 @@ export default (state = [], action = {}) => {
         action,
       );
 
-      return insertedItem.trainerId ? [...state, insertedItem] : state;
+      return insertedItem.trainerId ? {...state, results: [...state.results, insertedItem]} : state;
     }
     case UPDATE_TRAINER_INFO.FAILURE:
     case HIRE_TRAINER.FAILURE: {
@@ -63,7 +64,7 @@ export default (state = [], action = {}) => {
     }
     case ARCHIVE_TRAINER.SUCCESS: {
       let update = selectn('action.update', action);
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.trainerId === update.trainerId) {
           return {
             ...x,
@@ -71,12 +72,12 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
     case UPDATE_TRAINER_INFO.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.trainerId === update.trainerId) {
           return {
             ...x,
@@ -85,7 +86,7 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_TRAINER_PASSWORD.SUCCESS: {
@@ -96,7 +97,7 @@ export default (state = [], action = {}) => {
     case UPDATE_TRAINER_CONTACT.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.trainerId === update.trainerId) {
           return {
             ...x,
@@ -111,13 +112,13 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_TRAINER_ADDRESS.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.trainerId === update.trainerId) {
           return {
             ...x,
@@ -135,13 +136,13 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_TRAINER_CLIENTS.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.trainerId === update.trainerId) {
           return {
             ...x,
@@ -149,12 +150,12 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
       let update = selectn('action.update', action);
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.trainerId === update.trainerId) {
           return {
             ...x,
@@ -162,7 +163,7 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     default: {

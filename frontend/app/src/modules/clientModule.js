@@ -4,6 +4,7 @@ import { denormalizeClient } from './../utilities/denormalize';
 import selectn from 'selectn';
 import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
+import { DEFAULT_KEY, generateCacheTTL } from 'redux-cache';
 
 export const ADD_CLIENT = requestStates('add_client', 'client');
 export const UPDATE_CLIENT_CONTACT = requestStates(
@@ -23,20 +24,17 @@ export const ARCHIVE_CLIENT = requestStates('archive_client', 'client');
 export const CLIENT_LIST = requestStates('client_list', 'client');
 export const CLIENT = requestStates('client');
 
-export default (state = [], action = {}) => {
+export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
   switch (action.type) {
     case CLIENT.REQUEST: {
       console.log('ADD_CLIENT_REQUEST');
       return state;
     }
     case CLIENT.SUCCESS: {
-      console.log(`=========="client.success reducer"=========`);
-      console.log('client.success reducer'); // eslint-disable-line quotes
-      console.log(`==========END "client.success reducer"=========`);
-      return reducerMerge(state, action.response, 'clientId');
+      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response, 'clientId')};
     }
     case CLIENT_LIST.SUCCESS: {
-      return reducerMerge(state, action.response.clients, 'clientId');
+      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response.clients, 'clientId')};
     }
     case ADD_CLIENT.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
@@ -44,7 +42,7 @@ export default (state = [], action = {}) => {
         'payload.result.handlerResult.clientId',
         action,
       );
-      return insertedItem.clientId ? [...state, insertedItem] : state;
+      return insertedItem.clientId ? {...state, results: [...state.results, insertedItem]} : state;
     }
     case UPDATE_CLIENT_INFO.FAILURE:
     case ADD_CLIENT.FAILURE: {
@@ -53,7 +51,7 @@ export default (state = [], action = {}) => {
 
     case ARCHIVE_CLIENT.SUCCESS: {
       let update = selectn('action.update', action);
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.clientId === update.clientId) {
           return {
             ...x,
@@ -61,13 +59,13 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_CLIENT_INFO.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.clientId === update.clientId) {
           return {
             ...x,
@@ -80,13 +78,13 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_CLIENT_SOURCE.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.clientId === update.clientId) {
           return {
             ...x,
@@ -96,13 +94,13 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_CLIENT_CONTACT.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.clientId === update.clientId) {
           return {
             ...x,
@@ -115,13 +113,13 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     case UPDATE_CLIENT_ADDRESS.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return state.map(x => {
+      return {...state, results: state.results.map(x => {
         if (x.clientId === update.clientId) {
           return {
             ...x,
@@ -139,7 +137,7 @@ export default (state = [], action = {}) => {
           };
         }
         return x;
-      });
+      })};
     }
 
     default: {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from './ContentHeader';
 import AppointmentModal from './AppointmentModal';
@@ -6,172 +6,154 @@ import { Calendar } from 'redux-task-calendar';
 import ToggleTrainerListForCalendarContainer from './../containers/ToggleTrainerListContainer';
 import { permissionToSetAppointment } from './../utilities/appointmentTimes';
 import { Row, Col } from 'antd';
-import moment from 'moment';
+import riMoment from './../utilities/riMoment';
 import Breakjs from 'breakjs';
 import { Modal } from 'antd';
 const warning = Modal.warning;
 
 // eslint-disable-next-line new-cap
-const layout = Breakjs({
+const _layout = Breakjs({
   mobile: 0,
   tablet: 768,
   laptop: 1201,
 });
 
-class MFCalendar extends Component {
-  state = {
-    isOpen: false,
-    apptArgs: {},
-    layout: layout.current(),
-  };
+const MFCalendar = ({
+  config,
+  retrieveData,
+  updateTaskViaDND,
+  title,
+  isAdmin,
+  appointments,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [apptArgs, setApptArgs] = useState({});
+  const [layout, setLayout] = useState(_layout.current());
 
-  componentWillMount() {
-    this.props.fetchClientsAction();
-    this.props.fetchTrainersAction();
-    this.props.fetchAllLocationsAction();
-    this.config = {
-      ...this.props.config,
-      retrieveDataAction: this.props.retrieveDataAction,
-      updateTaskViaDND: this.props.updateTaskViaDND,
-      taskClickedEvent: this.taskClickedEvent,
-      openSpaceClickedEvent: this.openSpaceClickedEvent,
+  useEffect(() => {
+    retrieveData();
+    _layout.addChangeListener(layout => setLayout(layout)); // eslint-disable-line no-shadow
+    return () => {
+      _layout.removeChangeListener(layout => setLayout(layout)); // eslint-disable-line no-shadow
     };
-    if (this.state.layout === 'mobile') {
-      this.config = {
-        ...this.props.config,
-        defaultView: 'day',
-        hideViewMenu: true,
-      };
-    }
-    layout.addChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
-  }
+  }, []);
 
-  componentWillUnmount() {
-    layout.removeChangeListener(layout => this.setState({ layout })); // eslint-disable-line no-shadow
-  }
-
-  copyAppointment = args => {
-    let apptArgs = {
+  const copyAppointment = args => {
+    let newApptArgs = {
       appointmentId: args.appointmentId,
       isCopy: true,
     };
-    this.setState({
-      isOpen: true,
-      apptArgs,
-    });
+    setIsOpen(true);
+    setApptArgs(newApptArgs);
   };
 
-  editAppointment = args => {
-    let apptArgs = {
+  const editAppointment = args => {
+    let newApptArgs = {
       appointmentId: args.appointmentId,
       isEdit: true,
     };
-    this.setState({
-      isOpen: true,
-      apptArgs,
-    });
+    setIsOpen(true);
+    setApptArgs(newApptArgs);
   };
 
-  taskClickedEvent = (appointmentId, task, calendarName) => {
-    let apptArgs = {
+  const taskClickedEvent = (appointmentId, task, calendarName) => {
+    let newApptArgs = {
       appointmentId,
       task,
       calendarName,
     };
-    this.setState({
-      isOpen: true,
-      apptArgs,
-    });
+    setIsOpen(true);
+    setApptArgs(newApptArgs);
   };
 
-  openSpaceClickedEvent = (task, calendarName) => {
-    if (
-      !permissionToSetAppointment(
-        { ...task, date: task.day },
-        this.props.isAdmin,
-      )
-    ) {
+  const openSpaceClickedEvent = (task, calendarName) => {
+    if (!permissionToSetAppointment({ ...task, date: task.day }, isAdmin)) {
       warning({
         title: `You can not set an appointment in the past`,
         okText: 'OK',
       });
       return;
     }
-    const formattedTime = moment(task.startTime)
-      .local()
+    const formattedTime = riMoment(task.startTime)
       .format('hh:mm A');
-    let apptArgs = {
+    let newApptArgs = {
       day: task.day,
       startTime: formattedTime,
       calendarName,
     };
-    this.setState({
-      isOpen: true,
-      apptArgs,
-    });
+    setIsOpen(true);
+    setApptArgs(newApptArgs);
   };
 
-  onClose = () => {
-    this.setState({
-      isOpen: false,
-      apptArgs: {},
-    });
+  const onClose = () => {
+    setIsOpen(false);
+    setApptArgs({});
   };
 
-  render() {
-    moment.locale('en');
-    return (
-      <div id="mainCalendar">
-        <ContentHeader />
-        <div className="form-scroll-inner">
-          <div className="mainCalendar__content__inner">
-            <Row
-              type="flex"
-              style={
-                this.state.layout === 'laptop'
-                  ? { width: '100%' }
-                  : {
-                      flexDirection: 'column-reverse',
-                      width: '100%',
-                    }
-              }
-            >
-              {this.props.isAdmin ? (
-                <Col xl={3} lg={4} sm={24}>
-                  <ToggleTrainerListForCalendarContainer />
-                </Col>
-              ) : null}
-              <Col xl={21} lg={20} sm={24}>
-                <Calendar config={this.config} />
-              </Col>
-            </Row>
-          </div>
-        </div>
-        <AppointmentModal
-          args={this.state.apptArgs}
-          title={this.props.title}
-          onClose={this.onClose}
-          onCopy={this.copyAppointment}
-          onEdit={this.editAppointment}
-          isOpen={this.state.isOpen}
-          isCopy={this.state.apptArgs.isCopy}
-          isEdit={this.state.apptArgs.isEdit}
-        />
-      </div>
-    );
+  let calConfig = {
+    ...config,
+    retrieveData,
+    updateTaskViaDND,
+    taskClickedEvent,
+    openSpaceClickedEvent,
+  };
+  if (layout === 'mobile') {
+    calConfig = {
+      ...config,
+      defaultView: 'day',
+      hideViewMenu: true,
+    };
   }
-}
+
+  return (
+    <div id="mainCalendar">
+      <ContentHeader />
+      <div className="form-scroll-inner">
+        <div className="mainCalendar__content__inner">
+          <Row
+            type="flex"
+            style={
+              layout === 'laptop'
+                ? { width: '100%' }
+                : {
+                    flexDirection: 'column-reverse',
+                    width: '100%',
+                  }
+            }
+          >
+            {isAdmin ? (
+              <Col xl={4} lg={4} sm={24}>
+                <ToggleTrainerListForCalendarContainer />
+              </Col>
+            ) : null}
+            <Col xl={20} lg={20} sm={24}>
+              <Calendar config={calConfig} tasks={appointments} />
+            </Col>
+          </Row>
+        </div>
+      </div>
+      <AppointmentModal
+        args={apptArgs}
+        title={title}
+        onClose={onClose}
+        onCopy={copyAppointment}
+        onEdit={editAppointment}
+        isOpen={isOpen}
+        isCopy={apptArgs.isCopy}
+        isEdit={apptArgs.isEdit}
+      />
+    </div>
+  );
+};
 
 MFCalendar.propTypes = {
   config: PropTypes.object,
   layout: PropTypes.string,
-  fetchClientsAction: PropTypes.func,
-  fetchTrainersAction: PropTypes.func,
-  fetchAllLocationsAction: PropTypes.func,
-  retrieveDataAction: PropTypes.func,
+  retrieveData: PropTypes.func,
   updateTaskViaDND: PropTypes.func,
   title: PropTypes.string,
   isAdmin: PropTypes.bool,
+  appointments: PropTypes.array,
 };
 
 export default MFCalendar;

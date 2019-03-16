@@ -1,5 +1,5 @@
 import config from './../utilities/configValues';
-import moment from 'moment';
+import riMoment from './../utilities/riMoment';
 import reducerMerge from './../utilities/reducerMerge';
 import selectn from 'selectn';
 import { buildMomentFromDateAndTime } from './../utilities/appointmentTimes';
@@ -73,7 +73,6 @@ export default (state = [], action = {}) => {
 };
 
 function formatAppointmentData(data) {
-  moment.locale('en');
   const startTime = buildMomentFromDateAndTime(
     data.date,
     data.startTime,
@@ -83,16 +82,13 @@ function formatAppointmentData(data) {
     ...data,
     startTime,
     endTime,
-    entityName: moment(data.date).format('YYYYMMDD'),
+    entityName: riMoment(data.date).format('YYYYMMDD'),
   };
 }
 
 export function scheduleAppointment(data) {
   const formattedData = formatAppointmentData(data);
-  const startTimeIsInPast = buildMomentFromDateAndTime(
-    data.date,
-    data.startTime,
-  ).isBefore(moment());
+  const startTimeIsInPast = riMoment(formattedData.endTime).isBefore(riMoment());
   return startTimeIsInPast
     ? scheduleAppointmentInPast(formattedData)
     : scheduleAppointmentInFuture(formattedData);
@@ -133,15 +129,12 @@ function scheduleAppointmentInPast(formattedData) {
 }
 
 export function updateAppointment(data, origDate, origStartTime) {
-  const startTimeIsInPast = buildMomentFromDateAndTime(
-    data.date,
-    data.startTime,
-  ).isBefore(moment());
+  let formattedData = formatAppointmentData(data);
+  const startTimeIsInPast = riMoment(formattedData.startTime).isBefore(riMoment());
   const origStartTimeIsInPast = buildMomentFromDateAndTime(
     origDate,
     origStartTime,
-  ).isBefore(moment());
-  let formattedData = formatAppointmentData(data);
+  ).isBefore(riMoment());
   formattedData.isPastToFuture = !startTimeIsInPast && origStartTimeIsInPast;
   formattedData.isFutureToPast = startTimeIsInPast && !origStartTimeIsInPast;
   return startTimeIsInPast || formattedData.isPastToFuture
@@ -206,7 +199,6 @@ export function updateTaskViaDND(data) {
 }
 
 export function deleteAppointment(appointmentId, date) {
-  moment.locale('en');
   let apiUrl = `${config.apiBase}appointment/cancelAppointment`;
   return {
     type: DELETE_APPOINTMENT.REQUEST,
@@ -220,19 +212,18 @@ export function deleteAppointment(appointmentId, date) {
       },
       body: JSON.stringify({
         appointmentId,
-        entityName: moment(date).format('YYYYMMDD'),
+        entityName: riMoment(date).format('YYYYMMDD'),
       }),
     },
   };
 }
 
 export function deleteAppointmentFromPast(appointmentId, date, clients) {
-  moment.locale('en');
   let apiUrl = `${config.apiBase}appointment/removeAppointmentFromPast`;
   const body = {
     appointmentId,
     clients,
-    entityName: moment(date).format('YYYYMMDD'),
+    entityName: riMoment(date).format('YYYYMMDD'),
   };
 
   return {
@@ -264,13 +255,12 @@ export function fetchAppointmentAction(appointmentId) {
 }
 
 export function fetchAppointmentsAction(
-  startDate = moment().startOf('month'),
-  endDate = moment().endOf('month'),
+  startDate = riMoment().startOf('month'),
+  endDate = riMoment().endOf('month'),
   trainerId,
 ) {
-  moment.locale('en');
-  const start = moment(startDate).format('YYYY-MM-DD');
-  const end = moment(endDate).format('YYYY-MM-DD');
+  const start = riMoment(startDate).format('YYYY-MM-DD');
+  const end = riMoment(endDate).format('YYYY-MM-DD');
   let apiUrl = `${config.apiBase}fetchAppointments/${start}/${end}`;
 
   return {

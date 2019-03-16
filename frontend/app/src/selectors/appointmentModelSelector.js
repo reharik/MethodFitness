@@ -1,12 +1,10 @@
 import normalizeModel from './../utilities/normalizeModel';
 import { syncApptTypeAndTime } from './../utilities/appointmentTimes';
-import moment from 'moment';
+import riMoment from './../utilities/riMoment';
 
 export function appointmentModel(state, args) {
-  moment.locale('en');
-
   const model = normalizeModel(state.schema.definitions.appointment);
-  model.date.value = moment(args.day);
+  model.date.value = riMoment(args.day);
   model.appointmentType.value = 'halfHour';
   model.startTime.value = args.startTime;
   model.endTime.value = syncApptTypeAndTime(
@@ -18,7 +16,6 @@ export function appointmentModel(state, args) {
 }
 
 export function updateAppointmentModel(state, args, copy) {
-  moment.locale('en');
   const appointment = state.appointments.filter(
     x => x.appointmentId === args.appointmentId,
   )[0];
@@ -26,8 +23,16 @@ export function updateAppointmentModel(state, args, copy) {
     state.schema.definitions.appointment,
     appointment,
   );
-  model.startTime.value = moment(model.startTime.value).format('hh:mm A');
-  model.endTime.value = moment(model.endTime.value).format('hh:mm A');
+  // startTime has to be hh:mm A because it needs to match the selector option
+  model.startTime.value = riMoment(model.startTime.value).format('hh:mm A');
+  // endTime needs to be h:mm A to avoid a leading 0
+  model.endTime.value = riMoment(model.endTime.value).format('h:mm A');
   model.appointmentId.value = copy ? '' : model.appointmentId.value;
+  // data in projection is an object, but when added to the store from
+  // scheduleAppointment it is just an array of guids
+  model.clients.value = model.clients.value.map(
+    x => (typeof x === 'string' ? x : x.clientId),
+  );
+
   return model;
 }

@@ -14,7 +14,7 @@ import { actions as notifActions } from 'redux-notifications';
 const { notifClear } = notifActions;
 
 class UpdateLocationFormContainer extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 
@@ -48,7 +48,7 @@ UpdateLocationFormContainer.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
-  const location = state.locations.find(
+  const location = state.locations.results.find(
     x => x.locationId === props.params.locationId,
   );
   const model = normalizeModel(state.schema.definitions.location, location);

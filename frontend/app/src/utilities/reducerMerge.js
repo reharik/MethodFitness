@@ -12,13 +12,14 @@ const singleReducer = (map = new Map(), item = {}, id) => {
   return map;
 };
 
-export default (currentItems = [], newItems, id = 'id') => {
-  if (!newItems || newItems.length <= 0) {
+export default (currentItems = [], newItems = [], id = 'id') => {
+  if (!newItems || newItems.length <= 0 || typeof newItems === 'object' && Object.keys(newItems).length === 0) {
     return currentItems;
   }
-
   // if you are passing a single make it an array
-  newItems = Array.isArray(newItems) ? newItems : [newItems];
+  if(!Array.isArray(newItems) && newItems) {
+    newItems = [newItems];
+  };
 
   if (currentItems.length <= 0) {
     return newItems;

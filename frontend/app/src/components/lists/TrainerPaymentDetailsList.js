@@ -1,12 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Table } from 'antd';
+import { browserHistory } from 'react-router';
 
 const TrainerPaymentDetailsList = ({
   gridConfig,
   paymentTotal,
   paymentDate,
+  trainerId
 }) => (
   <div id="trainerVerificationList">
     <ContentHeader>
@@ -21,7 +23,16 @@ const TrainerPaymentDetailsList = ({
             )}
           </div>
         </div>
-        <div className="list__header__right" />
+        <div className="list__header__right">
+              <a
+                className="contentHeader__anchor"
+                data-id={'returnToTrainer'}
+                onClick={() =>
+                  browserHistory.push(`/trainerPayments/${trainerId}`)
+                }
+              >Return to Trainer Payments
+              </a>
+            </div>
       </div>
     </ContentHeader>
     <div className="form-scroll-inner">

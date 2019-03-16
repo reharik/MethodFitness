@@ -12,6 +12,10 @@ module.exports = function() {
       notes,
       entityName,
       oldTrainerId,
+      trainerPercentage,
+      trainerPay,
+      trainerChanged,
+      previousTrainerId,
     },
     rescheduled,
     updateDayOnly,
@@ -31,6 +35,10 @@ module.exports = function() {
       rescheduled,
       updateDayOnly,
       oldTrainerId,
+      trainerPercentage,
+      trainerPay,
+      trainerChanged,
+      previousTrainerId,
     };
   };
 };

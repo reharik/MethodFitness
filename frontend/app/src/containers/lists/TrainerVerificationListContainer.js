@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TrainerVerificationList from '../../components/lists/TrainerVerificationList';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
 import sortBy from 'sort-by';
 import {
   fetchUnverifiedAppointments,
@@ -11,7 +11,7 @@ import {
 import decamelize from 'decamelize';
 
 class TrainerVerificationListContainer extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadData();
   }
 
@@ -36,8 +36,7 @@ TrainerVerificationListContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  moment.locale('en');
-  let dataSource = state.sessionVerification
+  let dataSource = (state.sessionVerification || [])
     .filter(x => !x.verified && x.trainerId === state.auth.user.trainerId)
     .map(x => ({
       ...x,
@@ -47,8 +46,8 @@ function mapStateToProps(state) {
         .split(' ')
         .map(w => w[0].toUpperCase() + w.slice(1))
         .join(' '),
-      appointmentDate: moment(x.appointmentDate).format('L'),
-      startTime: moment(x.startTime).format('hh:mm A'),
+      appointmentDate: riMoment(x.appointmentDate).format('L'),
+      startTime: riMoment(x.appointmentStartTime).format('hh:mm A'),
     }))
     .sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));
 

@@ -31,10 +31,10 @@ const TrainerClientRatesInner = ({
     });
   };
 
-  const formItemLayout = {
-    labelCol: { span: 16, pull: 6 },
-    wrapperCol: { span: 6, push: 1 },
-  };
+  // const formItemLayout = {
+  //   labelCol: { span: 16, pull: 6 },
+  //   wrapperCol: { span: 6, push: 1 },
+  // };
 
   return (
     <Card title={`Trainer's Client Rate`} data-id={'trainerClientRate'}>
@@ -44,7 +44,8 @@ const TrainerClientRatesInner = ({
           return (
             <Row type="flex" key={x.name}>
               <EditableFor
-                formItemLayout={formItemLayout}
+                align={'center'}
+                // formItemLayout={formItemLayout}
                 key={x.name}
                 editing={editing}
                 form={form}

@@ -73,7 +73,7 @@ module.exports = cy => {
 
   cy.route({
     method: 'GET',
-    url: '/trainerPaymentDetails/*',
+    url: '/trainerPaymentDetails/*/*',
   }).as('trainerpaymentdetails');
 
   cy.route({

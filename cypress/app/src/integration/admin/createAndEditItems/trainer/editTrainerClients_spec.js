@@ -42,11 +42,14 @@ describe('Edit an existing trainer clients info', () => {
       cy.dataId('clients-container', 'div')
         .find('li:first > span')
         .click();
+      cy.get('#clients').click({
+        force: true,
+      });
 
       cy.get('.ant-select-dropdown-menu-item')
         .contains(newClient.LNF)
         .click();
-      cy.get('#clients').blur();
+      cy.get('#clients input').blur();
 
       cy.get(`.form__footer__button`)
         .contains('Submit')

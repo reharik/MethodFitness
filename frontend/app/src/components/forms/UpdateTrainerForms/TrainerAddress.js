@@ -27,11 +27,11 @@ const TrainerAddressInner = ({
     <Card title={'Trainer Address'} data-id={'trainerAddress'}>
       <Form onSubmit={handleSubmit} layout={'vertical'}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
-        <Row type="flex">
+        <Row>
           <EditableFor editing={editing} form={form} data={model.street1} />
           <EditableFor editing={editing} form={form} data={model.street2} />
         </Row>
-        <Row type="flex">
+        <Row>
           <EditableFor editing={editing} form={form} data={model.city} />
           <EditableFor
             editing={editing}

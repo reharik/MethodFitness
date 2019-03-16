@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PurchaseList from '../../components/lists/PurchaseList';
-import moment from 'moment';
+import riMoment from './../../utilities/riMoment';
+
 
 import { getPurchases, refundSessions } from './../../modules/purchaseModule';
 
@@ -29,7 +30,7 @@ PurchaseListContainer.propTypes = {
 
 const columns = [
   {
-    render: val => (val ? moment(val).format('L') : val), // eslint-disable-line no-confusing-arrow
+    render: val => (val ? riMoment(val).format('L') : val), // eslint-disable-line no-confusing-arrow
     dataIndex: 'purchaseDate',
     title: 'Purchase Date',
   },
@@ -41,19 +42,18 @@ const columns = [
 ];
 
 function mapStateToProps(state, props) {
-  moment.locale('en');
   const isAdmin = state.auth.user.role === 'admin';
-  const dataSource = state.purchases.filter(
+  const dataSource = state.purchases.find(
     x => x.clientId === props.params.clientId,
   );
-
   const gridConfig = {
     columns,
-    dataSource,
+    dataSource: dataSource ? dataSource.purchases : [],
   };
   return {
     isAdmin,
     gridConfig,
+    sessionsDataSource: dataSource ? dataSource.sessions : [],
     clientId: props.params.clientId,
   };
 }

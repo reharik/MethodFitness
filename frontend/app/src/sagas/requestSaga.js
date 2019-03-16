@@ -1,5 +1,16 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { logoutUser } from './../modules';
+import { checkCacheValid } from 'redux-cache';
+import config from './../utilities/configValues';
+
+const cachableItems = {
+  TRAINER: 'trainers',
+  TRAINER_LIST: 'trainers',
+  CLIENT: 'clients',
+  CLIENT_LIST: 'clients',
+  LOCATION: 'locations',
+  LOCATION_LIST: 'locations',
+};
 
 const standardSuccessResponse = (action, payload) => {
   //payload renamed to response here as it's a bit more semantic for the frontend
@@ -23,6 +34,7 @@ export function requestStates(entity, reducerName) {
   reducerName = reducerName || entity;
   return {
     REQUEST: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_REQUEST`,
+    CACHE_RETURNED: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_CACHE_RETURNED`,
     SUCCESS: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_SUCCESS`,
     FAILURE: `methodFit/${reducerName.toLowerCase()}/${entity.toUpperCase()}_FAILURE`,
   };
@@ -41,6 +53,18 @@ const handleSuccess = function* handleSuccess(success, action, payload) {
 };
 
 function* request(action) {
+  const entity = action.type.substring(action.type.lastIndexOf('/') + 1, action.type.lastIndexOf('_'));
+  const chachableReducer = cachableItems[entity];
+  console.log(`==========config.endToEndTesting==========`);
+  console.log(config.endToEndTesting);
+  console.log(`==========END config.endToEndTesting==========`);
+  if(!config.endToEndTesting && chachableReducer) {
+    const state = yield select();
+    const isCacheValid = checkCacheValid(() => state, chachableReducer);
+    if (isCacheValid) {
+      return yield put({ type: action.states.CACHE_RETURNED} );
+    }
+  }
   let response;
   let payload;
   let headers = new Headers();
