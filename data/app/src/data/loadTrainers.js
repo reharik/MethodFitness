@@ -28,6 +28,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
             zipCode: '78702',
           },
         },
+        defaultTrainerClientRate: 65,
         credentials: {
           password: createPassword('123123'),
           role: 'admin',
@@ -51,6 +52,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
             zipCode: '78702',
           },
         },
+        defaultTrainerClientRate: 65,
         credentials: {
           password: createPassword('345345'),
           role: 'trainer',
@@ -74,6 +76,7 @@ module.exports = function(bcryptjs, uuid, invariant) {
             zipCode: '02906',
           },
         },
+        defaultTrainerClientRate: 65,
         credentials: {
           password: createPassword('234234'),
           role: 'trainer',
@@ -106,6 +109,10 @@ module.exports = function(bcryptjs, uuid, invariant) {
       invariant(
         trainer.credentials.role,
         'hireTrainer requires that you pass the trainers role',
+      );
+      invariant(
+        trainer.deefautlTrainerClientRate,
+        'hireTrainer requires that you pass the default trainer client rate',
       );
       return trainer;
     },

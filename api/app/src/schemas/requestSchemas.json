@@ -130,6 +130,19 @@
       },
       "required": ["clientId", "rate"]
     },
+    "updateDefaultTrainerClientRate": {
+      "title": "updateDefaultTrainerClientRate",
+      "properties": {
+        "trainerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "deFaultRate": {
+          "type": "number"
+        }
+      },
+      "required": ["clientId", "rate"]
+    },
     "updateClientInfo": {
       "title": "clientInfoRequest",
       "properties": {
@@ -231,7 +244,7 @@
         "locationId": {
           "type": "string"
         },
-        "date": {
+        "appointmentDate": {
           "type": "string",
           "format": "date-time"
         },
@@ -260,7 +273,7 @@
       "required": [
         "appointmentType",
         "locationId",
-        "date",
+        "appointmentDate",
         "startTime",
         "endTime",
         "trainerId"

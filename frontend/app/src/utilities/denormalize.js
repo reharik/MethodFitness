@@ -16,15 +16,12 @@ export function denormalizeContact(flat) {
 }
 
 export function denormalizeTrainer(flat) {
-  console.log(`==========flat==========`);
-  console.log(flat);
-  console.log(`==========END flat==========`);
-
   return {
     color: flat.color,
     birthDate: flat.birthDate,
     contact: denormalizeContact(flat),
     clients: flat.clients,
+    defaultTrainerClientRate: flat.defaultTrainerClientRate,
     credentials: {
       password: flat.password,
       role: flat.role,

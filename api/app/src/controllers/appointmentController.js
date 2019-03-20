@@ -77,12 +77,9 @@ module.exports = function(
       );
       let clientsSame =
         R.symmetricDifference(body.clients, appointment.clients).length <= 0;
-      console.log('moment(body.date)');
-      console.log(moment(body.date));
-      console.log('moment(body.date)');
         if (
-        moment(appointment.date).format('YYYYMMDD') !==
-          moment(body.date).format('YYYYMMDD') ||
+        moment(appointment.appointmentDate).format('YYYYMMDD') !==
+          moment(body.appointmentDate).format('YYYYMMDD') ||
         !moment(appointment.startTime).isSame(moment(body.startTime))
       ) {
         commandName += 'rescheduleAppointment';
@@ -142,12 +139,6 @@ module.exports = function(
         body.appointmentId,
         'appointment',
       );
-      console.log(`==========appointment==========`);
-      console.log(appointment);
-      console.log(`==========END appointment==========`);
-      console.log(`==========body.trainerId==========`);
-      console.log(body);
-      console.log(`==========END body.trainerId==========`);
 
       let clientsSame =
         R.symmetricDifference(
@@ -156,8 +147,8 @@ module.exports = function(
         ).length <= 0;
 
       if (
-        moment(appointment.date).format('YYYYMMDD') ===
-          moment(body.date).format('YYYYMMDD') &&
+        moment(appointment.appointmentDate).format('YYYYMMDD') ===
+          moment(body.appointmentDate).format('YYYYMMDD') &&
         moment(appointment.startTime).isSame(moment(body.startTime)) &&
         appointment.appointmentType === body.appointmentType &&
         clientsSame &&
@@ -176,9 +167,6 @@ module.exports = function(
         body,
         clientsSame,
       );
-      console.log(`==========body2==========`);
-      console.log(body);
-      console.log(`==========END body==========`);
 
       notification = await processMessage(
         body,

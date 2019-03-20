@@ -47,7 +47,7 @@ function mapStateToProps(state) {
         .map(w => w[0].toUpperCase() + w.slice(1))
         .join(' '),
       appointmentDate: riMoment(x.appointmentDate).format('L'),
-      startTime: riMoment(x.appointmentStartTime).format('hh:mm A'),
+      startTime: riMoment(x.startTime).format('hh:mm A'),
     }))
     .sort(sortBy('clientName', 'appointmentDate', 'appointmentTime'));
 

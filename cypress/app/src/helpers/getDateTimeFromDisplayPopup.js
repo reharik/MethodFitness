@@ -1,7 +1,7 @@
 module.exports = (cy, Cypress) => {
   const getMomentForAppointment = () => {
     return cy.wait(1).then(() => {
-      cy.get('.display__container__value span[data-id="date"]')
+      cy.get('.display__container__value span[data-id="appointmentDate"]')
         .invoke('val')
         .as('date');
       cy.get('.display__container__value span[data-id="startTime"]')

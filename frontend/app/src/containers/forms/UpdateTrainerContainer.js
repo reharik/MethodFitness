@@ -10,6 +10,7 @@ import {
   updateTrainerPassword,
   updateTrainersClients,
   fetchTrainerAction,
+  updateDefaultTrainerClientRate
 } from './../../modules/trainerModule';
 import {
   updateTrainersClientRate,
@@ -64,7 +65,7 @@ const mapStateToProps = (state, ownProps) => {
     { required: true },
     { validator: comparePassword(form) },
   ];
-
+  model.defaultTrainerClientRate = model.defaultTrainerClientRate || 0;
   return {
     model,
     states,
@@ -86,6 +87,7 @@ export default connect(
     fetchTrainerAction,
     fetchClientsAction,
     getTrainerClientRates,
+    updateDefaultTrainerClientRate,
     notifClear,
   },
 )(UpdateTrainerForm);

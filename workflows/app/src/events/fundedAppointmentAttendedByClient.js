@@ -6,7 +6,7 @@ module.exports = function(invariant) {
     appointmentId,
     appointmentType,
     appointmentDate,
-    appointmentStartTime,
+    startTime,
     pricePerSession,
     trainerId,
     trainerPercentage,
@@ -38,7 +38,7 @@ module.exports = function(invariant) {
       'fundedAppointmentAttendedByClientEvent requires that you pass the appointment date',
     );
     invariant(
-      appointmentStartTime,
+      startTime,
       'fundedAppointmentAttendedByClientEvent requires that you pass the appointment start time',
     );
     invariant(
@@ -70,7 +70,7 @@ module.exports = function(invariant) {
       appointmentId,
       appointmentType,
       appointmentDate,
-      appointmentStartTime,
+      startTime,
       pricePerSession,
       trainerId,
       trainerPercentage,

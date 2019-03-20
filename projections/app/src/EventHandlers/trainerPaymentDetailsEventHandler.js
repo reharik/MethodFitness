@@ -21,7 +21,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
         clientName: `${x.clientLastName}, ${x.clientFirstName}`,
         appointmentId: x.appointmentId,
         appointmentDate: x.appointmentDate,
-        startTime: x.appointmentStartTime,
+        startTime: x.startTime,
         appointmentType: x.appointmentType,
         sessionId: x.sessionId,
         pricePerSession: x.pricePerSession,

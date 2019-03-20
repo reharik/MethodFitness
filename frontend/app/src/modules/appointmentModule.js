@@ -74,15 +74,15 @@ export default (state = [], action = {}) => {
 
 function formatAppointmentData(data) {
   const startTime = buildMomentFromDateAndTime(
-    data.date,
+    data.appointmentDate,
     data.startTime,
   ).format();
-  const endTime = buildMomentFromDateAndTime(data.date, data.endTime).format();
+  const endTime = buildMomentFromDateAndTime(data.appointmentDate, data.endTime).format();
   return {
     ...data,
     startTime,
     endTime,
-    entityName: riMoment(data.date).format('YYYYMMDD'),
+    entityName: riMoment(data.appointmentDate).format('YYYYMMDD'),
   };
 }
 
@@ -191,14 +191,14 @@ function updateAppointmentFromPast(formattedData) {
 export function updateTaskViaDND(data) {
   const submitData = {
     ...data.orig,
-    date: data.date,
+    appointmentDate: data.appointmentDate,
     startTime: data.startTime,
     endTime: data.endTime,
   };
-  return updateAppointment(submitData, data.orig.date, data.orig.startTime);
+  return updateAppointment(submitData, data.orig.appointmentDate, data.orig.startTime);
 }
 
-export function deleteAppointment(appointmentId, date) {
+export function deleteAppointment(appointmentId, appointmentDate) {
   let apiUrl = `${config.apiBase}appointment/cancelAppointment`;
   return {
     type: DELETE_APPOINTMENT.REQUEST,
@@ -212,18 +212,18 @@ export function deleteAppointment(appointmentId, date) {
       },
       body: JSON.stringify({
         appointmentId,
-        entityName: riMoment(date).format('YYYYMMDD'),
+        entityName: riMoment(appointmentDate).format('YYYYMMDD'),
       }),
     },
   };
 }
 
-export function deleteAppointmentFromPast(appointmentId, date, clients) {
+export function deleteAppointmentFromPast(appointmentId, appointmentDate, clients) {
   let apiUrl = `${config.apiBase}appointment/removeAppointmentFromPast`;
   const body = {
     appointmentId,
     clients,
-    entityName: riMoment(date).format('YYYYMMDD'),
+    entityName: riMoment(appointmentDate).format('YYYYMMDD'),
   };
 
   return {

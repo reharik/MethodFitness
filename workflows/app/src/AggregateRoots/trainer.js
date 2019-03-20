@@ -9,7 +9,7 @@ module.exports = function(
       type: 'Trainer',
       trainerClients: [],
       _password: undefined,
-      _defaultTrainerCientRate: 65,
+      defaultTrainerCientRate: 0,
       trainerClientRates: [],
       firstName: '',
       lastName: '',

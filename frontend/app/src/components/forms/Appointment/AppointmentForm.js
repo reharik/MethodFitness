@@ -57,7 +57,7 @@ class AppointmentForm extends Component {
           if (values.appointmentId) {
             this.props.updateAppointment(
               values,
-              this.props.model.date.value,
+              this.props.model.appointmentDate.value,
               this.props.model.startTime.value,
             );
           } else {
@@ -123,13 +123,13 @@ class AppointmentForm extends Component {
 
   deleteHandler = () => {
     const appointmentId = this.props.form.getFieldValue('appointmentId');
-    const date = this.props.form.getFieldValue('date');
+    const appointmentDate = this.props.form.getFieldValue('appointmentDate');
     const startTime = this.props.form.getFieldValue('startTime');
     const clients = this.props.form.getFieldValue('clients');
-    if (buildMomentFromDateAndTime(date, startTime).isBefore(riMoment())) {
-      this.props.deleteAppointmentFromPast(appointmentId, date, clients);
+    if (buildMomentFromDateAndTime(appointmentDate, startTime).isBefore(riMoment())) {
+      this.props.deleteAppointmentFromPast(appointmentId, appointmentDate, clients);
     } else {
-      this.props.deleteAppointment(appointmentId, date);
+      this.props.deleteAppointment(appointmentId, appointmentDate);
     }
     this.props.onCancel();
   };
@@ -219,7 +219,7 @@ class AppointmentForm extends Component {
             <EditableFor
               editing={this.state.editing}
               form={form}
-              data={model.date}
+              data={model.appointmentDate}
               formItemLayout={formItemLayout}
               extraFunc={!this.props.isAdmin ? this.disabledDate : null}
               span={24}

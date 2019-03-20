@@ -125,7 +125,7 @@ module.exports = function(
               session.pricePerSession = session.purchasePrice;
               session.trainerPay = TR;
               session.trainerPercentage = TCR ? TCR.rate : 0;
-              session.appointmentStartTime = x.appointmentStartTime;
+              session.startTime = x.startTime;
               session.appointmentDate = x.appointmentDate;
               fundedAppointments.push(x);
             }
@@ -156,8 +156,6 @@ module.exports = function(
           cmdClone.clientId = state._id;
           cmdClone.clientFirstName = state.firstName;
           cmdClone.clientLastName = state.lastName;
-          cmdClone.appointmentDate = cmdClone.date;
-          cmdClone.appointmentStartTime = cmdClone.startTime;
           cmdClone.trainerPercentage = TCR ? TCR.rate : 0;
           if (session) {
             const purchasePrice = session.purchasePrice;

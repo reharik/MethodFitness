@@ -7,6 +7,7 @@ module.exports = function(invariant) {
     contact,
     credentials,
     clients,
+    defaultTrainerClientRate,
     legacyId,
   }) {
     const {
@@ -41,6 +42,7 @@ module.exports = function(invariant) {
       archived,
       legacyId,
       clients,
+      defaultTrainerClientRate,
       contact: {
         firstName,
         lastName,

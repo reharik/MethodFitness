@@ -4,7 +4,7 @@ module.exports = function(invariant, riMoment) {
     appointmentId,
     locationId,
     appointmentType,
-    date,
+    appointmentDate,
     startTime,
     endTime,
     trainerId,
@@ -45,7 +45,7 @@ module.exports = function(invariant, riMoment) {
     );
     invariant(trainerId, `${commandName} requires that you pass trainerId`);
     invariant(
-      date,
+      appointmentDate,
       `${commandName} requires that you pass the appointment date`,
     );
     invariant(
@@ -69,7 +69,7 @@ module.exports = function(invariant, riMoment) {
       locationId,
       commandName,
       appointmentType,
-      date,
+      appointmentDate,
       startTime: riStartTime,
       endTime: riEndTime,
       trainerId,

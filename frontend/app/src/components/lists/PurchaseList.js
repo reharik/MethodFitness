@@ -4,6 +4,8 @@ import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
 import { browserHistory } from 'react-router';
 import riMoment from './../../utilities/riMoment';
+import appointmentTypes from './../../constants/appointmentTypes';
+
 import Breakjs from 'breakjs';
 const confirm = Modal.confirm;
 
@@ -32,51 +34,40 @@ class PurchaseList extends Component {
     );
   }
 
-  submitVerification = () => {
-    let that = this;
+  submitRefund = () => {
     let refund = 0;
-    Object.keys(this.state.purchases).forEach(x => {
-      refund += this.state.purchases[x].refundTotal;
-    });
-    if (refund > 0) {
       let refundSessions = [];
       Object.keys(this.state.purchases).forEach(x => {
-        const sourceSessions = this.props.gridConfig.dataSource.find(
-          s => s.purchaseId === x,
-        ).sessions;
-        const selectedRowKeys = this.state.purchases[x].selectedRowKeys;
-        refundSessions = selectedRowKeys
-          .map(k => {
-            let session = sourceSessions.find(ss => ss.sessionId === k);
-            return {
-              sessionId: session.sessionId,
-              appointmentType: session.appointmentType,
-            };
-          })
-          .concat(refundSessions);
+        if(this.state.purchases[x].refundTotal && this.state.purchases[x].refundTotal > 0) {
+          refund += this.state.purchases[x].refundTotal || 0;
+          const selectedRowKeys = this.state.purchases[x].selectedRowKeys;
+          refundSessions = selectedRowKeys.concat(refundSessions);
+        }
       });
-      confirm({
-        title: 'Are you sure you would like to Refund?',
-        content: `${refundSessions.length} Sessions for $${refund.toFixed(2)}`,
-        okText: 'OK',
-        cancelText: 'Cancel',
-        onOk() {
-          const payload = {
-            clientId: that.props.clientId,
-            refundSessions,
-          };
-          that.props.refundSessions(payload);
-          that.setState({
-            purchases: {},
-          });
-        },
-        onCancel() {},
-      });
-    }
+    this.confirmRefund(refundSessions, refund);
   };
 
+  confirmRefund = (refundSessions, refund) => confirm({
+    title: 'Are you sure you would like to Refund?',
+    content: `${refundSessions.length} Sessions for $${refund.toFixed(2)}`,
+    okText: 'OK',
+    cancelText: 'Cancel',
+    onOk: () => {
+      const payload = {
+        clientId: this.props.clientId,
+        refundSessions,
+      };
+      this.props.refundSessions(payload);
+      this.setState({
+        purchases: {},
+      });
+    },
+    onCancel() {},
+  });
+
+
   updateSelectedRows = (purchaseId, selectedRows) => {
-    let selectedRowKeys = selectedRows.map(x => x.sessionId);
+    let selectedRowKeys = selectedRows.map(x => ({sessionId: x.sessionId, appointmentType: x.appointmentType}));
     let purchases = {
       ...this.state.purchases,
       [purchaseId]: {
@@ -98,19 +89,16 @@ class PurchaseList extends Component {
   };
 
   getCheckboxProps = record => ({
-    disabled: !!record.refunded || !!record.appointmentId,
+    disabled: record.refunded,
   });
 
   expandRowRender = data => {
-    const selectedRowKeys = this.props.sessionsDataSource.filter(
+    const source = this.props.sessionsDataSource.filter(
       x => x.purchaseId === data.purchaseId,
     );
-
-    console.log(`==========selectedRowKeys==========`);
-    console.log(data);
-    console.log(selectedRowKeys);
-    console.log(`==========END selectedRowKeys==========`);
-
+    const selectedRowKeys = (this.state.purchases[data.purchaseId]
+      ? this.state.purchases[data.purchaseId].selectedRowKeys
+      : []).map(x => x.sessionId);
     let rowSelection = {
       selectedRowKeys,
       onSelect: this.onSelect,
@@ -125,6 +113,7 @@ class PurchaseList extends Component {
         title: 'Session Id',
       },
       {
+        render: val => { const type = appointmentTypes.find(x => x.value === val); return type ? type.display : ''; },
         dataIndex: 'appointmentType',
         title: 'Appointment Type',
       },
@@ -135,7 +124,7 @@ class PurchaseList extends Component {
       },
       {
         render: val => (val ? riMoment(val).format('LT') : val), // eslint-disable-line no-confusing-arrow
-        dataIndex: 'appointmentStartTime',
+        dataIndex: 'startTime',
         title: 'Start Time',
       },
       {
@@ -170,7 +159,7 @@ class PurchaseList extends Component {
         columns={columns}
         rowKey="sessionId"
         rowClassName={getRowClass}
-        dataSource={selectedRowKeys}
+        dataSource={source}
         rowSelection={this.props.isAdmin ? rowSelection : null}
         pagination={false}
       />
@@ -197,7 +186,7 @@ class PurchaseList extends Component {
               {hasRefundableItems && this.props.isAdmin ? (
                 <button
                   className="contentHeader__button"
-                  onClick={this.submitVerification}
+                  onClick={this.submitRefund}
                 >
                   Submit Refund
                 </button>

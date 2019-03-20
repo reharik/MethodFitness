@@ -181,6 +181,17 @@ describe('Creating an Appointment in the Past For Admin', () => {
           appointmentType: 'Full Hour',
         },
       });
+      routines.deleteAppointment({
+        index: 9,
+        date: aDT.date,
+        time: aDT.time,
+      });
+      routines.checkSessions({
+        index: 10,
+        client: this.clients.client1,
+        availableCount: 2,
+        usedCount: 0,
+      });
     });
   });
 });

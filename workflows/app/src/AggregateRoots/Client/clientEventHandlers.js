@@ -75,7 +75,7 @@ module.exports = function() {
                   trainerId: event.trainerId,
                   appointmentType: event.appointmentType,
                   clients: event.clients,
-                  date: event.date,
+                appointmentDate: event.appointmentDate,
                   startTime: event.startTime,
                   endTime: event.endTime,
                 })

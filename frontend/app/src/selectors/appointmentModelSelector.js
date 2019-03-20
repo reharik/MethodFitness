@@ -4,7 +4,7 @@ import riMoment from './../utilities/riMoment';
 
 export function appointmentModel(state, args) {
   const model = normalizeModel(state.schema.definitions.appointment);
-  model.date.value = riMoment(args.day);
+  model.appointmentDate.value = riMoment(args.day);
   model.appointmentType.value = 'halfHour';
   model.startTime.value = args.startTime;
   model.endTime.value = syncApptTypeAndTime(

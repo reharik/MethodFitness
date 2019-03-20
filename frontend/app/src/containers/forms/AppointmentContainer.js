@@ -60,7 +60,7 @@ const mapStateToProps = (state, props) => {
 
   // please put this shit in a config somewhere
   let startTime = 5;
-  if (!isAdmin && model.date.value.dayOfYear() === riMoment().dayOfYear()) {
+  if (!isAdmin && model.appointmentDate.value.dayOfYear() === riMoment().dayOfYear()) {
     startTime = riMoment().hour() + 1;
   }
 
@@ -82,7 +82,7 @@ const mapStateToProps = (state, props) => {
     } else if (
       permissionToSetAppointment(
         {
-          date: model.date.value,
+          appointmentDate: model.appointmentDate.value,
           startTime: model.startTime.value,
         },
         isAdmin,
@@ -97,6 +97,7 @@ const mapStateToProps = (state, props) => {
   model.appointmentType.label = 'Type';
   model.trainerId.label = 'Trainer';
   model.locationId.label = 'Location';
+  model.appointmentDate.label = 'Date';
   return {
     isAdmin,
     model,

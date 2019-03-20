@@ -4,7 +4,7 @@ module.exports = function() {
     trainerId,
     appointmentType,
     clients,
-    date,
+    appointmentDate,
     startTime,
     endTime,
   }) {
@@ -14,7 +14,7 @@ module.exports = function() {
       trainerId,
       appointmentType,
       clients,
-      date,
+      appointmentDate,
       startTime,
       endTime,
     };

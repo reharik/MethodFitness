@@ -18,6 +18,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
         account: {
           role: event.credentials.role,
         },
+        defaultTrainerClientRate: event.defaultTrainerClientRate
       };
 
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
@@ -112,10 +113,18 @@ where id = '${event.trainerId}'`;
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
     }
 
+    //TODO this is fubar I think
     async function trainerPasswordUpdated(event) {
       rsRepository = await rsRepository;
       let trainer = await rsRepository.getById(event.trainerId, 'trainer');
       trainer = event.credentials.role;
+      return await rsRepository.save('trainer', trainer, trainer.trainerId);
+    }
+
+    async function defaultTrainerClientRateUpdatedEvent(event) {
+      rsRepository = await rsRepository;
+      let trainer = await rsRepository.getById(event.trainerId, 'trainer');
+      trainer.defaultTrainerClientRate = event.defaultTrainerClientRate;
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
     }
 
@@ -133,6 +142,7 @@ where id = '${event.trainerId}'`;
         trainerClientRemoved,
         trainersClientRateChanged,
         trainerPasswordUpdated,
+        defaultTrainerClientRateUpdatedEvent
       },
       'TrainerEventHandler',
     );

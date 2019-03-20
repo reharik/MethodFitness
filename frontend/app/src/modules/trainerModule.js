@@ -31,6 +31,10 @@ export const UPDATE_TRAINER_INFO = requestStates(
   'update_trainer_info',
   'trainer',
 );
+export const UPDATE_DEFAULT_TRAINER_CLIENT_RATE = requestStates(
+  'update_default_trainer_client_rate',
+  'trainer',
+);
 export const TRAINER_LIST = requestStates('trainer_list', 'trainer');
 export const ARCHIVE_TRAINER = requestStates('archive_trainer', 'trainer');
 export const TRAINER = requestStates('trainer');
@@ -87,6 +91,20 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
         }
         return x;
       })};
+    }
+
+    case UPDATE_DEFAULT_TRAINER_CLIENT_RATE.SUCCESS: {
+      let update = selectn('action.update', action);
+
+      return {...state, results: state.results.map(x => {
+          if (x.trainerId === update.trainerId) {
+            return {
+              ...x,
+              defaultTrainerClientRate: update.defaultTrainerClientRate,
+            };
+          }
+          return x;
+        })};
     }
 
     case UPDATE_TRAINER_PASSWORD.SUCCESS: {
@@ -183,6 +201,29 @@ export function updateTrainerInfo(data) {
     type: UPDATE_TRAINER_INFO.REQUEST,
     states: UPDATE_TRAINER_INFO,
     url: config.apiBase + 'trainer/updateTrainerInfo',
+    update: data,
+    params: {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
+  };
+}
+
+export function updateDefaultTrainerClientRate(data) {
+  const item = {
+    trainerId: data.trainerId,
+    defaultTrainerClientRate: data.defaultTrainerClientRate,
+    color: data.color,
+  };
+
+  return {
+    type: UPDATE_DEFAULT_TRAINER_CLIENT_RATE.REQUEST,
+    states: UPDATE_DEFAULT_TRAINER_CLIENT_RATE,
+    url: config.apiBase + 'trainer/updateDefaultTrainerClientRate',
     update: data,
     params: {
       method: 'POST',

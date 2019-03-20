@@ -97,6 +97,18 @@ module.exports = function(
     ctx.status = result.status;
   };
 
+  let updateDefaultTrainerClientRate = async function(ctx) {
+    logger.debug('arrived at trainer.updateDefaultTrainerClientRate');
+
+    const result = await processMessage(
+      ctx.request.body,
+      'updateDefaultTrainerClientRate',
+    );
+
+    ctx.body = result.body;
+    ctx.status = result.status;
+  };
+
   let processMessage = async function(payload, commandName) {
     const continuationId = uuid.v4();
     let notificationPromise = await notificationListener(
@@ -138,6 +150,7 @@ module.exports = function(
     updateTrainerPassword,
     updateTrainersClients,
     updateTrainersClientRates,
+    updateDefaultTrainerClientRate,
     archiveTrainer,
     getTrainerClientRates,
     getTrainer,

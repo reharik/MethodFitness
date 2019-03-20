@@ -82,6 +82,9 @@
         "trainerId": {
           "type": "string",
           "format": "uuid"
+        },
+        "defaultTrainerClientRate": {
+          "type": "number"
         }
       }
     },
@@ -198,7 +201,7 @@
           "format": "uuid",
           "x-input": "select"
         },
-        "date": {
+        "appointmentDate": {
           "type": "string",
           "format": "date-time",
           "x-input": "date-time"

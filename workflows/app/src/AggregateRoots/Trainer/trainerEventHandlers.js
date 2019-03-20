@@ -6,6 +6,7 @@ module.exports = function() {
         state._id = event.trainerId;
         state.firstName = event.contact.firstName;
         state.lastName = event.contact.lastName;
+        state.defaultTrainerClientRate = event.defaultTrainerClientRate;
       },
 
       trainerPasswordUpdated(event) {
@@ -42,9 +43,14 @@ module.exports = function() {
           return x.clientId === event.clientId ? event : x;
         });
       },
+
       trainerContactUpdatedEvent(event) {
         state.firstName = event.contact.firstName;
         state.lastName = event.contact.lastName;
+      },
+
+      defaultTrainerClientRateUpdatedEvent(event) {
+        state.defaultTrainerClientRate = event.defaultTrainerClientRate;
       },
     };
   };

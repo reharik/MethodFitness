@@ -129,6 +129,9 @@ class TrainerForm extends Component {
               <Col xl={10} lg={14} sm={24}>
                 <Card title="Trainer' Clients">
                   <Row type="flex">
+                    <SubmissionFor form={form} data={model.defaultTrainerClientRate} />
+                  </Row>
+                  <Row type="flex">
                     <EditableFor
                       editing={true}
                       form={form}

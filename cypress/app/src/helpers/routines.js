@@ -266,14 +266,14 @@ module.exports = (cy, Cypress) => {
       cy.get('tr.row-gray').should('have.length', options.usedCount);
     }
     if (options.usedItemsValues) {
-      cy.get('.ant-table-row > :nth-child(5)')
+      cy.get('.ant-table-row > :nth-child(3)')
         .contains(options.usedItemsValues.appointmentType)
         .should('exist');
-      cy.get('.ant-table-row > :nth-child(3)')
+      cy.get('.ant-table-row > :nth-child(4)')
         .contains(options.usedItemsValues.date.format('MM/DD/YYYY'))
         .should('exist');
       if (options.usedItemsValues.startTime) {
-        cy.get('.ant-table-row > :nth-child(4)')
+        cy.get('.ant-table-row > :nth-child(5)')
           .contains(options.usedItemsValues.startTime)
           .should('exist');
       }

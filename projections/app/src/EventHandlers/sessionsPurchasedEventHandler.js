@@ -11,7 +11,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
       let session = client.sessions.find(x => x.sessionId === event.sessionId);
 
       session.appointmentId = event.appointmentId;
-      session.appointmentDate = event.date;
+      session.appointmentDate = event.appointmentDate;
       session.startTime = event.startTime;
 
       return await rsRepository.save(
@@ -42,7 +42,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
         );
         if (session) {
           session.trainerId = event.trainerId;
-          session.appointmentDate = event.date;
+          session.appointmentDate = event.appointmentDate;
           session.startTime = event.startTime;
 
           await rsRepository.save(
@@ -82,7 +82,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
         appointmentId: x.appointmentId,
         appointmentType: x.appointmentType,
         appointmentDate: x.appointmentDate,
-        appointmentStartTime: x.appointmentStartTime,
+        startTime: x.startTime,
         purchasePrice: x.purchasePrice,
         clientId: x.clientId,
       }));
@@ -136,7 +136,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
       session.used = true;
       session.appointmentDate = event.appointmentDate;
       session.appointmentId = event.appointmentId;
-      session.startTime = event.appointmentStartTime;
+      session.startTime = event.startTime;
 
       await rsRepository.save('sessionsPurchased', client, client.clientId);
     }

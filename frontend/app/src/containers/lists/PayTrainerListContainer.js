@@ -76,7 +76,7 @@ function mapStateToProps(state, props) {
       return {
         ...x,
         appointmentDate: riMoment(x.appointmentDate).format('L'),
-        startTime: riMoment(x.appointmentStartTime).format('LT'),
+        startTime: riMoment(x.startTime).format('LT'),
       };
     });
 

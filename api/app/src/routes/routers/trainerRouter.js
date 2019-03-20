@@ -188,6 +188,42 @@ module.exports = function trainerRouter(koarouter, controllers) {
     router.post('/trainer/updatetrainerpassword', controllers.trainerController.updateTrainerPassword);
     /**
      * @swagger
+     * /trainer/updatedefaulttrainerclientrate:
+     *   post:
+     *     x-name: /trainer/updateDefaultTrainerClientRate
+     *     description: update Defaut Trainer Client Rate
+     *     operationId: /trainer/updateDefaultTrainerClientRate
+     *     parameters:
+     *       - name: body
+     *         in: body
+     *         required: true
+     *         schema: {
+     *           "trainerId": {
+     *              "type": "string",
+     *              "format": "uuid"
+     *            },
+     *            "defaultTrainerClientRate": {
+     *              "type": "number"
+     *             }
+     *         }
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *             $ref: "#/definitions/standardSuccessResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.post('/trainer/updatedefaulttrainerclientrate', controllers.trainerController.updateDefaultTrainerClientRate);
+
+    /**
+     * @swagger
      * /trainer/updatetrainersclients:
      *   post:
      *     x-name: /trainer/updateTrainersClients

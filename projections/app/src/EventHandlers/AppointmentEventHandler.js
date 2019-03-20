@@ -64,7 +64,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
       const updatedAppointment = Object.assign({}, appointment, {
         appointmentType: event.appointmentType,
         enttityName: event.enttityName,
-        date: event.date,
+        appointmentDate: event.appointmentDate,
         startTime: event.startTime,
         endTime: event.endTime,
         trainerId: event.trainerId,

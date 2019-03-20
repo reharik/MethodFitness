@@ -5,6 +5,7 @@ module.exports = function(invariant) {
     contact,
     credentials,
     clients,
+    defaultTrainerClientRate,
     color,
   }) {
     const {
@@ -36,11 +37,13 @@ module.exports = function(invariant) {
       'hireTrainer requires that you pass the trainers password',
     );
     invariant(role, 'hireTrainer requires that you pass the trainers role');
+    invariant(defaultTrainerClientRate, 'hireTrainer requires that you pass the default trainer client rated');
 
     return {
       birthDate,
       archived,
       clients,
+      defaultTrainerClientRate,
       color,
       contact: {
         firstName,

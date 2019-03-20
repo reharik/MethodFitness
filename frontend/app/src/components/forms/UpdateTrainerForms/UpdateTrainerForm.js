@@ -7,6 +7,7 @@ import TrainerContact from './TrainerContact';
 import TrainerAddress from './TrainerAddress';
 import TrainerPassword from './TrainerPassword';
 import TrainerClientRates from './TrainerClientRates';
+import TrainerDefaultClientRate from './TrainerDefaultClientRate';
 import TrainerClients from './TrainerClients';
 import { Row, Col } from 'antd';
 
@@ -90,6 +91,10 @@ class UpdateTrainerForm extends Component {
                 submit={this.props.updateTrainersClients}
                 clients={this.props.clients}
               />
+              <TrainerDefaultClientRate
+                model={model}
+                submit={this.props.updateDefaultTrainerClientRate}
+              />
               <TrainerClientRates
                 model={model}
                 submit={this.props.updateTrainersClientRate}
@@ -117,6 +122,7 @@ UpdateTrainerForm.propTypes = {
   updateTrainerAddress: PropTypes.func,
   updateTrainerPassword: PropTypes.func,
   getTrainerClientRates: PropTypes.func,
+  updateDefaultTrainerClientRate: PropTypes.func,
   isAdmin: PropTypes.bool
 };
 

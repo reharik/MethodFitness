@@ -154,7 +154,20 @@ module.exports = function(
         trainer,
         cmd.trainerId,
       );
+      // This is actually the client aggregate root, injected above retrieving client instance
       await trainerInstance.payTrainer(cmd, client);
+      logger.info('saving trainerInstance');
+      logger.trace(trainerInstance);
+      await eventRepository.save(trainerInstance, { continuationId });
+      return { trainerId: trainerInstance.state._id };
+    }
+
+    async function updateDefaultTrainerClientRate(cmd, continuationId) {
+      let trainerInstance = await eventRepository.getById(
+        trainer,
+        cmd.trainerId,
+      );
+      await trainerInstance.updateDefaultTrainerClientRate(cmd);
       logger.info('saving trainerInstance');
       logger.trace(trainerInstance);
       await eventRepository.save(trainerInstance, { continuationId });
@@ -175,6 +188,7 @@ module.exports = function(
         unArchiveTrainer,
         verifyAppointments,
         payTrainer,
+        updateDefaultTrainerClientRate
       },
       'TrainerWorkflow',
     );

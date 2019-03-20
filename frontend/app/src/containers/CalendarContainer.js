@@ -47,7 +47,7 @@ const CalendarContainer = ({
 
   const setAppointmentsInState = (start = startDate, end = endDate) => {
     const appts = (appointments || []).filter(a => {
-      const aDate = riMoment(a.date);
+      const aDate = riMoment(a.appointmentDate);
       return aDate >= start && aDate <= end;
     });
     setCurrentAppointments(appts);
