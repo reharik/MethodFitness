@@ -15,6 +15,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
         color: event.color,
         legacyId: event.legacyId,
         clients: event.clients,
+        trainerClientRates: event.trainerClientRates,
         account: {
           role: event.credentials.role,
         },

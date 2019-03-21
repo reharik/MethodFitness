@@ -24,9 +24,14 @@ class TrainerForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // debugger; //eslint-disable-line
-        console.log(`==========values=========`);
-        console.log(JSON.stringify(values));
-        console.log(`==========END values=========`);
+        values.trainerClientRates = values.clients.map(x => {
+           const rate = {
+            clientId: x,
+            rate: values[x]
+          };
+           delete values[x];
+           return rate;
+        });
         this.props.hireTrainer(values);
         console.log('Received values of form: ', values);
       }
@@ -36,6 +41,25 @@ class TrainerForm extends Component {
   render() {
     const model = this.props.model;
     const form = this.props.form;
+    model.trainerClientRates.listItems = (form.getFieldValue('clients') || [])
+      .map(x => {
+        const exists = model.trainerClientRates.listItems.find(li => li.clientId === x);
+      if(exists) {
+        return exists;
+      }
+      let client = this.props.clientsInfo.find(c => c.clientId === x);
+      return {
+        value: model.defaultTrainerClientRate.value,
+        label: `${client.contact.lastName}, ${client.contact.firstName}`,
+        name: x,
+        rules: [{ required: true, message: 'Rate is required' }],
+      };
+    });
+    console.log(`==========model.trainerClientRates=========`);
+    console.log(form.getFieldValue('clients'));
+    console.log(model.trainerClientRates);
+    console.log(`==========END model.trainerClientRates=========`);
+
 
     return (
       <div className="form">
@@ -148,6 +172,29 @@ class TrainerForm extends Component {
               </Col>
             </Row>
             <Row type="flex">
+              <Col xl={10} lg={14} sm={24}>
+
+            <Card title={`Trainer's Client Rate`} data-id={'trainerClientRate'}>
+                {model.trainerClientRates.listItems.map(x => {
+                  return (
+                    <Row type="flex" key={x.name}>
+                      <EditableFor
+                        align={'center'}
+                        // formItemLayout={formItemLayout}
+                        key={x.name}
+                        editing={true}
+                        form={form}
+                        data={x}
+                        span={16}
+                      />
+                    </Row>
+                  );
+                })}
+            </Card>
+              </Col>
+            </Row>
+
+            <Row type="flex">
               <div className="form__footer">
                 <button type="submit" className="form__footer__button">
                   Submit
@@ -178,6 +225,7 @@ TrainerForm.propTypes = {
   states: PropTypes.array,
   roles: PropTypes.array,
   clients: PropTypes.array,
+  clientsInfo: PropTypes.array,
 };
 
 export default Form.create({

@@ -9,6 +9,7 @@ module.exports = function(
 ) {
   return (raiseEvent, state) => {
     const invariants = trainerInvariants(state);
+
     const hireTrainer = cmd => {
       let cmdClone = Object.assign({}, cmd);
       cmdClone.trainerId = cmdClone.trainerId || uuid.v4();

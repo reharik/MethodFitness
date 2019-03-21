@@ -26,6 +26,7 @@ export function denormalizeTrainer(flat) {
       password: flat.password,
       role: flat.role,
     },
+    trainerClientRates: flat.trainerClientRates,
   };
 }
 

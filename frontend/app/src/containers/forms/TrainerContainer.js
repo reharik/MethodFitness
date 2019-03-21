@@ -38,6 +38,7 @@ const mapStateToProps = state => {
     model,
     states,
     clients,
+    clientsInfo: state.clients.results,
     roles,
   };
 };
