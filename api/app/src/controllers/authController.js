@@ -36,6 +36,6 @@ module.exports = function(commands, eventstore, logger) {
   return {
     signIn,
     signOut,
-    checkAuth
+    checkAuth,
   };
 };

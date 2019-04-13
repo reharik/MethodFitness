@@ -23,7 +23,9 @@ module.exports = function(
     appointments
       .filter(x => {
         const endTime = riMoment(x.endTime);
-        logger.debug(`endTime: ${endTime.format()} time: ${endTime.format('h:mm A')}`);
+        logger.debug(
+          `endTime: ${endTime.format()} time: ${endTime.format('h:mm A')}`,
+        );
         const before = endTime.isBefore(now, 'minute');
         logger.debug(`is appointment before now: ${before}`);
         const notCompleted = !x.completed;
@@ -38,7 +40,7 @@ module.exports = function(
               appointmentId: x.appointmentId,
               appointmentType: x.appointmentType,
               startTime: x.startTime,
-              date: x.date
+              date: x.date,
             }),
           ),
         ),

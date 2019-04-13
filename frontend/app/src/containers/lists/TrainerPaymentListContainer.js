@@ -34,7 +34,10 @@ function mapStateToProps(state, props) {
     {
       render: (value, row) => {
         // eslint-disable-line no-unused-vars
-        return cellLink('trainerPaymentDetails', 'paymentId', trainerId)(value, row);
+        return cellLink('trainerPaymentDetails', 'paymentId', trainerId)(
+          value,
+          row,
+        );
       },
       dataIndex: 'date',
       title: 'Payment Date',

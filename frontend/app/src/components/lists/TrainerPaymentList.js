@@ -14,16 +14,14 @@ const TrainerPaymentList = ({ gridConfig, trainerName, trainerId }) => {
             <div className="list__header__center__title">Payment History</div>
           </div>
           <div className="list__header__right">
-              <a
-                className="contentHeader__anchor"
-                data-id={'returnToTrainer'}
-                onClick={() =>
-                  browserHistory.push(`/trainer/${trainerId}`)
-                }
-              >
-                {trainerName}
-              </a>
-            </div>
+            <a
+              className="contentHeader__anchor"
+              data-id={'returnToTrainer'}
+              onClick={() => browserHistory.push(`/trainer/${trainerId}`)}
+            >
+              {trainerName}
+            </a>
+          </div>
         </div>
       </ContentHeader>
       <div className="form-scroll-inner">
@@ -41,8 +39,7 @@ const TrainerPaymentList = ({ gridConfig, trainerName, trainerId }) => {
 
 TrainerPaymentList.propTypes = {
   gridConfig: PropTypes.object,
-  trainerName: PropTypes.string
-
+  trainerName: PropTypes.string,
 };
 
 export default TrainerPaymentList;

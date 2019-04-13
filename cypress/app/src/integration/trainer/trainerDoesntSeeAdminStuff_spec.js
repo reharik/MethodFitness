@@ -40,7 +40,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
         .find('input')
         .should('not.exist');
 
-        // check that only trainers clients show
+      // check that only trainers clients show
       cy.log(`----check that only trainers clients show----`);
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
@@ -102,7 +102,9 @@ describe('Trainer Can Not See Admin Stuff', () => {
         .click({ force: true });
 
       // test that you get correct error message when trying to click time in past
-      cy.log(`----test that you get correct error message when trying to click time in past----`);
+      cy.log(
+        `----test that you get correct error message when trying to click time in past----`,
+      );
       aDT = _aDT(Cypress.moment, appTimes.time15, true);
       cy.get(
         `ol[data-id='${aDT.date.format('ddd MM/DD')}']

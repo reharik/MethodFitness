@@ -5,7 +5,7 @@ module.exports = function(
   esEvents,
   metaLogger,
   uuid,
-  logger
+  logger,
 ) {
   return (raiseEvent, state) => {
     const invariants = trainerInvariants(state);
@@ -125,18 +125,15 @@ module.exports = function(
       state.trainerClientRates
         .filter(
           x =>
-            cmdClone.clientRates.find(y => x.clientId === y.clientId)
-              .rate !== x.rate,
+            cmdClone.clientRates.find(y => x.clientId === y.clientId).rate !==
+            x.rate,
         )
         .map(x => ({
           trainerId: state._id,
           clientId: x.clientId,
-          rate: cmdClone.clientRates.find(y => x.clientId === y.clientId)
-            .rate,
+          rate: cmdClone.clientRates.find(y => x.clientId === y.clientId).rate,
         }))
-        .forEach(e =>
-          raiseEvent(esEvents.trainersClientRatesUpdatedEvent(e)),
-        );
+        .forEach(e => raiseEvent(esEvents.trainersClientRatesUpdatedEvent(e)));
 
       raiseEvent(esEvents.trainersClientRatesUpdatedEvent(cmdClone));
     };
@@ -167,17 +164,21 @@ module.exports = function(
           clientId: x,
           rate: state.defaultTrainerCientRate,
         }))
-        .forEach(e =>
-          raiseEvent(esEvents.trainersNewClientRateSetEvent(e)),
-        );
+        .forEach(e => raiseEvent(esEvents.trainersNewClientRateSetEvent(e)));
 
       raiseEvent(esEvents.trainersClientsUpdatedEvent(cmdClone));
     };
 
     const getTrainerClientRateByClientId = clientId => {
       const rate = state.trainerClientRates.find(x => x.clientId === clientId);
-      if(!rate) {
-        logger.warning(`Client Rate requested for Trainer: ${state.firstName} ${state.lastName} - ${state._id} whose Client list does not include this client: ${clientId}`);
+      if (!rate) {
+        logger.warning(
+          `Client Rate requested for Trainer: ${state.firstName} ${
+            state.lastName
+          } - ${
+            state._id
+          } whose Client list does not include this client: ${clientId}`,
+        );
         return this.state.defaultTrainerCientRate;
       }
       return rate;
@@ -203,8 +204,8 @@ module.exports = function(
         updateTrainersClientRates,
         updateTrainersClients,
         getTrainerClientRateByClientId,
-        updateDefaultTrainerClientRate
-  },
+        updateDefaultTrainerClientRate,
+      },
       'TrainerCommands',
     );
   };

@@ -8,7 +8,7 @@ const TrainerPaymentDetailsList = ({
   gridConfig,
   paymentTotal,
   paymentDate,
-  trainerId
+  trainerId,
 }) => (
   <div id="trainerVerificationList">
     <ContentHeader>
@@ -24,15 +24,14 @@ const TrainerPaymentDetailsList = ({
           </div>
         </div>
         <div className="list__header__right">
-              <a
-                className="contentHeader__anchor"
-                data-id={'returnToTrainer'}
-                onClick={() =>
-                  browserHistory.push(`/trainerPayments/${trainerId}`)
-                }
-              >Return to Trainer Payments
-              </a>
-            </div>
+          <a
+            className="contentHeader__anchor"
+            data-id={'returnToTrainer'}
+            onClick={() => browserHistory.push(`/trainerPayments/${trainerId}`)}
+          >
+            Return to Trainer Payments
+          </a>
+        </div>
       </div>
     </ContentHeader>
     <div className="form-scroll-inner">

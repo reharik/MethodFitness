@@ -10,7 +10,7 @@ import {
   updateTrainerPassword,
   updateTrainersClients,
   fetchTrainerAction,
-  updateDefaultTrainerClientRate
+  updateDefaultTrainerClientRate,
 } from './../../modules/trainerModule';
 import {
   updateTrainersClientRate,
@@ -25,7 +25,9 @@ const { notifClear } = notifActions;
 
 const mapStateToProps = (state, ownProps) => {
   const trainer = {
-    ...state.trainers.results.find(x => x.trainerId === ownProps.params.trainerId),
+    ...state.trainers.results.find(
+      x => x.trainerId === ownProps.params.trainerId,
+    ),
   };
   const clients = state.clients.results.filter(x => !x.archived).map(x => ({
     value: x.clientId,
@@ -71,7 +73,7 @@ const mapStateToProps = (state, ownProps) => {
     states,
     clients,
     roles,
-    isAdmin: state.auth.user.role === 'admin'
+    isAdmin: state.auth.user.role === 'admin',
   };
 };
 

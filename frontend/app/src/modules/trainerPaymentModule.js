@@ -26,7 +26,7 @@ export function fetchTrainerPayments(trainerId) {
   return {
     type: FETCH_TRAINER_PAYMENTS.REQUEST,
     states: FETCH_TRAINER_PAYMENTS,
-    url: `${config.apiBase}trainerPayments${trainerId ? `/${trainerId}` : '' }`,
+    url: `${config.apiBase}trainerPayments${trainerId ? `/${trainerId}` : ''}`,
     params: {
       method: 'GET',
       credentials: 'include',

@@ -52,7 +52,9 @@ UpdateClientFormContainer.propTypes = {
 };
 
 const mapStateToProps = (state, props) => {
-  const client = state.clients.results.find(x => x.clientId === props.params.clientId);
+  const client = state.clients.results.find(
+    x => x.clientId === props.params.clientId,
+  );
   const model = normalizeModel(state.schema.definitions.client, client);
 
   return {

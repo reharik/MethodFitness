@@ -25,12 +25,12 @@ class TrainerForm extends Component {
       if (!err) {
         // debugger; //eslint-disable-line
         values.trainerClientRates = values.clients.map(x => {
-           const rate = {
+          const rate = {
             clientId: x,
-            rate: values[x]
+            rate: values[x],
           };
-           delete values[x];
-           return rate;
+          delete values[x];
+          return rate;
         });
         this.props.hireTrainer(values);
         console.log('Received values of form: ', values);
@@ -41,10 +41,13 @@ class TrainerForm extends Component {
   render() {
     const model = this.props.model;
     const form = this.props.form;
-    model.trainerClientRates.listItems = (form.getFieldValue('clients') || [])
-      .map(x => {
-        const exists = model.trainerClientRates.listItems.find(li => li.clientId === x);
-      if(exists) {
+    model.trainerClientRates.listItems = (
+      form.getFieldValue('clients') || []
+    ).map(x => {
+      const exists = model.trainerClientRates.listItems.find(
+        li => li.clientId === x,
+      );
+      if (exists) {
         return exists;
       }
       let client = this.props.clientsInfo.find(c => c.clientId === x);
@@ -59,7 +62,6 @@ class TrainerForm extends Component {
     console.log(form.getFieldValue('clients'));
     console.log(model.trainerClientRates);
     console.log(`==========END model.trainerClientRates=========`);
-
 
     return (
       <div className="form">
@@ -153,7 +155,10 @@ class TrainerForm extends Component {
               <Col xl={10} lg={14} sm={24}>
                 <Card title="Trainer' Clients">
                   <Row type="flex">
-                    <SubmissionFor form={form} data={model.defaultTrainerClientRate} />
+                    <SubmissionFor
+                      form={form}
+                      data={model.defaultTrainerClientRate}
+                    />
                   </Row>
                   <Row type="flex">
                     <EditableFor
@@ -173,24 +178,26 @@ class TrainerForm extends Component {
             </Row>
             <Row type="flex">
               <Col xl={10} lg={14} sm={24}>
-
-            <Card title={`Trainer's Client Rate`} data-id={'trainerClientRate'}>
-                {model.trainerClientRates.listItems.map(x => {
-                  return (
-                    <Row type="flex" key={x.name}>
-                      <EditableFor
-                        align={'center'}
-                        // formItemLayout={formItemLayout}
-                        key={x.name}
-                        editing={true}
-                        form={form}
-                        data={x}
-                        span={16}
-                      />
-                    </Row>
-                  );
-                })}
-            </Card>
+                <Card
+                  title={`Trainer's Client Rate`}
+                  data-id={'trainerClientRate'}
+                >
+                  {model.trainerClientRates.listItems.map(x => {
+                    return (
+                      <Row type="flex" key={x.name}>
+                        <EditableFor
+                          align={'center'}
+                          // formItemLayout={formItemLayout}
+                          key={x.name}
+                          editing={true}
+                          form={form}
+                          data={x}
+                          span={16}
+                        />
+                      </Row>
+                    );
+                  })}
+                </Card>
               </Col>
             </Row>
 

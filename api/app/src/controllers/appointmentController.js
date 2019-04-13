@@ -77,7 +77,7 @@ module.exports = function(
       );
       let clientsSame =
         R.symmetricDifference(body.clients, appointment.clients).length <= 0;
-        if (
+      if (
         moment(appointment.appointmentDate).format('YYYYMMDD') !==
           moment(body.appointmentDate).format('YYYYMMDD') ||
         !moment(appointment.startTime).isSame(moment(body.startTime))

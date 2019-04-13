@@ -12,7 +12,10 @@ class TrainerPaymentDetailsListContainer extends Component {
   }
 
   loadData() {
-    this.props.fetchTrainerPaymentDetails(this.props.paymentId, this.props.trainerId);
+    this.props.fetchTrainerPaymentDetails(
+      this.props.paymentId,
+      this.props.trainerId,
+    );
   }
 
   render() {
@@ -24,7 +27,7 @@ TrainerPaymentDetailsListContainer.propTypes = {
   gridConfig: PropTypes.object,
   fetchTrainerPaymentDetails: PropTypes.func,
   paymentId: PropTypes.string,
-  trainerId: PropTypes.string
+  trainerId: PropTypes.string,
 };
 
 const columns = [
@@ -94,7 +97,7 @@ function mapStateToProps(state, props) {
     paymentId: props.params.paymentId,
     paymentTotal: payment ? payment.paymentTotal : 0,
     paymentDate: payment ? riMoment(payment.paymentDate).format('L') : '',
-    trainerId: props.params.trainerId
+    trainerId: props.params.trainerId,
   };
 }
 

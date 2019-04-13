@@ -23,51 +23,53 @@ class PurchaseList extends Component {
   };
 
   componentDidMount() {
-    layout.addChangeListener(l =>
-      this.setState(state => ({ ...state, l })),
-    );
+    layout.addChangeListener(l => this.setState(state => ({ ...state, l })));
   }
 
   componentWillUnmount() {
-    layout.removeChangeListener(l =>
-      this.setState(state => ({ ...state, l })),
-    );
+    layout.removeChangeListener(l => this.setState(state => ({ ...state, l })));
   }
 
   submitRefund = () => {
     let refund = 0;
-      let refundSessions = [];
-      Object.keys(this.state.purchases).forEach(x => {
-        if(this.state.purchases[x].refundTotal && this.state.purchases[x].refundTotal > 0) {
-          refund += this.state.purchases[x].refundTotal || 0;
-          const selectedRowKeys = this.state.purchases[x].selectedRowKeys;
-          refundSessions = selectedRowKeys.concat(refundSessions);
-        }
-      });
+    let refundSessions = [];
+    Object.keys(this.state.purchases).forEach(x => {
+      if (
+        this.state.purchases[x].refundTotal &&
+        this.state.purchases[x].refundTotal > 0
+      ) {
+        refund += this.state.purchases[x].refundTotal || 0;
+        const selectedRowKeys = this.state.purchases[x].selectedRowKeys;
+        refundSessions = selectedRowKeys.concat(refundSessions);
+      }
+    });
     this.confirmRefund(refundSessions, refund);
   };
 
-  confirmRefund = (refundSessions, refund) => confirm({
-    title: 'Are you sure you would like to Refund?',
-    content: `${refundSessions.length} Sessions for $${refund.toFixed(2)}`,
-    okText: 'OK',
-    cancelText: 'Cancel',
-    onOk: () => {
-      const payload = {
-        clientId: this.props.clientId,
-        refundSessions,
-      };
-      this.props.refundSessions(payload);
-      this.setState({
-        purchases: {},
-      });
-    },
-    onCancel() {},
-  });
-
+  confirmRefund = (refundSessions, refund) =>
+    confirm({
+      title: 'Are you sure you would like to Refund?',
+      content: `${refundSessions.length} Sessions for $${refund.toFixed(2)}`,
+      okText: 'OK',
+      cancelText: 'Cancel',
+      onOk: () => {
+        const payload = {
+          clientId: this.props.clientId,
+          refundSessions,
+        };
+        this.props.refundSessions(payload);
+        this.setState({
+          purchases: {},
+        });
+      },
+      onCancel() {},
+    });
 
   updateSelectedRows = (purchaseId, selectedRows) => {
-    let selectedRowKeys = selectedRows.map(x => ({sessionId: x.sessionId, appointmentType: x.appointmentType}));
+    let selectedRowKeys = selectedRows.map(x => ({
+      sessionId: x.sessionId,
+      appointmentType: x.appointmentType,
+    }));
     let purchases = {
       ...this.state.purchases,
       [purchaseId]: {
@@ -98,7 +100,8 @@ class PurchaseList extends Component {
     );
     const selectedRowKeys = (this.state.purchases[data.purchaseId]
       ? this.state.purchases[data.purchaseId].selectedRowKeys
-      : []).map(x => x.sessionId);
+      : []
+    ).map(x => x.sessionId);
     let rowSelection = {
       selectedRowKeys,
       onSelect: this.onSelect,
@@ -113,7 +116,10 @@ class PurchaseList extends Component {
         title: 'Session Id',
       },
       {
-        render: val => { const type = appointmentTypes.find(x => x.value === val); return type ? type.display : ''; },
+        render: val => {
+          const type = appointmentTypes.find(x => x.value === val);
+          return type ? type.display : '';
+        },
         dataIndex: 'appointmentType',
         title: 'Appointment Type',
       },
@@ -195,13 +201,11 @@ class PurchaseList extends Component {
             <div className="list__header__center">
               <div className="list__header__center__title">Purchases</div>
             </div>
-            <div className="list__header__right" >
-            <button
+            <div className="list__header__right">
+              <button
                 className="contentHeader__button"
                 onClick={() =>
-                  browserHistory.push(
-                    `/client/${this.props.params.clientId}`,
-                  )
+                  browserHistory.push(`/client/${this.props.params.clientId}`)
                 }
               >
                 Return to Client

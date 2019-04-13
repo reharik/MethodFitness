@@ -188,7 +188,7 @@ module.exports = function(
         unArchiveTrainer,
         verifyAppointments,
         payTrainer,
-        updateDefaultTrainerClientRate
+        updateDefaultTrainerClientRate,
       },
       'TrainerWorkflow',
     );

@@ -25,8 +25,7 @@
           "admin": "admin",
           "adminPassword": "changeit"
         },
-        "retries": {
-        }
+        "retries": {}
       },
       "postgres": {
         "config": {
@@ -36,8 +35,7 @@
           "password": "password",
           "port": "5432"
         },
-        "retries": {
-        }
+        "retries": {}
       }
     },
     "logger": {

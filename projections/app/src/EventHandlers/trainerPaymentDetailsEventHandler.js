@@ -31,7 +31,9 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
       }));
       const payment = {
         paymentId: event.paymentId,
-        paymentDate: moment().utcOffset(-5).toISOString(),
+        paymentDate: moment()
+          .utcOffset(-5)
+          .toISOString(),
         paidAppointments,
         paymentTotal: paidAppointments.reduce((a, b) => a + b.trainerPay, 0),
       };

@@ -1,5 +1,12 @@
 module.exports = function(invariant, riMoment) {
-  return function({ clientId, trainerId, appointmentId, appointmentType, startTime, appointmentDate }) {
+  return function({
+    clientId,
+    trainerId,
+    appointmentId,
+    appointmentType,
+    startTime,
+    appointmentDate,
+  }) {
     const riStartTime = riMoment(startTime).format();
     invariant(
       clientId,
@@ -32,8 +39,8 @@ module.exports = function(invariant, riMoment) {
       trainerId,
       appointmentId,
       appointmentType,
-             startTime: riStartTime,
-      appointmentDate
+      startTime: riStartTime,
+      appointmentDate,
     };
   };
 };

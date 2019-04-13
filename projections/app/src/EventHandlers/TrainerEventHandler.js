@@ -19,7 +19,7 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
         account: {
           role: event.credentials.role,
         },
-        defaultTrainerClientRate: event.defaultTrainerClientRate
+        defaultTrainerClientRate: event.defaultTrainerClientRate,
       };
 
       return await rsRepository.save('trainer', trainer, trainer.trainerId);
@@ -143,7 +143,7 @@ where id = '${event.trainerId}'`;
         trainerClientRemoved,
         trainersClientRateChanged,
         trainerPasswordUpdated,
-        defaultTrainerClientRateUpdatedEvent
+        defaultTrainerClientRateUpdatedEvent,
       },
       'TrainerEventHandler',
     );

@@ -17,7 +17,6 @@ import {
 import { permissionToSetAppointment } from './../../utilities/appointmentTimes';
 import riMoment from './../../utilities/riMoment';
 
-
 const mapStateToProps = (state, props) => {
   const isAdmin = state.auth.user.role === 'admin';
   // if trainers and clients aren't loaded yet don't render the whole thing
@@ -31,9 +30,11 @@ const mapStateToProps = (state, props) => {
     state.clients.results.length <= 0 ||
     state.locations.results.length <= 0
   ) {
-    return {model:[]};
+    return { model: [] };
   }
-  user = state.trainers.results.find(x => x.trainerId === state.auth.user.trainerId);
+  user = state.trainers.results.find(
+    x => x.trainerId === state.auth.user.trainerId,
+  );
 
   clients = state.clients.results
     .filter(x => !x.archived)
@@ -60,7 +61,10 @@ const mapStateToProps = (state, props) => {
 
   // please put this shit in a config somewhere
   let startTime = 5;
-  if (!isAdmin && model.appointmentDate.value.dayOfYear() === riMoment().dayOfYear()) {
+  if (
+    !isAdmin &&
+    model.appointmentDate.value.dayOfYear() === riMoment().dayOfYear()
+  ) {
     startTime = riMoment().hour() + 1;
   }
 

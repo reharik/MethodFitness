@@ -70,15 +70,13 @@ const columns = [
 ];
 
 function mapStateToProps(state, props) {
-  let dataSource = state.sessionVerification
-    .filter(x => x.verified)
-    .map(x => {
-      return {
-        ...x,
-        appointmentDate: riMoment(x.appointmentDate).format('L'),
-        startTime: riMoment(x.startTime).format('LT'),
-      };
-    });
+  let dataSource = state.sessionVerification.filter(x => x.verified).map(x => {
+    return {
+      ...x,
+      appointmentDate: riMoment(x.appointmentDate).format('L'),
+      startTime: riMoment(x.startTime).format('LT'),
+    };
+  });
 
   let trainer = state.trainers.results.find(
     x => x.trainerId === props.params.trainerId,

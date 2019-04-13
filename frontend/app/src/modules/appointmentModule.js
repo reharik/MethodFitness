@@ -77,7 +77,10 @@ function formatAppointmentData(data) {
     data.appointmentDate,
     data.startTime,
   ).format();
-  const endTime = buildMomentFromDateAndTime(data.appointmentDate, data.endTime).format();
+  const endTime = buildMomentFromDateAndTime(
+    data.appointmentDate,
+    data.endTime,
+  ).format();
   return {
     ...data,
     startTime,
@@ -88,7 +91,9 @@ function formatAppointmentData(data) {
 
 export function scheduleAppointment(data) {
   const formattedData = formatAppointmentData(data);
-  const startTimeIsInPast = riMoment(formattedData.endTime).isBefore(riMoment());
+  const startTimeIsInPast = riMoment(formattedData.endTime).isBefore(
+    riMoment(),
+  );
   return startTimeIsInPast
     ? scheduleAppointmentInPast(formattedData)
     : scheduleAppointmentInFuture(formattedData);
@@ -130,7 +135,9 @@ function scheduleAppointmentInPast(formattedData) {
 
 export function updateAppointment(data, origDate, origStartTime) {
   let formattedData = formatAppointmentData(data);
-  const startTimeIsInPast = riMoment(formattedData.startTime).isBefore(riMoment());
+  const startTimeIsInPast = riMoment(formattedData.startTime).isBefore(
+    riMoment(),
+  );
   const origStartTimeIsInPast = buildMomentFromDateAndTime(
     origDate,
     origStartTime,
@@ -195,7 +202,11 @@ export function updateTaskViaDND(data) {
     startTime: data.startTime,
     endTime: data.endTime,
   };
-  return updateAppointment(submitData, data.orig.appointmentDate, data.orig.startTime);
+  return updateAppointment(
+    submitData,
+    data.orig.appointmentDate,
+    data.orig.startTime,
+  );
 }
 
 export function deleteAppointment(appointmentId, appointmentDate) {
@@ -218,7 +229,11 @@ export function deleteAppointment(appointmentId, appointmentDate) {
   };
 }
 
-export function deleteAppointmentFromPast(appointmentId, appointmentDate, clients) {
+export function deleteAppointmentFromPast(
+  appointmentId,
+  appointmentDate,
+  clients,
+) {
   let apiUrl = `${config.apiBase}appointment/removeAppointmentFromPast`;
   const body = {
     appointmentId,

@@ -23,7 +23,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/fetchtrainers', controllers.trainerListController.fetchTrainers);
+    router.get(
+      '/fetchtrainers',
+      controllers.trainerListController.fetchTrainers,
+    );
     /**
      * @swagger
      * /fetchalltrainers:
@@ -45,7 +48,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/fetchalltrainers', controllers.trainerListController.fetchAllTrainers);
+    router.get(
+      '/fetchalltrainers',
+      controllers.trainerListController.fetchAllTrainers,
+    );
     /**
      * @swagger
      * /trainer/hiretrainer:
@@ -73,7 +79,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/hiretrainer', controllers.trainerController.hireTrainer);
+    router.post(
+      '/trainer/hiretrainer',
+      controllers.trainerController.hireTrainer,
+    );
     /**
      * @swagger
      * /trainer/updatetrainerinfo:
@@ -101,7 +110,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updatetrainerinfo', controllers.trainerController.updateTrainerInfo);
+    router.post(
+      '/trainer/updatetrainerinfo',
+      controllers.trainerController.updateTrainerInfo,
+    );
     /**
      * @swagger
      * /trainer/updatetrainercontact:
@@ -129,7 +141,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updatetrainercontact', controllers.trainerController.updateTrainerContact);
+    router.post(
+      '/trainer/updatetrainercontact',
+      controllers.trainerController.updateTrainerContact,
+    );
     /**
      * @swagger
      * /trainer/updatetraineraddress:
@@ -157,7 +172,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updatetraineraddress', controllers.trainerController.updateTrainerAddress);
+    router.post(
+      '/trainer/updatetraineraddress',
+      controllers.trainerController.updateTrainerAddress,
+    );
     /**
      * @swagger
      * /trainer/updatetrainerpassword:
@@ -185,7 +203,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updatetrainerpassword', controllers.trainerController.updateTrainerPassword);
+    router.post(
+      '/trainer/updatetrainerpassword',
+      controllers.trainerController.updateTrainerPassword,
+    );
     /**
      * @swagger
      * /trainer/updatedefaulttrainerclientrate:
@@ -220,7 +241,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updatedefaulttrainerclientrate', controllers.trainerController.updateDefaultTrainerClientRate);
+    router.post(
+      '/trainer/updatedefaulttrainerclientrate',
+      controllers.trainerController.updateDefaultTrainerClientRate,
+    );
 
     /**
      * @swagger
@@ -249,7 +273,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updatetrainersclients', controllers.trainerController.updateTrainersClients);
+    router.post(
+      '/trainer/updatetrainersclients',
+      controllers.trainerController.updateTrainersClients,
+    );
     /**
      * @swagger
      * /trainer/updatetrainersclientrates:
@@ -277,7 +304,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/updatetrainersclientrates', controllers.trainerController.updateTrainersClientRates);
+    router.post(
+      '/trainer/updatetrainersclientrates',
+      controllers.trainerController.updateTrainersClientRates,
+    );
     /**
      * @swagger
      * /trainer/gettrainer/{trainerId}:
@@ -305,7 +335,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/trainer/gettrainer/:trainerId', controllers.trainerController.getTrainer);
+    router.get(
+      '/trainer/gettrainer/:trainerId',
+      controllers.trainerController.getTrainer,
+    );
     /**
      * @swagger
      * /trainer/gettrainerclientrates/{trainerId}:
@@ -333,7 +366,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/trainer/gettrainerclientrates/:trainerId', controllers.trainerController.getTrainerClientRates);
+    router.get(
+      '/trainer/gettrainerclientrates/:trainerId',
+      controllers.trainerController.getTrainerClientRates,
+    );
     /**
      * @swagger
      * /trainer/archivetrainer:
@@ -361,7 +397,10 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/trainer/archivetrainer', controllers.trainerController.archiveTrainer);
+    router.post(
+      '/trainer/archivetrainer',
+      controllers.trainerController.archiveTrainer,
+    );
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

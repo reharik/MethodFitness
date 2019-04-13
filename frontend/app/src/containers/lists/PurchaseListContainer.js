@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PurchaseList from '../../components/lists/PurchaseList';
 import riMoment from './../../utilities/riMoment';
 
-
 import { getPurchases, refundSessions } from './../../modules/purchaseModule';
 
 class PurchaseListContainer extends Component {

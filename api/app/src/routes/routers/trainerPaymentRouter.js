@@ -49,7 +49,7 @@ module.exports = function trainerRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-     router.get(
+    router.get(
       '/trainerpayments/:trainerId?',
       controllers.trainerPaymentListController.fetchTrainerPayments,
     );

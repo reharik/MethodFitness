@@ -12,16 +12,28 @@ export const ARCHIVE_LOCATION = requestStates('archive_location', 'location');
 export const LOCATION_LIST = requestStates('location_list', 'location');
 export const LOCATION = requestStates('location');
 
-export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
+export default (state = { [DEFAULT_KEY]: null, results: [] }, action = {}) => {
   switch (action.type) {
     case LOCATION.REQUEST: {
       return state;
     }
     case LOCATION.SUCCESS: {
-      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response, 'locationId')};
+      return {
+        ...state,
+        [DEFAULT_KEY]: generateCacheTTL(),
+        results: reducerMerge(state.results, action.response, 'locationId'),
+      };
     }
     case LOCATION_LIST.SUCCESS: {
-      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response.locations, 'locationId')};
+      return {
+        ...state,
+        [DEFAULT_KEY]: generateCacheTTL(),
+        results: reducerMerge(
+          state.results,
+          action.response.locations,
+          'locationId',
+        ),
+      };
     }
     case ADD_LOCATION.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
@@ -29,7 +41,9 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
         'payload.result.handlerResult.locationId',
         action,
       );
-      return insertedItem.locationId ? {...state, results: [...state.results, insertedItem]} : state;
+      return insertedItem.locationId
+        ? { ...state, results: [...state.results, insertedItem] }
+        : state;
     }
     case UPDATE_LOCATION.FAILURE:
     case ADD_LOCATION.FAILURE: {
@@ -38,29 +52,35 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
 
     case ARCHIVE_LOCATION.SUCCESS: {
       let update = selectn('action.update', action);
-      return {...state, results: state.results.map(x => {
-        if (x.locationId === update.locationId) {
-          return {
-            ...x,
-            archived: !update.archived,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.locationId === update.locationId) {
+            return {
+              ...x,
+              archived: !update.archived,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_LOCATION.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.locationId === update.locationId) {
-          return {
-            ...x,
-            name: update.name,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.locationId === update.locationId) {
+            return {
+              ...x,
+              name: update.name,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     default: {

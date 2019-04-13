@@ -24,10 +24,12 @@ export function generateAllTimes(inc, start, end) {
 
 const convertToHoursAndMin = time => {
   let hour = parseInt(time.substring(time.indexOf('T') + 1, time.indexOf(':')));
-  let min = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(':') + 3));
-    let A = time.substring(time.indexOf(' ') + 1);
-    hour = A === 'AM' || hour === 12 ? hour : hour + 12;
-    return { hour, min};
+  let min = parseInt(
+    time.substring(time.indexOf(':') + 1, time.indexOf(':') + 3),
+  );
+  let A = time.substring(time.indexOf(' ') + 1);
+  hour = A === 'AM' || hour === 12 ? hour : hour + 12;
+  return { hour, min };
 };
 
 export function buildMomentFromDateAndTime(date, time) {
@@ -41,9 +43,12 @@ export function buildMomentFromDateAndTime(date, time) {
     .minute(hourMin.min);
 }
 
-const convertTimeToMoment = (time) => {
+const convertTimeToMoment = time => {
   const hourMin = convertToHoursAndMin(time);
-  return riMoment().startOf('day').add(hourMin.hour, 'hour').add(hourMin.min, 'minute');
+  return riMoment()
+    .startOf('day')
+    .add(hourMin.hour, 'hour')
+    .add(hourMin.min, 'minute');
 };
 
 export function syncApptTypeAndTime(apptType, startTime) {

@@ -53,13 +53,16 @@ const handleSuccess = function* handleSuccess(success, action, payload) {
 };
 
 function* request(action) {
-  const entity = action.type.substring(action.type.lastIndexOf('/') + 1, action.type.lastIndexOf('_'));
+  const entity = action.type.substring(
+    action.type.lastIndexOf('/') + 1,
+    action.type.lastIndexOf('_'),
+  );
   const chachableReducer = cachableItems[entity];
-  if(!config.endToEndTesting && chachableReducer) {
+  if (!config.endToEndTesting && chachableReducer) {
     const state = yield select();
     const isCacheValid = checkCacheValid(() => state, chachableReducer);
     if (isCacheValid) {
-      return yield put({ type: action.states.CACHE_RETURNED} );
+      return yield put({ type: action.states.CACHE_RETURNED });
     }
   }
   let response;

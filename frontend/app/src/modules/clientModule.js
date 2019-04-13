@@ -24,17 +24,29 @@ export const ARCHIVE_CLIENT = requestStates('archive_client', 'client');
 export const CLIENT_LIST = requestStates('client_list', 'client');
 export const CLIENT = requestStates('client');
 
-export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
+export default (state = { [DEFAULT_KEY]: null, results: [] }, action = {}) => {
   switch (action.type) {
     case CLIENT.REQUEST: {
       console.log('ADD_CLIENT_REQUEST');
       return state;
     }
     case CLIENT.SUCCESS: {
-      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response, 'clientId')};
+      return {
+        ...state,
+        [DEFAULT_KEY]: generateCacheTTL(),
+        results: reducerMerge(state.results, action.response, 'clientId'),
+      };
     }
     case CLIENT_LIST.SUCCESS: {
-      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response.clients, 'clientId')};
+      return {
+        ...state,
+        [DEFAULT_KEY]: generateCacheTTL(),
+        results: reducerMerge(
+          state.results,
+          action.response.clients,
+          'clientId',
+        ),
+      };
     }
     case ADD_CLIENT.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
@@ -42,7 +54,9 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
         'payload.result.handlerResult.clientId',
         action,
       );
-      return insertedItem.clientId ? {...state, results: [...state.results, insertedItem]} : state;
+      return insertedItem.clientId
+        ? { ...state, results: [...state.results, insertedItem] }
+        : state;
     }
     case UPDATE_CLIENT_INFO.FAILURE:
     case ADD_CLIENT.FAILURE: {
@@ -51,93 +65,108 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
 
     case ARCHIVE_CLIENT.SUCCESS: {
       let update = selectn('action.update', action);
-      return {...state, results: state.results.map(x => {
-        if (x.clientId === update.clientId) {
-          return {
-            ...x,
-            archived: !update.archived,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.clientId === update.clientId) {
+            return {
+              ...x,
+              archived: !update.archived,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_CLIENT_INFO.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.clientId === update.clientId) {
-          return {
-            ...x,
-            contact: {
-              ...x.contact,
-              firstName: update.firstName,
-              lastName: update.lastName,
-            },
-            birthDate: update.birthDate,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.clientId === update.clientId) {
+            return {
+              ...x,
+              contact: {
+                ...x.contact,
+                firstName: update.firstName,
+                lastName: update.lastName,
+              },
+              birthDate: update.birthDate,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_CLIENT_SOURCE.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.clientId === update.clientId) {
-          return {
-            ...x,
-            source: update.source,
-            sourceNotes: update.sourceNotes,
-            startDate: update.startDate,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.clientId === update.clientId) {
+            return {
+              ...x,
+              source: update.source,
+              sourceNotes: update.sourceNotes,
+              startDate: update.startDate,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_CLIENT_CONTACT.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.clientId === update.clientId) {
-          return {
-            ...x,
-            contact: {
-              ...x.contact,
-              secondaryPhone: update.secondaryPhone,
-              mobilePhone: update.mobilePhone,
-              email: update.email,
-            },
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.clientId === update.clientId) {
+            return {
+              ...x,
+              contact: {
+                ...x.contact,
+                secondaryPhone: update.secondaryPhone,
+                mobilePhone: update.mobilePhone,
+                email: update.email,
+              },
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_CLIENT_ADDRESS.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.clientId === update.clientId) {
-          return {
-            ...x,
-            contact: {
-              ...x.contact,
-              address: {
-                ...x.contact.address,
-                street1: update.street1,
-                street2: update.street2,
-                city: update.city,
-                state: update.state,
-                zipCode: update.zipCode,
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.clientId === update.clientId) {
+            return {
+              ...x,
+              contact: {
+                ...x.contact,
+                address: {
+                  ...x.contact.address,
+                  street1: update.street1,
+                  street2: update.street2,
+                  city: update.city,
+                  state: update.state,
+                  zipCode: update.zipCode,
+                },
               },
-            },
-          };
-        }
-        return x;
-      })};
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     default: {

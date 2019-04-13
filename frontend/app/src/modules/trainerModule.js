@@ -39,7 +39,7 @@ export const TRAINER_LIST = requestStates('trainer_list', 'trainer');
 export const ARCHIVE_TRAINER = requestStates('archive_trainer', 'trainer');
 export const TRAINER = requestStates('trainer');
 
-export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
+export default (state = { [DEFAULT_KEY]: null, results: [] }, action = {}) => {
   switch (action.type) {
     case HIRE_TRAINER.REQUEST:
     case TRAINER.REQUEST:
@@ -48,10 +48,22 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
       return state;
     }
     case TRAINER.SUCCESS: {
-      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response, 'trainerId')};
+      return {
+        ...state,
+        [DEFAULT_KEY]: generateCacheTTL(),
+        results: reducerMerge(state.results, action.response, 'trainerId'),
+      };
     }
     case TRAINER_LIST.SUCCESS: {
-      return {...state, [DEFAULT_KEY]: generateCacheTTL(), results: reducerMerge(state.results, action.response.trainers, 'trainerId')};
+      return {
+        ...state,
+        [DEFAULT_KEY]: generateCacheTTL(),
+        results: reducerMerge(
+          state.results,
+          action.response.trainers,
+          'trainerId',
+        ),
+      };
     }
     case HIRE_TRAINER.SUCCESS: {
       let insertedItem = selectn('action.insertedItem', action);
@@ -60,7 +72,9 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
         action,
       );
 
-      return insertedItem.trainerId ? {...state, results: [...state.results, insertedItem]} : state;
+      return insertedItem.trainerId
+        ? { ...state, results: [...state.results, insertedItem] }
+        : state;
     }
     case UPDATE_TRAINER_INFO.FAILURE:
     case HIRE_TRAINER.FAILURE: {
@@ -68,35 +82,43 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
     }
     case ARCHIVE_TRAINER.SUCCESS: {
       let update = selectn('action.update', action);
-      return {...state, results: state.results.map(x => {
-        if (x.trainerId === update.trainerId) {
-          return {
-            ...x,
-            archived: !x.archived,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.trainerId === update.trainerId) {
+            return {
+              ...x,
+              archived: !x.archived,
+            };
+          }
+          return x;
+        }),
+      };
     }
     case UPDATE_TRAINER_INFO.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.trainerId === update.trainerId) {
-          return {
-            ...x,
-            color: update.color,
-            birthDate: update.birthDate,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.trainerId === update.trainerId) {
+            return {
+              ...x,
+              color: update.color,
+              birthDate: update.birthDate,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_DEFAULT_TRAINER_CLIENT_RATE.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
+      return {
+        ...state,
+        results: state.results.map(x => {
           if (x.trainerId === update.trainerId) {
             return {
               ...x,
@@ -104,7 +126,8 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
             };
           }
           return x;
-        })};
+        }),
+      };
     }
 
     case UPDATE_TRAINER_PASSWORD.SUCCESS: {
@@ -115,73 +138,85 @@ export default (state = { [DEFAULT_KEY]: null, results:[] }, action = {}) => {
     case UPDATE_TRAINER_CONTACT.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.trainerId === update.trainerId) {
-          return {
-            ...x,
-            contact: {
-              ...x.contact,
-              secondaryPhone: update.secondaryPhone,
-              mobilePhone: update.mobilePhone,
-              email: update.email,
-              firstName: update.firstName,
-              lastName: update.lastName,
-            },
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.trainerId === update.trainerId) {
+            return {
+              ...x,
+              contact: {
+                ...x.contact,
+                secondaryPhone: update.secondaryPhone,
+                mobilePhone: update.mobilePhone,
+                email: update.email,
+                firstName: update.firstName,
+                lastName: update.lastName,
+              },
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_TRAINER_ADDRESS.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.trainerId === update.trainerId) {
-          return {
-            ...x,
-            contact: {
-              ...x.contact,
-              address: {
-                ...x.contact.address,
-                street1: update.street1,
-                street2: update.street2,
-                city: update.city,
-                state: update.state,
-                zipCode: update.zipCode,
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.trainerId === update.trainerId) {
+            return {
+              ...x,
+              contact: {
+                ...x.contact,
+                address: {
+                  ...x.contact.address,
+                  street1: update.street1,
+                  street2: update.street2,
+                  city: update.city,
+                  state: update.state,
+                  zipCode: update.zipCode,
+                },
               },
-            },
-          };
-        }
-        return x;
-      })};
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_TRAINER_CLIENTS.SUCCESS: {
       let update = selectn('action.update', action);
 
-      return {...state, results: state.results.map(x => {
-        if (x.trainerId === update.trainerId) {
-          return {
-            ...x,
-            clients: update.clients,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.trainerId === update.trainerId) {
+            return {
+              ...x,
+              clients: update.clients,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     case UPDATE_TRAINER_CLIENT_RATES.SUCCESS: {
       let update = selectn('action.update', action);
-      return {...state, results: state.results.map(x => {
-        if (x.trainerId === update.trainerId) {
-          return {
-            ...x,
-            trainerClientRates: update.clientRates,
-          };
-        }
-        return x;
-      })};
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.trainerId === update.trainerId) {
+            return {
+              ...x,
+              trainerClientRates: update.clientRates,
+            };
+          }
+          return x;
+        }),
+      };
     }
 
     default: {

@@ -465,7 +465,7 @@ module.exports = function(webpackEnv) {
       ),
       new MomentLocalesPlugin(),
       new MomentTimezoneDataPlugin({
-        matchZones: ['America/New_York']
+        matchZones: ['America/New_York'],
       }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.

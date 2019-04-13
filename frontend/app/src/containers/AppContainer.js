@@ -12,7 +12,7 @@ class LayoutContainer extends Component {
   }
 
   loadData() {
-      this.props.checkAuth();
+    this.props.checkAuth();
     this.props.getJsonSchema();
   }
 

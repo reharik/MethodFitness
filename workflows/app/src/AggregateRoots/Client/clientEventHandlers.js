@@ -30,7 +30,7 @@ module.exports = function() {
           event.appointmentId,
           event.trainerPay,
           event.trainerPercentage,
-          event.trainerId
+          event.trainerId,
         );
       },
 
@@ -75,7 +75,7 @@ module.exports = function() {
                   trainerId: event.trainerId,
                   appointmentType: event.appointmentType,
                   clients: event.clients,
-                appointmentDate: event.appointmentDate,
+                  appointmentDate: event.appointmentDate,
                   startTime: event.startTime,
                   endTime: event.endTime,
                 })

@@ -1,4 +1,5 @@
-module.exports = function() { //logger) {
+module.exports = function() {
+  //logger) {
   return (state, eventHandlers) => {
     state._version = -1; // corresponds to ExpectedEvent.NoStream
     state.uncommittedEvents = [];

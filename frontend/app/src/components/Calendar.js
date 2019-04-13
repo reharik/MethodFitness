@@ -67,15 +67,19 @@ const MFCalendar = ({
   };
 
   const openSpaceClickedEvent = (task, calendarName) => {
-    if (!permissionToSetAppointment({ ...task, appointmentDate: task.day }, isAdmin)) {
+    if (
+      !permissionToSetAppointment(
+        { ...task, appointmentDate: task.day },
+        isAdmin,
+      )
+    ) {
       warning({
         title: `You can not set an appointment in the past`,
         okText: 'OK',
       });
       return;
     }
-    const formattedTime = riMoment(task.startTime)
-      .format('hh:mm A');
+    const formattedTime = riMoment(task.startTime).format('hh:mm A');
     let newApptArgs = {
       day: task.day,
       startTime: formattedTime,

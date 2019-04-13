@@ -75,8 +75,7 @@ class PurchaseForm extends Component {
       <div className="form">
         <ContentHeader>
           <div className="form__header">
-            <div className="form__header__left">
-            </div>
+            <div className="form__header__left" />
             <div className="form__header__center">
               <div className="form__header__center__title">
                 Purchase Information for{' '}
@@ -85,8 +84,8 @@ class PurchaseForm extends Component {
                 }`}
               </div>
             </div>
-            <div className="form__header__right" >
-            <button
+            <div className="form__header__right">
+              <button
                 className="contentHeader__button"
                 onClick={() =>
                   browserHistory.push(
@@ -96,7 +95,7 @@ class PurchaseForm extends Component {
               >
                 Return to Purchases
               </button>
-              </div>
+            </div>
           </div>
         </ContentHeader>
         <Notifs containerName="PurchaseForm" />

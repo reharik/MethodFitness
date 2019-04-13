@@ -9,7 +9,6 @@ import { curriedPermissionToSetAppointment } from './../utilities/appointmentTim
 import React, { useState, useEffect } from 'react';
 import riMoment from './../utilities/riMoment';
 
-
 const CalendarContainer = ({
   config,
   fetchClients,
@@ -90,7 +89,7 @@ const mapStateToProps = state => {
     utcTime: true,
     taskId: 'appointmentId',
     dayDisplayFormat: 'ddd MM/DD',
-    specificTZ: 'America/New_York'
+    specificTZ: 'America/New_York',
   };
 
   config.canUpdate = curriedPermissionToSetAppointment(isAdmin);

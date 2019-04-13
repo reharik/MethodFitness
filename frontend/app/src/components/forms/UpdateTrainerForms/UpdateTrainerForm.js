@@ -123,7 +123,7 @@ UpdateTrainerForm.propTypes = {
   updateTrainerPassword: PropTypes.func,
   getTrainerClientRates: PropTypes.func,
   updateDefaultTrainerClientRate: PropTypes.func,
-  isAdmin: PropTypes.bool
+  isAdmin: PropTypes.bool,
 };
 
 export default UpdateTrainerForm;

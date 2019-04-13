@@ -12,7 +12,6 @@ import { Form, Card, Row } from 'antd';
 import AppointmentFooter from './AppointmentFooter';
 import riMoment from './../../../utilities/riMoment';
 
-
 class AppointmentForm extends Component {
   containerName = 'appointmentForm';
   state = { editing: this.props.editing };
@@ -126,8 +125,16 @@ class AppointmentForm extends Component {
     const appointmentDate = this.props.form.getFieldValue('appointmentDate');
     const startTime = this.props.form.getFieldValue('startTime');
     const clients = this.props.form.getFieldValue('clients');
-    if (buildMomentFromDateAndTime(appointmentDate, startTime).isBefore(riMoment())) {
-      this.props.deleteAppointmentFromPast(appointmentId, appointmentDate, clients);
+    if (
+      buildMomentFromDateAndTime(appointmentDate, startTime).isBefore(
+        riMoment(),
+      )
+    ) {
+      this.props.deleteAppointmentFromPast(
+        appointmentId,
+        appointmentDate,
+        clients,
+      );
     } else {
       this.props.deleteAppointment(appointmentId, appointmentDate);
     }

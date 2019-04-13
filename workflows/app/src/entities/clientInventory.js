@@ -60,7 +60,7 @@ module.exports = function(sortby, metaLogger, logger) {
             appointmentId,
             trainerPay,
             trainerPercentage,
-            trainerId
+            trainerId,
           }),
         );
       }

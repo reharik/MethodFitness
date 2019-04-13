@@ -11,8 +11,7 @@
           "admin": "admin",
           "adminPassword": "changeit"
         },
-        "retries": {
-        }
+        "retries": {}
       },
       "postgres": {
         "config": {
@@ -23,7 +22,7 @@
           "port": "5400"
         },
         "retries": {
-          "maxTimeout":1000
+          "maxTimeout": 1000
         }
       },
       "eventdispatcher": {

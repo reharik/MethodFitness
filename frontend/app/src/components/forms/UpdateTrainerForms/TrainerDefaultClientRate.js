@@ -23,7 +23,10 @@ const TrainerDefaultClientRateInner = ({
   };
 
   return (
-    <Card title={`Default Trainer Client Rate`} data-id={'defaultTrainerClientRate'}>
+    <Card
+      title={`Default Trainer Client Rate`}
+      data-id={'defaultTrainerClientRate'}
+    >
       <Form onSubmit={handleSubmit} layout={'vertical'}>
         <EditableFor form={form} data={model.trainerId} hidden={true} />
         <Row type="flex">
