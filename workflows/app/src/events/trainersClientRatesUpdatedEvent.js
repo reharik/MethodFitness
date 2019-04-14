@@ -2,13 +2,17 @@ module.exports = function() {
   return function({
     trainerId,
     clientId,
-    rate
+    rate,
+                    createdDate,
+                    createdById
   }) {
     return {
       eventName: 'trainersClientRateChanged',
       trainerId,
       clientId,
-      rate
+      rate,
+      createdDate,
+      createdById
     };
   };
 };

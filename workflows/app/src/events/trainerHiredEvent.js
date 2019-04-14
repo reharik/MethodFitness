@@ -10,6 +10,10 @@ module.exports = function(invariant) {
     defaultTrainerClientRate,
     trainerClientRates,
     legacyId,
+                    createdDate,
+                    createdById,
+                    //TODO remove after migration
+                    migration
   }) {
     const {
       firstName,
@@ -63,6 +67,10 @@ module.exports = function(invariant) {
         password,
         role,
       },
+      createdDate,
+      createdById,
+      //TODO remove after migration
+      migration
     };
   };
 };

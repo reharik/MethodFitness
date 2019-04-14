@@ -14,7 +14,11 @@ module.exports = function() {
     clients,
     notes,
     entityName,
-  }) {
+                    createdDate,
+                    createdById,
+                    //TODO remove after migration
+                    migration
+                  }) {
     return {
       eventName: 'appointmentScheduledInPast',
       appointmentId,
@@ -31,6 +35,10 @@ module.exports = function() {
       clients,
       notes,
       entityName,
+      createdDate,
+      createdById,
+      //TODO remove after migration
+      migration
     };
   };
 };

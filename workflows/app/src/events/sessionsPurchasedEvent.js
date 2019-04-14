@@ -19,7 +19,11 @@ module.exports = function(invariant) {
     totalHalfHours,
     totalPairs,
     createDate,
-    sessions
+    sessions,
+                    createdDate,
+                    createdById,
+                    //TODO remove after migration
+                    migration
   }) {
 
     invariant(clientId, 'sessionsPurchased requires that you pass the clients Id');
@@ -54,7 +58,11 @@ module.exports = function(invariant) {
       totalHalfHours,
       totalPairs,
       purchaseDate: createDate,
-      sessions
+      sessions,
+      createdDate,
+      createdById,
+      //TODO remove after migration
+      migration
     };
   };
 };

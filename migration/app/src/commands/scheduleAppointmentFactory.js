@@ -1,9 +1,10 @@
-module.exports = function(invariant) {
+module.exports = function(invariant, riMoment) {
   return function({
     commandName,
     appointmentId,
+    locationId,
     appointmentType,
-    date,
+    appointmentDate,
     startTime,
     endTime,
     trainerId,
@@ -15,7 +16,13 @@ module.exports = function(invariant) {
     changes,
     isPastToFuture,
     isFutureToPast,
-  }) {
+                    createdDate,
+                    createdById
+
+                  }) {
+    const riStartTime = riMoment(startTime).format();
+    const riEndTime = riMoment(endTime).format();
+
     if (
       commandName !== 'scheduleAppointment' &&
       commandName !== 'scheduleAppointmentInPast'
@@ -35,17 +42,21 @@ module.exports = function(invariant) {
       appointmentType,
       `${commandName} requires that you pass the appointmentType`,
     );
+    invariant(
+      locationId,
+      `${commandName} requires that you pass the locationId`,
+    );
     invariant(trainerId, `${commandName} requires that you pass trainerId`);
     invariant(
-      date,
+      appointmentDate,
       `${commandName} requires that you pass the appointment date`,
     );
     invariant(
-      startTime,
+      riStartTime,
       `${commandName} requires that you pass the appointment start time`,
     );
     invariant(
-      endTime,
+      riEndTime,
       `${commandName} requires that you pass the appointment end time`,
     );
     invariant(
@@ -58,11 +69,12 @@ module.exports = function(invariant) {
       enitityName since it's a date but the date prop is utc`,
     );
     let result = {
+      locationId,
       commandName,
       appointmentType,
-      date,
-      startTime,
-      endTime,
+      appointmentDate,
+      startTime: riStartTime,
+      endTime: riEndTime,
       trainerId,
       color,
       clients,
@@ -72,6 +84,9 @@ module.exports = function(invariant) {
       changes,
       isPastToFuture,
       isFutureToPast,
+      createdDate,
+      createdById,
+      migration: true
     };
     if (
       commandName !== 'scheduleAppointment' &&

@@ -1,7 +1,9 @@
 module.exports = function(invariant) {
   return function({
     trainerId,
-    address
+    address,
+                    createdDate,
+                    createdById
   }) {
     const {
       street1,
@@ -20,7 +22,9 @@ module.exports = function(invariant) {
         city,
         state,
         zipCode
-      }
+      },
+      createdDate,
+      createdById
     };
   };
 };

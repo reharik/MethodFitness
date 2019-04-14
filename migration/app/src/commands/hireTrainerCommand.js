@@ -5,9 +5,13 @@ module.exports = function(invariant) {
     contact,
     credentials,
     clients,
-    legacyId,
+    defaultTrainerClientRate,
+    trainerClientRates,
     color,
-  }) {
+                    createdDate,
+                    createdById
+
+                  }) {
     const {
       firstName,
       lastName,
@@ -37,12 +41,23 @@ module.exports = function(invariant) {
       'hireTrainer requires that you pass the trainers password',
     );
     invariant(role, 'hireTrainer requires that you pass the trainers role');
+    invariant(
+      defaultTrainerClientRate,
+      'hireTrainer requires that you pass the default trainer client rated',
+    );
+    trainerClientRates.forEach(x =>
+      invariant(
+        x.rate,
+        'hire trainer requires that you pass a client rate for every client',
+      ),
+    );
 
     return {
       birthDate,
       archived,
-      legacyId,
       clients,
+      defaultTrainerClientRate,
+      trainerClientRates,
       color,
       contact: {
         firstName,
@@ -62,6 +77,9 @@ module.exports = function(invariant) {
         password,
         role,
       },
+      createdDate,
+      createdById,
+      migration: true
     };
   };
 };

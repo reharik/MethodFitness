@@ -1,5 +1,7 @@
 module.exports = function(invariant) {
-  return function({ trainerId, credentials }) {
+  return function({ trainerId, credentials,
+                    createdDate,
+                    createdById }) {
     const { password, role } = credentials;
     invariant(trainerId, 'trainerPasswordUpdated requires that you pass the trainers id');
     return {
@@ -8,7 +10,9 @@ module.exports = function(invariant) {
       credentials: {
         password,
         role
-      }
+      },
+      createdDate,
+      createdById
     };
   };
 };

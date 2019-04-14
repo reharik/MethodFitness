@@ -16,6 +16,7 @@ module.exports = function(
   swaggerSpec,
   customValidators,
   swaggerValidationMiddleware,
+  moment
 ) {
   return function(app, papersMiddleware) {
     if (!config.app.keys) {
@@ -62,6 +63,15 @@ module.exports = function(
 
     let JSONSwaggerDoc = JSON.parse(swaggerSpec());
     app.use(swaggerValidationMiddleware(JSONSwaggerDoc, customValidators));
+
+    app.use(async function(ctx, next) {
+      if(ctx.method === 'POST' && ctx.state.user) {
+        ctx.request.body = Object.assign(
+          ctx.request.body,
+          {createdDate: moment().format(), createdById: ctx.state.user.trainerId});
+      }
+      await next();
+    });
 
     app.use(async function(ctx, next) {
       ctx.render = coviews(config.app.root + '/app/src/views', {

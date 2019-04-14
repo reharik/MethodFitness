@@ -1,5 +1,8 @@
 module.exports = function(invariant) {
-  return function({ locationId, date }) {
+  return function({ locationId, date,
+                    createdDate,
+                    createdById
+  }) {
     invariant(
       locationId,
       'locationArchived requires that you pass the locations id',
@@ -9,6 +12,8 @@ module.exports = function(invariant) {
       eventName: 'locationArchived',
       locationId,
       date,
+      createdDate,
+      createdById
     };
   };
 };

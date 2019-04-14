@@ -1,8 +1,11 @@
 module.exports = function(invariant) {
   return function({
                      appointmentId,
-                     entityName
-                   }) {
+                     entityName,
+                    createdDate,
+                    createdById
+
+                  }) {
     invariant(appointmentId, `Cancel appointment requires that you pass the AppointmentId`);
     invariant(
       entityName,
@@ -12,7 +15,10 @@ module.exports = function(invariant) {
     return {
       commandName: 'cancelAppointment',
       appointmentId,
-      entityName
+      entityName,
+      createdDate,
+      createdById
+
     };
   };
 };

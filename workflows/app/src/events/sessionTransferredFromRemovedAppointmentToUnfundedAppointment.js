@@ -8,6 +8,8 @@ module.exports = function(invariant) {
     trainerPercentage,
     trainerPay,
     trainerId,
+                    createdDate,
+                    createdById
   }) {
     invariant(
       appointmentId,
@@ -62,6 +64,8 @@ module.exports = function(invariant) {
       trainerPercentage,
       trainerPay,
       trainerId,
+      createdDate,
+      createdById
     };
   };
 };

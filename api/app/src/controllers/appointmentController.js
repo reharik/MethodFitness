@@ -35,6 +35,10 @@ module.exports = function(
   };
 
   let scheduleAppointment = async function(ctx) {
+console.log(`==========ctx.request.body=========`);
+console.log(ctx.request.body);
+console.log(`==========END ctx.request.body=========`);
+
     logger.debug('arrived at appointment.scheduleAppointment');
     let payload = ctx.request.body;
     payload.commandName = 'scheduleAppointment';

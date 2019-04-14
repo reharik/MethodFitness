@@ -8,7 +8,10 @@ module.exports = function(invariant) {
     defaultTrainerClientRate,
     trainerClientRates,
     color,
-  }) {
+                    createdDate,
+                    createdById
+
+                  }) {
     const {
       firstName,
       lastName,
@@ -74,6 +77,8 @@ module.exports = function(invariant) {
         password,
         role,
       },
+      createdDate,
+      createdById
     };
   };
 };

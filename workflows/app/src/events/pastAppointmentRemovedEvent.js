@@ -1,10 +1,14 @@
 module.exports = function() {
-  return function({ appointmentId, clients }, rescheduled) {
+  return function({ appointmentId, clients,
+                    createdDate,
+                    createdById }, rescheduled) {
     return {
       eventName: 'pastAppointmentRemoved',
       clients,
       appointmentId,
-      rescheduled
+      rescheduled,
+      createdDate,
+      createdById
     };
   };
 };

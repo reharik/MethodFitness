@@ -1,7 +1,9 @@
 module.exports = function(invariant) {
   return function({
     trainerId,
-    contact
+    contact,
+                    createdDate,
+                    createdById
   }) {
     const {
       secondaryPhone,
@@ -23,7 +25,9 @@ module.exports = function(invariant) {
         email,
         firstName,
         lastName
-      }
+      },
+      createdDate,
+      createdById
     };
   };
 };

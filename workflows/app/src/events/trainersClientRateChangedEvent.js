@@ -1,7 +1,9 @@
 module.exports = function(invariant) {
   return function({
     trainerId,
-    clients
+    clients,
+                    createdDate,
+                    createdById
   }) {
     invariant(trainerId, 'trainersClientRatesUpdated requires that you pass the trainers id');
     clients.forEach(x => invariant(x.clientId,
@@ -12,7 +14,9 @@ module.exports = function(invariant) {
     return {
       eventName: 'trainersClientRatesUpdated',
       trainerId,
-      clients
+      clients,
+      createdDate,
+      createdById
     };
   };
 };

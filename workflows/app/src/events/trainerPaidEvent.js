@@ -1,5 +1,10 @@
 module.exports = function(invariant) {
-  return function({paymentId, trainerId, paidAppointments, paymentTotal, datePaid}) {
+  return function({paymentId, trainerId, paidAppointments, paymentTotal, datePaid,
+                    createdDate,
+                    createdById,
+                    //TODO remove after migration
+                    migration
+  }) {
     invariant(paymentId, 'trainerPaid requires that you pass the payment id');
     invariant(trainerId, 'trainerPaid requires that you pass the trainers id');
     invariant(datePaid, 'trainerPaid requires that you pass the date of payment');
@@ -12,6 +17,11 @@ module.exports = function(invariant) {
       trainerId,
       paidAppointments,
       paymentTotal,
-      datePaid};
+      datePaid,
+      createdDate,
+      createdById,
+      //TODO remove after migration
+      migration
+    };
   };
 };

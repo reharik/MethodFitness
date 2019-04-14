@@ -1,7 +1,9 @@
 module.exports = function(invariant) {
   return function({
     clientId,
-    contact
+    contact,
+                    createdDate,
+                    createdById
   }) {
     const {
       secondaryPhone,
@@ -17,7 +19,9 @@ module.exports = function(invariant) {
         secondaryPhone,
         mobilePhone,
         email
-      }
+      },
+      createdDate,
+      createdById
     };
   };
 };

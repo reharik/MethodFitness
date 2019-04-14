@@ -28,6 +28,9 @@ const clients = (mssql, eventstore, uuid, commands) => {
             zipCode: x.ZipCode,
           },
         },
+        createdDate: x.createdDate,
+        createdById: x.createdById,
+        migration: true
       });
       try {
         await eventstore.commandPoster(clientCommand, 'addClient', uuid.v4());

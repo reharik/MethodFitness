@@ -18,8 +18,11 @@ module.exports = function(invariant) {
                      totalFullHours,
                      totalHalfHours,
                      totalPairs,
-                     createDate
-                   }) {
+                     createDate,
+                    createdDate,
+                    createdById
+
+                  }) {
     invariant(clientId, 'purchases requires that you pass the clients Id');
     return {
       clientId,
@@ -40,7 +43,10 @@ module.exports = function(invariant) {
       totalFullHours,
       totalHalfHours,
       totalPairs,
-      createDate
+      createDate,
+      createdDate,
+      createdById
+
     };
   };
 };

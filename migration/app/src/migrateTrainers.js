@@ -2,6 +2,7 @@ const trainers = (mssql, eventstore, uuid, commands) => {
   return async () => {
     mssql = await mssql;
 
+    // change query to get all trainers ( not doing it now because not sure if all "users" are trainers )
     const results = await mssql.query`
 	select * from [User] where EntityId in (
 1,
@@ -38,6 +39,9 @@ const trainers = (mssql, eventstore, uuid, commands) => {
           password: 'change_me',
         },
         clients: x.clients ? x.clients.split(',') : [],
+        createdDate: x.createdDate,
+        createdById: x.createdById,
+        migration: true
       });
 
       try {

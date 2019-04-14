@@ -1,8 +1,10 @@
 module.exports = function(invariant) {
   return function({
                      trainerId,
-                    clientRates
-                   }) {
+                    clientRates,
+                    createdDate,
+                    createdById
+                  }) {
     invariant(trainerId, 'updateTrainersClients requires that you pass the trainers id');
     clientRates.forEach(x => invariant(x.clientId,
       'updateTrainersClients requires that you pass a client id for every client'));
@@ -11,7 +13,9 @@ module.exports = function(invariant) {
       'updateTrainersClients requires that you pass a client rate for every client'));
     return {
       trainerId,
-      clientRates
+      clientRates,
+      createdDate,
+      createdById
     };
   };
 };

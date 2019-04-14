@@ -5,8 +5,10 @@ module.exports = function(invariant) {
                      street2,
                      city,
                      state,
-                     zipCode
-                   }) {
+                     zipCode,
+                    createdDate,
+                    createdById
+                  }) {
     invariant(trainerId, 'updateTrainerAddress requires that you pass the trainers id');
     return {
       trainerId,
@@ -15,7 +17,9 @@ module.exports = function(invariant) {
         street2,
         city,
         state,
-        zipCode
+        zipCode,
+        createdDate,
+        createdById
       }
     };
   };

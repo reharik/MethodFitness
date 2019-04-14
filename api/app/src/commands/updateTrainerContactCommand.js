@@ -5,8 +5,10 @@ module.exports = function(invariant) {
                      mobilePhone,
                      email,
                     firstName,
-                    lastName
-                   }) {
+                    lastName,
+                    createdDate,
+                    createdById
+                  }) {
     invariant(trainerId, 'updateTrainerContact requires that you pass the trainers id');
     invariant(firstName, 'updateTrainerInfo requires that you pass the trainers first name');
     invariant(lastName, 'updateTrainerInfo requires that you pass the trainers last name');
@@ -19,7 +21,9 @@ module.exports = function(invariant) {
         mobilePhone,
         email,
         firstName,
-        lastName
+        lastName,
+        createdDate,
+        createdById
       }
     };
   };

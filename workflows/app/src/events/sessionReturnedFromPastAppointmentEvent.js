@@ -3,7 +3,9 @@ module.exports = function(invariant) {
     appointmentId,
     clientId,
     appointmentType,
-    sessionId
+    sessionId,
+                    createdDate,
+                    createdById
   }) {
     invariant(clientId, 'Session Returned From Past Appointment requires that you pass the client id');
     invariant(sessionId, 'Session Returned From Past Appointment requires that you pass the session id');
@@ -14,7 +16,9 @@ module.exports = function(invariant) {
       clientId,
       appointmentId,
       appointmentType,
-      sessionId
+      sessionId,
+      createdDate,
+      createdById
     };
   };
 };

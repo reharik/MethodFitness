@@ -3,8 +3,10 @@ module.exports = function(invariant) {
                      clientId,
                      secondaryPhone,
                      mobilePhone,
-                     email
-                   }) {
+                     email,
+                    createdDate,
+                    createdById
+                  }) {
     invariant(clientId, 'updateClientContact requires that you pass the clients Id');
     invariant(email, 'updateClientContact requires that you pass the clients email');
     invariant(mobilePhone, 'updateClientContact requires that you pass the clients mobilePhone');
@@ -13,7 +15,9 @@ module.exports = function(invariant) {
       contact: {
         secondaryPhone,
         mobilePhone,
-        email
+        email,
+        createdDate,
+        createdById
       }
     };
   };

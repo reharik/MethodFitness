@@ -69,6 +69,9 @@ const migrateFutureAppointments = (
             .add(12, 'hour')
             .format('YYYYMMDD'),
           color: trainerColorHash[x.TrainerId],
+          createdDate: x.createdDate,
+          createdById: x.createdById,
+          migration: true
         };
         cmd.clients = clientAppointments.recordset
           .filter(ca => ca.AppointmentId === x.EntityId)
@@ -97,4 +100,3 @@ const migrateFutureAppointments = (
 };
 
 module.exports = migrateFutureAppointments;
-//TODO then we'll need to query for sessions in arrears and create those appointments in past;

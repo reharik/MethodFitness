@@ -12,6 +12,10 @@ module.exports = function(invariant) {
     trainerPercentage,
     trainerPay,
     sessionId,
+                    createdDate,
+                    createdById,
+                    //TODO remove after migration
+                    migration
   }) {
     invariant(
       clientId,
@@ -76,6 +80,10 @@ module.exports = function(invariant) {
       trainerPercentage,
       trainerPay,
       sessionId,
+      createdDate,
+      createdById,
+      //TODO remove after migration
+      migration
     };
   };
 };

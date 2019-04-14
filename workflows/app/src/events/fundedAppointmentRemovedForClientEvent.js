@@ -1,5 +1,7 @@
 module.exports = function(invariant) {
-  return function({ clientId, trainerId, appointmentId }) {
+  return function({ clientId, trainerId, appointmentId,
+                    createdDate,
+                    createdById }) {
     invariant(
       clientId,
       'fundedAppointmentRemovedForClient requires that you pass the clients id',
@@ -17,6 +19,8 @@ module.exports = function(invariant) {
       clientId,
       trainerId,
       appointmentId,
+      createdDate,
+      createdById
     };
   };
 };

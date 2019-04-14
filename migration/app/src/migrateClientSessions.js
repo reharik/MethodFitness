@@ -47,7 +47,17 @@ const migrateClientSessions = (
             pairTotal: 0,
             pairTenPackTotal: 0,
             totalPairs: 0,
+            //TODO remove after migration
+            fullHourAppointmentIds: [],
+            halfHourAppointmentIds: [],
+            pairsAppointmentIds: [],
+            createdDate: x.createdDate,
+            createdById: x.createdById,
+            migration: true
           };
+
+          //TODO remove after migration
+// need to add a list of appointmentIds for each type then in workflow, apply them all when creating sessions. uggg
           if (sessions.Hour) {
             const hours = sessions.Hour;
             const hourRate = hours.reduce((a, x) => (a += x.Cost), 0);
@@ -56,6 +66,7 @@ const migrateClientSessions = (
             cmd.fullHourTotal = (hours.length % 10) * hourRate;
             cmd.fullHourTenPackTotal = Math.floor(hours.length / 10) * hourRate;
             cmd.totalFullHours = hours.length;
+            cmd.HourAppointmentIds = sessions.hour.map(x => x.appointmentId);
           }
           if (sessions['Half Hour']) {
             const halfHours = sessions['Half Hour'];
@@ -66,6 +77,7 @@ const migrateClientSessions = (
             cmd.halfHourTenPackTotal =
               Math.floor(halfHours.length / 10) * halfHourRate;
             cmd.totalHalfHours = halfHours.length;
+            cmd['Half HourAppointmentIds'] = sessions['Half Hour'].map(x => x.appointmentId);
           }
           if (sessions.Pair) {
             const pairs = sessions.Pair;
@@ -75,6 +87,7 @@ const migrateClientSessions = (
             cmd.pairTotal = (pairs.length % 10) * pairRate;
             cmd.pairTenPackTotal = Math.floor(pairs.length / 10) * pairRate;
             cmd.totalPairs = pairs.length;
+            cmd.PairsAppointmentIds = sessions.pairs.map(x => x.appointmentId);
           }
 
           const command = commands.purchaseCommand(cmd);

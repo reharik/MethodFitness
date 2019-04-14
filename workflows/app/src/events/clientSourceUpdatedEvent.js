@@ -3,7 +3,9 @@ module.exports = function(invariant) {
     clientId,
     source,
     sourceNotes,
-    startDate
+    startDate,
+                    createdDate,
+                    createdById
   }) {
     invariant(clientId, 'clientSourceUpdated requires that you pass the clients id');
     return {
@@ -11,7 +13,9 @@ module.exports = function(invariant) {
       clientId,
       source,
       sourceNotes,
-      startDate
+      startDate,
+      createdDate,
+      createdById
     };
   };
 };

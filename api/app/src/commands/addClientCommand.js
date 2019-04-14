@@ -7,6 +7,8 @@ module.exports = function(invariant) {
     archived,
     contact,
     legacyId,
+    createdDate,
+    createdById
   }) {
     const {
       firstName,
@@ -58,6 +60,8 @@ module.exports = function(invariant) {
           zipCode,
         },
       },
+      createdDate,
+      createdById
     };
   };
 };

@@ -10,7 +10,9 @@ module.exports = function() {
     clients,
     notes,
     entityName,
-  }) {
+                    createdDate,
+                    createdById
+                  }) {
     return {
       eventName: 'appointmentUpdated',
       appointmentId,
@@ -23,6 +25,8 @@ module.exports = function() {
       clients,
       notes,
       entityName,
+      createdDate,
+      createdById
     };
   };
 };

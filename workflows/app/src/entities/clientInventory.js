@@ -11,6 +11,11 @@ module.exports = function(sortby, metaLogger, logger) {
     };
 
     const consumeSession = cmd => {
+      //TODO remove after migration
+      if(cmd.migration) {
+        return sessions.find(x => x.appointmentId === cmd.appointmentId);
+      }
+
       return sessions
         .filter(x => x.appointmentType === cmd.appointmentType)
         .sort(sortby('createdDate'))[0];

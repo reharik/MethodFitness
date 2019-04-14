@@ -1,10 +1,16 @@
 module.exports = function(invariant) {
-  return function({ clientId, date }) {
+  return function({ clientId, date,
+                    createdDate,
+                    createdById
+                  }) {
     invariant(
       clientId,
       'unArchiveClient requires that you pass the clients id',
     );
     invariant(date, 'unArchiveClient requires that you pass the date');
-    return { clientId, date };
+    return { clientId, date,
+      createdDate,
+      createdById
+    };
   };
 };
