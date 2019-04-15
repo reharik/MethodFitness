@@ -9,26 +9,13 @@ const migrateClientSessions = (
   return async () => {
     mssql = await mssql;
     const clientSessions = await mssql.query`
-      SELECT [Cost]
-        ,[AppointmentType]
-        ,[ClientId]
       FROM [MethodFitness_PROD].[dbo].[Session]
-      where SessionUsed = 0
     `;
 
     const clientHash = {};
     const clients = await rsRepository.query('select * from client');
     clients.forEach(x => (clientHash[x.legacyId] = x.clientId));
 
-    for (let c of clients) {
-      const legacyId = c.legacyId;
-      if (legacyId) {
-        const filtered = R.filter(
-          x => x.ClientId === legacyId && clientHash[x.ClientId],
-          clientSessions.recordset,
-        );
-        if (filtered.length > 0) {
-          const sessions = R.groupBy(x => x.AppointmentType, filtered);
 
           const cmd = {
             clientId: clientHash[legacyId],
@@ -54,8 +41,7 @@ const migrateClientSessions = (
             createdDate: x.createdDate,
             createdById: x.createdById,
             migration: true
-          };
-
+	}
           //TODO remove after migration
 // need to add a list of appointmentIds for each type then in workflow, apply them all when creating sessions. uggg
           if (sessions.Hour) {
@@ -90,15 +76,14 @@ const migrateClientSessions = (
             cmd.PairsAppointmentIds = sessions.pairs.map(x => ({appointmentId:x.appointmentId, legacyId:x.sessionId}));
           }
 
-          const command = commands.purchaseCommand(cmd);
+        const command = commands.purchaseCommand(cmd);
 
-          try {
-            await eventstore.commandPoster(command, 'purchase', uuid.v4());
-          } catch (ex) {
-            console.log(`==========ex==========`);
-            console.log(ex);
-            console.log(`==========END ex==========`);
-          }
+        try {
+          await eventstore.commandPoster(command, 'purchase', uuid.v4());
+        } catch (ex) {
+          console.log(`==========ex==========`);
+          console.log(ex);
+          console.log(`==========END ex==========`);
         }
       }
     }
