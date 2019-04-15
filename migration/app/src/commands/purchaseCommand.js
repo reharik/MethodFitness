@@ -21,7 +21,7 @@ module.exports = function(invariant) {
                      createDate,
                     createdDate,
                     createdById,
-                    "Half HourAppointmentIds",
+                    Half_HourAppointmentIds,
                     HourAppointmentIds,
                     PairsAppointmentIds
                   }) {
@@ -48,7 +48,7 @@ module.exports = function(invariant) {
       createDate,
       createdDate,
       createdById,
-      "Half HourAppointmentIds",
+      Half_HourAppointmentIds,
       HourAppointmentIds,
       PairsAppointmentIds,
       migration: true

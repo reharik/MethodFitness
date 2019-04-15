@@ -19,7 +19,7 @@ inner join TrainerPaymentSessionItem tps on tp.entityId = tps.trainerPaymentId
     trainers.forEach(x => (trainerHash[x.legacyId] = x.trainerId));
 
     const sessions = await rsRepository.query('select * from sessionsPurchased');
-    sessions.forEach(s => s.sessions.forEach(x => sessionHash[x.legacyId] = x.sessionId);
+    sessions.forEach(s => s.sessions.forEach(x => sessionHash[x.legacyId] = x.sessionId));
 
     const verifications = R.groupBy(x=>x.trainerPaymentId, results.recordset);
 
@@ -56,4 +56,4 @@ inner join TrainerPaymentSessionItem tps on tp.entityId = tps.trainerPaymentId
   };
 };
 
-module.exports = trainers;
+module.exports = trainerValidations;

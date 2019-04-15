@@ -9,16 +9,30 @@ const migrateClientSessions = (
   return async () => {
     mssql = await mssql;
     const clientSessions = await mssql.query`
+    SELECT *
       FROM [MethodFitness_PROD].[dbo].[Session]
+      where NOT inarrears = 1 AND CreatedDate > CONVERT(datetime, '2/1/2018')
     `;
+
+    const purchaseOrdersByLegacyId = R.groupBy(x => x.clientId, clientSessions);
+    Object.keys(purchaseOrdersByLegacyId).forEach(x =>
+      Object.values(
+        R.groupBy(s => s.purchaseOrderNumber, purchaseOrdersByLegacyId[x]),
+      ),
+    );
 
     const clientHash = {};
     const clients = await rsRepository.query('select * from client');
     clients.forEach(x => (clientHash[x.legacyId] = x.clientId));
 
-
+    const keys = Object.keys(purchaseOrdersByLegacyId);
+    for (let key of keys) {
+      const clientId = clientHash[key];
+      const purchaseOrders = purchaseOrdersByLegacyId[key];
+      for (let po of purchaseOrders) {
+        const sessions = R.groupBy(x => x.AppointmentType, po);
           const cmd = {
-            clientId: clientHash[legacyId],
+            clientId,
             fullHour: 0,
             fullHourTenPack: 0,
             fullHourTotal: 0,
@@ -35,13 +49,14 @@ const migrateClientSessions = (
             pairTenPackTotal: 0,
             totalPairs: 0,
             //TODO remove after migration
-            fullHourAppointmentIds: [],
-            halfHourAppointmentIds: [],
-            pairsAppointmentIds: [],
+            HourAppointmentIds: [],
+            Half_HourAppointmentIds: [],
+            PairsAppointmentIds: [],
             createdDate: x.createdDate,
             createdById: x.createdById,
             migration: true
-	}
+          };
+
           //TODO remove after migration
 // need to add a list of appointmentIds for each type then in workflow, apply them all when creating sessions. uggg
           if (sessions.Hour) {
@@ -63,7 +78,7 @@ const migrateClientSessions = (
             cmd.halfHourTenPackTotal =
               Math.floor(halfHours.length / 10) * halfHourRate;
             cmd.totalHalfHours = halfHours.length;
-            cmd['Half HourAppointmentIds'] = sessions['Half Hour'].map(x => ({appointmentId:x.appointmentId, legacyId:x.sessionId}));
+            cmd.Half_HourAppointmentIds = sessions['Half Hour'].map(x => ({appointmentId:x.appointmentId, legacyId:x.sessionId}));
           }
           if (sessions.Pair) {
             const pairs = sessions.Pair;
@@ -76,15 +91,15 @@ const migrateClientSessions = (
             cmd.PairsAppointmentIds = sessions.pairs.map(x => ({appointmentId:x.appointmentId, legacyId:x.sessionId}));
           }
 
-        const command = commands.purchaseCommand(cmd);
+          const command = commands.purchaseCommand(cmd);
 
-        try {
-          await eventstore.commandPoster(command, 'purchase', uuid.v4());
-        } catch (ex) {
-          console.log(`==========ex==========`);
-          console.log(ex);
-          console.log(`==========END ex==========`);
-        }
+          try {
+            await eventstore.commandPoster(command, 'purchase', uuid.v4());
+          } catch (ex) {
+            console.log(`==========ex==========`);
+            console.log(ex);
+            console.log(`==========END ex==========`);
+          }
       }
     }
     console.log(`==========rows==========`);

@@ -29,7 +29,7 @@ module.exports = function(
       //TODO remove after migration
       // for migration
       if(cmd.migration) {
-        const mapping = cmd[`${type}AppointmentIds`].pop();
+        const mapping = cmd[`${type.replace(' ','_')}AppointmentIds`].pop();
         session.appointmentId = mapping.appointmentId;
         session.legacyId = mapping.sessionId;
       }
