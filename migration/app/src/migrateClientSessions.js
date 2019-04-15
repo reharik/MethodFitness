@@ -66,7 +66,7 @@ const migrateClientSessions = (
             cmd.fullHourTotal = (hours.length % 10) * hourRate;
             cmd.fullHourTenPackTotal = Math.floor(hours.length / 10) * hourRate;
             cmd.totalFullHours = hours.length;
-            cmd.HourAppointmentIds = sessions.hour.map(x => x.appointmentId);
+            cmd.HourAppointmentIds = sessions.hour.map(x => ({appointmentId:x.appointmentId, legacyId:x.sessionId}));
           }
           if (sessions['Half Hour']) {
             const halfHours = sessions['Half Hour'];
@@ -77,7 +77,7 @@ const migrateClientSessions = (
             cmd.halfHourTenPackTotal =
               Math.floor(halfHours.length / 10) * halfHourRate;
             cmd.totalHalfHours = halfHours.length;
-            cmd['Half HourAppointmentIds'] = sessions['Half Hour'].map(x => x.appointmentId);
+            cmd['Half HourAppointmentIds'] = sessions['Half Hour'].map(x => ({appointmentId:x.appointmentId, legacyId:x.sessionId}));
           }
           if (sessions.Pair) {
             const pairs = sessions.Pair;
@@ -87,7 +87,7 @@ const migrateClientSessions = (
             cmd.pairTotal = (pairs.length % 10) * pairRate;
             cmd.pairTenPackTotal = Math.floor(pairs.length / 10) * pairRate;
             cmd.totalPairs = pairs.length;
-            cmd.PairsAppointmentIds = sessions.pairs.map(x => x.appointmentId);
+            cmd.PairsAppointmentIds = sessions.pairs.map(x => ({appointmentId:x.appointmentId, legacyId:x.sessionId}));
           }
 
           const command = commands.purchaseCommand(cmd);

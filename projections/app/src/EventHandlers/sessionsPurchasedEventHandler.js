@@ -85,6 +85,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
         startTime: x.startTime,
         purchasePrice: x.purchasePrice,
         clientId: x.clientId,
+        legacyId: x.legacyId
       }));
 
       client.purchases.push(purchase);
