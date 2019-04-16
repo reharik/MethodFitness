@@ -1,4 +1,4 @@
-const trainerPayments = (mssql, eventstore, uuid, commands, R) => {
+const trainerPayments = (mssql, rsRepository, eventstore, uuid, commands, R) => {
   return async () => {
     mssql = await mssql;
 

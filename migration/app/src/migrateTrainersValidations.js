@@ -1,4 +1,4 @@
-const trainerValidations = (mssql, eventstore, uuid, commands) => {
+const trainerValidations = (mssql, rsRepository, eventstore, uuid, commands) => {
   return async () => {
     mssql = await mssql;
 

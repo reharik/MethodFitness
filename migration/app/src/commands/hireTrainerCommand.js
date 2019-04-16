@@ -1,13 +1,13 @@
 module.exports = function(invariant) {
   return function({
-    birthDate,
-    archived,
-    contact,
-    credentials,
-    clients,
-    defaultTrainerClientRate,
-    trainerClientRates,
-    color,
+                    birthDate,
+                    archived,
+                    contact,
+                    credentials,
+                    clients,
+                    defaultTrainerClientRate,
+                    trainerClientRates,
+                    color,
                     createdDate,
                     createdById
 
@@ -78,8 +78,7 @@ module.exports = function(invariant) {
         role,
       },
       createdDate,
-      createdById,
-      migration: true
+      createdById
     };
   };
 };

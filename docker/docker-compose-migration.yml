@@ -1,0 +1,97 @@
+version: "3.0"
+services:
+  migration:
+    depends_on:
+      - api
+      - workflows
+      - projections
+    build:
+      context: ../migration
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../migration/app:/home/current/app
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
+    environment:
+      APPLICATION_NAME: migration
+    env_file:
+      - ./../.envrc.example
+  workflows:
+    build:
+      context: ../workflows
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+      - eventstore
+    volumes:
+      - ./../workflows/app:/home/current/app
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
+    env_file:
+      - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: workflows
+      LOGGING_LEVEL: silly
+
+  projections:
+    build:
+      context: ../projections
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - postgres
+      - eventstore
+    volumes:
+      - ./../projections/app:/home/current/app
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
+    env_file:
+      - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: projections
+      LOGGING_LEVEL: silly
+
+  api:
+    build:
+      context: ../api
+      dockerfile: docker/Dockerfile
+    depends_on:
+    - eventstore
+    volumes:
+      - ./../api/app:/home/current/app
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
+    ports:
+      - 3666:3000
+    env_file:
+      - ./../.envrc.example
+    environment:
+      APPLICATION_NAME: api
+
+  postgres:
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_novolume:latest
+    ports:
+      - 5400:5432
+    env_file:
+      - ./../.envrc.example
+
+  eventstore:
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_novolume:latest
+    ports:
+      - 2113:2113
+      - 1113:1113
+    environment:
+      - ext-http-prefixes=http://*:2113/
+      - ext-ip="0.0.0.0"
+      - log=/data/logs
+      - stats-period-sec=400000
+
+#  cypress:
+#    build:
+#      context: ../cypress
+#      dockerfile: docker/Dockerfile
+#    depends_on:
+#    - frontend
+#    volumes:
+#      - ./../cypress/app:/home/current/app
+#      - ./../cypress/cypress.json:/home/current/cypress.json:ro
+#        command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #cypress run #
+#    env_file:
+#      - ./../.envrc.example
+#    environment:
+#      APPLICATION_NAME: cypress
