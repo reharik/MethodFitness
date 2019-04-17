@@ -1,5 +1,5 @@
 module.exports = function(invariant) {
-  return function({ trainerId, date }) {
+  return function({ trainerId, date, createdDate, createdById }) {
     invariant(
       trainerId,
       'trainerArchived requires that you pass the trainers id',
@@ -9,6 +9,8 @@ module.exports = function(invariant) {
       eventName: 'trainerArchived',
       trainerId,
       date,
+      createdDate,
+      createdById,
     };
   };
 };

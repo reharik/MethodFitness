@@ -8,6 +8,10 @@ module.exports = function(invariant) {
     archived,
     contact,
     legacyId,
+    createdDate,
+    createdById,
+    //TODO remove after migration
+    migration,
   }) {
     const {
       firstName,
@@ -61,6 +65,10 @@ module.exports = function(invariant) {
           zipCode,
         },
       },
+      createdDate,
+      createdById,
+      //TODO remove after migration
+      migration,
     };
   };
 };

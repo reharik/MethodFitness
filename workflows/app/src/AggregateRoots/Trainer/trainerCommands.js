@@ -133,7 +133,13 @@ module.exports = function(
           clientId: x.clientId,
           rate: cmdClone.clientRates.find(y => x.clientId === y.clientId).rate,
         }))
-        .forEach(e => raiseEvent(esEvents.trainersClientRatesUpdatedEvent(e)));
+        .forEach(e => {
+          let event = Object.assign(e, {
+            createdDate: cmd.createdDate,
+            createdById: cmd.createdById,
+          });
+          return raiseEvent(esEvents.trainersClientRatesUpdatedEvent(event));
+        });
 
       raiseEvent(esEvents.trainersClientRatesUpdatedEvent(cmdClone));
     };
@@ -147,7 +153,13 @@ module.exports = function(
           trainerId: state._id,
           clientId: x,
         }))
-        .forEach(e => raiseEvent(esEvents.trainerClientRemovedEvent(e)));
+        .forEach(e => {
+          let event = Object.assign(e, {
+            createdDate: cmdClone.createdDate,
+            createdById: cmdClone.createdById,
+          });
+          return raiseEvent(esEvents.trainerClientRemovedEvent(event));
+        });
 
       const newClients = cmdClone.clients.filter(
         x => !state.trainerClients.find(y => y === x),
@@ -157,14 +169,26 @@ module.exports = function(
           trainerId: state._id,
           clientId: x,
         }))
-        .forEach(e => raiseEvent(esEvents.trainerClientAddedEvent(e)));
+        .forEach(e => {
+          let event = Object.assign(e, {
+            createdDate: cmdClone.createdDate,
+            createdById: cmdClone.createdById,
+          });
+          return raiseEvent(esEvents.trainerClientAddedEvent(event));
+        });
       newClients
         .map(x => ({
           trainerId: state._id,
           clientId: x,
           rate: state.defaultTrainerCientRate,
         }))
-        .forEach(e => raiseEvent(esEvents.trainersNewClientRateSetEvent(e)));
+        .forEach(e => {
+          let event = Object.assign(e, {
+            createdDate: cmdClone.createdDate,
+            createdById: cmdClone.createdById,
+          });
+          return raiseEvent(esEvents.trainersNewClientRateSetEvent(event));
+        });
 
       raiseEvent(esEvents.trainersClientsUpdatedEvent(cmdClone));
     };

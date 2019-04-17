@@ -7,6 +7,8 @@ module.exports = function() {
     appointmentDate,
     startTime,
     endTime,
+    createdDate,
+    createdById,
   }) {
     return {
       eventName: 'clientInternalStateUpdated',
@@ -17,6 +19,8 @@ module.exports = function() {
       appointmentDate,
       startTime,
       endTime,
+      createdDate,
+      createdById,
     };
   };
 };

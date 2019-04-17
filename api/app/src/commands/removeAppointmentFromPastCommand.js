@@ -1,5 +1,11 @@
 module.exports = function(invariant) {
-  return function({ appointmentId, clients, entityName }) {
+  return function({
+    appointmentId,
+    clients,
+    entityName,
+    createdDate,
+    createdById,
+  }) {
     invariant(
       appointmentId,
       `Remove Appointment From Past requires that you pass the AppointmentId`,
@@ -18,6 +24,8 @@ module.exports = function(invariant) {
       appointmentId,
       clients,
       entityName,
+      createdDate,
+      createdById,
     };
   };
 };

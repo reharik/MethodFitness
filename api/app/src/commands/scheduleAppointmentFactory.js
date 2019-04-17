@@ -16,6 +16,8 @@ module.exports = function(invariant, riMoment) {
     changes,
     isPastToFuture,
     isFutureToPast,
+    createdDate,
+    createdById,
   }) {
     const riStartTime = riMoment(startTime).format();
     const riEndTime = riMoment(endTime).format();
@@ -81,6 +83,8 @@ module.exports = function(invariant, riMoment) {
       changes,
       isPastToFuture,
       isFutureToPast,
+      createdDate,
+      createdById,
     };
     if (
       commandName !== 'scheduleAppointment' &&

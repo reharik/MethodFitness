@@ -18,7 +18,7 @@ module.exports = function(
     };
 
     const createNewSessionEvent = (type, purchasePrice, cmd) => {
-      return {
+      let session = {
         clientId: state._id,
         sessionId: uuid.v4(),
         appointmentType: type,
@@ -26,6 +26,14 @@ module.exports = function(
         purchasePrice,
         createdDate: cmd.createDate,
       };
+      //TODO remove after migration
+      // for migration
+      if (cmd.migration) {
+        const mapping = cmd[`${type.replace(' ', '_')}AppointmentIds`].pop();
+        session.appointmentId = mapping.appointmentId;
+        session.legacyId = mapping.sessionId;
+      }
+      return session;
     };
 
     const addSessions = (cmd, type) => {
@@ -93,49 +101,56 @@ module.exports = function(
           let sessions = generateSessions(cmdClone);
 
           // handle unfunded sessions
+          //TODO remove after migration
+          // skip for migration
           let fundedAppointments = [];
-          for (let x of state.unfundedAppointments) {
-            let session = sessions.find(
-              s => s.appointmentType === x.appointmentType && !s.used,
-            );
-            if (session) {
-              const trainerInstance = await eventRepository.getById(
-                trainer,
-                x.trainerId,
+          if (!cmdClone.migration) {
+            for (let x of state.unfundedAppointments) {
+              let session = sessions.find(
+                s => s.appointmentType === x.appointmentType && !s.used,
               );
-              const TCR = trainerInstance.getTrainerClientRateByClientId(
-                state._id,
-              );
-              let TR = 0;
-              if (TCR && session.purchasePrice) {
-                TR = session.purchasePrice * ((TCR ? TCR.rate : 0) * 0.01);
+              if (session) {
+                const trainerInstance = await eventRepository.getById(
+                  trainer,
+                  x.trainerId,
+                );
+                const TCR = trainerInstance.getTrainerClientRateByClientId(
+                  state._id,
+                );
+                let TR = 0;
+                if (TCR && session.purchasePrice) {
+                  TR = session.purchasePrice * ((TCR ? TCR.rate : 0) * 0.01);
+                }
+                // update appointment for funding event
+                x = Object.assign({}, x, {
+                  sessionId: session.sessionId,
+                  purchaseId: session.purchaseId,
+                  pricePerSession: session.purchasePrice,
+                  trainerPercentage: TCR ? TCR.rate : 0,
+                  trainerPay: TR,
+                });
+                // update session to show it's used;
+                session.used = true;
+                session.appointmentId = x.appointmentId;
+                session.trainerId = x.trainerId;
+                session.pricePerSession = session.purchasePrice;
+                session.trainerPay = TR;
+                session.trainerPercentage = TCR ? TCR.rate : 0;
+                session.startTime = x.startTime;
+                session.appointmentDate = x.appointmentDate;
+                fundedAppointments.push(x);
               }
-              // update appointment for funding event
-              x = Object.assign({}, x, {
-                sessionId: session.sessionId,
-                purchaseId: session.purchaseId,
-                pricePerSession: session.purchasePrice,
-                trainerPercentage: TCR ? TCR.rate : 0,
-                trainerPay: TR,
-              });
-              // update session to show it's used;
-              session.used = true;
-              session.appointmentId = x.appointmentId;
-              session.trainerId = x.trainerId;
-              session.pricePerSession = session.purchasePrice;
-              session.trainerPay = TR;
-              session.trainerPercentage = TCR ? TCR.rate : 0;
-              session.startTime = x.startTime;
-              session.appointmentDate = x.appointmentDate;
-              fundedAppointments.push(x);
             }
           }
-
           cmdClone.sessions = sessions;
           raiseEvent(esEvents.sessionsPurchasedEvent(cmdClone));
           // apply new sessions to unfunded appointments
           fundedAppointments.forEach(e => {
-            raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(e));
+            let event = Object.assign(e, {
+              createdDate: cmdClone.createdDate,
+              createdById: cmdClone.createdById,
+            });
+            raiseEvent(esEvents.unfundedAppointmentFundedByClientEvent(event));
           });
         },
 
@@ -186,7 +201,10 @@ module.exports = function(
           raiseEvent(esEvents.sessionsRefundedEvent(cmdClone));
         },
 
-        removePastAppointmentForClient: (appointmentId, trainerId) => {
+        removePastAppointmentForClient: (
+          { createdDate, createdById, appointmentId },
+          trainerId,
+        ) => {
           const unfundedAppointment = state.unfundedAppointments.find(
             u => u.appointmentId === appointmentId,
           );
@@ -197,6 +215,8 @@ module.exports = function(
                 trainerId: unfundedAppointment.trainerId,
                 appointmentType: unfundedAppointment.appointmentType,
                 clientId: state._id,
+                createdDate,
+                createdById,
               }),
             );
           } else {
@@ -205,12 +225,18 @@ module.exports = function(
                 appointmentId,
                 trainerId,
                 clientId: state._id,
+                createdDate,
+                createdById,
               }),
             );
           }
         },
 
-        returnSessionFromPast: appointmentId => {
+        returnSessionFromPast: ({
+          createdDate,
+          createdById,
+          appointmentId,
+        }) => {
           const session = state.clientInventory.getUsedSessionByAppointmentId(
             appointmentId,
           );
@@ -238,6 +264,8 @@ module.exports = function(
                 trainerId: session.trainerId,
                 trainerPay: session.trainerPay,
                 trainerPercentage: session.trainerPercentage,
+                createdDate,
+                createdById,
               },
             );
           } else {
@@ -246,6 +274,8 @@ module.exports = function(
               sessionId: session.sessionId,
               clientId: state._id,
               appointmentType: session.appointmentType,
+              createdDate,
+              createdById,
             });
           }
           raiseEvent(event);

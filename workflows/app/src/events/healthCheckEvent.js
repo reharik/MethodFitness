@@ -1,5 +1,5 @@
 module.exports = function(invariant) {
-  return function({ healthCheck, healthCheckId }) {
+  return function({ healthCheck, healthCheckId, createdDate, createdById }) {
     invariant(
       healthCheck,
       'healthCheck requires that you pass the date for the health check',
@@ -12,6 +12,8 @@ module.exports = function(invariant) {
       eventName: 'healthCheck',
       healthCheck,
       healthCheckId,
+      createdDate,
+      createdById,
     };
   };
 };

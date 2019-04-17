@@ -1,4 +1,4 @@
-const migrateInarrersAppointments = (
+const migratePastAppointments = (
   mssql,
   moment,
   rsRepository,
@@ -11,8 +11,7 @@ const migrateInarrersAppointments = (
 
     const results = await mssql.query`select a.* 
       from [Session] s inner join Appointment a on s.AppointmentId = a.EntityId 
-      where s.InArrears = 1 
-      and convert(datetime, s.ChangedDate) > CONVERT(datetime, '2/1/2018')
+      where convert(datetime, s.ChangedDate) > CONVERT(datetime, '2/1/2018')
     `;
 
     const clientHash = {};
@@ -47,6 +46,9 @@ const migrateInarrersAppointments = (
           notes: x.notes,
           entityName: moment(x.Date).format('YYYYMMDD'),
           color: trainerColorHash[x.TrainerId],
+          createdDate: x.createdDate,
+          createdById: x.createdById,
+          migration: true,
         };
         cmd.clients = clientAppointments.recordset
           .filter(ca => ca.AppointmentId === x.EntityId)
@@ -74,5 +76,4 @@ const migrateInarrersAppointments = (
   };
 };
 
-module.exports = migrateInarrersAppointments;
-//TODO then we'll need to query for sessions in arrears and create those appointments in past;
+module.exports = migratePastAppointments;

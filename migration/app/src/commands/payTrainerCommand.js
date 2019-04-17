@@ -1,5 +1,12 @@
 module.exports = function(invariant) {
-  return function({ trainerId, paidAppointments, paymentTotal, datePaid }) {
+  return function({
+    trainerId,
+    paidAppointments,
+    paymentTotal,
+    datePaid,
+    createdDate,
+    createdById,
+  }) {
     invariant(trainerId, 'payTrainer requires that you pass the trainers id');
     invariant(
       datePaid,
@@ -17,6 +24,14 @@ module.exports = function(invariant) {
       paidAppointments.length > 0,
       'payTrainer requires that you pass at least one session id',
     );
-    return { trainerId, paidAppointments, paymentTotal, datePaid };
+    return {
+      trainerId,
+      paidAppointments,
+      paymentTotal,
+      datePaid,
+      createdDate,
+      createdById,
+      migration: true,
+    };
   };
 };

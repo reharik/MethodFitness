@@ -206,11 +206,8 @@ module.exports = function(
       let clients = appointmentToRemove.clients.map(x => x.clientId);
       for (let clientId of clients) {
         let c = await eventRepository.getById(client, clientId);
-        c.returnSessionFromPast(cmd.appointmentId);
-        c.removePastAppointmentForClient(
-          cmd.appointmentId,
-          appointmentToRemove.trainerId,
-        );
+        c.returnSessionFromPast(cmd);
+        c.removePastAppointmentForClient(cmd, appointmentToRemove.trainerId);
         await eventRepository.save(c);
       }
 

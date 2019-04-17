@@ -1,5 +1,5 @@
 module.exports = function(invariant) {
-  return function({ trainerId, clientRates }) {
+  return function({ trainerId, clientRates, createdDate, createdById }) {
     invariant(
       trainerId,
       'updateTrainersClients requires that you pass the trainers id',
@@ -19,6 +19,9 @@ module.exports = function(invariant) {
     return {
       trainerId,
       clientRates,
+      createdDate,
+      createdById,
+      migration: true,
     };
   };
 };

@@ -16,6 +16,8 @@ module.exports = function() {
       trainerPay,
       trainerChanged,
       previousTrainerId,
+      createdDate,
+      createdById,
     },
     rescheduled,
     updateDayOnly,
@@ -39,6 +41,8 @@ module.exports = function() {
       trainerPay,
       trainerChanged,
       previousTrainerId,
+      createdDate,
+      createdById,
     };
   };
 };

@@ -32,7 +32,6 @@ const migrateClientSessions = (
       const purchaseOrders = purchaseOrdersByLegacyId[key];
       for (let po of purchaseOrders) {
         const sessions = R.groupBy(x => x.AppointmentType, po);
-
         const cmd = {
           clientId,
           fullHour: 0,
@@ -50,8 +49,17 @@ const migrateClientSessions = (
           pairTotal: 0,
           pairTenPackTotal: 0,
           totalPairs: 0,
+          //TODO remove after migration
+          HourAppointmentIds: [],
+          Half_HourAppointmentIds: [],
+          PairsAppointmentIds: [],
+          createdDate: x.createdDate,
+          createdById: x.createdById,
+          migration: true,
         };
 
+        //TODO remove after migration
+        // need to add a list of appointmentIds for each type then in workflow, apply them all when creating sessions. uggg
         if (sessions.Hour) {
           const hours = sessions.Hour;
           const hourRate = hours.reduce((a, x) => (a += x.Cost), 0);
@@ -60,6 +68,10 @@ const migrateClientSessions = (
           cmd.fullHourTotal = (hours.length % 10) * hourRate;
           cmd.fullHourTenPackTotal = Math.floor(hours.length / 10) * hourRate;
           cmd.totalFullHours = hours.length;
+          cmd.HourAppointmentIds = sessions.hour.map(x => ({
+            appointmentId: x.appointmentId,
+            legacyId: x.sessionId,
+          }));
         }
         if (sessions['Half Hour']) {
           const halfHours = sessions['Half Hour'];
@@ -70,6 +82,10 @@ const migrateClientSessions = (
           cmd.halfHourTenPackTotal =
             Math.floor(halfHours.length / 10) * halfHourRate;
           cmd.totalHalfHours = halfHours.length;
+          cmd.Half_HourAppointmentIds = sessions['Half Hour'].map(x => ({
+            appointmentId: x.appointmentId,
+            legacyId: x.sessionId,
+          }));
         }
         if (sessions.Pair) {
           const pairs = sessions.Pair;
@@ -79,6 +95,10 @@ const migrateClientSessions = (
           cmd.pairTotal = (pairs.length % 10) * pairRate;
           cmd.pairTenPackTotal = Math.floor(pairs.length / 10) * pairRate;
           cmd.totalPairs = pairs.length;
+          cmd.PairsAppointmentIds = sessions.pairs.map(x => ({
+            appointmentId: x.appointmentId,
+            legacyId: x.sessionId,
+          }));
         }
 
         const command = commands.purchaseCommand(cmd);

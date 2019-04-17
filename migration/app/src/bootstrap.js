@@ -5,17 +5,21 @@ const bootstrap = (
   migrateTrainersClientRates,
   migrateClientSessions,
   migrateFutureAppointments,
-  migrateInarrersAppointments,
+  migratePastAppointments,
+  migrateTrainersValidations,
+  migrateTrainersPayments,
 ) => {
   return async () => {
     try {
-      // await migrateClients();
-      // await migrateTrainers();
-      // await migrateTrainersClients();
-      // await migrateTrainersClientRates();
-      // await migrateClientSessions();
-      await migrateFutureAppointments();
-      // await migrateInarrersAppointments();
+      await migrateClients();
+      await migrateTrainers();
+      await migrateTrainersClients();
+      await migrateTrainersClientRates();
+      await migrateClientSessions();
+      // await migrateFutureAppointments();
+      await migratePastAppointments();
+      await migrateTrainerValidations();
+      await migrateTrainerPayments();
     } catch (err) {
       console.log(`==========err==========`);
       console.log(err);

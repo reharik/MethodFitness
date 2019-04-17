@@ -19,6 +19,11 @@ module.exports = function(invariant) {
     totalHalfHours,
     totalPairs,
     createDate,
+    createdDate,
+    createdById,
+    Half_HourAppointmentIds,
+    HourAppointmentIds,
+    PairsAppointmentIds,
   }) {
     invariant(clientId, 'purchases requires that you pass the clients Id');
     return {
@@ -41,6 +46,12 @@ module.exports = function(invariant) {
       totalHalfHours,
       totalPairs,
       createDate,
+      createdDate,
+      createdById,
+      Half_HourAppointmentIds,
+      HourAppointmentIds,
+      PairsAppointmentIds,
+      migration: true,
     };
   };
 };

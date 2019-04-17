@@ -1,5 +1,5 @@
 module.exports = function(invariant) {
-  return function({ locationId, name, legacyId }) {
+  return function({ locationId, name, legacyId, createdDate, createdById }) {
     invariant(name, 'locationAdded requires that you pass the location name');
 
     return {
@@ -7,6 +7,8 @@ module.exports = function(invariant) {
       locationId,
       legacyId,
       name,
+      createdDate,
+      createdById,
     };
   };
 };
