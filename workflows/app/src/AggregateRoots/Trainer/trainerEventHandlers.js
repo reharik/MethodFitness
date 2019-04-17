@@ -7,6 +7,8 @@ module.exports = function() {
         state.firstName = event.contact.firstName;
         state.lastName = event.contact.lastName;
         state.defaultTrainerClientRate = event.defaultTrainerClientRate;
+        state.trainerClients = event.clients;
+        state.trainerClientRates = event.trainerClientRates;
       },
 
       trainerPasswordUpdated(event) {

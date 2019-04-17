@@ -19,6 +19,7 @@ const migrateInarrersAppointments = (
     const trainerHash = {};
     const trainerColorHash = {};
 
+    rsRepository = await rsRepository;
     const clients = await rsRepository.query('select * from client');
     clients.forEach(x => (clientHash[x.legacyId] = x.clientId));
     const trainers = await rsRepository.query('select * from trainer');

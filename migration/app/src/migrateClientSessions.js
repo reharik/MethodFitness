@@ -22,6 +22,7 @@ const migrateClientSessions = (
     );
 
     const clientHash = {};
+    rsRepository = await rsRepository;
     const clients = await rsRepository.query('select * from client');
     clients.forEach(x => (clientHash[x.legacyId] = x.clientId));
 

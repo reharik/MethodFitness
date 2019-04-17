@@ -33,40 +33,6 @@ module.exports = function(
         await processCommands(command, 'hireTrainer');
       }
 
-      const addClientsToTrainer1 = {
-        trainerId: loadTrainers.trainers[0].trainerId,
-        clients: [
-          loadClients.clients[0].clientId,
-          loadClients.clients[1].clientId,
-          loadClients.clients[2].clientId,
-          loadClients.clients[3].clientId,
-          loadClients.clients[4].clientId,
-        ],
-      };
-
-      await processCommands(addClientsToTrainer1, 'updateTrainersClients');
-
-      const addClientsToTrainer2 = {
-        trainerId: loadTrainers.trainers[1].trainerId,
-        clients: [
-          loadClients.clients[0].clientId,
-          loadClients.clients[1].clientId,
-          loadClients.clients[2].clientId,
-        ],
-      };
-      await processCommands(addClientsToTrainer2, 'updateTrainersClients');
-
-      const addClientsToTrainer3 = {
-        trainerId: loadTrainers.trainers[2].trainerId,
-        clients: [
-          loadClients.clients[2].clientId,
-          loadClients.clients[3].clientId,
-          loadClients.clients[4].clientId,
-        ],
-      };
-
-      await processCommands(addClientsToTrainer3, 'updateTrainersClients');
-
       // for (let x of loadAppointments.appointments) {
       //   let command = loadAppointments.scheduleAppointment(x);
       //   await processCommands(command, 'scheduleAppointment');

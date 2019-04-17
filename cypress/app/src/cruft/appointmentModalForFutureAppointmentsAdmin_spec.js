@@ -196,13 +196,13 @@ describe.skip('Appointment Modal For Future Appointments Admin', () => {
         .contains('Edit')
         .click();
 
-      cy.dataId('date-container', 'div')
+      cy.dataId('appointmentDate-container', 'div')
         .get('.ant-calendar-picker')
         .click();
       cy.get('.ant-calendar-input').type(
         `{selectAll}{backspace}${newDateString}{enter}`,
       );
-      cy.dataId('date-container', 'div')
+      cy.dataId('appointmentDate-container', 'div')
         .get('.ant-calendar-input')
         .blur();
 

@@ -1,7 +1,7 @@
 module.exports = function(
   config,
   eventDispatcher,
-  CommandHandlers_array, // eslint-disable-next-line camelcase
+  CommandHandlers_array, //eslint-disable-next-line camelcase
   eventReceiver,
   getStartPosition,
 ) {
@@ -13,7 +13,7 @@ module.exports = function(
         let position = await getStartPosition(handler.handlerName);
         let dispatcher = await eventDispatcher(position);
         let source = dispatcher.startDispatching('command');
-        eventReceiver(source, handler);
+        eventReceiver(source, handler, true);
       }
     } catch (er) {
       console.log(`=========="here?"==========`);

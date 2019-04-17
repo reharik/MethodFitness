@@ -115,6 +115,27 @@ kill-data-test: kill-eventstore-test kill-postgres-test
 
 ####END TEST BUILD####
 
+####MIGRATION BUILD####
+
+dockerUpMigrations: kill-data-migration
+	docker-compose -f docker/docker-compose-migrations.yml -p methodfitmigrations up
+
+dockerDownMigrations:
+	docker-compose -f docker/docker-compose-migrations.yml -p methodfitmigrations down
+
+dockerDownMigrationsKillImages:
+	docker-compose -f docker/docker-compose-migrations.yml -p methodfitmigrations down --rmi local --remove-orphans
+
+kill-eventstore-migration:
+	- docker rm -f methodfitmigrations_eventstore_1 || echo "No more containers to remove."
+
+kill-postgres-migration:
+	- docker rm -v -f methodfitmigrations_postgres_1  || echo "No more containers to remove."
+
+kill-data-migration: kill-eventstore-migration kill-postgres-migration
+
+####END MIGRATION BUILD####
+
 ####DOCKER CYPRESS BUILD#####
 dockerUpCypress: kill-data-cypress-test
 	docker-compose -f docker/docker-compose-cypress-tests.yml -p methodfitcypresstests up

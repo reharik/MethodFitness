@@ -4,7 +4,7 @@ module.exports = function() {
       eventName: 'pastAppointmentRemoved',
       clients,
       appointmentId,
-      rescheduled
+      rescheduled,
     };
   };
 };

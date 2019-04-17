@@ -172,7 +172,7 @@ module.exports = function(
     const getTrainerClientRateByClientId = clientId => {
       const rate = state.trainerClientRates.find(x => x.clientId === clientId);
       if (!rate) {
-        logger.warning(
+        logger.warn(
           `Client Rate requested for Trainer: ${state.firstName} ${
             state.lastName
           } - ${

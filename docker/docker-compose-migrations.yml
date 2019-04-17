@@ -25,7 +25,7 @@ services:
       - eventstore
     volumes:
       - ./../workflows/app:/home/current/app
-    command: [ "pm2-runtime", "start", "ecosystem.config.js" ] #top -b #
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     env_file:
       - ./../.envrc.example
     environment:
@@ -37,17 +37,16 @@ services:
       context: ../projections
       dockerfile: docker/Dockerfile
     depends_on:
-      - data
       - postgres
       - eventstore
     volumes:
       - ./../projections/app:/home/current/app
-    command: [ "pm2-runtime", "start", "ecosystem.config.js" ] #top -b #
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     env_file:
       - ./../.envrc.example
     environment:
       APPLICATION_NAME: projections
-#      LOGGING_LEVEL: error
+      LOGGING_LEVEL: silly
 
   api:
     build:
@@ -57,7 +56,7 @@ services:
     - eventstore
     volumes:
       - ./../api/app:/home/current/app
-    command: [ "pm2-runtime", "start", "ecosystem.config.js" ] #top -b #
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     ports:
       - 3666:3000
     env_file:
@@ -65,42 +64,31 @@ services:
     environment:
       APPLICATION_NAME: api
 
-  data:
+  migration:
     build:
-      context: ../data
+      context: ../migration
       dockerfile: docker/Dockerfile
     depends_on:
-      - postgres
+      - api
+      - workflows
       - eventstore
     volumes:
-      - ./../data/app:/home/current/app
-    command: npm start #npm run migration #
+      - ./../api/app:/home/current/app
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
     env_file:
       - ./../.envrc.example
     environment:
-      TZ: "America/Chicago"
-      APPLICATION_NAME: data
+      APPLICATION_NAME: migration
 
   postgres:
-    build:
-      context: postgres_no_volume
-      dockerfile: Dockerfile
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/postgres_novolume:latest
     ports:
       - 5400:5432
     env_file:
       - ./../.envrc.example
 
-#  postgres:
-#    image: postgres
-#    ports:
-#      - 5400:5432
-#    env_file:
-#      - ./../.envrc.example
-
   eventstore:
-    build:
-      context: eventstore_no_volume
-      dockerfile: Dockerfile
+    image: 709865789463.dkr.ecr.us-east-2.amazonaws.com/eventstore_novolume:latest
     ports:
       - 2113:2113
       - 1113:1113
@@ -109,3 +97,18 @@ services:
       - ext-ip="0.0.0.0"
       - log=/data/logs
       - stats-period-sec=400000
+
+#  cypress:
+#    build:
+#      context: ../cypress
+#      dockerfile: docker/Dockerfile
+#    depends_on:
+#    - frontend
+#    volumes:
+#      - ./../cypress/app:/home/current/app
+#      - ./../cypress/cypress.json:/home/current/cypress.json:ro
+#        command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #cypress run #
+#    env_file:
+#      - ./../.envrc.example
+#    environment:
+#      APPLICATION_NAME: cypress

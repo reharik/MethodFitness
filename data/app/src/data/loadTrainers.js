@@ -1,4 +1,4 @@
-module.exports = function(bcryptjs, uuid, invariant) {
+module.exports = function(bcryptjs, uuid, loadClients, invariant) {
   const createPassword = _password => {
     try {
       let salt = bcryptjs.genSaltSync(10);
@@ -34,6 +34,20 @@ module.exports = function(bcryptjs, uuid, invariant) {
           role: 'admin',
         },
         trainerId: 'b4535c1b-8791-48f2-9eca-7920032c117c',
+        clients: [
+          loadClients.clients[0].clientId,
+          loadClients.clients[1].clientId,
+          loadClients.clients[2].clientId,
+          loadClients.clients[3].clientId,
+          loadClients.clients[4].clientId,
+        ],
+        trainerClientRates: [
+          { clientId: loadClients.clients[0].clientId, rate: 65 },
+          { clientId: loadClients.clients[1].clientId, rate: 65 },
+          { clientId: loadClients.clients[2].clientId, rate: 65 },
+          { clientId: loadClients.clients[3].clientId, rate: 65 },
+          { clientId: loadClients.clients[4].clientId, rate: 65 },
+        ],
       },
       {
         birthDate: new Date('1/5/1972'),
@@ -58,6 +72,16 @@ module.exports = function(bcryptjs, uuid, invariant) {
           role: 'trainer',
         },
         trainerId: 'e68533f8-ea60-4195-b9bf-f7a9e6c75a39',
+        clients: [
+          loadClients.clients[0].clientId,
+          loadClients.clients[1].clientId,
+          loadClients.clients[2].clientId,
+        ],
+        trainerClientRates: [
+          { clientId: loadClients.clients[0].clientId, rate: 65 },
+          { clientId: loadClients.clients[1].clientId, rate: 65 },
+          { clientId: loadClients.clients[2].clientId, rate: 65 },
+        ],
       },
       {
         birthDate: new Date('1/5/1972'),
@@ -82,6 +106,16 @@ module.exports = function(bcryptjs, uuid, invariant) {
           role: 'trainer',
         },
         trainerId: '3454aa86-a5a6-4600-b8d8-6912df9fccf1',
+        clients: [
+          loadClients.clients[2].clientId,
+          loadClients.clients[3].clientId,
+          loadClients.clients[4].clientId,
+        ],
+        trainerClientRates: [
+          { clientId: loadClients.clients[2].clientId, rate: 65 },
+          { clientId: loadClients.clients[3].clientId, rate: 65 },
+          { clientId: loadClients.clients[4].clientId, rate: 65 },
+        ],
       },
     ],
 
@@ -111,8 +145,14 @@ module.exports = function(bcryptjs, uuid, invariant) {
         'hireTrainer requires that you pass the trainers role',
       );
       invariant(
-        trainer.deefautlTrainerClientRate,
+        trainer.defaultTrainerClientRate != null,
         'hireTrainer requires that you pass the default trainer client rate',
+      );
+      trainer.trainerClientRates.forEach(x =>
+        invariant(
+          x.rate,
+          'hire trainer requires that you pass a client rate for every client',
+        ),
       );
       return trainer;
     },

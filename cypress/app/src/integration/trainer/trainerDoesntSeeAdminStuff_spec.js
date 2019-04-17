@@ -60,7 +60,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
       //test that date before now is not available to click
       cy.log(`----test that date before now is not available to click----`);
       cy.log(`----changing date----`);
-      cy.dataId('date-container', 'div')
+      cy.dataId('appointmentDate-container', 'div')
         .find('input')
         .click();
       //checking for "disabled" class

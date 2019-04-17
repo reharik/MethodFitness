@@ -149,7 +149,7 @@ module.exports = (cy, Cypress) => {
 
     if (!!options.newDate) {
       cy.log(`----changing date----`);
-      cy.dataId('date-container', 'div')
+      cy.dataId('appointmentDate-container', 'div')
         .find('input')
         .click();
       checkDatePickerForCorrectMonth(options.newDate).then(() => {

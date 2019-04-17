@@ -147,6 +147,9 @@ module.exports = function(
             trainer,
             cmdClone.trainerId,
           );
+          console.log(`==========state._id==========`);
+          console.log(state._id);
+          console.log(`==========END state._id==========`);
 
           const TCR = trainerInstance.getTrainerClientRateByClientId(state._id);
           console.log(`==========TCR==========`);
