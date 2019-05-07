@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
 import SubmissionFor from './../formElements/SubmissionFor';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { Form, Card, Row, Col } from 'antd';
 import EditableFor from './../formElements/EditableFor';
 
@@ -13,8 +13,8 @@ class TrainerForm extends Component {
   }
 
   loadData() {
-    if (this.props.params.trainerId) {
-      this.props.fetchTrainerAction(this.props.params.trainerId);
+    if (this.props.match.params.trainerId) {
+      this.props.fetchTrainerAction(this.props.match.params.trainerId);
     }
     this.props.fetchClientsAction();
   }
@@ -73,7 +73,7 @@ class TrainerForm extends Component {
                 title="New"
                 onClick={() => {
                   form.resetFields();
-                  browserHistory.push('/trainer');
+                  this.props.history.push('/trainer');
                 }}
               />
             </div>
@@ -208,7 +208,7 @@ class TrainerForm extends Component {
                 </button>
                 <button
                   type="reset"
-                  onClick={() => browserHistory.push('/trainers')}
+                  onClick={() => this.props.history.push('/trainers')}
                   className="form__footer__button"
                 >
                   Cancel
@@ -233,6 +233,8 @@ TrainerForm.propTypes = {
   roles: PropTypes.array,
   clients: PropTypes.array,
   clientsInfo: PropTypes.array,
+  history: PropTypes.object,
+  match: PropTypes.object
 };
 
 export default Form.create({
@@ -243,4 +245,4 @@ export default Form.create({
         acc[item.name] = item;
         return acc;
       }, {}),
-})(TrainerForm);
+})(withRouter(TrainerForm));

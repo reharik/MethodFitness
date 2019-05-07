@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DisplayFor from './formElements/DisplayFor';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Card, Row } from 'antd';
 
 const ClientInventory = ({ inventory, clientId }) => {

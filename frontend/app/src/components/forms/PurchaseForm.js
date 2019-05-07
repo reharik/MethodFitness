@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import SubmissionFor from './../formElements/SubmissionFor';
 import { Form, Card, Row, Col, Collapse } from 'antd';
 import { Notifs } from 'redux-notifications';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 const Panel = Collapse.Panel;
 
@@ -36,7 +36,7 @@ class PurchaseForm extends Component {
             values[x] = 0;
           }
         });
-        values.clientId = this.props.params.clientId;
+        values.clientId = this.props.match.params.clientId;
         this.props.purchase(values);
         console.log('Received values of form: ', values);
       }
@@ -125,8 +125,8 @@ class PurchaseForm extends Component {
               <button
                 className="contentHeader__button"
                 onClick={() =>
-                  browserHistory.push(
-                    `/purchases/${this.props.params.clientId}`,
+                  this.props.history.push(
+                    `/purchases/${this.props.match.params.clientId}`,
                   )
                 }
               >
@@ -417,6 +417,8 @@ PurchaseForm.propTypes = {
   clientFirstName: PropTypes.string,
   clientLastName: PropTypes.string,
   clientRates: PropTypes.object,
+  history: PropTypes.object,
+  match: PropTypes.object
 };
 
-export default Form.create()(PurchaseForm);
+export default withRouter(Form.create()(PurchaseForm));

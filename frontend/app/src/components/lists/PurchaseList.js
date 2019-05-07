@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import riMoment from './../../utilities/riMoment';
 import appointmentTypes from './../../constants/appointmentTypes';
 
@@ -185,7 +185,7 @@ class PurchaseList extends Component {
                 className="contentHeader__button__new"
                 title="New"
                 onClick={() =>
-                  browserHistory.push(`/purchase/${this.props.clientId}`)
+                  this.props.history.push(`/purchase/${this.props.clientId}`)
                 }
               />
               {hasRefundableItems && this.props.isAdmin ? (
@@ -204,7 +204,7 @@ class PurchaseList extends Component {
               <button
                 className="contentHeader__button"
                 onClick={() =>
-                  browserHistory.push(`/client/${this.props.params.clientId}`)
+                  this.props.history.push(`/client/${this.props.match.params.clientId}`)
                 }
               >
                 Return to Client
@@ -235,6 +235,8 @@ PurchaseList.propTypes = {
   refundSessions: PropTypes.func,
   isAdmin: PropTypes.bool,
   sessionsDataSource: PropTypes.array,
+  history: PropTypes.object,
+  match: PropTypes.object
 };
 
-export default PurchaseList;
+export default withRouter(PurchaseList);

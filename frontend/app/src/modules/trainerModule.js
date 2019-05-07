@@ -1,5 +1,5 @@
 import config from './../utilities/configValues';
-import { browserHistory } from 'react-router';
+import { push } from 'connected-react-router';
 import { denormalizeTrainer } from './../utilities/denormalize';
 import selectn from 'selectn';
 import reducerMerge from './../utilities/reducerMerge';
@@ -386,12 +386,12 @@ export function updateTrainersClients(data) {
 }
 
 const successFunction = (action, payload) => {
-  browserHistory.push('/trainers');
-  return {
+  return [push('/trainers'),
+  {
     type: action.states.SUCCESS,
     action,
     payload,
-  };
+  }];
 };
 
 export function hireTrainer(data) {

@@ -24,8 +24,8 @@ class UpdateClientFormContainer extends Component {
   }
 
   loadData() {
-    if (this.props.params.clientId) {
-      this.props.fetchClientAction(this.props.params.clientId);
+    if (this.props.match.params.clientId) {
+      this.props.fetchClientAction(this.props.match.params.clientId);
     }
   }
 
@@ -50,11 +50,12 @@ UpdateClientFormContainer.propTypes = {
   fetchClientAction: PropTypes.func,
   isFetching: PropTypes.func,
   errorMessage: PropTypes.string,
+  match: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => {
   const client = state.clients.results.find(
-    x => x.clientId === props.params.clientId,
+    x => x.clientId === props.match.params.clientId,
   );
   const model = normalizeModel(state.schema.definitions.client, client);
   console.log(`==========model==========`);

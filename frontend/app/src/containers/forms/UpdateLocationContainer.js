@@ -19,8 +19,8 @@ class UpdateLocationFormContainer extends Component {
   }
 
   loadData() {
-    if (this.props.params.locationId) {
-      this.props.fetchLocationAction(this.props.params.locationId);
+    if (this.props.match.params.locationId) {
+      this.props.fetchLocationAction(this.props.match.params.locationId);
     }
   }
 
@@ -45,11 +45,12 @@ UpdateLocationFormContainer.propTypes = {
   fetchLocationAction: PropTypes.func,
   isFetching: PropTypes.func,
   errorMessage: PropTypes.string,
+  match: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => {
   const location = state.locations.results.find(
-    x => x.locationId === props.params.locationId,
+    x => x.locationId === props.match.params.locationId,
   );
   const model = normalizeModel(state.schema.definitions.location, location);
 

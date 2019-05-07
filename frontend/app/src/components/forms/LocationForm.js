@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import SubmissionFor from './../formElements/SubmissionFor';
 import { Form, Card, Row, Col } from 'antd';
 
@@ -29,7 +29,7 @@ class LocationForm extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push('/location')}
+                onClick={() => this.props.history.push('/location')}
               />
             </div>
             <div className="form__header__center">
@@ -75,6 +75,7 @@ LocationForm.propTypes = {
   states: PropTypes.array,
   form: PropTypes.object,
   sources: PropTypes.array,
+  history: PropTypes.object
 };
 
-export default Form.create()(LocationForm);
+export default withRouter(Form.create()(LocationForm));

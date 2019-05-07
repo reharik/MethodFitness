@@ -1,5 +1,7 @@
 import config from './../utilities/configValues';
-import { browserHistory } from 'react-router';
+import { push } from 'connected-react-router';
+
+
 import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
 import { fetchClientAction } from './clientModule';
@@ -47,12 +49,12 @@ export default (state = [], action = {}) => {
 // eslint-disable-next-line space-before-function-paren
 const successFunction = async (action, payload) => {
   await delay(1000, { action, payload });
-  browserHistory.push(`/purchases/${payload.payload.clientId}`);
-  return {
+  return [push(`/purchases/${payload.payload.clientId}`),
+  {
     type: action.states.SUCCESS,
     action,
     payload,
-  };
+  }];
 };
 
 export function purchase(data) {

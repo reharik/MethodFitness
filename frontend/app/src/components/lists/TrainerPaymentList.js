@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table } from 'antd';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
 const TrainerPaymentList = ({ gridConfig, trainerName, trainerId }) => {
   return (
@@ -17,7 +17,7 @@ const TrainerPaymentList = ({ gridConfig, trainerName, trainerId }) => {
             <a
               className="contentHeader__anchor"
               data-id={'returnToTrainer'}
-              onClick={() => browserHistory.push(`/trainer/${trainerId}`)}
+              onClick={() => this.props.history.push(`/trainer/${trainerId}`)}
             >
               {trainerName}
             </a>
@@ -40,6 +40,7 @@ const TrainerPaymentList = ({ gridConfig, trainerName, trainerId }) => {
 TrainerPaymentList.propTypes = {
   gridConfig: PropTypes.object,
   trainerName: PropTypes.string,
+  history: PropTypes.object
 };
 
-export default TrainerPaymentList;
+export default withRouter(TrainerPaymentList);

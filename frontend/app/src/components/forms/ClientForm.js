@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Notifs } from 'redux-notifications';
 import ContentHeader from '../ContentHeader';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import SubmissionFor from './../formElements/SubmissionFor';
 import { Form, Card, Row, Col } from 'antd';
 import EditableFor from '../formElements/EditableFor';
@@ -37,7 +37,7 @@ class ClientFormInner extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push('/client')}
+                onClick={() => this.props.history.push('/client')}
               />
             </div>
             <div className="form__header__center">
@@ -226,7 +226,7 @@ class ClientFormInner extends Component {
                 </button>
                 <button
                   type="reset"
-                  onClick={() => browserHistory.push('/clients')}
+                  onClick={() => this.props.history.push('/clients')}
                   className="form__footer__button"
                 >
                   Cancel
@@ -248,6 +248,7 @@ ClientFormInner.propTypes = {
   sources: PropTypes.array,
   isAdmin: PropTypes.bool,
   defaultClientRates: PropTypes.object,
+  history: PropTypes.object
 };
 
 const ClientForm = props => {
@@ -270,6 +271,7 @@ ClientForm.propTypes = {
   sources: PropTypes.array,
   isAdmin: PropTypes.bool,
   defaultClientRates: PropTypes.object,
+  history: PropTypes.object
 };
 
-export default ClientForm;
+export default withRouter(ClientForm);

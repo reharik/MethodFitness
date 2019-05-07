@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import ContentHeaderSearch from '../ContentHeaderSearch';
 import { Table, Radio } from 'antd';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
@@ -73,7 +73,7 @@ class ClientList extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push('/client')}
+                onClick={() => this.props.history.push('/client')}
               />
             </div>
             <div className="list__header__center">
@@ -115,6 +115,7 @@ ClientList.propTypes = {
   columns: PropTypes.func,
   archiveClient: PropTypes.func,
   isAdmin: PropTypes.bool,
+  history: PropTypes.object
 };
 
-export default ClientList;
+export default withRouter(ClientList);

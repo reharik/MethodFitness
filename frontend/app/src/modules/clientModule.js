@@ -1,5 +1,5 @@
 import config from './../utilities/configValues';
-import { browserHistory } from 'react-router';
+import { push } from 'connected-react-router';
 import { denormalizeClient } from './../utilities/denormalize';
 import selectn from 'selectn';
 import reducerMerge from './../utilities/reducerMerge';
@@ -343,12 +343,12 @@ export function updateClientAddress(data) {
 }
 
 const successFunction = (action, payload) => {
-  browserHistory.push('/clients');
-  return {
+  return [push('/clients'),
+    {
     type: action.states.SUCCESS,
     action,
     payload,
-  };
+  }];
 };
 
 export function addClient(data) {

@@ -3,16 +3,21 @@ import PropTypes from 'prop-types';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import { Provider } from 'react-redux';
-import routes from '../routes';
 import DevTools from './DevTools';
-import { Router } from 'react-router';
+import { Route } from 'react-router-dom';
+import AppContainer from './AppContainer';
+import { ConnectedRouter } from 'connected-react-router';
+import configureStore , { history } from './../store/configureStore';
+const store = configureStore();
 
-const Root = ({ store, history }) => (
+const Root = () => (
   <Provider store={store}>
     <LocaleProvider locale={enUS}>
       <div style={{ height: '100%' }}>
-        <Router history={history} routes={routes} />
-        <DevTools />
+        <ConnectedRouter history={history}>
+          <Route path="/" component={AppContainer} />
+          </ConnectedRouter>
+          <DevTools />
       </div>
     </LocaleProvider>
   </Provider>

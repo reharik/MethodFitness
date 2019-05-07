@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../../ContentHeader';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import ClientInventory from '../../ClientInventory';
 import ClientInfo from './ClientInfo';
 import ClientContact from './ClientContact';
@@ -21,12 +21,12 @@ class UpdateClientForm extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push('/client')}
+                onClick={() => this.props.history.push('/client')}
               />
               <button
                 className="contentHeader__button"
                 onClick={() =>
-                  browserHistory.push(`/purchase/${this.props.clientId}`)
+                  this.props.history.push(`/purchase/${this.props.clientId}`)
                 }
               >
                 Purchase Sessions
@@ -89,6 +89,7 @@ UpdateClientForm.propTypes = {
   updateClientAddress: PropTypes.func,
   updateClientRates: PropTypes.func,
   isAdmin: PropTypes.bool,
+  history: PropTypes.object
 };
 
-export default UpdateClientForm;
+export default withRouter(UpdateClientForm);

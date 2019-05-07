@@ -1,5 +1,5 @@
 import config from './../utilities/configValues';
-import { browserHistory } from 'react-router';
+import { push } from 'connected-react-router';
 import selectn from 'selectn';
 import reducerMerge from './../utilities/reducerMerge';
 import { requestStates } from '../sagas/requestSaga';
@@ -111,12 +111,12 @@ export function updateLocation(data) {
 }
 
 const successFunction = (action, payload) => {
-  browserHistory.push('/locations');
-  return {
+  return [push('/locations'),
+  {
     type: action.states.SUCCESS,
     action,
     payload,
-  };
+  }];
 };
 
 export function addLocation(data) {

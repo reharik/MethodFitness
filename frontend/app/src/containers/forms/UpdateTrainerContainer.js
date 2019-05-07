@@ -17,6 +17,7 @@ import {
   getTrainerClientRates,
 } from './../../modules/trainerClientRatesModule';
 import { fetchClientsAction } from './../../modules/clientModule';
+import { withRouter } from 'react-router-dom';
 
 import { actions as notifActions } from 'redux-notifications';
 const { notifClear } = notifActions;
@@ -24,9 +25,13 @@ const { notifClear } = notifActions;
 // isn't calling mapstate to props after trc changes cuz it's fucking nested.
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(`==========ownProps==========`);
+  console.log(ownProps);
+  console.log(`==========END ownProps==========`);
+
   const trainer = {
     ...state.trainers.results.find(
-      x => x.trainerId === ownProps.params.trainerId,
+      x => x.trainerId === ownProps.match.params.trainerId,
     ),
   };
   const clients = state.clients.results.filter(x => !x.archived).map(x => ({
@@ -77,7 +82,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   {
     updateTrainerInfo,
@@ -92,4 +97,4 @@ export default connect(
     updateDefaultTrainerClientRate,
     notifClear,
   },
-)(UpdateTrainerForm);
+)(UpdateTrainerForm));
