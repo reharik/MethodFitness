@@ -13,7 +13,7 @@ class TrainerPaymentListContainer extends Component {
   }
 
   loadData() {
-    this.props.fetchTrainerPayments(this.props.params.trainerId);
+    this.props.fetchTrainerPayments(this.props.match.params.trainerId);
   }
 
   render() {
@@ -25,10 +25,11 @@ TrainerPaymentListContainer.propTypes = {
   params: PropTypes.object,
   gridConfig: PropTypes.object,
   fetchTrainerPayments: PropTypes.func,
+  match: PropTypes.object
 };
 
 function mapStateToProps(state, props) {
-  const trainerId = props.params.trainerId || state.auth.user.trainerId;
+  const trainerId = props.match.params.trainerId || state.auth.user.trainerId;
 
   const columns = [
     {
@@ -73,7 +74,7 @@ function mapStateToProps(state, props) {
     trainerName: trainer
       ? `${trainer.contact.firstName} ${trainer.contact.lastName}`
       : '',
-    trainerId: props.params.trainerId || state.auth.user.trainerId,
+    trainerId: props.match.params.trainerId || state.auth.user.trainerId,
   };
 }
 

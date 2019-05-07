@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 
-const MenuItem = ({ children, text, onClick, path, currentItem }) => {
+const MenuItem = ({ history, children, text, onClick, path, currentItem }) => {
   const itemClick = e => {
-    browserHistory.push(path);
+    history.push(path);
     onClick(e);
   };
 
@@ -32,6 +32,7 @@ MenuItem.propTypes = {
   path: PropTypes.string,
   currentItem: PropTypes.string,
   text: PropTypes.string.isRequired,
+  history: PropTypes.object
 };
 
-export default MenuItem;
+export default withRouter(MenuItem);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../../ContentHeader';
-import { browserHistory } from 'react-router';
+// import { browserHistory } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import TrainerInfo from './TrainerInfo';
 import TrainerContact from './TrainerContact';
 import TrainerAddress from './TrainerAddress';
@@ -17,9 +18,9 @@ class UpdateTrainerForm extends Component {
   }
 
   loadData() {
-    if (this.props.params.trainerId) {
-      this.props.fetchTrainerAction(this.props.params.trainerId);
-      this.props.getTrainerClientRates(this.props.params.trainerId);
+    if (this.props.match.params.trainerId) {
+      this.props.fetchTrainerAction(this.props.match.params.trainerId);
+      this.props.getTrainerClientRates(this.props.match.params.trainerId);
     }
     this.props.fetchClientsAction();
   }
@@ -39,8 +40,8 @@ class UpdateTrainerForm extends Component {
                   <button
                     className="contentHeader__button"
                     onClick={() =>
-                      browserHistory.push(
-                        `/trainerPayments/${this.props.params.trainerId}`,
+                      this.props.history.push(
+                        `/trainerPayments/${this.props.match.params.trainerId}`,
                       )
                     }
                   >
@@ -49,8 +50,8 @@ class UpdateTrainerForm extends Component {
                   <button
                     className="contentHeader__button"
                     onClick={() =>
-                      browserHistory.push(
-                        `/paytrainer/${this.props.params.trainerId}`,
+                      this.props.history.push(
+                        `/paytrainer/${this.props.match.params.trainerId}`,
                       )
                     }
                   >
@@ -124,6 +125,8 @@ UpdateTrainerForm.propTypes = {
   getTrainerClientRates: PropTypes.func,
   updateDefaultTrainerClientRate: PropTypes.func,
   isAdmin: PropTypes.bool,
+  history: PropTypes.object,
+  match: PropTypes.object
 };
 
-export default UpdateTrainerForm;
+export default withRouter(UpdateTrainerForm);

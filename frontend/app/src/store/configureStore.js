@@ -1,21 +1,25 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import logger from 'redux-logger';
-import rootReducer from '../modules/rootReducer';
+import appReducer from '../modules/rootReducer';
 import DevTools from '../containers/DevTools';
 //thunk used for notif
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './../sagas/rootSaga';
 import { cacheEnhancer } from 'redux-cache';
+import { createBrowserHistory } from 'history';
+import { routerMiddleware } from 'connected-react-router';
+
+export const history = createBrowserHistory();
 
 const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(initialState) {
   const store = createStore(
-    rootReducer,
+    appReducer(history),
     initialState,
     compose(
-      applyMiddleware(thunk, sagaMiddleware, logger),
+      applyMiddleware(routerMiddleware(history), thunk, sagaMiddleware, logger),
       cacheEnhancer(),
       DevTools.instrument(),
     ),

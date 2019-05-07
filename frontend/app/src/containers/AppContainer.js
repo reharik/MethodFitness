@@ -18,7 +18,7 @@ class LayoutContainer extends Component {
 
   render() {
     if (this.props.isAuthenticated) {
-      return <Layout {...this.props} />;
+      return <Layout isReady={this.props.isReady} userRole={this.props.userRole} />;
     }
     return <SignInContainer />;
   }
@@ -26,19 +26,17 @@ class LayoutContainer extends Component {
 
 LayoutContainer.propTypes = {
   getJsonSchema: PropTypes.func,
-  fetchAllTrainersAction: PropTypes.func,
-  fetchAllClientsAction: PropTypes.func,
   checkAuth: PropTypes.func,
-  isFetching: PropTypes.bool,
-  errorMessage: PropTypes.string,
   isAuthenticated: PropTypes.bool,
+  userRole: PropTypes.string,
+  isReady: PropTypes.bool
 };
 
 function mapStateToProps(state = []) {
   return {
     isReady: Object.keys(state.schema.definitions).length > 0,
     isAuthenticated: state.auth.isAuthenticated,
-    userName: state.auth.user.userName,
+    userRole: state.auth.user.role,
   };
 }
 

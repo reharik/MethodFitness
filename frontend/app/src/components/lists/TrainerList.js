@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table, Radio } from 'antd';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
@@ -49,7 +49,7 @@ class TrainerList extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push('/trainer')}
+                onClick={() => this.props.history.push('/trainer')}
               />
             </div>
             <div className="list__header__center">
@@ -90,6 +90,7 @@ TrainerList.propTypes = {
   gridConfig: PropTypes.object,
   loggedInUser: PropTypes.string,
   archiveTrainer: PropTypes.func,
+  history: PropTypes.object
 };
 
-export default TrainerList;
+export default withRouter(TrainerList);

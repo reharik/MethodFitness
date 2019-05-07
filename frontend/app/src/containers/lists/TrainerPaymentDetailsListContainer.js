@@ -73,7 +73,7 @@ const columns = [
 
 function mapStateToProps(state, props) {
   let payment = state.trainerPaymentDetail.find(
-    x => x.paymentId === props.params.paymentId,
+    x => x.paymentId === props.match.params.paymentId,
   );
   let dataSource = [];
   if (payment && payment.paidAppointments) {
@@ -94,10 +94,10 @@ function mapStateToProps(state, props) {
   };
   return {
     gridConfig,
-    paymentId: props.params.paymentId,
+    paymentId: props.match.params.paymentId,
     paymentTotal: payment ? payment.paymentTotal : 0,
     paymentDate: payment ? riMoment(payment.paymentDate).format('L') : '',
-    trainerId: props.params.trainerId,
+    trainerId: props.match.params.trainerId,
   };
 }
 

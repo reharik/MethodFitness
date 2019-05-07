@@ -43,7 +43,7 @@ const columns = [
 function mapStateToProps(state, props) {
   const isAdmin = state.auth.user.role === 'admin';
   const dataSource = state.purchases.find(
-    x => x.clientId === props.params.clientId,
+    x => x.clientId === props.match.params.clientId,
   );
   const gridConfig = {
     columns,
@@ -53,7 +53,7 @@ function mapStateToProps(state, props) {
     isAdmin,
     gridConfig,
     sessionsDataSource: dataSource ? dataSource.sessions : [],
-    clientId: props.params.clientId,
+    clientId: props.match.params.clientId,
   };
 }
 

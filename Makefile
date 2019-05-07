@@ -235,7 +235,7 @@ removeBuildAndPushFrontEnd:
 	docker images -q -f "label=name=base_mf_frontend" | while read -r image; do docker rmi -f $$image; done;
 	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:latest .
 	 cd docker/base_mf_frontend && docker build --no-cache -t 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend:$$(git show -s --format=%h) .
-	 docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
+	# docker push 709865789463.dkr.ecr.us-east-2.amazonaws.com/base_mf_frontend
 
 removeBuildAndPushCypress:
 	docker images -q -f "label=name=base_mf_cypress" | while read -r image; do docker rmi -f $$image; done;

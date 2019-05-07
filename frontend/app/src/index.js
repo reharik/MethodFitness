@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+// import { browserHistory } from 'react-router-dom';
+// import { syncHistoryWithStore } from 'react-router-redux';
 import Root from './containers/Root';
 import configureStore from './store/configureStore';
 
@@ -12,9 +12,9 @@ import './css/thirdParty/notif-styles.css';
 import './css/thirdParty/rc-color-picker.min.css';
 
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+// const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
-  <Root store={store} history={history} style={{ height: '100%' }} />,
+  <Root store={store} style={{ height: '100%' }} />,
   document.getElementById('root'),
 );

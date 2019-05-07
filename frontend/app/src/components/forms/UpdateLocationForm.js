@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import EditableFor from '../formElements/EditableFor';
 import { Form, Card, Row, Col } from 'antd';
 import EDFooter from './EDFooter';
@@ -75,6 +75,7 @@ LocationUpdate.propTypes = {
   form: PropTypes.object,
   model: PropTypes.object,
   submit: PropTypes.func,
+  history: PropTypes.object
 };
 
 class LocationUpdateForm extends Component {
@@ -88,7 +89,7 @@ class LocationUpdateForm extends Component {
               <button
                 className="contentHeader__button__new"
                 title="New"
-                onClick={() => browserHistory.push('/location')}
+                onClick={() => this.props.history.push('/location')}
               />
             </div>
             <div className="form__header__center">
@@ -120,6 +121,7 @@ LocationUpdateForm.propTypes = {
   sources: PropTypes.array,
   fetchLocationAction: PropTypes.func,
   updateLocation: PropTypes.func,
+  history: PropTypes.object
 };
 
-export default LocationUpdateForm;
+export default withRouter(LocationUpdateForm);

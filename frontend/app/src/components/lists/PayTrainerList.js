@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ContentHeader from '../ContentHeader';
 import { Table, Modal } from 'antd';
-import { browserHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 const confirm = Modal.confirm;
 
 class PayTrainerList extends Component {
@@ -26,7 +26,7 @@ class PayTrainerList extends Component {
         cancelText: 'Cancel',
         onOk() {
           const payload = {
-            trainerId: that.props.params.trainerId,
+            trainerId: that.props.match.params.trainerId,
             paymentTotal: that.state.trainerTotal,
             paidAppointments: that.state.selectedIds,
           };
@@ -90,7 +90,7 @@ class PayTrainerList extends Component {
                 className="contentHeader__anchor"
                 data-id={'returnToClient'}
                 onClick={() =>
-                  browserHistory.push(`/trainer/${this.props.params.trainerId}`)
+                  this.props.history.push(`/trainer/${this.props.match.params.trainerId}`)
                 }
               >
                 {this.props.trainerName}
@@ -119,6 +119,8 @@ PayTrainerList.propTypes = {
   params: PropTypes.object,
   trainerName: PropTypes.string,
   submitTrainerPayment: PropTypes.func,
+  history: PropTypes.object,
+  match: PropTypes.object
 };
 
-export default PayTrainerList;
+export default withRouter(PayTrainerList);

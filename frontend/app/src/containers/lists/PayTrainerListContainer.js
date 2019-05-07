@@ -79,7 +79,7 @@ function mapStateToProps(state, props) {
   });
 
   let trainer = state.trainers.results.find(
-    x => x.trainerId === props.params.trainerId,
+    x => x.trainerId === props.match.params.trainerId,
   );
   let trainerName = '';
   if (trainer) {
@@ -92,7 +92,7 @@ function mapStateToProps(state, props) {
   return {
     gridConfig,
     trainerName,
-    trainerId: props.params.trainerId,
+    trainerId: props.match.params.trainerId,
   };
 }
 

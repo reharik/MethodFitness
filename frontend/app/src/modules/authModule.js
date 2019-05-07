@@ -1,7 +1,8 @@
 import { requestStates } from '../sagas/requestSaga';
 import configValues from './../utilities/configValues';
 import selectn from 'selectn';
-import { browserHistory } from 'react-router';
+// import { browserHistory } from 'react-router-dom';
+import { push } from 'connected-react-router';
 export const LOGIN = requestStates('login', 'auth');
 export const LOGOUT = requestStates('logout', 'auth');
 export const CHECK_AUTHENTICATION = requestStates('checkAuth', 'auth');
@@ -46,12 +47,12 @@ export default (state = initialState, action = {}) => {
 };
 
 const successFunction = (action, response) => {
-  browserHistory.push('/');
-  return {
+  return [push('/'),
+  {
     type: action.states.SUCCESS,
     action,
     response,
-  };
+  }];
 };
 
 const logoutSuccessFunction = (action, response) => {
