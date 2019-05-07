@@ -1,5 +1,20 @@
 version: "3.0"
 services:
+  frontend:
+    depends_on:
+      - api
+    build:
+      context: ../frontend
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./../frontend/app:/home/current/app
+    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
+    environment:
+      APPLICATION_NAME: frontend
+    ports:
+      - "8888:8888"
+    env_file:
+      - ./../.envrc.example
   migration:
     depends_on:
       - api
@@ -10,7 +25,7 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ./../migration/app:/home/current/app
-    command: ["pm2-runtime", "start", "ecosystem.config.js"] #top -b #
+    command: "npm start" #top -b #
     environment:
       APPLICATION_NAME: migration
     env_file:
@@ -29,7 +44,7 @@ services:
       - ./../.envrc.example
     environment:
       APPLICATION_NAME: workflows
-      LOGGING_LEVEL: silly
+      LOGGING_LEVEL: warn
 
   projections:
     build:
@@ -45,7 +60,7 @@ services:
       - ./../.envrc.example
     environment:
       APPLICATION_NAME: projections
-      LOGGING_LEVEL: silly
+      LOGGING_LEVEL: warn
 
   api:
     build:

@@ -81,9 +81,13 @@ module.exports = function(invariant, moment) {
           .filter(x => x.trainerId === cmd.trainerId);
         invariant(
           trainerConflict.length <= 0,
-          `New Appointment conflicts with state Appointment: ${trainerConflict[0] &&
-            trainerConflict[0].appointmentId}
- for state trainerId: ${cmd.trainerId}.`,
+          `New Appointment conflicts with existing Appointment:
+           Existing:
+              ${JSON.stringify(trainerConflict[0], null, 4)}
+           -----------
+           New: 
+              ${JSON.stringify(cmd, null, 4)}
+           for state trainerId: ${cmd.trainerId}.`,
         );
       },
 
@@ -115,9 +119,13 @@ module.exports = function(invariant, moment) {
           );
         invariant(
           clientConflicts.length <= 0,
-          `New Appointment conflicts with state Appointment: ${clientConflicts[0] &&
-            clientConflicts[0].clientId}
-                for at least one client.`,
+          `New Appointment conflicts with existing Appointment:
+           Existing:
+              ${JSON.stringify(clientConflicts[0], null, 4)}
+           -----------
+           New: 
+              ${JSON.stringify(cmd, null, 4)}
+           for at least one client: ${cmd.clients}.`,
         );
       },
     };

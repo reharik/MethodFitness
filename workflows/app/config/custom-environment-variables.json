@@ -21,6 +21,9 @@
           "port": "POSTGRES_PORT"
         }
       }
+    },
+    "logger": {
+      "moduleName": "WorkFlows"
     }
   }
 }

@@ -15,9 +15,9 @@ Cypress.on('window:before:load', win => {
   win.fetch = null;
 });
 
-Cypress.Commands.add('dataId', (id, elType) => {
+Cypress.Commands.add('dataId', (id, elType, extra = '') => {
   Cypress.log();
-  return cy.get(`${elType}[data-id='${id}']`);
+  return cy.get(`${elType}[data-id='${id}']${extra}`);
 });
 
 Cypress.Commands.add('navTo', menuItem => {

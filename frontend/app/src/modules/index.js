@@ -11,6 +11,7 @@ import trainerPaymentDetail from './trainerPaymentDetailModule';
 import notifications from './notificationModule';
 import trainerClientRates from './trainerClientRatesModule';
 import locations from './locationModule';
+import defaultClientRates from './defaultClientRatesModule';
 
 export { loginUser, logoutUser } from './authModule';
 export { menuItemClicked, navBreadCrumbClicked } from './menuModule';
@@ -35,4 +36,5 @@ export default {
   notifications,
   trainerClientRates,
   locations,
+  defaultClientRates,
 };

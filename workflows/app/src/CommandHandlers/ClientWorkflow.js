@@ -22,10 +22,31 @@ module.exports = function(
       let clientInstance = client();
       clientInstance.addClient(cmd);
 
+      let trainerInstance;
+      if (cmd.addClientToCreator) {
+        trainerInstance = await eventRepository.getById(
+          trainer,
+          cmd.createdById,
+        );
+        if (trainerInstance) {
+          trainerInstance.updateTrainersClients({
+            trainerId: cmd.createdById,
+            clients: [
+              ...trainerInstance.state.trainerClients,
+              clientInstance.state._id,
+            ],
+            createdDate: cmd.createdDate,
+            createdById: cmd.createdById,
+          });
+        }
+      }
       logger.info('saving clientInstance');
       logger.trace(JSON.stringify(clientInstance));
 
       await eventRepository.save(clientInstance, { continuationId });
+      if (trainerInstance) {
+        await eventRepository.save(trainerInstance, { continuationId });
+      }
       return { clientId: clientInstance.state._id };
     }
 
@@ -43,6 +64,10 @@ module.exports = function(
 
     async function updateClientSource(cmd, continuationId) {
       return handleCommand(cmd, continuationId, 'updateClientSource');
+    }
+
+    async function updateClientRates(cmd, continuationId) {
+      return handleCommand(cmd, continuationId, 'updateClientRates');
     }
 
     async function clientAttendsAppointment(cmd, continuationId) {
@@ -92,6 +117,7 @@ module.exports = function(
         clientAttendsAppointment,
         purchase,
         refundSessions,
+        updateClientRates,
       },
       'ClientWorkflow',
     );

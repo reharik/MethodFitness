@@ -21,6 +21,7 @@ services:
       context: ../workflows
       dockerfile: docker/Dockerfile
     depends_on:
+      - data
       - postgres
       - eventstore
     volumes:

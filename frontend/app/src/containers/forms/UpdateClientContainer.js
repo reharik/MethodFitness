@@ -10,6 +10,7 @@ import {
   updateClientAddress,
   updateClientContact,
   updateClientSource,
+  updateClientRates,
   fetchClientAction,
 } from './../../modules/clientModule';
 import { notifications } from './../../modules/notificationModule';
@@ -56,6 +57,9 @@ const mapStateToProps = (state, props) => {
     x => x.clientId === props.params.clientId,
   );
   const model = normalizeModel(state.schema.definitions.client, client);
+  console.log(`==========model==========`);
+  console.log(client ? client.inventory : null);
+  console.log(`==========END model==========`);
 
   return {
     model,
@@ -63,6 +67,7 @@ const mapStateToProps = (state, props) => {
     sources,
     inventory: client ? client.inventory : null,
     clientId: client ? client.clientId : null,
+    isAdmin: state.auth.user.role === 'admin',
   };
 };
 
@@ -73,6 +78,7 @@ export default connect(
     updateClientAddress,
     updateClientContact,
     updateClientSource,
+    updateClientRates,
     fetchClientAction,
     notifications,
     notifClear,

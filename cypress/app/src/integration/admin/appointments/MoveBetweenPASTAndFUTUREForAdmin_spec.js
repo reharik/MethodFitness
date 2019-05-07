@@ -1,5 +1,4 @@
 const _routines = require('../../../helpers/routines');
-const setupRoutes = require('../../../helpers/setupRoutes');
 const _aDT = require('../../../fixtures/appointments');
 const appTimes = require('../../../helpers/appointmentTimes');
 let aDT;
@@ -25,7 +24,7 @@ describe('Moving between past and future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
       const newDate = Cypress.moment(aDT.day).add(2, 'day');
@@ -33,14 +32,14 @@ describe('Moving between past and future', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        newDate: newDate,
+        newDate,
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '0',
+        fullHourCount: 0,
       });
 
       routines.checkVerification({
@@ -57,7 +56,7 @@ describe('Moving between past and future', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -66,7 +65,7 @@ describe('Moving between past and future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
@@ -82,7 +81,7 @@ describe('Moving between past and future', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       routines.checkVerification({
@@ -105,7 +104,7 @@ describe('Moving between past and future', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -114,7 +113,7 @@ describe('Moving between past and future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
@@ -134,7 +133,7 @@ describe('Moving between past and future', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       routines.checkVerification({
@@ -156,7 +155,7 @@ describe('Moving between past and future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
         future: true,
       });
@@ -164,7 +163,7 @@ describe('Moving between past and future', () => {
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '0',
+        fullHourCount: 0,
       });
 
       routines.checkVerification({
@@ -177,24 +176,26 @@ describe('Moving between past and future', () => {
         index: 1,
         date: aDT.date,
         time: aDT.time,
-        newDate: newDate,
+        newDate,
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '-1',
+        fullHourCount: -1,
       });
 
       routines.checkVerification({
         index: 3,
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Full Hour',
-        },
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
     });
   });
@@ -206,7 +207,7 @@ describe('Moving between past and future', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -215,7 +216,7 @@ describe('Moving between past and future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
         future: true,
       });
@@ -223,7 +224,7 @@ describe('Moving between past and future', () => {
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       routines.checkVerification({
@@ -236,24 +237,26 @@ describe('Moving between past and future', () => {
         index: 4,
         date: aDT.date,
         time: aDT.time,
-        newDate: newDate,
+        newDate,
       };
       routines.changeAppointment(appointmentValues);
 
       routines.checkClientInventory({
         index: 5,
         client: this.clients.client1,
-        fullHourCount: '1',
+        fullHourCount: 1,
       });
 
       routines.checkVerification({
         index: 6,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Full Hour',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
 
       cy.navTo('Calendar');
@@ -277,11 +280,13 @@ describe('Moving between past and future', () => {
       routines.checkTrainerPayment({
         index: 10,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Full Hour',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
     });
   });

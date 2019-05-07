@@ -26,7 +26,7 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
@@ -41,30 +41,32 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '0',
-        halfHourCount: '-1',
+        fullHourCount: 0,
+        halfHourCount: -1,
       });
 
       routines.checkVerification({
         index: 4,
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
 
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client1,
-        halfHourCount: '2',
+        halfHourCount: 2,
       });
 
       routines.checkClientInventory({
         index: 6,
         client: this.clients.client1,
-        halfHourCount: '1',
+        halfHourCount: 1,
       });
 
       routines.checkSessions({
@@ -81,11 +83,13 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkVerification({
         index: 8,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
 
       cy.navTo('Calendar');
@@ -109,11 +113,13 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkTrainerPayment({
         index: 12,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
     });
   });
@@ -124,14 +130,14 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       appointmentValues = {
@@ -145,8 +151,8 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2',
-        halfHourCount: '-1',
+        fullHourCount: 2,
+        halfHourCount: -1,
       });
 
       routines.checkSessions({
@@ -157,12 +163,14 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
 
       routines.checkVerification({
         index: 5,
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
     });
   });
@@ -173,15 +181,15 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2',
-        halfHourCount: '2',
+        fullHourCount: 2,
+        halfHourCount: 2,
       });
 
       appointmentValues = {
@@ -195,18 +203,20 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2',
-        halfHourCount: '1',
+        fullHourCount: 2,
+        halfHourCount: 1,
       });
 
       routines.checkVerification({
         index: 4,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
 
       cy.navTo('Calendar');
@@ -230,11 +240,13 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkTrainerPayment({
         index: 8,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
     });
   });
@@ -245,21 +257,21 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '1',
-        halfHourCount: '0',
+        fullHourCount: 1,
+        halfHourCount: 0,
       });
 
       routines.verifyAppointments({
@@ -278,12 +290,14 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       cy.wait(2000);
       routines.checkVerification({
         index: 5,
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
 
       routines.checkPayTrainer({
@@ -295,14 +309,14 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.purchaseSessions({
         index: 7,
         client: this.clients.client1,
-        halfHourCount: '2',
+        halfHourCount: 2,
       });
 
       routines.checkClientInventory({
         index: 8,
         client: this.clients.client1,
-        fullHourCount: '2',
-        halfHourCount: '1',
+        fullHourCount: 2,
+        halfHourCount: 1,
       });
 
       routines.checkSessions({
@@ -319,11 +333,13 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkVerification({
         index: 10,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
 
       cy.navTo('Calendar');
@@ -341,11 +357,13 @@ describe('Creating an Appointment in the Past Changing Appointment Type', () => 
       routines.checkTrainerPayment({
         index: 13,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Half Hour',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Half Hour',
+          },
+        ],
       });
     });
   });

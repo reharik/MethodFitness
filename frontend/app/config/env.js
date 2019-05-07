@@ -79,6 +79,7 @@ function getClientEnvironment(publicUrl) {
         PUBLIC_URL: publicUrl,
         API_BASE_URL: process.env.API_BASE_URL,
         CYPRESS_TESTING: process.env.CYPRESS_TESTING,
+        DAY_STARTS_AT: process.env.DAY_STARTS_AT,
       },
     );
   // Stringify all values so we can feed into Webpack DefinePlugin

@@ -110,4 +110,14 @@ module.exports = cy => {
     method: 'POST',
     url: '/scheduledjobs/appointmentstatusupdate',
   }).as('appointmentstatusupdate');
+
+  cy.route({
+    method: 'GET',
+    url: '/defaultclientrates/getdefaultclientrates',
+  }).as('getdefaultclientrates');
+
+  cy.route({
+    method: 'GET',
+    url: '/fetchClients',
+  }).as('fetchclients');
 };

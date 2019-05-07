@@ -5,6 +5,7 @@ module.exports = function(
   loadClients,
   loadLocations,
   loadTrainers,
+  loadDefaultClientRates,
   loadPurchases,
   loadAppointments,
 ) {
@@ -32,6 +33,14 @@ module.exports = function(
         let command = loadTrainers.addTrainer(x);
         await processCommands(command, 'hireTrainer');
       }
+
+      const xxx = loadDefaultClientRates.defaultClientRates;
+      console.log(`==========xxx==========`);
+      console.log(xxx);
+      console.log(`==========END xxx==========`);
+
+      let command = loadDefaultClientRates.addDefaultClientRates(xxx);
+      await processCommands(command, 'updateDefaultClientRates');
 
       // for (let x of loadAppointments.appointments) {
       //   let command = loadAppointments.scheduleAppointment(x);

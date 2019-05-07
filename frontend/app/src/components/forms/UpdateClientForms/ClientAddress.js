@@ -37,14 +37,14 @@ const ClientAddressInner = ({
             editing={editing}
             form={form}
             data={model.state}
-            span={8}
+            span={6}
             selectOptions={states}
           />
           <EditableFor
             editing={editing}
             form={form}
             data={model.zipCode}
-            span={4}
+            span={6}
           />
         </Row>
         <EDFooter editing={editing} toggleEdit={toggleEdit} />

@@ -236,3 +236,20 @@ WITH (
 
 ALTER TABLE "location"
   OWNER TO methodfitness;
+
+-- Table: "defaultClientRates"
+
+DROP TABLE IF EXISTS "defaultClientRates";
+
+CREATE TABLE "defaultClientRates"
+(
+  id uuid PRIMARY KEY,
+  meta jsonb,
+  document jsonb
+)
+WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "defaultClientRates"
+  OWNER TO methodfitness;

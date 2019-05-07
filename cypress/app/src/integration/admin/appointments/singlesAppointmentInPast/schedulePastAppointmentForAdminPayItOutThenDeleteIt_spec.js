@@ -25,36 +25,38 @@ describe('Creating an Appointment in the Past For Admin', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
       routines.checkClientInventory({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '-1',
+        fullHourCount: -1,
       });
 
       routines.checkVerification({
         index: 2,
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Full Hour',
-        },
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
 
       routines.purchaseSessions({
         index: 3,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       routines.checkClientInventory({
         index: 4,
         client: this.clients.client1,
-        fullHourCount: '1',
+        fullHourCount: 1,
       });
 
       routines.checkSessions({
@@ -71,11 +73,13 @@ describe('Creating an Appointment in the Past For Admin', () => {
       routines.checkVerification({
         index: 6,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Full Hour',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
 
       cy.navTo('Calendar');
@@ -99,23 +103,25 @@ describe('Creating an Appointment in the Past For Admin', () => {
       routines.checkTrainerPayment({
         index: 10,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Full Hour',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
     });
   });
 
-  describe.only('When creating an funded appointment in the past', () => {
+  describe('When creating an funded appointment in the past', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time14, true);
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '2',
+        fullHourCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -123,14 +129,14 @@ describe('Creating an Appointment in the Past For Admin', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        fullHourCount: '1',
+        fullHourCount: 1,
       });
 
       routines.checkSessions({
@@ -138,20 +144,24 @@ describe('Creating an Appointment in the Past For Admin', () => {
         client: this.clients.client1,
         availableCount: 1,
         usedCount: 1,
-        usedItemsValues: {
-          date: aDT.date,
-          appointmentType: 'Full Hour',
-        },
+        usedItemsValues: [
+          {
+            date: aDT.date,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
 
       routines.checkVerification({
         index: 4,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Full Hour',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
 
       cy.navTo('Calendar');
@@ -175,11 +185,13 @@ describe('Creating an Appointment in the Past For Admin', () => {
       routines.checkTrainerPayment({
         index: 8,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          appointmentType: 'Full Hour',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
       routines.deleteAppointment({
         index: 9,

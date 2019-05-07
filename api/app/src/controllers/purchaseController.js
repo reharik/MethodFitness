@@ -10,12 +10,23 @@ module.exports = function(
   let purchase = async function(ctx) {
     logger.debug('arrived at sessionsPurchase.purchases');
     let payload = ctx.request.body;
-    payload.totalFullHours =
-      parseInt(payload.fullHourTenPack) * 10 + parseInt(payload.fullHour);
-    payload.totalHalfHours =
-      parseInt(payload.halfHourTenPack) * 10 + parseInt(payload.halfHour);
-    payload.totalPairs =
-      parseInt(payload.pairTenPack) * 10 + parseInt(payload.pair);
+    // payload.totalFullHours =
+    //   parseInt(payload.fullHourTenPack) * 10 + parseInt(payload.fullHour);
+    // payload.totalHalfHours =
+    //   parseInt(payload.halfHourTenPack) * 10 + parseInt(payload.halfHour);
+    // payload.totalHalfHourPairs =
+    //   parseInt(payload.halfHourPairTenPack) * 10 +
+    //   parseInt(payload.halfHourPair);
+    // payload.totalPairs =
+    //   parseInt(payload.pairTenPack) * 10 + parseInt(payload.pair);
+    // payload.totalFullHourGroups =
+    //   parseInt(payload.fullHourGroupTenPack) * 10 + parseInt(payload.fullHourGroup);
+    // payload.totalHalfHourGroups =
+    //   parseInt(payload.halfHourGroupTenPack) * 10 +
+    //   parseInt(payload.halfHourGroup);
+    // payload.totalFourtyFiveMinutes =
+    //   parseInt(payload.fortyFiveMinutesTenPack) * 10 +
+    //   parseInt(payload.fortyFiveMinutes);
     await processMessage(ctx, 'purchase', payload);
   };
 

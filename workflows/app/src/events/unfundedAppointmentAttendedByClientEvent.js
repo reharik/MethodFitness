@@ -8,7 +8,7 @@ module.exports = function(invariant) {
     appointmentType,
     startTime,
     appointmentDate,
-    trainerPercentage,
+    // trainerPercentage,
     createdDate,
     createdById,
     //TODO remove after migration
@@ -46,10 +46,10 @@ module.exports = function(invariant) {
       startTime,
       'unfundedAppointmentAttendedByClientEvent requires that you pass the appointment start time',
     );
-    invariant(
-      trainerPercentage,
-      'unfundedAppointmentAttendedByClientEvent requires that you pass the trainers percentage',
-    );
+    // invariant(
+    //   trainerPercentage,
+    //   'unfundedAppointmentAttendedByClientEvent requires that you pass the trainers percentage',
+    // );
     return {
       eventName: 'unfundedAppointmentAttendedByClient',
       clientId,
@@ -60,7 +60,7 @@ module.exports = function(invariant) {
       appointmentType,
       startTime,
       appointmentDate,
-      trainerPercentage,
+      // trainerPercentage,
       createdDate,
       createdById,
       //TODO remove after migration

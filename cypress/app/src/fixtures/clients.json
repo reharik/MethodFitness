@@ -29,6 +29,8 @@
   "newClient": {
     "firstName": "Bubba",
     "lastName": "LikesIt",
+    "LNF": "LikesIt, Bubba",
+    "LN": "LikesIt",
     "mobilePhone": "123456789",
     "secondaryPhone": "987654321",
     "email": "bubba@likesit.com",

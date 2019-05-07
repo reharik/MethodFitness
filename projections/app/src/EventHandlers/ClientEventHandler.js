@@ -19,7 +19,12 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
           fullHour: 0,
           halfHour: 0,
           pair: 0,
+          halfHourPair: 0,
+          fullHourGroup: 0,
+          halfHourGroup: 0,
+          fortyFiveMinute: 0,
         },
+        clientRates: event.clientRates,
       };
       return await rsRepository.save('client', client, client.clientId);
     }
@@ -58,6 +63,13 @@ module.exports = function(rsRepository, moment, metaLogger, logger) {
       return await rsRepository.save('client', client, client.clientId);
     }
 
+    async function clientRatesUpdated(event) {
+      rsRepository = await rsRepository;
+      let client = await rsRepository.getById(event.clientId, 'client');
+      client.clientRates = event.clientRates;
+      return await rsRepository.save('client', client, client.clientId);
+    }
+
     async function clientArchived(event) {
       rsRepository = await rsRepository;
       let client = await rsRepository.getById(event.clientId, 'client');
@@ -82,21 +94,21 @@ where id = '${event.clientId}'`;
       return await rsRepository.saveQuery(sql);
     }
 
+    const flattenInventory = (inventory, event, type) => {
+      return (
+        (inventory[type] || 0) +
+          (event[`${type}TenPack`] && event[`${type}TenPack`] * 10) +
+          event[type] || 0
+      );
+    };
+
     async function sessionsPurchased(event) {
       rsRepository = await rsRepository;
       let client = await rsRepository.getById(event.clientId, 'client');
-      client.inventory = {
-        fullHour:
-          (client.inventory.fullHour || 0) +
-          event.fullHourTenPack * 10 +
-          event.fullHour,
-        halfHour:
-          (client.inventory.halfHour || 0) +
-          event.halfHourTenPack * 10 +
-          event.halfHour,
-        pair:
-          (client.inventory.pair || 0) + event.pairTenPack * 10 + event.pair,
-      };
+
+      Object.keys(client.inventory).forEach(t => {
+        client.inventory[t] = flattenInventory(client.inventory, event, t);
+      });
       return await rsRepository.save('client', client, client.clientId);
     }
 
@@ -111,6 +123,14 @@ where id = '${event.clientId}'`;
         client.inventory[event.appointmentType] - 1;
       return await rsRepository.save('client', client, client.clientId);
     }
+
+    // We don't need this because when a purchase ( or refund ) is made the
+    // domain asigns the session to appointment ( or vise versa )
+    // so don't add this again.
+
+    // async function unfundedAppointmentFundedByClient(event) {
+    //   return await fundedAppointmentAttendedByClient(event);
+    // }
 
     async function sessionsRefunded(event) {
       rsRepository = await rsRepository;
@@ -149,6 +169,7 @@ where id = '${event.clientId}'`;
         clientAddressUpdated,
         clientInfoUpdated,
         clientSourceUpdated,
+        clientRatesUpdated,
         sessionsPurchased,
         fundedAppointmentAttendedByClient,
         unfundedAppointmentAttendedByClient,

@@ -18,7 +18,6 @@ describe('Edit an existing trainer password info', () => {
     it('should pass all steps', function() {
       const trainer = this.trainers.trainer1;
       const newTrainer = this.trainers.newTrainer;
-      const newDate = Cypress.moment(trainer.birthDate).add(1, 'day');
       cy.navTo('Trainers');
       cy.wait('@fetchAllTrainers').wait(1000);
       cy.get('.ant-table-row-level-0 span')

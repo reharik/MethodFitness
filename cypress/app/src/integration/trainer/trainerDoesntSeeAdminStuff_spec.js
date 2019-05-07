@@ -86,9 +86,11 @@ describe('Trainer Can Not See Admin Stuff', () => {
           .format('h:mm A')}']`,
       ).click();
 
-      cy.dataId('startTime-container', 'div').click();
-      cy.get('ul.ant-select-dropdown-menu')
-        .first('li.ant-select-dropdown-menu-item')
+      cy.get('input#startTime')
+        .focus({ log: false })
+        .click({ force: true });
+      cy.get('ul.ant-select-dropdown-menu li.ant-select-dropdown-menu-item')
+        // .first('li.ant-select-dropdown-menu-item')
         .contains(
           Cypress.moment()
             .add(2, 'hour')
@@ -131,6 +133,12 @@ describe('Trainer Can Not See Admin Stuff', () => {
       cy.get('.menu__item__leaf__link')
         .contains('Trainers')
         .should('not.exist');
+      cy.get('.menu__item__leaf__link')
+        .contains('Locations')
+        .should('not.exist');
+      cy.get('.menu__item__leaf__link')
+        .contains('Default Client Rates')
+        .should('not.exist');
     });
   });
 
@@ -167,6 +175,34 @@ describe('Trainer Can Not See Admin Stuff', () => {
     });
   });
 
+  describe.only('when trainer is in client view or new client', () => {
+    it('should see be able to change client rates', function() {
+      let trainer = this.trainers.trainer3;
+      routines.loginTrainer({
+        index: 1,
+        trainer,
+      });
+      cy.visit('/');
+      cy.navTo('Clients');
+      cy.wait('@fetchAllClients').wait(500);
+      cy.get('.ant-table-row-level-0 span')
+        .contains(this.clients.client1.LN)
+        .closest('tr')
+        .find(':nth-child(1) > .list__cell__link > span')
+        .click();
+      cy.wait('@getClient');
+      cy.wait(500);
+      cy.dataId('clientRates', 'div')
+        .find(`.form__footer__button`).should('not.exist');
+
+      cy.navTo('Clients');
+      cy.get('.contentHeader__button__new').click();
+      cy.wait('@getdefaultclientrates').wait(500);
+      cy.dataId('fullHour', 'span').should('exist');
+      cy.get('input#fullHour').should('not.exist');
+    });
+  });
+
   describe('when trainer is in purchase view', () => {
     it('should see the right stuff in list', function() {
       let trainer = this.trainers.trainer3;
@@ -175,7 +211,7 @@ describe('Trainer Can Not See Admin Stuff', () => {
         trainer,
       });
       cy.visit('/');
-      routines.purchaseSessions({
+      routines.goToPurchasesList({
         index: 1,
         client: this.clients.client3,
       });

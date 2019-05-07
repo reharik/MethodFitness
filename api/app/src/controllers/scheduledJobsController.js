@@ -40,7 +40,7 @@ module.exports = function(
               appointmentId: x.appointmentId,
               appointmentType: x.appointmentType,
               startTime: x.startTime,
-              date: x.date,
+              appointmentDate: x.appointmentDate,
             }),
           ),
         ),

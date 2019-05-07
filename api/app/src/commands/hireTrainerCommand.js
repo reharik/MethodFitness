@@ -42,7 +42,7 @@ module.exports = function(invariant) {
     invariant(role, 'hireTrainer requires that you pass the trainers role');
     invariant(
       defaultTrainerClientRate,
-      'hireTrainer requires that you pass the default trainer client rated',
+      'hireTrainer requires that you pass the default trainer client rate',
     );
     trainerClientRates.forEach(x =>
       invariant(

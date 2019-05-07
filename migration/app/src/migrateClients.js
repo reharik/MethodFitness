@@ -1,11 +1,22 @@
-const clients = (mssql, eventstore, uuid, commands) => {
+const clients = (
+  mssql,
+  eventstore,
+  notificationListener,
+  notificationParser,
+  uuid,
+  commands,
+) => {
   return async () => {
     mssql = await mssql;
 
-    const results = await mssql.query`select distinct c.* 
-    from client c inner join Appointment_Client ac on c.entityId = ac.clientId
-	  inner join Appointment a on a.EntityId = ac.AppointmentId 
-    where convert(datetime, a.Date) > CONVERT(datetime, '2/1/2018')`;
+    const results = await mssql.query`select * from client`;
+
+    //   `select distinct c.*
+    // from client c inner join Appointment_Client ac on c.entityId = ac.clientId
+    // inner join Appointment a on a.EntityId = ac.AppointmentId
+    // where convert(datetime, a.Date) > CONVERT(datetime, '2/1/2018')`;
+
+    const lastId = results.recordset[results.recordset.length - 1].EntityId;
     for (let x of results.recordset) {
       const clientCommand = commands.addClientCommand({
         source: x.Source,
@@ -28,12 +39,27 @@ const clients = (mssql, eventstore, uuid, commands) => {
             zipCode: x.ZipCode,
           },
         },
-        createdDate: x.createdDate,
-        createdById: x.createdById,
+        createdDate: x.CreatedDate,
+        createdById: x.CreatedById,
         migration: true,
       });
       try {
-        await eventstore.commandPoster(clientCommand, 'addClient', uuid.v4());
+        let continuationId = uuid.v4();
+        let notificationPromise;
+        if (x.EntityId === lastId) {
+          notificationPromise = await notificationListener(continuationId);
+        }
+        await eventstore.commandPoster(
+          clientCommand,
+          'addClient',
+          continuationId,
+        );
+        if (x.EntityId === lastId) {
+          const result = await notificationParser(notificationPromise);
+          console.log(`==========result==========`);
+          console.log(result);
+          console.log(`==========END result==========`);
+        }
       } catch (ex) {
         console.log(`==========ex==========`);
         console.log(ex);

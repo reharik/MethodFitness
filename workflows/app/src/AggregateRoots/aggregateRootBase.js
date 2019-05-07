@@ -19,10 +19,6 @@ module.exports = function() {
 
       raiseEvent: event => {
         applyEvent(event);
-        console.log(`==========raiseEvent==========`);
-        console.log(event);
-        console.log(`==========END raiseEvent==========`);
-
         state.uncommittedEvents.push(event);
       },
 

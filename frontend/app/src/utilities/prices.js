@@ -5,4 +5,12 @@ export default {
   halfHourTenPack: 350,
   pair: 45,
   pairTenPack: 400,
+  halfHourPair: 30,
+  halfHourPairTenPack: 250,
+  fullHourGroupTenPack: 25,
+  fullHourGroup: 200,
+  halfHourGroupTenPack: 40,
+  halfHourGroup: 350,
+  fortyFiveMinuteTenPack: 42,
+  fortyFiveMinute: 400,
 };

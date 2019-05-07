@@ -43,6 +43,7 @@ class PurchaseList extends Component {
         refundSessions = selectedRowKeys.concat(refundSessions);
       }
     });
+
     this.confirmRefund(refundSessions, refund);
   };
 
@@ -74,7 +75,10 @@ class PurchaseList extends Component {
       ...this.state.purchases,
       [purchaseId]: {
         selectedRowKeys,
-        refundTotal: selectedRows.reduce((a, b) => a + b.purchasePrice, 0),
+        refundTotal: selectedRows.reduce(
+          (a, b) => a + parseInt(b.purchasePrice),
+          0,
+        ),
       },
     };
     this.setState({ purchases });
@@ -110,11 +114,6 @@ class PurchaseList extends Component {
     };
 
     const columns = [
-      {
-        render: val => (val ? `${val.substring(0, 8)}` : val), // eslint-disable-line no-confusing-arrow
-        dataIndex: 'sessionId',
-        title: 'Session Id',
-      },
       {
         render: val => {
           const type = appointmentTypes.find(x => x.value === val);

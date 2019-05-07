@@ -3,7 +3,6 @@ const setupRoutes = require('../../../helpers/setupRoutes');
 const _aDT = require('../../../fixtures/appointments');
 const appTimes = require('../../../helpers/appointmentTimes');
 let aDT;
-let appointmentValues;
 
 describe('Transfer Session From Removed Appointment To Unfunded Appointment', () => {
   let routines;
@@ -26,7 +25,7 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        fullHourCount: '1',
+        fullHourCount: 1,
       });
 
       cy.navTo('Calendar');
@@ -36,7 +35,7 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
         index: 2,
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
@@ -44,26 +43,30 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
         index: 3,
         date: aDT.date,
         time: appTimes.time16,
-        client: this.clients.client1,
+        clients: [this.clients.client1],
         appointmentType: 'Full Hour',
       });
 
       routines.checkVerification({
         index: 4,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          startTime: aDT.time,
-          appointmentType: 'Full Hour',
-        },
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          startTime: appTimes.time16,
-          appointmentType: 'Full Hour',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            startTime: aDT.time,
+            appointmentType: 'Full Hour',
+          },
+        ],
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            startTime: appTimes.time16,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
 
       routines.checkSessions({
@@ -86,13 +89,15 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
       routines.checkVerification({
         index: 7,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          startTime: appTimes.time16,
-          appointmentType: 'Full Hour',
-        },
-        noInarrears: true,
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            startTime: appTimes.time16,
+            appointmentType: 'Full Hour',
+          },
+        ],
+        noInArrears: true,
       });
 
       routines.checkSessions({
@@ -124,12 +129,14 @@ describe('Transfer Session From Removed Appointment To Unfunded Appointment', ()
       routines.checkTrainerPayment({
         index: 12,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: aDT.date,
-          startTime: appTimes.time16,
-          appointmentType: 'Full Hour',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: aDT.date,
+            startTime: appTimes.time16,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
     });
   });

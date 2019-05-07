@@ -18,6 +18,13 @@ import TrainerPaymentDetailsContainer from './containers/lists/TrainerPaymentDet
 import LocationList from './containers/lists/LocationListContainer';
 import UpdateLocationContainer from './containers/forms/UpdateLocationContainer';
 import LocationContainer from './containers/forms/LocationContainer';
+import UpdateDefaultClientRatesContainer from './containers/forms/UpdateDefaultClientRatesContainer';
+
+const user = localStorage.getItem('user');
+console.log(`==========user==========`);
+console.log(user);
+console.log(`==========END user==========`);
+
 
 const routes = (
   <Route path="/" component={AppContainer}>
@@ -46,6 +53,10 @@ const routes = (
     <Route
       path="/trainerPaymentDetails/:paymentId(/:trainerId)"
       component={TrainerPaymentDetailsContainer}
+    />
+    <Route
+      path="/defaultClientRates"
+      component={UpdateDefaultClientRatesContainer}
     />
   </Route>
 );

@@ -30,12 +30,33 @@ export function denormalizeTrainer(flat) {
   };
 }
 
+export function denormalizeClientRates(flat) {
+  return {
+    fullHourTenPack: flat.fullHourTenPack,
+    fullHour: flat.fullHour,
+    halfHourTenPack: flat.halfHourTenPack,
+    halfHour: flat.halfHour,
+    pairTenPack: flat.pairTenPack,
+    pair: flat.pair,
+    halfHourPairTenPack: flat.halfHourPairTenPack,
+    halfHourPair: flat.halfHourPair,
+    fullHourGroupTenPack: flat.fullHourGroupTenPack,
+    fullHourGroup: flat.fullHourGroup,
+    halfHourGroupTenPack: flat.halfHourGroupTenPack,
+    halfHourGroup: flat.halfHourGroup,
+    fortyFiveMinuteTenPack: flat.fortyFiveMinuteTenPack,
+    fortyFiveMinute: flat.fortyFiveMinute,
+  };
+}
+
 export function denormalizeClient(flat) {
   return {
     source: flat.source,
     sourceNotes: flat.sourceNotes,
     startDate: flat.startDate,
     birthDate: flat.birthDate,
+    addClientToCreator: flat.addClientToCreator,
     contact: denormalizeContact(flat),
+    clientRates: denormalizeClientRates(flat),
   };
 }

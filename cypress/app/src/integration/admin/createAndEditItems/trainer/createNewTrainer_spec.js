@@ -23,6 +23,7 @@ describe('Create a new Trainer', () => {
       const trainer = this.trainers.newTrainer;
       cy.navTo('Trainers');
       cy.get('.contentHeader__button__new').click();
+      cy.wait('@fetchclients').wait(500);
       cy.get('#firstName').type(trainer.firstName);
       cy.get('#lastName').type(trainer.lastName);
       cy.get('#mobilePhone').type(trainer.mobilePhone);
@@ -53,15 +54,22 @@ describe('Create a new Trainer', () => {
         .contains('Trainer')
         .click();
 
+      cy.get('#defaultTrainerClientRate').type(
+        trainer.defaultTrainerClientRate,
+      );
       cy.get('#clients').click({
         force: true,
       });
       cy.get('.ant-select-dropdown-menu-item')
-        .contains(trainer.clients[0])
+        .contains(trainer.clients[0].name)
         .click();
       cy.get('.ant-select-dropdown-menu-item')
-        .contains(trainer.clients[1])
+        .contains(trainer.clients[1].name)
         .click();
+
+      cy.get(`#${trainer.clients[0].id}`).type(trainer.clients[0].rate);
+      cy.get(`#${trainer.clients[1].id}`).type(trainer.clients[0].rate);
+
       cy.get(`.form__footer__button`)
         .contains('Submit')
         .click({
@@ -86,13 +94,22 @@ describe('Create a new Trainer', () => {
       cy.dataId('state', 'span').contains(trainer.state);
       cy.dataId('zipCode', 'span').contains(trainer.zipCode);
       cy.dataId('role', 'span').contains('Trainer');
+      cy.dataId('defaultTrainerClientRate', 'span').contains(
+        trainer.defaultTrainerClientRate,
+      );
       cy.dataId('clients', 'ul')
         .find('li')
-        .contains(trainer.clients[0]);
+        .contains(trainer.clients[0].name);
       cy.dataId('clients', 'ul')
         .find('li')
-        .contains(trainer.clients[1]);
+        .contains(trainer.clients[1].name);
       cy.dataId('birthDate', 'span').contains(aDT.date.format('MM/DD/YYYY'));
+      cy.dataId(trainer.clients[0].id, 'span').contains(
+        trainer.clients[0].rate,
+      );
+      cy.dataId(trainer.clients[1].id, 'span').contains(
+        trainer.clients[0].rate,
+      );
     });
   });
 
@@ -102,12 +119,16 @@ describe('Create a new Trainer', () => {
       const trainer = this.trainers.newTrainer;
       cy.navTo('Trainer');
       cy.get('.contentHeader__button__new').click();
+      cy.wait('@fetchclients').wait(500);
       cy.get('#firstName').type(trainer.firstName);
       cy.get('#lastName').type(trainer.lastName);
       cy.get('#mobilePhone').type(trainer.mobilePhone);
       cy.get('#email').type(trainer.email);
       cy.get('#password').type(trainer.password);
       cy.get('#confirmPassword').type(trainer.password);
+      cy.get('#defaultTrainerClientRate').type(
+        trainer.defaultTrainerClientRate,
+      );
       cy.get('#role').click({
         force: true,
       });
@@ -133,13 +154,15 @@ describe('Create a new Trainer', () => {
       cy.dataId('mobilePhone', 'span').contains(trainer.mobilePhone);
       cy.dataId('email', 'span').contains(trainer.email);
       cy.dataId('role', 'span').contains('Trainer');
+      cy.dataId('defaultTrainerClientRate', 'span').contains(
+        trainer.defaultTrainerClientRate,
+      );
     });
   });
 
   describe('When creating new trainer with NO fields entered', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time15, true);
-      const trainer = this.trainers.newTrainer;
       cy.navTo('Trainer');
       cy.get('.contentHeader__button__new').click();
       cy.get(`.form__footer__button`)

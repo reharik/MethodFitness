@@ -45,7 +45,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/fetchallclients', controllers.clientListController.fetchAllClients);
+    router.get(
+      '/fetchallclients',
+      controllers.clientListController.fetchAllClients,
+    );
     /**
      * @swagger
      * /client/addclient:
@@ -102,7 +105,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateclientinfo', controllers.clientController.updateClientInfo);
+    router.post(
+      '/client/updateclientinfo',
+      controllers.clientController.updateClientInfo,
+    );
     /**
      * @swagger
      * /client/updateclientsource:
@@ -130,7 +136,41 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateclientsource', controllers.clientController.updateClientSource);
+    router.post(
+      '/client/updateclientsource',
+      controllers.clientController.updateClientSource,
+    );
+    /**
+     * @swagger
+     * /client/updateclientrates:
+     *   post:
+     *     x-name: /client/updateClientRates
+     *     description: update Client Rates
+     *     operationId: /client/updateClientRates
+     *     parameters:
+     *       - name: body
+     *         in: body
+     *         required: true
+     *         schema:
+     *           $ref: "#/definitions/updateClientRates"
+     *     responses:
+     *       200:
+     *         description: Success
+     *         schema:
+     *             $ref: "#/definitions/standardSuccessResponse"
+     *       422:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     *       500:
+     *         description: Failure
+     *         schema:
+     *             $ref: "#/definitions/standardFailureResponse"
+     */
+    router.post(
+      '/client/updateclientrates',
+      controllers.clientController.updateClientRates,
+    );
     /**
      * @swagger
      * /client/updateclientcontact:
@@ -154,7 +194,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateclientcontact', controllers.clientController.updateClientContact);
+    router.post(
+      '/client/updateclientcontact',
+      controllers.clientController.updateClientContact,
+    );
     /**
      * @swagger
      * /client/updateclientaddress:
@@ -178,7 +221,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/updateclientaddress', controllers.clientController.updateClientAddress);
+    router.post(
+      '/client/updateclientaddress',
+      controllers.clientController.updateClientAddress,
+    );
     /**
      * @swagger
      * /client/getclient/{clientId}:
@@ -202,7 +248,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.get('/client/getclient/:clientId', controllers.clientController.getClient);
+    router.get(
+      '/client/getclient/:clientId',
+      controllers.clientController.getClient,
+    );
     /**
      * @swagger
      * /client/archiveclient:
@@ -226,7 +275,10 @@ module.exports = function clientRouter(koarouter, controllers) {
      *         schema:
      *             $ref: "#/definitions/standardFailureResponse"
      */
-    router.post('/client/archiveclient', controllers.clientController.archiveClient);
+    router.post(
+      '/client/archiveclient',
+      controllers.clientController.archiveClient,
+    );
 
     appRouter.use(router.routes(), router.allowedMethods());
   };

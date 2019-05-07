@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, InputNumber, DatePicker, Select } from 'antd';
+import { Input, InputNumber, DatePicker, Select, Checkbox } from 'antd';
 import ListItemValueFor from './ListItemValueFor';
 import InputColor from 'rc-color-picker';
 const Option = Select.Option;
@@ -91,6 +91,18 @@ const InputFor = ({ data, selectOptions, onChange, form, extraFunc }) => {
             min={0}
             name={_data.name}
           />
+        );
+      }
+      case 'boolean': {
+        const _onChange = onChange ? { onChange } : {};
+        return (
+          <Checkbox
+            {..._onChange}
+            placeholder={_data.placeholder}
+            name={_data.name}
+          >
+            {_data.label}
+          </Checkbox>
         );
       }
 

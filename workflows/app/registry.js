@@ -24,6 +24,7 @@ module.exports = function(_options) {
   };
   console.log(`==========options.children==========`);
   console.log(options.children);
+  console.log(process.env.LOGGING_LEVEL);
   console.log(`==========END options.children==========`);
 
   try {

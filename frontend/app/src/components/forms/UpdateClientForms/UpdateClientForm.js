@@ -7,6 +7,7 @@ import ClientInfo from './ClientInfo';
 import ClientContact from './ClientContact';
 import ClientAddress from './ClientAddress';
 import ClientSource from './ClientSource';
+import ClientRates from './ClientRates';
 import { Row, Col } from 'antd';
 
 class UpdateClientForm extends Component {
@@ -55,8 +56,13 @@ class UpdateClientForm extends Component {
                 submit={this.props.updateClientSource}
                 sources={this.props.sources}
               />
+              <ClientRates
+                isAdmin={this.props.isAdmin}
+                model={model}
+                submit={this.props.updateClientRates}
+              />
             </Col>
-            <Col xl={6} lg={10} sm={24}>
+            <Col xl={10} lg={10} sm={24}>
               <ClientInventory
                 clientId={this.props.clientId}
                 inventory={this.props.inventory}
@@ -81,6 +87,8 @@ UpdateClientForm.propTypes = {
   updateClientInfo: PropTypes.func,
   updateClientContact: PropTypes.func,
   updateClientAddress: PropTypes.func,
+  updateClientRates: PropTypes.func,
+  isAdmin: PropTypes.bool,
 };
 
 export default UpdateClientForm;

@@ -13,6 +13,11 @@ export default role => {
     },
     { text: 'Clients', path: '/clients' },
     {
+      text: 'Default Client Rates',
+      path: '/defaultClientRates',
+      role: 'admin',
+    },
+    {
       text: 'Trainer Verification',
       path: '/verification',
     },

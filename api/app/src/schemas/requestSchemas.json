@@ -177,6 +177,73 @@
         }
       }
     },
+    "updateClientRates": {
+      "title": "updateClientRates",
+      "properties": {
+        "clientId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fullHour": {
+          "type": "number"
+        },
+        "fullHourTenPack": {
+          "type": "number"
+        },
+        "halfHour": {
+          "type": "number"
+        },
+        "halfHourTenPack": {
+          "type": "number"
+        },
+        "pair": {
+          "type": "number"
+        },
+        "pairTenPack": {
+          "type": "number"
+        },
+        "halfHourPair": {
+          "type": "number"
+        },
+        "halfHourPairTenPack": {
+          "type": "number"
+        },
+        "fullHourGroup": {
+          "type": "number"
+        },
+        "fullHourGroupTenPack": {
+          "type": "number"
+        },
+        "halfHourGroup": {
+          "type": "number"
+        },
+        "halfHourGroupTenPack": {
+          "type": "number"
+        },
+        "fortyFiveMinute": {
+          "type": "number"
+        },
+        "fortyFiveMinuteTenPack": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "fullHourTenPack",
+        "fullHour",
+        "halfHourTenPack",
+        "halfHour",
+        "pairTenPack",
+        "pair",
+        "halfHourPairTenPack",
+        "halfHourPair",
+        "fullHourGroupTenPack",
+        "fullHourGroup",
+        "halfHourGroupTenPack",
+        "halfHourGroup",
+        "fortyFiveMinuteTenPack",
+        "fortyFiveMinute"
+      ]
+    },
     "updateClientContact": {
       "title": "updateClientContact",
       "properties": {
@@ -389,6 +456,30 @@
         "pairTenPack": {
           "type": "number"
         },
+        "halfHourPair": {
+          "type": "number"
+        },
+        "halfHourPairTenPack": {
+          "type": "number"
+        },
+        "fullHourGroup": {
+          "type": "number"
+        },
+        "fullHourGroupTenPack": {
+          "type": "number"
+        },
+        "halfHourGroup": {
+          "type": "number"
+        },
+        "halfHourGroupTenPack": {
+          "type": "number"
+        },
+        "fortyFiveMinute": {
+          "type": "number"
+        },
+        "fortyFiveMinuteTenPack": {
+          "type": "number"
+        },
         "fullHourTotal": {
           "type": "number"
         },
@@ -405,6 +496,30 @@
           "type": "number"
         },
         "pairTenPackTotal": {
+          "type": "number"
+        },
+        "halfHourPairTotal": {
+          "type": "number"
+        },
+        "halfHourPairTenPackTotal": {
+          "type": "number"
+        },
+        "fullHourGroupTotal": {
+          "type": "number"
+        },
+        "fullHourGroupTenPackTotal": {
+          "type": "number"
+        },
+        "halfHourGroupTotal": {
+          "type": "number"
+        },
+        "halfHourGroupTenPackTotal": {
+          "type": "number"
+        },
+        "fortyFiveMinuteTotal": {
+          "type": "number"
+        },
+        "fortyFiveMinuteTenPackTotal": {
           "type": "number"
         },
         "purchaseTotal": {

@@ -2,6 +2,7 @@ module.exports = function(invariant) {
   return function({
     appointmentDate,
     appointmentId,
+    appointmentType,
     startTime,
     clientId,
     pricePerSession,
@@ -22,6 +23,11 @@ module.exports = function(invariant) {
       appointmentDate,
       'unfundedAppointmentFundedByClient requires that' +
         ' you pass the appointment date',
+    );
+    invariant(
+      appointmentType,
+      'unfundedAppointmentFundedByClient requires that' +
+        ' you pass the appointment type',
     );
     invariant(
       startTime,
@@ -68,6 +74,7 @@ module.exports = function(invariant) {
       eventName: 'unfundedAppointmentFundedByClient',
       appointmentDate,
       appointmentId,
+      appointmentType,
       startTime,
       clientId,
       pricePerSession,

@@ -70,8 +70,6 @@ class LocationForm extends Component {
 
 LocationForm.propTypes = {
   model: PropTypes.object,
-  params: PropTypes.object,
-  fetchLocationAction: PropTypes.func,
   addLocation: PropTypes.func,
   notifications: PropTypes.func,
   states: PropTypes.array,

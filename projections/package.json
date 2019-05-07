@@ -6,9 +6,9 @@
   "homepage": "https://github.com/reharik/mf_projections#readme",
   "main": "app/index.js",
   "scripts": {
-    "startLocalContainer": "nodemon -V -w app -w node_modules",
+    "startLocalContainer": "nodemon  -V -w app -w node_modules",
     "startRemoteContainer": "node app/index.js",
-    "local": "NODE_CONFIG_DIR=./app/config nodemon app/index.js",
+    "local": "NODE_CONFIG_DIR=./app/config nodemon --trace-warnings  app/index.js",
     "test": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js",
     "intTest": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/integrationTests/*.js",
     "lint": "eslint -c ./../.eslintrc.json . --fix",

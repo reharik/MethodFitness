@@ -1,6 +1,7 @@
 let config = {
   apiBase: process.env.API_BASE_URL,
   endToEndTesting: process.env.CYPRESS_TESTING,
+  dayStartsAt: process.env.DAY_STARTS_AT,
   //bunch of default values here;
 };
 

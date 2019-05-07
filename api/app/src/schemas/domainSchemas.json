@@ -23,6 +23,7 @@
           "type": "string"
         },
         "address": {
+          "type": "object",
           "$ref": "#/definitions/address"
         },
         "secondaryPhone": {
@@ -36,6 +37,69 @@
         }
       },
       "required": ["firstName", "lastName", "email", "mobilePhone"]
+    },
+    "appointmentTypes": {
+      "title": "appointmentTypes",
+      "properties": {
+        "fullHour": {
+          "type": "number"
+        },
+        "fullHourTenPack": {
+          "type": "number"
+        },
+        "halfHour": {
+          "type": "number"
+        },
+        "halfHourTenPack": {
+          "type": "number"
+        },
+        "pair": {
+          "type": "number"
+        },
+        "pairTenPack": {
+          "type": "number"
+        },
+        "halfHourPair": {
+          "type": "number"
+        },
+        "halfHourPairTenPack": {
+          "type": "number"
+        },
+        "fullHourGroup": {
+          "type": "number"
+        },
+        "fullHourGroupTenPack": {
+          "type": "number"
+        },
+        "halfHourGroup": {
+          "type": "number"
+        },
+        "halfHourGroupTenPack": {
+          "type": "number"
+        },
+        "fortyFiveMinute": {
+          "type": "number"
+        },
+        "fortyFiveMinuteTenPack": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "fullHourTenPack",
+        "fullHour",
+        "halfHourTenPack",
+        "halfHour",
+        "pairTenPack",
+        "pair",
+        "halfHourPairTenPack",
+        "halfHourPair",
+        "fullHourGroupTenPack",
+        "fullHourGroup",
+        "halfHourGroupTenPack",
+        "halfHourGroup",
+        "fortyFiveMinuteTenPack",
+        "fortyFiveMinute"
+      ]
     },
     "trainer": {
       "title": "trainer",
@@ -86,12 +150,83 @@
         "defaultTrainerClientRate": {
           "type": "number"
         }
-      }
+      },
+      "required": ["defaultTrainerClientRate"]
+    },
+
+    "defaultClientRates": {
+      "title": "defaultClientRates",
+      "properties": {
+        "defaultClientRatesId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fullHour": {
+          "type": "number"
+        },
+        "fullHourTenPack": {
+          "type": "number"
+        },
+        "halfHour": {
+          "type": "number"
+        },
+        "halfHourTenPack": {
+          "type": "number"
+        },
+        "pair": {
+          "type": "number"
+        },
+        "pairTenPack": {
+          "type": "number"
+        },
+        "halfHourPair": {
+          "type": "number"
+        },
+        "halfHourPairTenPack": {
+          "type": "number"
+        },
+        "fullHourGroup": {
+          "type": "number"
+        },
+        "fullHourGroupTenPack": {
+          "type": "number"
+        },
+        "halfHourGroup": {
+          "type": "number"
+        },
+        "halfHourGroupTenPack": {
+          "type": "number"
+        },
+        "fortyFiveMinute": {
+          "type": "number"
+        },
+        "fortyFiveMinuteTenPack": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "defaultClientRatesId",
+        "fullHourTenPack",
+        "fullHour",
+        "halfHourTenPack",
+        "halfHour",
+        "pairTenPack",
+        "pair",
+        "halfHourPairTenPack",
+        "halfHourPair",
+        "fullHourGroupTenPack",
+        "fullHourGroup",
+        "halfHourGroupTenPack",
+        "halfHourGroup",
+        "fortyFiveMinuteTenPack",
+        "fortyFiveMinute"
+      ]
     },
     "client": {
       "title": "client",
       "properties": {
         "contact": {
+          "type": "object",
           "$ref": "#/definitions/contact"
         },
         "clientId": {
@@ -117,6 +252,13 @@
           "x-input": "date-time"
         },
         "archived": {
+          "type": "boolean"
+        },
+        "clientRates": {
+          "type": "object",
+          "$ref": "#/definitions/appointmentTypes"
+        },
+        "addClientToCreator": {
           "type": "boolean"
         }
       },
@@ -162,7 +304,7 @@
           "type": "number"
         }
       },
-      "required": ["trainerId", "clientId", "rate"]
+      "required": ["clientId", "rate"]
     },
     "address": {
       "title": "address",
@@ -271,25 +413,28 @@
         "pairTenPack": {
           "type": "number"
         },
-        "fullHourTotal": {
+        "halfHourPair": {
           "type": "number"
         },
-        "fullHourTenPackTotal": {
+        "halfHourPairTenPack": {
           "type": "number"
         },
-        "halfHourTotal": {
+        "fullHourGroup": {
           "type": "number"
         },
-        "halfHourTenPackTotal": {
+        "fullHourGroupTenPack": {
           "type": "number"
         },
-        "pairTotal": {
+        "halfHourGroup": {
           "type": "number"
         },
-        "pairTenPackTotal": {
+        "halfHourGroupTenPack": {
           "type": "number"
         },
-        "purchaseTotal": {
+        "fortyFiveMinute": {
+          "type": "number"
+        },
+        "fortyFiveMinuteTenPack": {
           "type": "number"
         },
         "notes": {

@@ -23,6 +23,7 @@ describe('Create a new Client', () => {
       const client = this.clients.newClient;
       cy.navTo('Clients');
       cy.get('.contentHeader__button__new').click();
+      cy.wait('@getdefaultclientrates').wait(500);
       cy.get('#firstName').type(client.firstName);
       cy.get('#lastName').type(client.lastName);
       cy.get('#mobilePhone').type(client.mobilePhone);
@@ -56,6 +57,50 @@ describe('Create a new Client', () => {
         newDate: aDT.date,
         dateContainerName: 'startDate-container',
       });
+
+      cy.get('#fullHour')
+        .clear()
+        .type(5);
+      cy.get('#fullHourTenPack')
+        .clear()
+        .type(5);
+      cy.get('#halfHour')
+        .clear()
+        .type(5);
+      cy.get('#halfHourTenPack')
+        .clear()
+        .type(5);
+      cy.get('#pair')
+        .clear()
+        .type(5);
+      cy.get('#pairTenPack')
+        .clear()
+        .type(5);
+      cy.get('#halfHourPair')
+        .clear()
+        .type(5);
+      cy.get('#halfHourPairTenPack')
+        .clear()
+        .type(5);
+      cy.get('#fullHourGroup')
+        .clear()
+        .type(5);
+      cy.get('#fullHourGroupTenPack')
+        .clear()
+        .type(5);
+      cy.get('#halfHourGroup')
+        .clear()
+        .type(5);
+      cy.get('#halfHourGroupTenPack')
+        .clear()
+        .type(5);
+      cy.get('#fortyFiveMinute')
+        .clear()
+        .type(5);
+      cy.get('#fortyFiveMinuteTenPack')
+        .clear()
+        .type(5);
+
       cy.get(`.form__footer__button`)
         .contains('Submit')
         .click({
@@ -83,6 +128,20 @@ describe('Create a new Client', () => {
       cy.dataId('sourceNotes', 'span').contains(client.sourceNotes);
       cy.dataId('birthDate', 'span').contains(aDT.date.format('MM/DD/YYYY'));
       cy.dataId('startDate', 'span').contains(aDT.date.format('MM/DD/YYYY'));
+      cy.dataId('fullHour', 'span').contains(5);
+      cy.dataId('fullHourTenPack', 'span').contains(5);
+      cy.dataId('halfHour', 'span').contains(5);
+      cy.dataId('halfHourTenPack', 'span').contains(5);
+      cy.dataId('pair', 'span').contains(5);
+      cy.dataId('pairTenPack', 'span').contains(5);
+      cy.dataId('halfHourPair', 'span').contains(5);
+      cy.dataId('halfHourPairTenPack', 'span').contains(5);
+      cy.dataId('fullHourGroup', 'span').contains(5);
+      cy.dataId('fullHourGroupTenPack', 'span').contains(5);
+      cy.dataId('halfHourGroup', 'span').contains(5);
+      cy.dataId('halfHourGroupTenPack', 'span').contains(5);
+      cy.dataId('fortyFiveMinute', 'span').contains(5);
+      cy.dataId('fortyFiveMinuteTenPack', 'span').contains(5);
     });
   });
 
@@ -92,6 +151,7 @@ describe('Create a new Client', () => {
       const client = this.clients.newClient;
       cy.navTo('Clients');
       cy.get('.contentHeader__button__new').click();
+      cy.wait('@getdefaultclientrates').wait(500);
       cy.get('#firstName').type(client.firstName);
       cy.get('#lastName').type(client.lastName);
       cy.get('#mobilePhone').type(client.mobilePhone);
@@ -125,9 +185,25 @@ describe('Create a new Client', () => {
   describe('When creating new client with NO fields entered', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time15, true);
-      const client = this.clients.newClient;
       cy.navTo('Clients');
       cy.get('.contentHeader__button__new').click();
+      cy.wait('@getdefaultclientrates').wait(500);
+
+      cy.get('#fullHour').clear();
+      cy.get('#fullHourTenPack').clear();
+      cy.get('#halfHour').clear();
+      cy.get('#halfHourTenPack').clear();
+      cy.get('#pair').clear();
+      cy.get('#pairTenPack').clear();
+      cy.get('#halfHourPair').clear();
+      cy.get('#halfHourPairTenPack').clear();
+      cy.get('#fullHourGroup').clear();
+      cy.get('#fullHourGroupTenPack').clear();
+      cy.get('#halfHourGroup').clear();
+      cy.get('#halfHourGroupTenPack').clear();
+      cy.get('#fortyFiveMinute').clear();
+      cy.get('#fortyFiveMinuteTenPack').clear();
+
       cy.get(`.form__footer__button`)
         .contains('Submit')
         .click({
@@ -149,6 +225,49 @@ describe('Create a new Client', () => {
       cy.dataId('startDate-container', 'div')
         .find('div.ant-form-explain')
         .contains('startDate is required');
+
+      cy.dataId('fullHour-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('fullHour is required');
+      cy.dataId('fullHourTenPack-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('fullHourTenPack is required');
+      cy.dataId('halfHour-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('halfHour is required');
+      cy.dataId('halfHourTenPack-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('halfHourTenPack is required');
+      cy.dataId('pair-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('pair is required');
+      cy.dataId('pairTenPack-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('pairTenPack is required');
+      cy.dataId('halfHourPair-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('halfHourPair is required');
+      cy.dataId('halfHourPairTenPack-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('halfHourPairTenPack is required');
+      cy.dataId('fullHourGroup-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('fullHourGroup is required');
+      cy.dataId('fullHourGroupTenPack-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('fullHourGroupTenPack is required');
+      cy.dataId('halfHourGroup-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('halfHourGroup is required');
+      cy.dataId('halfHourGroupTenPack-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('halfHourGroupTenPack is required');
+      cy.dataId('fortyFiveMinute-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('fortyFiveMinute is required');
+      cy.dataId('fortyFiveMinuteTenPack-container', 'div')
+        .find('div.ant-form-explain')
+        .contains('fortyFiveMinuteTenPack is required');
     });
   });
 });

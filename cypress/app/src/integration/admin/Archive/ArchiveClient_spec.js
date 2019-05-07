@@ -30,15 +30,15 @@ describe('Archive Client', () => {
         .contains(this.clients.client1.LN)
         .should('not.exist');
       // go to archived list
-      cy.get('span')
+      cy.get('div.list__header__right span')
         .contains('Archived')
         .click();
-      // chekc that archived client in list
+      // check that archived client in list
       cy.get('.ant-table-row-level-0 td')
         .contains(this.clients.client1.LN)
         .should('exist');
       // go to show all
-      cy.get('span')
+      cy.get('div.list__header__right span')
         .contains('Show All')
         .click();
       // should show the archived client in there
@@ -95,7 +95,7 @@ describe('Archive Client', () => {
         .contains('Archive')
         .should('exist');
       // check that there are no clients in archived list
-      cy.get('span')
+      cy.get('div.list__header__right span')
         .contains('Archived')
         .click();
       cy.get('.ant-empty-description')

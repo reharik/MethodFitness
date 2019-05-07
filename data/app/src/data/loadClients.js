@@ -1,4 +1,4 @@
-module.exports = function(uuid, invariant) {
+module.exports = function(uuid, invariant, loadDefaultClientRates) {
   return {
     clients: [
       {
@@ -21,6 +21,7 @@ module.exports = function(uuid, invariant) {
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
         clientId: '8aa3c2bb-701b-4963-97d6-c98005dc316c',
+        clientRates: loadDefaultClientRates.defaultClientRates,
       },
       {
         contact: {
@@ -42,6 +43,7 @@ module.exports = function(uuid, invariant) {
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
         clientId: '152243e5-eff7-4542-96eb-259fec84df0d',
+        clientRates: loadDefaultClientRates.defaultClientRates,
       },
       {
         contact: {
@@ -63,6 +65,7 @@ module.exports = function(uuid, invariant) {
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
         clientId: 'bd753431-e171-4b2f-b5cc-8f6ac281b185',
+        clientRates: loadDefaultClientRates.defaultClientRates,
       },
       {
         contact: {
@@ -84,6 +87,7 @@ module.exports = function(uuid, invariant) {
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
         clientId: '8db5b70d-1247-4ecc-a839-e8d2705bcdcc',
+        clientRates: loadDefaultClientRates.defaultClientRates,
       },
       {
         contact: {
@@ -105,6 +109,7 @@ module.exports = function(uuid, invariant) {
         sourceNotes: 'Google',
         birthDate: new Date('1/1/1980'),
         clientId: '87a07924-a855-4f1b-b4f4-5a3e82ed76a9',
+        clientRates: loadDefaultClientRates.defaultClientRates,
       },
     ],
 

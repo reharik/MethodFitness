@@ -1,14 +1,18 @@
 import getMenuItems from './menuItems';
 import setupRoutes from './setupRoutes';
+import momenttimezone from 'moment-timezone';
 
 module.exports = (cy, Cypress) => {
   const apptDT = require('./getDateTimeFromDisplayPopup')(cy, Cypress);
   const apiHost = Cypress.env('API_BASE_URL');
-
+  function riMoment(mom) {
+    return momenttimezone(mom).tz('America/New_York');
+  }
   const _changeClients = options => {
-    cy.log(`------changing client-------`);
-
-    if (!!options.currentClient && !!options.newClient) {
+    cy.log(`------Checking for changing client-------`);
+    cy.log(`current: ${options.currentClient}`);
+    cy.log(`new: ${options.newClient}`);
+    if (options.currentClient && options.newClient) {
       cy.log(`----changing client----`);
       cy.dataId('clients-container', 'div')
         .find('li.ant-select-selection__choice')
@@ -26,7 +30,7 @@ module.exports = (cy, Cypress) => {
         .wait(250);
       cy.get('#clients input').blur();
     }
-    if (!!options.removeClient) {
+    if (options.removeClient) {
       cy.log(`----removing client----`);
       cy.dataId('clients-container', 'div')
         .find('li.ant-select-selection__choice')
@@ -37,7 +41,7 @@ module.exports = (cy, Cypress) => {
         .click()
         .wait(250);
     }
-    if (!!options.currentClient && !!options.client2) {
+    if (options.currentClient && options.client2) {
       cy.log(`----adding client for pair----`);
       cy.get('#clients').click();
       cy.get('.ant-select-dropdown-menu-item')
@@ -47,7 +51,7 @@ module.exports = (cy, Cypress) => {
         .wait(250);
       cy.get('#clients input').blur();
     }
-    if (!!options.newClient && !!options.newClient2) {
+    if (options.newClient && options.newClient2) {
       cy.log(`----changing both clients----`);
       cy.dataId('clients-container', 'div')
         .get('li.ant-select-selection__choice')
@@ -99,6 +103,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
     cy.navTo('Calendar');
+    cy.wait(500);
     clickOnAppointment({
       date: options.date,
       time: options.time,
@@ -109,7 +114,7 @@ module.exports = (cy, Cypress) => {
       .click({
         force: true,
       });
-
+    cy.wait('@fetchclients').wait(500);
     _changeClients(options);
 
     if (options.location) {
@@ -123,7 +128,7 @@ module.exports = (cy, Cypress) => {
         .click();
     }
 
-    if (!!options.appointmentType) {
+    if (options.appointmentType) {
       cy.log(`----changing appointment type----`);
       cy.get('input#appointmentType').click({
         force: true,
@@ -133,40 +138,57 @@ module.exports = (cy, Cypress) => {
         .wait(500)
         .click();
     }
-    if (!!options.notes) {
+    if (options.notes) {
       cy.log(`----changing notes----`);
       cy.get('#notes').type(options.notes);
     }
-    if (options.newTrainer) {
-      cy.log(`----changing Trainer----`);
-      cy.get('#trainerId').click({ force: true });
-      cy.get('.ant-select-dropdown-menu-item')
-        .contains(options.newTrainer.LNF)
-        .wait(250)
-        .click()
-        .wait(250);
-    }
 
-    if (!!options.newDate) {
+    if (options.newDate) {
       cy.log(`----changing date----`);
       cy.dataId('appointmentDate-container', 'div')
         .find('input')
         .click();
+      cy.wait('@fetchclients').wait(500);
       checkDatePickerForCorrectMonth(options.newDate).then(() => {
         cy.get(
           `[title="${options.newDate.format(
             'MMMM D, YYYY',
           )}"] > .ant-calendar-date`,
         ).click();
-        cy.get('form').submit();
-        cy.wait('@updateAppointmentFromPast').wait(1000);
       });
-    } else {
-      cy.get('form').submit();
-      cy.wait('@updateAppointmentFromPast').wait(1000);
     }
+
+    if (options.newTrainer) {
+      cy.log(`----changing Trainer----`);
+
+      cy.get('#trainerId').click({ force: true });
+      cy.get('.ant-select-dropdown-menu-item')
+        .contains(options.newTrainer.LNF)
+        .click();
+    }
+    cy.get('#notes')
+      .focus()
+      .wait(1000);
+
+    cy.get('form').submit();
+    cy.wait('@updateAppointmentFromPast').wait(1000);
   };
 
+  const checkInvCount = (type, options) => {
+    let count = options[`${type}Count`];
+    // eslint-disable-next-line eqeqeq
+    if (count != null) {
+      if (count === 0) {
+        cy.dataId('clientInventory', 'div', ` span[data-id='${type}']`).should(
+          'not.exist',
+        );
+      } else {
+        cy.dataId('clientInventory', 'div')
+          .find(`span[data-id='${type}']`)
+          .contains(count);
+      }
+    }
+  };
   const checkClientInventory = options => {
     /* prettier-ignore-start */
     cy.log(`======================================================`);
@@ -185,21 +207,14 @@ module.exports = (cy, Cypress) => {
       .find(':nth-child(1) > .list__cell__link > span')
       .click();
     cy.wait('@getClient');
-    if (options.fullHourCount) {
-      cy.dataId('clientInventory', 'div')
-        .find(`span[data-id='fullHour']`)
-        .contains(options.fullHourCount);
-    }
-    if (options.halfHourCount) {
-      cy.dataId('clientInventory', 'div')
-        .find(`span[data-id='halfHour']`)
-        .contains(options.halfHourCount);
-    }
-    if (options.pairCount) {
-      cy.dataId('clientInventory', 'div')
-        .find(`span[data-id='pair']`)
-        .contains(options.pairCount);
-    }
+
+    checkInvCount('fullHour', options);
+    checkInvCount('halfHour', options);
+    checkInvCount('pair', options);
+    checkInvCount('halfHourPair', options);
+    checkInvCount('groupFullHour', options);
+    checkInvCount('halfHourGroup', options);
+    checkInvCount('fourtyFiveMinute', options);
   };
 
   const checkDatePickerForCorrectMonth = targetDate => {
@@ -265,19 +280,25 @@ module.exports = (cy, Cypress) => {
     if (options.usedCount) {
       cy.get('tr.row-gray').should('have.length', options.usedCount);
     }
-    if (options.usedItemsValues) {
+    (options.usedItemsValues || []).forEach(val => {
+      cy.get('.ant-table-row > :nth-child(2)')
+        .contains(val.appointmentType)
+        .should('exist');
       cy.get('.ant-table-row > :nth-child(3)')
-        .contains(options.usedItemsValues.appointmentType)
+        .contains(val.date.format('MM/DD/YYYY'))
         .should('exist');
-      cy.get('.ant-table-row > :nth-child(4)')
-        .contains(options.usedItemsValues.date.format('MM/DD/YYYY'))
-        .should('exist');
-      if (options.usedItemsValues.startTime) {
-        cy.get('.ant-table-row > :nth-child(5)')
-          .contains(options.usedItemsValues.startTime)
+      if (val.startTime) {
+        cy.get('.ant-table-row > :nth-child(4)')
+          .contains(val.startTime)
           .should('exist');
       }
-    }
+      if (val.cost) {
+        cy.get('.ant-table-row > :nth-child(7)')
+          .contains(val.cost || val.costTenPack)
+          .should('exist');
+      }
+    });
+
     if (options.availableCount) {
       // find class for available
       cy.get('tr.ant-table-expanded-row .ant-table-row')
@@ -300,36 +321,19 @@ module.exports = (cy, Cypress) => {
       .click();
     cy.wait('@trainerpaymentdetails');
     cy.get('.ant-table-row').should('have.length', options.appointmentCount);
-    cy.get('.ant-table-row > :nth-child(1)').contains(
-      options.appointmentValues.client.LNF,
-    );
-    cy.get('.ant-table-row > :nth-child(4)')
-      .contains(options.appointmentValues.appointmentType)
-      .should('exist');
-    cy.get('.ant-table-row > :nth-child(2)')
-      .contains(options.appointmentValues.date.format('MM/DD/YYYY'))
-      .should('exist');
-    if (options.appointmentValues.startTime) {
-      cy.get('.ant-table-row > :nth-child(3)').contains(
-        options.appointmentValues.startTime,
-      );
-    }
-    if (options.appointmentValues2) {
-      cy.get('.ant-table-row > :nth-child(1)').contains(
-        options.appointmentValues2.client.LNF,
-      );
+
+    (options.appointments || []).forEach(val => {
+      cy.get('.ant-table-row > :nth-child(1)').contains(val.client.LNF);
       cy.get('.ant-table-row > :nth-child(4)')
-        .contains(options.appointmentValues2.appointmentType)
+        .contains(val.appointmentType)
         .should('exist');
       cy.get('.ant-table-row > :nth-child(2)')
-        .contains(options.appointmentValues2.date.format('MM/DD/YYYY'))
+        .contains(val.date.format('MM/DD/YYYY'))
         .should('exist');
-      if (options.appointmentValues2.startTime) {
-        cy.get('.ant-table-row > :nth-child(3)').contains(
-          options.appointmentValues2.startTime,
-        );
+      if (val.startTime) {
+        cy.get('.ant-table-row > :nth-child(3)').contains(val.startTime);
       }
-    }
+    });
   };
 
   const checkVerification = options => {
@@ -341,8 +345,8 @@ module.exports = (cy, Cypress) => {
     cy.wait(2000);
     cy.navTo('Trainer Verification');
     cy.wait('@fetchUnverifiedAppointments');
-    if (options.inarrearsCount) {
-      cy.get('tr.row-in-arrears').should('have.length', options.inarrearsCount);
+    if (options.inArrearsCount) {
+      cy.get('tr.row-in-arrears').should('have.length', options.inArrearsCount);
     }
     if (options.availableCount) {
       // find proper class for available
@@ -350,79 +354,49 @@ module.exports = (cy, Cypress) => {
         .not('.row-in-arrears')
         .should('have.length', options.availableCount);
     }
-    if (options.availableItemValues) {
+    (options.availableItemValues || []).forEach(val => {
       cy.get('.ant-table-row')
         .not('.row-in-arrears')
         .get(':nth-child(2)')
-        .contains(options.availableItemValues.client.LNF);
+        .contains(val.client.LNF);
       cy.get('.ant-table-row')
         .not('.row-in-arrears')
         .get(':nth-child(5)')
-        .contains(options.availableItemValues.appointmentType);
+        .contains(val.appointmentType);
       cy.get('.ant-table-row')
         .not('.row-in-arrears')
         .get(':nth-child(3)')
-        .contains(options.availableItemValues.date.format('MM/DD/YYYY'));
-      if (options.availableItemValues.startTime) {
+        .contains(val.date.format('MM/DD/YYYY'));
+      if (val.startTime) {
         cy.get('.ant-table-row')
           .not('.row-in-arrears')
           .get(':nth-child(4)')
-          .contains(options.availableItemValues.startTime);
+          .contains(val.startTime);
       }
-    }
-    if (options.availableItemValues2) {
-      cy.get('.ant-table-row')
-        .not('.row-in-arrears')
-        .get(':nth-child(2)')
-        .contains(options.availableItemValues2.client.LNF);
-      cy.get('.ant-table-row')
-        .not('.row-in-arrears')
-        .get(':nth-child(5)')
-        .contains(options.availableItemValues2.appointmentType);
-      cy.get('.ant-table-row')
-        .not('.row-in-arrears')
-        .get(':nth-child(3)')
-        .contains(options.availableItemValues2.date.format('MM/DD/YYYY'));
-      if (options.availableItemValues2.startTime) {
+      if (val.trainersCut) {
         cy.get('.ant-table-row')
           .not('.row-in-arrears')
-          .get(':nth-child(4)')
-          .contains(options.availableItemValues2.startTime);
+          .get(':nth-child(8)')
+          .contains(val.trainersCut || val.trainersCutTenPack);
       }
-    }
-    if (options.inarrearsItemValues) {
+    });
+
+    (options.inArrearsItemValues || []).forEach(val => {
       cy.get('.row-in-arrears > :nth-child(2)')
-        .contains(options.inarrearsItemValues.client.LNF)
+        .contains(val.client.LNF)
         .should('exist');
       cy.get('.row-in-arrears > :nth-child(5)')
-        .contains(options.inarrearsItemValues.appointmentType)
+        .contains(val.appointmentType)
         .should('exist');
       cy.get('.row-in-arrears > :nth-child(3)')
-        .contains(options.inarrearsItemValues.date.format('MM/DD/YYYY'))
+        .contains(val.date.format('MM/DD/YYYY'))
         .should('exist');
-      if (options.inarrearsItemValues.startTime) {
-        cy.get('.row-in-arrears > :nth-child(4)').contains(
-          options.inarrearsItemValues.startTime,
-        );
+      if (val.startTime) {
+        cy.get('.row-in-arrears > :nth-child(4)').contains(val.startTime);
       }
-    }
-    if (options.inarrearsItemValues2) {
-      cy.get('.row-in-arrears > :nth-child(2)')
-        .contains(options.inarrearsItemValues2.client.LNF)
-        .should('exist');
-      cy.get('.row-in-arrears > :nth-child(5)')
-        .contains(options.inarrearsItemValues2.appointmentType)
-        .should('exist');
-      cy.get('.row-in-arrears > :nth-child(3)')
-        .contains(options.inarrearsItemValues2.date.format('MM/DD/YYYY'))
-        .should('exist');
-      if (options.inarrearsItemValues2.startTime) {
-        cy.get('.row-in-arrears > :nth-child(4)').contains(
-          options.inarrearsItemValues2.startTime,
-        );
-      }
-    }
-    if (options.noInarrears) {
+    });
+
+    if (options.noInArrears) {
       // const rows = Cypress.$(`.ant-table-row`);
       // if (rows.length > 0) {
       cy.get('.ant-table-row.row-in-arrears').should('not.exist');
@@ -467,22 +441,24 @@ module.exports = (cy, Cypress) => {
     /* prettier-ignore-end */
 
     navToAppropriateWeek(options.date);
+    cy.wait(500);
     cy.get(
       `ol[data-id='${options.date.format('ddd MM/DD')}'] li[data-id='${
         options.time
       }']`,
     ).click();
 
-    cy.get('#clients').click();
-    cy.get('.ant-select-dropdown-menu-item')
-      .contains(options.client.LNF)
-      .click();
-
-    if (options.client2) {
+    cy.get('#clients')
+      .click()
+      .wait(500);
+    options.clients.forEach(val => {
       cy.get('.ant-select-dropdown-menu-item')
-        .contains(options.client2.LNF)
-        .click();
-    } else if (options.appointmentType) {
+        .contains(val.LNF)
+        .trigger('click')
+        .wait(500);
+    });
+
+    if (options.appointmentType) {
       cy.get('input#appointmentType')
         .focus({ log: false })
         .click({ force: true });
@@ -510,6 +486,7 @@ module.exports = (cy, Cypress) => {
       options.future ? '@scheduleAppointment' : '@scheduleAppointmentInPast',
     );
     cy.get('#mainCalendar').should('exist');
+    cy.wait(500);
     cy.get(
       `ol[data-id='${options.date.format('ddd MM/DD')}']
  li[data-id='${options.time}'] div.redux__task__calendar__task__item`,
@@ -586,7 +563,6 @@ module.exports = (cy, Cypress) => {
     cy.log(`${options.index || ''}======Admin Logging In======`);
     cy.log(`======================================================`);
     /* prettier-ignore-end */
-
     const menuData = {
       menuItems: getMenuItems('admin'),
       path: [],
@@ -650,9 +626,11 @@ module.exports = (cy, Cypress) => {
       .invoke('val')
       .as('sowValue');
     cy.get('@sowValue', { log: false }).then(sow => {
-      const startOfWeek = Cypress.moment(sow).startOf('day');
-      cy.log(startOfWeek.toString());
-      cy.log(date.toString());
+      // we have the start of week need to set the hour to beginning of day but it's the wrong utc offset
+      const startOfWeek = riMoment(Cypress.moment(sow)).startOf('day');
+      // cy.log(`target date: ${date.toString()}`);
+      // cy.log(`start of week: ${startOfWeek.toString()}`);
+
       if (date.isBefore(startOfWeek)) {
         cy.log(`======navigate one week back======`);
         cy.get('.redux__task__calendar__header__date__nav > :nth-child(1)', {
@@ -670,9 +648,9 @@ module.exports = (cy, Cypress) => {
       .invoke('val')
       .as('eowValue');
     cy.get('@eowValue', { log: false }).then(eow => {
-      const endOfWeek = Cypress.moment(eow)
-        .subtract(1, 'day')
-        .endOf('day');
+      const endOfWeek = riMoment(Cypress.moment(eow)).endOf('day');
+      // cy.log(`end of week: ${endOfWeek.toString()}`);
+
       if (date.isAfter(endOfWeek)) {
         cy.log(`======navigate one week forward======`);
         cy.get('.redux__task__calendar__header__date__nav > :nth-child(2)', {
@@ -711,18 +689,27 @@ module.exports = (cy, Cypress) => {
     cy.get('tr.row-in-arrears').should('have.length', 0);
   };
 
-  const gotToPurchaseList = options => {
-    cy.get('span.menu__item__leaf__link')
-      .contains('Clients')
-      .click();
-    cy.wait('@fetchAllClients');
-    const row = cy
-      .get('.ant-table-row-level-0')
-      .find('span')
-      .contains(options.client.LN)
-      .closest('tr');
-    row.find('td:last a.list__cell__link span').click();
-    cy.wait('@fetchpurchases').wait(500);
+  const setPurchaseNumber = (type, readable, singleCount, tenPackCount) => {
+    if (!singleCount && !tenPackCount) {
+      return;
+    }
+
+    if (type !== 'fullHour') {
+      cy.get(`div.ant-collapse-header`)
+        .contains(readable)
+        .click()
+        .wait(100);
+    }
+    if (singleCount) {
+      cy.dataId(`${type}-container`, 'div')
+        .find(`input#${type}`)
+        .type(singleCount);
+    }
+    if (tenPackCount) {
+      cy.dataId(`${type}-container`, 'div')
+        .find(`input#${type}TenPack`)
+        .type(tenPackCount);
+    }
   };
 
   const purchaseSessions = options => {
@@ -739,36 +726,49 @@ module.exports = (cy, Cypress) => {
     goToPurchasesList({ client: options.client });
     cy.get('.contentHeader__button__new').click();
 
-    if (options.fullHourCount) {
-      cy.dataId('fullHour-container', 'div')
-        .find('input')
-        .type(options.fullHourCount);
-    }
-    if (options.fullHourTenPackCount) {
-      cy.dataId('fullHour-container', 'div')
-        .find('input')
-        .type(options.fullHourTenPackCount);
-    }
-    if (options.halfHourCount) {
-      cy.dataId('halfHour-container', 'div')
-        .find('input')
-        .type(options.halfHourCount);
-    }
-    if (options.halfHourTenPackCount) {
-      cy.dataId('halfHour-container', 'div')
-        .find('input')
-        .type(options.halfHourTenPackCount);
-    }
-    if (options.pairCount) {
-      cy.dataId('pair-container', 'div')
-        .find('input')
-        .type(options.pairCount);
-    }
-    if (options.pairTenPackCount) {
-      cy.dataId('pair-container', 'div')
-        .find('input')
-        .type(options.pairTenPackCount);
-    }
+    setPurchaseNumber(
+      'fullHour',
+      'Full Hours',
+      options.fullHourCount,
+      options.fullHourTenPackCount,
+    );
+    setPurchaseNumber(
+      'halfHour',
+      'Half Hours',
+      options.halfHourCount,
+      options.halfHourTenPackCount,
+    );
+    setPurchaseNumber(
+      'pair',
+      'Pairs',
+      options.pairCount,
+      options.pairTenPackCount,
+    );
+    setPurchaseNumber(
+      'halfHourPair',
+      'Half Hour Pairs',
+      options.halfHourPairCount,
+      options.halfHourPairTenPackCount,
+    );
+    setPurchaseNumber(
+      'fullHourGroup',
+      'Full Hour Groups',
+      options.fullHourGroupCount,
+      options.fullHourGroupTenPackCount,
+    );
+    setPurchaseNumber(
+      'halfHourGroup',
+      'Half Hour Groups',
+      options.halfHourGroupCount,
+      options.halfHourGroupTenPackCount,
+    );
+    setPurchaseNumber(
+      'fortyFiveMinute',
+      'Forty Five Minute Sessions',
+      options.fortyFiveMinuteCount,
+      options.fortyFiveMinuteTenPackCount,
+    );
+
     cy.get('form').submit();
     cy.wait('@purchase').wait(500);
     cy.wait('@fetchpurchases').wait(500);
@@ -806,7 +806,7 @@ module.exports = (cy, Cypress) => {
     cy.log(`======================================================`);
     /* prettier-ignore-end */
     cy.navTo('Clients');
-    cy.wait('@fetchAllClients');
+    cy.wait('@fetchAllClients').wait(250);
     const row = cy
       .get('.ant-table-row-level-0')
       .find('span')
@@ -861,7 +861,7 @@ module.exports = (cy, Cypress) => {
     const entityName = Cypress.moment(options.date).format('YYYYMMDD');
     let payload = {
       appointmentType: options.appointmentType,
-      date: options.date,
+      appointmentDate: options.date,
       startTime: options.startTime,
       endTime: options.endTime,
       trainerId: options.trainerId,
@@ -887,6 +887,136 @@ module.exports = (cy, Cypress) => {
         )}"] > .ant-calendar-date`,
       ).click();
     });
+  };
+
+  const changeClientRates = options => {
+    /* prettier-ignore-start */
+    changeClientRates;
+    cy.log(`======================================================`);
+    cy.log(`${options.index || ''}======change a clients rates======`);
+    cy.log(`======================================================`);
+    /* prettier-ignore-end */
+    cy.navTo('Clients');
+    cy.wait('@fetchAllClients').wait(500);
+    cy.get('.ant-table-row-level-0 span')
+      .contains(options.client.LN)
+      .closest('tr')
+      .find(':nth-child(1) > .list__cell__link > span')
+      .click();
+    cy.wait('@getClient');
+    cy.wait(500);
+    cy.dataId('clientRates', 'div')
+      .find(`.form__footer__button`)
+      .contains('Edit')
+      .click({
+        force: true,
+      });
+
+    cy.get('#fullHour')
+      .clear()
+      .type(options.fullHour);
+    cy.get('#fullHourTenPack')
+      .clear()
+      .type(options.fullHourTenPack);
+    cy.get('#halfHour')
+      .clear()
+      .type(options.halfHour);
+    cy.get('#halfHourTenPack')
+      .clear()
+      .type(options.halfHourTenPack);
+    cy.get('#pair')
+      .clear()
+      .type(options.pair);
+    cy.get('#pairTenPack')
+      .clear()
+      .type(options.pairTenPack);
+    cy.get('#halfHourPair')
+      .clear()
+      .type(options.halfHourPair);
+    cy.get('#halfHourPairTenPack')
+      .clear()
+      .type(options.halfHourPairTenPack);
+    cy.get('#fullHourGroup')
+      .clear()
+      .type(options.fullHourGroup);
+    cy.get('#fullHourGroupTenPack')
+      .clear()
+      .type(options.fullHourGroupTenPack);
+    cy.get('#halfHourGroup')
+      .clear()
+      .type(options.halfHourGroup);
+    cy.get('#halfHourGroupTenPack')
+      .clear()
+      .type(options.halfHourGroupTenPack);
+    cy.get('#fortyFiveMinute')
+      .clear()
+      .type(options.fortyFiveMinute);
+    cy.get('#fortyFiveMinuteTenPack')
+      .clear()
+      .type(options.fortyFiveMinuteTenPack);
+
+    cy.get(`.form__footer__button`)
+      .contains('Submit')
+      .click();
+    cy.wait(500);
+  };
+
+  const changeDefaultClientRates = options => {
+    /* prettier-ignore-start */
+    changeDefaultClientRates;
+    cy.log(`======================================================`);
+    cy.log(`${options.index || ''}======change default client rates======`);
+    cy.log(`======================================================`);
+    /* prettier-ignore-end */
+    cy.navTo('Default Client Rates');
+    cy.wait('@getdefaultclientrates').wait(500);
+    cy.get('#fullHour')
+      .clear()
+      .type(options.fullHour);
+    cy.get('#fullHourTenPack')
+      .clear()
+      .type(options.fullHourTenPack);
+    cy.get('#halfHour')
+      .clear()
+      .type(options.halfHour);
+    cy.get('#halfHourTenPack')
+      .clear()
+      .type(options.halfHourTenPack);
+    cy.get('#pair')
+      .clear()
+      .type(options.pair);
+    cy.get('#pairTenPack')
+      .clear()
+      .type(options.pairTenPack);
+    cy.get('#halfHourPair')
+      .clear()
+      .type(options.halfHourPair);
+    cy.get('#halfHourPairTenPack')
+      .clear()
+      .type(options.halfHourPairTenPack);
+    cy.get('#fullHourGroup')
+      .clear()
+      .type(options.fullHourGroup);
+    cy.get('#fullHourGroupTenPack')
+      .clear()
+      .type(options.fullHourGroupTenPack);
+    cy.get('#halfHourGroup')
+      .clear()
+      .type(options.halfHourGroup);
+    cy.get('#halfHourGroupTenPack')
+      .clear()
+      .type(options.halfHourGroupTenPack);
+    cy.get('#fortyFiveMinute')
+      .clear()
+      .type(options.fortyFiveMinute);
+    cy.get('#fortyFiveMinuteTenPack')
+      .clear()
+      .type(options.fortyFiveMinuteTenPack);
+
+    cy.get(`.form__footer__button`)
+      .contains('Submit')
+      .click();
+    cy.wait(500);
   };
 
   setupRoutes(cy);
@@ -916,5 +1046,7 @@ module.exports = (cy, Cypress) => {
     signOut,
     verifyAppointments,
     selectDate,
+    changeClientRates,
+    changeDefaultClientRates,
   };
 };

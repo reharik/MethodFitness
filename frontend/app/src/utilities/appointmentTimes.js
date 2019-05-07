@@ -54,11 +54,23 @@ const convertTimeToMoment = time => {
 export function syncApptTypeAndTime(apptType, startTime) {
   let newTime = convertTimeToMoment(startTime);
   let endTime;
-  if (apptType === 'halfHour') {
+
+  if (
+    apptType === 'halfHour' ||
+    apptType === 'halfHourPair' ||
+    apptType === 'halfHourGroup'
+  ) {
     endTime = riMoment(newTime).add(30, 'm');
   }
-  if (apptType === 'fullHour' || apptType === 'pair') {
+  if (
+    apptType === 'fullHour' ||
+    apptType === 'pair' ||
+    apptType === 'fullHourGroup'
+  ) {
     endTime = riMoment(newTime).add(60, 'm');
+  }
+  if (apptType === 'fortyFiveMinute') {
+    endTime = riMoment(newTime).add(45, 'm');
   }
   return endTime.format('h:mm A');
 }
@@ -68,8 +80,11 @@ export function curriedPermissionToSetAppointment(isAdmin) {
 }
 
 // eslint-disable-next-line no-unused-vars
-export function permissionToSetAppointment({ date, startTime }, isAdmin) {
-  const targetDateTime = buildMomentFromDateAndTime(date, startTime);
+export function permissionToSetAppointment(
+  { appointmentDate, startTime },
+  isAdmin,
+) {
+  const targetDateTime = buildMomentFromDateAndTime(appointmentDate, startTime);
   const cutOffDateTime = riMoment();
 
   const sameDayAsCutOff = (targetDate, cutOffDT) => {

@@ -26,10 +26,11 @@ const SubmissionFor = ({
     <Col lg={span || 12} sm={24} data-id={`${data.name}-container`}>
       <FormItem
         {...formItemLayout}
-        label={data.label}
+        label={data.type !== 'boolean' ? data.label : ''}
         style={{ padding: '0 8px' }}
       >
         {form.getFieldDecorator(data.name, {
+          ...(data.type === 'boolean' ? { valuePropName: 'checked' } : {}),
           rules:
             typeof data.rules === 'function' ? data.rules(form) : data.rules,
         })(input)}

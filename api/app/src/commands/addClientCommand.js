@@ -9,6 +9,8 @@ module.exports = function(invariant) {
     legacyId,
     createdDate,
     createdById,
+    clientRates,
+    addClientToCreator,
   }) {
     const {
       firstName,
@@ -21,6 +23,22 @@ module.exports = function(invariant) {
 
     const { street1, street2, city, state, zipCode } = address;
 
+    const {
+      fullHourTenPack,
+      fullHour,
+      halfHourTenPack,
+      halfHour,
+      pairTenPack,
+      pair,
+      halfHourPairTenPack,
+      halfHourPair,
+      fullHourGroupTenPack,
+      fullHourGroup,
+      halfHourGroupTenPack,
+      halfHourGroup,
+      fortyFiveMinuteTenPack,
+      fortyFiveMinute,
+    } = clientRates;
     invariant(
       firstName,
       'addClient requires that you pass the clients first name',
@@ -37,6 +55,59 @@ module.exports = function(invariant) {
     invariant(
       startDate,
       'addClient requires that you pass the clients startDate',
+    );
+    invariant(
+      fullHourTenPack,
+      'addClient requires that you pass the clients fullHourTenPack rate',
+    );
+    invariant(
+      fullHour,
+      'addClient requires that you pass the clients fullHour rate',
+    );
+    invariant(
+      halfHourTenPack,
+      'addClient requires that you pass the clients halfHourTenPack rate',
+    );
+    invariant(
+      halfHour,
+      'addClient requires that you pass the clients halfHour rate',
+    );
+    invariant(
+      pairTenPack,
+      'addClient requires that you pass the clients pairTenPack rate',
+    );
+    invariant(pair, 'addClient requires that you pass the clients pair rate');
+    invariant(
+      halfHourPairTenPack,
+      'addClient requires that you pass the clients halfHourPairTenPack rate',
+    );
+    invariant(
+      halfHourPair,
+      'addClient requires that you pass the clients halfHourPair rate',
+    );
+    invariant(
+      fullHourGroupTenPack,
+      'addClient requires that you pass the clients fullHourGroupTenPack rate',
+    );
+    invariant(
+      fullHourGroup,
+      'addClient requires that you pass the clients fullHourGroup rate',
+    );
+    invariant(
+      halfHourGroupTenPack,
+      'addClient requires that you pass the clients halfHourGroupTenPack rate',
+    );
+    invariant(
+      halfHourGroup,
+      'addClient requires that you pass the clients halfHourGroup rate',
+    );
+    invariant(
+      fortyFiveMinuteTenPack,
+      'addClient requires that you pass the clients fortyFiveMinuteTenPack rate',
+    );
+    invariant(
+      fortyFiveMinute,
+      'addClient requires that you pass the clients fortyFiveMinute rate',
     );
 
     return {
@@ -60,8 +131,25 @@ module.exports = function(invariant) {
           zipCode,
         },
       },
+      clientRates: {
+        fullHourTenPack,
+        fullHour,
+        halfHourTenPack,
+        halfHour,
+        pairTenPack,
+        pair,
+        halfHourPairTenPack,
+        halfHourPair,
+        fullHourGroupTenPack,
+        fullHourGroup,
+        halfHourGroupTenPack,
+        halfHourGroup,
+        fortyFiveMinuteTenPack,
+        fortyFiveMinute,
+      },
       createdDate,
       createdById,
+      addClientToCreator,
     };
   };
 };

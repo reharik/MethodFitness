@@ -14,7 +14,7 @@ module.exports = function() {
         state._isArchived = false;
       },
 
-      locationUpdated: () => {
+      locationUpdated: event => {
         state.name = event.name;
       },
     };

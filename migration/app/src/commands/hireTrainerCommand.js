@@ -10,6 +10,7 @@ module.exports = function(invariant) {
     color,
     createdDate,
     createdById,
+    legacyId,
   }) {
     const {
       firstName,
@@ -42,7 +43,7 @@ module.exports = function(invariant) {
     invariant(role, 'hireTrainer requires that you pass the trainers role');
     invariant(
       defaultTrainerClientRate,
-      'hireTrainer requires that you pass the default trainer client rated',
+      'hireTrainer requires that you pass the default trainer client rate',
     );
     trainerClientRates.forEach(x =>
       invariant(
@@ -78,6 +79,7 @@ module.exports = function(invariant) {
       },
       createdDate,
       createdById,
+      legacyId,
     };
   };
 };

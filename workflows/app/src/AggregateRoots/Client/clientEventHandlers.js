@@ -5,6 +5,7 @@ module.exports = function() {
         state._id = event.clientId;
         state.firstName = event.contact.firstName;
         state.lastName = event.contact.lastName;
+        state.clientRates = event.clientRates;
       },
 
       clientArchived() {
@@ -81,6 +82,10 @@ module.exports = function() {
                 })
               : x,
         );
+      },
+
+      clientRatesUpdated: event => {
+        state.clientRates = event.clientRates;
       },
     };
   };

@@ -26,8 +26,7 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
+        clients: [this.clients.client1, this.clients.client2],
         appointmentType: 'Pair',
       });
 
@@ -43,55 +42,59 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        pairCount: '-1',
+        pairCount: -1,
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        pairCount: '-1',
+        pairCount: -1,
       });
 
       routines.checkVerification({
         index: 4,
-        inarrearsCount: 2,
-        inarrearsItemValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
-        inarrearsItemValues2: {
-          client: this.clients.client2,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
+        inArrearsCount: 2,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+          {
+            client: this.clients.client2,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
       });
 
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client2,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.checkVerification({
         index: 8,
         availableCount: 2,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
-        availableItemValues2: {
-          client: this.clients.client2,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+          {
+            client: this.clients.client2,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
       });
 
       cy.navTo('Calendar');
@@ -115,16 +118,18 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.checkTrainerPayment({
         index: 12,
         appointmentCount: 2,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
-        appointmentValues2: {
-          client: this.clients.client2,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+          {
+            client: this.clients.client2,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
       });
     });
   });
@@ -135,13 +140,13 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client2,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -150,8 +155,7 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
+        clients: [this.clients.client1, this.clients.client2],
         appointmentType: 'Pair',
       });
 
@@ -167,28 +171,30 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        pairCount: '1',
+        pairCount: 1,
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        pairCount: '1',
+        pairCount: 1,
       });
 
       routines.checkVerification({
         index: 8,
         availableCount: 2,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
-        availableItemValues2: {
-          client: this.clients.client2,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+          {
+            client: this.clients.client2,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
       });
 
       routines.checkSessions({
@@ -221,16 +227,18 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.checkTrainerPayment({
         index: 12,
         appointmentCount: 2,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
-        appointmentValues2: {
-          client: this.clients.client2,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+          {
+            client: this.clients.client2,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
       });
     });
   });
@@ -241,7 +249,7 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.purchaseSessions({
         index: 5,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -250,8 +258,7 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
+        clients: [this.clients.client1, this.clients.client2],
         appointmentType: 'Pair',
       });
 
@@ -267,29 +274,33 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        pairCount: '1',
+        pairCount: 1,
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        pairCount: '-1',
+        pairCount: -1,
       });
 
       routines.checkVerification({
         index: 8,
         availableCount: 1,
-        availableItemValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
-        inarrearsCount: 1,
-        inarrearsItemValues: {
-          client: this.clients.client2,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
+        availableItemValues: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client2,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
       });
 
       routines.checkSessions({
@@ -316,11 +327,13 @@ describe('Creating a Pairs Appointment in the Past Changing DATE', () => {
       routines.checkTrainerPayment({
         index: 12,
         appointmentCount: 1,
-        appointmentValues: {
-          client: this.clients.client1,
-          date: newDate,
-          appointmentType: 'Pair',
-        },
+        appointments: [
+          {
+            client: this.clients.client1,
+            date: newDate,
+            appointmentType: 'Pair',
+          },
+        ],
       });
     });
   });

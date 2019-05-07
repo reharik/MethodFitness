@@ -18,7 +18,7 @@ describe('Edit existing trainer client rates', () => {
   describe('When editing trainer client rates', () => {
     it('should pass all steps', function() {
       const trainer = this.trainers.trainer1;
-      const client = this.clients.client5;
+      const client = this.clients.client1;
       cy.navTo('Trainers');
       cy.wait('@fetchAllTrainers').wait(1000);
       cy.get('.ant-table-row-level-0 span')
@@ -49,7 +49,7 @@ describe('Edit existing trainer client rates', () => {
   describe('When entering null for TCR', () => {
     it('should pass all steps', function() {
       const trainer = this.trainers.trainer1;
-      const client = this.clients.client5;
+      const client = this.clients.client1;
       cy.navTo('Trainers');
       cy.wait('@fetchAllTrainers').wait(1000);
       cy.get('.ant-table-row-level-0 span')

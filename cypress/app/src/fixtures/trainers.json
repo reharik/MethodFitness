@@ -5,7 +5,8 @@
     "FN": "Amahl",
     "userName": "admin",
     "password": "123123",
-    "id": "b4535c1b-8791-48f2-9eca-7920032c117c"
+    "id": "b4535c1b-8791-48f2-9eca-7920032c117c",
+    "defaultTrainerClientRate": "65"
   },
   "trainer2": {
     "LNF": "Else, Someone",
@@ -13,7 +14,8 @@
     "FN": "Someone",
     "userName": "admin2",
     "password": "345345",
-    "id": "e68533f8-ea60-4195-b9bf-f7a9e6c75a39"
+    "id": "e68533f8-ea60-4195-b9bf-f7a9e6c75a39",
+    "defaultTrainerClientRate": "65"
   },
   "trainer3": {
     "LNF": "Harik, Raif",
@@ -21,7 +23,8 @@
     "FN": "Raif",
     "userName": "trainer2",
     "password": "234234",
-    "id": "3454aa86-a5a6-4600-b8d8-6912df9fccf1"
+    "id": "3454aa86-a5a6-4600-b8d8-6912df9fccf1",
+    "defaultTrainerClientRate": "65"
   },
   "newTrainer": {
     "firstName": "Bubba",
@@ -34,7 +37,19 @@
     "city": "Austin",
     "state": "Texas",
     "zipCode": "78702",
-    "clients": ["Barr, Sarah", "Ahern, Jessica"],
-    "password": "1234"
+    "clients": [
+      {
+        "name": "Barr, Sarah",
+        "id": "87a07924-a855-4f1b-b4f4-5a3e82ed76a9",
+        "rate": 65
+      },
+      {
+        "name": "Ahern, Jessica",
+        "id": "152243e5-eff7-4542-96eb-259fec84df0d",
+        "rate": 65
+      }
+    ],
+    "password": "1234",
+    "defaultTrainerClientRate": "65"
   }
 }

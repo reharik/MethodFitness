@@ -19,9 +19,7 @@
   },
   "parserOptions": {
     "ecmaFeatures": {
-      // experimentalObjectRestSpread is necessary to allow us to use the spread operator.
-      // see https://github.com/eslint/eslint/issues/2532
-      "experimentalObjectRestSpread": true
+      "parserOptions.ecmaVersion" : 2017
     },
     "ecmaVersion": 2017,
     "sourceType": "module"

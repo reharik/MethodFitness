@@ -22,6 +22,11 @@ module.exports = function(
     await processMessage(ctx, 'updateClientSource');
   };
 
+  let updateClientRates = async function(ctx) {
+    logger.debug('arrived at client.updateClientRates');
+    await processMessage(ctx, 'updateClientRates');
+  };
+
   let updateClientContact = async function(ctx) {
     logger.debug('arrived at client.updateClientContact');
     await processMessage(ctx, 'updateClientContact');
@@ -105,6 +110,7 @@ module.exports = function(
     updateClientContact,
     updateClientAddress,
     updateClientSource,
+    updateClientRates,
     archiveClient,
     getClient,
   };

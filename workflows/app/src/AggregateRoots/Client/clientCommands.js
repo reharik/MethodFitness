@@ -14,6 +14,10 @@ module.exports = function(
         addSessions(cmd, 'fullHour'),
         addSessions(cmd, 'halfHour'),
         addSessions(cmd, 'pair'),
+        addSessions(cmd, 'halfHourPair'),
+        addSessions(cmd, 'fullHourGroup'),
+        addSessions(cmd, 'halfHourGroup'),
+        addSessions(cmd, 'fortyFiveMinute'),
       );
     };
 
@@ -29,24 +33,34 @@ module.exports = function(
       //TODO remove after migration
       // for migration
       if (cmd.migration) {
-        const mapping = cmd[`${type.replace(' ', '_')}AppointmentIds`].pop();
-        session.appointmentId = mapping.appointmentId;
-        session.legacyId = mapping.sessionId;
+        let mapping = cmd[`${type}AppointmentIds`].pop();
+
+        if (mapping) {
+          if (mapping.legacyAppointmentId) {
+            session.legacyAppointmentId = mapping.legacyAppointmentId;
+          }
+          session.legacyId = mapping.legacyId;
+        }
       }
       return session;
     };
 
     const addSessions = (cmd, type) => {
-      const individualPrice = cmd[type] ? cmd[`${type}Total`] / cmd[type] : 0;
-      const tenPackPrice = cmd[`${type}TenPack`]
-        ? cmd[`${type}TenPackTotal`] / (cmd[`${type}TenPack`] * 10)
-        : 0;
+      let individualPrice = state.clientRates[type];
+      let tenPackPrice = state.clientRates[`${type}TenPack`] / 10;
+
+      // for migration could probably now, just use the session making sure to include to purchaseId
+
       let sessions = [];
       for (let i = 0; i < cmd[type]; i++) {
-        sessions.push(createNewSessionEvent(type, individualPrice, cmd));
+        sessions.push(
+          createNewSessionEvent(type, individualPrice.toFixed(2), cmd),
+        );
       }
       for (let i = 0; i < cmd[`${type}TenPack`] * 10; i++) {
-        sessions.push(createNewSessionEvent(type, tenPackPrice, cmd));
+        sessions.push(
+          createNewSessionEvent(type, tenPackPrice.toFixed(2), cmd),
+        );
       }
       return sessions;
     };
@@ -69,6 +83,12 @@ module.exports = function(
           let cmdClone = Object.assign({}, cmd);
           invariants.expectNotArchived();
           raiseEvent(esEvents.clientSourceUpdatedEvent(cmdClone));
+        },
+
+        updateClientRates: cmd => {
+          let cmdClone = Object.assign({}, cmd);
+          invariants.expectNotArchived();
+          raiseEvent(esEvents.clientRatesUpdatedEvent(cmdClone));
         },
 
         updateClientContact: cmd => {
@@ -99,7 +119,10 @@ module.exports = function(
           let cmdClone = Object.assign({}, cmd);
           cmdClone.purchaseId = cmdClone.purchaseId || uuid.v4();
           let sessions = generateSessions(cmdClone);
-
+          cmdClone.purchaseTotal = sessions.reduce((a, b) => {
+            a = a + parseFloat(b.purchasePrice);
+            return a;
+          }, 0);
           // handle unfunded sessions
           //TODO remove after migration
           // skip for migration
@@ -162,14 +185,8 @@ module.exports = function(
             trainer,
             cmdClone.trainerId,
           );
-          console.log(`==========state._id==========`);
-          console.log(state._id);
-          console.log(`==========END state._id==========`);
 
           const TCR = trainerInstance.getTrainerClientRateByClientId(state._id);
-          console.log(`==========TCR==========`);
-          console.log(TCR);
-          console.log(`==========END TCR==========`);
 
           cmdClone.clientId = state._id;
           cmdClone.clientFirstName = state.firstName;

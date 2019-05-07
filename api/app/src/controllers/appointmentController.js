@@ -127,7 +127,7 @@ module.exports = function(
     if (orig.trainerId !== update.trainerId) {
       changes.trainer = true;
     }
-    if (orig.date !== update.date) {
+    if (orig.appointmentDate !== update.appointmentDate) {
       changes.date = true;
     }
     return changes;

@@ -30,7 +30,7 @@ describe('Archive Trainer', () => {
         .contains(this.trainers.trainer2.LN)
         .should('not.exist');
       // go to archived list
-      cy.get('span')
+      cy.get('div.list__header__right span')
         .contains('Archived')
         .click();
       // chekc that archived trainer in list
@@ -38,7 +38,7 @@ describe('Archive Trainer', () => {
         .contains(this.trainers.trainer2.LN)
         .should('exist');
       // go to show all
-      cy.get('span')
+      cy.get('div.list__header__right span')
         .contains('Show All')
         .click();
       // should show the archived trainer in there
@@ -67,7 +67,7 @@ describe('Archive Trainer', () => {
       // return to trainers
       cy.navTo('Trainers');
       // got to show all find archived trainer and click unarchived
-      cy.get('span')
+      cy.get('div.list__header__right span')
         .contains('Show All')
         .click();
       cy.get('.ant-table-row-level-0 td')
@@ -85,7 +85,7 @@ describe('Archive Trainer', () => {
         .contains('Archive')
         .should('exist');
       // check that there are no trainers in archived list
-      cy.get('span')
+      cy.get('div.list__header__right span')
         .contains('Archived')
         .click();
       cy.get('.ant-empty-description')

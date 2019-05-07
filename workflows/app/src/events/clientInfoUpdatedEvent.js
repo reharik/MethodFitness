@@ -4,12 +4,21 @@ module.exports = function(invariant) {
     firstName,
     lastName,
     birthDate,
-                    createdDate,
-                    createdById
+    createdDate,
+    createdById,
   }) {
-    invariant(clientId, 'clientInfoUpdated requires that you pass the client id');
-    invariant(firstName, 'clientInfoUpdated requires that you pass the client first name');
-    invariant(lastName, 'clientInfoUpdated requires that you pass the client last name');
+    invariant(
+      clientId,
+      'clientInfoUpdated requires that you pass the client id',
+    );
+    invariant(
+      firstName,
+      'clientInfoUpdated requires that you pass the client first name',
+    );
+    invariant(
+      lastName,
+      'clientInfoUpdated requires that you pass the client last name',
+    );
     return {
       eventName: 'clientInfoUpdated',
       clientId,
@@ -17,7 +26,7 @@ module.exports = function(invariant) {
       lastName,
       birthDate,
       createdDate,
-      createdById
+      createdById,
     };
   };
 };

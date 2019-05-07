@@ -26,9 +26,8 @@ describe('Moving Pairs From past to Future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
-        appointmentType: 'Pairs',
+        clients: [this.clients.client1, this.clients.client2],
+        appointmentType: 'Pair',
       });
       const newDate = Cypress.moment(aDT.day).add(2, 'day');
       appointmentValues = {
@@ -42,13 +41,13 @@ describe('Moving Pairs From past to Future', () => {
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client1,
-        pairCount: '0',
+        pairCount: 0,
       });
 
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client2,
-        pairCount: '0',
+        pairCount: 0,
       });
 
       routines.checkVerification({
@@ -65,7 +64,7 @@ describe('Moving Pairs From past to Future', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -74,9 +73,8 @@ describe('Moving Pairs From past to Future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
-        appointmentType: 'Pairs',
+        clients: [this.clients.client1, this.clients.client2],
+        appointmentType: 'Pair',
       });
 
       const newDate = Cypress.moment(aDT.day).add(2, 'day');
@@ -91,13 +89,13 @@ describe('Moving Pairs From past to Future', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        pairCount: '0',
+        pairCount: 0,
       });
 
       routines.checkVerification({
@@ -121,13 +119,13 @@ describe('Moving Pairs From past to Future', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client2,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -136,9 +134,8 @@ describe('Moving Pairs From past to Future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
-        appointmentType: 'Pairs',
+        clients: [this.clients.client1, this.clients.client2],
+        appointmentType: 'Pair',
       });
 
       const newDate = Cypress.moment(aDT.day).add(2, 'day');
@@ -153,13 +150,13 @@ describe('Moving Pairs From past to Future', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.checkVerification({
@@ -189,7 +186,7 @@ describe('Moving Pairs From past to Future', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -198,9 +195,8 @@ describe('Moving Pairs From past to Future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
-        appointmentType: 'Pairs',
+        clients: [this.clients.client1, this.clients.client2],
+        appointmentType: 'Pair',
       });
 
       routines.verifyAppointments({
@@ -219,13 +215,13 @@ describe('Moving Pairs From past to Future', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        pairCount: '0',
+        pairCount: 0,
       });
 
       routines.checkVerification({
@@ -249,13 +245,13 @@ describe('Moving Pairs From past to Future', () => {
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.purchaseSessions({
         index: 1,
         client: this.clients.client2,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       cy.navTo('Calendar');
@@ -264,9 +260,8 @@ describe('Moving Pairs From past to Future', () => {
       routines.createAppointment({
         date: aDT.date,
         time: aDT.time,
-        client: this.clients.client1,
-        client2: this.clients.client2,
-        appointmentType: 'Pairs',
+        clients: [this.clients.client1, this.clients.client2],
+        appointmentType: 'Pair',
       });
 
       routines.verifyAppointments({
@@ -285,13 +280,13 @@ describe('Moving Pairs From past to Future', () => {
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client1,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.checkClientInventory({
         index: 3,
         client: this.clients.client2,
-        pairCount: '2',
+        pairCount: 2,
       });
 
       routines.checkVerification({

@@ -1,6 +1,6 @@
 let config = require('config');
 
-module.exports = (function(_options) {
+module.exports = (async function(_options) {
   try {
     let options = Object.assign(
       {},
@@ -8,6 +8,8 @@ module.exports = (function(_options) {
       _options || {},
     );
     let container = require('./registry')(options);
+    let pingDB = container.getInstanceOf('pingDB');
+    await pingDB();
     let dispatch = container.getInstanceOf('dispatch');
     dispatch();
   } catch (ex) {

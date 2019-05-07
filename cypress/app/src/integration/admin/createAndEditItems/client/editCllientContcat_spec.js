@@ -56,7 +56,6 @@ describe('Edit existing client contact', () => {
   describe('When editing client contact end erasing all values', () => {
     it('should pass all steps', function() {
       const client = this.clients.client1;
-      const newClient = this.clients.newClient;
       cy.navTo('Clients');
       cy.wait('@fetchAllClients').wait(1000);
       cy.get('.ant-table-row-level-0 span')

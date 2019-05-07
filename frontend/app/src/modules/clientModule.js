@@ -20,6 +20,10 @@ export const UPDATE_CLIENT_SOURCE = requestStates(
   'update_client_Source',
   'client',
 );
+export const UPDATE_CLIENT_RATES = requestStates(
+  'update_client_rates',
+  'client',
+);
 export const ARCHIVE_CLIENT = requestStates('archive_client', 'client');
 export const CLIENT_LIST = requestStates('client_list', 'client');
 export const CLIENT = requestStates('client');
@@ -113,6 +117,38 @@ export default (state = { [DEFAULT_KEY]: null, results: [] }, action = {}) => {
               source: update.source,
               sourceNotes: update.sourceNotes,
               startDate: update.startDate,
+            };
+          }
+          return x;
+        }),
+      };
+    }
+
+    case UPDATE_CLIENT_RATES.SUCCESS: {
+      let update = selectn('action.update', action);
+
+      return {
+        ...state,
+        results: state.results.map(x => {
+          if (x.clientId === update.clientId) {
+            return {
+              ...x,
+              clientRates: {
+                fullHourTenPack: update.fullHourTenPack,
+                fullHour: update.fullHour,
+                halfHourTenPack: update.halfHourTenPack,
+                halfHour: update.halfHour,
+                pairTenPack: update.pairTenPack,
+                pair: update.pair,
+                halfHourPairTenPack: update.halfHourPairTenPack,
+                halfHourPair: update.halfHourPair,
+                fullHourGroupTenPack: update.fullHourGroupTenPack,
+                fullHourGroup: update.fullHourGroup,
+                halfHourGroupTenPack: update.halfHourGroupTenPack,
+                halfHourGroup: update.halfHourGroup,
+                fortyFiveMinuteTenPack: update.fortyFiveMinuteTenPack,
+                fortyFiveMinute: update.fortyFiveMinute,
+              },
             };
           }
           return x;
@@ -234,6 +270,41 @@ export function updateClientSource(data) {
     type: UPDATE_CLIENT_SOURCE.REQUEST,
     states: UPDATE_CLIENT_SOURCE,
     url: config.apiBase + 'client/updateClientSource',
+    update: data,
+    params: {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item),
+    },
+  };
+}
+
+export function updateClientRates(data) {
+  const item = {
+    clientId: data.clientId,
+    fullHourTenPack: data.fullHourTenPack,
+    fullHour: data.fullHour,
+    halfHourTenPack: data.halfHourTenPack,
+    halfHour: data.halfHour,
+    pairTenPack: data.pairTenPack,
+    pair: data.pair,
+    halfHourPairTenPack: data.halfHourPairTenPack,
+    halfHourPair: data.halfHourPair,
+    fullHourGroupTenPack: data.fullHourGroupTenPack,
+    fullHourGroup: data.fullHourGroup,
+    halfHourGroupTenPack: data.halfHourGroupTenPack,
+    halfHourGroup: data.halfHourGroup,
+    fortyFiveMinuteTenPack: data.fortyFiveMinuteTenPack,
+    fortyFiveMinute: data.fortyFiveMinute,
+  };
+
+  return {
+    type: UPDATE_CLIENT_RATES.REQUEST,
+    states: UPDATE_CLIENT_RATES,
+    url: config.apiBase + 'client/updateClientRates',
     update: data,
     params: {
       method: 'POST',

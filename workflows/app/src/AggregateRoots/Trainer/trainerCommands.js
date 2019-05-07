@@ -180,7 +180,7 @@ module.exports = function(
         .map(x => ({
           trainerId: state._id,
           clientId: x,
-          rate: state.defaultTrainerCientRate,
+          rate: state.defaultTrainerClientRate,
         }))
         .forEach(e => {
           let event = Object.assign(e, {
@@ -203,7 +203,7 @@ module.exports = function(
             state._id
           } whose Client list does not include this client: ${clientId}`,
         );
-        return this.state.defaultTrainerCientRate;
+        return state.defaultTrainerClientRate;
       }
       return rate;
     };

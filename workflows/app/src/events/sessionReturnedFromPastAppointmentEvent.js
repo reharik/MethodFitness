@@ -4,13 +4,25 @@ module.exports = function(invariant) {
     clientId,
     appointmentType,
     sessionId,
-                    createdDate,
-                    createdById
+    createdDate,
+    createdById,
   }) {
-    invariant(clientId, 'Session Returned From Past Appointment requires that you pass the client id');
-    invariant(sessionId, 'Session Returned From Past Appointment requires that you pass the session id');
-    invariant(appointmentId, 'Session Returned From Past Appointment requires that you pass the appointment id');
-    invariant(appointmentType, 'Session Returned From Past Appointment requires that you pass the appointment type');
+    invariant(
+      clientId,
+      'Session Returned From Past Appointment requires that you pass the client id',
+    );
+    invariant(
+      sessionId,
+      'Session Returned From Past Appointment requires that you pass the session id',
+    );
+    invariant(
+      appointmentId,
+      'Session Returned From Past Appointment requires that you pass the appointment id',
+    );
+    invariant(
+      appointmentType,
+      'Session Returned From Past Appointment requires that you pass the appointment type',
+    );
     return {
       eventName: 'sessionReturnedFromPastAppointment',
       clientId,
@@ -18,7 +30,7 @@ module.exports = function(invariant) {
       appointmentType,
       sessionId,
       createdDate,
-      createdById
+      createdById,
     };
   };
 };

@@ -1,16 +1,18 @@
 module.exports = function(invariant) {
   return function({
-                     clientId,
-                     street1,
-                     street2,
-                     city,
-                     state,
-                     zipCode,
-                    createdDate,
-                    createdById
-
-                  }) {
-    invariant(clientId, 'updateClientAddress requires that you pass the clients Id');
+    clientId,
+    street1,
+    street2,
+    city,
+    state,
+    zipCode,
+    createdDate,
+    createdById,
+  }) {
+    invariant(
+      clientId,
+      'updateClientAddress requires that you pass the clients Id',
+    );
     return {
       clientId,
       address: {
@@ -20,8 +22,8 @@ module.exports = function(invariant) {
         state,
         zipCode,
         createdDate,
-        createdById
-      }
+        createdById,
+      },
     };
   };
 };

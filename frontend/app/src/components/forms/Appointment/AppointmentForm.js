@@ -16,8 +16,13 @@ class AppointmentForm extends Component {
   containerName = 'appointmentForm';
   state = { editing: this.props.editing };
 
-  UNSAFE_componentWillReceiveProps(newProps) {
-    this.setState({ editing: newProps.editing });
+  static getDerivedStateFromProps(props, state) {
+    console.log(`==========props==========`);
+    console.log(state);
+    console.log(props);
+    console.log(`==========END props==========`);
+
+    return { editing: props.editing };
   }
 
   toggleEdit = (e, rollBack) => {
@@ -82,7 +87,10 @@ class AppointmentForm extends Component {
   handleAppointmentTypeChange = value => {
     if (
       this.props.form.getFieldValue('clients').length > 1 &&
-      value !== 'pair'
+      (value !== 'pair' &&
+        value !== 'halfHourPair' &&
+        value !== 'halfHourGroup' &&
+        value !== 'fullHourGroup')
     ) {
       this.props.form.setFieldsValue({
         clients: [],
@@ -96,15 +104,25 @@ class AppointmentForm extends Component {
   };
 
   handleClientChange = value => {
+    let appointmentType = this.props.form.getFieldValue('appointmentType');
     if (
       value.length > 1 &&
-      this.props.form.getFieldValue('appointmentType') !== 'pair'
+      (appointmentType !== 'pair' ||
+        appointmentType !== 'halfHourPair' ||
+        appointmentType !== 'halfHourGroup' ||
+        appointmentType !== 'fullHourGroup')
     ) {
+      if (appointmentType === 'halfHour') {
+        appointmentType = 'halfHourPair';
+      } else {
+        appointmentType = 'pair';
+      }
+
       this.props.form.setFieldsValue({
-        appointmentType: 'pair',
+        appointmentType,
       });
       const endTime = syncApptTypeAndTime(
-        'pair',
+        appointmentType,
         this.props.form.getFieldValue('startTime'),
       );
       this.props.form.setFieldsValue({ endTime });
@@ -112,11 +130,28 @@ class AppointmentForm extends Component {
 
     if (
       value.length < 2 &&
-      this.props.form.getFieldValue('appointmentType') === 'pair'
+      (appointmentType === 'pair' ||
+        appointmentType === 'halfHourPair' ||
+        appointmentType === 'halfHourGroup' ||
+        appointmentType === 'fullHourGroup')
     ) {
+      if (
+        appointmentType === 'halfHourPair' ||
+        appointmentType === 'halfHourGroup'
+      ) {
+        appointmentType = 'halfHour';
+      } else {
+        appointmentType = 'fullHour';
+      }
+
       this.props.form.setFieldsValue({
-        appointmentType: 'fullHour',
+        appointmentType,
       });
+      const endTime = syncApptTypeAndTime(
+        appointmentType,
+        this.props.form.getFieldValue('startTime'),
+      );
+      this.props.form.setFieldsValue({ endTime });
     }
   };
 
@@ -221,7 +256,6 @@ class AppointmentForm extends Component {
               span={24}
             />
           </Row>
-
           <Row type="flex">
             <EditableFor
               editing={this.state.editing}

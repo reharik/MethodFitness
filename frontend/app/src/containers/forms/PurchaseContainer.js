@@ -10,11 +10,13 @@ const mapStateToProps = (state, props) => {
   model.clientId.value = props.params.clientId;
   let client = state.clients.results.find(
     x => x.clientId === props.params.clientId,
-  ) || { contact: {} };
+  );
 
   return {
     model,
-    client,
+    clientFirstName: client ? client.contact.firstName : '',
+    clientLastName: client ? client.contact.lastName : '',
+    clientRates: client ? client.clientRates : {},
   };
 };
 

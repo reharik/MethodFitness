@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-cypress": "^2.2.1",
+    "eslint-plugin-mocha": "^5.3.0",
     "pnp-webpack-plugin": "^1.2.1"
   }
 }

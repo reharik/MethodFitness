@@ -4,7 +4,6 @@ const setupRoutes = require('../helpers/setupRoutes');
 const _aDT = require('../fixtures/appointments');
 const appTimes = require('../helpers/appointmentTimes');
 let aDT;
-let appointmentValues;
 
 describe('Calling appointmentStatusUpdate', () => {
   let routines;
@@ -22,7 +21,7 @@ describe('Calling appointmentStatusUpdate', () => {
     cy.fixture('locations').as('locations');
   });
 
-  describe.only('When calling appointmentStatusUpdate', () => {
+  describe('When calling appointmentStatusUpdate', () => {
     it('should pass all steps', function() {
       cy.log(this.clients.client5.id);
       aDT = _aDT(Cypress.moment, appTimes.time7, true);
@@ -59,13 +58,31 @@ describe('Calling appointmentStatusUpdate', () => {
         client: this.clients.client5,
         fullHourCount: 0,
       });
+      routines.checkVerification({
+        index: 2,
+        noInArrears: true,
+        noAvailable: true,
+      });
+
       const apiHost = Cypress.env('API_BASE_URL');
       cy.request('POST', `${apiHost}/scheduledjobs/appointmentstatusupdate`);
       cy.wait(1000);
       routines.checkClientInventory({
-        index: 2,
+        index: 3,
         client: this.clients.client5,
         fullHourCount: -1,
+      });
+
+      routines.checkVerification({
+        index: 4,
+        inArrearsCount: 1,
+        inArrearsItemValues: [
+          {
+            client: this.clients.client5,
+            date: aDT.date,
+            appointmentType: 'Full Hour',
+          },
+        ],
       });
     });
   });
@@ -91,7 +108,7 @@ describe('Calling appointmentStatusUpdate', () => {
       routines.createAppointment({
         date: aDTFuture.date,
         time: aDTFuture.time,
-        client: this.clients.client5,
+        clients: [this.clients.client5],
         appointmentType: 'Full Hour',
         future: true,
       });
@@ -112,13 +129,27 @@ describe('Calling appointmentStatusUpdate', () => {
         client: this.clients.client5,
         fullHourCount: 0,
       });
+
+      routines.checkVerification({
+        index: 2,
+        noInArrears: true,
+        noAvailable: true,
+      });
+
       const apiHost = Cypress.env('API_BASE_URL');
       cy.request('POST', `${apiHost}/scheduledjobs/appointmentstatusupdate`);
       cy.wait(1000);
+
       routines.checkClientInventory({
         index: 2,
         client: this.clients.client5,
         fullHourCount: -1,
+      });
+
+      routines.checkVerification({
+        index: 2,
+        noInArrears: true,
+        noAvailable: true,
       });
     });
   });
