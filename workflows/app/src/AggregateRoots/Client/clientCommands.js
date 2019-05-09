@@ -33,12 +33,13 @@ module.exports = function(
       //TODO remove after migration
       // for migration
       if (cmd.migration) {
-        let mapping = cmd[`${type}AppointmentIds`].pop();
+        let mapping = cmd[`${type}AppointmentIds`] ? cmd[`${type}AppointmentIds`].pop() : {};
 
         if (mapping) {
           if (mapping.legacyAppointmentId) {
             session.legacyAppointmentId = mapping.legacyAppointmentId;
           }
+          session.purchasePrice = mapping.cost;
           session.legacyId = mapping.legacyId;
         }
       }
@@ -48,7 +49,6 @@ module.exports = function(
     const addSessions = (cmd, type) => {
       let individualPrice = state.clientRates[type];
       let tenPackPrice = state.clientRates[`${type}TenPack`] / 10;
-
       // for migration could probably now, just use the session making sure to include to purchaseId
 
       let sessions = [];

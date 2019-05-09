@@ -7,14 +7,19 @@ const bootstrap = (
   migratePastAppointments,
   migrateTrainersValidations,
   migrateTrainersPayments,
+  migrateClientRates,
 ) => {
   return async () => {
     try {
       const start = Date.now();
       console.log('starting timer...');
+
+      /////////////
+      // LOCATIONS
       await migrateLocations();
 
       /////////////
+      // CLIENTS
       const clientStart = Date.now();
       await migrateClients();
       var clientMillis = Date.now() - clientStart;
@@ -29,6 +34,7 @@ const bootstrap = (
       );
 
       //////////////////
+      // TRAINERS
       const trainerStart = Date.now();
       await migrateTrainers();
       var trainerMillis = Date.now() - trainerStart;
@@ -42,7 +48,23 @@ const bootstrap = (
         `==========END "trainer seconds elapsed = " + Math.floor(millis/1000)==========`,
       );
 
-      //////////////
+      /////////////
+      // CLIENT RATES
+      const clientRatesStart = Date.now();
+      await migrateClientRates();
+      var clientRatesMillis = Date.now() - clientRatesStart;
+      console.log(
+        `=========="client rates seconds elapsed = " + Math.floor(millis/1000)==========`,
+      );
+      console.log(
+        `client rates seconds elapsed =  ${Math.floor(clientRatesMillis / 1000)}`,
+      );
+      console.log(
+        `==========END "client rates seconds elapsed = " + Math.floor(millis/1000)==========`,
+      );
+
+      ////////////////
+      // SESSIONS
       const sessionsStart = Date.now();
       await migrateClientSessions();
       var sessionsMillis = Date.now() - sessionsStart;
@@ -60,16 +82,17 @@ const bootstrap = (
 
       // // await migrateFutureAppointments();
 
-      ////////////////
-      const pastApointmentsStart = Date.now();
+      //////////////
+      // PAST APPOINTMENTS
+      const pastAppointmentsStart = Date.now();
       await migratePastAppointments();
-      var pastApointmentsMillis = Date.now() - pastApointmentsStart;
+      const pastAppointmentsMillis = Date.now() - pastAppointmentsStart;
       console.log(
         `=========="past appointment seconds elapsed = " + Math.floor(millis/1000)==========`,
       );
       console.log(
         `past appointment seconds elapsed =  ${Math.floor(
-          pastApointmentsMillis / 1000,
+          pastAppointmentsMillis / 1000,
         )}`,
       );
       console.log(

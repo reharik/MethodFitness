@@ -7,7 +7,7 @@ import { requestStates } from '../sagas/requestSaga';
 import { fetchClientAction } from './clientModule';
 import selectn from 'selectn';
 
-import { delay } from 'redux-saga';
+// import { delay } from 'redux-saga';
 
 export const PURCHASE_SESSIONS = requestStates(
   'purchase_sessions',
@@ -48,8 +48,8 @@ export default (state = [], action = {}) => {
 
 // eslint-disable-next-line space-before-function-paren
 const successFunction = async (action, payload) => {
-  await delay(1000, { action, payload });
-  return [push(`/purchases/${payload.payload.clientId}`),
+  return [
+    push(`/purchases/${payload.payload.clientId}`),
   {
     type: action.states.SUCCESS,
     action,

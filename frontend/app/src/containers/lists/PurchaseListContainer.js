@@ -41,6 +41,10 @@ const columns = [
 ];
 
 function mapStateToProps(state, props) {
+  console.log(`=========='Here'==========`);
+  console.log('Here');
+  console.log(`==========END 'Here'==========`);
+
   const isAdmin = state.auth.user.role === 'admin';
   const dataSource = state.purchases.find(
     x => x.clientId === props.match.params.clientId,

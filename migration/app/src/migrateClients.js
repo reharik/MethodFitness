@@ -5,6 +5,7 @@ const clients = (
   notificationParser,
   uuid,
   commands,
+  rsRepository
 ) => {
   return async () => {
     mssql = await mssql;
@@ -15,6 +16,9 @@ const clients = (
     // from client c inner join Appointment_Client ac on c.entityId = ac.clientId
     // inner join Appointment a on a.EntityId = ac.AppointmentId
     // where convert(datetime, a.Date) > CONVERT(datetime, '2/1/2018')`;
+
+    rsRepository = await rsRepository;
+    const defaultClientRates = await rsRepository.query('select * from "defaultClientRates"');
 
     const lastId = results.recordset[results.recordset.length - 1].EntityId;
     for (let x of results.recordset) {
@@ -39,6 +43,8 @@ const clients = (
             zipCode: x.ZipCode,
           },
         },
+        clientRates: defaultClientRates[0],
+
         createdDate: x.CreatedDate,
         createdById: x.CreatedById,
         migration: true,
@@ -73,3 +79,10 @@ const clients = (
 };
 
 module.exports = clients;
+
+
+/*
+* exclude 155
+156
+173
+* */

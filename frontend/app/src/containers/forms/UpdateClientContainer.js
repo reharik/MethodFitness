@@ -58,10 +58,6 @@ const mapStateToProps = (state, props) => {
     x => x.clientId === props.match.params.clientId,
   );
   const model = normalizeModel(state.schema.definitions.client, client);
-  console.log(`==========model==========`);
-  console.log(client ? client.inventory : null);
-  console.log(`==========END model==========`);
-
   return {
     model,
     states,

@@ -106,10 +106,6 @@ class PurchaseForm extends Component {
   render() {
     const model = this.props.model;
     const form = this.props.form;
-    console.log(`==========model==========`);
-    console.log(model);
-    console.log(`==========END model==========`);
-
     return (
       <div className="form">
         <ContentHeader>

@@ -9,10 +9,35 @@ const migrateClientSessions = (
   R,
 ) => {
   return async () => {
+    const halfHourPairClients = [
+      2331,
+      5895,
+      2623,
+      2633,
+      2736,
+      2737,
+      3871,
+      3872,
+      5914,
+      3873,
+    ];
+
     mssql = await mssql;
     const clientSessions = await mssql.query`
-    SELECT *
-      FROM [MethodFitness_PROD].[dbo].[Session]`;
+ select s.EntityId,
+		s.AppointmentType,
+		s.PurchaseBatchNumber,
+		s.ClientId,
+		s.AppointmentId,
+		s.TrainerId,
+		s.CreatedDate,
+		s.CreatedById,
+		s.Cost,
+		tps.TrainerPay,
+		TrainerPercent = (tps.TrainerPay/s.Cost) * 100
+ from Session s inner join TrainerPaymentSessionItem tps on s.AppointmentId = tps.AppointmentId
+ where SessionUsed = 1 and InArrears = 0 and s.Cost > 0
+`;
 
     //   where NOT inArrears = 1 AND CreatedDate > CONVERT(datetime, '2/1/2018')
     // `;
@@ -38,7 +63,21 @@ const migrateClientSessions = (
         s => s.PurchaseBatchNumber,
         sessionsByLegacyId[key],
       );
+      const nullPurchaseOrderId = uuid.v4();
       const poKeys = Object.keys(clientPurchaseOrders);
+      if (clientPurchaseOrders[null] || clientPurchaseOrders[undefined]) {
+        clientPurchaseOrders[nullPurchaseOrderId] = [];
+        clientPurchaseOrders[nullPurchaseOrderId].concat(
+          clientPurchaseOrders[null] || [],
+        );
+        clientPurchaseOrders[nullPurchaseOrderId].concat(
+          clientPurchaseOrders[undefined] || [],
+        );
+        console.log(`==========clientPurchaseOrders[nullPurchaseOrderId]==========`);
+        console.log(clientPurchaseOrders[nullPurchaseOrderId]);
+        console.log(`==========END clientPurchaseOrders[nullPurchaseOrderId]==========`);
+
+      }
       let lastPOId;
       if (key === lastClient) {
         lastPOId = poKeys[poKeys.length - 1];
@@ -51,6 +90,10 @@ const migrateClientSessions = (
       // console.log(`==========END clientId==========`);
 
       for (let legacyPOId of poKeys) {
+        const purchaseTotal = clientPurchaseOrders[legacyPOId].reduce(
+          (a, b) => a.cost + b.cost,
+          0,
+        );
         const sessions = R.groupBy(
           x => x.AppointmentType,
           clientPurchaseOrders[legacyPOId],
@@ -59,23 +102,19 @@ const migrateClientSessions = (
           clientId,
           fullHour: 0,
           fullHourTenPack: 0,
-          fullHourTotal: 0,
-          fullHourTenPackTotal: 0,
-          totalFullHours: 0,
+          fullHourPrice: 0,
           halfHour: 0,
           halfHourTenPack: 0,
-          halfHourTotal: 0,
-          halfHourTenPackTotal: 0,
-          totalHalfHours: 0,
+          halfHourPrice: 0,
           pair: 0,
           pairTenPack: 0,
-          pairTotal: 0,
-          pairTenPackTotal: 0,
-          totalPairs: 0,
+          pairPrice: 0,
+          purchaseTotal,
           //TODO remove after migration
           fullHourAppointmentIds: [],
           halfHourAppointmentIds: [],
           pairAppointmentIds: [],
+          halfHourPairAppointmentIds: [],
           // because sessions is grouped by type
           createdDate: clientPurchaseOrders[legacyPOId][0].CreatedDate,
           createdById: clientPurchaseOrders[legacyPOId][0].CreatedById,
@@ -87,42 +126,53 @@ const migrateClientSessions = (
         // need to add a list of appointmentIds for each type then in workflow, apply them all when creating sessions. uggg
         if (sessions.Hour) {
           const hours = sessions.Hour;
-          const hourRate = hours.reduce((a, x) => (a += x.Cost), 0);
-          cmd.fullHour = hours.length % 10;
-          cmd.fullHourTenPack = Math.floor(hours.length / 10);
-          cmd.fullHourTotal = (hours.length % 10) * hourRate;
-          cmd.fullHourTenPackTotal = Math.floor(hours.length / 10) * hourRate;
-          cmd.totalFullHours = hours.length;
+          cmd.fullHour = hours.length;
           cmd.fullHourAppointmentIds = hours.map(x => ({
+            cost: x.Cost,
             legacyAppointmentId: x.AppointmentId,
             legacyId: x.EntityId,
+            trainerPercent: x.TrainerPercentage,
+            trainerPay: x.TrainerPay,
           }));
         }
         if (sessions['Half Hour']) {
           const halfHours = sessions['Half Hour'];
-          const halfHourRate = halfHours.reduce((a, x) => (a += x.Cost), 0);
-          cmd.halfHour = halfHours.length % 10;
-          cmd.halfHourTenPack = Math.floor(halfHours.length / 10);
-          cmd.halfHourTotal = (halfHours.length % 10) * halfHourRate;
-          cmd.halfHourTenPackTotal =
-            Math.floor(halfHours.length / 10) * halfHourRate;
-          cmd.totalHalfHours = halfHours.length;
+          cmd.halfHour = halfHours.length;
           cmd.halfhHourAppointmentIds = halfHours.map(x => ({
+            cost: x.Cost,
             legacyAppointmentId: x.AppointmentId,
             legacyId: x.EntityId,
+            trainerPercent: x.TrainerPercentage,
+            trainerPay: x.TrainerPay,
           }));
         }
         if (sessions.Pair) {
-          const pairs = sessions.Pair;
-          const pairRate = pairs.reduce((a, x) => (a += x.Cost), 0);
-          cmd.pair = pairs.length % 10;
-          cmd.pairTenPack = Math.floor(pairs.length / 10);
-          cmd.pairTotal = (pairs.length % 10) * pairRate;
-          cmd.pairTenPackTotal = Math.floor(pairs.length / 10) * pairRate;
-          cmd.totalPairs = pairs.length;
+          sessions.HalfHourPair = sessions.Pair.filter(x =>
+            halfHourPairClients.includes(x.ClientId),
+          );
+          const pairs = sessions.Pair.filter(
+            x => !halfHourPairClients.includes(x.ClientId),
+          );
+
+          cmd.pair = pairs.length;
           cmd.pairAppointmentIds = pairs.map(x => ({
+            cost: x.Cost,
             legacyAppointmentId: x.AppointmentId,
             legacyId: x.EntityId,
+            trainerPercent: x.TrainerPercentage,
+            trainerPay: x.TrainerPay,
+          }));
+        }
+
+        if (sessions.HalfHourPair) {
+          const halfHourPair = sessions.HalfHourPair;
+          cmd.halfHourPair = halfHourPair.length;
+          cmd.halfHourPairAppointmentIds = halfHourPair.map(x => ({
+            cost: x.Cost,
+            legacyAppointmentId: x.AppointmentId,
+            legacyId: x.EntityId,
+            trainerPercent: x.TrainerPercentage,
+            trainerPay: x.TrainerPay,
           }));
         }
 

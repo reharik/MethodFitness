@@ -7,8 +7,22 @@ const migratePastAppointments = (
   eventstore,
   uuid,
   commands,
+  riMoment
 ) => {
   return async () => {
+    const halfHourPairClients = [
+      2331,
+      5895,
+      2623,
+      2633,
+      2736,
+      2737,
+      3871,
+      3872,
+      5914,
+      3873,
+    ];
+
     mssql = await mssql;
 
     const results = await mssql.query`select distinct(a.starttime), a.* from Appointment a 
@@ -20,7 +34,6 @@ const migratePastAppointments = (
     const trainerHash = {};
     const trainerColorHash = {};
     const locationHash = {};
-    const pairsHalfHourHash = [];
 
     rsRepository = await rsRepository;
     const clients = await rsRepository.query('select * from client');
@@ -59,21 +72,21 @@ const migratePastAppointments = (
           createdById: x.CreatedById,
           migration: true,
         };
-        cmd.clients = clientAppointments
-          .filter(ca => ca.AppointmentId === x.EntityId)
-          .map(ca => clientHash[ca.ClientId]);
+        const clientForThisAppointmnet = clientAppointments.filter(
+          ca => ca.AppointmentId === x.EntityId,
+        );
+        cmd.clients = clientForThisAppointmnet.map(
+          ca => clientHash[ca.ClientId],
+        );
         // fix for half hour pairs
         if (
           appointmentType === 'pair' &&
-          clientAppointments
-            .filter(ca => ca.AppointmentId === x.EntityId)
-            .reduce(
-              (a, e) => (a = a && pairsHalfHours.includes(x.EntityId)),
-              true,
-            )
+          clientForThisAppointmnet.some(c =>
+            halfHourPairClients.includes(c.ClientId),
+          )
         ) {
           cmd.appointmentType = 'halfHourPair';
-          riMoment(cmd.endTime).subtract('min', 30);
+          cmd.endTime = riMoment(cmd.endTime).subtract(30, 'minute');
         }
 
         const command = commands.scheduleAppointmentFactory(cmd);
@@ -84,6 +97,8 @@ const migratePastAppointments = (
           if (x.EntityId === lastId) {
             notificationPromise = await notificationListener(continuationId);
           }
+
+
           await eventstore.commandPoster(
             command,
             'scheduleAppointmentInPast',
@@ -96,6 +111,7 @@ const migratePastAppointments = (
             console.log(`==========END result==========`);
           }
         } catch (ex) {
+
           console.log(`==========ex==========`);
           console.log(ex);
           console.log(`==========END ex==========`);

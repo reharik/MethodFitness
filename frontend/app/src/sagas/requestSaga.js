@@ -41,13 +41,10 @@ export function requestStates(entity, reducerName) {
 }
 
 const handleSuccess = function* handleSuccess(success, action, payload) {
-  const successAction = success(action, payload);
+  const successAction = yield success(action, payload);
+
   if (Array.isArray(successAction)) {
     for (let a of successAction) {
-      console.log(`==========a==========`);
-      console.log(a);
-      console.log(`==========END a==========`);
-
       yield put(a);
     }
   } else {

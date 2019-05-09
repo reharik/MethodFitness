@@ -4,7 +4,7 @@
   "private": false,
   "description": "cypress-tests",
   "scripts": {
-    "cypressRun": "npx cypress run ",
+    "cypressRun": "npx cypress run",
     "cypressOpen": "npx cypress open",
     "lint": "eslint -c ./.eslintrc.json .",
     "validate": "npm ls"
