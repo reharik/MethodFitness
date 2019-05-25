@@ -78,7 +78,7 @@ module.exports = function(invariant, moment) {
                   '(]',
                 )),
           )
-          .filter(x => x.trainerId === cmd.trainerId);
+          .filter(x => !x.lateCancellation && x.trainerId === cmd.trainerId);
         invariant(
           trainerConflict.length <= 0,
           `New Appointment conflicts with existing Appointment:

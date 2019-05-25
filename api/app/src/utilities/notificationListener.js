@@ -21,7 +21,7 @@ module.exports = function(logger, eventstore, rx, applicationFunctions, mapAndFi
       .first(
         note => {
           return mAndF.continuationId(note).getOrElse() === continuationId &&
-          ef.parseData(note).getOrElse().initialEvent.metadata.streamType === 'command';
+            ef.parseData(note).getOrElse().initialEvent.metadata.streamType === 'command';
         })
       .map(note => ef.parseData(note).getOrElse())
       .toPromise();

@@ -11,13 +11,13 @@ module.exports = function(
     const invariants = clientInvariants(state);
     const generateSessions = cmd => {
       return [].concat(
-        addSessions(cmd, 'fullHour'),
-        addSessions(cmd, 'halfHour'),
-        addSessions(cmd, 'pair'),
-        addSessions(cmd, 'halfHourPair'),
-        addSessions(cmd, 'fullHourGroup'),
-        addSessions(cmd, 'halfHourGroup'),
-        addSessions(cmd, 'fortyFiveMinute'),
+        cmd.fullHour ? addSessions(cmd, 'fullHour') : [],
+        cmd.halfHour ? addSessions(cmd, 'halfHour') : [],
+        cmd.pair ? addSessions(cmd, 'pair') : [],
+        cmd.halfHourPair ? addSessions(cmd, 'halfHourPair') : [],
+        cmd.fullHourGroup ? addSessions(cmd, 'fullHourGroup') : [],
+        cmd.halfHourGroup ? addSessions(cmd, 'halfHourGroup') : [],
+        cmd.fortyFiveMinute ? addSessions(cmd, 'fortyFiveMinute') : [],
       );
     };
 
@@ -28,7 +28,7 @@ module.exports = function(
         appointmentType: type,
         purchaseId: cmd.purchaseId,
         purchasePrice,
-        createdDate: cmd.createDate,
+        createdDate: cmd.createdDate,
       };
       //TODO remove after migration
       // for migration
@@ -41,6 +41,16 @@ module.exports = function(
           }
           session.purchasePrice = mapping.cost;
           session.legacyId = mapping.legacyId;
+          session.trainerPay = mapping.trainerPay;
+          session.trainerPercentage = mapping.trainerPercentage;
+        } else {
+          console.log(`==========cmd==========`);
+          console.log('type');
+          console.log(type);
+          console.log('end type');
+          console.log(cmd);
+          console.log(`==========END cmd==========`);
+
         }
       }
       return session;
@@ -204,6 +214,12 @@ module.exports = function(
             cmdClone.pricePerSession = purchasePrice;
             cmdClone.trainerPay = TR;
 
+            //TODO remove after migration
+            // for migration
+            if(cmdClone.migration) {
+              cmdClone.trainerPay = session.trainerPay;
+              cmdClone.trainerPercentage = session.trainerPercentage;
+            }
             event = esEvents.fundedAppointmentAttendedByClient(cmdClone);
           } else {
             event = esEvents.unfundedAppointmentAttendedByClientEvent(cmdClone);

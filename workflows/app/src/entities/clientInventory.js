@@ -13,7 +13,17 @@ module.exports = function(sortby, metaLogger, logger) {
     const consumeSession = cmd => {
       //TODO remove after migration
       if (cmd.migration) {
-        return sessions.find(x => x.appointmentId === cmd.appointmentId);
+        const sess = sessions.find(x => x.legacyAppointmentId === cmd.legacyId);
+        if(!sess) {
+          console.log(`==========cmd==========`);
+          console.log(cmd);
+          console.log(`==========END cmd==========`);
+          console.log(`==========sessions==========`);
+          console.log(sessions);
+          console.log(consumedSessions);
+          console.log(`==========END sessions==========`);
+          return sess;
+        }
       }
 
       return sessions

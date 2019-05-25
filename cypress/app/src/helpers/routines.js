@@ -212,7 +212,7 @@ module.exports = (cy, Cypress) => {
     checkInvCount('halfHour', options);
     checkInvCount('pair', options);
     checkInvCount('halfHourPair', options);
-    checkInvCount('groupFullHour', options);
+    checkInvCount('fullHourGroup', options);
     checkInvCount('halfHourGroup', options);
     checkInvCount('fourtyFiveMinute', options);
   };

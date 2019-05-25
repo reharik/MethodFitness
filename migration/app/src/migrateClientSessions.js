@@ -22,6 +22,41 @@ const migrateClientSessions = (
       3873,
     ];
 
+    const tenneyPair = [
+      {rem: 47497, add:	47587},
+          {rem: 49041, add:	49040},
+              {rem: 47154, add:	47153},
+                  {rem: 48026, add:	48142},
+                      {rem: 48183, add:	48182},
+                          {rem: 48696, add:	48695},
+                              {rem: 49602, add:	49601},
+                                  {rem: 50195, add:	50198},
+                                      {rem: 50425, add:	50507},
+                                          {rem: 50554, add:	50553},
+                                              {rem: 51133, add:	51132},
+                                                  {rem: 50952, add:	50951},
+
+
+    ];
+
+
+    const tenneyGroup = [
+      {rem:47320, add:	47319},
+          {rem:47320, add:	47319},
+              {rem:47830, add:	47829},
+                  {rem:47830, add:	47829},
+                      {rem:50005, add:	50004},
+                          {rem:50005, add:	50004},
+                              {rem:50254, add:	50253},
+                                  {rem:50254, add:	50253},
+                                      {rem:48371, add:	48370},
+                                          {rem:48371, add:	48370},
+                                              {rem:48909, add:	48908},
+                                                  {rem:48909, add:	48908},
+    ];
+
+    const tenneyHalfHourPair = {rem:50913, add:50925};
+
     mssql = await mssql;
     const clientSessions = await mssql.query`
  select s.EntityId,
@@ -122,8 +157,34 @@ const migrateClientSessions = (
           legacyId: legacyPOId,
         };
 
-        //TODO remove after migration
-        // need to add a list of appointmentIds for each type then in workflow, apply them all when creating sessions. uggg
+        if(key === 3814 ) {
+          let pair = tenneyPair.some(r => r.rem === x.AppointmentId);
+          let group = tenneyGroup.some(r => r.rem === x.AppointmentId);
+          if (pair) {
+            x.AppointmentId = pair.add;
+              session.appointmentType = 'pair';
+            sessions.Pair.push(x);
+          } else if (group) {
+            x.AppointmentId = group.add;
+            session.appointmentType = 'fullHourGroup';
+            sessions.FullHourGroup = sessions.FullHourGroup ? sessions.FullHourGroup : [];
+            sessions.FullHourGroup.push(x);
+          }
+        }
+
+        if(key === 2648 || key === 2792){
+          let pair = tenneyPair.some(r => r.add === x.AppointmentId);
+          let group = tenneyGroup.some(r => r.add === x.AppointmentId);
+          if (pair) {
+            session.appointmentType = 'pair';
+            sessions.Pair.push(x);
+          } else if (group) {
+            session.appointmentType = 'fullHourGroup';
+            sessions.FullHourGroup = sessions.FullHourGroup ? sessions.FullHourGroup : [];
+            sessions.FullHourGroup.push(x);
+          }
+        }
+
         if (sessions.Hour) {
           const hours = sessions.Hour;
           cmd.fullHour = hours.length;
@@ -131,18 +192,18 @@ const migrateClientSessions = (
             cost: x.Cost,
             legacyAppointmentId: x.AppointmentId,
             legacyId: x.EntityId,
-            trainerPercent: x.TrainerPercentage,
+            trainerPercentage: x.TrainerPercent,
             trainerPay: x.TrainerPay,
           }));
         }
         if (sessions['Half Hour']) {
           const halfHours = sessions['Half Hour'];
           cmd.halfHour = halfHours.length;
-          cmd.halfhHourAppointmentIds = halfHours.map(x => ({
+          cmd.halfHourAppointmentIds = halfHours.map(x => ({
             cost: x.Cost,
             legacyAppointmentId: x.AppointmentId,
             legacyId: x.EntityId,
-            trainerPercent: x.TrainerPercentage,
+            trainerPercentage: x.TrainerPercent,
             trainerPay: x.TrainerPay,
           }));
         }
@@ -159,9 +220,15 @@ const migrateClientSessions = (
             cost: x.Cost,
             legacyAppointmentId: x.AppointmentId,
             legacyId: x.EntityId,
-            trainerPercent: x.TrainerPercentage,
+            trainerPercentage: x.TrainerPercent,
             trainerPay: x.TrainerPay,
           }));
+        }
+
+        if(key === 3814 && tenneyHalfHourPair.rem === x.AppointmentId) {
+          session.legacyAppointmentId = tenneyHalfHourPair.add;
+          session.appointmentType = 'halfHourPair';
+          sessions.HalfHourPair.push(x);
         }
 
         if (sessions.HalfHourPair) {
@@ -171,7 +238,19 @@ const migrateClientSessions = (
             cost: x.Cost,
             legacyAppointmentId: x.AppointmentId,
             legacyId: x.EntityId,
-            trainerPercent: x.TrainerPercentage,
+            trainerPercentage: x.TrainerPercent,
+            trainerPay: x.TrainerPay,
+          }));
+        }
+
+        if (sessions.FullHourGroup) {
+          const fullHourGroup = sessions.FullHourGroup;
+          cmd.fullHourGroup = fullHourGroup.length;
+          cmd.fullHourGroupAppointmentIds = fullHourGroup.map(x => ({
+            cost: x.Cost,
+            legacyAppointmentId: x.AppointmentId,
+            legacyId: x.EntityId,
+            trainerPercentage: x.TrainerPercent,
             trainerPay: x.TrainerPay,
           }));
         }

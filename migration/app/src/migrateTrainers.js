@@ -9,20 +9,20 @@ const trainers = (
   commands,
 ) => {
   return async () => {
+    const activeTrainers = [
+      1,
+      3,
+      13,
+      22,
+      28,
+      29,
+      30,
+      32
+    ];
     mssql = await mssql;
 
-    // change query to get all trainers ( not doing it now because not sure if all "users" are trainers )
     const results = await mssql.query`select * from [User]`;
-    //     where EntityId in (
-    // 1,
-    // 3,
-    // 13,
-    // 22,
-    // 28,
-    // 29,
-    // 30,
-    // 32)
-    // `;
+
     const lastId = results.recordset[results.recordset.length - 1].EntityId;
 
     const trainerClientList = await mssql.query`select * from user_client`;

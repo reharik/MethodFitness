@@ -22,10 +22,6 @@ module.exports = function(_options) {
       logger.trace(`${key} result:\n ${metaLogger.itemToString(result)}`);
     },
   };
-  console.log(`==========options.children==========`);
-  console.log(options.children);
-  console.log(process.env.LOGGING_LEVEL);
-  console.log(`==========END options.children==========`);
 
   try {
     result = container(

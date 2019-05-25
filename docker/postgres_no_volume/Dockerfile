@@ -71,7 +71,7 @@ RUN set -ex; \
 	apt-key list
 
 ENV PG_MAJOR 10
-ENV PG_VERSION 10.7-1.pgdg90+1
+ENV PG_VERSION 10.8-1.pgdg90+1
 
 RUN set -ex; \
 	\
@@ -164,8 +164,8 @@ RUN mkdir -p /var/run/postgresql && chown -R postgres:postgres /var/run/postgres
 
 ENV PATH $PATH:/usr/lib/postgresql/$PG_MAJOR/bin
 ENV PGDATA /var/lib/postgresql/data
-RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 777 "$PGDATA" # this 777 will be replaced by 700 at runtime (allows semi-arbitrary "--user" values)
-#VOLUME /var/lib/postgresql/data
+# this 777 will be replaced by 700 at runtime (allows semi-arbitrary "--user" values)
+RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 777 "$PGDATA"
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat

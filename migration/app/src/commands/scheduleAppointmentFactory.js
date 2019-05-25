@@ -16,6 +16,8 @@ module.exports = function(invariant, riMoment) {
     changes,
     isPastToFuture,
     isFutureToPast,
+                    legacyId,
+                    lateCancellation,
     createdDate,
     createdById,
   }) {
@@ -85,6 +87,8 @@ module.exports = function(invariant, riMoment) {
       isFutureToPast,
       createdDate,
       createdById,
+      legacyId,
+      lateCancellation,
       migration: true,
     };
     if (

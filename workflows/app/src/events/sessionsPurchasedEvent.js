@@ -32,27 +32,27 @@ module.exports = function(invariant) {
     sessions.forEach(s => {
       invariant(
         s.clientId,
-        'A session purchased requires you pass the client id',
+        'sessionsPurchased purchased requires you pass the client id',
       );
       invariant(
         s.sessionId,
-        'A session purchased requires you pass the session id',
+        'sessionsPurchased purchased requires you pass the session id',
       );
       invariant(
         s.appointmentType,
-        'A session purchased requires you pass the appointment type',
+        'sessionsPurchased purchased requires you pass the appointment type',
       );
       invariant(
         s.purchaseId,
-        'A session purchased requires you pass the purchase id',
+        'sessionsPurchased purchased requires you pass the purchase id',
       );
       invariant(
         s.purchasePrice,
-        'A session purchased requires you pass the purchase price',
+        'sessionsPurchased purchased requires you pass the purchase price',
       );
       invariant(
         s.createdDate,
-        'A session purchased requires you pass the date',
+        'sessionsPurchased purchased requires you pass the date',
       );
     });
     return {

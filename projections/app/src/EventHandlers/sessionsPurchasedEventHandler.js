@@ -10,6 +10,7 @@ module.exports = function(rsRepository, metaLogger, logger) {
       );
       let session = client.sessions.find(x => x.sessionId === event.sessionId);
 
+      session.used = true;
       session.appointmentId = event.appointmentId;
       session.appointmentDate = event.appointmentDate;
       session.startTime = event.startTime;

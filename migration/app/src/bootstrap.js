@@ -5,7 +5,7 @@ const bootstrap = (
   migrateClientSessions,
   // migrateFutureAppointments,
   migratePastAppointments,
-  migrateTrainersValidations,
+  migrateTrainersVerifications,
   migrateTrainersPayments,
   migrateClientRates,
 ) => {
@@ -100,7 +100,7 @@ const bootstrap = (
       );
 
       /////////////////
-      // await migrateTrainerValidations();
+      // await migrateTrainersVerifications();
       // await migrateTrainerPayments();
       var millis = Date.now() - start;
       console.log(

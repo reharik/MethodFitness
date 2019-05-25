@@ -459,7 +459,7 @@ describe('Change Trainer on Unfunded Appointment', () => {
 
    */
 
-  describe('When changing trainer and date on unpaid appointment', () => {
+  describe.only('When changing trainer and date on unpaid appointment', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.createAppointment({

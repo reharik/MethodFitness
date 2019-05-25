@@ -24,7 +24,15 @@ module.exports = function() {
       sessionsPurchased: event => {
         state.clientInventory.addSessionsToInventory(event);
       },
-
+      fundedAppointmentCanceldedLate: event => {
+        state.clientInventory.sessionConsumed(
+          event.sessionId,
+          event.appointmentId,
+          event.trainerPay,
+          event.trainerPercentage,
+          event.trainerId,
+        );
+      },
       fundedAppointmentAttendedByClient: event => {
         state.clientInventory.sessionConsumed(
           event.sessionId,
@@ -35,6 +43,9 @@ module.exports = function() {
         );
       },
 
+      unfundedAppointmentCancelledLate: event => {
+        state.unfundedAppointments.push(event);
+      },
       unfundedAppointmentAttendedByClient: event => {
         state.unfundedAppointments.push(event);
       },

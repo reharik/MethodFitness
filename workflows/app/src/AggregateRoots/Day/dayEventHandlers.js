@@ -12,6 +12,9 @@ module.exports = function() {
           endTime: event.endTime,
           trainerId: event.trainerId,
           clients: event.clients,
+          //TODO remove after migration
+          legacyId: event.legacyId || '',
+          lateCancellation: event.lateCancellation,
         });
       },
 

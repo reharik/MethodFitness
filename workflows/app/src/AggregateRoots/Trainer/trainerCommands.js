@@ -70,11 +70,24 @@ module.exports = function(
           paid.appointmentId,
         );
 
-        const TCR = getTrainerClientRateByClientId(paid.clientId);
+        //TODO remove after migration
+        // for migration
+        let TP = 0;
+        let TCR;
+        if (cmd.migration) {
+          const session = clientInstance.state.clientInventory.getUsedSessionByAppointmentId(
+            paid.appointmentId,
+          );
+          TP = session.trainerPay;
+          TCR = {rate: session.trainerPercentage};
+        } else {
+          // const TCR = getTrainerClientRateByClientId(paid.clientId);
+          TCR = getTrainerClientRateByClientId(paid.clientId);
 
-        let TR = 0;
-        if (TCR && purchasePrice) {
-          TR = purchasePrice * (TCR.rate * 0.01);
+          // let TP = 0;
+          if (TCR && purchasePrice) {
+            TP = purchasePrice * (TCR.rate * 0.01);
+          }
         }
         paid.appointmentDate = appointment.appointmentDate;
         paid.startTime = appointment.startTime;
@@ -86,7 +99,7 @@ module.exports = function(
         paid.clientLastName = clientInstance.state.lastName;
         paid.pricePerSession = purchasePrice;
         paid.trainerPercentage = TCR ? TCR.rate : 0;
-        paid.trainerPay = TR;
+        paid.trainerPay = TP;
       }
 
       raiseEvent(esEvents.trainerPaidEvent(cmdClone));

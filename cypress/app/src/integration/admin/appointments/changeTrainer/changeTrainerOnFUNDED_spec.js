@@ -574,7 +574,7 @@ describe('Change Trainer on funded Appointment', () => {
     });
   });
 
-  describe('When changing trainer and date on paid appointment', () => {
+  describe.('When changing trainer and date on paid appointment', () => {
     it('should pass all steps', function() {
       aDT = _aDT(Cypress.moment, appTimes.time1, true);
       routines.purchaseSessions({
